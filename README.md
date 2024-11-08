@@ -1,17 +1,32 @@
 # medion
 
-A new Flutter project.
 
-## Getting Started
+build runner:
+flutter packages pub run build_runner build --delete-conflicting-outputs
+flutter packages pub run build_runner watch --delete-conflicting-outputs
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+build ios:
+flutter build ios --flavor prod --dart-define=FLAVOR=prod --target lib/main.dart
+flutter build ios --flavor beta --dart-define=FLAVOR=beta --target lib/main_beta.dart
+flutter build ios --flavor dev --dart-define=FLAVOR=dev --target lib/main_dev.dart
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+build android:
+flutter build apk --flavor prod -t lib/main.dart
+flutter build apk --flavor beta -t lib/main_beta.dart
+flutter build apk --flavor dev -t lib/main_dev.dart
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# medion
+
+build android bundle:
+flutter build appbundle --flavor prod -t lib/main.dart
+flutter build appbundle --flavor beta -t lib/main_beta.dart
+flutter build appbundle --flavor dev -t lib/main_dev.dart
+
+generate_launcher_icon:
+flutter pub run flutter_launcher_icons:main -f dev
+flutter pub run flutter_launcher_icons:main -f prod
+flutter pub run flutter_launcher_icons:main -f beta
+
+generate_splash_icon:
+dart run flutter_native_splash:create
+
