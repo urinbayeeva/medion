@@ -22,7 +22,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   ScrollController scrollController = ScrollController();
   late List<Widget> pageList;
-  PersistentTabController _controller = PersistentTabController();
+  late PersistentTabController _controller = PersistentTabController();
 
   int currentIndex = 0;
 

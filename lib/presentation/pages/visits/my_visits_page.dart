@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/presentation/component/custom_toggle.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -21,13 +20,12 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
         body: Column(
           children: [
             CAppBar(
-              bordered: true,
-              hasToggle: true,
-              title: "Мои посещения",
-              centerTitle: true,
-              isBack: true,
-              trailing: icons.calendar.svg(width: 24.w, height: 24.h),
-            ),
+                bordered: true,
+                hasToggle: true,
+                title: "Мои посещения",
+                centerTitle: true,
+                isBack: true,
+                trailing: icons.calendar.svg(width: 24.w, height: 24.h)),
             8.h.verticalSpace,
             Expanded(
               child: LayoutBuilder(
@@ -36,9 +34,8 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     children: [
                       ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: constraints.maxHeight,
-                        ),
+                        constraints:
+                            BoxConstraints(minHeight: constraints.maxHeight),
                         child: Center(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,

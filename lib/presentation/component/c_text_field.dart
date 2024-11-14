@@ -100,9 +100,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     widget.title,
                     style: fonts.xSmallMain.copyWith(
                         color: widget.error == null
-                            ? colors.neutral800
+                            ? colors.primary900
                             : colors.error500,
-                        fontSize: 13.sp),
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500),
                   )
                 : const SizedBox(),
             widget.title.isNotEmpty ? SizedBox(height: 4.h) : const SizedBox(),

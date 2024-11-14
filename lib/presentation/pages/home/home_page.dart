@@ -38,180 +38,199 @@ class HomePage extends StatelessWidget {
                   .svg(width: 24.w, height: 24.h, color: colors.primary900),
             ),
             Expanded(
-              child: ListView(
+              child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
-                children: [
-                  _buildImageSection(colors, fonts),
-                  SizedBox(height: 32.h),
-                  Text("Что вас беспокоит",
-                      style: fonts.regularSemLink.copyWith(fontSize: 17.sp)),
-                  SizedBox(height: 12.h),
-                  _buildOptionsRow(colors, fonts),
-                  SizedBox(height: 12.h),
-                  const ProblemSlidebaleCard(),
-                  24.h.verticalSpace,
-                  Text("Медицинские сервисы",
-                      style: fonts.regularSemLink.copyWith(fontSize: 17.sp)),
-                  12.h.verticalSpace,
-                  const MedService(),
-                  24.h.verticalSpace,
-                  Text("Направления сеть клиник Medion",
-                      style: fonts.regularSemLink.copyWith(fontSize: 17.sp)),
-                  12.h.verticalSpace,
-                  ListView.builder(
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: directionsData.length,
-                    itemBuilder: (context, index) {
-                      final item = directionsData[index];
-                      return MedicalDirectionItem(
-                        title: item['title'],
-                        subtitle: item['subtitle'],
-                        iconPath: item['icon'],
-                        onTap: () {
-                          Navigator.push(
-                              context, AppRoutes.getDiresctionPage());
-                          context
-                              .read<BottomNavBarController>()
-                              .changeNavBar(false);
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      16.h.verticalSpace,
+                      _buildImageSection(colors, fonts),
+                      16.h.verticalSpace,
+                      Text("Что вас беспокоит",
+                          style:
+                              fonts.regularSemLink.copyWith(fontSize: 17.sp)),
+                      SizedBox(height: 12.h),
+                      _buildOptionsRow(colors, fonts),
+                      SizedBox(height: 12.h),
+                      const ProblemSlidebaleCard(),
+                      24.h.verticalSpace,
+                      Text("Медицинские сервисы",
+                          style:
+                              fonts.regularSemLink.copyWith(fontSize: 17.sp)),
+                      12.h.verticalSpace,
+                      const MedService(),
+                      24.h.verticalSpace,
+                      Text("Направления сеть клиник Medion",
+                          style:
+                              fonts.regularSemLink.copyWith(fontSize: 17.sp)),
+                      12.h.verticalSpace,
+                      ListView.builder(
+                        padding: EdgeInsets.zero,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: directionsData.length,
+                        itemBuilder: (context, index) {
+                          final item = directionsData[index];
+                          return MedicalDirectionItem(
+                            title: item['title'],
+                            subtitle: item['subtitle'],
+                            iconPath: item['icon'],
+                            onTap: () {
+                              Navigator.push(
+                                  context, AppRoutes.getDiresctionPage());
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(false);
+                            },
+                          );
                         },
-                      );
-                    },
-                  ),
-                  8.h.verticalSpace,
-                  CButton(title: "Все направления", onTap: () {}),
-                  24.h.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Врачи",
-                          style:
-                              fonts.regularSemLink.copyWith(fontSize: 17.sp)),
-                      IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        icon: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Все",
-                              style: fonts.smallTagFirst.copyWith(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: colors.primary900),
-                            ),
-                            3.w.horizontalSpace,
-                            icons.right.svg(width: 16.w, height: 16.h),
-                            12.h.verticalSpace,
-                          ],
-                        ),
                       ),
-                    ],
-                  ),
-                  14.h.verticalSpace,
-                  SizedBox(
-                    height: 310.h,
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: doctorsData.length,
-                      itemBuilder: (context, index) {
-                        final item = doctorsData[index];
-                        return DoctorsItem(
-                          imagePath: item['image'],
-                          name: item['name'],
-                          profession: item['profession'],
-                          candidateScience: false,
-                          status: item['status'],
-                        );
-                      },
-                    ),
-                  ),
-                  24.h.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Новости",
-                          style:
-                              fonts.regularSemLink.copyWith(fontSize: 17.sp)),
-                      IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        icon: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Все",
-                              style: fonts.smallTagFirst.copyWith(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: colors.primary900),
-                            ),
-                            3.w.horizontalSpace,
-                            icons.right.svg(width: 16.w, height: 16.h),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 330.h,
-                    child: ListView.builder(
-                      // shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: newsData.length,
-                      itemBuilder: (context, index) {
-                        final item = newsData[index];
-                        return NewsItem(
-                          imagePath: item['image'],
-                          title: item['title'],
-                          subtitle: item['subtitle'],
-                        );
-                      },
-                    ),
-                  ),
-                  24.h.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Адреса клиник",
-                          style:
-                              fonts.regularSemLink.copyWith(fontSize: 17.sp)),
-                      AnimationButtonEffect(
-                        onTap: () {},
-                        child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 12.w, vertical: 8.h),
-                            decoration: BoxDecoration(
-                                color: colors.shade0,
-                                borderRadius: BorderRadius.circular(8.r)),
-                            child: Row(
+                      8.h.verticalSpace,
+                      CButton(title: "Все направления", onTap: () {}),
+                      24.h.verticalSpace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Врачи",
+                              style: fonts.regularSemLink
+                                  .copyWith(fontSize: 17.sp)),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () {
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(true);
+                              Navigator.push(
+                                  context, AppRoutes.getAllDoctorsPage());
+                            },
+                            icon: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                icons.location.svg(width: 20.w, height: 20.h),
-                                3.66.w.horizontalSpace,
-                                Text("На карте", style: fonts.xSmallLink)
+                                Text(
+                                  "Все",
+                                  style: fonts.smallTagFirst.copyWith(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: colors.primary900),
+                                ),
+                                3.w.horizontalSpace,
+                                icons.right.svg(width: 16.w, height: 16.h),
+                                12.h.verticalSpace,
                               ],
-                            )),
+                            ),
+                          ),
+                        ],
                       ),
+                      14.h.verticalSpace,
+                      SizedBox(
+                        height: 310.h,
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: doctorsData.length,
+                          itemBuilder: (context, index) {
+                            final item = doctorsData[index];
+                            return DoctorsItem(
+                              imagePath: item['image'],
+                              name: item['name'],
+                              profession: item['profession'],
+                              candidateScience: false,
+                              status: item['status'],
+                            );
+                          },
+                        ),
+                      ),
+                      24.h.verticalSpace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Новости",
+                              style: fonts.regularSemLink
+                                  .copyWith(fontSize: 17.sp)),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () {},
+                            icon: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Все",
+                                  style: fonts.smallTagFirst.copyWith(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: colors.primary900),
+                                ),
+                                3.w.horizontalSpace,
+                                icons.right.svg(width: 16.w, height: 16.h),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 330.h,
+                        child: ListView.builder(
+                          // shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: newsData.length,
+                          itemBuilder: (context, index) {
+                            final item = newsData[index];
+                            return NewsItem(
+                              imagePath: item['image'],
+                              title: item['title'],
+                              subtitle: item['subtitle'],
+                            );
+                          },
+                        ),
+                      ),
+                      24.h.verticalSpace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Адреса клиник",
+                              style: fonts.regularSemLink
+                                  .copyWith(fontSize: 17.sp)),
+                          AnimationButtonEffect(
+                            onTap: () {},
+                            child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 12.w, vertical: 8.h),
+                                decoration: BoxDecoration(
+                                    color: colors.shade0,
+                                    borderRadius: BorderRadius.circular(8.r)),
+                                child: Row(
+                                  children: [
+                                    icons.location
+                                        .svg(width: 20.w, height: 20.h),
+                                    3.66.w.horizontalSpace,
+                                    Text("На карте", style: fonts.xSmallLink)
+                                  ],
+                                )),
+                          ),
+                        ],
+                      ),
+                      12.h.verticalSpace,
+                      AdressItem(
+                          address:
+                              "Ул. Абдуллы Кадыри, 39/1 - \nMedion Innovation",
+                          url: '',
+                          onTap: () {}),
+                      AdressItem(
+                          address:
+                              "Ул. Абдуллы Кадыри, 39/1 - \nMedion Innovation",
+                          url: '',
+                          onTap: () {}),
+                      AdressItem(
+                          address:
+                              "Ул. Абдуллы Кадыри, 39/1 - \nMedion Innovation",
+                          url: '',
+                          onTap: () {}),
+                      80.h.verticalSpace,
                     ],
                   ),
-                  12.h.verticalSpace,
-                  AdressItem(
-                      address: "Ул. Абдуллы Кадыри, 39/1 - \nMedion Innovation",
-                      url: '',
-                      onTap: () {}),
-                  AdressItem(
-                      address: "Ул. Абдуллы Кадыри, 39/1 - \nMedion Innovation",
-                      url: '',
-                      onTap: () {}),
-                  AdressItem(
-                      address: "Ул. Абдуллы Кадыри, 39/1 - \nMedion Innovation",
-                      url: '',
-                      onTap: () {}),
-                  80.h.verticalSpace,
-                ],
+                ),
               ),
             ),
           ],

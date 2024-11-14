@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
-
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -45,17 +44,12 @@ class CButton extends StatelessWidget {
           ),
           padding:
               EdgeInsets.symmetric(horizontal: iconPath != null ? 16.w : 0),
-          alignment: iconPath == null ? Alignment.center : Alignment.centerLeft,
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Center the content horizontally
+            crossAxisAlignment:
+                CrossAxisAlignment.center, // Center the content vertically
             children: [
-              if (iconPath != null)
-                SvgPicture.asset(
-                  iconPath!,
-                  height: 24.h,
-                  width: 24.w,
-                ),
-              if (iconPath != null) 12.w.horizontalSpace,
               Flexible(
                 child: Text(
                   title,
@@ -65,8 +59,17 @@ class CButton extends StatelessWidget {
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
+                  textAlign: TextAlign.center,
                 ),
               ),
+              if (iconPath != null) 4.w.horizontalSpace,
+              if (iconPath != null)
+                SvgPicture.asset(
+                  iconPath!,
+                  height: 20.h,
+                  width: 20.w,
+                  color: colors.shade0,
+                ),
             ],
           ),
         ),

@@ -32,6 +32,12 @@ class IconSet {
   final String urology;
   final String filter;
   final String search;
+  final String valyutaChange;
+  final String plus;
+  final String check;
+  final String cancel;
+  final String payme;
+  final String click;
 
   IconSet._({
     required this.medicalHistoryFirst,
@@ -65,6 +71,12 @@ class IconSet {
     required this.urology,
     required this.filter,
     required this.search,
+    required this.valyutaChange,
+    required this.plus,
+    required this.check,
+    required this.cancel,
+    required this.payme,
+    required this.click,
   });
 
   static IconSet get create {
@@ -100,6 +112,12 @@ class IconSet {
       urology: "assets/images/urlogoy.png",
       filter: "assets/icons/filter.svg",
       search: "assets/icons/search.svg",
+      valyutaChange: "assets/icons/valyuta_change.svg",
+      plus: "assets/icons/plus.svg",
+      check: "assets/icons/check.svg",
+      cancel: "assets/icons/cancel.svg",
+      payme: "assets/images/payme_img.png",
+      click: "assets/icons/click.svg",
     );
   }
 }

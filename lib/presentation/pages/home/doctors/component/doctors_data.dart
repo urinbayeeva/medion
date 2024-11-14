@@ -1,5 +1,8 @@
+final List<String> sectionTitles = ["Врачи", "Неврологи", "Репродуктологи"];
+
 List<Map<String, dynamic>> doctorsData = [
   {
+    "category": "Неврологи",
     "name": "Б. Акмаль Уткурович",
     "profession": "Взрослый невропатолог",
     "status":
@@ -8,6 +11,7 @@ List<Map<String, dynamic>> doctorsData = [
     "image": "assets/images/b_akmal.png",
   },
   {
+    "category": "Репродуктологи",
     "name": "Ш. Батир Турсунполато...",
     "profession": "Кардиолог",
     "status": "Профессор",

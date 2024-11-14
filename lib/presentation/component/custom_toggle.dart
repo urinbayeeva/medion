@@ -13,6 +13,7 @@ class CustomToggle<T> extends StatelessWidget {
   final Color? backgroundColor;
   final Color? indicatorColor;
   final bool elevation;
+
   const CustomToggle({
     super.key,
     required this.iconList,
@@ -41,12 +42,12 @@ class CustomToggle<T> extends StatelessWidget {
           animationDuration: const Duration(milliseconds: 200),
           selectedIconScale: 1,
           style: ToggleStyle(
-              backgroundColor: backgroundColor ?? colors.neutral50,
-              indicatorColor: indicatorColor ?? colors.shade0,
-              borderColor: backgroundColor ?? colors.neutral50,
-              indicatorBorderRadius: BorderRadius.circular(10.r),
-              borderRadius: BorderRadius.circular(8.r)),
-          // inactiveOpacity: 0.8,
+            backgroundColor: backgroundColor ?? colors.neutral50,
+            indicatorColor: indicatorColor ?? colors.shade0,
+            borderColor: backgroundColor ?? colors.neutral50,
+            indicatorBorderRadius: BorderRadius.circular(10.r),
+            borderRadius: BorderRadius.circular(8.r),
+          ),
           iconOpacity: 1,
           iconList: iconList,
         );
