@@ -62,6 +62,9 @@ class IconSet {
   final String invoice;
   final String wallet;
   final String settings;
+  final String globe;
+  final String phone;
+  final String logOut;
 
   IconSet._({
     required this.medicalHistoryFirst,
@@ -125,6 +128,9 @@ class IconSet {
     required this.settings,
     required this.user,
     required this.wallet,
+    required this.globe,
+    required this.logOut,
+    required this.phone,
   });
 
   static IconSet get create {
@@ -190,6 +196,9 @@ class IconSet {
       settings: "assets/icons/settings.svg",
       user: "assets/icons/user.svg",
       wallet: "assets/icons/wallet.svg",
+      globe: "assets/icons/globe.svg",
+      logOut: "assets/icons/log_out.svg",
+      phone: "assets/icons/phone.svg",
     );
   }
 }

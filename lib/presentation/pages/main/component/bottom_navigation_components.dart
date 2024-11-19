@@ -71,9 +71,9 @@ class CustomBottomNavBarItemWithBadge extends PersistentBottomNavBarItem {
                 minWidth: iconSize,
               ),
               child: icon.svg(
-                  height: iconSize,
-                  color: activeColorPrimary,
-                 ),
+                height: iconSize,
+                color: activeColorPrimary,
+              ),
             ),
           ),
           inactiveIcon: Badge(
@@ -87,12 +87,12 @@ class CustomBottomNavBarItemWithBadge extends PersistentBottomNavBarItem {
                 minWidth: iconSize,
               ),
               child: inactiveIcon.svg(
-                  height: iconSize,
-                  color: inactiveColorPrimary,
-                ),
+                height: iconSize,
+                color: inactiveColorPrimary,
+              ),
             ),
           ),
-        title: title,
+          title: title,
           textStyle: Style.xxSmallText(color: Style.neutral500, size: 11.sp),
           activeColorPrimary: Style.error500,
           inactiveColorPrimary: Style.neutral600,
@@ -117,17 +117,16 @@ List<PersistentBottomNavBarItem> navBarsItems(IconSet icons) {
       inactiveIcon: icons.filePlusActive,
       icon: icons.filePlus,
       title: "Записаться",
-       activeColorPrimary: Style.error500,
+      activeColorPrimary: Style.error500,
       inactiveColorPrimary: Style.primary900,
     ),
-    
     CustomBottomNavBarItem(
       iconSize: iconSize,
       icon: icons.calendarActive,
       inactiveIcon: icons.calendar,
       title: "Посещения",
       activeColorPrimary: Style.primary500,
-      inactiveColorPrimary: Style.neutral700,
+      inactiveColorPrimary: Style.primary900,
     ),
     CustomBottomNavBarItemWithBadge(
       iconSize: iconSize,
@@ -135,8 +134,7 @@ List<PersistentBottomNavBarItem> navBarsItems(IconSet icons) {
       inactiveIcon: icons.profile,
       title: "Профиль",
       activeColorPrimary: Style.primary500,
-      inactiveColorPrimary: Style.neutral700,
-   
+      inactiveColorPrimary: Style.primary900,
     ),
     CustomBottomNavBarItem(
       iconSize: iconSize,
@@ -144,7 +142,7 @@ List<PersistentBottomNavBarItem> navBarsItems(IconSet icons) {
       inactiveIcon: icons.other,
       title: "Ещё",
       activeColorPrimary: Style.primary500,
-      inactiveColorPrimary: Style.neutral700,
+      inactiveColorPrimary: Style.primary900,
     ),
   ];
 }

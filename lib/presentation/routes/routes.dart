@@ -13,11 +13,11 @@ import 'package:medion/presentation/pages/auth/sign_up/sign_up_page.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_email.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_phone.dart';
 import 'package:medion/presentation/pages/auth/sign_up/verify_code_page.dart';
-import 'package:medion/presentation/pages/others/inner_pages/recipes_page.dart';
-import 'package:medion/presentation/pages/others/inner_pages/results_page.dart';
-import 'package:medion/presentation/pages/others/inner_pages/setting_page.dart';
-import 'package:medion/presentation/pages/others/inner_pages/user_details_page.dart';
-import 'package:medion/presentation/pages/others/inner_pages/wallet_page.dart';
+import 'package:medion/presentation/pages/profile/inner_pages/recipes_page.dart';
+import 'package:medion/presentation/pages/profile/inner_pages/results_page.dart';
+import 'package:medion/presentation/pages/profile/inner_pages/setting_page.dart';
+import 'package:medion/presentation/pages/profile/inner_pages/user_details_page.dart';
+import 'package:medion/presentation/pages/profile/inner_pages/wallet_page.dart';
 import 'package:medion/presentation/pages/visits/my_visits_page.dart';
 
 class AppRoutes {

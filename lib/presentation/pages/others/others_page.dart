@@ -44,7 +44,6 @@ class OthersPage extends StatelessWidget {
     );
   }
 
-  // Helper function for section header
   Widget _sectionHeader(title, fonts) {
     return Padding(
       padding: EdgeInsets.only(top: 16.h, bottom: 12.h),
@@ -52,7 +51,6 @@ class OthersPage extends StatelessWidget {
     );
   }
 
-  // Helper function for section content
   Widget _sectionContent(List<dynamic> data) {
     return Padding(
       padding: EdgeInsets.only(bottom: 24.h),
