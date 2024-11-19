@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_container.dart';
-import 'package:medion/presentation/component/custom_toggle.dart';
+import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/pages/core/my_app.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/service_widget.dart';

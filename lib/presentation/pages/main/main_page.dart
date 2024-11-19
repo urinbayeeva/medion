@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/nav_bar/lib/persistent_tab_view.dart';
-import 'package:medion/presentation/pages/appoinment/appoinment.dart';
+import 'package:medion/presentation/pages/appoinment/step_first.dart';
 import 'package:medion/presentation/pages/home/home_page.dart';
 import 'package:medion/presentation/pages/main/component/bottom_navigation_components.dart';
+import 'package:medion/presentation/pages/others/others_page.dart';
+import 'package:medion/presentation/pages/profile/profile_page.dart';
 import 'package:medion/presentation/pages/visits/my_visits_page.dart';
-import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/debounce.dart';
@@ -32,10 +33,10 @@ class _MainPageState extends State<MainPage> {
 
     pageList = [
       const HomePage(),
-      const AppoinmentPage(),
+      const StepFirst(),
       const MyVisitsPage(),
-      const AppoinmentPage(),
-      const AppoinmentPage(),
+      const ProfilePage(),
+      const OthersPage(),
     ];
   }
 

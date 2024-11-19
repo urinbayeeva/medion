@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
+import 'package:medion/presentation/component/c_divider.dart';
+import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -12,6 +14,7 @@ class MyVisitsPage extends StatefulWidget {
 }
 
 class _MyVisitsPageState extends State<MyVisitsPage> {
+  bool isOnline = true;
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -20,8 +23,47 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
         body: Column(
           children: [
             CAppBar(
+                padding: EdgeInsets.zero,
+                bottom: Column(
+                  children: [
+                    const CDivider(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: CustomToggle<bool>(
+                        iconList: [
+                          Text('Онлайн',
+                              style: fonts.xSmallLink.copyWith(
+                                  color: isOnline
+                                      ? colors.shade0
+                                      : colors.primary900,
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w600)),
+                          Text('Оффлайн',
+                              style: fonts.xSmallLink.copyWith(
+                                  color: !isOnline
+                                      ? colors.shade0
+                                      : colors.primary900,
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w600))
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            isOnline = value;
+                          });
+                        },
+                        current: isOnline,
+                        values: const [true, false],
+                        height: 38.h,
+                        indicatorSize: Size(double.infinity, 40.h),
+                        backgroundColor: colors.neutral200,
+                        indicatorColor: colors.error500,
+                        elevation: false,
+                      ),
+                    ),
+                    8.h.verticalSpace
+                  ],
+                ),
                 bordered: true,
-                hasToggle: true,
                 title: "Мои посещения",
                 centerTitle: true,
                 isBack: true,

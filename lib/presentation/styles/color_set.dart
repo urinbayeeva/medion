@@ -1,6 +1,7 @@
 part of 'theme.dart';
 
 class CustomColorSet {
+  final Color iconGreyColor;
   final Color transparent;
   final Color neutral50;
   final Color neutral100;
@@ -178,6 +179,7 @@ class CustomColorSet {
     required this.darkMode700,
     required this.darkMode800,
     required this.darkMode900,
+    required this.iconGreyColor,
     //
     // required this.grey,
     // required this.red,
@@ -272,6 +274,7 @@ class CustomColorSet {
     const darkMode700 = Style.darkMode700;
     const darkMode800 = Style.darkMode800;
     const darkMode900 = Style.darkMode900;
+    const iconGreyColor = Style.iconGreyColor;
 
     // const grey = Style.neutral100;
     // const red = Style.error500;
@@ -365,6 +368,7 @@ class CustomColorSet {
       darkMode700: darkMode700,
       darkMode800: darkMode800,
       darkMode900: darkMode900, backgroundColor: backgroundColor,
+      iconGreyColor: iconGreyColor,
       //
       // grey: neutral900,
       // red: red,

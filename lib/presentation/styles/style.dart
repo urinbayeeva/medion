@@ -16,6 +16,7 @@ class Style {
   static const Color neutral800 = Color(0xFF808284);
   static const Color neutral900 = Color(0xFF171616);
   static const Color background = Color(0xFFF9F9F9);
+  static const Color iconGreyColor = Color(0xFFC1C1C1);
 
   static const Color primary50 = Color(0xFFFEEAE7);
   static const Color primary100 = Color(0xFFFCD6CF);

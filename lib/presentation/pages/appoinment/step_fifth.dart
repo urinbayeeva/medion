@@ -10,15 +10,15 @@ import 'package:medion/presentation/pages/appoinment/widgets/user_info_widget.da
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
-class PaymentForTheAppoinment extends StatefulWidget {
-  const PaymentForTheAppoinment({super.key});
+class StepFifth extends StatefulWidget {
+  const StepFifth({super.key});
 
   @override
-  State<PaymentForTheAppoinment> createState() =>
-      _PaymentForTheAppoinmentState();
+  State<StepFifth> createState() =>
+      _StepFifthState();
 }
 
-class _PaymentForTheAppoinmentState extends State<PaymentForTheAppoinment> {
+class _StepFifthState extends State<StepFifth> {
   String _selectedOption = "";
   String _selectedPayment = "Payme";
   @override

@@ -38,6 +38,30 @@ class IconSet {
   final String cancel;
   final String payme;
   final String click;
+  final String consultation;
+  final String cosmentology;
+  final String diagnostic;
+  final String spa;
+  final String tooth;
+  final String article;
+  final String badge;
+  final String book;
+  final String checkUp;
+  final String ctScan;
+  final String document;
+  final String filial;
+  final String group;
+  final String handshake;
+  final String hospital;
+  final String stethoscope;
+  final String heartBeat;
+  final String briefcase;
+  final String edit;
+  final String user;
+  final String notepad;
+  final String invoice;
+  final String wallet;
+  final String settings;
 
   IconSet._({
     required this.medicalHistoryFirst,
@@ -77,6 +101,30 @@ class IconSet {
     required this.cancel,
     required this.payme,
     required this.click,
+    required this.consultation,
+    required this.cosmentology,
+    required this.diagnostic,
+    required this.spa,
+    required this.tooth,
+    required this.article,
+    required this.badge,
+    required this.book,
+    required this.checkUp,
+    required this.ctScan,
+    required this.document,
+    required this.filial,
+    required this.group,
+    required this.handshake,
+    required this.hospital,
+    required this.stethoscope,
+    required this.heartBeat,
+    required this.briefcase,
+    required this.edit,
+    required this.invoice,
+    required this.notepad,
+    required this.settings,
+    required this.user,
+    required this.wallet,
   });
 
   static IconSet get create {
@@ -118,6 +166,30 @@ class IconSet {
       cancel: "assets/icons/cancel.svg",
       payme: "assets/images/payme_img.png",
       click: "assets/icons/click.svg",
+      consultation: "assets/icons/consultation.svg",
+      cosmentology: "assets/icons/cosmetology.svg",
+      diagnostic: "assets/icons/diagnostic.svg",
+      spa: "assets/icons/spa.svg",
+      tooth: "assets/icons/tooth.svg",
+      article: "assets/icons/article.svg",
+      badge: "assets/icons/badge.svg",
+      book: "assets/icons/book.svg",
+      checkUp: "assets/icons/check_up.svg",
+      ctScan: "assets/icons/ct_scan.svg",
+      document: "assets/icons/document.svg",
+      filial: "assets/icons/filial.svg",
+      group: "assets/icons/group.svg",
+      handshake: "assets/icons/handshake.svg",
+      hospital: "assets/icons/hospital.svg",
+      stethoscope: "assets/icons/stethoscope.svg",
+      heartBeat: "assets/icons/heart_beat.svg",
+      briefcase: "assets/icons/briefcase.svg",
+      edit: "assets/icons/edit.svg",
+      invoice: "assets/icons/invoice.svg",
+      notepad: "assets/icons/notepad.svg",
+      settings: "assets/icons/settings.svg",
+      user: "assets/icons/user.svg",
+      wallet: "assets/icons/wallet.svg",
     );
   }
 }

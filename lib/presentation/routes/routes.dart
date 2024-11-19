@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:medion/presentation/pages/appoinment/appoinment.dart';
+import 'package:medion/presentation/pages/appoinment/step_first.dart';
 import 'package:medion/presentation/pages/appoinment/component/doctor_appoinment_select_page.dart';
-import 'package:medion/presentation/pages/appoinment/payment/payment_for_the_appoinment.dart';
+import 'package:medion/presentation/pages/appoinment/step_fifth.dart';
 import 'package:medion/presentation/pages/home/directions/directions_page.dart';
 import 'package:medion/presentation/pages/home/directions/component/inner_pages/directions_info_page.dart';
 import 'package:medion/presentation/pages/home/doctors/all_doctors_page.dart';
@@ -13,11 +13,16 @@ import 'package:medion/presentation/pages/auth/sign_up/sign_up_page.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_email.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_phone.dart';
 import 'package:medion/presentation/pages/auth/sign_up/verify_code_page.dart';
+import 'package:medion/presentation/pages/others/inner_pages/recipes_page.dart';
+import 'package:medion/presentation/pages/others/inner_pages/results_page.dart';
+import 'package:medion/presentation/pages/others/inner_pages/setting_page.dart';
+import 'package:medion/presentation/pages/others/inner_pages/user_details_page.dart';
+import 'package:medion/presentation/pages/others/inner_pages/wallet_page.dart';
 import 'package:medion/presentation/pages/visits/my_visits_page.dart';
 
 class AppRoutes {
   static MaterialPageRoute getOnBoardingPage({context}) {
-    return MaterialPageRoute(builder: (_) => const MainPage());
+    return MaterialPageRoute(builder: (_) => const OnboardingPage());
   }
 
   static MaterialPageRoute getSignUpPage() {
@@ -49,7 +54,7 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getAppoinmentPage(index) {
-    return MaterialPageRoute(builder: (_) => const AppoinmentPage());
+    return MaterialPageRoute(builder: (_) => const StepFirst());
   }
 
   static MaterialPageRoute getMyVisitsPage(index) {
@@ -96,10 +101,30 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getPaymentForAppoinment() {
-    return MaterialPageRoute(builder: (_) => const PaymentForTheAppoinment());
+    return MaterialPageRoute(builder: (_) => const StepFifth());
   }
 
   static MaterialPageRoute getAllDoctorsPage() {
     return MaterialPageRoute(builder: (_) => const AllDoctorsPage());
+  }
+
+  static MaterialPageRoute getSettingsPage() {
+    return MaterialPageRoute(builder: (_) => const SettingPage());
+  }
+
+  static MaterialPageRoute getWalletPage() {
+    return MaterialPageRoute(builder: (_) => const WalletPage());
+  }
+
+  static MaterialPageRoute getRecipesPage() {
+    return MaterialPageRoute(builder: (_) => const RecipesPage());
+  }
+
+  static MaterialPageRoute getResultsPage() {
+    return MaterialPageRoute(builder: (_) => const ResultsPage());
+  }
+
+  static MaterialPageRoute getUserDetailsPage() {
+    return MaterialPageRoute(builder: (_) => const UserDetailsPage());
   }
 }

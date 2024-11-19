@@ -6,7 +6,7 @@ import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_progress_bar.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/component/calendar/calendar_day_widget.dart';
-import 'package:medion/presentation/component/custom_toggle.dart';
+import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -69,6 +69,7 @@ class _CAppBarState extends State<CAppBar> {
                 ? ImageFilter.blur(sigmaX: 50, sigmaY: 50)
                 : ImageFilter.blur(),
             child: Container(
+              // height: 58.h,
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: widget.bordered
@@ -81,8 +82,8 @@ class _CAppBarState extends State<CAppBar> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SafeArea(bottom: false, child: SizedBox.shrink()),
-                  8.h.verticalSpace,
+                  // const SafeArea(bottom: false, child: SizedBox.shrink()),
+                  40.h.verticalSpace,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -137,46 +138,6 @@ class _CAppBarState extends State<CAppBar> {
                     widget.bottom!,
                     12.h.verticalSpace,
                   ],
-                  if (widget.hasToggle == true) ...[
-                    12.h.verticalSpace,
-                    CustomToggle<bool>(
-                      iconList: [
-                        Text(
-                            widget.toggleFirstText == null
-                                ? 'Онлайн'
-                                : widget.toggleFirstText!,
-                            style: fonts.xSmallLink.copyWith(
-                                color: isOnline
-                                    ? colors.shade0
-                                    : colors.primary900,
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600)),
-                        Text(
-                            widget.toggleSecondText == null
-                                ? 'Оффлайн'
-                                : widget.toggleSecondText!,
-                            style: fonts.xSmallLink.copyWith(
-                                color: !isOnline
-                                    ? colors.shade0
-                                    : colors.primary900,
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600))
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          isOnline = value;
-                        });
-                      },
-                      current: isOnline,
-                      values: const [true, false],
-                      height: 38.h,
-                      indicatorSize: Size(double.infinity, 40.h),
-                      backgroundColor: colors.neutral200,
-                      indicatorColor: colors.error500,
-                      elevation: false,
-                    ),
-                    8.h.verticalSpace
-                  ],
                   if (widget.hasSearch == true) ...[
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -193,33 +154,6 @@ class _CAppBarState extends State<CAppBar> {
                     10.h.verticalSpace,
                     // 10.h.verticalSpace,
                   ],
-                  if (widget.hasProgressBar == true) ...[
-                    10.h.verticalSpace,
-                    RichText(
-                      text: TextSpan(
-                        style: fonts.xSmallLink.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13.sp,
-                            color: colors.primary900),
-                        children: [
-                          TextSpan(
-                            text: 'Шаг 5 из 5: ',
-                            style: fonts.xSmallLink.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13.sp,
-                                color: colors.neutral600),
-                          ),
-                          const TextSpan(
-                            text: ' Оплата',
-                          ),
-                        ],
-                      ),
-                    ),
-                    8.h.verticalSpace,
-                    CustomProgressBar(
-                        count: widget.count!, allCount: widget.allCount!),
-                    12.h.verticalSpace,
-                  ]
                 ],
               ),
             ),
