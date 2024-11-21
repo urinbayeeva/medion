@@ -26,25 +26,28 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                 padding: EdgeInsets.zero,
                 bottom: Column(
                   children: [
-                    const CDivider(),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: CustomToggle<bool>(
+                    SizedBox(
+                      width: double.infinity,
+                      child: CustomToggle(
                         iconList: [
-                          Text('Онлайн',
-                              style: fonts.xSmallLink.copyWith(
-                                  color: isOnline
-                                      ? colors.shade0
-                                      : colors.primary900,
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w600)),
-                          Text('Оффлайн',
-                              style: fonts.xSmallLink.copyWith(
-                                  color: !isOnline
-                                      ? colors.shade0
-                                      : colors.primary900,
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w600))
+                          Text(
+                            'Онлайн',
+                            style: fonts.xSmallLink.copyWith(
+                              color:
+                                  isOnline ? colors.shade0 : colors.primary900,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            'Оффлайн',
+                            style: fonts.xSmallLink.copyWith(
+                              color:
+                                  !isOnline ? colors.shade0 : colors.primary900,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ],
                         onChanged: (value) {
                           setState(() {
@@ -53,14 +56,8 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                         },
                         current: isOnline,
                         values: const [true, false],
-                        height: 38.h,
-                        indicatorSize: Size(double.infinity, 40.h),
-                        backgroundColor: colors.neutral200,
-                        indicatorColor: colors.error500,
-                        elevation: false,
                       ),
                     ),
-                    8.h.verticalSpace
                   ],
                 ),
                 bordered: true,

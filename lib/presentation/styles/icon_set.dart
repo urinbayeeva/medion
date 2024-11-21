@@ -65,6 +65,13 @@ class IconSet {
   final String globe;
   final String phone;
   final String logOut;
+  final String uzbekistan;
+  final String russia;
+  final String usa;
+  final String question;
+  final String download;
+  final String link;
+  final String medion;
 
   IconSet._({
     required this.medicalHistoryFirst,
@@ -131,6 +138,13 @@ class IconSet {
     required this.globe,
     required this.logOut,
     required this.phone,
+    required this.russia,
+    required this.usa,
+    required this.uzbekistan,
+    required this.question,
+    required this.download,
+    required this.link,
+    required this.medion,
   });
 
   static IconSet get create {
@@ -199,6 +213,13 @@ class IconSet {
       globe: "assets/icons/globe.svg",
       logOut: "assets/icons/log_out.svg",
       phone: "assets/icons/phone.svg",
+      russia: "assets/icons/russia.svg",
+      usa: "assets/icons/usa.svg",
+      uzbekistan: "assets/icons/uzbekistan.svg",
+      question: "assets/icons/question.svg",
+      download: "assets/icons/download.svg",
+      link: "assets/icons/link.svg",
+      medion: "assets/icons/medion.svg",
     );
   }
 }

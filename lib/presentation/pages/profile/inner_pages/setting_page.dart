@@ -3,15 +3,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/presentation/pages/profile/widget/nav_list_widget.dart';
+import 'package:medion/presentation/component/c_lang_check_box.dart';
+import 'package:medion/presentation/component/c_logout_bottomsheet.dart';
 import 'package:medion/presentation/pages/profile/widget/settings_data.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/phone_utils.dart';
 import 'package:provider/provider.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
 
+  @override
+  State<SettingPage> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -104,27 +111,32 @@ class SettingPage extends StatelessWidget {
   }
 
   void _handleNavTap(BuildContext context, int index) {
+    void setNavBarState(bool state) {
+      if (mounted) {
+        context.read<BottomNavBarController>().changeNavBar(state);
+      }
+    }
+
     if (index == 0) {
-      context.read<BottomNavBarController>().changeNavBar(true);
+      setNavBarState(true);
       showModalBottomSheet(
         context: context,
-        builder: (item) {
-          return ThemeWrapper(
-              builder: (context, colors, fonts, icons, controller) {
-            return Container(
-              decoration: BoxDecoration(
-                color: colors.shade0,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8.r),
-                  topRight: Radius.circular(8.r),
-                ),
-              ),
-            );
-          });
-        },
-      ).then((_) {
-        context.read<BottomNavBarController>().changeNavBar(false);
-      });
+        builder: (item) => const CLangCheckbox(),
+      ).then((_) => setNavBarState(false));
+    } else if (index == 1) {
+      makePhoneCall("+998958098661");
+    } else {
+      setNavBarState(true);
+      showModalBottomSheet(
+        context: context,
+        builder: (item) => CBottomsheetProfile(
+          onTapBack: () {
+            Navigator.pop(context);
+            setNavBarState(false);
+          },
+          onTapLogOut: () {},
+        ),
+      ).then((_) => setNavBarState(false));
     }
   }
 }

@@ -37,7 +37,19 @@ class ProfilePage extends StatelessWidget {
                   style: fonts.mediumText.copyWith(fontSize: 16.sp)),
               24.h.verticalSpace,
               const NavListWidget(),
-              const Spacer(flex: 3),
+              Expanded(
+                flex: 3,
+                child: Center(
+                  child: Text(
+                    "Version: Test",
+                    style: fonts.regularLink.copyWith(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: colors.primary900,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

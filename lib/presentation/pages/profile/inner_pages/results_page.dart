@@ -1,10 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/presentation/component/c_appbar.dart';
+import 'package:medion/presentation/component/c_toggle.dart';
+import 'package:medion/presentation/pages/profile/widget/results_data_widget.dart';
+import 'package:medion/presentation/styles/theme.dart';
+import 'package:medion/presentation/styles/theme_wrapper.dart';
 
-class ResultsPage extends StatelessWidget {
+class ResultsPage extends StatefulWidget {
   const ResultsPage({super.key});
 
   @override
+  State<ResultsPage> createState() => _ResultsPageState();
+}
+
+class _ResultsPageState extends State<ResultsPage> {
+  bool isAnalyse = true;
+
+  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+      return Scaffold(
+        backgroundColor: colors.backgroundColor,
+        body: Column(
+          children: [
+            CAppBar(
+              title: "Мои результаты",
+              centerTitle: true,
+              isBack: true,
+              trailing: icons.calendar.svg(width: 20.w, height: 20.h),
+              bottom: Column(
+                children: [
+                  SizedBox(
+                      width: double.infinity,
+                      child: CustomToggle(
+                          iconList: [
+                            Text('Заключения врача',
+                                style: fonts.xSmallLink.copyWith(
+                                    color: isAnalyse
+                                        ? colors.shade0
+                                        : colors.primary900,
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w600)),
+                            Text('Анализы',
+                                style: fonts.xSmallLink.copyWith(
+                                    color: !isAnalyse
+                                        ? colors.shade0
+                                        : colors.primary900,
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w600))
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              isAnalyse = value;
+                            });
+                          },
+                          current: isAnalyse,
+                          values: const [true, false])),
+                ],
+              ),
+            ),
+            Expanded(child: const ResultsDataWidget())
+          ],
+        ),
+      );
+    });
   }
 }
