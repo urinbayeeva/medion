@@ -77,7 +77,7 @@ class AppRoutes {
         appBarTitle: appBarTitle,
         informationTitle: informationTitle,
         doctorsList: doctorsList,
-        professionServiceType: professionServiceType, // Fixed typo here
+        professionServiceType: professionServiceType, 
         price: price,
       ),
     );

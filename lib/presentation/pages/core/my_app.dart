@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:medion/infrastructure/core/alice_chopper_adapter.dart';
+import 'package:medion/infrastructure/services/alice/alice.dart';
+import 'package:medion/infrastructure/services/alice/model/alice_configuration.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/un_focus_widget.dart';
 import 'package:medion/presentation/routes/routes.dart';
@@ -9,6 +12,14 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/utils/app_config.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+
+final AliceChopperAdapter aliceChopperAdapter = AliceChopperAdapter();
+Alice alice = Alice(
+  configuration: AliceConfiguration(
+    showNotification: true,
+    showInspectorOnShake: false,
+  ),
+)..addAdapter(aliceChopperAdapter);
 
 class MyApp extends StatelessWidget {
   final DBService dbService;
@@ -34,7 +45,7 @@ class MyApp extends StatelessWidget {
         ],
         child: OnUnFocusTap(
           child: MaterialApp(
-            // navigatorKey: alice.getNavigatorKey(),
+            navigatorKey: alice.getNavigatorKey(),
             debugShowCheckedModeBanner: false,
             builder: (context, child) {
               child = FlutterSmartDialog.init()(context, child);
