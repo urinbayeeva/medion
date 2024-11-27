@@ -68,7 +68,7 @@ class CButton extends StatelessWidget {
                   iconPath!,
                   height: 20.h,
                   width: 20.w,
-                  color: colors.shade0,
+                  // color: colors.shade0,
                 ),
             ],
           ),

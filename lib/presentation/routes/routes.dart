@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:medion/presentation/pages/appoinment/step_first.dart';
-import 'package:medion/presentation/pages/appoinment/component/doctor_appoinment_select_page.dart';
+import 'package:medion/domain/sources/doctor_appoinment_select_page.dart';
 import 'package:medion/presentation/pages/appoinment/step_fifth.dart';
 import 'package:medion/presentation/pages/home/directions/directions_page.dart';
 import 'package:medion/presentation/pages/home/directions/component/inner_pages/directions_info_page.dart';
 import 'package:medion/presentation/pages/home/doctors/all_doctors_page.dart';
 import 'package:medion/presentation/pages/home/home_page.dart';
 import 'package:medion/presentation/pages/main/main_page.dart';
+import 'package:medion/presentation/pages/map/map_page.dart';
 import 'package:medion/presentation/pages/onboarding/onboarding_page.dart';
 import 'package:medion/presentation/pages/auth/sign_up/data_entry_page.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_page.dart';
@@ -22,7 +23,7 @@ import 'package:medion/presentation/pages/visits/my_visits_page.dart';
 
 class AppRoutes {
   static MaterialPageRoute getOnBoardingPage({context}) {
-    return MaterialPageRoute(builder: (_) => const OnboardingPage());
+    return MaterialPageRoute(builder: (_) => const MapPage());
   }
 
   static MaterialPageRoute getSignUpPage() {
@@ -77,7 +78,7 @@ class AppRoutes {
         appBarTitle: appBarTitle,
         informationTitle: informationTitle,
         doctorsList: doctorsList,
-        professionServiceType: professionServiceType, 
+        professionServiceType: professionServiceType,
         price: price,
       ),
     );
@@ -126,5 +127,9 @@ class AppRoutes {
 
   static MaterialPageRoute getUserDetailsPage() {
     return MaterialPageRoute(builder: (_) => const UserDetailsPage());
+  }
+
+  static MaterialPageRoute getMapPage() {
+    return MaterialPageRoute(builder: (_) => const MapPage());
   }
 }

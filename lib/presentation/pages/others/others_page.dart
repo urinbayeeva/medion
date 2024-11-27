@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/others/component/others_page_comp.dart';
-import 'package:medion/presentation/pages/others/others_data.dart';
+import 'package:medion/domain/sources/others_data.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class OthersPage extends StatelessWidget {

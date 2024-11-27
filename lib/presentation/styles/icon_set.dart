@@ -72,6 +72,9 @@ class IconSet {
   final String download;
   final String link;
   final String medion;
+  final String yandex;
+  final String emojiSad;
+  final String checkS;
 
   IconSet._({
     required this.medicalHistoryFirst,
@@ -145,6 +148,9 @@ class IconSet {
     required this.download,
     required this.link,
     required this.medion,
+    required this.yandex,
+    required this.emojiSad,
+    required this.checkS,
   });
 
   static IconSet get create {
@@ -220,6 +226,9 @@ class IconSet {
       download: "assets/icons/download.svg",
       link: "assets/icons/link.svg",
       medion: "assets/icons/medion.svg",
+      yandex: "assets/icons/yandex.svg",
+      emojiSad: "assets/icons/emoji-sad_d.svg",
+      checkS: "assets/icons/check_s.svg",
     );
   }
 }

@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -6,16 +7,15 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     
-    <application
-        android:label="Medion"
-        android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
-        android:requestLegacyExternalStorage="true"
+<application
+    android:name=".MainApplication" 
+    android:label="Medion"
+    android:icon="@mipmap/ic_launcher"
+    android:requestLegacyExternalStorage="true">
         
-
         <meta-data
-            android:name="com.yandex.mobile.maps.apikey"
-            android:value="3f886df1-7552-4a91-8dc7-3511e772780d" />
+           android:name="com.yandex.mobile.maps.apikey"
+           android:value="3f886df1-7552-4a91-8dc7-3511e772780d" />
         
         <activity
             android:name=".MainActivity"

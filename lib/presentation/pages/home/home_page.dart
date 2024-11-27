@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
-import 'package:medion/presentation/pages/home/directions/component/directions_data.dart';
-import 'package:medion/presentation/pages/home/doctors/component/doctors_data.dart';
-import 'package:medion/presentation/pages/home/news/component/news_data.dart';
+import 'package:medion/domain/sources/directions_data.dart';
+import 'package:medion/domain/sources/doctors_data.dart';
+import 'package:medion/domain/sources/news_data.dart';
 import 'package:medion/presentation/pages/home/widgets/adress_item.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
-import 'package:medion/presentation/pages/home/component/med_service.dart';
+import 'package:medion/domain/sources/med_service.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/pages/home/news/widgets/news_item.dart';
 import 'package:medion/presentation/pages/home/widgets/problem_slidebale_card.dart';
@@ -193,7 +193,12 @@ class HomePage extends StatelessWidget {
                               style: fonts.regularSemLink
                                   .copyWith(fontSize: 17.sp)),
                           AnimationButtonEffect(
-                            onTap: () {},
+                            onTap: () {
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(true);
+                              Navigator.push(context, AppRoutes.getMapPage());
+                            },
                             child: Container(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 12.w, vertical: 8.h),

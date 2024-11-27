@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
-
-
 // ignore: must_be_immutable
 class AnimationButtonEffect extends StatefulWidget {
   final bool disabled;
-  final Function onTap;
+  final VoidCallback? onTap;
+  final void Function(TapUpDetails)? onTapUp;
+  final void Function(TapDownDetails)? onTapDown;
+  final VoidCallback? onTapCancel;
   final bool isGrey;
   final bool isLoading;
   final bool isPositioned;
+
   Widget child;
   AnimationButtonEffect(
-      {super.key, this.disabled = false,
+      {super.key,
+      this.disabled = false,
       required this.onTap,
       this.isGrey = false,
       this.isLoading = false,
       required this.child,
-        this.isPositioned = false
-      });
+      this.isPositioned = false,
+      this.onTapUp,
+      this.onTapDown,
+      this.onTapCancel});
   @override
   State<AnimationButtonEffect> createState() => _AnimationButtonEffectState();
 }
@@ -56,14 +61,16 @@ class _AnimationButtonEffectState extends State<AnimationButtonEffect>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      behavior: widget.isPositioned ? HitTestBehavior.translucent : HitTestBehavior.deferToChild,
-      onTap: (){
+      behavior: widget.isPositioned
+          ? HitTestBehavior.translucent
+          : HitTestBehavior.deferToChild,
+      onTap: () {
         if (!widget.disabled) {
           FocusScopeNode currentFocus = FocusScope.of(context);
           if (!currentFocus.hasPrimaryFocus) {
             currentFocus.unfocus();
           }
-          widget.onTap();
+          widget.onTap!();
         }
       },
       child: Listener(
