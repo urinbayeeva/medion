@@ -52,6 +52,13 @@
 		<key>NSDocumentsFolderUsageDescription</key>
 		<string>We need access to save files to your documents folder.</string>
 		<key>LSApplicationQueriesSchemes</key>
+		<key>UIBackgroundModes</key>
+        <array>
+          <string>remote-notification</string>
+        </array>
+        <key>NSUserTrackingUsageDescription</key>
+        <string>We need your permission to send notifications.</string>
+
 		<array>
 			<string>tel</string>
 		</array>

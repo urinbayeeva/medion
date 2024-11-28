@@ -23,7 +23,7 @@ import 'package:medion/presentation/pages/visits/my_visits_page.dart';
 
 class AppRoutes {
   static MaterialPageRoute getOnBoardingPage({context}) {
-    return MaterialPageRoute(builder: (_) => const MapPage());
+    return MaterialPageRoute(builder: (_) => const OnboardingPage());
   }
 
   static MaterialPageRoute getSignUpPage() {

@@ -66,7 +66,7 @@ abstract class AuthService extends ChopperService {
       {@Body() required VerificationVerifyReq request,
       @Header('requires-token') String requiresToken = 'true'});
 
-        @Delete(path: 'destroy')
+  @Delete(path: 'destroy')
   Future<Response<dynamic>> deleteProfile(
       {@Header('requires-token') String requiresToken = 'true'});
 
@@ -75,45 +75,38 @@ abstract class AuthService extends ChopperService {
       {@Body() required VerificationVerifyReq request,
       @Header('requires-token') String requiresToken = 'true'});
 
-
   @Get(path: 'profile')
   Future<Response<ProfileRes>> getProfile(
       {@Header('requires-token') String requiresToken = 'true'});
 
-
-
-
-
-  static AuthService create(DBService dbService) =>
-      _$AuthService(_Client(Constants.baseUrlP, true, dbService));
+  // static AuthService create(DBService dbService) =>
+  //     _$AuthService(_Client(Constants.baseUrlP, true, dbService));
 }
 
-
-
-base class _Client extends ChopperClient {
-  _Client(String baseUrl, bool useInterceptors, DBService dbService,
-      {int timeout = 20})
-      : super(
-            client: TimeoutHttpClient(Client(),
-                timeout: Duration(seconds: timeout)),
-            baseUrl: Uri.parse(baseUrl),
-            interceptors: useInterceptors
-                ? [
-                    CoreInterceptor(dbService),
-                    if (AppConfig.shared.flavor == Flavor.dev)
-                      aliceChopperAdapter,
-                    HttpLoggingInterceptor(),
-                    CurlInterceptor(),
-                    NetworkInterceptor(),
-                    RetryInterceptor(
-                        maxRetries: 3, retryDelay: const Duration(seconds: 2)),
-                    BackendInterceptor(),
-                  ]
-                : const [],
-            converter: BuiltValueConverter(),
-            errorConverter: ErrorMyConverter(),
-            authenticator: MyAuthenticator(dbService));
-}
+// base class _Client extends ChopperClient {
+//   _Client(String baseUrl, bool useInterceptors, DBService dbService,
+//       {int timeout = 20})
+//       : super(
+//             client: TimeoutHttpClient(Client(),
+//                 timeout: Duration(seconds: timeout)),
+//             baseUrl: Uri.parse(baseUrl),
+//             interceptors: useInterceptors
+//                 ? [
+//                     CoreInterceptor(dbService),
+//                     if (AppConfig.shared.flavor == Flavor.dev)
+//                       aliceChopperAdapter,
+//                     HttpLoggingInterceptor(),
+//                     CurlInterceptor(),
+//                     NetworkInterceptor(),
+//                     RetryInterceptor(
+//                         maxRetries: 3, retryDelay: const Duration(seconds: 2)),
+//                     BackendInterceptor(),
+//                   ]
+//                 : const [],
+//             converter: BuiltValueConverter(),
+//             errorConverter: ErrorMyConverter(),
+//             authenticator: MyAuthenticator(dbService));
+// }
 
 class MyAuthenticator extends Authenticator {
   final DBService dbService;
