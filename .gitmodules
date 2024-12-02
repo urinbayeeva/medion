@@ -1,0 +1,3 @@
+[submodule "lib/sub_package/table_calendar"]
+	path = lib/sub_package/table_calendar
+	url = https://github.com/aleksanderwozniak/table_calendar.git
