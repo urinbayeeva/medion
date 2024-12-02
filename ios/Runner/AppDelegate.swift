@@ -1,6 +1,6 @@
 import UIKit
 import Flutter
-import YandexMapsMobile
+import GoogleMaps
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -8,8 +8,7 @@ import YandexMapsMobile
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    YMKMapKit.setLocale("YOUR_LOCALE") // Your preferred language. Not required, defaults to system language
-    YMKMapKit.setApiKey("3f886df1-7552-4a91-8dc7-3511e772780d") // Your generated API key
+    GMSServices.provideAPIKey("AIzaSyBcjnX5w8RHfWQ113YmpBM2NhRBYp1j6ws")
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

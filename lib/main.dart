@@ -14,11 +14,13 @@ import 'package:medion/utils/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
+
 Future<void> main() async {
   await Hive.initFlutter();
   await AppInit.create;
   await initializeDateFormatting('ru', null);
   WidgetsFlutterBinding.ensureInitialized();
+
 
   if (kDebugMode) {
     Bloc.observer = LogBlocObserver();
@@ -54,3 +56,4 @@ Future<void> main() async {
     await Sentry.captureException(exception, stackTrace: stackTrace);
   });
 }
+

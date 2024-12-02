@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:medion/domain/common/token.dart';
+import 'package:medion/infrastructure/repository/calendar_repo.dart';
 
 class DBService {
   static const _dbName = 'localDB';
@@ -9,15 +10,6 @@ class DBService {
   static const _refreshToken = 'refresh_token';
   static const _themeMode = 'theme_mode';
   static const _language = 'language';
-  static const intro = 'intro';
-  static const prediction = 'prediction';
-  static const auction = 'auction';
-  static const auctionMarket = 'auction_market';
-  static const business = 'business';
-  static const auctionTerms = 'auction_terms';
-  static const auctionBusiness = 'auction_business';
-  static const auctionConsumer = 'auction_consumer';
-  static const diagnostics = 'diagnostics';
 
   static Box? _box;
 
@@ -88,5 +80,25 @@ class DBService {
     bool? langSaved = getLang;
     await _box?.clear();
     setLang(isSaved: langSaved ?? false);
+  }
+}
+
+class LocalCalendarRepository implements CalendarRepository {
+  final HiveInterface hive;
+  LocalCalendarRepository(this.hive);
+
+  @override
+  Future<List<DateTime>> getEventDates() async {
+    return hive.box('calendar').get('eventDates') ?? [];
+  }
+
+  @override
+  Future<void> saveSelectedDate(DateTime date) async {
+    hive.box('calendar').put('selectedDate', date);
+  }
+
+  @override
+  DateTime getSelectedDate() {
+    return hive.box('calendar').get('selectedDate') ?? DateTime.now();
   }
 }

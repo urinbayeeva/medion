@@ -1,8 +1,5 @@
 import 'dart:io';
 
-
-import 'package:firebase_core/firebase_core.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +11,6 @@ import 'package:medion/infrastructure/connectivity.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:medion/presentation/styles/style.dart';
-
 
 class AppInit {
   static bool? connectivityX;
@@ -39,11 +35,8 @@ class AppInit {
 
     // await initializeFirebase();
 
-
     /// LogService Create
     LogService.create;
-
-
 
     /// Device Orientation
     await SystemChrome.setPreferredOrientations(

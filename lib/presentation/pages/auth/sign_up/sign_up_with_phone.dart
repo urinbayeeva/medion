@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/application/auth/auth_bloc.dart';
+import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/component/c_outlined_button.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/component/phone_number_component.dart';
 import 'package:medion/presentation/routes/routes.dart';
-
-import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/extensions.dart';
+import 'package:sms_autofill/sms_autofill.dart';
+
 
 class SignUpWithPhone extends StatefulWidget {
-  const SignUpWithPhone({super.key});
+    final Function(dynamic)? onClose;
+  final bool additionalPhone;
+  final List<String>? phoneNumbers;
+  const SignUpWithPhone({super.key, this.onClose, required this.additionalPhone, this.phoneNumbers});
 
   @override
   State<SignUpWithPhone> createState() => _SignUpWithPhoneState();
@@ -42,73 +49,115 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            CAppBar(
-                leading: icons.left.svg(width: 24.w, height: 24.h), title: ''),
-            16.h.verticalSpace,
-            Flexible(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // const Spacer(),
-                    Text("Введите\nномер телефона", style: fonts.displaySecond),
-                    8.h.verticalSpace,
-                    Text(
-                        "Чтобы войти, записаться на приёмы врачeй\nи следить за вашими посещениями",
-                        style: fonts.smallText.copyWith(
-                            color: colors.neutral700,
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w400)),
-                    16.h.verticalSpace,
-                    CustomTextField(
-                      focusNode: focusNode,
-                      autoFocus: true,
-                      title: "",
-                      keyboardType: TextInputType.phone,
-                      onChanged: (value) {
-                        if (value.length >= 17) {
-                          setState(() {});
-                        }
-                      },
-                      controller: _phoneNumberController,
-                      formatter: <TextInputFormatter>[
-                        InternationalPhoneFormatter()
-                      ],
-                      hintText: '+998',
-                      // validator: (String? text) {
-                      //   if (text != null && text.length < 17) {
-                      //     return "number_entered_incorrectly".tr();
-                      //   } else {
-                      //     if (widget.phoneNumbers != null &&
-                      //         widget.phoneNumbers!.isNotEmpty) {
-                      //       for (var phone in widget.phoneNumbers!) {
-                      //         if (phone ==
-                      //             formatPhoneNumber(
-                      //                 _phoneNumberController.text)) {
-                      //           return "phone_number_already_exists".tr();
-                      //         }
-                      //       }
-                      //     }
-                      //     return null;
-                      //   }
-                      // },
-                    ),
-                    const Spacer(),
-                    CButton(
-                        title: "Выслать код",
-                        onTap: () => Navigator.push(
-                            context, AppRoutes.getVerifyCodePage())),
-                    27.h.verticalSpace,
-                  ],
+
+   return BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if (state.successSendCode) {
+                SmsAutoFill().getAppSignature.then((value) {
+                  Navigator.push(
+                      context,
+                      AppRoutes.getVerifyCodePage(
+                          additionalPhone: widget.additionalPhone,
+                          onClose: widget.onClose,
+                          autofill: value,
+                          phoneNumber:
+                              formatPhoneNumber(_phoneNumberController.text),
+                          password: null));
+                });
+              }
+            },
+            listenWhen: (previous, current) =>
+                (previous.successSendCode != current.successSendCode &&
+                    current.successSendCode),
+            child: Scaffold(
+          backgroundColor: Colors.white,
+          body: Column(
+            children: [
+              CAppBar(
+                  leading: icons.left.svg(width: 24.w, height: 24.h), title: ''),
+              16.h.verticalSpace,
+              Flexible(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // const Spacer(),
+                      Text("Введите\nномер телефона", style: fonts.displaySecond),
+                      8.h.verticalSpace,
+                      Text(
+                          "Чтобы войти, записаться на приёмы врачeй\nи следить за вашими посещениями",
+                          style: fonts.smallText.copyWith(
+                              color: colors.neutral700,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w400)),
+                      16.h.verticalSpace,
+                      Form(
+                               key: _formKey,
+                        child: CustomTextField(
+                        
+                          focusNode: focusNode,
+                          autoFocus: true,
+                          title: "",
+                          keyboardType: TextInputType.phone,
+                          onChanged: (value) {
+                            if (value.length >= 17) {
+                              setState(() {});
+                            }
+                          },
+                          controller: _phoneNumberController,
+                          formatter: <TextInputFormatter>[
+                            InternationalPhoneFormatter()
+                          ],
+                          hintText: '+998',
+                          validator: (String? text) {
+                            if (text != null && text.length < 17) {
+                              return "number_entered_incorrectly";
+                            } else {
+                              if (widget.phoneNumbers != null &&
+                                  widget.phoneNumbers!.isNotEmpty) {
+                                for (var phone in widget.phoneNumbers!) {
+                                  if (phone ==
+                                      formatPhoneNumber(
+                                          _phoneNumberController.text)) {
+                                    return "phone_number_already_exists";
+                                  }
+                                }
+                              }
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                      const Spacer(),
+                      CustomButton(
+                             isDisabled: _phoneNumberController.text.length < 17,
+                          title: "Выслать код",
+                          onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                focusNode.unfocus();
+                                await SmsAutoFill()
+                                    .getAppSignature
+                                    .then((value) {
+                                  context
+                                      .read<AuthBloc>()
+                                      .add(AuthEvent.verificationSend(
+                                          request: VerificationSendReq(
+                                        (p0) => p0
+                                          ..phone = formatPhoneNumber(
+                                              _phoneNumberController.text)
+                                          ..autofill = value,
+                                      )));
+                                });
+                              }
+                          }),
+                      27.h.verticalSpace,
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     });

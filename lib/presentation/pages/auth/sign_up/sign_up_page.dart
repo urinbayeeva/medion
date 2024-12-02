@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -54,8 +55,9 @@ class _SignUpPageState extends State<SignUpPage> {
               CButton(
                 iconPath: icons.phoneTwo,
                 title: "Продолжить с номером телефона",
-                onTap: () =>
-                    Navigator.push(context, AppRoutes.getSignUpPageWithPhone()),
+                onTap: () {
+                  Navigator.push(context, AppRoutes.getSignUpWithPhone());
+                },
               ),
               12.h.verticalSpace,
               CButton(

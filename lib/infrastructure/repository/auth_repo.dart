@@ -19,12 +19,14 @@ import 'package:medion/utils/constants.dart';
 class AuthRepository implements IAuthFacade {
   final DBService _dbService;
   final AuthService _authService;
-
+  final BusinessService _businessService;
+ 
 
   AuthRepository(
     this._dbService,
     this._authService,
-   
+    this._businessService,
+
   );
 
   /// Get user
@@ -108,8 +110,6 @@ class AuthRepository implements IAuthFacade {
     }
   }
 
-
-
   @override
   Future<Either<ResponseFailure, SuccessModel>> updatePassword(
       {required ResetPasswordReq request}) async {
@@ -182,17 +182,15 @@ class AuthRepository implements IAuthFacade {
     }
   }
 
-
   @override
   Future<Either<ResponseFailure, ProfileRes>> getProfile() async {
     if (_dbService.token.accessToken == null) {
       return left(const InvalidCredentials(message: 'invalid_credential'));
     }
     try {
-      final business = (_dbService.getBool(key: DBService.business) ?? false);
+      // final business = (_dbService.getBool(key: DBService.business) ?? false);
       final res = await _authService.getProfile();
       if (res.isSuccessful) {
-       
         return right(res.body!);
       } else {
         return left(const InvalidCredentials(message: 'invalid_credential'));
@@ -244,9 +242,6 @@ class AuthRepository implements IAuthFacade {
     }
   }
 
- 
-
-
   Future<String> getDeviceModel() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     try {
@@ -264,7 +259,6 @@ class AuthRepository implements IAuthFacade {
       return "";
     }
   }
-
 
   static Future<Either<ResponseFailure, LoginRes>> refreshToken(
       String refresh) async {
@@ -289,8 +283,6 @@ class AuthRepository implements IAuthFacade {
     }
   }
 
-
-
   @override
   Future<Either<ResponseFailure, FCMTokenModel>> createAnonymousUser() async {
     if (_dbService.token.accessToken == null) {
@@ -312,6 +304,4 @@ class AuthRepository implements IAuthFacade {
       return left(const InvalidCredentials(message: 'invalid_credential'));
     }
   }
-
-
 }

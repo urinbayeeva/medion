@@ -54,10 +54,10 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                         controller: phoneNumberController,
                         hintText: "example@gmail.com"),
                     const Spacer(),
-                    CButton(
-                        title: "Выслать код",
-                        onTap: () => Navigator.push(
-                            context, AppRoutes.getVerifyCodePage())),
+                    // CButton(
+                    //     title: "Выслать код",
+                    //     onTap: () => Navigator.push(
+                    //         context, AppRoutes.getVerifyCodePage())),
                     27.h.verticalSpace,
                   ],
                 ),

@@ -11,7 +11,19 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 class VerifyCodePage extends StatefulWidget {
-  const VerifyCodePage({super.key});
+  final Function(dynamic)? onClose;
+  final String? password;
+  final bool additionalPhone;
+
+  const VerifyCodePage({
+    super.key,
+    this.onClose,
+    this.password,
+    required this.additionalPhone, required this.phoneNumber, required this.autofill,
+  });
+
+    final String phoneNumber;
+  final String autofill;
 
   @override
   State<VerifyCodePage> createState() => _VerifyCodePageState();

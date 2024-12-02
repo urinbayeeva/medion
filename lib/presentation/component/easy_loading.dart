@@ -13,7 +13,7 @@ class EasyLoading {
   }) async {
     await SmartDialog.dismiss();
     SmartDialog.showLoading(
-        msg: status ?? "Loading", backType: SmartBackType.block);
+        msg: status ?? "Загрузка...", backType: SmartBackType.block);
   }
 
   static Future<void> showWidget({
@@ -188,8 +188,7 @@ class EasyLoading {
                           semanticsLabel: status,
                           status,
                           textAlign: TextAlign.center,
-                          style: fonts.smallMain
-                              .copyWith(fontSize: 18.sp),
+                          style: fonts.smallMain.copyWith(fontSize: 18.sp),
                         ),
                       ),
                       if (description != null)

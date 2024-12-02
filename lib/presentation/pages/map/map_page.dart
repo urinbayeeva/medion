@@ -1,10 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:medion/domain/sources/locations_data.dart';
 import 'package:medion/domain/models/location_model.dart';
-import 'package:medion/utils/helpers/map_helpers.dart';
 import 'package:medion/presentation/pages/map/widgets/location_list.dart';
-import 'package:yandex_mapkit/yandex_mapkit.dart';
-import 'package:medion/domain/sources/locations_data.dart' as domainSources;
 import 'package:url_launcher/url_launcher.dart';
 
 class MapPage extends StatefulWidget {
@@ -15,27 +15,35 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  final locations = domainSources.locations;
-
-  YandexMapController? mapController; 
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
+  Set<Marker>? markers = {};
   int? selectedIndex;
+  GoogleMapController? controller;
 
-  @override
-  void initState() {
-    super.initState();
-    _requestLocationPermission();
-  }
+  static const CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(41.327405, 69.184021),
+    zoom: 12,
+  );
 
-  Future<void> _requestLocationPermission() async {
-    final status = await Permission.location.request();
-    if (status.isDenied || status.isPermanentlyDenied) {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Location permission is required to use the map.'),
+  void moveToLocation(int index) async {
+    if (!_controller.isCompleted) return;
+
+    final GoogleMapController controller = await _controller.future;
+
+    final Location location = locations[index];
+    await controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(location.latitude, location.longitude),
+          zoom: 15,
         ),
-      );
-    }
+      ),
+    );
+
+    setState(() {
+      selectedIndex = index;
+    });
   }
 
   Future<void> _openYandexTaxi(Location location) async {
@@ -48,33 +56,58 @@ class _MapPageState extends State<MapPage> {
     final url =
         'yandextaxi://order?start-lat=$startLat&start-lon=$startLon&end-lat=$endLat&end-lon=$endLon';
 
+    // ignore: deprecated_member_use
     if (await canLaunch(url)) {
+      // ignore: deprecated_member_use
       await launch(url);
     } else {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Yandex Taxi app is not installed.')),
       );
     }
   }
 
-  void moveToLocation(int index) async {
-    if (mapController == null) return; 
-
-    final location = locations[index];
-    await mapController!.moveCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: Point(
-            latitude: location.latitude,
-            longitude: location.longitude,
-          ),
-          zoom: 15,
-        ),
-      ),
+  void _initializeMarkers() async {
+    BitmapDescriptor redMarkerIcon = await BitmapDescriptor.asset(
+      const ImageConfiguration(size: Size(48, 48)),
+      'assets/images/location.png',
     );
-    setState(() {
-      selectedIndex = index;
-    });
+
+    markers = {
+      Marker(
+        markerId: const MarkerId('Medion Clinics'),
+        position: const LatLng(41.329388, 69.258434),
+        infoWindow: const InfoWindow(
+          title: 'Medion Clinics, Aesthetic & SPA',
+        ),
+        icon: redMarkerIcon,
+      ),
+      Marker(
+        markerId: const MarkerId('Medion Family Hospital'),
+        position: const LatLng(41.327405, 69.184021),
+        infoWindow: const InfoWindow(
+          title: 'Medion Family Hospital',
+        ),
+        icon: redMarkerIcon,
+      ),
+      Marker(
+        markerId: const MarkerId('Medion Innovation'),
+        position: const LatLng(41.326456, 69.249044),
+        infoWindow: const InfoWindow(
+          title: 'Medion Innovation',
+        ),
+        icon: redMarkerIcon,
+      ),
+    };
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    _initializeMarkers();
+    super.initState();
   }
 
   @override
@@ -82,27 +115,14 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       body: Stack(
         children: [
-          YandexMap(
-            mapObjects: locations.map((location) {
-              return PlacemarkMapObject(
-                opacity: 1,
-                mapId: MapObjectId(location.name),
-                point: Point(
-                    latitude: location.latitude, longitude: location.longitude),
-                icon: PlacemarkIcon.single(
-                  PlacemarkIconStyle(
-                    image: BitmapDescriptor.fromAssetImage(
-                        'assets/images/marker.webp'),
-                    scale: 0.1,
-                  ),
-                ),
-              );
-            }).toList(),
-            onMapCreated: (controller) async {
-              mapController = controller; 
-              final bounds = calculateBounds(locations);
-              await mapController!.moveCamera(CameraUpdate.newBounds(bounds));
+          GoogleMap(
+            markers: markers ?? {},
+            mapType: MapType.normal,
+            initialCameraPosition: _kGooglePlex,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
             },
+            myLocationButtonEnabled: false,
           ),
           Align(
             alignment: Alignment.bottomCenter,
