@@ -34,7 +34,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
 
   Widget buildDoctorItem(Map<String, dynamic> doctor, bool isInnerPage) {
     return DoctorsItem(
-      isInnerPageUsed: isInnerPage,
+      // isInnerPageUsed: isInnerPage,
       name: doctor['name'],
       profession: doctor['profession'],
       experience: doctor['experience'],

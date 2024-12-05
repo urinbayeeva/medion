@@ -1,10 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:medion/domain/sources/locations_data.dart';
 import 'package:medion/domain/models/location_model.dart';
+import 'package:medion/domain/sources/upcoming_reception_data.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/pages/map/widgets/location_list.dart';
+import 'package:medion/presentation/styles/theme.dart';
+import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MapPage extends StatefulWidget {
@@ -112,29 +118,46 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          GoogleMap(
-            markers: markers ?? {},
-            mapType: MapType.normal,
-            initialCameraPosition: _kGooglePlex,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-            myLocationButtonEnabled: false,
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: LocationList(
-              locations: locations,
-              selectedIndex: selectedIndex,
-              onTap: moveToLocation,
-              openYandexTaxi: _openYandexTaxi,
+    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+      return Scaffold(
+        body: Stack(
+          children: [
+            GoogleMap(
+              markers: markers ?? {},
+              mapType: MapType.normal,
+              initialCameraPosition: _kGooglePlex,
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
+              myLocationButtonEnabled: false,
             ),
-          ),
-        ],
-      ),
-    );
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: LocationList(
+                locations: locations,
+                selectedIndex: selectedIndex,
+                onTap: moveToLocation,
+                openYandexTaxi: _openYandexTaxi,
+              ),
+            ),
+            Positioned(
+                top: 65,
+                right: 16,
+                child: CircleAvatar(
+                  backgroundColor: colors.shade0,
+                  radius: 18.r,
+                  child: AnimationButtonEffect(
+                      onTap: () {
+                        context
+                            .read<BottomNavBarController>()
+                            .changeNavBar(false);
+                        Navigator.pop(context);
+                      },
+                      child: icons.cancel.svg(width: 20.w, height: 20.h)),
+                )),
+          ],
+        ),
+      );
+    });
   }
 }

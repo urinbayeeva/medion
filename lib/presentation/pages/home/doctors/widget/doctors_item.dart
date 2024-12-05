@@ -34,8 +34,8 @@ class DoctorsItem extends StatelessWidget {
         onTap: () {},
         child: isInnerPageUsed!
             ? Container(
-                padding: EdgeInsets.all(12.w),
-                margin: EdgeInsets.only(right: 12.w),
+                // padding: EdgeInsets.all(12.w),
+                // margin: EdgeInsets.only(right: 12.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),
                   color: colors.shade0,
@@ -61,10 +61,11 @@ class DoctorsItem extends StatelessWidget {
           children: [
             if (isCategoried == true) ...[
               Text(
-                categoryType!,
+                categoryType! ?? "",
                 style: fonts.regularSemLink
                     .copyWith(fontSize: 17.sp, fontWeight: FontWeight.w600),
-              )
+              ),
+              // 12.h.verticalSpace,
             ],
             Container(
               margin: EdgeInsets.only(right: 12.w),
@@ -75,7 +76,7 @@ class DoctorsItem extends StatelessWidget {
                   color: colors.shade0),
               child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Image.asset(imagePath ?? "", fit: BoxFit.contain)),
+                  child: Image.asset(imagePath ?? "", fit: BoxFit.cover)),
             ),
           ],
         );
@@ -83,8 +84,7 @@ class DoctorsItem extends StatelessWidget {
       if (candidateScience ?? false) ...[
         ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
           return Container(
-            width: 164.w,
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 2),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.r),
                 color: colors.error500),

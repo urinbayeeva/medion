@@ -31,6 +31,9 @@ generate_splash_icon:
 dart run flutter_native_splash:create
 
 
-show/hide bottomnavbar
+show bottomnavbar
    context.read<BottomNavBarController>().changeNavBar(false);
+
+hide bottomnavbar
+   context.read<BottomNavBarController>().changeNavBar(true);
 

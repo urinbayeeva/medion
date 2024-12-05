@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:provider/provider.dart';
-
 
 class ThemeWrapper extends StatelessWidget {
   final Function(
