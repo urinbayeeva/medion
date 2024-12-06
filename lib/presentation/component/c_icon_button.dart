@@ -22,7 +22,7 @@ class CIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return AnimationButtonEffect(
-        onTap: () {},
+        onTap: onTap,
         child: Container(
           height: 48.h,
           decoration: BoxDecoration(

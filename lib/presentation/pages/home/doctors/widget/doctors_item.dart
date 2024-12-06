@@ -13,6 +13,7 @@ class DoctorsItem extends StatelessWidget {
   final bool? isInnerPageUsed;
   final bool? isCategoried;
   final String? categoryType;
+  final VoidCallback onTap;
 
   const DoctorsItem({
     super.key,
@@ -24,14 +25,14 @@ class DoctorsItem extends StatelessWidget {
     this.experience,
     this.isInnerPageUsed = false,
     this.isCategoried = false,
-    this.categoryType,
+    this.categoryType, required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return AnimationButtonEffect(
-        onTap: () {},
+        onTap: onTap,
         child: isInnerPageUsed!
             ? Container(
                 // padding: EdgeInsets.all(12.w),

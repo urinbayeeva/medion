@@ -69,6 +69,7 @@ class _CAppBarState extends State<CAppBar> {
                 ? ImageFilter.blur(sigmaX: 50, sigmaY: 50)
                 : ImageFilter.blur(),
             child: Container(
+              width: double.infinity,
               // height: 58.h,
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -135,6 +136,7 @@ class _CAppBarState extends State<CAppBar> {
                     ],
                   ),
                   if (widget.bottom != null) ...[
+                    16.h.verticalSpace,
                     widget.bottom!,
                     12.h.verticalSpace,
                   ],

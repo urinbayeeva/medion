@@ -52,25 +52,11 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-  Future<void> _openYandexTaxi(Location location) async {
-    const startLat = 41.317405;
-    const startLon = 69.245021;
-
-    final endLat = location.latitude;
-    final endLon = location.longitude;
-
-    final url =
-        'yandextaxi://order?start-lat=$startLat&start-lon=$startLon&end-lat=$endLat&end-lon=$endLon';
-
-    // ignore: deprecated_member_use
-    if (await canLaunch(url)) {
-      // ignore: deprecated_member_use
-      await launch(url);
-    } else {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Yandex Taxi app is not installed.')),
-      );
+  Future<void> getUrl(double startLat, double startLon, double endLat, double endLon) async {
+    final String url = "https://3.redirect.appmetrica.yandex.com/route?start-lat=$startLat&start-lon=$startLon&end-lat=$endLat&end-lon=$endLon";
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
     }
   }
 
@@ -137,7 +123,10 @@ class _MapPageState extends State<MapPage> {
                 locations: locations,
                 selectedIndex: selectedIndex,
                 onTap: moveToLocation,
-                openYandexTaxi: _openYandexTaxi,
+                // Pass the getUrl callback here
+                openYandexTaxi: (startLat, startLon, endLat, endLon) {
+                  getUrl(startLat, startLon, endLat, endLon);
+                },
               ),
             ),
             Positioned(
@@ -148,10 +137,11 @@ class _MapPageState extends State<MapPage> {
                   radius: 18.r,
                   child: AnimationButtonEffect(
                       onTap: () {
-                        context
-                            .read<BottomNavBarController>()
-                            .changeNavBar(false);
-                        Navigator.pop(context);
+                        getUrl(
+                            41.327405,  // Example starting coordinates
+                            69.184021,  // Example starting coordinates
+                            69.184021,  // Example ending coordinates
+                            69.184021); // Example ending coordinates
                       },
                       child: icons.cancel.svg(width: 20.w, height: 20.h)),
                 )),

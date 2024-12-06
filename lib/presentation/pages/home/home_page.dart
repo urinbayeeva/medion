@@ -132,6 +132,7 @@ class HomePage extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final item = doctorsData[index];
                             return DoctorsItem(
+                              onTap: (){},
                               imagePath: item['image'],
                               name: item['name'],
                               profession: item['profession'],

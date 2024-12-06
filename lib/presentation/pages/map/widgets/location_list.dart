@@ -10,14 +10,14 @@ class LocationList extends StatelessWidget {
   final List<Location> locations;
   final int? selectedIndex;
   final Function(int) onTap;
-  final Future<void> Function(Location location) openYandexTaxi;
+  final void Function(double, double, double, double) openYandexTaxi;
 
   const LocationList({
     super.key,
     required this.locations,
     required this.selectedIndex,
     required this.onTap,
-    required this.openYandexTaxi, // New callback for opening Yandex Taxi
+    required this.openYandexTaxi,
   });
 
   @override
@@ -37,7 +37,17 @@ class LocationList extends StatelessWidget {
               itemBuilder: (context, index) {
                 final location = locations[index];
                 return GestureDetector(
-                  onTap: () => onTap(index),
+                  onTap: () {
+                    onTap(index); // Move to location
+                    // Trigger openYandexTaxi callback with location's lat/lon
+                    final selectedLocation = locations[index];
+                    openYandexTaxi(
+                      41.327405, // Example starting lat/lon
+                      69.184021, // Example starting lat/lon
+                      selectedLocation.latitude,
+                      selectedLocation.longitude,
+                    );
+                  },
                   child: Container(
                     height: 64.h,
                     margin: EdgeInsets.symmetric(vertical: 8.h),
@@ -66,10 +76,17 @@ class LocationList extends StatelessWidget {
             ),
             8.h.verticalSpace,
             CIconButton(
-              title: 'Заказать такси',
-              iconPath: "assets/images/yandex_png.png",
-              onTap: () => openYandexTaxi(locations[selectedIndex!]), // Call the passed function
-            ),
+                title: 'Заказать такси',
+                iconPath: "assets/images/yandex_png.png",
+                onTap: () {
+                  // Trigger taxi ordering with hardcoded coordinates for demonstration
+                  openYandexTaxi(
+                    41.327405, // Example starting coordinates
+                    69.184021, // Example starting coordinates
+                    41.326456, // Example ending coordinates
+                    69.249044, // Example ending coordinates
+                  );
+                }),
             20.h.verticalSpace,
           ],
         ),

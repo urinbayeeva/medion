@@ -134,7 +134,9 @@ class _StepFirstState extends State<StepFirst> {
               title: item['service'],
               subtitle: item['info'],
               iconPath: item['image'],
-              onTap: () => _handleNextStep(context),
+              onTap: () {
+
+                _handleNextStep(context);},
             );
           },
         );
@@ -142,6 +144,7 @@ class _StepFirstState extends State<StepFirst> {
         return StepSecond(
           pageController: _pageController,
           onTap: () {
+            context.read<BottomNavBarController>().changeNavBar(true);
             _handleNextStep(context);
           },
         );

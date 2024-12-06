@@ -21,57 +21,54 @@ class MedService extends StatelessWidget {
             return Stack(
               clipBehavior: Clip.none,
               children: [
-                AnimationButtonEffect(
-                  onTap: () {},
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 16),
-                    width: 135.w,
-                    height: 120.h,
-                    padding: EdgeInsets.all(8.w),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      color: data['color'],
-                    ),
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        // Positioned(
-                        //   bottom: -60,
-                        //   right: -20,
-                        //   child: Container(
-                        //     width: 110.w,
-                        //     // height: 110.w,
-                        //     decoration: BoxDecoration(
-                        //       shape: BoxShape.circle,
-                        //       gradient: RadialGradient(
-                        //         colors: [
-                        //           (data['avatarColor'] ?? Colors.grey)
-                        //               .withOpacity(0.2),
-                        //           (data['avatarColor'] ?? Colors.grey)
-                        //               .withOpacity(0.5),
-                        //           (data['avatarColor'] ?? Colors.grey)
-                        //               .withOpacity(0.8),
-                        //         ],
-                        //         radius: 0.7,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        Positioned(
-                          right: -34,
-                          bottom: -34,
-                          child: Image.asset(data['image'],
-                              width: 140.w, height: 140.h),
-                        ),
-                        Text(
-                          data['text'],
-                          style: fonts.xSmallLink.copyWith(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w500,
-                              color: colors.primary900),
-                        ),
-                      ],
-                    ),
+                Container(
+                  margin: const EdgeInsets.only(right: 16),
+                  width: 135.w,
+                  height: 120.h,
+                  padding: EdgeInsets.all(8.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: data['color'],
+                  ),
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      // Positioned(
+                      //   bottom: -60,
+                      //   right: -20,
+                      //   child: Container(
+                      //     width: 110.w,
+                      //     // height: 110.w,
+                      //     decoration: BoxDecoration(
+                      //       shape: BoxShape.circle,
+                      //       gradient: RadialGradient(
+                      //         colors: [
+                      //           (data['avatarColor'] ?? Colors.grey)
+                      //               .withOpacity(0.2),
+                      //           (data['avatarColor'] ?? Colors.grey)
+                      //               .withOpacity(0.5),
+                      //           (data['avatarColor'] ?? Colors.grey)
+                      //               .withOpacity(0.8),
+                      //         ],
+                      //         radius: 0.7,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      Positioned(
+                        right: -34,
+                        bottom: -34,
+                        child: Image.asset(data['image'],
+                            width: 140.w, height: 140.h),
+                      ),
+                      Text(
+                        data['text'],
+                        style: fonts.xSmallLink.copyWith(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w500,
+                            color: colors.primary900),
+                      ),
+                    ],
                   ),
                 ),
               ],

@@ -9,6 +9,7 @@ import 'package:medion/presentation/pages/appoinment/step_fifth.dart';
 import 'package:medion/presentation/pages/home/directions/directions_page.dart';
 import 'package:medion/presentation/pages/home/directions/component/inner_pages/directions_info_page.dart';
 import 'package:medion/presentation/pages/home/doctors/all_doctors_page.dart';
+import 'package:medion/presentation/pages/home/doctors/inner_page/about_doctor.dart';
 import 'package:medion/presentation/pages/home/home_page.dart';
 import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/pages/map/map_page.dart';
@@ -17,6 +18,7 @@ import 'package:medion/presentation/pages/auth/sign_up/sign_up_page.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_email.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_phone.dart';
 import 'package:medion/presentation/pages/auth/sign_up/verify_code_page.dart';
+import 'package:medion/presentation/pages/onboarding/onboarding_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/recipes_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/results_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/setting_page.dart';
@@ -178,5 +180,9 @@ class AppRoutes {
 
   static MaterialPageRoute getMapPage() {
     return MaterialPageRoute(builder: (_) => const MapPage());
+  }
+
+  static MaterialPageRoute getAboutDoctorPage() {
+    return MaterialPageRoute(builder: (_) => const AboutDoctor());
   }
 }

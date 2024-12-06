@@ -70,8 +70,8 @@ dependencies:
   sensors_plus: ^6.1.0
   flutter_local_notifications: ^18.0.1
   table_calendar:
-    path: lib/sub_package/table_calendar
-  
+     path: lib/sub_package/table_calendar
+
 
 dev_dependencies:
   flutter_test:

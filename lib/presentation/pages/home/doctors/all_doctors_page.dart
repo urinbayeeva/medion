@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +8,7 @@ import 'package:medion/domain/sources/doctors_data.dart';
 import 'package:medion/presentation/component/c_filter_bottomsheet.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -120,6 +119,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                           itemBuilder: (context, index) {
                             final doctor = foreignDoctorsData[index];
                             return DoctorsItem(
+                              onTap: () {},
                               imagePath: doctor['image'],
                               name: doctor['name'],
                               profession: doctor['profession'],
@@ -158,38 +158,10 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 itemBuilder: (context, index) {
                   final doctor = doctors[index];
                   return DoctorsItem(
+                    onTap: () {
+                      Navigator.push(context, AppRoutes.getAboutDoctorPage());
+                    },
                     categoryType: doctor['category'],
-                    imagePath: doctor['image'],
-                    name: doctor['name'],
-                    profession: doctor['profession'],
-                    status: doctor['status'],
-                    candidateScience: doctor['candidateScience'],
-                  );
-                },
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _buildForeignDoctorCategoryList(List<Map<String, dynamic>> doctors) {
-    return ThemeWrapper(
-      builder: (context, colors, fonts, icons, controller) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            12.h.verticalSpace,
-            SizedBox(
-              height: 350,
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                itemCount: foreignDoctorsData.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  final doctor = doctors[index];
-                  return DoctorsItem(
                     imagePath: doctor['image'],
                     name: doctor['name'],
                     profession: doctor['profession'],

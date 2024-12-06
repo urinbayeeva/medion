@@ -7,25 +7,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'package:medion/presentation/core/app_init.dart';
+import 'package:medion/presentation/pages/core/app_init.dart';
 import 'package:medion/presentation/pages/core/my_app.dart';
 import 'package:medion/utils/app_config.dart';
 import 'package:medion/utils/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Hive.initFlutter();
   await AppInit.create;
   await initializeDateFormatting('ru', null);
-  WidgetsFlutterBinding.ensureInitialized();
-
 
   if (kDebugMode) {
     Bloc.observer = LogBlocObserver();
   }
+
   HttpOverrides.global = MyHttpOverrides();
+
   runZonedGuarded(() async {
     await SentryFlutter.init(
       (options) {
@@ -35,25 +36,28 @@ Future<void> main() async {
         options.profilesSampleRate = 1.0;
       },
       appRunner: () => runApp(ScreenUtilInit(
-          designSize: const Size(375, 812),
-          builder: (context, child) => MyApp(
-                dbService: AppInit.dbService!,
-                connectivityX: AppInit.connectivityX!,
-              ))),
+        designSize: const Size(375, 812),
+        builder: (context, child) => MyApp(
+          dbService: AppInit.dbService!,
+          connectivityX: AppInit.connectivityX!,
+        ),
+      )),
     );
+
     FlutterError.onError = (FlutterErrorDetails details) {
       FlutterError.presentError(details);
       Sentry.captureException(details.exception, stackTrace: details.stack);
     };
+
     AppConfig.create(
       appName: Constants.appName,
       baseUrl: Constants.baseUrlP,
       primaryColor: Colors.yellow,
       flavor: Flavor.prod,
     );
+
     await AppInit.create;
   }, (exception, stackTrace) async {
     await Sentry.captureException(exception, stackTrace: stackTrace);
   });
 }
-

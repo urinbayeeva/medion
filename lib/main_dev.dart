@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
-import 'package:medion/presentation/core/app_init.dart';
+import 'package:medion/presentation/pages/core/app_init.dart';
 import 'package:medion/presentation/pages/core/my_app.dart';
 import 'package:medion/utils/app_config.dart';
 import 'package:medion/utils/constants.dart';

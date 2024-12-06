@@ -1,52 +1,225 @@
-// import 'dart:io';
-// import 'package:bloc/bloc.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:hive_flutter/hive_flutter.dart';
-// import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
-// import 'package:medion/infrastructure/connectivity.dart';
-// import 'package:medion/infrastructure/services/local_database/db_service.dart';
-// import 'package:medion/infrastructure/services/log_service.dart';
-// import 'package:medion/main.dart';
+import 'dart:io';
 
-// class AppInit {
-//   static bool? connectivityX;
-//   static DBService? dbService;
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:logging/logging.dart';
+import 'package:medion/infrastructure/connectivity.dart';
+import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:medion/infrastructure/services/log_service.dart';
+import 'package:medion/presentation/styles/style.dart';
 
-//   AppInit._();
+class AppInit {
+  static bool? connectivityX;
 
-//   static Future<AppInit> get create async {
-//     await appInitialized();
-//     connectivityX ??= await ConnectivityX().create();
-//     dbService ??= await DBService.create;
-//     return AppInit._();
+  static DBService? dbService;
+
+  AppInit._();
+
+  static Future<AppInit> get create async {
+    await appInitialized();
+    connectivityX ??= await ConnectivityX().create();
+    dbService ??= await DBService.create;
+    // debugPrint('\nTOKEN: ${dbService?.token.toToken}\n');
+    return AppInit._();
+  }
+
+  static Future<void> appInitialized() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Hive.initFlutter();
+
+    /// Firebase
+
+    // await initializeFirebase();
+
+    /// LogService Create
+    LogService.create;
+
+    /// Device Orientation
+    await SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+    SystemChrome.setSystemUIOverlayStyle(Style.dark);
+    _setupLogging();
+    if (kDebugMode) {
+      Bloc.observer = LogBlocObserver();
+    }
+    HttpOverrides.global = MyHttpOverrides();
+    await ScreenUtil.ensureScreenSize();
+  }
+
+  static void _setupLogging() => Logger.root
+    ..level = kDebugMode ? Level.ALL : Level.WARNING
+    ..onRecord.listen((record) => debugPrint(
+          '${record.level.name}: '
+          '${record.time} '
+          '${record.loggerName}: '
+          '${record.message}',
+        ));
+}
+
+// @pragma('vm:entry-point')
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   await initializeFirebase();
+// }
+
+// Future<void> initializeFirebase() async {
+//   String flavor = AppConfig.shared.flavor.name;
+//   if (Firebase.apps.isEmpty) {
+//     await Firebase.initializeApp(
+//       name: flavor,
+//       options: DefaultFirebaseOptions().getOptions(flavor),
+//     );
+//   } else {
+//     Firebase.app();
+//   }
+// }
+
+/// bloc logger
+class LogBlocObserver extends BlocObserver {
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    if (kDebugMode) {
+      print("\n----------$bloc Changed-----------\n");
+    }
+  }
+
+  @override
+  void onClose(BlocBase bloc) {
+    super.onClose(bloc);
+    if (kDebugMode) {
+      print("$bloc closed---------------------");
+    }
+  }
+
+  @override
+  void onCreate(BlocBase bloc) {
+    super.onCreate(bloc);
+    if (kDebugMode) {
+      print("$bloc created---------------------");
+    }
+  }
+
+  @override
+  void onEvent(Bloc bloc, Object? event) {
+    super.onEvent(bloc, event);
+    if (kDebugMode) {
+      LogService.d('---------Event------------${bloc.runtimeType} $event');
+    }
+  }
+
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    super.onError(bloc, error, stackTrace);
+    if (kDebugMode) {
+      print('---------Error------------${bloc.runtimeType} $error');
+    }
+  }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    if (kDebugMode) {
+      print("--------------$bloc Transition---------------------");
+    }
+  }
+}
+
+/// ssl
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      // ..findProxy = (uri) {
+      //   return "PROXY  192.168.101.22:8888";
+      // }
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+// /// Allows you to set and enable a proxy for your app
+// class CustomProxy {
+//   /// A string representing an IP address for the proxy server
+//   final String ipAddress;
+
+//   /// The port number for the proxy server
+//   /// Can be null if port is default.
+//   final int? port;
+
+//   /// Set this to true
+//   /// - Warning: Setting this to true in production apps can be dangerous. Use with care!
+//   bool allowBadCertificates;
+
+//   /// Initializer
+//   CustomProxy({required this.ipAddress, this.port, this.allowBadCertificates = false});
+
+//   /// Initializer from string
+//   /// Note: Uses static method, rather than named init to allow final properties.
+//   static CustomProxy? fromString({required String? proxy}) {
+//     // Check if valid
+//     if (proxy == null || proxy == "") {
+//       assert(false, "Proxy string passed to CustomProxy.fromString() is invalid.");
+//       return null;
+//     }
+
+//     // Build and return
+//     final proxyParts = proxy.split(":");
+//     final ipAddress = proxyParts[0];
+//     final port = proxyParts.isNotEmpty ? int.tryParse(proxyParts[1]) : null;
+//     return CustomProxy(
+//       ipAddress: ipAddress,
+//       port: port ?? 0,
+//     );
 //   }
 
-//   static Future<void> appInitialized() async {
-//     WidgetsFlutterBinding.ensureInitialized();
-//     await Hive.initFlutter();
+//   /// Enable the proxy
+//   void enable() {
+//     HttpOverrides.global = CustomProxyHttpOverride.withProxy(toString());
+//   }
 
-//     // Initialize Firebase
-//     try {
-//       await Firebase.initializeApp();
-//       print("Firebase initialized successfully");
-//     } catch (e) {
-//       print("Error initializing Firebase: $e");
+//   /// Disable the proxy
+//   void disable() {
+//     HttpOverrides.global = null;
+//   }
+
+//   @override
+//   String toString() {
+//     String proxy = ipAddress;
+//     if (port != null) {
+//       proxy += ":$port";
 //     }
+//     return proxy;
+//   }
+// }
 
-//     // LogService Create
-//     LogService.create;
+// /// This class overrides the global proxy settings.
+// class CustomProxyHttpOverride extends HttpOverrides {
+//   /// The entire proxy server
+//   /// Format: "localhost:8888"
+//   final String proxyString;
 
-//     // Device Orientation
-//     await SystemChrome.setPreferredOrientations(
-//         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+//   /// Set this to true
+//   /// - Warning: Setting this to true in production apps can be dangerous. Use with care!
+//   final bool allowBadCertificates;
 
-//     if (kDebugMode) {
-//       Bloc.observer = LogBlocObserver();
-//     }
-//     HttpOverrides.global = MyHttpOverrides();
-//     await ScreenUtil.ensureScreenSize();
+//   /// Initializer
+//   CustomProxyHttpOverride.withProxy(
+//     this.proxyString, {
+//     this.allowBadCertificates = false,
+//   });
+
+//   @override
+//   HttpClient createHttpClient(SecurityContext? context) {
+//     return super.createHttpClient(context)
+//       ..findProxy = (uri) {
+//         assert(proxyString.isNotEmpty, 'You must set a valid proxy if you enable it!');
+//         return "PROXY $proxyString;";
+//       }
+//       ..badCertificateCallback = allowBadCertificates ? (X509Certificate cert, String host, int port) => true : null;
 //   }
 // }
