@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class NewsItem extends StatelessWidget {
@@ -20,7 +21,9 @@ class NewsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return AnimationButtonEffect(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context, AppRoutes.getNewsViewPage());
+          },
           child: Container(
             margin: EdgeInsets.only(right: 15.5.w),
             width: 164.w,

@@ -8,10 +8,10 @@ import 'package:medion/domain/sources/directions_data.dart';
 import 'package:medion/domain/sources/doctors_data.dart';
 import 'package:medion/domain/sources/news_data.dart';
 import 'package:medion/presentation/pages/home/widgets/adress_item.dart';
-import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
+import 'package:medion/presentation/pages/home/inner_pages/doctors/widget/doctors_item.dart';
 import 'package:medion/domain/sources/med_service.dart';
-import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
-import 'package:medion/presentation/pages/home/news/widgets/news_item.dart';
+import 'package:medion/presentation/pages/home/inner_pages/directions/widgets/medical_direction_item.dart';
+import 'package:medion/presentation/pages/home/inner_pages/news/widgets/news_item.dart';
 import 'package:medion/presentation/pages/home/widgets/problem_slidebale_card.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -97,7 +97,7 @@ class HomePage extends StatelessWidget {
                                   .copyWith(fontSize: 17.sp)),
                           IconButton(
                             padding: EdgeInsets.zero,
-                            onPressed: () {
+                            onPressed: () async {
                               context
                                   .read<BottomNavBarController>()
                                   .changeNavBar(true);
@@ -132,7 +132,7 @@ class HomePage extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final item = doctorsData[index];
                             return DoctorsItem(
-                              onTap: (){},
+                              onTap: () {},
                               imagePath: item['image'],
                               name: item['name'],
                               profession: item['profession'],
@@ -151,7 +151,12 @@ class HomePage extends StatelessWidget {
                                   .copyWith(fontSize: 17.sp)),
                           IconButton(
                             padding: EdgeInsets.zero,
-                            onPressed: () {},
+                            onPressed: () {
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(false);
+                              Navigator.push(context, AppRoutes.getNewsPage());
+                            },
                             icon: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [

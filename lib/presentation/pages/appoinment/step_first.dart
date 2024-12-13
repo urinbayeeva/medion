@@ -5,7 +5,7 @@ import 'package:medion/presentation/component/c_progress_bar.dart';
 import 'package:medion/domain/sources/appoinment_data.dart';
 import 'package:medion/presentation/pages/appoinment/step_second.dart';
 import 'package:medion/presentation/pages/appoinment/step_third.dart';
-import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
+import 'package:medion/presentation/pages/home/inner_pages/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -15,12 +15,13 @@ class StepFirst extends StatefulWidget {
   const StepFirst({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _StepFirstState createState() => _StepFirstState();
 }
 
 class _StepFirstState extends State<StepFirst> {
   final PageController _pageController = PageController();
-  int _currentStep = 0;
+  int _currentStep = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class _StepFirstState extends State<StepFirst> {
               // Custom App Bar
               CAppBar(
                 isBack: true,
-                onTap: _handleBackButton,
+                // onTap: _handleBackButton,
                 bordered: true,
                 padding: EdgeInsets.zero,
                 title: "Выберите тип услуги",
@@ -60,9 +61,8 @@ class _StepFirstState extends State<StepFirst> {
     );
   }
 
-  // Handles the back button logic
   void _handleBackButton() {
-    if (_currentStep > 0) {
+    if (_currentStep > 1) {
       setState(() => _currentStep--);
       _pageController.previousPage(
         duration: const Duration(milliseconds: 300),
@@ -118,7 +118,7 @@ class _StepFirstState extends State<StepFirst> {
   // Handles page changes in the PageView
   void _handlePageChange(int pageIndex) {
     setState(() => _currentStep = pageIndex + 1);
-    context.read<BottomNavBarController>().changeNavBar(_currentStep > 0);
+    // context.read<BottomNavBarController>().changeNavBar(_currentStep > 0);
   }
 
   // Builds the content for each step
@@ -135,8 +135,8 @@ class _StepFirstState extends State<StepFirst> {
               subtitle: item['info'],
               iconPath: item['image'],
               onTap: () {
-
-                _handleNextStep(context);},
+                _handleNextStep(context);
+              },
             );
           },
         );

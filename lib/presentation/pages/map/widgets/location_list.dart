@@ -26,7 +26,7 @@ class LocationList extends StatelessWidget {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         color: colors.shade0,
-        height: 320.h,
+        height: 322.h,
         child: Column(
           children: [
             ListView.builder(

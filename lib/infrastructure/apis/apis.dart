@@ -4,6 +4,7 @@ import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' show Client;
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
+import 'package:medion/domain/models/service_model/service_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
 import 'package:medion/domain/success_model/success_model.dart';
 import 'package:medion/infrastructure/core/exceptions.dart';
@@ -18,7 +19,7 @@ import 'package:medion/utils/constants.dart';
 part 'apis.chopper.dart';
 
 //users
-@ChopperApi(baseUrl: '/patient/')
+@ChopperApi(baseUrl: '/api/')
 @pragma('vm:entry-point')
 abstract class AuthService extends ChopperService {
   static AuthService create(DBService dbService) =>
@@ -81,6 +82,16 @@ abstract class AuthService extends ChopperService {
   @Get(path: 'profile')
   Future<Response<ProfileRes>> getProfile(
       {@Header('requires-token') String requiresToken = 'true'});
+}
+
+@ChopperApi(baseUrl: "/api/")
+abstract class MedService extends ChopperService {
+  @Get(path: 'medical_services')
+  Future<Response<List<ServiceResResult>>> getServiceTypes(
+    @Query('id') int? id,
+    @Query('name') String? name,
+    @Query('icon') String? icon,
+  );
 }
 
 @ChopperApi(baseUrl: '/business/')

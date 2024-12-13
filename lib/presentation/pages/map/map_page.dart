@@ -52,8 +52,10 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-  Future<void> getUrl(double startLat, double startLon, double endLat, double endLon) async {
-    final String url = "https://3.redirect.appmetrica.yandex.com/route?start-lat=$startLat&start-lon=$startLon&end-lat=$endLat&end-lon=$endLon";
+  Future<void> getUrl(
+      double startLat, double startLon, double endLat, double endLon) async {
+    final String url =
+        "https://3.redirect.appmetrica.yandex.com/route?start-lat=$startLat&start-lon=$startLon&end-lat=$endLat&end-lon=$endLon";
     final Uri uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
@@ -137,11 +139,15 @@ class _MapPageState extends State<MapPage> {
                   radius: 18.r,
                   child: AnimationButtonEffect(
                       onTap: () {
-                        getUrl(
-                            41.327405,  // Example starting coordinates
-                            69.184021,  // Example starting coordinates
-                            69.184021,  // Example ending coordinates
-                            69.184021); // Example ending coordinates
+                        context
+                            .read<BottomNavBarController>()
+                            .changeNavBar(false);
+                        Navigator.pop(context);
+                        // getUrl(
+                        //     41.327405,  // Example starting coordinates
+                        //     69.184021,  // Example starting coordinates
+                        //     69.184021,  // Example ending coordinates
+                        //     69.184021); // Example ending coordinates
                       },
                       child: icons.cancel.svg(width: 20.w, height: 20.h)),
                 )),

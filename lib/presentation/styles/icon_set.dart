@@ -75,6 +75,7 @@ class IconSet {
   final String yandex;
   final String emojiSad;
   final String checkS;
+  final String quote;
 
   IconSet._({
     required this.medicalHistoryFirst,
@@ -151,6 +152,7 @@ class IconSet {
     required this.yandex,
     required this.emojiSad,
     required this.checkS,
+    required this.quote,
   });
 
   static IconSet get create {
@@ -229,6 +231,7 @@ class IconSet {
       yandex: "assets/icons/yandex.svg",
       emojiSad: "assets/icons/emoji-sad_d.svg",
       checkS: "assets/icons/check_s.svg",
+      quote: "assets/icons/quote.svg",
     );
   }
 }

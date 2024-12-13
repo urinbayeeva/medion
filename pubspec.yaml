@@ -71,6 +71,7 @@ dependencies:
   flutter_local_notifications: ^18.0.1
   table_calendar:
      path: lib/sub_package/table_calendar
+  flutter_rating_bar: ^4.0.1
 
 
 dev_dependencies:

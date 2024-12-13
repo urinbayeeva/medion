@@ -7,7 +7,7 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/domain/sources/doctors_data.dart';
 import 'package:medion/presentation/component/c_filter_bottomsheet.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
-import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
+import 'package:medion/presentation/pages/home/inner_pages/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
