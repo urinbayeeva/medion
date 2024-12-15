@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_container.dart';
 import 'package:medion/presentation/component/custom_tabbar.dart';
-import 'package:medion/presentation/pages/home/inner_pages/doctors/widget/about_doctor_widget.dart';
+import 'package:medion/presentation/pages/home/doctors/widget/about_doctor_widget.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 

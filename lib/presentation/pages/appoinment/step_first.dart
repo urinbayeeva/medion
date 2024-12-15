@@ -5,7 +5,7 @@ import 'package:medion/presentation/component/c_progress_bar.dart';
 import 'package:medion/domain/sources/appoinment_data.dart';
 import 'package:medion/presentation/pages/appoinment/step_second.dart';
 import 'package:medion/presentation/pages/appoinment/step_third.dart';
-import 'package:medion/presentation/pages/home/inner_pages/directions/widgets/medical_direction_item.dart';
+import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';

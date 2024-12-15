@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/constants.dart';
 
 class NewsView extends StatelessWidget {
   const NewsView({super.key});
@@ -24,19 +25,29 @@ class NewsView extends StatelessWidget {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(childCount: 1, (_, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("5 звёзд от ассоциации медицинского туризма"),
-                      8.h.verticalSpace,
-                      Row(
-                        children: [
-                          icons.calendar.svg(width: 12.w, height: 12.h),
-                          4.w.horizontalSpace,
-                          Text("Июль 6, 2022"),
-                        ],
-                      )
-                    ],
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        12.h.verticalSpace,
+                        Text("5 звёзд от ассоциации медицинского туризма",
+                            style: fonts.mediumMain),
+                        8.h.verticalSpace,
+                        Row(
+                          children: [
+                            icons.calendar.svg(width: 12.w, height: 12.h),
+                            4.w.horizontalSpace,
+                            Text("Июль 6, 2022", style: fonts.xSmallMain),
+                          ],
+                        ),
+                        12.h.verticalSpace,
+                        Text(Constants.newsText,
+                            style: fonts.smallLink.copyWith(
+                                fontSize: 15.sp, fontWeight: FontWeight.w400)),
+                        100.h.verticalSpace,
+                      ],
+                    ),
                   );
                 }),
               ),
@@ -63,9 +74,14 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
       return Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            imageUrl,
-            fit: BoxFit.cover,
+          MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            removeBottom: true,
+            child: Image.asset(
+              imageUrl,
+              fit: BoxFit.cover,
+            ),
           ),
           Container(
             color: Colors.black.withOpacity(0.3),
@@ -75,9 +91,9 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
             left: 16.0,
             child: CircleAvatar(
               backgroundColor: colors.shade0,
-              radius: 20.r,
+              radius: 18.r,
               child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.black),
+                icon: icons.left.svg(width: 24.w, height: 24.h),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -89,9 +105,9 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
             right: 16.0,
             child: CircleAvatar(
               backgroundColor: colors.shade0,
-              radius: 20.r,
+              radius: 18.r,
               child: IconButton(
-                icon: Icon(Icons.share, color: Colors.black),
+                icon: icons.share.svg(width: 24.w, height: 24.h),
                 onPressed: () {
                   // Implement share functionality here
                 },

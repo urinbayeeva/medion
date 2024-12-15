@@ -7,7 +7,7 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/domain/sources/doctors_data.dart';
 import 'package:medion/presentation/component/c_filter_bottomsheet.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
-import 'package:medion/presentation/pages/home/inner_pages/doctors/widget/doctors_item.dart';
+import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -96,6 +96,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               8.h.verticalSpace,
               Expanded(
                 child: SingleChildScrollView(
+                  physics: ScrollPhysics(),
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,11 +151,12 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
             Text(category, style: fonts.regularSemLink),
             12.h.verticalSpace,
             SizedBox(
-              height: 350,
+              height: 380.h,
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 itemCount: doctors.length,
                 scrollDirection: Axis.horizontal,
+                // shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final doctor = doctors[index];
                   return DoctorsItem(

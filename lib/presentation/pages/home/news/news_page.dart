@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/domain/sources/news_data.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/presentation/pages/home/inner_pages/news/widgets/news_item.dart';
+import 'package:medion/presentation/pages/home/news/widgets/news_item.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class NewsPage extends StatelessWidget {

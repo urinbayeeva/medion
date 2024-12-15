@@ -25,7 +25,8 @@ class DoctorsItem extends StatelessWidget {
     this.experience,
     this.isInnerPageUsed = false,
     this.isCategoried = false,
-    this.categoryType, required this.onTap,
+    this.categoryType,
+    required this.onTap,
   });
 
   @override
@@ -85,7 +86,7 @@ class DoctorsItem extends StatelessWidget {
       if (candidateScience ?? false) ...[
         ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.r),
                 color: colors.error500),

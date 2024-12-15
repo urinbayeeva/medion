@@ -72,6 +72,9 @@ dependencies:
   table_calendar:
      path: lib/sub_package/table_calendar
   flutter_rating_bar: ^4.0.1
+  pull_to_refresh: ^2.0.0
+  shimmer: ^3.0.0
+  formz: ^0.8.0
 
 
 dev_dependencies:

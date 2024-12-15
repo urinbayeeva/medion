@@ -7,26 +7,33 @@ import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/domain/sources/directions_data.dart';
 import 'package:medion/domain/sources/doctors_data.dart';
 import 'package:medion/domain/sources/news_data.dart';
+import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
+import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
+import 'package:medion/presentation/pages/home/news/widgets/news_item.dart';
 import 'package:medion/presentation/pages/home/widgets/adress_item.dart';
-import 'package:medion/presentation/pages/home/inner_pages/doctors/widget/doctors_item.dart';
 import 'package:medion/domain/sources/med_service.dart';
-import 'package:medion/presentation/pages/home/inner_pages/directions/widgets/medical_direction_item.dart';
-import 'package:medion/presentation/pages/home/inner_pages/news/widgets/news_item.dart';
 import 'package:medion/presentation/pages/home/widgets/problem_slidebale_card.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool isChildren = false;
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Scaffold(
         backgroundColor: colors.backgroundColor,
         body: Column(
+          
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CAppBar(
@@ -239,6 +246,7 @@ class HomePage extends StatelessWidget {
                           url: '',
                           onTap: () {}),
                       80.h.verticalSpace,
+                      
                     ],
                   ),
                 ),
@@ -303,18 +311,28 @@ class HomePage extends StatelessWidget {
       children: [
         Text("Темы", style: fonts.smallMain),
         SizedBox(width: 12.w),
-        _buildOptionButton("Взрослые", colors.error500,
-            fonts.xSmallText.copyWith(color: colors.shade0)),
+        _buildOptionButton(
+            "Взрослые",
+            isChildren ? Color(0xFFEBEBEB) : colors.error500,
+            fonts.xSmallText.copyWith(
+                color: isChildren ? colors.primary900 : colors.shade0)),
         SizedBox(width: 4.w),
-        _buildOptionButton("Взрослые", const Color(0xFFEBEBEB),
-            fonts.xSmallText.copyWith(color: colors.primary900)),
+        _buildOptionButton(
+            "Дети",
+            isChildren ? colors.error500 : const Color(0xFFEBEBEB),
+            fonts.xSmallText.copyWith(
+                color: isChildren ? colors.shade0 : colors.primary900)),
       ],
     );
   }
 
   Widget _buildOptionButton(String text, Color color, TextStyle textStyle) {
     return AnimationButtonEffect(
-      onTap: () {},
+      onTap: () {
+        setState(() {
+          isChildren = !isChildren;
+        });
+      },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
         decoration: BoxDecoration(
