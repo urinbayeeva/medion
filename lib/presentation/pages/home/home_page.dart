@@ -33,7 +33,6 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(
         backgroundColor: colors.backgroundColor,
         body: Column(
-          
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CAppBar(
@@ -41,8 +40,14 @@ class _HomePageState extends State<HomePage> {
               isBack: false,
               title: "Главная",
               centerTitle: true,
-              trailing: icons.notification
-                  .svg(width: 24.w, height: 24.h, color: colors.primary900),
+              trailing: AnimationButtonEffect(
+                onTap: () {
+                  context.read<BottomNavBarController>().changeNavBar(false);
+                  Navigator.push(context, AppRoutes.getNotificationPage());
+                },
+                child: icons.notification
+                    .svg(width: 24.w, height: 24.h, color: colors.primary900),
+              ),
             ),
             Expanded(
               child: Padding(
@@ -246,7 +251,6 @@ class _HomePageState extends State<HomePage> {
                           url: '',
                           onTap: () {}),
                       80.h.verticalSpace,
-                      
                     ],
                   ),
                 ),

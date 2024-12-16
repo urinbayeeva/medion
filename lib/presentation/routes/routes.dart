@@ -13,6 +13,7 @@ import 'package:medion/presentation/pages/home/doctors/inner_page/about_doctor.d
 import 'package:medion/presentation/pages/home/home_page.dart';
 import 'package:medion/presentation/pages/home/news/news_page.dart';
 import 'package:medion/presentation/pages/home/news/news_view.dart';
+import 'package:medion/presentation/pages/home/notifications/notification_page.dart';
 import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/pages/map/map_page.dart';
 import 'package:medion/presentation/pages/auth/sign_up/data_entry_page.dart';
@@ -193,5 +194,9 @@ class AppRoutes {
 
   static MaterialPageRoute getNewsViewPage() {
     return MaterialPageRoute(builder: (_) => const NewsView());
+  }
+
+  static MaterialPageRoute getNotificationPage() {
+    return MaterialPageRoute(builder: (_) => const NotificationPage());
   }
 }
