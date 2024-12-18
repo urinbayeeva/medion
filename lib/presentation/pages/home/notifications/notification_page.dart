@@ -16,27 +16,31 @@ class NotificationPage extends StatelessWidget {
       builder: (context, colors, fonts, icons, controller) {
         return Scaffold(
           backgroundColor: colors.backgroundColor,
-          appBar: PreferredSize(
-              preferredSize: Size.fromHeight(56.h),
-              child: CAppBar(
+          body: Column(
+            children: [
+              CAppBar(
                 title: "Уведомления",
                 isBack: true,
                 centerTitle: true,
                 trailing: 23.w.horizontalSpace,
-              )),
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: CustomListView(
-              itemBuilder: (int index, Map<String, dynamic> item) {
-                return _buildNotificationTile(item);
-              },
-              data: notificationData,
-              status: FormzSubmissionStatus.canceled,
-              emptyWidgetModel: ErrorWidgetModel(
-                title: "",
-                subtitle: "",
               ),
-            ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: CustomListView(
+                    itemBuilder: (int index, Map<String, dynamic> item) {
+                      return _buildNotificationTile(item);
+                    },
+                    data: notificationData,
+                    status: FormzSubmissionStatus.canceled,
+                    emptyWidgetModel: ErrorWidgetModel(
+                      title: "",
+                      subtitle: "",
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -46,8 +50,7 @@ class NotificationPage extends StatelessWidget {
   Widget _buildNotificationTile(Map<String, dynamic> item) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Container(
-        padding: EdgeInsets.all(8.w),
-        margin: EdgeInsets.only(bottom: 12.h, top: 12.h),
+        margin: EdgeInsets.only(bottom: 12.h),
         decoration: BoxDecoration(
             color: colors.shade0, borderRadius: BorderRadius.circular(8.r)),
         child: ListTile(

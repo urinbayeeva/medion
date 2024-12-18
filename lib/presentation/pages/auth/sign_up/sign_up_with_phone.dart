@@ -14,12 +14,15 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/extensions.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
-
 class SignUpWithPhone extends StatefulWidget {
-    final Function(dynamic)? onClose;
+  final Function(dynamic)? onClose;
   final bool additionalPhone;
   final List<String>? phoneNumbers;
-  const SignUpWithPhone({super.key, this.onClose, required this.additionalPhone, this.phoneNumbers});
+  const SignUpWithPhone(
+      {super.key,
+      this.onClose,
+      required this.additionalPhone,
+      this.phoneNumbers});
 
   @override
   State<SignUpWithPhone> createState() => _SignUpWithPhoneState();
@@ -49,32 +52,32 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-
-   return BlocListener<AuthBloc, AuthState>(
-            listener: (context, state) {
-              if (state.successSendCode) {
-                SmsAutoFill().getAppSignature.then((value) {
-                  Navigator.push(
-                      context,
-                      AppRoutes.getVerifyCodePage(
-                          additionalPhone: widget.additionalPhone,
-                          onClose: widget.onClose,
-                          autofill: value,
-                          phoneNumber:
-                              formatPhoneNumber(_phoneNumberController.text),
-                          password: null));
-                });
-              }
-            },
-            listenWhen: (previous, current) =>
-                (previous.successSendCode != current.successSendCode &&
-                    current.successSendCode),
-            child: Scaffold(
+      return BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state.successSendCode) {
+            SmsAutoFill().getAppSignature.then((value) {
+              Navigator.push(
+                  context,
+                  AppRoutes.getVerifyCodePage(
+                      additionalPhone: widget.additionalPhone,
+                      onClose: widget.onClose,
+                      autofill: value,
+                      phoneNumber:
+                          formatPhoneNumber(_phoneNumberController.text),
+                      password: null));
+            });
+          }
+        },
+        listenWhen: (previous, current) =>
+            (previous.successSendCode != current.successSendCode &&
+                current.successSendCode),
+        child: Scaffold(
           backgroundColor: Colors.white,
           body: Column(
             children: [
               CAppBar(
-                  leading: icons.left.svg(width: 24.w, height: 24.h), title: ''),
+                  leading: icons.left.svg(width: 24.w, height: 24.h),
+                  title: ''),
               16.h.verticalSpace,
               Flexible(
                 child: Padding(
@@ -83,7 +86,8 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // const Spacer(),
-                      Text("Введите\nномер телефона", style: fonts.displaySecond),
+                      Text("Введите\nномер телефона",
+                          style: fonts.displaySecond),
                       8.h.verticalSpace,
                       Text(
                           "Чтобы войти, записаться на приёмы врачeй\nи следить за вашими посещениями",
@@ -93,9 +97,8 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                               fontWeight: FontWeight.w400)),
                       16.h.verticalSpace,
                       Form(
-                               key: _formKey,
+                        key: _formKey,
                         child: CustomTextField(
-                        
                           focusNode: focusNode,
                           autoFocus: true,
                           title: "",
@@ -131,25 +134,21 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                       ),
                       const Spacer(),
                       CustomButton(
-                             isDisabled: _phoneNumberController.text.length < 17,
+                          isDisabled: _phoneNumberController.text.length < 17,
                           title: "Выслать код",
                           onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                focusNode.unfocus();
-                                await SmsAutoFill()
-                                    .getAppSignature
-                                    .then((value) {
-                                  context
-                                      .read<AuthBloc>()
-                                      .add(AuthEvent.verificationSend(
-                                          request: VerificationSendReq(
-                                        (p0) => p0
+                            print(
+                                "Phone number: ${_phoneNumberController.text}");
+                            if (_formKey.currentState!.validate()) {
+                              focusNode.unfocus();
+                              await SmsAutoFill().getAppSignature.then((value) {
+                                context.read<AuthBloc>().add(
+                                    AuthEvent.verificationSend(
+                                        request: VerificationSendReq((p0) => p0
                                           ..phone = formatPhoneNumber(
-                                              _phoneNumberController.text)
-                                          ..autofill = value,
-                                      )));
-                                });
-                              }
+                                              _phoneNumberController.text))));
+                              });
+                            }
                           }),
                       27.h.verticalSpace,
                     ],

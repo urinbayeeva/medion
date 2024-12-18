@@ -26,36 +26,41 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                 padding: EdgeInsets.zero,
                 bottom: Column(
                   children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: CustomToggle(
-                        iconList: [
-                          Text(
-                            'Онлайн',
-                            style: fonts.xSmallLink.copyWith(
-                              color:
-                                  isOnline ? colors.shade0 : colors.primary900,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w600,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: CustomToggle(
+                          iconList: [
+                            Text(
+                              'Онлайн',
+                              style: fonts.xSmallLink.copyWith(
+                                color: isOnline
+                                    ? colors.shade0
+                                    : colors.primary900,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          Text(
-                            'Оффлайн',
-                            style: fonts.xSmallLink.copyWith(
-                              color:
-                                  !isOnline ? colors.shade0 : colors.primary900,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w600,
+                            Text(
+                              'Оффлайн',
+                              style: fonts.xSmallLink.copyWith(
+                                color: !isOnline
+                                    ? colors.shade0
+                                    : colors.primary900,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                        ],
-                        onChanged: (value) {
-                          setState(() {
-                            isOnline = value;
-                          });
-                        },
-                        current: isOnline,
-                        values: const [true, false],
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              isOnline = value;
+                            });
+                          },
+                          current: isOnline,
+                          values: const [true, false],
+                        ),
                       ),
                     ),
                   ],

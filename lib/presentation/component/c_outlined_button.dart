@@ -119,7 +119,7 @@ class CustomButton extends StatelessWidget {
         child: Container(
           width: isInfinityWidth ? double.infinity : null,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(borderRadius ?? 56.r),
+            borderRadius: BorderRadius.circular(borderRadius ?? 8.r),
             border: haveBorder
                 ? Border.all(
                     color: borderColor ??

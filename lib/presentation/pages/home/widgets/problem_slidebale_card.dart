@@ -21,7 +21,7 @@ class ProblemSlidebaleCard extends StatelessWidget {
                 onTap: () {},
                 child: Container(
                   width: 109.w,
-                  height: 112.h,
+                  height: 120.h,
                   padding: EdgeInsets.all(8.w),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.r),

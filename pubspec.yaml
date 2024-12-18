@@ -30,7 +30,7 @@ dependencies:
   open_filex: ^4.5.0
   html: ^0.15.4
   flutter_widget_from_html: ^0.15.1
-  connectivity_plus: ^6.0.5
+  connectivity_plus: ^6.1.1
   app_links: ^6.3.2
   upgrader: ^11.2.0
 
@@ -75,6 +75,10 @@ dependencies:
   pull_to_refresh: ^2.0.0
   shimmer: ^3.0.0
   formz: ^0.8.0
+  lottie: ^3.3.0
+  json_annotation: ^4.9.0
+  json_serializable: ^6.9.0
+  animations: ^2.0.11
 
 
 dev_dependencies:
@@ -89,6 +93,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/images/pngmarker.png
+    - assets/anim/
 
   fonts:
     - family: SF Pro Display

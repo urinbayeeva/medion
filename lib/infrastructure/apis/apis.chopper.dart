@@ -18,9 +18,23 @@ final class _$AuthService extends AuthService {
   final Type definitionType = AuthService;
 
   @override
+  Future<Response<SuccessModel>> phoneNumber(
+      {required VerificationSendReq request}) {
+    final Uri $url = Uri.parse('/patient/phone-number');
+    final $body = request;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<SuccessModel, SuccessModel>($request);
+  }
+
+  @override
   Future<Response<SuccessModel>> verificationSend(
       {required VerificationSendReq request}) {
-    final Uri $url = Uri.parse('/api/code');
+    final Uri $url = Uri.parse('/patient/code');
     final $body = request;
     final Request $request = Request(
       'POST',
@@ -34,7 +48,7 @@ final class _$AuthService extends AuthService {
   @override
   Future<Response<FCMTokenModel>> createAnonymousUser(
       {required FCMTokenModel request}) {
-    final Uri $url = Uri.parse('/api/anonymous/user/create');
+    final Uri $url = Uri.parse('/patient/anonymous/user/create');
     final $body = request;
     final Request $request = Request(
       'POST',
@@ -48,7 +62,7 @@ final class _$AuthService extends AuthService {
   @override
   Future<Response<LoginRes>> verificationVerify(
       {required VerificationVerifyReq request}) {
-    final Uri $url = Uri.parse('/api/verification-code/verify/');
+    final Uri $url = Uri.parse('/patient/verification-code/verify/');
     final $body = request;
     final Request $request = Request(
       'POST',
@@ -61,7 +75,7 @@ final class _$AuthService extends AuthService {
 
   @override
   Future<Response<SuccessModel>> registration({required RegisterReq request}) {
-    final Uri $url = Uri.parse('/api/registration/');
+    final Uri $url = Uri.parse('/patient/registration/');
     final $body = request;
     final Request $request = Request(
       'PUT',
@@ -74,7 +88,7 @@ final class _$AuthService extends AuthService {
 
   @override
   Future<Response<LoginRes>> signIn({required SignInReq request}) {
-    final Uri $url = Uri.parse('/api/login');
+    final Uri $url = Uri.parse('/patient/login');
     final $body = request;
     final Request $request = Request(
       'POST',
@@ -88,7 +102,7 @@ final class _$AuthService extends AuthService {
   @override
   Future<Response<SuccessModel>> updatePassword(
       {required ResetPasswordReq request}) {
-    final Uri $url = Uri.parse('/api/password');
+    final Uri $url = Uri.parse('/patient/password');
     final $body = request;
     final Request $request = Request(
       'PUT',
@@ -102,7 +116,7 @@ final class _$AuthService extends AuthService {
   @override
   Future<Response<LoginRes>> forgotPassword(
       {required ForgotPasswordReqModel request}) {
-    final Uri $url = Uri.parse('/api/forgot-password');
+    final Uri $url = Uri.parse('/patient/forgot-password');
     final $body = request;
     final Request $request = Request(
       'POST',
@@ -118,7 +132,7 @@ final class _$AuthService extends AuthService {
     required ProfileModel request,
     String requiresToken = 'true',
   }) {
-    final Uri $url = Uri.parse('/api/profile');
+    final Uri $url = Uri.parse('/patient/profile');
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
     };
@@ -138,7 +152,7 @@ final class _$AuthService extends AuthService {
     required VerificationVerifyReq request,
     String requiresToken = 'true',
   }) {
-    final Uri $url = Uri.parse('/api/phone-update/');
+    final Uri $url = Uri.parse('/patient/phone-update/');
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
     };
@@ -155,7 +169,7 @@ final class _$AuthService extends AuthService {
 
   @override
   Future<Response<dynamic>> deleteProfile({String requiresToken = 'true'}) {
-    final Uri $url = Uri.parse('/api/destroy');
+    final Uri $url = Uri.parse('/patient/destroy');
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
     };
@@ -173,7 +187,7 @@ final class _$AuthService extends AuthService {
     required VerificationVerifyReq request,
     String requiresToken = 'true',
   }) {
-    final Uri $url = Uri.parse('/api/verify/add-phone/');
+    final Uri $url = Uri.parse('/patient/verify/add-phone/');
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
     };
@@ -190,7 +204,7 @@ final class _$AuthService extends AuthService {
 
   @override
   Future<Response<ProfileRes>> getProfile({String requiresToken = 'true'}) {
-    final Uri $url = Uri.parse('/api/profile');
+    final Uri $url = Uri.parse('/patient/profile');
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
     };
@@ -221,7 +235,7 @@ final class _$MedService extends MedService {
     String? name,
     String? icon,
   ) {
-    final Uri $url = Uri.parse('/api/service_types');
+    final Uri $url = Uri.parse('/api/medical_services');
     final Map<String, dynamic> $params = <String, dynamic>{
       'id': id,
       'name': name,

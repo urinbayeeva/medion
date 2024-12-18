@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
+import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:provider/provider.dart';
 
 class OthersPageComp extends StatelessWidget {
   final List data;
@@ -30,7 +33,11 @@ class OthersPageComp extends StatelessWidget {
             return Column(
               children: [
                 AnimationButtonEffect(
-                  onTap: () {},
+                  onTap: () {
+                    context.read<BottomNavBarController>().changeNavBar(false);
+                    Navigator.push(context,
+                        AppRoutes.getUnderDevPage(appBarTitle: item['title']));
+                  },
                   child: ListTile(
                     leading: SvgPicture.asset(item['icon']),
                     title: Text(

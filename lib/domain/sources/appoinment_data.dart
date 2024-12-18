@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:medion/presentation/styles/theme.dart';
 
 List<Map<String, dynamic>> appointmentData = [

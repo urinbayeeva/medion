@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
-import 'package:medion/presentation/pages/appoinment/widgets/time_table_doctor.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -47,12 +46,12 @@ class _DoctorAppoinmentSelectPageState
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Column(
                   children: [
-                    TimeTableDoctor(
-                      doctorName: widget.doctorsName,
-                      doctorsJob: widget.doctorsJob,
-                      doctorsExperience: widget.doctorsExperience,
-                      doctorsImage: widget.doctorsImage,
-                    )
+                    // TimeTableDoctor(
+                    //   doctorName: widget.doctorsName,
+                    //   doctorsJob: widget.doctorsJob,
+                    //   doctorsExperience: widget.doctorsExperience,
+                    //   doctorsImage: widget.doctorsImage,
+                    // )
                   ],
                 ),
               ),
@@ -67,8 +66,8 @@ class _DoctorAppoinmentSelectPageState
               child: CButton(
                   title: "Продолжить",
                   onTap: () {
-                    Navigator.push(
-                        context, AppRoutes.getPaymentForAppoinment());
+                    // Navigator.push(
+                    //     context, AppRoutes.getPaymentForAppoinment());
                   },
                   iconPath: icons.right),
             ),

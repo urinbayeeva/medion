@@ -13,7 +13,7 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class AllDoctorsPage extends StatefulWidget {
-  const AllDoctorsPage({Key? key}) : super(key: key);
+  const AllDoctorsPage({super.key});
 
   @override
   State<AllDoctorsPage> createState() => _AllDoctorsPageState();
@@ -42,16 +42,12 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CAppBar(
-                title: "            Врачи",
+                title: "\t\t\t\t\t\tВрачи",
                 isBack: true,
                 hasToggle: true,
                 centerTitle: true,
                 toggleFirstText: "Врачи Медион",
                 toggleSecondText: "Зарубежные врачи",
-                onTap: () {
-                  context.read<BottomNavBarController>().changeNavBar(false);
-                  Navigator.pop(context);
-                },
                 trailing: Row(
                   children: [
                     icons.search.svg(width: 24.w, height: 24.h),
@@ -96,7 +92,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               8.h.verticalSpace,
               Expanded(
                 child: SingleChildScrollView(
-                  physics: ScrollPhysics(),
+                  physics: const ScrollPhysics(),
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

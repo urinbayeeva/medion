@@ -19,14 +19,14 @@ import 'package:medion/utils/constants.dart';
 part 'apis.chopper.dart';
 
 //users
-@ChopperApi(baseUrl: '/api/')
+@ChopperApi(baseUrl: '/patient/')
 @pragma('vm:entry-point')
 abstract class AuthService extends ChopperService {
   static AuthService create(DBService dbService) =>
       _$AuthService(_Client(Constants.baseUrlP, true, dbService));
 
-  @Post(path: 'code')
-  Future<Response<SuccessModel>> verificationSend({
+  @Post(path: 'phone-number')
+  Future<Response<SuccessModel>> phoneNumber({
     @Body() required VerificationSendReq request,
   });
 
@@ -82,6 +82,8 @@ abstract class AuthService extends ChopperService {
   @Get(path: 'profile')
   Future<Response<ProfileRes>> getProfile(
       {@Header('requires-token') String requiresToken = 'true'});
+
+  verificationSend({required VerificationSendReq request}) {}
 }
 
 @ChopperApi(baseUrl: "/api/")
