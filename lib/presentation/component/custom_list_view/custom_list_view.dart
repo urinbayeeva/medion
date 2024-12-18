@@ -131,7 +131,7 @@ class _CustomListViewState<T> extends State<CustomListView<T>> {
       child: Builder(builder: (context) {
         if (widget.status.isInitial) {
           return ListView(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 0.h),
             shrinkWrap: true,
             physics: widget.physics,
             reverse: widget.reverse,
@@ -256,8 +256,7 @@ class CustomErrorWidget extends StatelessWidget {
                   semanticsLabel: errorWidgetModel!.subtitle,
                   errorWidgetModel!.subtitle,
                   textAlign: TextAlign.center,
-                  style: fonts.xSmallLink
-                      .copyWith(color: colors.neutral700),
+                  style: fonts.xSmallLink.copyWith(color: colors.neutral700),
                 ),
               ),
               16.h.verticalSpace,
@@ -265,8 +264,8 @@ class CustomErrorWidget extends StatelessWidget {
                 Builder(builder: (context) {
                   if (errorWidgetModel!.isFocusedButton) {
                     return CustomButton(
-                        titleStyle: fonts.xSmallLink
-                            .copyWith(color: colors.neutral50),
+                        titleStyle:
+                            fonts.xSmallLink.copyWith(color: colors.neutral50),
                         isInfinityWidth: false,
                         horizontalPadding: 24.w,
                         verticalPadding: 12.h,

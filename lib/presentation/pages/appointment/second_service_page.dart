@@ -13,7 +13,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SecondServicePage extends StatefulWidget {
   final bool? isAdded;
-  const SecondServicePage({super.key, this.isAdded});
+  final VoidCallback onTap;
+  const SecondServicePage({super.key, this.isAdded, required this.onTap});
 
   @override
   State<SecondServicePage> createState() => _SecondServicePageState();
@@ -40,8 +41,9 @@ class _SecondServicePageState extends State<SecondServicePage> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
+                  padding: EdgeInsets.only(left: 16.w, right: 16.w),
                   child: CustomListView(
+                      padding: EdgeInsets.only(top: 16.w),
                       itemBuilder: (_, item) {
                         return CustomExpansionListTile(
                           title: item['service'],
@@ -120,6 +122,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                     ),
                                   ),
                                 ),
+                                24.h.verticalSpace,
                               ],
                             ),
                           ],
@@ -155,18 +158,51 @@ class _SecondServicePageState extends State<SecondServicePage> {
                               style: fonts.xSmallLink.copyWith(
                                   fontSize: 13.sp, fontWeight: FontWeight.bold),
                             ),
-                            icons.right.svg(
-                                width: 20.w,
-                                height: 20.h,
-                                color: colors.iconGreyColor)
+                            AnimationButtonEffect(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(16.w),
+                                        decoration: BoxDecoration(
+                                            color: colors.shade0,
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(8.r),
+                                                topRight:
+                                                    Radius.circular(8.r))),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              "Выбраны $chose услуги",
+                                              style: fonts.xSmallLink.copyWith(
+                                                  fontSize: 13.sp,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            4.h.verticalSpace,
+                                          ],
+                                        ),
+                                      );
+                                    });
+                              },
+                              child: icons.right.svg(
+                                  width: 20.w,
+                                  height: 20.h,
+                                  color: colors.iconGreyColor),
+                            )
                           ],
                         ),
                         12.h.verticalSpace,
                       ],
                       CButton(
                           title: "Продолжить",
-                          onTap: () {},
+                          onTap: widget.onTap,
                           iconPath: icons.right),
+                      24.h.verticalSpace,
                     ]),
               ),
             ],

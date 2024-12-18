@@ -13,7 +13,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DisplayAllServicesPage extends StatefulWidget {
   final VoidCallback? onTap;
-  const DisplayAllServicesPage({super.key,  this.onTap});
+  const DisplayAllServicesPage({super.key, this.onTap});
 
   @override
   State<DisplayAllServicesPage> createState() => _DisplayAllServicesPageState();
@@ -36,24 +36,21 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
       return CustomPagination(
         controller: _refreshController,
         onRetry: () {},
-        child: Padding(
-          padding: EdgeInsets.only(top: 16.h),
-          child: CustomListView(
-              itemBuilder: (_, item) {
-                return Padding(
-                  padding: EdgeInsets.only(left: 16.w, right: 16.w),
-                  child: MedicalDirectionItem(
+        child: CustomListView(
+            padding: EdgeInsets.only(top: 16.w),
+            itemBuilder: (_, item) {
+              return Padding(
+                padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                child: MedicalDirectionItem(
                     title: item['service'],
                     subtitle: item['info'],
                     iconPath: item['image'],
-                    onTap: widget.onTap!
-                  ),
-                );
-              },
-              data: appointmentData,
-              emptyWidgetModel: ErrorWidgetModel(title: "", subtitle: ""),
-              status: FormzSubmissionStatus.success),
-        ),
+                    onTap: widget.onTap!),
+              );
+            },
+            data: appointmentData,
+            emptyWidgetModel: ErrorWidgetModel(title: "", subtitle: ""),
+            status: FormzSubmissionStatus.success),
       );
     });
   }

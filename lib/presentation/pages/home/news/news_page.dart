@@ -13,31 +13,35 @@ class NewsPage extends StatelessWidget {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Scaffold(
         backgroundColor: colors.backgroundColor,
-        appBar: PreferredSize(
-            preferredSize: const Size(double.infinity, 56),
-            child: CAppBar(
+        body: Column(
+          children: [
+            CAppBar(
               bordered: true,
               title: "Новости",
               centerTitle: true,
               trailing: 24.w.horizontalSpace,
-            )),
-        body: GridView.builder(
-          padding: EdgeInsets.all(8.w),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 4.w,
-            mainAxisSpacing: 8.h,
-            childAspectRatio: 3 / 5,
-          ),
-          itemCount: newsData.length,
-          itemBuilder: (context, index) {
-            final item = newsData[index];
-            return NewsItem(
-              imagePath: item['image'],
-              title: item['title'],
-              subtitle: item['subtitle'],
-            );
-          },
+            ),
+            Expanded(
+              child: GridView.builder(
+                padding: EdgeInsets.all(8.w),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 4.w,
+                  mainAxisSpacing: 8.h,
+                  childAspectRatio: 3 / 5,
+                ),
+                itemCount: newsData.length,
+                itemBuilder: (context, index) {
+                  final item = newsData[index];
+                  return NewsItem(
+                    imagePath: item['image'],
+                    title: item['title'],
+                    subtitle: item['subtitle'],
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       );
     });

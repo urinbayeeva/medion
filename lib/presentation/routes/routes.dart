@@ -207,8 +207,8 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const AppointmentPage());
   }
 
-  static MaterialPageRoute getSecondServicePage() {
-    return MaterialPageRoute(builder: (_) => SecondServicePage());
+  static MaterialPageRoute getSecondServicePage(onTap) {
+    return MaterialPageRoute(builder: (_) => SecondServicePage(onTap: onTap));
   }
 
   static MaterialPageRoute getUnderDevPage({required appBarTitle}) {

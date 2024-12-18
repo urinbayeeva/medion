@@ -79,6 +79,7 @@ dependencies:
   json_annotation: ^4.9.0
   json_serializable: ^6.9.0
   animations: ^2.0.11
+  time_slot: ^1.0.0
 
 
 dev_dependencies:

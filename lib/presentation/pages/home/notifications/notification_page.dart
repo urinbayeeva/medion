@@ -25,21 +25,36 @@ class NotificationPage extends StatelessWidget {
                 trailing: 23.w.horizontalSpace,
               ),
               Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: CustomListView(
-                    itemBuilder: (int index, Map<String, dynamic> item) {
-                      return _buildNotificationTile(item);
-                    },
-                    data: notificationData,
-                    status: FormzSubmissionStatus.canceled,
-                    emptyWidgetModel: ErrorWidgetModel(
-                      title: "",
-                      subtitle: "",
-                    ),
+                  child: Column(
+                children: [
+                  const Spacer(),
+                  icons.ringBell.svg(),
+                  Text(
+                    "Уведомлений пока нету",
+                    style: fonts.regularLink.copyWith(
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w400,
+                        color: colors.neutral600),
                   ),
-                ),
-              ),
+                  const Spacer(),
+                ],
+              )),
+              // Expanded(
+              //   child: Padding(
+              //     padding: EdgeInsets.symmetric(horizontal: 16.w),
+              //     child: CustomListView(
+              //       itemBuilder: (int index, Map<String, dynamic> item) {
+              //         return _buildNotificationTile(item);
+              //       },
+              //       data: notificationData,
+              //       status: FormzSubmissionStatus.success,
+              //       emptyWidgetModel: ErrorWidgetModel(
+              //         title: "Уведомлений пока нету",
+              //         subtitle: "Уведомлений пока нету",
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         );

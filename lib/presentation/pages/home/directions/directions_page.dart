@@ -38,9 +38,6 @@ class _DirectionsPageState extends State<DirectionsPage> {
                 title: "Направления",
                 centerTitle: true,
                 isBack: true,
-                onTap: () {
-                  context.read<BottomNavBarController>().changeNavBar(false);
-                },
                 trailing: icons.filter.svg(width: 24.w, height: 24.h),
               ),
               Expanded(
