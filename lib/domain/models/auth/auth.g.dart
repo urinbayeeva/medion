@@ -109,13 +109,6 @@ class _$VerificationVerifyReqSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.code;
-    if (value != null) {
-      result
-        ..add('code')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
     return result;
   }
 
@@ -133,10 +126,6 @@ class _$VerificationVerifyReqSerializer
       switch (key) {
         case 'phone':
           result.phone = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'code':
-          result.code = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -218,13 +207,6 @@ class _$SignInReqSerializer implements StructuredSerializer<SignInReq> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.password;
-    if (value != null) {
-      result
-        ..add('password')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
     return result;
   }
 
@@ -241,10 +223,6 @@ class _$SignInReqSerializer implements StructuredSerializer<SignInReq> {
       switch (key) {
         case 'phone':
           result.phone = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'password':
-          result.password = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -1011,14 +989,12 @@ class VerificationSendReqBuilder
 class _$VerificationVerifyReq extends VerificationVerifyReq {
   @override
   final String? phone;
-  @override
-  final String? code;
 
   factory _$VerificationVerifyReq(
           [void Function(VerificationVerifyReqBuilder)? updates]) =>
       (new VerificationVerifyReqBuilder()..update(updates))._build();
 
-  _$VerificationVerifyReq._({this.phone, this.code}) : super._();
+  _$VerificationVerifyReq._({this.phone}) : super._();
 
   @override
   VerificationVerifyReq rebuild(
@@ -1032,16 +1008,13 @@ class _$VerificationVerifyReq extends VerificationVerifyReq {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is VerificationVerifyReq &&
-        phone == other.phone &&
-        code == other.code;
+    return other is VerificationVerifyReq && phone == other.phone;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, phone.hashCode);
-    _$hash = $jc(_$hash, code.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -1049,8 +1022,7 @@ class _$VerificationVerifyReq extends VerificationVerifyReq {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'VerificationVerifyReq')
-          ..add('phone', phone)
-          ..add('code', code))
+          ..add('phone', phone))
         .toString();
   }
 }
@@ -1063,17 +1035,12 @@ class VerificationVerifyReqBuilder
   String? get phone => _$this._phone;
   set phone(String? phone) => _$this._phone = phone;
 
-  String? _code;
-  String? get code => _$this._code;
-  set code(String? code) => _$this._code = code;
-
   VerificationVerifyReqBuilder();
 
   VerificationVerifyReqBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _phone = $v.phone;
-      _code = $v.code;
       _$v = null;
     }
     return this;
@@ -1094,8 +1061,7 @@ class VerificationVerifyReqBuilder
   VerificationVerifyReq build() => _build();
 
   _$VerificationVerifyReq _build() {
-    final _$result =
-        _$v ?? new _$VerificationVerifyReq._(phone: phone, code: code);
+    final _$result = _$v ?? new _$VerificationVerifyReq._(phone: phone);
     replace(_$result);
     return _$result;
   }
@@ -1193,13 +1159,11 @@ class RegisterReqBuilder implements Builder<RegisterReq, RegisterReqBuilder> {
 class _$SignInReq extends SignInReq {
   @override
   final String? phone;
-  @override
-  final String? password;
 
   factory _$SignInReq([void Function(SignInReqBuilder)? updates]) =>
       (new SignInReqBuilder()..update(updates))._build();
 
-  _$SignInReq._({this.phone, this.password}) : super._();
+  _$SignInReq._({this.phone}) : super._();
 
   @override
   SignInReq rebuild(void Function(SignInReqBuilder) updates) =>
@@ -1211,25 +1175,20 @@ class _$SignInReq extends SignInReq {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is SignInReq &&
-        phone == other.phone &&
-        password == other.password;
+    return other is SignInReq && phone == other.phone;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, phone.hashCode);
-    _$hash = $jc(_$hash, password.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'SignInReq')
-          ..add('phone', phone)
-          ..add('password', password))
+    return (newBuiltValueToStringHelper(r'SignInReq')..add('phone', phone))
         .toString();
   }
 }
@@ -1241,17 +1200,12 @@ class SignInReqBuilder implements Builder<SignInReq, SignInReqBuilder> {
   String? get phone => _$this._phone;
   set phone(String? phone) => _$this._phone = phone;
 
-  String? _password;
-  String? get password => _$this._password;
-  set password(String? password) => _$this._password = password;
-
   SignInReqBuilder();
 
   SignInReqBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _phone = $v.phone;
-      _password = $v.password;
       _$v = null;
     }
     return this;
@@ -1272,7 +1226,7 @@ class SignInReqBuilder implements Builder<SignInReq, SignInReqBuilder> {
   SignInReq build() => _build();
 
   _$SignInReq _build() {
-    final _$result = _$v ?? new _$SignInReq._(phone: phone, password: password);
+    final _$result = _$v ?? new _$SignInReq._(phone: phone);
     replace(_$result);
     return _$result;
   }

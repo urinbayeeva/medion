@@ -19,10 +19,9 @@ class DoctorsDateItem extends StatefulWidget {
 }
 
 class _DoctorsDateItemState extends State<DoctorsDateItem> {
+  int _selectedDateIndex = 0;
   @override
   Widget build(BuildContext context) {
-    int _selectedDateIndex = 0;
-
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -73,7 +72,10 @@ class _DoctorsDateItemState extends State<DoctorsDateItem> {
                   (index) => GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedDateIndex = index;
+                        // Ensure valid index
+                        if (index >= 0 && index < doctorsTimeData.length) {
+                          _selectedDateIndex = index;
+                        }
                       });
                     },
                     child: Container(

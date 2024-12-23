@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' show Client;
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
+import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/models/service_model/service_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
 import 'package:medion/domain/success_model/success_model.dart';
@@ -25,6 +27,11 @@ abstract class AuthService extends ChopperService {
   static AuthService create(DBService dbService) =>
       _$AuthService(_Client(Constants.baseUrlP, true, dbService));
 
+  @Post(path: 'registration')
+  Future<Response<SuccessModel>> verificationSend({
+    @Body() required VerificationSendReq request,
+  });
+
   @Post(path: 'phone-number')
   Future<Response<SuccessModel>> phoneNumber({
     @Body() required VerificationSendReq request,
@@ -45,7 +52,7 @@ abstract class AuthService extends ChopperService {
     @Body() required RegisterReq request,
   });
 
-  @Post(path: 'login')
+  @Post(path: 'phone-number')
   Future<Response<LoginRes>> signIn({
     @Body() required SignInReq request,
   });
@@ -82,18 +89,25 @@ abstract class AuthService extends ChopperService {
   @Get(path: 'profile')
   Future<Response<ProfileRes>> getProfile(
       {@Header('requires-token') String requiresToken = 'true'});
-
-  verificationSend({required VerificationSendReq request}) {}
 }
 
-@ChopperApi(baseUrl: "/api/")
+///HOME
+
+@ChopperApi(baseUrl: "/home/")
 abstract class MedService extends ChopperService {
   @Get(path: 'medical_services')
   Future<Response<List<ServiceResResult>>> getServiceTypes(
-    @Query('id') int? id,
-    @Query('name') String? name,
-    @Query('icon') String? icon,
+    @Query('title') String? title,
+    @Query('info') String? info,
+    @Query('for_children') bool? forChildren,
+    @Query('link') bool? link,
+    @Query('background_color') String? color,
   );
+
+  @Get(path: 'news')
+  Future<Response<BuiltList<News>>> getNews();
+
+  static MedService create([ChopperClient? client]) => _$MedService(client);
 }
 
 @ChopperApi(baseUrl: '/business/')
@@ -132,6 +146,7 @@ base class _Client extends ChopperClient {
                     HttpLoggingInterceptor(),
                     CurlInterceptor(),
                     NetworkInterceptor(),
+            
                     RetryInterceptor(
                         maxRetries: 3, retryDelay: const Duration(seconds: 2)),
                     BackendInterceptor(),

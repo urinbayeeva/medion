@@ -35,6 +35,7 @@ class CustomListView<T> extends StatefulWidget {
   final String? errorMessage;
   final String? errorTitle;
   final String? errorIcon;
+  final int? count;
 
   const CustomListView({
     super.key,
@@ -62,6 +63,7 @@ class CustomListView<T> extends StatefulWidget {
     this.errorMessage,
     this.errorTitle,
     this.errorIcon,
+    this.count,
   });
 
   @override
@@ -189,7 +191,8 @@ class _CustomListViewState<T> extends State<CustomListView<T>> {
               // controller: widget.scrollController,
               shrinkWrap: true,
               scrollDirection: widget.scrollDirection ?? Axis.vertical,
-              initialItemCount: widget.data.length,
+              initialItemCount:
+                  widget.count == null ? widget.data.length : widget.count!,
               itemBuilder: (context, index, animation) {
                 if (widget.data.length - 1 < index) {
                   return const SizedBox();

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,12 +27,11 @@ class _SignUpPageState extends State<SignUpPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              Text("Войдите,\nчтобы начать",
+              Text("sign_in_to_get_started".tr(),
                   style:
                       fonts.displaySecond.copyWith(color: colors.primary900)),
               8.h.verticalSpace,
-              Text(
-                  "Продолжая, вы соглашаетесь с нашими Условиями использования и подтверждаете, что прочитали наше заявление о конфиденциальности и файлах cookie",
+              Text("by_continuing_you_agree".tr(),
                   style: fonts.xSmallText.copyWith(
                       color: colors.neutral600,
                       fontSize: 15.sp,
@@ -39,22 +39,22 @@ class _SignUpPageState extends State<SignUpPage> {
               32.h.verticalSpace,
               _buildListTile(
                   imagePath: icons.medicalHistoryFirst,
-                  title: "Запишитесь на приём врача онлайн",
-                  description: "30+ направлений и их услуги"),
+                  title: "make_an_appoinment_doctor_online".tr(),
+                  description: "destination and their services".tr()),
               14.h.verticalSpace,
               _buildListTile(
                   imagePath: icons.calendarFirst,
-                  title: "Следите за своими посещениями",
-                  description: "Ваши предстоящие и последние посещения"),
+                  title: "keep_tracks_of_your_visits".tr(),
+                  description: "your_upcomings_and_visits".tr()),
               14.h.verticalSpace,
               _buildListTile(
                   imagePath: icons.folderFirst,
-                  title: "Легко получайте результаты анализов",
-                  description: "Ваши заключения врачей и анализы"),
+                  title: "get_your_analyze_easy".tr(),
+                  description: "your_doctors_reports_and_test".tr()),
               const Spacer(),
               CButton(
                 iconPath: icons.phoneTwo,
-                title: "Продолжить с номером телефона",
+                title: "continue_with_phone_number".tr(),
                 onTap: () {
                   Navigator.push(context, AppRoutes.getSignUpWithPhone());
                 },
@@ -65,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 textColor: colors.primary900,
                 // hasBorderRadius: true,
                 iconPath: icons.mail,
-                title: "Продолжить с e-mail",
+                title: "continue_with_email".tr(),
                 onTap: () =>
                     Navigator.push(context, AppRoutes.getSignUpPageWithEmail()),
               ),

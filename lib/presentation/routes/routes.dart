@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/domain/sources/doctor_appoinment_select_page.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/appointment/second_service_page.dart';
+import 'package:medion/presentation/pages/core/choose_language_page.dart';
+import 'package:medion/presentation/pages/core/no_connection.dart';
 
 import 'package:medion/presentation/pages/home/directions/component/inner_pages/directions_info_page.dart';
 import 'package:medion/presentation/pages/home/directions/directions_page.dart';
@@ -23,6 +26,7 @@ import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_email.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_phone.dart';
 import 'package:medion/presentation/pages/auth/sign_up/verify_code_page.dart';
 import 'package:medion/presentation/pages/onboarding/onboarding_page.dart';
+import 'package:medion/presentation/pages/onboarding/splash_page.dart';
 import 'package:medion/presentation/pages/others/under_dev_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/recipes_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/results_page.dart';
@@ -34,8 +38,40 @@ import 'package:medion/presentation/pages/visits/my_visits_page.dart';
 import '../../infrastructure/apis/apis.dart';
 
 class AppRoutes {
-  static MaterialPageRoute getOnBoardingPage({context}) {
-    return MaterialPageRoute(builder: (_) => const MainPage());
+  static PageRoute onGenerateRoute(
+      {required BuildContext context,
+      required bool notConnection,
+      required bool isLang,
+      Uri? initLink}) {
+    ScreenUtil.init(context, designSize: const Size(390, 846));
+    if (notConnection) {
+      return getNetworkNotFound();
+    } else if (!isLang) {
+      return getLangPage();
+    } else {
+      return getMainPage(0);
+    }
+  }
+
+  static MaterialPageRoute getOnboardingPage() {
+    // AnalyticsService().analyzeScreenView('getNetworkNotFound');
+    return MaterialPageRoute(
+      builder: (_) => const OnboardingPage(),
+    );
+  }
+
+  static MaterialPageRoute getNetworkNotFound() {
+    // AnalyticsService().analyzeScreenView('getNetworkNotFound');
+    return MaterialPageRoute(
+      builder: (_) => const NoConnection(),
+    );
+  }
+
+  static MaterialPageRoute getLangPage() {
+    // AnalyticsService().analyzeScreenView('getLangPage');
+    return MaterialPageRoute(
+      builder: (_) => const ChooseLanguagePage(),
+    );
   }
 
   static MaterialPageRoute getSignUpPage() {

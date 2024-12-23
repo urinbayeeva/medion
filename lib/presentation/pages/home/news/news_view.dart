@@ -2,10 +2,72 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:medion/utils/constants.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class NewsView extends StatelessWidget {
+class NewsView extends StatefulWidget {
   const NewsView({super.key});
+
+  @override
+  State<NewsView> createState() => _NewsViewState();
+}
+
+class _NewsViewState extends State<NewsView> {
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+  late ScrollController scrollController;
+  late String currency;
+
+  List<dynamic> news = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    fetchNews();
+    super.initState();
+  }
+
+  Future<void> fetchNews() async {
+    final url = Uri.parse("https://his.uicgroup.tech/apiweb/home/news");
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          "Accept-Language": "ru_RU",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          news = data;
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Failed to load news")),
+        );
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("An error occurred: $e")),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,45 +76,64 @@ class NewsView extends StatelessWidget {
         bottom: false,
         child: Scaffold(
           backgroundColor: colors.backgroundColor,
-          body: CustomScrollView(
-            slivers: [
-              SliverPersistentHeader(
-                delegate: MySliverAppBar(
-                  expandedHeight: 300,
-                  imageUrl: 'assets/images/news_first.png',
-                ),
-                pinned: true,
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(childCount: 1, (_, index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        12.h.verticalSpace,
-                        Text("5 звёзд от ассоциации медицинского туризма",
-                            style: fonts.mediumMain),
-                        8.h.verticalSpace,
-                        Row(
-                          children: [
-                            icons.calendar.svg(width: 12.w, height: 12.h),
-                            4.w.horizontalSpace,
-                            Text("Июль 6, 2022", style: fonts.xSmallMain),
-                          ],
+          body: isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : SmartRefresher(
+                  controller: _refreshController,
+                  onRefresh: () async {
+                    await fetchNews();
+                    _refreshController.refreshCompleted();
+                  },
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverPersistentHeader(
+                        delegate: MySliverAppBar(
+                          expandedHeight: 350,
+                          imageUrl: 'assets/images/news_first.png',
                         ),
-                        12.h.verticalSpace,
-                        Text(Constants.newsText,
-                            style: fonts.smallLink.copyWith(
-                                fontSize: 15.sp, fontWeight: FontWeight.w400)),
-                        100.h.verticalSpace,
-                      ],
-                    ),
-                  );
-                }),
-              ),
-            ],
-          ),
+                        pinned: true,
+                      ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          childCount: news.length,
+                          (_, index) {
+                            final item = news[index];
+                            return Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 8.h),
+                                  Text(
+                                    item["title"] ?? "No title",
+                                    style: fonts.mediumMain.copyWith(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(height: 4.h),
+                                  Text(
+                                    item["info"] ?? "No info available",
+                                    style: fonts.smallLink.copyWith(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(height: 12.h),
+                                  item["image"] != null
+                                      ? Image.network(
+                                          item["image"],
+                                          fit: BoxFit.cover,
+                                        )
+                                      : SizedBox.shrink(),
+                                  SizedBox(height: 120.h),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
         ),
       );
     });

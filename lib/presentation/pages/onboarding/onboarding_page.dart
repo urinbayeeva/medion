@@ -1,4 +1,6 @@
+import 'package:circle_flags/circle_flags.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -59,21 +61,18 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   children: <Widget>[
                     _buildPage(
                       imagePath: icons.medicalHistoryFirst,
-                      title: "Запишитесь на приём\nврача онлайн",
-                      description:
-                          "Выберите один из многих направлений\nклиники Medion и запишитесь на приёмы\nсамых опытных врачей",
+                      title: "make_an_appoinment_doctor_online".tr(),
+                      description: "choose_one_of_the_many".tr(),
                     ),
                     _buildPage(
                       imagePath: icons.calendarFirst,
-                      title: "Следите за своими\nпосещениями",
-                      description:
-                          "Записывайтесь на приёмы врачей\nи не забывайте о них с помощью\nфункции отслеживания приёмов",
+                      title: "keep_tracks_of_your_visits".tr(),
+                      description: "make_appointments_with_doctors".tr(),
                     ),
                     _buildPage(
                       imagePath: icons.folderFirst,
-                      title: "Легко получайте\nрезультаты анализов",
-                      description:
-                          "Ваши анализы и заключения врачей на одном месте. Получите их легко сидя дома или вернитесь на любую дату чтоб найти результаты",
+                      title: "get_your_analyze_easy".tr(),
+                      description: "your_test_and_doctors_opinions".tr(),
                     ),
                   ],
                 ),
@@ -104,7 +103,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           context, AppRoutes.getSignUpPage());
                     }
                   },
-                  title: currentIndexPage < 2 ? "Следующий" : "Давайте начнём"),
+                  title:
+                      currentIndexPage < 2 ? "next".tr() : "lets_start".tr()),
               14.h.verticalSpace,
             ],
           ),
@@ -117,13 +117,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Align(
         alignment: Alignment.topRight,
-        child: AnimationButtonEffect(
-          onTap: () => _pageController.jumpTo(2),
-          child: Text("Пропустить",
-              style: fonts.smallText.copyWith(
-                  color: colors.neutral600,
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CircleFlag(Flag.UZ),
+            AnimationButtonEffect(
+              onTap: () => _pageController.jumpToPage(2),
+              child: Text("skip".tr(),
+                  style: fonts.smallText.copyWith(
+                      color: colors.neutral600,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500)),
+            ),
+          ],
         ),
       );
     });

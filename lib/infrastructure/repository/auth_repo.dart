@@ -20,13 +20,11 @@ class AuthRepository implements IAuthFacade {
   final DBService _dbService;
   final AuthService _authService;
   final BusinessService _businessService;
- 
 
   AuthRepository(
     this._dbService,
     this._authService,
     this._businessService,
-
   );
 
   /// Get user
@@ -66,7 +64,9 @@ class AuthRepository implements IAuthFacade {
       if (res.isSuccessful) {
         return right(res.body!);
       } else {
-        return left(const InvalidCredentials(message: 'invalid_credential'));
+        return left(InvalidCredentials(
+          message: 'invalid_credential',
+        ));
       }
     } catch (e) {
       LogService.e(" ----> error on repo  : ${e.toString()}");

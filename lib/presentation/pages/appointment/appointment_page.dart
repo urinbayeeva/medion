@@ -7,7 +7,9 @@ import 'package:medion/presentation/component/c_progress_bar.dart';
 import 'package:medion/presentation/component/un_focus_widget.dart';
 import 'package:medion/presentation/pages/appointment/display_all_services_page.dart';
 import 'package:medion/presentation/pages/appointment/doctor_time_and_service.dart';
+import 'package:medion/presentation/pages/appointment/payment_page.dart';
 import 'package:medion/presentation/pages/appointment/second_service_page.dart';
+import 'package:medion/presentation/pages/appointment/verify_appointment.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -54,12 +56,24 @@ class _AppointmentPageState extends State<AppointmentPage> {
           });
         },
       ), "Inner Services", AddAppointmentScreenType.secondService),
-      _AddAppointmentUseCaseModel(const DoctorTimeAndService(), "Doctors Time",
-          AddAppointmentScreenType.doctorsTime),
-      _AddAppointmentUseCaseModel(const DoctorTimeAndService(),
-          "Fourth Service", AddAppointmentScreenType.fourthService),
-      _AddAppointmentUseCaseModel(const DisplayAllServicesPage(), "Payment",
-          AddAppointmentScreenType.payment),
+      _AddAppointmentUseCaseModel(DoctorTimeAndService(
+        onTap: () {
+          context.read<BottomNavBarController>().changeNavBar(true);
+          setState(() {
+            screenIndex++;
+          });
+        },
+      ), "Doctors Time", AddAppointmentScreenType.doctorsTime),
+      _AddAppointmentUseCaseModel(VerifyAppointment(
+        onTap: () {
+          context.read<BottomNavBarController>().changeNavBar(true);
+          setState(() {
+            screenIndex++;
+          });
+        },
+      ), "Fourth Service", AddAppointmentScreenType.fourthService),
+      _AddAppointmentUseCaseModel(
+          const PaymentPage(), "Payment", AddAppointmentScreenType.payment),
     ];
     Future.delayed(const Duration(milliseconds: 400), () {
       // context.read<BottomNavBarController>().changeNavBar(true);
@@ -96,7 +110,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 onTap: () {
                   context
                       .read<BottomNavBarController>()
-                      .changeNavBar(screenIndex == 2 ? true : false);
+                      .changeNavBar(screenIndex >= 2 ? true : false);
 
                   setState(() {
                     screenIndex--;

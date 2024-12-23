@@ -13,7 +13,8 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class DoctorTimeAndService extends StatefulWidget {
   final int? seansCount;
-  const DoctorTimeAndService({super.key, this.seansCount});
+  final VoidCallback onTap;
+  const DoctorTimeAndService({super.key, this.seansCount, required this.onTap});
 
   @override
   State<DoctorTimeAndService> createState() => _DoctorTimeAndServiceState();
@@ -90,7 +91,10 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                 ),
                 12.h.verticalSpace,
               ],
-              CButton(title: "Продолжить", onTap: () {}, iconPath: icons.right),
+              CButton(
+                  title: "Продолжить",
+                  onTap: widget.onTap,
+                  iconPath: icons.right),
               24.h.verticalSpace,
             ]),
           ),

@@ -33,7 +33,7 @@ class UnderDevPage extends StatelessWidget {
               ),
               Text(
                 textAlign: TextAlign.center,
-                "Эта страница находится в разработке!!! \nВсе функции будут доступны в следующем обновлении. Следите за обновлениями!",
+                "Эта страница находится в разработке!",
                 style: fonts.smallLink
                     .copyWith(fontSize: 12.sp, fontWeight: FontWeight.bold),
               ),

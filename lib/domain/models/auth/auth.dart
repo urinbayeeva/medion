@@ -33,9 +33,6 @@ abstract class VerificationVerifyReq
   @BuiltValueField(wireName: 'phone')
   String? get phone;
 
-  @BuiltValueField(wireName: 'code')
-  String? get code;
-
   static Serializer<VerificationVerifyReq> get serializer =>
       _$verificationVerifyReqSerializer;
 }
@@ -64,9 +61,6 @@ abstract class SignInReq implements Built<SignInReq, SignInReqBuilder> {
 
   @BuiltValueField(wireName: 'phone')
   String? get phone;
-
-  @BuiltValueField(wireName: 'password')
-  String? get password;
 
   static Serializer<SignInReq> get serializer => _$signInReqSerializer;
 }

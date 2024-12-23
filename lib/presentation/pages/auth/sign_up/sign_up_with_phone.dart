@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -86,11 +87,11 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // const Spacer(),
-                      Text("Введите\nномер телефона",
+                      Text("enter_phone_number".tr(),
                           style: fonts.displaySecond),
                       8.h.verticalSpace,
                       Text(
-                          "Чтобы войти, записаться на приёмы врачeй\nи следить за вашими посещениями",
+                          "to_enter_make_appoints".tr(),
                           style: fonts.smallText.copyWith(
                               color: colors.neutral700,
                               fontSize: 15.sp,
@@ -134,22 +135,26 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                       ),
                       const Spacer(),
                       CustomButton(
-                          isDisabled: _phoneNumberController.text.length < 17,
-                          title: "Выслать код",
-                          onPressed: () async {
-                            print(
-                                "Phone number: ${_phoneNumberController.text}");
-                            if (_formKey.currentState!.validate()) {
-                              focusNode.unfocus();
-                              await SmsAutoFill().getAppSignature.then((value) {
-                                context.read<AuthBloc>().add(
-                                    AuthEvent.verificationSend(
-                                        request: VerificationSendReq((p0) => p0
-                                          ..phone = formatPhoneNumber(
-                                              _phoneNumberController.text))));
-                              });
-                            }
-                          }),
+                        isDisabled: _phoneNumberController.text.length < 17,
+                        title: "send_code".tr(),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            focusNode.unfocus();
+                            await SmsAutoFill().getAppSignature.then((value) {
+                              // ignore: use_build_context_synchronously
+                              context
+                                  .read<AuthBloc>()
+                                  .add(AuthEvent.verificationSend(
+                                      request: VerificationSendReq(
+                                    (p0) => p0
+                                      ..phone = formatPhoneNumber(
+                                          _phoneNumberController.text)
+                                      ..autofill = value,
+                                  )));
+                            });
+                          }
+                        },
+                      ),
                       27.h.verticalSpace,
                     ],
                   ),

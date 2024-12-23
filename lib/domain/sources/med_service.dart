@@ -78,4 +78,6 @@ class MedService extends StatelessWidget {
       );
     });
   }
+
+  getServiceTypes(param0, param1, param2, param3, param4) {}
 }

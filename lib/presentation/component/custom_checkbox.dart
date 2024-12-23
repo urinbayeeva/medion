@@ -24,7 +24,7 @@ class CustomCheckBoxComponent extends StatelessWidget {
           width: 20.w,
           margin: EdgeInsets.symmetric(horizontal: horizontalMargin.w),
           decoration: ShapeDecoration(
-            color: colors.transparent,
+            color: colors.shade0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50.r),
               side: BorderSide(width: 1.w, color: colors.neutral500),
@@ -36,7 +36,7 @@ class CustomCheckBoxComponent extends StatelessWidget {
                   width: 10.w,
                   margin: EdgeInsets.all(3.r),
                   decoration: ShapeDecoration(
-                    color: colors.neutral700,
+                    color: colors.error500,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50.r),
                     ),

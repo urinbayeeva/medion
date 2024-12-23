@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
         ],
         child: OnUnFocusTap(
           child: MaterialApp(
-            // navigatorKey: alice.getNavigatorKey(),
+            navigatorKey: alice.getNavigatorKey(),
             debugShowCheckedModeBanner: false,
             builder: (context, child) {
               child = FlutterSmartDialog.init()(context, child);
@@ -58,11 +59,17 @@ class MyApp extends StatelessWidget {
               // AnalyticsService().getAnalyticsObserver(),
               SentryNavigatorObserver(),
             ],
+              localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
             onGenerateRoute: (_) {
               if (onGetContext != null) {
                 onGetContext!(context);
               }
-              return AppRoutes.getOnBoardingPage(context: context);
+              return AppRoutes.onGenerateRoute(
+                  context: context,
+                  notConnection: !connectivityX,
+                  isLang: dbService.getLang ?? true);
             },
           ),
         ));

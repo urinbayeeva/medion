@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Medion</string>
+	<string>${PRODUCT_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -45,20 +45,20 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-
-
-	<!-- Location Permissions -->
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app requires access to your location to show your position on the map.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This app requires access to your location even when in the background.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs to access your location for navigation and map features.</string>
-
-	<!-- Notification Permissions -->
 	<key>NSUserTrackingUsageDescription</key>
 	<string>This app uses tracking for personalized content and ads.</string>
 	<key>UNUserNotificationCenterUsageDescription</key>
 	<string>This app uses notifications to keep you updated on important events and updates.</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>nb</string>
+	</array>
 </dict>
 </plist>

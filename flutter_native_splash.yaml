@@ -1,5 +1,0 @@
-flutter_native_splash:
-  color: "#ffffff" # Background color
-  image: assets/images/medion_logo.png
-  android: true
-  ios: true

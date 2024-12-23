@@ -18,9 +18,9 @@ final class _$AuthService extends AuthService {
   final Type definitionType = AuthService;
 
   @override
-  Future<Response<SuccessModel>> phoneNumber(
+  Future<Response<SuccessModel>> verificationSend(
       {required VerificationSendReq request}) {
-    final Uri $url = Uri.parse('/patient/phone-number');
+    final Uri $url = Uri.parse('/patient/registration');
     final $body = request;
     final Request $request = Request(
       'POST',
@@ -32,9 +32,9 @@ final class _$AuthService extends AuthService {
   }
 
   @override
-  Future<Response<SuccessModel>> verificationSend(
+  Future<Response<SuccessModel>> phoneNumber(
       {required VerificationSendReq request}) {
-    final Uri $url = Uri.parse('/patient/code');
+    final Uri $url = Uri.parse('/patient/phone-number');
     final $body = request;
     final Request $request = Request(
       'POST',
@@ -88,7 +88,7 @@ final class _$AuthService extends AuthService {
 
   @override
   Future<Response<LoginRes>> signIn({required SignInReq request}) {
-    final Uri $url = Uri.parse('/patient/login');
+    final Uri $url = Uri.parse('/patient/phone-number');
     final $body = request;
     final Request $request = Request(
       'POST',
@@ -231,15 +231,19 @@ final class _$MedService extends MedService {
 
   @override
   Future<Response<List<ServiceResResult>>> getServiceTypes(
-    int? id,
-    String? name,
-    String? icon,
+    String? title,
+    String? info,
+    bool? forChildren,
+    bool? link,
+    String? color,
   ) {
-    final Uri $url = Uri.parse('/api/medical_services');
+    final Uri $url = Uri.parse('/home/medical_services');
     final Map<String, dynamic> $params = <String, dynamic>{
-      'id': id,
-      'name': name,
-      'icon': icon,
+      'title': title,
+      'info': info,
+      'for_children': forChildren,
+      'link': link,
+      'background_color': color,
     };
     final Request $request = Request(
       'GET',
@@ -248,6 +252,17 @@ final class _$MedService extends MedService {
       parameters: $params,
     );
     return client.send<List<ServiceResResult>, ServiceResResult>($request);
+  }
+
+  @override
+  Future<Response<BuiltList<News>>> getNews() {
+    final Uri $url = Uri.parse('/home/news');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<BuiltList<News>, News>($request);
   }
 }
 

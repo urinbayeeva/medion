@@ -10,15 +10,23 @@ abstract class ServiceResResult
   factory ServiceResResult([updates(ServiceResResultBuilder b)]) =
       _$ServiceResResult;
 
-  @BuiltValueField(wireName: 'id')
-  int? get id;
+  @BuiltValueField(wireName: 'title')
+  String? get title;
 
-  @BuiltValueField(wireName: 'name')
-  String? get name;
+    @BuiltValueField(wireName: 'info')
+  String? get info;
 
-  @BuiltValueField(wireName: 'icon')
-  String? get icon;
+    @BuiltValueField(wireName: 'forChildren')
+  bool? get forChildren;
 
+    @BuiltValueField(wireName: 'link')
+  bool? get link;
+
+
+    @BuiltValueField(wireName: 'color')
+  String? get color;
+
+ 
   static Serializer<ServiceResResult> get serializer =>
       _$serviceResResultSerializer;
 }
