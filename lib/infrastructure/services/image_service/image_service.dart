@@ -110,46 +110,28 @@ class ImageService {
     try {
       CroppedFile? croppedFile = await ImageCropper().cropImage(
         compressFormat: ImageCompressFormat.jpg,
-        aspectRatio: aspectRatioPresets != null
-            ? aspectRatioPresets.contains(CropAspectRatioPreset.square)
-                ? const CropAspectRatio(ratioX: 1, ratioY: 1)
-                : aspectRatioPresets.contains(CropAspectRatioPreset.ratio16x9)
-                    ? const CropAspectRatio(ratioX: 16, ratioY: 9)
-                    : null
-            : null,
         sourcePath: path,
         uiSettings: [
           AndroidUiSettings(
             toolbarTitle: 'Cropper',
             toolbarColor: Style.primary500,
             toolbarWidgetColor: Style.shade0,
-            initAspectRatio: CropAspectRatioPreset.ratio16x9,
+            initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: true,
+            cropStyle: cropStyle ?? CropStyle.circle,
             aspectRatioPresets: aspectRatioPresets ??
                 [
                   CropAspectRatioPreset.original,
                   CropAspectRatioPreset.square,
-                  CropAspectRatioPreset.ratio3x2,
-                  CropAspectRatioPreset.ratio4x3,
-                  CropAspectRatioPreset.ratio16x9
                 ],
-            cropStyle: cropStyle ?? CropStyle.rectangle,
           ),
           IOSUiSettings(
-            aspectRatioPresets: aspectRatioPresets ??
-                [
-                  CropAspectRatioPreset.original,
-                  CropAspectRatioPreset.square,
-                  CropAspectRatioPreset.ratio3x2,
-                  CropAspectRatioPreset.ratio4x3,
-                  CropAspectRatioPreset.ratio16x9
-                ],
-            cropStyle: cropStyle ?? CropStyle.rectangle,
+            cropStyle: cropStyle ?? CropStyle.circle, // Circular crop style
             resetAspectRatioEnabled: false,
             aspectRatioPickerButtonHidden: true,
             aspectRatioLockEnabled: true,
             minimumAspectRatio: 1.0,
-          )
+          ),
         ],
       );
       if (croppedFile != null) {
