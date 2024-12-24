@@ -67,6 +67,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     return images.firstOrNull?.urls?.original ?? "";
   }
+  
 
   
 }

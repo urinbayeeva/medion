@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,20 +39,38 @@ class UserDetailsPage extends StatelessWidget {
                         Stack(
                           clipBehavior: Clip.none,
                           children: [
-                            CircleAvatar(
-                                radius: 60.r,
-                                backgroundColor: colors.neutral400),
+                            Center(
+                              child: BlocBuilder<ProfileBloc, ProfileState>(
+                                builder: (context, state) {
+                                  return state.pickedImagePath != null
+                                      ? CircleAvatar(
+                                          radius: 70.r,
+                                          backgroundImage: FileImage(
+                                              File(state.pickedImagePath!)),
+                                        )
+                                      : CircleAvatar(
+                                          radius: 70.r,
+                                          backgroundColor:
+                                              colors.neutral500.withOpacity(.3),
+                                          child: icons.nonUser.svg(
+                                            height: 110.h,
+                                            color: colors.neutral500,
+                                          ),
+                                        );
+                                },
+                              ),
+                            ),
                             Positioned(
                               bottom: -20,
                               left: 10,
                               right: 0,
                               child: GestureDetector(
                                 onTap: () {
-                                  // context
-                                  //     .read<ProfileBloc>()
-                                  //     .add(ProfileEvent.pickImage(context));
+                                  context
+                                      .read<ProfileBloc>()
+                                      .add(ProfileEvent.pickImage(context));
 
-                                  ImageService.showPicker(context);
+                                  // ImageService.showPicker(context);
                                 },
                                 child: CircleAvatar(
                                   radius: 20.r,

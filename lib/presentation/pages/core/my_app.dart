@@ -75,9 +75,10 @@ class MyApp extends StatelessWidget {
                     onGetContext!(context);
                   }
                   return AppRoutes.onGenerateRoute(
-                      context: context,
-                      notConnection: !connectivityX,
-                      isLang: dbService.getLang ?? true);
+                    context: context,
+                    notConnection: !connectivityX,
+                    isLang: dbService.getLang ?? true,
+                  );
                 },
               )),
         ));

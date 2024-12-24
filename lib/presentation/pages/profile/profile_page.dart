@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/application/profile/profile_bloc.dart';
 import 'package:medion/presentation/pages/profile/widget/nav_list_widget.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -19,8 +23,27 @@ class ProfilePage extends StatelessWidget {
               Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  CircleAvatar(
-                      radius: 60.r, backgroundColor: colors.neutral400),
+                  Center(
+                    child: BlocBuilder<ProfileBloc, ProfileState>(
+                      builder: (context, state) {
+                        return state.pickedImagePath != null
+                            ? CircleAvatar(
+                                radius: 70.r,
+                                backgroundImage:
+                                    FileImage(File(state.pickedImagePath!)),
+                              )
+                            : CircleAvatar(
+                                radius: 70.r,
+                                backgroundColor:
+                                    colors.neutral500.withOpacity(.3),
+                                child: icons.nonUser.svg(
+                                  height: 110.h,
+                                  color: colors.neutral500,
+                                ),
+                              );
+                      },
+                    ),
+                  ),
                   Positioned(
                       bottom: -20,
                       left: 0,

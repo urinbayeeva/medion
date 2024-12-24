@@ -117,19 +117,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Align(
         alignment: Alignment.topRight,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CircleFlag(Flag.UZ),
-            AnimationButtonEffect(
-              onTap: () => _pageController.jumpToPage(2),
-              child: Text("skip".tr(),
-                  style: fonts.smallText.copyWith(
-                      color: colors.neutral600,
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500)),
-            ),
-          ],
+        child: AnimationButtonEffect(
+          onTap: () => _pageController.jumpToPage(2),
+          child: Text("skip".tr(),
+              style: fonts.smallText.copyWith(
+                  color: colors.neutral600,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500)),
         ),
       );
     });
