@@ -34,8 +34,9 @@ class AdressItem extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
                 child: Text(address,
+                    overflow: TextOverflow.ellipsis,
                     style: fonts.smallLink.copyWith(
-                        fontSize: 15.sp, fontWeight: FontWeight.w400)),
+                        fontSize: 13.sp, fontWeight: FontWeight.w400)),
               )
             ],
           ),

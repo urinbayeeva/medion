@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
@@ -42,36 +43,36 @@ class _DataEntryPageState extends State<DataEntryPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // const Spacer(),
-                    Text("Введите ваши данные", style: fonts.displaySecond),
+                    Text("enter_your_info".tr(), style: fonts.displaySecond),
                     8.h.verticalSpace,
-                    Text(
-                        "Чтобы войти, записаться на приёмы врачeй\nи следить за вашими посещениями",
+                    Text("to_enter_make_appoints".tr(),
                         style: fonts.smallText.copyWith(
                             color: colors.neutral700,
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w400)),
                     12.h.verticalSpace,
                     CustomTextField(
-                        title: "Имя",
+                        title: "name".tr(),
                         borderRadius: 8.r,
-                        hintText: "Введите имя"),
+                        hintText: "enter_your_name".tr()),
                     16.h.verticalSpace,
                     CustomTextField(
-                        title: "Фамилия",
+                        title: "second_name".tr(),
                         borderRadius: 8.r,
-                        hintText: "Введите фамилию"),
+                        hintText: "enter_your_second_name".tr()),
                     16.h.verticalSpace,
                     CustomTextField(
-                        title: "Отчество",
-                        borderRadius: 8.r,
-                        hintText: "Введите отчество"),
+                      title: "athers_name".tr(),
+                      borderRadius: 8.r,
+                      hintText: "athers_name".tr(),
+                    ),
                     16.h.verticalSpace,
                     CustomTextField(
-                        title: "Серия паспорта",
+                        title: "series_of_passport".tr(),
                         borderRadius: 8.r,
                         hintText: "AB123456"),
                     16.h.verticalSpace,
-                    Text("Выберите пол",
+                    Text("select_gender".tr(),
                         style: fonts.xSmallMain.copyWith(fontSize: 13.sp)),
                     4.h.verticalSpace,
                     GenderSelection(
@@ -79,7 +80,7 @@ class _DataEntryPageState extends State<DataEntryPage> {
                         onGenderSelected: (gender) {}),
                     const Spacer(),
                     CButton(
-                        title: "Войти",
+                        title: "sign_in".tr(),
                         onTap: () =>
                             Navigator.push(context, AppRoutes.getMainPage(1))),
                     29.h.verticalSpace,

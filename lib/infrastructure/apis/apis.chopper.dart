@@ -290,3 +290,44 @@ final class _$BusinessService extends BusinessService {
     return client.send<LoginRes, LoginRes>($request);
   }
 }
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$UploadImage extends UploadImage {
+  _$UploadImage([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = UploadImage;
+
+  @override
+  Future<Response<ImageUploadResponseModel>> imageUpload(
+    MultipartFile file, {
+    String contentType = 'multipart/form-data',
+    String requiresToken = 'true',
+  }) {
+    final Uri $url = Uri.parse('/upload/');
+    final Map<String, String> $headers = {
+      'Content-Type': contentType,
+      'requires-token': requiresToken,
+    };
+    final List<PartValue> $parts = <PartValue>[
+      PartValueFile<MultipartFile>(
+        'file',
+        file,
+      )
+    ];
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parts: $parts,
+      multipart: true,
+      headers: $headers,
+    );
+    return client
+        .send<ImageUploadResponseModel, ImageUploadResponseModel>($request);
+  }
+}

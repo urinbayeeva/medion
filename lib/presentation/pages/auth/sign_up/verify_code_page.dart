@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
@@ -19,10 +20,12 @@ class VerifyCodePage extends StatefulWidget {
     super.key,
     this.onClose,
     this.password,
-    required this.additionalPhone, required this.phoneNumber, required this.autofill,
+    required this.additionalPhone,
+    required this.phoneNumber,
+    required this.autofill,
   });
 
-    final String phoneNumber;
+  final String phoneNumber;
   final String autofill;
 
   @override
@@ -84,11 +87,10 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // const Spacer(),
-                    Text("Введите\nкод подтверждения",
+                    Text("enter_verification_code".tr(),
                         style: fonts.displaySecond),
                     8.h.verticalSpace,
-                    Text(
-                        "Чтобы войти, записаться на приёмы врачeй\nи следить за вашими посещениями",
+                    Text("to_enter_make_appoints".tr(),
                         style: fonts.smallText.copyWith(
                             color: colors.neutral700,
                             fontSize: 15.sp,
@@ -138,14 +140,14 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                       alignment: Alignment.center,
                       child: AnimationButtonEffect(
                           onTap: () {},
-                          child: Text("Заново отправить",
+                          child: Text("resend".tr(),
                               style: fonts.regularText.copyWith(
                                   fontSize: 17.sp,
                                   fontWeight: FontWeight.w400))),
                     ),
                     24.h.verticalSpace,
                     CButton(
-                        title: "Подтвердить",
+                        title: "verify".tr(),
                         onTap: () => Navigator.push(
                             context, AppRoutes.getDataEntryPage())),
                     27.h.verticalSpace,

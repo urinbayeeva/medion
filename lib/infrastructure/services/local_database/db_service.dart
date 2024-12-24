@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:medion/domain/common/token.dart';
+import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/repository/calendar_repo.dart';
 
 class DBService {
@@ -19,6 +20,8 @@ class DBService {
     _box ??= await Hive.openBox(_dbName);
     return DBService._();
   }
+
+
 
   /// Token
   Future<void> setToken(Token token) async {

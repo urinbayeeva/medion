@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
-import 'package:http/http.dart' show Client;
+import 'package:http/http.dart' show Client, MultipartFile;
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/models/service_model/service_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
 import 'package:medion/domain/success_model/success_model.dart';
+import 'package:medion/domain/upload_image/upload_image.dart';
 import 'package:medion/infrastructure/core/exceptions.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
@@ -131,6 +132,21 @@ abstract class ChatRoomService extends ChopperService {
   //     _$ChatRoomService(_Client(Constants.baseUrlP, true, dbService));
 }
 
+// main
+@ChopperApi(baseUrl: '/upload/')
+@pragma('vm:entry-point')
+abstract class UploadImage extends ChopperService {
+  @Post(path: '')
+  @multipart
+  Future<Response<ImageUploadResponseModel>> imageUpload(
+      @PartFile('file') MultipartFile file,
+      {@Header('Content-Type') String contentType = 'multipart/form-data',
+      @Header('requires-token') String requiresToken = 'true'});
+
+  static UploadImage create(DBService dbService) =>
+      _$UploadImage(_Client("", true, dbService, timeout: 300));
+}
+
 base class _Client extends ChopperClient {
   _Client(String baseUrl, bool useInterceptors, DBService dbService,
       {int timeout = 20})
@@ -146,7 +162,6 @@ base class _Client extends ChopperClient {
                     HttpLoggingInterceptor(),
                     CurlInterceptor(),
                     NetworkInterceptor(),
-            
                     RetryInterceptor(
                         maxRetries: 3, retryDelay: const Duration(seconds: 2)),
                     BackendInterceptor(),

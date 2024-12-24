@@ -1,4 +1,5 @@
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                 CAppBar(
                   padding: EdgeInsets.zero,
                   isBack: false,
-                  title: "Главная",
+                  title: "main".tr(),
                   centerTitle: true,
                   trailing: AnimationButtonEffect(
                     onTap: () {
@@ -75,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                           16.h.verticalSpace,
                           _buildImageSection(colors, fonts),
                           16.h.verticalSpace,
-                          Text("Что вас беспокоит",
+                          Text("what_distrubes_you".tr(),
                               style: fonts.regularSemLink
                                   .copyWith(fontSize: 17.sp)),
                           12.h.verticalSpace,
@@ -83,13 +84,13 @@ class _HomePageState extends State<HomePage> {
                           12.h.verticalSpace,
                           const ProblemSlidebaleCard(),
                           24.h.verticalSpace,
-                          Text("Медицинские сервисы",
+                          Text("med_services".tr(),
                               style: fonts.regularSemLink
                                   .copyWith(fontSize: 17.sp)),
                           12.h.verticalSpace,
                           const MedService(),
                           24.h.verticalSpace,
-                          Text("Направления сеть клиник Medion",
+                          Text("directions_of_medion_clinic".tr(),
                               style: fonts.regularSemLink
                                   .copyWith(fontSize: 17.sp)),
                           12.h.verticalSpace,
@@ -132,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           8.h.verticalSpace,
                           CButton(
-                            title: "Все направления",
+                            title: "all_directions".tr(),
                             onTap: () {
                               Navigator.push(
                                   context, AppRoutes.getDiresctionPage());
@@ -145,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Врачи",
+                              Text("doctors".tr(),
                                   style: fonts.regularSemLink
                                       .copyWith(fontSize: 17.sp)),
                               IconButton(
@@ -166,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "Все",
+                                      "all".tr(),
                                       style: fonts.smallTagFirst.copyWith(
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
@@ -204,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Новости",
+                              Text("news".tr(),
                                   style: fonts.regularSemLink
                                       .copyWith(fontSize: 17.sp)),
                               IconButton(
@@ -220,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "Все",
+                                      "all".tr(),
                                       style: fonts.smallTagFirst.copyWith(
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
@@ -254,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Адреса клиник",
+                              Text("address_of_clinic".tr(),
                                   style: fonts.regularSemLink
                                       .copyWith(fontSize: 17.sp)),
                               AnimationButtonEffect(
@@ -277,7 +278,7 @@ class _HomePageState extends State<HomePage> {
                                         icons.location
                                             .svg(width: 20.w, height: 20.h),
                                         3.66.w.horizontalSpace,
-                                        Text("На карте",
+                                        Text("on_map".tr(),
                                             style: fonts.xSmallLink)
                                       ],
                                     )),
@@ -286,18 +287,15 @@ class _HomePageState extends State<HomePage> {
                           ),
                           12.h.verticalSpace,
                           AdressItem(
-                              address:
-                                  "Ул. Абдуллы Кадыри, 39/1 - \nMedion Innovation",
+                              address: "street_abdulla".tr(),
                               url: '',
                               onTap: () {}),
                           AdressItem(
-                              address:
-                                  "Ул. Абдуллы Кадыри, 39/1 - \nMedion Innovation",
+                              address: "street_zulfiya".tr(),
                               url: '',
                               onTap: () {}),
                           AdressItem(
-                              address:
-                                  "Ул. Абдуллы Кадыри, 39/1 - \nMedion Innovation",
+                              address: "street_istiroxat".tr(),
                               url: '',
                               onTap: () {}),
                           80.h.verticalSpace,
@@ -365,16 +363,16 @@ class _HomePageState extends State<HomePage> {
   Widget _buildOptionsRow(colors, fonts) {
     return Row(
       children: [
-        Text("Темы", style: fonts.smallMain),
+        Text("theme".tr(), style: fonts.smallMain),
         SizedBox(width: 12.w),
         _buildOptionButton(
-            "Взрослые",
+            "adult".tr(),
             isChildren ? Color(0xFFEBEBEB) : colors.error500,
             fonts.xSmallText.copyWith(
                 color: isChildren ? colors.primary900 : colors.shade0)),
         SizedBox(width: 4.w),
         _buildOptionButton(
-            "Дети",
+            "child".tr(),
             isChildren ? colors.error500 : const Color(0xFFEBEBEB),
             fonts.xSmallText.copyWith(
                 color: isChildren ? colors.shade0 : colors.primary900)),

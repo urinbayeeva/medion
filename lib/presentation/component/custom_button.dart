@@ -144,7 +144,7 @@ class CustomButton extends StatelessWidget {
                   title,
                   textAlign: TextAlign.center,
                   style: titleStyle ??
-                      fonts.xSmallLink.copyWith(
+                      fonts.smallMain.copyWith(
                         color: isDisabled
                             ? disableColor ?? colors.neutral400
                             : titleColor ?? colors.neutral50,

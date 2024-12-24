@@ -1,8 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:medion/application/profile/profile_bloc.dart';
+import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
+import 'package:medion/infrastructure/repository/image_upload_repo.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_configuration.dart';
 import 'package:medion/infrastructure/services/alice/alice.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
@@ -45,33 +49,37 @@ class MyApp extends StatelessWidget {
           Provider<DBService>(create: (_) => dbService),
         ],
         child: OnUnFocusTap(
-          child: MaterialApp(
-            navigatorKey: alice.getNavigatorKey(),
-            debugShowCheckedModeBanner: false,
-            builder: (context, child) {
-              child = FlutterSmartDialog.init()(context, child);
-              return FlavorBanner(
-                child: child,
-              );
-            },
-            navigatorObservers: [
-              FlutterSmartDialog.observer,
-              // AnalyticsService().getAnalyticsObserver(),
-              SentryNavigatorObserver(),
-            ],
-              localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            onGenerateRoute: (_) {
-              if (onGetContext != null) {
-                onGetContext!(context);
-              }
-              return AppRoutes.onGenerateRoute(
-                  context: context,
-                  notConnection: !connectivityX,
-                  isLang: dbService.getLang ?? true);
-            },
-          ),
+          child: BlocProvider<ProfileBloc>(
+              create: (_) => ProfileBloc(
+                    ImageUploadRepo(UploadImage.create(dbService)),
+                  ),
+              child: MaterialApp(
+                navigatorKey: alice.getNavigatorKey(),
+                debugShowCheckedModeBanner: false,
+                builder: (context, child) {
+                  child = FlutterSmartDialog.init()(context, child);
+                  return FlavorBanner(
+                    child: child,
+                  );
+                },
+                navigatorObservers: [
+                  FlutterSmartDialog.observer,
+                  // AnalyticsService().getAnalyticsObserver(),
+                  SentryNavigatorObserver(),
+                ],
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                onGenerateRoute: (_) {
+                  if (onGetContext != null) {
+                    onGetContext!(context);
+                  }
+                  return AppRoutes.onGenerateRoute(
+                      context: context,
+                      notConnection: !connectivityX,
+                      isLang: dbService.getLang ?? true);
+                },
+              )),
         ));
   }
 }

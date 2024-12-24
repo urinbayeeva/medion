@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
@@ -56,7 +57,7 @@ class _GenderSelectionState extends State<GenderSelection> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(gender == Gender.men ? 'Мужчина' : 'Женщина',
+                      Text(gender == Gender.men ? 'man'.tr() : 'woman'.tr(),
                           style: fonts.regularText.copyWith(
                             color: colors.primary900,
                             fontSize: 17.sp,
