@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
+import 'package:medion/infrastructure/services/image_service/image_service.dart';
 // import 'package:medion/infrastructure/services/image_service/image_service.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/profile/widget/user_info_input.dart';
@@ -43,9 +45,11 @@ class UserDetailsPage extends StatelessWidget {
                               right: 0,
                               child: GestureDetector(
                                 onTap: () {
-                                  context
-                                      .read<ProfileBloc>()
-                                      .add(ProfileEvent.pickImage(context));
+                                  // context
+                                  //     .read<ProfileBloc>()
+                                  //     .add(ProfileEvent.pickImage(context));
+
+                                  ImageService.showPicker(context);
                                 },
                                 child: CircleAvatar(
                                   radius: 20.r,
