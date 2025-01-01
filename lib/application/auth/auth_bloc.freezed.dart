@@ -20,40 +20,21 @@ mixin _$AuthEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
     required TResult Function(VerificationSendReq request) verificationSend,
-    required TResult Function(VerificationVerifyReq request) verificationVerify,
-    required TResult Function(VerificationVerifyReq request)
-        additionalNumberVerify,
-    required TResult Function(SignInReq request) signIn,
-    required TResult Function(SignInReq request) signInBusiness,
-    required TResult Function(ResetPasswordReq request) updatePassword,
-    required TResult Function(ForgotPasswordReqModel request) forgotPassword,
-    required TResult Function(VerificationVerifyReq request) updatePhone,
+    required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
     TResult? Function(VerificationSendReq request)? verificationSend,
-    TResult? Function(VerificationVerifyReq request)? verificationVerify,
-    TResult? Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult? Function(SignInReq request)? signIn,
-    TResult? Function(SignInReq request)? signInBusiness,
-    TResult? Function(ResetPasswordReq request)? updatePassword,
-    TResult? Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult? Function(VerificationVerifyReq request)? updatePhone,
+    TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
     TResult Function(VerificationSendReq request)? verificationSend,
-    TResult Function(VerificationVerifyReq request)? verificationVerify,
-    TResult Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult Function(SignInReq request)? signIn,
-    TResult Function(SignInReq request)? signInBusiness,
-    TResult Function(ResetPasswordReq request)? updatePassword,
-    TResult Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult Function(VerificationVerifyReq request)? updatePhone,
+    TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -61,40 +42,21 @@ mixin _$AuthEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
     required TResult Function(_VerificationSend value) verificationSend,
-    required TResult Function(_VerificationVerify value) verificationVerify,
-    required TResult Function(_AdditionalNumberVerify value)
-        additionalNumberVerify,
-    required TResult Function(_SignIn value) signIn,
-    required TResult Function(_SignInBusiness value) signInBusiness,
-    required TResult Function(_UpdatePassword value) updatePassword,
-    required TResult Function(_ForgotPassword value) forgotPassword,
-    required TResult Function(_UpdatePhone value) updatePhone,
+    required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
     TResult? Function(_VerificationSend value)? verificationSend,
-    TResult? Function(_VerificationVerify value)? verificationVerify,
-    TResult? Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult? Function(_SignIn value)? signIn,
-    TResult? Function(_SignInBusiness value)? signInBusiness,
-    TResult? Function(_UpdatePassword value)? updatePassword,
-    TResult? Function(_ForgotPassword value)? forgotPassword,
-    TResult? Function(_UpdatePhone value)? updatePhone,
+    TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
     TResult Function(_VerificationSend value)? verificationSend,
-    TResult Function(_VerificationVerify value)? verificationVerify,
-    TResult Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult Function(_SignIn value)? signIn,
-    TResult Function(_SignInBusiness value)? signInBusiness,
-    TResult Function(_UpdatePassword value)? updatePassword,
-    TResult Function(_ForgotPassword value)? forgotPassword,
-    TResult Function(_UpdatePhone value)? updatePhone,
+    TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -163,14 +125,7 @@ class _$CheckAuthImpl implements _CheckAuth {
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
     required TResult Function(VerificationSendReq request) verificationSend,
-    required TResult Function(VerificationVerifyReq request) verificationVerify,
-    required TResult Function(VerificationVerifyReq request)
-        additionalNumberVerify,
-    required TResult Function(SignInReq request) signIn,
-    required TResult Function(SignInReq request) signInBusiness,
-    required TResult Function(ResetPasswordReq request) updatePassword,
-    required TResult Function(ForgotPasswordReqModel request) forgotPassword,
-    required TResult Function(VerificationVerifyReq request) updatePhone,
+    required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
   }) {
     return checkAuth();
   }
@@ -180,13 +135,7 @@ class _$CheckAuthImpl implements _CheckAuth {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
     TResult? Function(VerificationSendReq request)? verificationSend,
-    TResult? Function(VerificationVerifyReq request)? verificationVerify,
-    TResult? Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult? Function(SignInReq request)? signIn,
-    TResult? Function(SignInReq request)? signInBusiness,
-    TResult? Function(ResetPasswordReq request)? updatePassword,
-    TResult? Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult? Function(VerificationVerifyReq request)? updatePhone,
+    TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
   }) {
     return checkAuth?.call();
   }
@@ -196,13 +145,7 @@ class _$CheckAuthImpl implements _CheckAuth {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
     TResult Function(VerificationSendReq request)? verificationSend,
-    TResult Function(VerificationVerifyReq request)? verificationVerify,
-    TResult Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult Function(SignInReq request)? signIn,
-    TResult Function(SignInReq request)? signInBusiness,
-    TResult Function(ResetPasswordReq request)? updatePassword,
-    TResult Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult Function(VerificationVerifyReq request)? updatePhone,
+    TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     required TResult orElse(),
   }) {
     if (checkAuth != null) {
@@ -216,14 +159,7 @@ class _$CheckAuthImpl implements _CheckAuth {
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
     required TResult Function(_VerificationSend value) verificationSend,
-    required TResult Function(_VerificationVerify value) verificationVerify,
-    required TResult Function(_AdditionalNumberVerify value)
-        additionalNumberVerify,
-    required TResult Function(_SignIn value) signIn,
-    required TResult Function(_SignInBusiness value) signInBusiness,
-    required TResult Function(_UpdatePassword value) updatePassword,
-    required TResult Function(_ForgotPassword value) forgotPassword,
-    required TResult Function(_UpdatePhone value) updatePhone,
+    required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
   }) {
     return checkAuth(this);
   }
@@ -233,13 +169,7 @@ class _$CheckAuthImpl implements _CheckAuth {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
     TResult? Function(_VerificationSend value)? verificationSend,
-    TResult? Function(_VerificationVerify value)? verificationVerify,
-    TResult? Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult? Function(_SignIn value)? signIn,
-    TResult? Function(_SignInBusiness value)? signInBusiness,
-    TResult? Function(_UpdatePassword value)? updatePassword,
-    TResult? Function(_ForgotPassword value)? forgotPassword,
-    TResult? Function(_UpdatePhone value)? updatePhone,
+    TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
   }) {
     return checkAuth?.call(this);
   }
@@ -249,13 +179,7 @@ class _$CheckAuthImpl implements _CheckAuth {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
     TResult Function(_VerificationSend value)? verificationSend,
-    TResult Function(_VerificationVerify value)? verificationVerify,
-    TResult Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult Function(_SignIn value)? signIn,
-    TResult Function(_SignInBusiness value)? signInBusiness,
-    TResult Function(_UpdatePassword value)? updatePassword,
-    TResult Function(_ForgotPassword value)? forgotPassword,
-    TResult Function(_UpdatePhone value)? updatePhone,
+    TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     required TResult orElse(),
   }) {
     if (checkAuth != null) {
@@ -340,14 +264,7 @@ class _$VerificationSendImpl implements _VerificationSend {
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
     required TResult Function(VerificationSendReq request) verificationSend,
-    required TResult Function(VerificationVerifyReq request) verificationVerify,
-    required TResult Function(VerificationVerifyReq request)
-        additionalNumberVerify,
-    required TResult Function(SignInReq request) signIn,
-    required TResult Function(SignInReq request) signInBusiness,
-    required TResult Function(ResetPasswordReq request) updatePassword,
-    required TResult Function(ForgotPasswordReqModel request) forgotPassword,
-    required TResult Function(VerificationVerifyReq request) updatePhone,
+    required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
   }) {
     return verificationSend(request);
   }
@@ -357,13 +274,7 @@ class _$VerificationSendImpl implements _VerificationSend {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
     TResult? Function(VerificationSendReq request)? verificationSend,
-    TResult? Function(VerificationVerifyReq request)? verificationVerify,
-    TResult? Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult? Function(SignInReq request)? signIn,
-    TResult? Function(SignInReq request)? signInBusiness,
-    TResult? Function(ResetPasswordReq request)? updatePassword,
-    TResult? Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult? Function(VerificationVerifyReq request)? updatePhone,
+    TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
   }) {
     return verificationSend?.call(request);
   }
@@ -373,13 +284,7 @@ class _$VerificationSendImpl implements _VerificationSend {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
     TResult Function(VerificationSendReq request)? verificationSend,
-    TResult Function(VerificationVerifyReq request)? verificationVerify,
-    TResult Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult Function(SignInReq request)? signIn,
-    TResult Function(SignInReq request)? signInBusiness,
-    TResult Function(ResetPasswordReq request)? updatePassword,
-    TResult Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult Function(VerificationVerifyReq request)? updatePhone,
+    TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     required TResult orElse(),
   }) {
     if (verificationSend != null) {
@@ -393,14 +298,7 @@ class _$VerificationSendImpl implements _VerificationSend {
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
     required TResult Function(_VerificationSend value) verificationSend,
-    required TResult Function(_VerificationVerify value) verificationVerify,
-    required TResult Function(_AdditionalNumberVerify value)
-        additionalNumberVerify,
-    required TResult Function(_SignIn value) signIn,
-    required TResult Function(_SignInBusiness value) signInBusiness,
-    required TResult Function(_UpdatePassword value) updatePassword,
-    required TResult Function(_ForgotPassword value) forgotPassword,
-    required TResult Function(_UpdatePhone value) updatePhone,
+    required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
   }) {
     return verificationSend(this);
   }
@@ -410,13 +308,7 @@ class _$VerificationSendImpl implements _VerificationSend {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
     TResult? Function(_VerificationSend value)? verificationSend,
-    TResult? Function(_VerificationVerify value)? verificationVerify,
-    TResult? Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult? Function(_SignIn value)? signIn,
-    TResult? Function(_SignInBusiness value)? signInBusiness,
-    TResult? Function(_UpdatePassword value)? updatePassword,
-    TResult? Function(_ForgotPassword value)? forgotPassword,
-    TResult? Function(_UpdatePhone value)? updatePhone,
+    TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
   }) {
     return verificationSend?.call(this);
   }
@@ -426,13 +318,7 @@ class _$VerificationSendImpl implements _VerificationSend {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
     TResult Function(_VerificationSend value)? verificationSend,
-    TResult Function(_VerificationVerify value)? verificationVerify,
-    TResult Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult Function(_SignIn value)? signIn,
-    TResult Function(_SignInBusiness value)? signInBusiness,
-    TResult Function(_UpdatePassword value)? updatePassword,
-    TResult Function(_ForgotPassword value)? forgotPassword,
-    TResult Function(_UpdatePhone value)? updatePhone,
+    TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     required TResult orElse(),
   }) {
     if (verificationSend != null) {
@@ -456,20 +342,20 @@ abstract class _VerificationSend implements AuthEvent {
 }
 
 /// @nodoc
-abstract class _$$VerificationVerifyImplCopyWith<$Res> {
-  factory _$$VerificationVerifyImplCopyWith(_$VerificationVerifyImpl value,
-          $Res Function(_$VerificationVerifyImpl) then) =
-      __$$VerificationVerifyImplCopyWithImpl<$Res>;
+abstract class _$$SendPhoneNumberImplCopyWith<$Res> {
+  factory _$$SendPhoneNumberImplCopyWith(_$SendPhoneNumberImpl value,
+          $Res Function(_$SendPhoneNumberImpl) then) =
+      __$$SendPhoneNumberImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({VerificationVerifyReq request});
+  $Res call({PhoneNumberSendReq request});
 }
 
 /// @nodoc
-class __$$VerificationVerifyImplCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$VerificationVerifyImpl>
-    implements _$$VerificationVerifyImplCopyWith<$Res> {
-  __$$VerificationVerifyImplCopyWithImpl(_$VerificationVerifyImpl _value,
-      $Res Function(_$VerificationVerifyImpl) _then)
+class __$$SendPhoneNumberImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$SendPhoneNumberImpl>
+    implements _$$SendPhoneNumberImplCopyWith<$Res> {
+  __$$SendPhoneNumberImplCopyWithImpl(
+      _$SendPhoneNumberImpl _value, $Res Function(_$SendPhoneNumberImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of AuthEvent
@@ -479,33 +365,33 @@ class __$$VerificationVerifyImplCopyWithImpl<$Res>
   $Res call({
     Object? request = null,
   }) {
-    return _then(_$VerificationVerifyImpl(
+    return _then(_$SendPhoneNumberImpl(
       request: null == request
           ? _value.request
           : request // ignore: cast_nullable_to_non_nullable
-              as VerificationVerifyReq,
+              as PhoneNumberSendReq,
     ));
   }
 }
 
 /// @nodoc
 
-class _$VerificationVerifyImpl implements _VerificationVerify {
-  const _$VerificationVerifyImpl({required this.request});
+class _$SendPhoneNumberImpl implements _SendPhoneNumber {
+  const _$SendPhoneNumberImpl({required this.request});
 
   @override
-  final VerificationVerifyReq request;
+  final PhoneNumberSendReq request;
 
   @override
   String toString() {
-    return 'AuthEvent.verificationVerify(request: $request)';
+    return 'AuthEvent.sendPhoneNumber(request: $request)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$VerificationVerifyImpl &&
+            other is _$SendPhoneNumberImpl &&
             (identical(other.request, request) || other.request == request));
   }
 
@@ -517,8 +403,8 @@ class _$VerificationVerifyImpl implements _VerificationVerify {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$VerificationVerifyImplCopyWith<_$VerificationVerifyImpl> get copyWith =>
-      __$$VerificationVerifyImplCopyWithImpl<_$VerificationVerifyImpl>(
+  _$$SendPhoneNumberImplCopyWith<_$SendPhoneNumberImpl> get copyWith =>
+      __$$SendPhoneNumberImplCopyWithImpl<_$SendPhoneNumberImpl>(
           this, _$identity);
 
   @override
@@ -526,16 +412,9 @@ class _$VerificationVerifyImpl implements _VerificationVerify {
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
     required TResult Function(VerificationSendReq request) verificationSend,
-    required TResult Function(VerificationVerifyReq request) verificationVerify,
-    required TResult Function(VerificationVerifyReq request)
-        additionalNumberVerify,
-    required TResult Function(SignInReq request) signIn,
-    required TResult Function(SignInReq request) signInBusiness,
-    required TResult Function(ResetPasswordReq request) updatePassword,
-    required TResult Function(ForgotPasswordReqModel request) forgotPassword,
-    required TResult Function(VerificationVerifyReq request) updatePhone,
+    required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
   }) {
-    return verificationVerify(request);
+    return sendPhoneNumber(request);
   }
 
   @override
@@ -543,15 +422,9 @@ class _$VerificationVerifyImpl implements _VerificationVerify {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
     TResult? Function(VerificationSendReq request)? verificationSend,
-    TResult? Function(VerificationVerifyReq request)? verificationVerify,
-    TResult? Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult? Function(SignInReq request)? signIn,
-    TResult? Function(SignInReq request)? signInBusiness,
-    TResult? Function(ResetPasswordReq request)? updatePassword,
-    TResult? Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult? Function(VerificationVerifyReq request)? updatePhone,
+    TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
   }) {
-    return verificationVerify?.call(request);
+    return sendPhoneNumber?.call(request);
   }
 
   @override
@@ -559,17 +432,11 @@ class _$VerificationVerifyImpl implements _VerificationVerify {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
     TResult Function(VerificationSendReq request)? verificationSend,
-    TResult Function(VerificationVerifyReq request)? verificationVerify,
-    TResult Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult Function(SignInReq request)? signIn,
-    TResult Function(SignInReq request)? signInBusiness,
-    TResult Function(ResetPasswordReq request)? updatePassword,
-    TResult Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult Function(VerificationVerifyReq request)? updatePhone,
+    TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     required TResult orElse(),
   }) {
-    if (verificationVerify != null) {
-      return verificationVerify(request);
+    if (sendPhoneNumber != null) {
+      return sendPhoneNumber(request);
     }
     return orElse();
   }
@@ -579,16 +446,9 @@ class _$VerificationVerifyImpl implements _VerificationVerify {
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
     required TResult Function(_VerificationSend value) verificationSend,
-    required TResult Function(_VerificationVerify value) verificationVerify,
-    required TResult Function(_AdditionalNumberVerify value)
-        additionalNumberVerify,
-    required TResult Function(_SignIn value) signIn,
-    required TResult Function(_SignInBusiness value) signInBusiness,
-    required TResult Function(_UpdatePassword value) updatePassword,
-    required TResult Function(_ForgotPassword value) forgotPassword,
-    required TResult Function(_UpdatePhone value) updatePhone,
+    required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
   }) {
-    return verificationVerify(this);
+    return sendPhoneNumber(this);
   }
 
   @override
@@ -596,15 +456,9 @@ class _$VerificationVerifyImpl implements _VerificationVerify {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
     TResult? Function(_VerificationSend value)? verificationSend,
-    TResult? Function(_VerificationVerify value)? verificationVerify,
-    TResult? Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult? Function(_SignIn value)? signIn,
-    TResult? Function(_SignInBusiness value)? signInBusiness,
-    TResult? Function(_UpdatePassword value)? updatePassword,
-    TResult? Function(_ForgotPassword value)? forgotPassword,
-    TResult? Function(_UpdatePhone value)? updatePhone,
+    TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
   }) {
-    return verificationVerify?.call(this);
+    return sendPhoneNumber?.call(this);
   }
 
   @override
@@ -612,1149 +466,26 @@ class _$VerificationVerifyImpl implements _VerificationVerify {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
     TResult Function(_VerificationSend value)? verificationSend,
-    TResult Function(_VerificationVerify value)? verificationVerify,
-    TResult Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult Function(_SignIn value)? signIn,
-    TResult Function(_SignInBusiness value)? signInBusiness,
-    TResult Function(_UpdatePassword value)? updatePassword,
-    TResult Function(_ForgotPassword value)? forgotPassword,
-    TResult Function(_UpdatePhone value)? updatePhone,
+    TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     required TResult orElse(),
   }) {
-    if (verificationVerify != null) {
-      return verificationVerify(this);
+    if (sendPhoneNumber != null) {
+      return sendPhoneNumber(this);
     }
     return orElse();
   }
 }
 
-abstract class _VerificationVerify implements AuthEvent {
-  const factory _VerificationVerify(
-          {required final VerificationVerifyReq request}) =
-      _$VerificationVerifyImpl;
+abstract class _SendPhoneNumber implements AuthEvent {
+  const factory _SendPhoneNumber({required final PhoneNumberSendReq request}) =
+      _$SendPhoneNumberImpl;
 
-  VerificationVerifyReq get request;
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$VerificationVerifyImplCopyWith<_$VerificationVerifyImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$AdditionalNumberVerifyImplCopyWith<$Res> {
-  factory _$$AdditionalNumberVerifyImplCopyWith(
-          _$AdditionalNumberVerifyImpl value,
-          $Res Function(_$AdditionalNumberVerifyImpl) then) =
-      __$$AdditionalNumberVerifyImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({VerificationVerifyReq request});
-}
-
-/// @nodoc
-class __$$AdditionalNumberVerifyImplCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$AdditionalNumberVerifyImpl>
-    implements _$$AdditionalNumberVerifyImplCopyWith<$Res> {
-  __$$AdditionalNumberVerifyImplCopyWithImpl(
-      _$AdditionalNumberVerifyImpl _value,
-      $Res Function(_$AdditionalNumberVerifyImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? request = null,
-  }) {
-    return _then(_$AdditionalNumberVerifyImpl(
-      request: null == request
-          ? _value.request
-          : request // ignore: cast_nullable_to_non_nullable
-              as VerificationVerifyReq,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$AdditionalNumberVerifyImpl implements _AdditionalNumberVerify {
-  const _$AdditionalNumberVerifyImpl({required this.request});
-
-  @override
-  final VerificationVerifyReq request;
-
-  @override
-  String toString() {
-    return 'AuthEvent.additionalNumberVerify(request: $request)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AdditionalNumberVerifyImpl &&
-            (identical(other.request, request) || other.request == request));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, request);
+  PhoneNumberSendReq get request;
 
   /// Create a copy of AuthEvent
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AdditionalNumberVerifyImplCopyWith<_$AdditionalNumberVerifyImpl>
-      get copyWith => __$$AdditionalNumberVerifyImplCopyWithImpl<
-          _$AdditionalNumberVerifyImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() checkAuth,
-    required TResult Function(VerificationSendReq request) verificationSend,
-    required TResult Function(VerificationVerifyReq request) verificationVerify,
-    required TResult Function(VerificationVerifyReq request)
-        additionalNumberVerify,
-    required TResult Function(SignInReq request) signIn,
-    required TResult Function(SignInReq request) signInBusiness,
-    required TResult Function(ResetPasswordReq request) updatePassword,
-    required TResult Function(ForgotPasswordReqModel request) forgotPassword,
-    required TResult Function(VerificationVerifyReq request) updatePhone,
-  }) {
-    return additionalNumberVerify(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? checkAuth,
-    TResult? Function(VerificationSendReq request)? verificationSend,
-    TResult? Function(VerificationVerifyReq request)? verificationVerify,
-    TResult? Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult? Function(SignInReq request)? signIn,
-    TResult? Function(SignInReq request)? signInBusiness,
-    TResult? Function(ResetPasswordReq request)? updatePassword,
-    TResult? Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult? Function(VerificationVerifyReq request)? updatePhone,
-  }) {
-    return additionalNumberVerify?.call(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? checkAuth,
-    TResult Function(VerificationSendReq request)? verificationSend,
-    TResult Function(VerificationVerifyReq request)? verificationVerify,
-    TResult Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult Function(SignInReq request)? signIn,
-    TResult Function(SignInReq request)? signInBusiness,
-    TResult Function(ResetPasswordReq request)? updatePassword,
-    TResult Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult Function(VerificationVerifyReq request)? updatePhone,
-    required TResult orElse(),
-  }) {
-    if (additionalNumberVerify != null) {
-      return additionalNumberVerify(request);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_CheckAuth value) checkAuth,
-    required TResult Function(_VerificationSend value) verificationSend,
-    required TResult Function(_VerificationVerify value) verificationVerify,
-    required TResult Function(_AdditionalNumberVerify value)
-        additionalNumberVerify,
-    required TResult Function(_SignIn value) signIn,
-    required TResult Function(_SignInBusiness value) signInBusiness,
-    required TResult Function(_UpdatePassword value) updatePassword,
-    required TResult Function(_ForgotPassword value) forgotPassword,
-    required TResult Function(_UpdatePhone value) updatePhone,
-  }) {
-    return additionalNumberVerify(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CheckAuth value)? checkAuth,
-    TResult? Function(_VerificationSend value)? verificationSend,
-    TResult? Function(_VerificationVerify value)? verificationVerify,
-    TResult? Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult? Function(_SignIn value)? signIn,
-    TResult? Function(_SignInBusiness value)? signInBusiness,
-    TResult? Function(_UpdatePassword value)? updatePassword,
-    TResult? Function(_ForgotPassword value)? forgotPassword,
-    TResult? Function(_UpdatePhone value)? updatePhone,
-  }) {
-    return additionalNumberVerify?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CheckAuth value)? checkAuth,
-    TResult Function(_VerificationSend value)? verificationSend,
-    TResult Function(_VerificationVerify value)? verificationVerify,
-    TResult Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult Function(_SignIn value)? signIn,
-    TResult Function(_SignInBusiness value)? signInBusiness,
-    TResult Function(_UpdatePassword value)? updatePassword,
-    TResult Function(_ForgotPassword value)? forgotPassword,
-    TResult Function(_UpdatePhone value)? updatePhone,
-    required TResult orElse(),
-  }) {
-    if (additionalNumberVerify != null) {
-      return additionalNumberVerify(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _AdditionalNumberVerify implements AuthEvent {
-  const factory _AdditionalNumberVerify(
-          {required final VerificationVerifyReq request}) =
-      _$AdditionalNumberVerifyImpl;
-
-  VerificationVerifyReq get request;
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AdditionalNumberVerifyImplCopyWith<_$AdditionalNumberVerifyImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$SignInImplCopyWith<$Res> {
-  factory _$$SignInImplCopyWith(
-          _$SignInImpl value, $Res Function(_$SignInImpl) then) =
-      __$$SignInImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({SignInReq request});
-}
-
-/// @nodoc
-class __$$SignInImplCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$SignInImpl>
-    implements _$$SignInImplCopyWith<$Res> {
-  __$$SignInImplCopyWithImpl(
-      _$SignInImpl _value, $Res Function(_$SignInImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? request = null,
-  }) {
-    return _then(_$SignInImpl(
-      request: null == request
-          ? _value.request
-          : request // ignore: cast_nullable_to_non_nullable
-              as SignInReq,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$SignInImpl implements _SignIn {
-  const _$SignInImpl({required this.request});
-
-  @override
-  final SignInReq request;
-
-  @override
-  String toString() {
-    return 'AuthEvent.signIn(request: $request)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SignInImpl &&
-            (identical(other.request, request) || other.request == request));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, request);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SignInImplCopyWith<_$SignInImpl> get copyWith =>
-      __$$SignInImplCopyWithImpl<_$SignInImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() checkAuth,
-    required TResult Function(VerificationSendReq request) verificationSend,
-    required TResult Function(VerificationVerifyReq request) verificationVerify,
-    required TResult Function(VerificationVerifyReq request)
-        additionalNumberVerify,
-    required TResult Function(SignInReq request) signIn,
-    required TResult Function(SignInReq request) signInBusiness,
-    required TResult Function(ResetPasswordReq request) updatePassword,
-    required TResult Function(ForgotPasswordReqModel request) forgotPassword,
-    required TResult Function(VerificationVerifyReq request) updatePhone,
-  }) {
-    return signIn(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? checkAuth,
-    TResult? Function(VerificationSendReq request)? verificationSend,
-    TResult? Function(VerificationVerifyReq request)? verificationVerify,
-    TResult? Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult? Function(SignInReq request)? signIn,
-    TResult? Function(SignInReq request)? signInBusiness,
-    TResult? Function(ResetPasswordReq request)? updatePassword,
-    TResult? Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult? Function(VerificationVerifyReq request)? updatePhone,
-  }) {
-    return signIn?.call(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? checkAuth,
-    TResult Function(VerificationSendReq request)? verificationSend,
-    TResult Function(VerificationVerifyReq request)? verificationVerify,
-    TResult Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult Function(SignInReq request)? signIn,
-    TResult Function(SignInReq request)? signInBusiness,
-    TResult Function(ResetPasswordReq request)? updatePassword,
-    TResult Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult Function(VerificationVerifyReq request)? updatePhone,
-    required TResult orElse(),
-  }) {
-    if (signIn != null) {
-      return signIn(request);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_CheckAuth value) checkAuth,
-    required TResult Function(_VerificationSend value) verificationSend,
-    required TResult Function(_VerificationVerify value) verificationVerify,
-    required TResult Function(_AdditionalNumberVerify value)
-        additionalNumberVerify,
-    required TResult Function(_SignIn value) signIn,
-    required TResult Function(_SignInBusiness value) signInBusiness,
-    required TResult Function(_UpdatePassword value) updatePassword,
-    required TResult Function(_ForgotPassword value) forgotPassword,
-    required TResult Function(_UpdatePhone value) updatePhone,
-  }) {
-    return signIn(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CheckAuth value)? checkAuth,
-    TResult? Function(_VerificationSend value)? verificationSend,
-    TResult? Function(_VerificationVerify value)? verificationVerify,
-    TResult? Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult? Function(_SignIn value)? signIn,
-    TResult? Function(_SignInBusiness value)? signInBusiness,
-    TResult? Function(_UpdatePassword value)? updatePassword,
-    TResult? Function(_ForgotPassword value)? forgotPassword,
-    TResult? Function(_UpdatePhone value)? updatePhone,
-  }) {
-    return signIn?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CheckAuth value)? checkAuth,
-    TResult Function(_VerificationSend value)? verificationSend,
-    TResult Function(_VerificationVerify value)? verificationVerify,
-    TResult Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult Function(_SignIn value)? signIn,
-    TResult Function(_SignInBusiness value)? signInBusiness,
-    TResult Function(_UpdatePassword value)? updatePassword,
-    TResult Function(_ForgotPassword value)? forgotPassword,
-    TResult Function(_UpdatePhone value)? updatePhone,
-    required TResult orElse(),
-  }) {
-    if (signIn != null) {
-      return signIn(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _SignIn implements AuthEvent {
-  const factory _SignIn({required final SignInReq request}) = _$SignInImpl;
-
-  SignInReq get request;
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SignInImplCopyWith<_$SignInImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$SignInBusinessImplCopyWith<$Res> {
-  factory _$$SignInBusinessImplCopyWith(_$SignInBusinessImpl value,
-          $Res Function(_$SignInBusinessImpl) then) =
-      __$$SignInBusinessImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({SignInReq request});
-}
-
-/// @nodoc
-class __$$SignInBusinessImplCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$SignInBusinessImpl>
-    implements _$$SignInBusinessImplCopyWith<$Res> {
-  __$$SignInBusinessImplCopyWithImpl(
-      _$SignInBusinessImpl _value, $Res Function(_$SignInBusinessImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? request = null,
-  }) {
-    return _then(_$SignInBusinessImpl(
-      request: null == request
-          ? _value.request
-          : request // ignore: cast_nullable_to_non_nullable
-              as SignInReq,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$SignInBusinessImpl implements _SignInBusiness {
-  const _$SignInBusinessImpl({required this.request});
-
-  @override
-  final SignInReq request;
-
-  @override
-  String toString() {
-    return 'AuthEvent.signInBusiness(request: $request)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SignInBusinessImpl &&
-            (identical(other.request, request) || other.request == request));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, request);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SignInBusinessImplCopyWith<_$SignInBusinessImpl> get copyWith =>
-      __$$SignInBusinessImplCopyWithImpl<_$SignInBusinessImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() checkAuth,
-    required TResult Function(VerificationSendReq request) verificationSend,
-    required TResult Function(VerificationVerifyReq request) verificationVerify,
-    required TResult Function(VerificationVerifyReq request)
-        additionalNumberVerify,
-    required TResult Function(SignInReq request) signIn,
-    required TResult Function(SignInReq request) signInBusiness,
-    required TResult Function(ResetPasswordReq request) updatePassword,
-    required TResult Function(ForgotPasswordReqModel request) forgotPassword,
-    required TResult Function(VerificationVerifyReq request) updatePhone,
-  }) {
-    return signInBusiness(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? checkAuth,
-    TResult? Function(VerificationSendReq request)? verificationSend,
-    TResult? Function(VerificationVerifyReq request)? verificationVerify,
-    TResult? Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult? Function(SignInReq request)? signIn,
-    TResult? Function(SignInReq request)? signInBusiness,
-    TResult? Function(ResetPasswordReq request)? updatePassword,
-    TResult? Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult? Function(VerificationVerifyReq request)? updatePhone,
-  }) {
-    return signInBusiness?.call(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? checkAuth,
-    TResult Function(VerificationSendReq request)? verificationSend,
-    TResult Function(VerificationVerifyReq request)? verificationVerify,
-    TResult Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult Function(SignInReq request)? signIn,
-    TResult Function(SignInReq request)? signInBusiness,
-    TResult Function(ResetPasswordReq request)? updatePassword,
-    TResult Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult Function(VerificationVerifyReq request)? updatePhone,
-    required TResult orElse(),
-  }) {
-    if (signInBusiness != null) {
-      return signInBusiness(request);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_CheckAuth value) checkAuth,
-    required TResult Function(_VerificationSend value) verificationSend,
-    required TResult Function(_VerificationVerify value) verificationVerify,
-    required TResult Function(_AdditionalNumberVerify value)
-        additionalNumberVerify,
-    required TResult Function(_SignIn value) signIn,
-    required TResult Function(_SignInBusiness value) signInBusiness,
-    required TResult Function(_UpdatePassword value) updatePassword,
-    required TResult Function(_ForgotPassword value) forgotPassword,
-    required TResult Function(_UpdatePhone value) updatePhone,
-  }) {
-    return signInBusiness(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CheckAuth value)? checkAuth,
-    TResult? Function(_VerificationSend value)? verificationSend,
-    TResult? Function(_VerificationVerify value)? verificationVerify,
-    TResult? Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult? Function(_SignIn value)? signIn,
-    TResult? Function(_SignInBusiness value)? signInBusiness,
-    TResult? Function(_UpdatePassword value)? updatePassword,
-    TResult? Function(_ForgotPassword value)? forgotPassword,
-    TResult? Function(_UpdatePhone value)? updatePhone,
-  }) {
-    return signInBusiness?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CheckAuth value)? checkAuth,
-    TResult Function(_VerificationSend value)? verificationSend,
-    TResult Function(_VerificationVerify value)? verificationVerify,
-    TResult Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult Function(_SignIn value)? signIn,
-    TResult Function(_SignInBusiness value)? signInBusiness,
-    TResult Function(_UpdatePassword value)? updatePassword,
-    TResult Function(_ForgotPassword value)? forgotPassword,
-    TResult Function(_UpdatePhone value)? updatePhone,
-    required TResult orElse(),
-  }) {
-    if (signInBusiness != null) {
-      return signInBusiness(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _SignInBusiness implements AuthEvent {
-  const factory _SignInBusiness({required final SignInReq request}) =
-      _$SignInBusinessImpl;
-
-  SignInReq get request;
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SignInBusinessImplCopyWith<_$SignInBusinessImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$UpdatePasswordImplCopyWith<$Res> {
-  factory _$$UpdatePasswordImplCopyWith(_$UpdatePasswordImpl value,
-          $Res Function(_$UpdatePasswordImpl) then) =
-      __$$UpdatePasswordImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({ResetPasswordReq request});
-}
-
-/// @nodoc
-class __$$UpdatePasswordImplCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$UpdatePasswordImpl>
-    implements _$$UpdatePasswordImplCopyWith<$Res> {
-  __$$UpdatePasswordImplCopyWithImpl(
-      _$UpdatePasswordImpl _value, $Res Function(_$UpdatePasswordImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? request = null,
-  }) {
-    return _then(_$UpdatePasswordImpl(
-      request: null == request
-          ? _value.request
-          : request // ignore: cast_nullable_to_non_nullable
-              as ResetPasswordReq,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$UpdatePasswordImpl implements _UpdatePassword {
-  const _$UpdatePasswordImpl({required this.request});
-
-  @override
-  final ResetPasswordReq request;
-
-  @override
-  String toString() {
-    return 'AuthEvent.updatePassword(request: $request)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UpdatePasswordImpl &&
-            (identical(other.request, request) || other.request == request));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, request);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UpdatePasswordImplCopyWith<_$UpdatePasswordImpl> get copyWith =>
-      __$$UpdatePasswordImplCopyWithImpl<_$UpdatePasswordImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() checkAuth,
-    required TResult Function(VerificationSendReq request) verificationSend,
-    required TResult Function(VerificationVerifyReq request) verificationVerify,
-    required TResult Function(VerificationVerifyReq request)
-        additionalNumberVerify,
-    required TResult Function(SignInReq request) signIn,
-    required TResult Function(SignInReq request) signInBusiness,
-    required TResult Function(ResetPasswordReq request) updatePassword,
-    required TResult Function(ForgotPasswordReqModel request) forgotPassword,
-    required TResult Function(VerificationVerifyReq request) updatePhone,
-  }) {
-    return updatePassword(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? checkAuth,
-    TResult? Function(VerificationSendReq request)? verificationSend,
-    TResult? Function(VerificationVerifyReq request)? verificationVerify,
-    TResult? Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult? Function(SignInReq request)? signIn,
-    TResult? Function(SignInReq request)? signInBusiness,
-    TResult? Function(ResetPasswordReq request)? updatePassword,
-    TResult? Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult? Function(VerificationVerifyReq request)? updatePhone,
-  }) {
-    return updatePassword?.call(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? checkAuth,
-    TResult Function(VerificationSendReq request)? verificationSend,
-    TResult Function(VerificationVerifyReq request)? verificationVerify,
-    TResult Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult Function(SignInReq request)? signIn,
-    TResult Function(SignInReq request)? signInBusiness,
-    TResult Function(ResetPasswordReq request)? updatePassword,
-    TResult Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult Function(VerificationVerifyReq request)? updatePhone,
-    required TResult orElse(),
-  }) {
-    if (updatePassword != null) {
-      return updatePassword(request);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_CheckAuth value) checkAuth,
-    required TResult Function(_VerificationSend value) verificationSend,
-    required TResult Function(_VerificationVerify value) verificationVerify,
-    required TResult Function(_AdditionalNumberVerify value)
-        additionalNumberVerify,
-    required TResult Function(_SignIn value) signIn,
-    required TResult Function(_SignInBusiness value) signInBusiness,
-    required TResult Function(_UpdatePassword value) updatePassword,
-    required TResult Function(_ForgotPassword value) forgotPassword,
-    required TResult Function(_UpdatePhone value) updatePhone,
-  }) {
-    return updatePassword(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CheckAuth value)? checkAuth,
-    TResult? Function(_VerificationSend value)? verificationSend,
-    TResult? Function(_VerificationVerify value)? verificationVerify,
-    TResult? Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult? Function(_SignIn value)? signIn,
-    TResult? Function(_SignInBusiness value)? signInBusiness,
-    TResult? Function(_UpdatePassword value)? updatePassword,
-    TResult? Function(_ForgotPassword value)? forgotPassword,
-    TResult? Function(_UpdatePhone value)? updatePhone,
-  }) {
-    return updatePassword?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CheckAuth value)? checkAuth,
-    TResult Function(_VerificationSend value)? verificationSend,
-    TResult Function(_VerificationVerify value)? verificationVerify,
-    TResult Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult Function(_SignIn value)? signIn,
-    TResult Function(_SignInBusiness value)? signInBusiness,
-    TResult Function(_UpdatePassword value)? updatePassword,
-    TResult Function(_ForgotPassword value)? forgotPassword,
-    TResult Function(_UpdatePhone value)? updatePhone,
-    required TResult orElse(),
-  }) {
-    if (updatePassword != null) {
-      return updatePassword(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _UpdatePassword implements AuthEvent {
-  const factory _UpdatePassword({required final ResetPasswordReq request}) =
-      _$UpdatePasswordImpl;
-
-  ResetPasswordReq get request;
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UpdatePasswordImplCopyWith<_$UpdatePasswordImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$ForgotPasswordImplCopyWith<$Res> {
-  factory _$$ForgotPasswordImplCopyWith(_$ForgotPasswordImpl value,
-          $Res Function(_$ForgotPasswordImpl) then) =
-      __$$ForgotPasswordImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({ForgotPasswordReqModel request});
-}
-
-/// @nodoc
-class __$$ForgotPasswordImplCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$ForgotPasswordImpl>
-    implements _$$ForgotPasswordImplCopyWith<$Res> {
-  __$$ForgotPasswordImplCopyWithImpl(
-      _$ForgotPasswordImpl _value, $Res Function(_$ForgotPasswordImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? request = null,
-  }) {
-    return _then(_$ForgotPasswordImpl(
-      request: null == request
-          ? _value.request
-          : request // ignore: cast_nullable_to_non_nullable
-              as ForgotPasswordReqModel,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$ForgotPasswordImpl implements _ForgotPassword {
-  const _$ForgotPasswordImpl({required this.request});
-
-  @override
-  final ForgotPasswordReqModel request;
-
-  @override
-  String toString() {
-    return 'AuthEvent.forgotPassword(request: $request)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ForgotPasswordImpl &&
-            (identical(other.request, request) || other.request == request));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, request);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ForgotPasswordImplCopyWith<_$ForgotPasswordImpl> get copyWith =>
-      __$$ForgotPasswordImplCopyWithImpl<_$ForgotPasswordImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() checkAuth,
-    required TResult Function(VerificationSendReq request) verificationSend,
-    required TResult Function(VerificationVerifyReq request) verificationVerify,
-    required TResult Function(VerificationVerifyReq request)
-        additionalNumberVerify,
-    required TResult Function(SignInReq request) signIn,
-    required TResult Function(SignInReq request) signInBusiness,
-    required TResult Function(ResetPasswordReq request) updatePassword,
-    required TResult Function(ForgotPasswordReqModel request) forgotPassword,
-    required TResult Function(VerificationVerifyReq request) updatePhone,
-  }) {
-    return forgotPassword(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? checkAuth,
-    TResult? Function(VerificationSendReq request)? verificationSend,
-    TResult? Function(VerificationVerifyReq request)? verificationVerify,
-    TResult? Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult? Function(SignInReq request)? signIn,
-    TResult? Function(SignInReq request)? signInBusiness,
-    TResult? Function(ResetPasswordReq request)? updatePassword,
-    TResult? Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult? Function(VerificationVerifyReq request)? updatePhone,
-  }) {
-    return forgotPassword?.call(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? checkAuth,
-    TResult Function(VerificationSendReq request)? verificationSend,
-    TResult Function(VerificationVerifyReq request)? verificationVerify,
-    TResult Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult Function(SignInReq request)? signIn,
-    TResult Function(SignInReq request)? signInBusiness,
-    TResult Function(ResetPasswordReq request)? updatePassword,
-    TResult Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult Function(VerificationVerifyReq request)? updatePhone,
-    required TResult orElse(),
-  }) {
-    if (forgotPassword != null) {
-      return forgotPassword(request);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_CheckAuth value) checkAuth,
-    required TResult Function(_VerificationSend value) verificationSend,
-    required TResult Function(_VerificationVerify value) verificationVerify,
-    required TResult Function(_AdditionalNumberVerify value)
-        additionalNumberVerify,
-    required TResult Function(_SignIn value) signIn,
-    required TResult Function(_SignInBusiness value) signInBusiness,
-    required TResult Function(_UpdatePassword value) updatePassword,
-    required TResult Function(_ForgotPassword value) forgotPassword,
-    required TResult Function(_UpdatePhone value) updatePhone,
-  }) {
-    return forgotPassword(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CheckAuth value)? checkAuth,
-    TResult? Function(_VerificationSend value)? verificationSend,
-    TResult? Function(_VerificationVerify value)? verificationVerify,
-    TResult? Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult? Function(_SignIn value)? signIn,
-    TResult? Function(_SignInBusiness value)? signInBusiness,
-    TResult? Function(_UpdatePassword value)? updatePassword,
-    TResult? Function(_ForgotPassword value)? forgotPassword,
-    TResult? Function(_UpdatePhone value)? updatePhone,
-  }) {
-    return forgotPassword?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CheckAuth value)? checkAuth,
-    TResult Function(_VerificationSend value)? verificationSend,
-    TResult Function(_VerificationVerify value)? verificationVerify,
-    TResult Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult Function(_SignIn value)? signIn,
-    TResult Function(_SignInBusiness value)? signInBusiness,
-    TResult Function(_UpdatePassword value)? updatePassword,
-    TResult Function(_ForgotPassword value)? forgotPassword,
-    TResult Function(_UpdatePhone value)? updatePhone,
-    required TResult orElse(),
-  }) {
-    if (forgotPassword != null) {
-      return forgotPassword(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _ForgotPassword implements AuthEvent {
-  const factory _ForgotPassword(
-      {required final ForgotPasswordReqModel request}) = _$ForgotPasswordImpl;
-
-  ForgotPasswordReqModel get request;
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ForgotPasswordImplCopyWith<_$ForgotPasswordImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$UpdatePhoneImplCopyWith<$Res> {
-  factory _$$UpdatePhoneImplCopyWith(
-          _$UpdatePhoneImpl value, $Res Function(_$UpdatePhoneImpl) then) =
-      __$$UpdatePhoneImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({VerificationVerifyReq request});
-}
-
-/// @nodoc
-class __$$UpdatePhoneImplCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$UpdatePhoneImpl>
-    implements _$$UpdatePhoneImplCopyWith<$Res> {
-  __$$UpdatePhoneImplCopyWithImpl(
-      _$UpdatePhoneImpl _value, $Res Function(_$UpdatePhoneImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? request = null,
-  }) {
-    return _then(_$UpdatePhoneImpl(
-      request: null == request
-          ? _value.request
-          : request // ignore: cast_nullable_to_non_nullable
-              as VerificationVerifyReq,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$UpdatePhoneImpl implements _UpdatePhone {
-  const _$UpdatePhoneImpl({required this.request});
-
-  @override
-  final VerificationVerifyReq request;
-
-  @override
-  String toString() {
-    return 'AuthEvent.updatePhone(request: $request)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UpdatePhoneImpl &&
-            (identical(other.request, request) || other.request == request));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, request);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UpdatePhoneImplCopyWith<_$UpdatePhoneImpl> get copyWith =>
-      __$$UpdatePhoneImplCopyWithImpl<_$UpdatePhoneImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() checkAuth,
-    required TResult Function(VerificationSendReq request) verificationSend,
-    required TResult Function(VerificationVerifyReq request) verificationVerify,
-    required TResult Function(VerificationVerifyReq request)
-        additionalNumberVerify,
-    required TResult Function(SignInReq request) signIn,
-    required TResult Function(SignInReq request) signInBusiness,
-    required TResult Function(ResetPasswordReq request) updatePassword,
-    required TResult Function(ForgotPasswordReqModel request) forgotPassword,
-    required TResult Function(VerificationVerifyReq request) updatePhone,
-  }) {
-    return updatePhone(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? checkAuth,
-    TResult? Function(VerificationSendReq request)? verificationSend,
-    TResult? Function(VerificationVerifyReq request)? verificationVerify,
-    TResult? Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult? Function(SignInReq request)? signIn,
-    TResult? Function(SignInReq request)? signInBusiness,
-    TResult? Function(ResetPasswordReq request)? updatePassword,
-    TResult? Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult? Function(VerificationVerifyReq request)? updatePhone,
-  }) {
-    return updatePhone?.call(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? checkAuth,
-    TResult Function(VerificationSendReq request)? verificationSend,
-    TResult Function(VerificationVerifyReq request)? verificationVerify,
-    TResult Function(VerificationVerifyReq request)? additionalNumberVerify,
-    TResult Function(SignInReq request)? signIn,
-    TResult Function(SignInReq request)? signInBusiness,
-    TResult Function(ResetPasswordReq request)? updatePassword,
-    TResult Function(ForgotPasswordReqModel request)? forgotPassword,
-    TResult Function(VerificationVerifyReq request)? updatePhone,
-    required TResult orElse(),
-  }) {
-    if (updatePhone != null) {
-      return updatePhone(request);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_CheckAuth value) checkAuth,
-    required TResult Function(_VerificationSend value) verificationSend,
-    required TResult Function(_VerificationVerify value) verificationVerify,
-    required TResult Function(_AdditionalNumberVerify value)
-        additionalNumberVerify,
-    required TResult Function(_SignIn value) signIn,
-    required TResult Function(_SignInBusiness value) signInBusiness,
-    required TResult Function(_UpdatePassword value) updatePassword,
-    required TResult Function(_ForgotPassword value) forgotPassword,
-    required TResult Function(_UpdatePhone value) updatePhone,
-  }) {
-    return updatePhone(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CheckAuth value)? checkAuth,
-    TResult? Function(_VerificationSend value)? verificationSend,
-    TResult? Function(_VerificationVerify value)? verificationVerify,
-    TResult? Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult? Function(_SignIn value)? signIn,
-    TResult? Function(_SignInBusiness value)? signInBusiness,
-    TResult? Function(_UpdatePassword value)? updatePassword,
-    TResult? Function(_ForgotPassword value)? forgotPassword,
-    TResult? Function(_UpdatePhone value)? updatePhone,
-  }) {
-    return updatePhone?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CheckAuth value)? checkAuth,
-    TResult Function(_VerificationSend value)? verificationSend,
-    TResult Function(_VerificationVerify value)? verificationVerify,
-    TResult Function(_AdditionalNumberVerify value)? additionalNumberVerify,
-    TResult Function(_SignIn value)? signIn,
-    TResult Function(_SignInBusiness value)? signInBusiness,
-    TResult Function(_UpdatePassword value)? updatePassword,
-    TResult Function(_ForgotPassword value)? forgotPassword,
-    TResult Function(_UpdatePhone value)? updatePhone,
-    required TResult orElse(),
-  }) {
-    if (updatePhone != null) {
-      return updatePhone(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _UpdatePhone implements AuthEvent {
-  const factory _UpdatePhone({required final VerificationVerifyReq request}) =
-      _$UpdatePhoneImpl;
-
-  VerificationVerifyReq get request;
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UpdatePhoneImplCopyWith<_$UpdatePhoneImpl> get copyWith =>
+  _$$SendPhoneNumberImplCopyWith<_$SendPhoneNumberImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

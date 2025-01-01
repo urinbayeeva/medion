@@ -2,8 +2,10 @@ import 'package:circle_flags/circle_flags.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/routes/routes.dart';
@@ -99,6 +101,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         curve: Curves.easeInOut,
                       );
                     } else {
+                      context
+                          .read<DBService>()
+                          .setBool(isSaved: true, key: DBService.intro);
+                      context.read<DBService>().setLang(isSaved: true);
+
                       Navigator.pushReplacement(
                           context, AppRoutes.getSignUpPage());
                     }

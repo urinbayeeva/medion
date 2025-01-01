@@ -61,7 +61,6 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                   context,
                   AppRoutes.getVerifyCodePage(
                       additionalPhone: widget.additionalPhone,
-                      onClose: widget.onClose,
                       autofill: value,
                       phoneNumber:
                           formatPhoneNumber(_phoneNumberController.text),
@@ -90,8 +89,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                       Text("enter_phone_number".tr(),
                           style: fonts.displaySecond),
                       8.h.verticalSpace,
-                      Text(
-                          "to_enter_make_appoints".tr(),
+                      Text("to_enter_make_appoints".tr(),
                           style: fonts.smallText.copyWith(
                               color: colors.neutral700,
                               fontSize: 15.sp,
@@ -142,15 +140,22 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                             focusNode.unfocus();
                             await SmsAutoFill().getAppSignature.then((value) {
                               // ignore: use_build_context_synchronously
-                              context
-                                  .read<AuthBloc>()
-                                  .add(AuthEvent.verificationSend(
-                                      request: VerificationSendReq(
-                                    (p0) => p0
-                                      ..phone = formatPhoneNumber(
-                                          _phoneNumberController.text)
-                                      ..autofill = value,
-                                  )));
+                              // context.read<AuthBloc>().add(
+                              //     AuthEvent.sendPhoneNumber(
+                              //         request: PhoneNumberSendReq(
+                              //           (p0) => p0
+                              //             ..phoneNumber: formatPhoneNumber(
+                              //                 _phoneNumberController.text))));
+                              // // ignore: use_build_context_synchronously
+                              // context
+                              //     .read<AuthBloc>()
+                              //     .add(AuthEvent.verificationSend(
+                              //         request: VerificationSendReq(
+                              //       (p0) => p0
+                              //         ..phoneNumber = formatPhoneNumber(
+                              //             _phoneNumberController.text)
+                              //         ..code = "1111",
+                              //     )));
                             });
                           }
                         },

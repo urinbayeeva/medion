@@ -20,20 +20,6 @@ final class _$AuthService extends AuthService {
   @override
   Future<Response<SuccessModel>> verificationSend(
       {required VerificationSendReq request}) {
-    final Uri $url = Uri.parse('/patient/registration');
-    final $body = request;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
-    return client.send<SuccessModel, SuccessModel>($request);
-  }
-
-  @override
-  Future<Response<SuccessModel>> phoneNumber(
-      {required VerificationSendReq request}) {
     final Uri $url = Uri.parse('/patient/phone-number');
     final $body = request;
     final Request $request = Request(
@@ -44,250 +30,28 @@ final class _$AuthService extends AuthService {
     );
     return client.send<SuccessModel, SuccessModel>($request);
   }
-
-  @override
-  Future<Response<FCMTokenModel>> createAnonymousUser(
-      {required FCMTokenModel request}) {
-    final Uri $url = Uri.parse('/patient/anonymous/user/create');
-    final $body = request;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
-    return client.send<FCMTokenModel, FCMTokenModel>($request);
-  }
-
-  @override
-  Future<Response<LoginRes>> verificationVerify(
-      {required VerificationVerifyReq request}) {
-    final Uri $url = Uri.parse('/patient/verification-code/verify/');
-    final $body = request;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
-    return client.send<LoginRes, LoginRes>($request);
-  }
-
-  @override
-  Future<Response<SuccessModel>> registration({required RegisterReq request}) {
-    final Uri $url = Uri.parse('/patient/registration/');
-    final $body = request;
-    final Request $request = Request(
-      'PUT',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
-    return client.send<SuccessModel, SuccessModel>($request);
-  }
-
-  @override
-  Future<Response<LoginRes>> signIn({required SignInReq request}) {
-    final Uri $url = Uri.parse('/patient/phone-number');
-    final $body = request;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
-    return client.send<LoginRes, LoginRes>($request);
-  }
-
-  @override
-  Future<Response<SuccessModel>> updatePassword(
-      {required ResetPasswordReq request}) {
-    final Uri $url = Uri.parse('/patient/password');
-    final $body = request;
-    final Request $request = Request(
-      'PUT',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
-    return client.send<SuccessModel, SuccessModel>($request);
-  }
-
-  @override
-  Future<Response<LoginRes>> forgotPassword(
-      {required ForgotPasswordReqModel request}) {
-    final Uri $url = Uri.parse('/patient/forgot-password');
-    final $body = request;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
-    return client.send<LoginRes, LoginRes>($request);
-  }
-
-  @override
-  Future<Response<SuccessModel>> updateProfile({
-    required ProfileModel request,
-    String requiresToken = 'true',
-  }) {
-    final Uri $url = Uri.parse('/patient/profile');
-    final Map<String, String> $headers = {
-      'requires-token': requiresToken,
-    };
-    final $body = request;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      headers: $headers,
-    );
-    return client.send<SuccessModel, SuccessModel>($request);
-  }
-
-  @override
-  Future<Response<SuccessModel>> updatePhone({
-    required VerificationVerifyReq request,
-    String requiresToken = 'true',
-  }) {
-    final Uri $url = Uri.parse('/patient/phone-update/');
-    final Map<String, String> $headers = {
-      'requires-token': requiresToken,
-    };
-    final $body = request;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      headers: $headers,
-    );
-    return client.send<SuccessModel, SuccessModel>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> deleteProfile({String requiresToken = 'true'}) {
-    final Uri $url = Uri.parse('/patient/destroy');
-    final Map<String, String> $headers = {
-      'requires-token': requiresToken,
-    };
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      headers: $headers,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<SuccessModel>> additionalNumberVerify({
-    required VerificationVerifyReq request,
-    String requiresToken = 'true',
-  }) {
-    final Uri $url = Uri.parse('/patient/verify/add-phone/');
-    final Map<String, String> $headers = {
-      'requires-token': requiresToken,
-    };
-    final $body = request;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      headers: $headers,
-    );
-    return client.send<SuccessModel, SuccessModel>($request);
-  }
-
-  @override
-  Future<Response<ProfileRes>> getProfile({String requiresToken = 'true'}) {
-    final Uri $url = Uri.parse('/patient/profile');
-    final Map<String, String> $headers = {
-      'requires-token': requiresToken,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      headers: $headers,
-    );
-    return client.send<ProfileRes, ProfileRes>($request);
-  }
 }
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-final class _$MedService extends MedService {
-  _$MedService([ChopperClient? client]) {
+final class _$BookingService extends BookingService {
+  _$BookingService([ChopperClient? client]) {
     if (client == null) return;
     this.client = client;
   }
 
   @override
-  final Type definitionType = MedService;
+  final Type definitionType = BookingService;
 
   @override
-  Future<Response<List<ServiceResResult>>> getServiceTypes(
-    String? title,
-    String? info,
-    bool? forChildren,
-    bool? link,
-    String? color,
-  ) {
-    final Uri $url = Uri.parse('/home/medical_services');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'title': title,
-      'info': info,
-      'for_children': forChildren,
-      'link': link,
-      'background_color': color,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<List<ServiceResResult>, ServiceResResult>($request);
-  }
-
-  @override
-  Future<Response<BuiltList<News>>> getNews() {
-    final Uri $url = Uri.parse('/home/news');
+  Future<Response<BuiltList<BookingTypeModel>>> bookingTypes() {
+    final Uri $url = Uri.parse('/booking/types');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<BuiltList<News>, News>($request);
-  }
-}
-
-// coverage:ignore-file
-// ignore_for_file: type=lint
-final class _$BusinessService extends BusinessService {
-  _$BusinessService([ChopperClient? client]) {
-    if (client == null) return;
-    this.client = client;
-  }
-
-  @override
-  final Type definitionType = BusinessService;
-
-  @override
-  Future<Response<LoginRes>> signIn({required SignInReq request}) {
-    final Uri $url = Uri.parse('/business/login');
-    final $body = request;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
-    return client.send<LoginRes, LoginRes>($request);
+    return client.send<BuiltList<BookingTypeModel>, BookingTypeModel>($request);
   }
 }
 

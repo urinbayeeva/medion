@@ -7,9 +7,30 @@ import 'package:medion/application/profile/profile_bloc.dart';
 import 'package:medion/presentation/pages/profile/widget/nav_list_widget.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  String aboutApp = "";
+
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
+  void init() async {
+    final result = (await PackageInfo.fromPlatform());
+    aboutApp = "Version ${result.version.toString()}";
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +85,7 @@ class ProfilePage extends StatelessWidget {
                 flex: 3,
                 child: Center(
                   child: Text(
-                    "Version: Test",
+                    aboutApp,
                     style: fonts.regularLink.copyWith(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,

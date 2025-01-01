@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +27,7 @@ class UserDetailsPage extends StatelessWidget {
             body: Column(
               children: [
                 CAppBar(
-                  title: "Личные данные",
+                  title: "personal_information".tr(),
                   isBack: true,
                   centerTitle: true,
                   trailing: 24.w.horizontalSpace,

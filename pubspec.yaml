@@ -59,7 +59,6 @@ dependencies:
   toggle_switch: ^2.3.0
   animated_toggle_switch: ^0.8.3
   geolocator: ^13.0.2
-  flutter_launcher_icons: ^0.14.2
   url_launcher: ^6.3.1
   path_provider: ^2.1.5
   build: ^2.4.1
@@ -93,15 +92,21 @@ dependencies:
   easy_localization: ^3.0.7
   circle_flags: ^5.0.0
   camera: ^0.11.0+2
-  photo_manager: ^3.6.3
+  # photo_manager: ^3.6.3
   photo_manager_image_provider: ^2.2.0
   extended_image: ^9.0.9
+
+  package_info_plus: ^8.1.2
+  flutter_multi_formatter: ^2.13.0
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  flutter_launcher_icons:
+
+  
 
 flutter:
   uses-material-design: true
@@ -125,14 +130,15 @@ flutter:
 
 flutter_native_splash:
   info_plist_files:
-    - 'ios/Runner/Info-prod.plist'
-    - 'ios/Runner/Info-beta.plist'
-    - 'ios/Runner/Info-dev.plist'
-  color: "#000000"
+    - 'ios/Runner/Info.plist'
+  color: "#FFFFFF"
+  color_dark: "#FFFFFF"
   image: assets/images/medion_logo_text.png
   android_12:
     image: assets/images/medion_logo_text.png
-
+    icon_background_color: "#FFFFFF"
+    image_dark: assets/images/medion_logo_text.png
+    icon_background_color_dark: "#FFFFFF"
 
   android: true
   ios: true

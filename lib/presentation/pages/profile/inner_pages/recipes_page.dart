@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
@@ -16,7 +17,7 @@ class RecipesPage extends StatelessWidget {
         body: Column(
           children: [
             CAppBar(
-              title: "Рецепты",
+              title: "recipe".tr(),
               isBack: true,
               centerTitle: true,
               trailing: icons.calendar.svg(

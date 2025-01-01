@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/nav_bar/lib/persistent_tab_view.dart';
@@ -108,7 +109,7 @@ List<PersistentBottomNavBarItem> navBarsItems(IconSet icons) {
       iconSize: iconSize,
       inactiveIcon: icons.homeActive,
       icon: icons.home,
-      title: "Главная",
+      title: "main".tr(),
       activeColorPrimary: Style.error500,
       inactiveColorPrimary: Style.primary900,
     ),
@@ -116,7 +117,7 @@ List<PersistentBottomNavBarItem> navBarsItems(IconSet icons) {
       iconSize: iconSize,
       inactiveIcon: icons.filePlusActive,
       icon: icons.filePlus,
-      title: "Записаться",
+      title: "appointment_nav_bar".tr(),
       activeColorPrimary: Style.error500,
       inactiveColorPrimary: Style.primary900,
     ),
@@ -124,7 +125,7 @@ List<PersistentBottomNavBarItem> navBarsItems(IconSet icons) {
       iconSize: iconSize,
       icon: icons.calendarActive,
       inactiveIcon: icons.calendar,
-      title: "Посещения",
+      title: "visits".tr(),
       activeColorPrimary: Style.primary500,
       inactiveColorPrimary: Style.primary900,
     ),
@@ -132,7 +133,7 @@ List<PersistentBottomNavBarItem> navBarsItems(IconSet icons) {
       iconSize: iconSize,
       icon: icons.profileActive,
       inactiveIcon: icons.profile,
-      title: "Профиль",
+      title: "profile".tr(),
       activeColorPrimary: Style.primary500,
       inactiveColorPrimary: Style.primary900,
     ),
@@ -140,7 +141,7 @@ List<PersistentBottomNavBarItem> navBarsItems(IconSet icons) {
       iconSize: iconSize,
       icon: icons.otherActive,
       inactiveIcon: icons.other,
-      title: "Ещё",
+      title: "more".tr(),
       activeColorPrimary: Style.primary500,
       inactiveColorPrimary: Style.primary900,
     ),

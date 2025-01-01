@@ -22,14 +22,12 @@ class UserInfoInput extends StatelessWidget {
           children: [
             4.h.verticalSpace,
             const CustomTextField(hintText: "123456", title: "ID клиента"),
-            const CustomTextField(hintText: "Kamoliddin", title: "Имя"),
-            const CustomTextField(hintText: "Zokirov", title: "Фамилия"),
-            const CustomTextField(hintText: "12.08.01", title: "Дата рождения"),
+            const CustomTextField(hintText: "", title: "Имя"),
+            const CustomTextField(hintText: "", title: "Фамилия"),
+            const CustomTextField(hintText: "", title: "Дата рождения"),
+            const CustomTextField(hintText: "", title: "Телефон"),
             const CustomTextField(
-                hintText: "+998(93) 231-03-03", title: "Телефон"),
-            const CustomTextField(
-                hintText: "+998(93) 231-03-03",
-                title: "Дополнительный номер телефона"),
+                hintText: "", title: "Дополнительный номер телефона"),
             const CustomTextField(hintText: "Пасспорт", title: "Тип документа"),
             const CustomTextField(
                 hintText: "AD763873422", title: "Серия и номер паспорта"),

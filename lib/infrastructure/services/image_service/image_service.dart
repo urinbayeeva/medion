@@ -114,7 +114,7 @@ class ImageService {
         uiSettings: [
           AndroidUiSettings(
             toolbarTitle: 'Cropper',
-            toolbarColor: Style.primary500,
+            toolbarColor: Style.error500,
             toolbarWidgetColor: Style.shade0,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: true,

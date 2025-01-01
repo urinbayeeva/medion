@@ -1,24 +1,25 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/presentation/styles/theme.dart';
 
 List<Map<String, dynamic>> navListData = [
   {
-    "title": "Личные данные",
+    "title": "personal_information".tr(),
     "icon": IconSet.create.user,
   },
   {
-    "title": "Мои результаты",
+    "title": "my_results".tr(),
     "icon": IconSet.create.notepad,
   },
   {
-    "title": "Рецепт",
+    "title": "recipe".tr(),
     "icon": IconSet.create.invoice,
   },
   {
-    "title": "Кошелёк",
+    "title": "wallet".tr(),
     "icon": IconSet.create.wallet,
   },
   {
-    "title": "Настройки",
+    "title": "settings".tr(),
     "icon": IconSet.create.settings,
   }
 ];

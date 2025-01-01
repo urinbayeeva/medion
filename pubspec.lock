@@ -118,6 +118,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.23"
+  base58check:
+    dependency: transitive
+    description:
+      name: base58check
+      sha256: "6c300dfc33e598d2fe26319e13f6243fea81eaf8204cb4c6b69ef20a625319a5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
+  bech32:
+    dependency: transitive
+    description:
+      name: bech32
+      sha256: "156cbace936f7720c79a79d16a03efad343b1ef17106716e04b8b8e39f99f7f7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   bloc:
     dependency: "direct main"
     description:
@@ -716,7 +732,7 @@ packages:
     source: hosted
     version: "3.4.1"
   flutter_launcher_icons:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: flutter_launcher_icons
       sha256: "31cd0885738e87c72d6f055564d37fabcdacee743b396b78c7636c169cac64f5"
@@ -760,6 +776,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_multi_formatter:
+    dependency: "direct main"
+    description:
+      name: flutter_multi_formatter
+      sha256: "68274ade17e836e7de9080ad354aa4322906baee2abf49afb1f6fec99ff17aea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.13.0"
   flutter_native_splash:
     dependency: "direct main"
     description:
@@ -1403,7 +1427,7 @@ packages:
     source: hosted
     version: "2.1.1"
   package_info_plus:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: package_info_plus
       sha256: "70c421fe9d9cc1a9a7f3b05ae56befd469fe4f8daa3b484823141a55442d858d"
@@ -1539,7 +1563,7 @@ packages:
     source: hosted
     version: "6.0.2"
   photo_manager:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: photo_manager
       sha256: dc26184676b26d722d656073ca8fe29203d7631ec613aed1a9679de3aa1f52c2

@@ -74,6 +74,24 @@ class AppRoutes {
     );
   }
 
+  // static MaterialPageRoute getSignUpPage() {
+  //   return MaterialPageRoute(builder: (_) => const SignUpPage());
+  // }
+
+  // static MaterialPageRoute getSignUpWithPhone(
+  //     {Function(dynamic)? onClose,
+  //     bool additionalPhone = false,
+  //     List<String>? phoneNumbers}) {
+  //   // AnalyticsService().analyzeScreenView('singUp');
+  //   return MaterialPageRoute(
+  //       builder: (_) =>
+  //            SignUpWithPhone(
+  //             phoneNumbers: phoneNumbers,
+  //             additionalPhone: additionalPhone,
+  //             onClose: onClose,
+  //    ) );
+  // }
+
   static MaterialPageRoute getSignUpPage() {
     return MaterialPageRoute(builder: (_) => const SignUpPage());
   }
@@ -90,7 +108,6 @@ class AppRoutes {
               return AuthBloc(AuthRepository(
                 dbService,
                 AuthService.create(dbService),
-                BusinessService.create(dbService),
               ));
             },
             child: SignUpWithPhone(
@@ -104,28 +121,23 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const SignUpWithEmail());
   }
 
-  static PageRouteBuilder getVerifyCodePage(
+  static MaterialPageRoute getVerifyCodePage(
       {required String phoneNumber,
       required String? password,
       required String autofill,
-      Function(dynamic)? onClose,
       bool additionalPhone = false}) {
     // AnalyticsService().analyzeScreenView('getFillSmsCode');
-    return PageRouteBuilder(
-        opaque: false,
-        barrierDismissible: true,
-        pageBuilder: (_, __, ___) => BlocProvider(
+    return MaterialPageRoute(
+        builder: (_) => BlocProvider(
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(AuthRepository(
                 dbService,
                 AuthService.create(dbService),
-                BusinessService.create(dbService),
               ));
             },
             child: VerifyCodePage(
               additionalPhone: additionalPhone,
-              onClose: onClose,
               phoneNumber: phoneNumber,
               password: password,
               autofill: autofill,

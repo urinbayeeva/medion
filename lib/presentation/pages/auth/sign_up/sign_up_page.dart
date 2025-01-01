@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});

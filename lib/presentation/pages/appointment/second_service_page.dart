@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
@@ -199,9 +200,10 @@ class _SecondServicePageState extends State<SecondServicePage> {
                         12.h.verticalSpace,
                       ],
                       CButton(
-                          title: "Продолжить",
-                          onTap: widget.onTap,
-                          iconPath: icons.right),
+                        title: "next".tr(),
+                        onTap: widget.onTap,
+                        // iconPath: icons.right,
+                      ),
                       24.h.verticalSpace,
                     ]),
               ),

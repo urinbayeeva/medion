@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:medion/domain/common/token.dart';
-import 'package:medion/infrastructure/apis/apis.dart';
-import 'package:medion/infrastructure/repository/calendar_repo.dart';
+
 
 class DBService {
   static const _dbName = 'localDB';
@@ -11,6 +10,23 @@ class DBService {
   static const _refreshToken = 'refresh_token';
   static const _themeMode = 'theme_mode';
   static const _language = 'language';
+  static const _likesList = "likes_list";
+  static const _changedPartList = "changed_part_list";
+  static const _optionList = "option_list";
+  static const _currencyAmount = "currency_amount";
+  static const _currencySymbol = "currency_symbol";
+  static const _starsList = "stars_list";
+  static const _seenList = "seen_list";
+  static const intro = 'intro';
+  static const prediction = 'prediction';
+  static const auction = 'auction';
+  static const auctionMarket = 'auction_market';
+  static const business = 'business';
+  static const auctionTerms = 'auction_terms';
+  static const auctionBusiness = 'auction_business';
+  static const auctionConsumer = 'auction_consumer';
+  static const diagnostics = 'diagnostics';
+  static const _messageFaq = 'message_faq';
 
   static Box? _box;
 
@@ -20,8 +36,6 @@ class DBService {
     _box ??= await Hive.openBox(_dbName);
     return DBService._();
   }
-
-
 
   /// Token
   Future<void> setToken(Token token) async {
@@ -43,6 +57,28 @@ class DBService {
   String? get getUid {
     final uid = _box?.get(_uid);
     return uid;
+  }
+
+  
+  // Currency
+  Future<void> setCurrencySymbol(String model) async {
+    await _box?.put(_currencySymbol, model);
+  }
+
+  /// Name
+  Future<void> setThemeMode(String? mode) async {
+    await _box?.put(_themeMode, mode);
+  }
+
+  String? get getThemeMode {
+    String? getName = _box?.get(_themeMode);
+    return getName;
+  }
+
+  Future<void> signOut() async {
+    bool? langSaved = getLang;
+    await _box?.clear();
+    setLang(isSaved: langSaved ?? false);
   }
 
   /// Lang
@@ -68,40 +104,5 @@ class DBService {
 
   static ValueListenable<Box> listenable() {
     return Hive.box(_dbName).listenable();
-  }
-
-  Future<void> setThemeMode(String? mode) async {
-    await _box?.put(_themeMode, mode);
-  }
-
-  String? get getThemeMode {
-    String? getName = _box?.get(_themeMode);
-    return getName;
-  }
-
-  Future<void> signOut() async {
-    bool? langSaved = getLang;
-    await _box?.clear();
-    setLang(isSaved: langSaved ?? false);
-  }
-}
-
-class LocalCalendarRepository implements CalendarRepository {
-  final HiveInterface hive;
-  LocalCalendarRepository(this.hive);
-
-  @override
-  Future<List<DateTime>> getEventDates() async {
-    return hive.box('calendar').get('eventDates') ?? [];
-  }
-
-  @override
-  Future<void> saveSelectedDate(DateTime date) async {
-    hive.box('calendar').put('selectedDate', date);
-  }
-
-  @override
-  DateTime getSelectedDate() {
-    return hive.box('calendar').get('selectedDate') ?? DateTime.now();
   }
 }

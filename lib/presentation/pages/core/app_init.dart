@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,7 +25,7 @@ class AppInit {
     await appInitialized();
     connectivityX ??= await ConnectivityX().create();
     dbService ??= await DBService.create;
-    // debugPrint('\nTOKEN: ${dbService?.token.toToken}\n');
+
     return AppInit._();
   }
 
@@ -31,12 +33,11 @@ class AppInit {
     WidgetsFlutterBinding.ensureInitialized();
     await Hive.initFlutter();
 
-    /// Firebase
-
-    // await initializeFirebase();
-
     /// LogService Create
     LogService.create;
+
+    /// Easy Localization
+    await EasyLocalization.ensureInitialized();
 
     /// Device Orientation
     await SystemChrome.setPreferredOrientations(
@@ -60,23 +61,6 @@ class AppInit {
           '${record.message}',
         ));
 }
-
-// @pragma('vm:entry-point')
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   await initializeFirebase();
-// }
-
-// Future<void> initializeFirebase() async {
-//   String flavor = AppConfig.shared.flavor.name;
-//   if (Firebase.apps.isEmpty) {
-//     await Firebase.initializeApp(
-//       name: flavor,
-//       options: DefaultFirebaseOptions().getOptions(flavor),
-//     );
-//   } else {
-//     Firebase.app();
-//   }
-// }
 
 /// bloc logger
 class LogBlocObserver extends BlocObserver {

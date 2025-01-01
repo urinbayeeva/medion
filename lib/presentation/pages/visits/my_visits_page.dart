@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
@@ -33,7 +34,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                         child: CustomToggle(
                           iconList: [
                             Text(
-                              'Онлайн',
+                              'online'.tr(),
                               style: fonts.xSmallLink.copyWith(
                                 color: isOnline
                                     ? colors.shade0
@@ -43,7 +44,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                               ),
                             ),
                             Text(
-                              'Оффлайн',
+                              'offline'.tr(),
                               style: fonts.xSmallLink.copyWith(
                                 color: !isOnline
                                     ? colors.shade0
@@ -66,9 +67,9 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                   ],
                 ),
                 bordered: true,
-                title: "Мои посещения",
+                isBack: false,
+                title: "my_visits".tr(),
                 centerTitle: true,
-                isBack: true,
                 trailing: icons.calendar.svg(width: 24.w, height: 24.h)),
             8.h.verticalSpace,
             Expanded(
@@ -87,7 +88,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                               icons.bigCalendar.svg(width: 72.w, height: 75.h),
                               12.h.verticalSpace,
                               Text(
-                                "У вас нету посещений",
+                                "you_have_no_visits".tr(),
                                 style: fonts.smallLink.copyWith(
                                   color: colors.neutral600,
                                   fontSize: 15.sp,

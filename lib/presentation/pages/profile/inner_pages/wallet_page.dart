@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
@@ -16,7 +17,7 @@ class WalletPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             CAppBar(
-              title: "Кошелёк",
+              title: "wallet".tr(),
               centerTitle: true,
               isBack: true,
               trailing: 26.w.horizontalSpace,
@@ -38,11 +39,12 @@ class WalletPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Баланс", style: fonts.smallLink),
+                          Text("balance".tr(), style: fonts.smallLink),
                           12.h.verticalSpace,
                           Row(
                             children: [
-                              Text("50 000 сум", style: fonts.regularMain),
+                              Text("sum".tr(args: ["50 000"]),
+                                  style: fonts.regularMain),
                               8.w.horizontalSpace,
                               icons.question.svg(
                                 width: 20.w,
@@ -66,11 +68,12 @@ class WalletPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Кешбек", style: fonts.smallLink),
+                          Text("cache".tr(), style: fonts.smallLink),
                           12.h.verticalSpace,
                           Row(
                             children: [
-                              Text("15 000 сум", style: fonts.regularMain),
+                              Text("sum".tr(args: ["1000"]),
+                                  style: fonts.regularMain),
                               8.w.horizontalSpace,
                               icons.question.svg(
                                 width: 20.w,

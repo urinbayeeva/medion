@@ -20,12 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) : super(const _AuthState()) {
     on<_CheckAuth>(_checkAuth);
     on<_VerificationSend>(_verificationSendHandler);
-    on<_VerificationVerify>(_verificationVerifyHandler);
-    on<_SignIn>(_signInHandler);
-    on<_UpdatePassword>(_updatePasswordHandler);
-    on<_UpdatePhone>(_updatePhoneHandler);
-    on<_AdditionalNumberVerify>(_additionalNumberVerify);
-    on<_ForgotPassword>(_forgotPasswordHandler);
+    on<_SendPhoneNumber>(_sendPhoneNumberHandler); // New event handler
   }
 
   /// Authentication Check
@@ -42,6 +37,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
+  /// Handle verification send request
   FutureOr<void> _verificationSendHandler(
     _VerificationSend event,
     Emitter<AuthState> emit,
@@ -58,118 +54,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }, (data) async {
       EasyLoading.dismiss();
       emit(state.copyWith(
-          successSendCode: true, phoneNumber: event.request.phone));
+          successSendCode: true, phoneNumber: event.request.phoneNumber));
     });
   }
 
-  FutureOr<void> _verificationVerifyHandler(
-    _VerificationVerify event,
+
+  FutureOr<void> _sendPhoneNumberHandler(
+    _SendPhoneNumber event,
     Emitter<AuthState> emit,
   ) async {
-    emit(state.copyWith(successVerifyCode: false));
-    EasyLoading.show();
-    final res = await _repository.verificationVerify(request: event.request);
+    emit(state.copyWith(
+        successSendCode: false, phoneNumber: null, successVerifyCode: false));
+    EasyLoading.show(); // Show loading indicator
+
+    final res = await _repository.sendPhoneNumber(request: event.request);
 
     res.fold((error) async {
-      EasyLoading.showError(error.message);
-      emit(state.copyWith(successVerifyCode: false));
-      LogService.e(" ----> error on bloc  : $error");
+      LogService.e(" ----> error on phone number bloc: $error");
+      EasyLoading.showError(error.message); // Show error message
+      emit(state.copyWith(successSendCode: false)); // Update state
     }, (data) async {
-      emit(state.copyWith(successVerifyCode: true));
+      EasyLoading.dismiss(); // Dismiss loading indicator
+      emit(state.copyWith(
+          successSendCode: true, phoneNumber: event.request.phoneNumber));
     });
-    EasyLoading.dismiss();
-  }
-
-  FutureOr<void> _additionalNumberVerify(
-    _AdditionalNumberVerify event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(state.copyWith(successVerifyCode: false, successSendCode: false));
-    EasyLoading.show();
-    final res =
-        await _repository.additionalNumberVerify(request: event.request);
-
-    res.fold((error) async {
-      emit(state.copyWith(successVerifyCode: false));
-      EasyLoading.showError(error.message);
-      LogService.e(" ----> error on bloc  : $error");
-    }, (data) async {
-      emit(state.copyWith(successVerifyCode: true));
-    });
-    EasyLoading.dismiss();
-  }
-
-  FutureOr<void> _signInHandler(
-    _SignIn event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(state.copyWith(proceedToHome: false));
-    EasyLoading.show();
-    final res = await _repository.signIn(request: event.request);
-    res.fold((error) async {
-      emit(state.copyWith(proceedToHome: false));
-      EasyLoading.showError(error.message);
-      LogService.e(" ----> error on bloc  : $error");
-    }, (data) async {
-      EasyLoading.dismiss();
-      return emit(state.copyWith(proceedToHome: true));
-    });
-  }
-
-  FutureOr<void> _forgotPasswordHandler(
-    _ForgotPassword event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(state.copyWith(successVerifyCode: false));
-    EasyLoading.show();
-    final res = await _repository.forgotPassword(request: event.request);
-
-    res.fold((error) async {
-      emit(state.copyWith(successVerifyCode: false));
-      EasyLoading.showError(error.message);
-      LogService.e(" ----> error on bloc  : ${error.message}");
-    }, (data) async {
-      emit(state.copyWith(successVerifyCode: true));
-      EasyLoading.showSuccess(data.detail ?? "");
-    });
-    EasyLoading.dismiss();
-  }
-
-  FutureOr<void> _updatePasswordHandler(
-    _UpdatePassword event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(state.copyWith(proceedToHome: false));
-    EasyLoading.show();
-    final res = await _repository.updatePassword(request: event.request);
-
-    res.fold((error) async {
-      emit(state.copyWith(proceedToHome: false));
-      EasyLoading.showError(error.message);
-      LogService.e(" ----> error on bloc  : ${error.message}");
-    }, (data) async {
-      emit(state.copyWith(proceedToHome: true));
-      EasyLoading.showSuccess(data.detail ?? "");
-    });
-    EasyLoading.dismiss();
-  }
-
-  FutureOr<void> _updatePhoneHandler(
-    _UpdatePhone event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(state.copyWith(successUpdatePhone: false, errorSendCode: false));
-    EasyLoading.show();
-    final res = await _repository.updatePhone(request: event.request);
-
-    res.fold((error) async {
-      emit(state.copyWith(successUpdatePhone: false, errorSendCode: true));
-      EasyLoading.showError(error.message);
-      LogService.e(" ----> error on bloc  : $error");
-    }, (data) async {
-      emit(state.copyWith(successUpdatePhone: true));
-      EasyLoading.showSuccess(data.detail);
-    });
-    EasyLoading.dismiss();
   }
 }

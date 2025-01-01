@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,7 +28,7 @@ class _SettingPageState extends State<SettingPage> {
         body: Column(
           children: [
             CAppBar(
-                title: "Настройки",
+                title: "settings".tr(),
                 isBack: true,
                 centerTitle: true,
                 trailing: 24.w.horizontalSpace),
@@ -121,7 +122,7 @@ class _SettingPageState extends State<SettingPage> {
       setNavBarState(true);
       showModalBottomSheet(
         context: context,
-        builder: (item) => const CLangCheckbox(),
+        builder: (item) => const CLangRadio(),
       ).then((_) => setNavBarState(false));
     } else if (index == 1) {
       makePhoneCall("+998958098661");

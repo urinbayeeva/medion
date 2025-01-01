@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
@@ -28,7 +29,7 @@ class _ResultsPageState extends State<ResultsPage> {
         body: Column(
           children: [
             CAppBar(
-              title: "Мои результаты",
+              title: "my_results".tr(),
               centerTitle: true,
               isBack: true,
               trailing: GestureDetector(
@@ -75,7 +76,7 @@ class _ResultsPageState extends State<ResultsPage> {
                     child: CustomToggle(
                       iconList: [
                         Text(
-                          'Заключения врача',
+                          'doctors_reports'.tr(),
                           style: fonts.xSmallLink.copyWith(
                             color:
                                 isAnalyse ? colors.shade0 : colors.primary900,
@@ -84,7 +85,7 @@ class _ResultsPageState extends State<ResultsPage> {
                           ),
                         ),
                         Text(
-                          'Анализы',
+                          'analyzes'.tr(),
                           style: fonts.xSmallLink.copyWith(
                             color:
                                 !isAnalyse ? colors.shade0 : colors.primary900,

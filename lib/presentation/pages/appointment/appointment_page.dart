@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,6 +36,14 @@ class _AppointmentPageState extends State<AppointmentPage> {
   //         type: type,
   //       ));
   // }
+
+  List<String> listof = [
+    'selecting_service_type'.tr(),
+    "selecting_service".tr(),
+    "selecting_the_time_the_date".tr(),
+    "verify_selected".tr(),
+    "payment".tr()
+  ];
 
   @override
   void initState() {
@@ -93,7 +102,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
           body: Column(
             children: [
               CAppBar(
-                title: screenTitle[screenIndex],
+                title: screenTitle[screenIndex].tr(),
                 centerTitle: true,
                 trailing: screenIndex == 1
                     ? Row(
@@ -124,14 +133,17 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: 'Шаг ${screenIndex + 1} из 5: ',
+                            text: 'step'.tr(namedArgs: {
+                              "count": "5",
+                              "total": "${screenIndex + 1}"
+                            }),
                             style: fonts.xSmallLink.copyWith(
                                 color: colors.neutral600,
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w600),
                           ),
                           TextSpan(
-                            text: ' Выбор тип услуги', // Black color part
+                            text: listof[screenIndex], // Black color part
                             style: fonts.xSmallLink.copyWith(
                                 color: colors.primary900,
                                 fontSize: 13.sp,
@@ -153,6 +165,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   children: useCase.map((e) => e.widget).toList(),
                 ),
               ),
+              40.h.verticalSpace,
             ],
           ),
         ));

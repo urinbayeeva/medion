@@ -5,6 +5,7 @@ import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' show Client, MultipartFile;
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
+import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/models/service_model/service_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
@@ -23,113 +24,25 @@ part 'apis.chopper.dart';
 
 //users
 @ChopperApi(baseUrl: '/patient/')
-@pragma('vm:entry-point')
 abstract class AuthService extends ChopperService {
-  static AuthService create(DBService dbService) =>
-      _$AuthService(_Client(Constants.baseUrlP, true, dbService));
-
-  @Post(path: 'registration')
+  @Post(path: 'phone-number')
   Future<Response<SuccessModel>> verificationSend({
     @Body() required VerificationSendReq request,
   });
 
-  @Post(path: 'phone-number')
-  Future<Response<SuccessModel>> phoneNumber({
-    @Body() required VerificationSendReq request,
-  });
-
-  @Post(path: 'anonymous/user/create')
-  Future<Response<FCMTokenModel>> createAnonymousUser({
-    @Body() required FCMTokenModel request,
-  });
-
-  @Post(path: 'verification-code/verify/')
-  Future<Response<LoginRes>> verificationVerify({
-    @Body() required VerificationVerifyReq request,
-  });
-
-  @Put(path: 'registration/')
-  Future<Response<SuccessModel>> registration({
-    @Body() required RegisterReq request,
-  });
-
-  @Post(path: 'phone-number')
-  Future<Response<LoginRes>> signIn({
-    @Body() required SignInReq request,
-  });
-
-  @Put(path: 'password')
-  Future<Response<SuccessModel>> updatePassword({
-    @Body() required ResetPasswordReq request,
-  });
-
-  @Post(path: 'forgot-password')
-  Future<Response<LoginRes>> forgotPassword({
-    @Body() required ForgotPasswordReqModel request,
-  });
-
-  @Patch(path: 'profile')
-  Future<Response<SuccessModel>> updateProfile(
-      {@Body() required ProfileModel request,
-      @Header('requires-token') String requiresToken = 'true'});
-
-  @Post(path: 'phone-update/')
-  Future<Response<SuccessModel>> updatePhone(
-      {@Body() required VerificationVerifyReq request,
-      @Header('requires-token') String requiresToken = 'true'});
-
-  @Delete(path: 'destroy')
-  Future<Response<dynamic>> deleteProfile(
-      {@Header('requires-token') String requiresToken = 'true'});
-
-  @Post(path: 'verify/add-phone/')
-  Future<Response<SuccessModel>> additionalNumberVerify(
-      {@Body() required VerificationVerifyReq request,
-      @Header('requires-token') String requiresToken = 'true'});
-
-  @Get(path: 'profile')
-  Future<Response<ProfileRes>> getProfile(
-      {@Header('requires-token') String requiresToken = 'true'});
+  static AuthService create(DBService dbService) =>
+      _$AuthService(_Client(Constants.baseUrlP, true, dbService));
 }
 
-///HOME
+//Booking
 
-@ChopperApi(baseUrl: "/home/")
-abstract class MedService extends ChopperService {
-  @Get(path: 'medical_services')
-  Future<Response<List<ServiceResResult>>> getServiceTypes(
-    @Query('title') String? title,
-    @Query('info') String? info,
-    @Query('for_children') bool? forChildren,
-    @Query('link') bool? link,
-    @Query('background_color') String? color,
-  );
+@ChopperApi(baseUrl: "/booking/")
+abstract class BookingService extends ChopperService {
+  @Get(path: "types")
+  Future<Response<BuiltList<BookingTypeModel>>> bookingTypes();
 
-  @Get(path: 'news')
-  Future<Response<BuiltList<News>>> getNews();
-
-  static MedService create([ChopperClient? client]) => _$MedService(client);
-}
-
-@ChopperApi(baseUrl: '/business/')
-@pragma('vm:entry-point')
-abstract class BusinessService extends ChopperService {
-  @Post(path: 'login')
-  Future<Response<LoginRes>> signIn({@Body() required SignInReq request});
-
-  static BusinessService create(DBService dbService) =>
-      _$BusinessService(_Client(Constants.baseUrlP, true, dbService));
-}
-
-abstract class ChatRoomService extends ChopperService {
-  @Post(path: 'api/upload/firebase/token')
-  Future<Response<dynamic>> postFcmToken(
-      {@Header('Authorization') required String authorization,
-      @Body() required FCMTokenModel request,
-      @Header('requires-token') String requiresToken = 'true'});
-
-  // static ChatRoomService create(DBService dbService) =>
-  //     _$ChatRoomService(_Client(Constants.baseUrlP, true, dbService));
+  static BookingService create(DBService dbService) =>
+      _$BookingService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 // main
@@ -181,28 +94,28 @@ class MyAuthenticator extends Authenticator {
       [Request? originalRequest]) async {
     if (response.statusCode == 401) {
       try {
-        final result = await AuthRepository.refreshToken(
-            dbService.token.refreshToken ?? "");
+        // final result = await AuthRepository.refreshToken(
+        //     dbService.token.refreshToken ?? "");
 
-        Map<String, String>? header;
+        // Map<String, String>? header;
 
-        result.fold((error) {
-          dbService.signOut();
-        }, (data) {
-          dbService.setToken(
-              Token(accessToken: data.access, refreshToken: data.refresh));
-          String? newToken = data.access;
+        // result.fold((error) {
+        //   dbService.signOut();
+        // }, (data) {
+        //   dbService.setToken(
+        //       Token(accessToken: data.access, refreshToken: data.refresh));
+        //   String? newToken = data.access;
 
-          final Map<String, String> updatedHeaders =
-              Map<String, String>.of(request.headers);
+        //   final Map<String, String> updatedHeaders =
+        //       Map<String, String>.of(request.headers);
 
-          newToken = 'Bearer $newToken';
-          updatedHeaders.update('Authorization', (String _) => newToken!,
-              ifAbsent: () => newToken!);
+        //   newToken = 'Bearer $newToken';
+        //   updatedHeaders.update('Authorization', (String _) => newToken!,
+        //       ifAbsent: () => newToken!);
 
-          header = updatedHeaders;
-          return request.copyWith(headers: header);
-        });
+        //   header = updatedHeaders;
+        //   return request.copyWith(headers: header);
+        // });
       } catch (e) {
         LogService.i(e.toString());
 
