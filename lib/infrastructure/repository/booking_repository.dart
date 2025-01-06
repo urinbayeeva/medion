@@ -1,15 +1,21 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/failurs/booking/i_booking_facade.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
+import 'package:medion/domain/serializers/serializer.dart';
+import 'package:medion/infrastructure/apis/api_service.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 
 class BookingRepository implements IBookingFacade {
   final BookingService _bookingService;
+  // final ApiService _apiService;
 
   BookingRepository(this._bookingService);
+
+  /// Fetch booking types
   @override
   Future<Either<ResponseFailure, List<BookingTypeModel>>>
       fetchBookingTypes() async {
@@ -29,4 +35,30 @@ class BookingRepository implements IBookingFacade {
       return left(handleError(e));
     }
   }
+
+   @override
+  Future<Either<ResponseFailure, List<CategoryServiceIDModel>>> fetchCategoryServices(int serviceTypeId) async {
+    try {
+      final response = await _bookingService.getCategoryServices(serviceTypeId: serviceTypeId);
+      LogService.d('Response Status: \${response.statusCode}');
+      LogService.d('Response Body: \${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        final data = response.body!.map((category) {
+          final categoryName = category.keys.first;
+          final services = category[categoryName].map<Service>((service) => Service.fromJson(service)).toList();
+          return CategoryServiceIDModel((b) => b
+            ..category = categoryName
+            ..services.replace(services));
+        }).toList();
+        return right(data);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      LogService.e(" ----> error on repo  : \${e.toString()}");
+      return left(handleError(e));
+    }
+  }
+//
 }

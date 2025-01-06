@@ -55,18 +55,15 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state.successSendCode) {
-            SmsAutoFill().getAppSignature.then((value) {
-              Navigator.push(
-                  context,
-                  AppRoutes.getVerifyCodePage(
-                      additionalPhone: widget.additionalPhone,
-                      autofill: value,
-                      phoneNumber:
-                          formatPhoneNumber(_phoneNumberController.text),
-                      password: null));
-            });
-          }
+          SmsAutoFill().getAppSignature.then((value) {
+            Navigator.push(
+                context,
+                AppRoutes.getVerifyCodePage(
+                    additionalPhone: widget.additionalPhone,
+                    autofill: value,
+                    phoneNumber: formatPhoneNumber(_phoneNumberController.text),
+                    password: null));
+          });
         },
         listenWhen: (previous, current) =>
             (previous.successSendCode != current.successSendCode &&
@@ -140,22 +137,23 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                             focusNode.unfocus();
                             await SmsAutoFill().getAppSignature.then((value) {
                               // ignore: use_build_context_synchronously
-                              // context.read<AuthBloc>().add(
-                              //     AuthEvent.sendPhoneNumber(
-                              //         request: PhoneNumberSendReq(
-                              //           (p0) => p0
-                              //             ..phoneNumber: formatPhoneNumber(
-                              //                 _phoneNumberController.text))));
-                              // // ignore: use_build_context_synchronously
-                              // context
-                              //     .read<AuthBloc>()
-                              //     .add(AuthEvent.verificationSend(
-                              //         request: VerificationSendReq(
-                              //       (p0) => p0
-                              //         ..phoneNumber = formatPhoneNumber(
-                              //             _phoneNumberController.text)
-                              //         ..code = "1111",
-                              //     )));
+                              context.read<AuthBloc>().add(
+                                  AuthEvent.sendPhoneNumber(
+                                      request: PhoneNumberSendReq((p0) => p0
+                                        ..phoneNumber = formatPhoneNumber(
+                                            _phoneNumberController.text))));
+                              // ignore: use_build_context_synchronously
+
+                              SmsAutoFill().getAppSignature.then((value) {
+                                Navigator.push(
+                                    context,
+                                    AppRoutes.getVerifyCodePage(
+                                        additionalPhone: widget.additionalPhone,
+                                        autofill: value,
+                                        phoneNumber: formatPhoneNumber(
+                                            _phoneNumberController.text),
+                                        password: null));
+                              });
                             });
                           }
                         },

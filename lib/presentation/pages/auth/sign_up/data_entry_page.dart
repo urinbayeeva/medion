@@ -40,64 +40,64 @@ class _DataEntryPageState extends State<DataEntryPage> {
     super.dispose();
   }
 
-  /// Send Data to API
+  // /// Send Data to API
 
-  /// API - Save User Data
-  Future<void> saveUserToApi() async {
-    setState(() => isLoading = true); // Show loading indicator
+  // /// API - Save User Data
+  // Future<void> saveUserToApi() async {
+  //   setState(() => isLoading = true); // Show loading indicator
 
-    try {
-      // API URL
-      const String url = 'https://his.uicgroup.tech/apiweb/patient/create';
+  //   try {
+  //     // API URL
+  //     const String url = 'https://his.uicgroup.tech/apiweb/patient/create';
 
-      // Prepare data
-      final user = UserModel(
-        id: "1111",
-        firstName: nameController.text,
-        lastName: secondNameController.text,
-        middleName: otchestvoController.text,
-        phoneNumber: "",
-        additionalPhoneNumber: "",
-        documentType: "Pasport",
-        passportSerial: passportController.text,
-        dateOfBirth: "",
-        dateOfIssue: "",
-        issueOrganization: "",
-      );
+  //     // Prepare data
+  //     final user = UserModel(
+  //       id: "1111",
+  //       firstName: nameController.text,
+  //       lastName: secondNameController.text,
+  //       middleName: otchestvoController.text,
+  //       phoneNumber: "",
+  //       additionalPhoneNumber: "",
+  //       documentType: "Pasport",
+  //       passportSerial: passportController.text,
+  //       dateOfBirth: "",
+  //       dateOfIssue: "",
+  //       issueOrganization: "",
+  //     );
 
-      // Send HTTP POST request
-      final response = await http.post(
-        Uri.parse(url),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: jsonEncode(user.toJson()),
-      );
+  //     // Send HTTP POST request
+  //     final response = await http.post(
+  //       Uri.parse(url),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Accept': 'application/json',
+  //       },
+  //       body: jsonEncode(user.toJson()),
+  //     );
 
-      // Handle Response
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final data = jsonDecode(response.body);
-        if (data['status'] == 'success') {
-          Navigator.push(context, AppRoutes.getMainPage(0));
-        } else {
-          _showError(data['message']);
-        }
-      } else {
-        _showError('Server Error: ${response.statusCode}');
-      }
-    } catch (e) {
-      _showError('An error occurred. Please try again.');
-    } finally {
-      setState(() => isLoading = false); // Hide loading
-    }
-  }
+  //     // Handle Response
+  //     if (response.statusCode == 200 || response.statusCode == 201) {
+  //       final data = jsonDecode(response.body);
+  //       if (data['status'] == 'success') {
+  //         Navigator.push(context, AppRoutes.getMainPage(0));
+  //       } else {
+  //         _showError(data['message']);
+  //       }
+  //     } else {
+  //       _showError('Server Error: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     _showError('An error occurred. Please try again.');
+  //   } finally {
+  //     setState(() => isLoading = false); // Hide loading
+  //   }
+  // }
 
-  /// Show Error Message
-  void _showError(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
-  }
+  // /// Show Error Message
+  // void _showError(String message) {
+  //   ScaffoldMessenger.of(context)
+  //       .showSnackBar(SnackBar(content: Text(message)));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class _DataEntryPageState extends State<DataEntryPage> {
                 child: ListView(
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 16.h),
+                    16.h.verticalSpace,
                     Text("enter_your_info".tr(), style: fonts.displaySecond),
                     SizedBox(height: 8.h),
                     Text("to_enter_make_appoints".tr(),
@@ -122,32 +122,36 @@ class _DataEntryPageState extends State<DataEntryPage> {
                             color: colors.neutral700,
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w400)),
-                    SizedBox(height: 12.h),
+                    16.h.verticalSpace,
                     CustomTextField(
+                        textCapitalization: TextCapitalization.sentences,
+                        maxLines: 1,
+                        maxLength: 15,
                         controller: nameController,
                         title: "name".tr(),
                         borderRadius: 8.r,
                         hintText: "enter_your_name".tr()),
                     SizedBox(height: 16.h),
+                    16.h.verticalSpace,
                     CustomTextField(
                         controller: secondNameController,
                         title: "second_name".tr(),
                         borderRadius: 8.r,
                         hintText: "enter_your_second_name".tr()),
-                    SizedBox(height: 16.h),
+                    16.h.verticalSpace,
                     CustomTextField(
                       controller: otchestvoController,
                       title: "fathers_name".tr(),
                       borderRadius: 8.r,
                       hintText: "fathers_name".tr(),
                     ),
-                    SizedBox(height: 16.h),
+                    16.h.verticalSpace,
                     CustomTextField(
                         controller: passportController,
                         title: "series_of_passport".tr(),
                         borderRadius: 8.r,
                         hintText: "AB123456"),
-                    SizedBox(height: 16.h),
+                    16.h.verticalSpace,
                     Text("select_gender".tr(),
                         style: fonts.xSmallMain.copyWith(fontSize: 13.sp)),
                     SizedBox(height: 4.h),
@@ -159,12 +163,14 @@ class _DataEntryPageState extends State<DataEntryPage> {
                         });
                       },
                     ),
-                    SizedBox(height: 80.h),
+                    80.h.verticalSpace,
                     CButton(
-                      title:
-                          isLoading ? "creating_patient".tr() : "sign_in".tr(),
-                      onTap: saveUserToApi, // Call API
-                    ),
+                        title: isLoading
+                            ? "creating_patient".tr()
+                            : "sign_in".tr(),
+                        onTap: () {
+                          Navigator.push(context, AppRoutes.getMainPage(0));
+                        }),
                     29.h.verticalSpace,
                     29.h.verticalSpace,
                     29.h.verticalSpace,

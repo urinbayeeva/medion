@@ -30,12 +30,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
   AddAppointmentScreenType currentScreenType =
       AddAppointmentScreenType.allServices;
   int screenIndex = 0;
-
-  //   void changeTap( AddAppointmentScreenType type, BuildContext context) {
-  //   context.read<AddCarBloc>().add(AddCarEvent.setCreateReqValue(
-  //         type: type,
-  //       ));
-  // }
+  int id = 0;
 
   List<String> listof = [
     'selecting_service_type'.tr(),
@@ -45,50 +40,60 @@ class _AppointmentPageState extends State<AppointmentPage> {
     "payment".tr()
   ];
 
+  void navigateToNextScreen([int? newId]) {
+    if (newId != null) {
+      updateId(newId);
+    }
+    if (screenIndex < useCase.length - 1) {
+      context.read<BottomNavBarController>().changeNavBar(true);
+      setState(() {
+        screenIndex++;
+      });
+    }
+  }
+
+  void updateId(int newId) {
+    setState(() {
+      id = newId;
+    });
+  }
+
+  void navigateBack() {
+    if (screenIndex > 0) {
+      setState(() {
+        screenIndex--;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     useCase = [
-      _AddAppointmentUseCaseModel(DisplayAllServicesPage(
-        onTap: () {
-          context.read<BottomNavBarController>().changeNavBar(true);
-          setState(() {
-            screenIndex++;
-          });
-        },
-      ), "All Services", AddAppointmentScreenType.allServices),
-      _AddAppointmentUseCaseModel(SecondServicePage(
-        onTap: () {
-          context.read<BottomNavBarController>().changeNavBar(true);
-          setState(() {
-            screenIndex++;
-          });
-        },
-      ), "Inner Services", AddAppointmentScreenType.secondService),
-      _AddAppointmentUseCaseModel(DoctorTimeAndService(
-        onTap: () {
-          context.read<BottomNavBarController>().changeNavBar(true);
-          setState(() {
-            screenIndex++;
-          });
-        },
-      ), "Doctors Time", AddAppointmentScreenType.doctorsTime),
-      _AddAppointmentUseCaseModel(VerifyAppointment(
-        onTap: () {
-          context.read<BottomNavBarController>().changeNavBar(true);
-          setState(() {
-            screenIndex++;
-          });
-        },
-      ), "Fourth Service", AddAppointmentScreenType.fourthService),
+      _AddAppointmentUseCaseModel(
+          DisplayAllServicesPage(
+              onTap: navigateToNextScreen, id: id, updateIdCallback: updateId),
+          "All Services",
+          AddAppointmentScreenType.allServices),
+      _AddAppointmentUseCaseModel(
+          SecondServicePage(
+            onTap: () => navigateToNextScreen(id),
+            // id: id,
+          ),
+          "Inner Services",
+          AddAppointmentScreenType.secondService),
+      _AddAppointmentUseCaseModel(
+          DoctorTimeAndService(onTap: navigateToNextScreen),
+          "Doctors Time",
+          AddAppointmentScreenType.doctorsTime),
+      _AddAppointmentUseCaseModel(
+          VerifyAppointment(onTap: navigateToNextScreen),
+          "Fourth Service",
+          AddAppointmentScreenType.fourthService),
       _AddAppointmentUseCaseModel(
           const PaymentPage(), "Payment", AddAppointmentScreenType.payment),
     ];
-    Future.delayed(const Duration(milliseconds: 400), () {
-      // context.read<BottomNavBarController>().changeNavBar(true);
-    });
     canPop = false;
-    super.initState();
   }
 
   @override
@@ -143,7 +148,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                 fontWeight: FontWeight.w600),
                           ),
                           TextSpan(
-                            text: listof[screenIndex], // Black color part
+                            text: listof[screenIndex],
                             style: fonts.xSmallLink.copyWith(
                                 color: colors.primary900,
                                 fontSize: 13.sp,

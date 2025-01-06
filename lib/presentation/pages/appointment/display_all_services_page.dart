@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
+import 'package:medion/infrastructure/apis/api_service.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/component/custom_pagination.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
@@ -14,8 +15,14 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DisplayAllServicesPage extends StatefulWidget {
   final VoidCallback? onTap;
+  final int id;
+  final Function(int) updateIdCallback; // Callback for updating the id
 
-  const DisplayAllServicesPage({super.key, this.onTap});
+  const DisplayAllServicesPage(
+      {super.key,
+      this.onTap,
+      required this.id,
+      required this.updateIdCallback});
 
   @override
   State<DisplayAllServicesPage> createState() => _DisplayAllServicesPageState();
@@ -24,12 +31,32 @@ class DisplayAllServicesPage extends StatefulWidget {
 class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+  final ApiService _apiService = ApiService();
+
+  late int selectedId;
 
   @override
   void initState() {
     super.initState();
-    // Fetch booking types when the page loads
+
+    selectedId = widget.id ?? 29;
     context.read<BookingBloc>().add(const BookingEvent.fetchBookingTypes());
+    // context.read<BookingBloc>().add(BookingEvent.fetchCategoryServices(
+    //     id: selectedId == 0 ? 29 : selectedId));
+    _apiService.fetchCategoryServices(selectedId);
+  }
+
+  void _fetchServices(int id) {
+    _apiService.fetchCategoryServices(id);
+  }
+
+  void _updateId(int newId) {
+    if (selectedId != newId) {
+      setState(() {
+        selectedId = newId; 
+      });
+      _fetchServices(selectedId);
+    }
   }
 
   @override
@@ -55,11 +82,13 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: CustomPagination(
+              enablePullUp: false,
               controller: _refreshController,
               onRetry: () {
                 context
                     .read<BookingBloc>()
                     .add(const BookingEvent.fetchBookingTypes());
+                _refreshController.refreshCompleted();
               },
               child: ListView.builder(
                 itemCount: state.bookingTypes.length,
@@ -67,9 +96,20 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
                   final BookingTypeModel item = state.bookingTypes[index];
                   return MedicalDirectionItem(
                     title: item.name,
-                    subtitle: "Test",
+                    subtitle:
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     iconPath: 'assets/icons/default_icon.png',
-                    onTap: widget.onTap!,
+                    onTap: () {
+                      setState(() {
+                        selectedId = item.id;
+                        _apiService.fetchCategoryServices(selectedId);
+                      });
+                      widget.updateIdCallback(item.id);
+                      if (widget.onTap != null) {
+                        widget.onTap!();
+                      }
+                      print("Selected item index: $selectedId");
+                    },
                   );
                 },
               ),

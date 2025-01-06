@@ -6,8 +6,8 @@ import 'package:http/http.dart' show Client, MultipartFile;
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
+
 import 'package:medion/domain/models/news_model/news_model.dart';
-import 'package:medion/domain/models/service_model/service_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
 import 'package:medion/domain/success_model/success_model.dart';
 import 'package:medion/domain/upload_image/upload_image.dart';
@@ -26,7 +26,12 @@ part 'apis.chopper.dart';
 @ChopperApi(baseUrl: '/patient/')
 abstract class AuthService extends ChopperService {
   @Post(path: 'phone-number')
-  Future<Response<SuccessModel>> verificationSend({
+  Future<Response<SuccessModel>> phoneNumberSend({
+    @Body() required PhoneNumberSendReq request,
+  });
+
+  @Post(path: 'registration')
+  Future<Response<SuccessModel>> registerUser({
     @Body() required VerificationSendReq request,
   });
 
@@ -35,14 +40,28 @@ abstract class AuthService extends ChopperService {
 }
 
 //Booking
-
 @ChopperApi(baseUrl: "/booking/")
 abstract class BookingService extends ChopperService {
   @Get(path: "types")
   Future<Response<BuiltList<BookingTypeModel>>> bookingTypes();
 
+  @Get(path: 'category_services/{id}')
+  Future<Response<List<Map<String, dynamic>>>>  getCategoryServices({
+    @Path('serviceTypeId') required int serviceTypeId,
+  });
+
   static BookingService create(DBService dbService) =>
       _$BookingService(_Client(Constants.baseUrlP, true, dbService));
+}
+
+//Home Page
+@ChopperApi(baseUrl: "/home/")
+abstract class HomePageService extends ChopperService {
+  @Get(path: "news")
+  Future<Response<BuiltList<News>>> getNews();
+
+  static HomePageService create(DBService dbService) =>
+      _$HomePageService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 // main

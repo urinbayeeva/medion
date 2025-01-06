@@ -49,7 +49,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     res.fold((error) async {
       LogService.e(" ----> error on bloc  : $error");
-      EasyLoading.showError(error.message);
+      // EasyLoading.showError(error.message);
       emit(state.copyWith(successSendCode: false));
     }, (data) async {
       EasyLoading.dismiss();
@@ -58,14 +58,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
-
   FutureOr<void> _sendPhoneNumberHandler(
     _SendPhoneNumber event,
     Emitter<AuthState> emit,
   ) async {
     emit(state.copyWith(
         successSendCode: false, phoneNumber: null, successVerifyCode: false));
-    EasyLoading.show(); // Show loading indicator
+    EasyLoading.show();
 
     final res = await _repository.sendPhoneNumber(request: event.request);
 

@@ -185,5 +185,16 @@
 "spa" : "СПА",
 "you_can_get_new_code_through": "Siz yangi kodni olishingiz mumkin",
 "no_result_found": "Hech qanday natija topilmadi",
+"success": "Muvaffaqiyatli",
+"unknown_error": "Qayta urinib ko’ring yoki kontakt markazi bilan bog’laning",
+"connection_is_afk": "Internet aloqasi yo'q",
+"no_connection_body": "Wi-Fi yoki mobil internet yoqilganligiga ishonch hosil qiling\nva keyin yana urinib ko'ring",
+"retry": "Qayta urinish",
+"enter_your_phone_number": "Telefon raqamingizni kiriting",
+"we_will_send_you_message_with_confirmation_code": "Biz sizga tasdiqlash kodi bilan SMS xabar yuboramiz",
+"number_entered_incorrectly": "Raqam noto'g'ri kiritilgan",
+"get_code": "Kod orqali kirish",
+"something_went_wrong": "Xatolik yuz berdi",
+"something_went_wrong_subtitle": "Muammo bartaraf etilmoqda. Qayta urinib ko’ring",
   "" : ""
 }

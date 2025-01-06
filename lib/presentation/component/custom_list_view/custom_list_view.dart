@@ -51,7 +51,7 @@ class CustomListView<T> extends StatefulWidget {
     this.primary,
     this.loadingItem,
     this.animatedListKey,
-    this.loadingItemCount = 20,
+    this.loadingItemCount = 1,
     this.onDeleteItem,
     this.refreshController,
     this.padding,

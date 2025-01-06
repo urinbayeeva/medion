@@ -18,9 +18,23 @@ final class _$AuthService extends AuthService {
   final Type definitionType = AuthService;
 
   @override
-  Future<Response<SuccessModel>> verificationSend(
-      {required VerificationSendReq request}) {
+  Future<Response<SuccessModel>> phoneNumberSend(
+      {required PhoneNumberSendReq request}) {
     final Uri $url = Uri.parse('/patient/phone-number');
+    final $body = request;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<SuccessModel, SuccessModel>($request);
+  }
+
+  @override
+  Future<Response<SuccessModel>> registerUser(
+      {required VerificationSendReq request}) {
+    final Uri $url = Uri.parse('/patient/registration');
     final $body = request;
     final Request $request = Request(
       'POST',
@@ -52,6 +66,42 @@ final class _$BookingService extends BookingService {
       client.baseUrl,
     );
     return client.send<BuiltList<BookingTypeModel>, BookingTypeModel>($request);
+  }
+
+  @override
+  Future<Response<List<Map<String, dynamic>>>> getCategoryServices(
+      {required int serviceTypeId}) {
+    final Uri $url = Uri.parse('/booking/category_services/{id}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client
+        .send<List<Map<String, dynamic>>, Map<String, dynamic>>($request);
+  }
+}
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$HomePageService extends HomePageService {
+  _$HomePageService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = HomePageService;
+
+  @override
+  Future<Response<BuiltList<News>>> getNews() {
+    final Uri $url = Uri.parse('/home/news');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<BuiltList<News>, News>($request);
   }
 }
 

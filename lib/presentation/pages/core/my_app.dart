@@ -4,11 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
+import 'package:medion/infrastructure/apis/api_service.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/booking_repository.dart';
+import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/repository/image_upload_repo.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_configuration.dart';
 import 'package:medion/infrastructure/services/alice/alice.dart';
@@ -45,9 +48,12 @@ class MyApp extends StatelessWidget {
     FlutterNativeSplash.remove();
     return MultiProvider(
         providers: [
+          BlocProvider(
+              create: (context) =>
+                  HomeBloc(HomeRepository(HomePageService.create(dbService)))),
           BlocProvider<BookingBloc>(
-            create: (context) => BookingBloc(
-                BookingRepository(BookingService.create(dbService))),
+            create: (context) => BookingBloc(BookingRepository(
+                BookingService.create(dbService))),
           ),
           ChangeNotifierProvider(
               create: (_) => GlobalController.create(dbService)),

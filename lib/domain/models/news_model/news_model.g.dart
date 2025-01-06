@@ -37,8 +37,8 @@ class _$NewsSerializer implements StructuredSerializer<News> {
     if (value != null) {
       result
         ..add('link')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.image;
     if (value != null) {
@@ -71,7 +71,7 @@ class _$NewsSerializer implements StructuredSerializer<News> {
           break;
         case 'link':
           result.link = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'image':
           result.image = serializers.deserialize(value,
@@ -90,7 +90,7 @@ class _$News extends News {
   @override
   final String? info;
   @override
-  final bool? link;
+  final String? link;
   @override
   final String? image;
 
@@ -149,9 +149,9 @@ class NewsBuilder implements Builder<News, NewsBuilder> {
   String? get info => _$this._info;
   set info(String? info) => _$this._info = info;
 
-  bool? _link;
-  bool? get link => _$this._link;
-  set link(bool? link) => _$this._link = link;
+  String? _link;
+  String? get link => _$this._link;
+  set link(String? link) => _$this._link = link;
 
   String? _image;
   String? get image => _$this._image;

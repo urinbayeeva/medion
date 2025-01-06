@@ -18,7 +18,7 @@ abstract class News implements Built<News, NewsBuilder> {
   String? get info;
 
   @BuiltValueField(wireName: 'link')
-  bool? get link;
+  String? get link;
 
   @BuiltValueField(wireName: 'image')
   String? get image;
@@ -32,5 +32,5 @@ abstract class News implements Built<News, NewsBuilder> {
         News.serializer, json.decode(jsonString));
   }
 
-static Serializer<News> get serializer => _$newsSerializer; 
+  static Serializer<News> get serializer => _$newsSerializer;
 }

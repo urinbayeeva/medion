@@ -44,10 +44,10 @@ ResponseFailure handleError(dynamic e) {
       return Unknown(message: e.response.body ?? 'unknown_error');
     }
   } else if (e is TimeoutException) {
-    return NetworkFailure(message: "low_connection_internet");
+    return const NetworkFailure(message: "low_connection_internet");
   } else if (e is BackendException) {
     return NetworkFailure(message: e.message);
   } else {
-    return Unknown(message: 'unknown_error');
+    return const Unknown(message: 'unknown_error');
   }
 }

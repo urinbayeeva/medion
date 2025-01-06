@@ -22,15 +22,12 @@ class _$PhoneNumberSendReqSerializer
   Iterable<Object?> serialize(
       Serializers serializers, PhoneNumberSendReq object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[];
-    Object? value;
-    value = object.phoneNumber;
-    if (value != null) {
-      result
-        ..add('phone_number')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
+    final result = <Object?>[
+      'phone_number',
+      serializers.serialize(object.phoneNumber,
+          specifiedType: const FullType(String)),
+    ];
+
     return result;
   }
 
@@ -48,7 +45,7 @@ class _$PhoneNumberSendReqSerializer
       switch (key) {
         case 'phone_number':
           result.phoneNumber = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -119,13 +116,16 @@ class _$VerificationSendReqSerializer
 
 class _$PhoneNumberSendReq extends PhoneNumberSendReq {
   @override
-  final String? phoneNumber;
+  final String phoneNumber;
 
   factory _$PhoneNumberSendReq(
           [void Function(PhoneNumberSendReqBuilder)? updates]) =>
       (new PhoneNumberSendReqBuilder()..update(updates))._build();
 
-  _$PhoneNumberSendReq._({this.phoneNumber}) : super._();
+  _$PhoneNumberSendReq._({required this.phoneNumber}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        phoneNumber, r'PhoneNumberSendReq', 'phoneNumber');
+  }
 
   @override
   PhoneNumberSendReq rebuild(
@@ -192,8 +192,10 @@ class PhoneNumberSendReqBuilder
   PhoneNumberSendReq build() => _build();
 
   _$PhoneNumberSendReq _build() {
-    final _$result =
-        _$v ?? new _$PhoneNumberSendReq._(phoneNumber: phoneNumber);
+    final _$result = _$v ??
+        new _$PhoneNumberSendReq._(
+            phoneNumber: BuiltValueNullFieldError.checkNotNull(
+                phoneNumber, r'PhoneNumberSendReq', 'phoneNumber'));
     replace(_$result);
     return _$result;
   }

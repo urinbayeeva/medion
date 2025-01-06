@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:medion/domain/common/token.dart';
 
-
 class DBService {
   static const _dbName = 'localDB';
   static const _accessToken = 'access_token';
@@ -59,7 +58,6 @@ class DBService {
     return uid;
   }
 
-  
   // Currency
   Future<void> setCurrencySymbol(String model) async {
     await _box?.put(_currencySymbol, model);
@@ -86,6 +84,10 @@ class DBService {
     await _box?.put(_language, isSaved);
   }
 
+  Future<void> setUserLanguage(String languageCode) async {
+    await _box?.put(_language, languageCode);
+  }
+
   bool? get getLang {
     bool? language = _box?.get(_language, defaultValue: false);
 
@@ -100,6 +102,10 @@ class DBService {
     final bool? result = _box?.get(key, defaultValue: false);
 
     return result;
+  }
+
+  String getUserLanguage() {
+    return _box?.get(_language, defaultValue: 'ru') as String;
   }
 
   static ValueListenable<Box> listenable() {

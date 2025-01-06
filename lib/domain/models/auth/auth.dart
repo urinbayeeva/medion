@@ -8,17 +8,14 @@ abstract class PhoneNumberSendReq
     implements Built<PhoneNumberSendReq, PhoneNumberSendReqBuilder> {
   PhoneNumberSendReq._();
 
-  factory PhoneNumberSendReq(
-          [Function(PhoneNumberSendReqBuilder b) updates]) =
+  factory PhoneNumberSendReq([Function(PhoneNumberSendReqBuilder b) updates]) =
       _$PhoneNumberSendReq;
 
   @BuiltValueField(wireName: 'phone_number')
-  String? get phoneNumber;
+  String get phoneNumber;
 
-  // @BuiltValueField(wireName: 'code')
-  // String? get code;
-
-  static Serializer<PhoneNumberSendReq> get serializer => _$phoneNumberSendReqSerializer;
+  static Serializer<PhoneNumberSendReq> get serializer =>
+      _$phoneNumberSendReqSerializer;
 }
 
 /// Verification Send Request
@@ -28,8 +25,7 @@ abstract class VerificationSendReq
   VerificationSendReq._();
 
   factory VerificationSendReq(
-          [Function(VerificationSendReqBuilder b) updates]) =
-      _$VerificationSendReq;
+      [Function(VerificationSendReqBuilder b) updates]) = _$VerificationSendReq;
 
   @BuiltValueField(wireName: 'phone_number')
   String? get phoneNumber;

@@ -1,8 +1,14 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
+import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
+import 'package:medion/infrastructure/repository/booking_repository.dart';
+import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/domain/sources/doctor_appoinment_select_page.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
@@ -19,6 +25,7 @@ import 'package:medion/presentation/pages/home/news/news_page.dart';
 import 'package:medion/presentation/pages/home/news/news_view.dart';
 import 'package:medion/presentation/pages/home/notifications/notification_page.dart';
 import 'package:medion/presentation/pages/main/main_page.dart';
+import 'package:medion/presentation/pages/map/component/adress_view_page.dart';
 import 'package:medion/presentation/pages/map/map_page.dart';
 import 'package:medion/presentation/pages/auth/sign_up/data_entry_page.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_page.dart';
@@ -153,7 +160,14 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getHomePage(index) {
-    return MaterialPageRoute(builder: (_) => const HomePage());
+    return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+            create: (context) {
+              DBService dbService = context.read<DBService>();
+              return HomeBloc(
+                  HomeRepository(HomePageService.create(dbService)));
+            },
+            child: const HomePage()));
   }
 
   // static MaterialPageRoute getAppoinmentPage(index) {
@@ -255,13 +269,18 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const AppointmentPage());
   }
 
-  static MaterialPageRoute getSecondServicePage(onTap) {
-    return MaterialPageRoute(builder: (_) => SecondServicePage(onTap: onTap));
-  }
+  // static MaterialPageRoute getSecondServicePage(onTap, id) {
+  //   return MaterialPageRoute(
+  //       builder: (_) => SecondServicePage(onTap: onTap, id: id));
+  // }
 
   static MaterialPageRoute getUnderDevPage({required appBarTitle}) {
     return MaterialPageRoute(builder: (_) {
       return UnderDevPage(appBarTitle: appBarTitle);
     });
+  }
+
+  static MaterialPageRoute getAdressViewPage() {
+    return MaterialPageRoute(builder: (_) => const AdressViewPage());
   }
 }

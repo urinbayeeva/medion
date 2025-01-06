@@ -48,85 +48,8 @@ class _SecondServicePageState extends State<SecondServicePage> {
                       itemBuilder: (_, item) {
                         return CustomExpansionListTile(
                           title: item['service'],
-                          children: [
-                            Column(
-                              spacing: 4,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      top: BorderSide(
-                                          width: 1, color: colors.neutral400),
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 16.w, top: 8.h, right: 16.w),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          item['description'],
-                                          style: fonts.smallSemLink.copyWith(
-                                            color: colors.primary900,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 13.sp,
-                                          ),
-                                        ),
-                                        AnimationButtonEffect(
-                                          onTap: () {
-                                            setState(() {
-                                              chose++;
-                                            });
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.all(8),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.r),
-                                              color: colors.error500,
-                                            ),
-                                            child: icons.plus.svg(
-                                                width: 20.w,
-                                                height: 20.h,
-                                                color: colors.shade0),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 16.w, top: 8.h, right: 16.w),
-                                  child: Text(
-                                    item['use'],
-                                    style: fonts.smallSemLink.copyWith(
-                                      color: colors.neutral600,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 11.sp,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 16.w, top: 8.h, right: 16.w),
-                                  child: Text(
-                                    item['price'],
-                                    style: fonts.smallSemLink.copyWith(
-                                      color: colors.primary900,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 13.sp,
-                                    ),
-                                  ),
-                                ),
-                                24.h.verticalSpace,
-                              ],
-                            ),
-                          ],
+                          description: '',
+                          price: '',
                         );
                       },
                       data: appointmentDirections,

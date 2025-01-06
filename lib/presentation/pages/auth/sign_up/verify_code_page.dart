@@ -173,13 +173,13 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                     seconds: 59,
                                     onTap: () {
                                       refresh++;
-                                      // context.read<AuthBloc>().add(
-                                      //     AuthEvent.verificationSend(
-                                      //         request: VerificationSendReq(
-                                      //             (p0) => p0
-                                      //               ..phoneNumber =
-                                      //                   widget.phoneNumber)));
-                                      setState(() {});
+                                      context.read<AuthBloc>().add(
+                                          AuthEvent.verificationSend(
+                                              request: VerificationSendReq(
+                                                  (p0) => p0
+                                                    ..phoneNumber =
+                                                        widget.phoneNumber)));
+                                      // setState(() {});
                                     },
                                   ),
                                 ),
@@ -188,8 +188,17 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
 
                               CButton(
                                   title: "verify".tr(),
-                                  onTap: () => Navigator.push(
-                                      context, AppRoutes.getDataEntryPage())),
+                                  onTap: () {
+                                    context.read<AuthBloc>().add(
+                                        AuthEvent.verificationSend(
+                                            request: VerificationSendReq((p0) =>
+                                                p0
+                                                  ..phoneNumber =
+                                                      widget.phoneNumber)));
+                                    setState(() {});
+                                    // Navigator.push(
+                                    //     context, AppRoutes.getDataEntryPage());
+                                  }),
                               27.h.verticalSpace,
                             ],
                           ),

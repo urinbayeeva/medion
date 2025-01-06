@@ -59,8 +59,7 @@ class ChooseLanguagePage extends StatelessWidget {
                     CustomButton(
                       borderRadius: 8.r,
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(context,
-                            AppRoutes.getOnboardingPage(), (_) => false);
+                        Navigator.push(context, AppRoutes.getOnboardingPage());
                       },
                       backgroundColor: colors.primary500,
                       title: "next".tr(),

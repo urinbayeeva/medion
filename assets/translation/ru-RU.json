@@ -185,5 +185,16 @@
 "you_can_get_new_code_through": "Получить новый код можно через ",
 "spa" : "СПА",
 "no_result_found": "Результатов не найдено",
+"success": "Успешный",
+"unknown_error": "Попробуйте еще раз или свяжитесь со службой поддержки",
+"connection_is_afk": "Нет подключения к Интернету",
+"no_connection_body": "Убедитесь, что Wi-Fi или передача данных по сотовой связи включены, \nа затем повторите попытку",
+"retry": "Пробовать снова",
+"enter_your_phone_number": "Введите номер телефона",
+"we_will_send_you_message_with_confirmation_code": "Мы отправим вам SMS-сообщениe с кодом для подтверждения ",
+"number_entered_incorrectly": "Номер введен неправильно",
+"get_code": "Получить код",
+"something_went_wrong_subtitle": "Причина неизвестна, возможно нужно перезагрузить йоур фон)))",
+"something_went_wrong": "Что-то пошло не так",
   "": ""
 }

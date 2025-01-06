@@ -39,7 +39,7 @@ class AuthRepository implements IAuthFacade {
   Future<Either<ResponseFailure, SuccessModel>> verificationSend(
       {required VerificationSendReq request}) async {
     try {
-      final res = await _authService.verificationSend(request: request);
+      final res = await _authService.registerUser(request: request);
       if (res.isSuccessful) {
         return right(res.body!);
       } else {
@@ -53,61 +53,56 @@ class AuthRepository implements IAuthFacade {
 
   /// Send phone number
   @override
-Future<Either<ResponseFailure, SuccessModel>> sendPhoneNumber({
-  required PhoneNumberSendReq request,
-}) async {
-  try {
-    // Define API URL
-    final String url = 'https://his.uicgroup.tech/apiweb/patient/phone-number';
+  Future<Either<ResponseFailure, SuccessModel>> sendPhoneNumber({
+    required PhoneNumberSendReq request,
+  }) async {
+    try {
+      final String url =
+          'https://his.uicgroup.tech/apiweb/patient/phone-number';
 
-    // Request Headers
-    final headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    };
+      // Request Headers
+      final headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
 
-    // Request Body
-    final body = jsonEncode({
-      'phone_number': request.phoneNumber,
-    });
+      // Request Body
+      final body = jsonEncode({
+        'phone_number': request.phoneNumber,
+      });
 
-    // Make POST request
-    LogService.d('Sending request to $url with body: $body');
-    final response = await http.post(
-      Uri.parse(url),
-      headers: headers,
-      body: body,
-    );
+      // Make POST request
+      LogService.d('Sending request to $url with body: $body');
+      final response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: body,
+      );
 
-    // Debug Logs
-    LogService.d('Response Status: ${response.statusCode}');
-    LogService.d('Response Body: ${response.body}');
+      // Debug Logs
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
 
-    // Handle HTTP response
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      // Handle HTTP response
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
 
-      // Handle success
-      if (responseData['status'] == 'success') {
-        // Parse the success model
-        final successModel = SuccessModel((b) => b
-          ..detail = responseData['message'] ?? 'Success'); // Nullable message
-        return right(successModel);
+        if (responseData['status'] == 'success') {
+          final successModel = SuccessModel(
+              (b) => b..detail = responseData['message'] ?? 'Success');
+          return right(successModel);
+        } else {
+          final errorMsg = responseData['message'] ?? 'Unknown error';
+          return left(InvalidCredentials(message: errorMsg));
+        }
       } else {
-        // Handle API error message
-        final errorMsg = responseData['message'] ?? 'Unknown error';
-        return left(InvalidCredentials(message: errorMsg));
+        return left(InvalidCredentials(
+            message: 'Server Error: ${response.statusCode}'.tr()));
       }
-    } else {
-      // Handle server errors
-      return left(InvalidCredentials(
-          message: 'Server Error: ${response.statusCode}'.tr()));
+    } catch (e) {
+      // Handle unexpected exceptions
+      LogService.e(" ----> error on phone number repo: ${e.toString()}");
+      return left(InvalidCredentials(message: 'Unknown Error'.tr()));
     }
-  } catch (e) {
-    // Handle unexpected exceptions
-    LogService.e(" ----> error on phone number repo: ${e.toString()}");
-    return left(InvalidCredentials(message: 'Unknown Error'.tr()));
   }
-}
-
 }
