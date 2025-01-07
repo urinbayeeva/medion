@@ -112,3 +112,13 @@ class _CLangRadioState extends State<CLangRadio> {
     );
   }
 }
+
+
+//  onTap: () {
+//                         EasyLocalization.of(context)!.setLocale(
+//                           const Locale('uz', 'UZ'),
+//                         );
+//                       },
+//                       title: "O’zbekcha",
+//                       icon: icons.flagUz,
+//                       isCheck: !(context.locale == const Locale('uz', 'UZ')),

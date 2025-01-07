@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
+import 'package:medion/presentation/component/table_calendar/src/customization/calendar_style.dart';
+import 'package:medion/presentation/component/table_calendar/src/customization/header_style.dart';
 import 'package:medion/presentation/pages/profile/widget/results_data_widget.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:medion/presentation/component/table_calendar/table_calendar.dart';
 
 class ResultsPage extends StatefulWidget {
   const ResultsPage({super.key});
