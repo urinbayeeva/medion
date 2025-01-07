@@ -105,4 +105,19 @@ class AuthRepository implements IAuthFacade {
       return left(InvalidCredentials(message: 'Unknown Error'.tr()));
     }
   }
+   @override
+  Future<Either<ResponseFailure, SuccessModel>> sendUserInfo(
+      {required CreateInfoReq request}) async {
+    try {
+      final res = await _authService.createUserInfo(request: request);
+      if (res.isSuccessful) {
+        return right(res.body!);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      LogService.e(" ----> error on repo  : ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
 }

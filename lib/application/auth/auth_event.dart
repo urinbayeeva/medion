@@ -14,4 +14,9 @@ abstract class AuthEvent with _$AuthEvent {
   const factory AuthEvent.sendPhoneNumber({
     required PhoneNumberSendReq request,
   }) = _SendPhoneNumber;
+
+  // Send User Info reques
+  const factory AuthEvent.sendUserInfo({
+    required CreateInfoReq request,
+  }) = _SendUserInfo;
 }

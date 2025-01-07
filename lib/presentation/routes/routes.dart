@@ -5,9 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/application/doctor/doctor_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/booking_repository.dart';
+import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/domain/sources/doctor_appoinment_select_page.dart';
@@ -152,7 +154,16 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getDataEntryPage() {
-    return MaterialPageRoute(builder: (_) => const DataEntryPage());
+    return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+            create: (context) {
+              DBService dbService = context.read<DBService>();
+              return AuthBloc(AuthRepository(
+                dbService,
+                AuthService.create(dbService),
+              ));
+            },
+            child: const DataEntryPage()));
   }
 
   static MaterialPageRoute getMainPage(index) {
@@ -222,7 +233,14 @@ class AppRoutes {
   // }
 
   static MaterialPageRoute getAllDoctorsPage() {
-    return MaterialPageRoute(builder: (_) => const AllDoctorsPage());
+    return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+            create: (context) {
+              DBService dbService = context.read<DBService>();
+              return DoctorBloc(
+                  DoctorRepository(DoctorService.create(dbService)));
+            },
+            child: const AllDoctorsPage()));
   }
 
   static MaterialPageRoute getSettingsPage() {

@@ -3,17 +3,15 @@ import 'dart:async';
 import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' show Client, MultipartFile;
-import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
-
+import 'package:medion/domain/models/doctors/doctor_model.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
 import 'package:medion/domain/success_model/success_model.dart';
 import 'package:medion/domain/upload_image/upload_image.dart';
 import 'package:medion/infrastructure/core/exceptions.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
-import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:medion/presentation/pages/core/my_app.dart';
@@ -33,6 +31,11 @@ abstract class AuthService extends ChopperService {
   @Post(path: 'registration')
   Future<Response<SuccessModel>> registerUser({
     @Body() required VerificationSendReq request,
+  });
+
+  @Post(path: "create")
+   Future<Response<SuccessModel>> createUserInfo({
+    @Body() required CreateInfoReq request,
   });
 
   static AuthService create(DBService dbService) =>
@@ -63,6 +66,18 @@ abstract class HomePageService extends ChopperService {
   static HomePageService create(DBService dbService) =>
       _$HomePageService(_Client(Constants.baseUrlP, true, dbService));
 }
+
+//Doctors
+
+@ChopperApi(baseUrl: "/doctor/")
+abstract class DoctorService extends ChopperService {
+  @Get(path: "doctors_info")
+  Future<Response<BuiltList<DoctorCategory>>> getDoctors();
+
+  static DoctorService create(DBService dbService) =>
+      _$DoctorService(_Client(Constants.baseUrlP, true, dbService));
+}
+
 
 // main
 @ChopperApi(baseUrl: '/upload/')

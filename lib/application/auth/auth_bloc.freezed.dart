@@ -21,6 +21,7 @@ mixin _$AuthEvent {
     required TResult Function() checkAuth,
     required TResult Function(VerificationSendReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
+    required TResult Function(CreateInfoReq request) sendUserInfo,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$AuthEvent {
     TResult? Function()? checkAuth,
     TResult? Function(VerificationSendReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult? Function(CreateInfoReq request)? sendUserInfo,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$AuthEvent {
     TResult Function()? checkAuth,
     TResult Function(VerificationSendReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult Function(CreateInfoReq request)? sendUserInfo,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,7 @@ mixin _$AuthEvent {
     required TResult Function(_CheckAuth value) checkAuth,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
+    required TResult Function(_SendUserInfo value) sendUserInfo,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +54,7 @@ mixin _$AuthEvent {
     TResult? Function(_CheckAuth value)? checkAuth,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult? Function(_SendUserInfo value)? sendUserInfo,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +62,7 @@ mixin _$AuthEvent {
     TResult Function(_CheckAuth value)? checkAuth,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult Function(_SendUserInfo value)? sendUserInfo,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -126,6 +132,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     required TResult Function() checkAuth,
     required TResult Function(VerificationSendReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
+    required TResult Function(CreateInfoReq request) sendUserInfo,
   }) {
     return checkAuth();
   }
@@ -136,6 +143,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult? Function()? checkAuth,
     TResult? Function(VerificationSendReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult? Function(CreateInfoReq request)? sendUserInfo,
   }) {
     return checkAuth?.call();
   }
@@ -146,6 +154,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult Function()? checkAuth,
     TResult Function(VerificationSendReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult Function(CreateInfoReq request)? sendUserInfo,
     required TResult orElse(),
   }) {
     if (checkAuth != null) {
@@ -160,6 +169,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     required TResult Function(_CheckAuth value) checkAuth,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
+    required TResult Function(_SendUserInfo value) sendUserInfo,
   }) {
     return checkAuth(this);
   }
@@ -170,6 +180,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult? Function(_CheckAuth value)? checkAuth,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult? Function(_SendUserInfo value)? sendUserInfo,
   }) {
     return checkAuth?.call(this);
   }
@@ -180,6 +191,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult Function(_CheckAuth value)? checkAuth,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult Function(_SendUserInfo value)? sendUserInfo,
     required TResult orElse(),
   }) {
     if (checkAuth != null) {
@@ -265,6 +277,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     required TResult Function() checkAuth,
     required TResult Function(VerificationSendReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
+    required TResult Function(CreateInfoReq request) sendUserInfo,
   }) {
     return verificationSend(request);
   }
@@ -275,6 +288,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult? Function()? checkAuth,
     TResult? Function(VerificationSendReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult? Function(CreateInfoReq request)? sendUserInfo,
   }) {
     return verificationSend?.call(request);
   }
@@ -285,6 +299,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult Function()? checkAuth,
     TResult Function(VerificationSendReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult Function(CreateInfoReq request)? sendUserInfo,
     required TResult orElse(),
   }) {
     if (verificationSend != null) {
@@ -299,6 +314,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     required TResult Function(_CheckAuth value) checkAuth,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
+    required TResult Function(_SendUserInfo value) sendUserInfo,
   }) {
     return verificationSend(this);
   }
@@ -309,6 +325,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult? Function(_CheckAuth value)? checkAuth,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult? Function(_SendUserInfo value)? sendUserInfo,
   }) {
     return verificationSend?.call(this);
   }
@@ -319,6 +336,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult Function(_CheckAuth value)? checkAuth,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult Function(_SendUserInfo value)? sendUserInfo,
     required TResult orElse(),
   }) {
     if (verificationSend != null) {
@@ -413,6 +431,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     required TResult Function() checkAuth,
     required TResult Function(VerificationSendReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
+    required TResult Function(CreateInfoReq request) sendUserInfo,
   }) {
     return sendPhoneNumber(request);
   }
@@ -423,6 +442,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult? Function()? checkAuth,
     TResult? Function(VerificationSendReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult? Function(CreateInfoReq request)? sendUserInfo,
   }) {
     return sendPhoneNumber?.call(request);
   }
@@ -433,6 +453,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult Function()? checkAuth,
     TResult Function(VerificationSendReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult Function(CreateInfoReq request)? sendUserInfo,
     required TResult orElse(),
   }) {
     if (sendPhoneNumber != null) {
@@ -447,6 +468,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     required TResult Function(_CheckAuth value) checkAuth,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
+    required TResult Function(_SendUserInfo value) sendUserInfo,
   }) {
     return sendPhoneNumber(this);
   }
@@ -457,6 +479,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult? Function(_CheckAuth value)? checkAuth,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult? Function(_SendUserInfo value)? sendUserInfo,
   }) {
     return sendPhoneNumber?.call(this);
   }
@@ -467,6 +490,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult Function(_CheckAuth value)? checkAuth,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult Function(_SendUserInfo value)? sendUserInfo,
     required TResult orElse(),
   }) {
     if (sendPhoneNumber != null) {
@@ -490,12 +514,166 @@ abstract class _SendPhoneNumber implements AuthEvent {
 }
 
 /// @nodoc
+abstract class _$$SendUserInfoImplCopyWith<$Res> {
+  factory _$$SendUserInfoImplCopyWith(
+          _$SendUserInfoImpl value, $Res Function(_$SendUserInfoImpl) then) =
+      __$$SendUserInfoImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({CreateInfoReq request});
+}
+
+/// @nodoc
+class __$$SendUserInfoImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$SendUserInfoImpl>
+    implements _$$SendUserInfoImplCopyWith<$Res> {
+  __$$SendUserInfoImplCopyWithImpl(
+      _$SendUserInfoImpl _value, $Res Function(_$SendUserInfoImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? request = null,
+  }) {
+    return _then(_$SendUserInfoImpl(
+      request: null == request
+          ? _value.request
+          : request // ignore: cast_nullable_to_non_nullable
+              as CreateInfoReq,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SendUserInfoImpl implements _SendUserInfo {
+  const _$SendUserInfoImpl({required this.request});
+
+  @override
+  final CreateInfoReq request;
+
+  @override
+  String toString() {
+    return 'AuthEvent.sendUserInfo(request: $request)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SendUserInfoImpl &&
+            (identical(other.request, request) || other.request == request));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, request);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SendUserInfoImplCopyWith<_$SendUserInfoImpl> get copyWith =>
+      __$$SendUserInfoImplCopyWithImpl<_$SendUserInfoImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() checkAuth,
+    required TResult Function(VerificationSendReq request) verificationSend,
+    required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
+    required TResult Function(CreateInfoReq request) sendUserInfo,
+  }) {
+    return sendUserInfo(request);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? checkAuth,
+    TResult? Function(VerificationSendReq request)? verificationSend,
+    TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult? Function(CreateInfoReq request)? sendUserInfo,
+  }) {
+    return sendUserInfo?.call(request);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? checkAuth,
+    TResult Function(VerificationSendReq request)? verificationSend,
+    TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult Function(CreateInfoReq request)? sendUserInfo,
+    required TResult orElse(),
+  }) {
+    if (sendUserInfo != null) {
+      return sendUserInfo(request);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_VerificationSend value) verificationSend,
+    required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
+    required TResult Function(_SendUserInfo value) sendUserInfo,
+  }) {
+    return sendUserInfo(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_VerificationSend value)? verificationSend,
+    TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult? Function(_SendUserInfo value)? sendUserInfo,
+  }) {
+    return sendUserInfo?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_VerificationSend value)? verificationSend,
+    TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult Function(_SendUserInfo value)? sendUserInfo,
+    required TResult orElse(),
+  }) {
+    if (sendUserInfo != null) {
+      return sendUserInfo(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SendUserInfo implements AuthEvent {
+  const factory _SendUserInfo({required final CreateInfoReq request}) =
+      _$SendUserInfoImpl;
+
+  CreateInfoReq get request;
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SendUserInfoImplCopyWith<_$SendUserInfoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$AuthState {
   bool get proceedToHome => throw _privateConstructorUsedError;
   bool get proceedToLogin => throw _privateConstructorUsedError; //
   bool get successSendCode => throw _privateConstructorUsedError;
   bool get successVerifyCode => throw _privateConstructorUsedError;
   bool get successUpdatePhone => throw _privateConstructorUsedError;
+  bool get successSendUserInfo => throw _privateConstructorUsedError;
   bool get errorSendCode => throw _privateConstructorUsedError;
   String? get phoneNumber => throw _privateConstructorUsedError;
 
@@ -517,6 +695,7 @@ abstract class $AuthStateCopyWith<$Res> {
       bool successSendCode,
       bool successVerifyCode,
       bool successUpdatePhone,
+      bool successSendUserInfo,
       bool errorSendCode,
       String? phoneNumber});
 }
@@ -541,6 +720,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? successSendCode = null,
     Object? successVerifyCode = null,
     Object? successUpdatePhone = null,
+    Object? successSendUserInfo = null,
     Object? errorSendCode = null,
     Object? phoneNumber = freezed,
   }) {
@@ -564,6 +744,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
       successUpdatePhone: null == successUpdatePhone
           ? _value.successUpdatePhone
           : successUpdatePhone // ignore: cast_nullable_to_non_nullable
+              as bool,
+      successSendUserInfo: null == successSendUserInfo
+          ? _value.successSendUserInfo
+          : successSendUserInfo // ignore: cast_nullable_to_non_nullable
               as bool,
       errorSendCode: null == errorSendCode
           ? _value.errorSendCode
@@ -591,6 +775,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       bool successSendCode,
       bool successVerifyCode,
       bool successUpdatePhone,
+      bool successSendUserInfo,
       bool errorSendCode,
       String? phoneNumber});
 }
@@ -613,6 +798,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? successSendCode = null,
     Object? successVerifyCode = null,
     Object? successUpdatePhone = null,
+    Object? successSendUserInfo = null,
     Object? errorSendCode = null,
     Object? phoneNumber = freezed,
   }) {
@@ -637,6 +823,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.successUpdatePhone
           : successUpdatePhone // ignore: cast_nullable_to_non_nullable
               as bool,
+      successSendUserInfo: null == successSendUserInfo
+          ? _value.successSendUserInfo
+          : successSendUserInfo // ignore: cast_nullable_to_non_nullable
+              as bool,
       errorSendCode: null == errorSendCode
           ? _value.errorSendCode
           : errorSendCode // ignore: cast_nullable_to_non_nullable
@@ -658,6 +848,7 @@ class _$AuthStateImpl extends _AuthState {
       this.successSendCode = false,
       this.successVerifyCode = false,
       this.successUpdatePhone = false,
+      this.successSendUserInfo = false,
       this.errorSendCode = false,
       this.phoneNumber = null})
       : super._();
@@ -680,6 +871,9 @@ class _$AuthStateImpl extends _AuthState {
   final bool successUpdatePhone;
   @override
   @JsonKey()
+  final bool successSendUserInfo;
+  @override
+  @JsonKey()
   final bool errorSendCode;
   @override
   @JsonKey()
@@ -687,7 +881,7 @@ class _$AuthStateImpl extends _AuthState {
 
   @override
   String toString() {
-    return 'AuthState(proceedToHome: $proceedToHome, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber)';
+    return 'AuthState(proceedToHome: $proceedToHome, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber)';
   }
 
   @override
@@ -705,6 +899,8 @@ class _$AuthStateImpl extends _AuthState {
                 other.successVerifyCode == successVerifyCode) &&
             (identical(other.successUpdatePhone, successUpdatePhone) ||
                 other.successUpdatePhone == successUpdatePhone) &&
+            (identical(other.successSendUserInfo, successSendUserInfo) ||
+                other.successSendUserInfo == successSendUserInfo) &&
             (identical(other.errorSendCode, errorSendCode) ||
                 other.errorSendCode == errorSendCode) &&
             (identical(other.phoneNumber, phoneNumber) ||
@@ -719,6 +915,7 @@ class _$AuthStateImpl extends _AuthState {
       successSendCode,
       successVerifyCode,
       successUpdatePhone,
+      successSendUserInfo,
       errorSendCode,
       phoneNumber);
 
@@ -738,6 +935,7 @@ abstract class _AuthState extends AuthState {
       final bool successSendCode,
       final bool successVerifyCode,
       final bool successUpdatePhone,
+      final bool successSendUserInfo,
       final bool errorSendCode,
       final String? phoneNumber}) = _$AuthStateImpl;
   const _AuthState._() : super._();
@@ -752,6 +950,8 @@ abstract class _AuthState extends AuthState {
   bool get successVerifyCode;
   @override
   bool get successUpdatePhone;
+  @override
+  bool get successSendUserInfo;
   @override
   bool get errorSendCode;
   @override

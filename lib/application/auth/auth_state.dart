@@ -12,6 +12,7 @@ class AuthState with _$AuthState {
     @Default(false) bool successSendCode,
     @Default(false) bool successVerifyCode,
     @Default(false) bool successUpdatePhone,
+     @Default(false) bool successSendUserInfo,
     @Default(false) bool errorSendCode,
     @Default(null) String? phoneNumber,
   }) = _AuthState;

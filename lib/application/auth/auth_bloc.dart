@@ -20,7 +20,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) : super(const _AuthState()) {
     on<_CheckAuth>(_checkAuth);
     on<_VerificationSend>(_verificationSendHandler);
-    on<_SendPhoneNumber>(_sendPhoneNumberHandler); // New event handler
+    on<_SendPhoneNumber>(_sendPhoneNumberHandler);
+      on<_SendUserInfo>(_sendUserInfoHandler);
   }
 
   /// Authentication Check
@@ -78,4 +79,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           successSendCode: true, phoneNumber: event.request.phoneNumber));
     });
   }
+
+  FutureOr<void> _sendUserInfoHandler(
+    _SendUserInfo event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(successSendCode: false));
+    EasyLoading.show();
+
+    final res = await _repository.sendUserInfo(request: event.request);
+
+    res.fold((error) async {
+      LogService.e(" ----> error on send user info bloc: $error");
+      EasyLoading.showError(error.message);
+      emit(state.copyWith(successSendCode: false));
+    }, (data) async {
+      EasyLoading.dismiss();
+      emit(state.copyWith(successSendCode: true));
+    });
+  }
+
 }

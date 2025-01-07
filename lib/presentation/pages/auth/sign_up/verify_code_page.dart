@@ -83,17 +83,17 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                 current.successVerifyCode,
             listener: (context, state) {
               if (state.successVerifyCode) {
-                context
-                    .read<DBService>()
-                    .setBool(key: DBService.business, isSaved: false);
-                context.read<BottomNavBarController>().changeNavBar(false);
+                // context
+                //     .read<DBService>()
+                //     .setBool(key: DBService.business, isSaved: false);
+                // context.read<BottomNavBarController>().changeNavBar(false);
 
-                if (widget.onClose != null) {
-                  widget.onClose!(widget.phoneNumber);
-                } else {
-                  Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-                      AppRoutes.getMainPage(0), (_) => false);
-                }
+                // if (widget.onClose != null) {
+                //   widget.onClose!(widget.phoneNumber);
+                // } else {
+                //   Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                //       AppRoutes.getMainPage(0), (_) => false);
+                // }
               }
             },
             builder: (context, state) {
@@ -189,15 +189,15 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                               CButton(
                                   title: "verify".tr(),
                                   onTap: () {
-                                    context.read<AuthBloc>().add(
-                                        AuthEvent.verificationSend(
-                                            request: VerificationSendReq((p0) =>
-                                                p0
-                                                  ..phoneNumber =
-                                                      widget.phoneNumber)));
-                                    setState(() {});
-                                    // Navigator.push(
-                                    //     context, AppRoutes.getDataEntryPage());
+                                    // context.read<AuthBloc>().add(
+                                    //     AuthEvent.verificationSend(
+                                    //         request: VerificationSendReq((p0) =>
+                                    //             p0
+                                    //               ..phoneNumber =
+                                    //                   widget.phoneNumber)));
+                                    // setState(() {});
+                                    Navigator.push(
+                                        context, AppRoutes.getDataEntryPage());
                                   }),
                               27.h.verticalSpace,
                             ],

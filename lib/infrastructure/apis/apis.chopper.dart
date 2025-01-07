@@ -44,6 +44,20 @@ final class _$AuthService extends AuthService {
     );
     return client.send<SuccessModel, SuccessModel>($request);
   }
+
+  @override
+  Future<Response<SuccessModel>> createUserInfo(
+      {required CreateInfoReq request}) {
+    final Uri $url = Uri.parse('/patient/create');
+    final $body = request;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<SuccessModel, SuccessModel>($request);
+  }
 }
 
 // coverage:ignore-file
@@ -102,6 +116,29 @@ final class _$HomePageService extends HomePageService {
       client.baseUrl,
     );
     return client.send<BuiltList<News>, News>($request);
+  }
+}
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$DoctorService extends DoctorService {
+  _$DoctorService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = DoctorService;
+
+  @override
+  Future<Response<BuiltList<DoctorCategory>>> getDoctors() {
+    final Uri $url = Uri.parse('/doctor/doctors_info');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<BuiltList<DoctorCategory>, DoctorCategory>($request);
   }
 }
 

@@ -19,4 +19,8 @@ abstract class IAuthFacade {
   Future<Either<ResponseFailure, SuccessModel>> sendPhoneNumber({
     required PhoneNumberSendReq request,
   });
+
+  Future<Either<ResponseFailure, SuccessModel>> sendUserInfo({
+    required CreateInfoReq request,
+  });
 }

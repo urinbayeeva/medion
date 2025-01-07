@@ -36,3 +36,35 @@ abstract class VerificationSendReq
   static Serializer<VerificationSendReq> get serializer =>
       _$verificationSendReqSerializer;
 }
+
+abstract class CreateInfoReq
+    implements Built<CreateInfoReq, CreateInfoReqBuilder> {
+  CreateInfoReq._();
+
+  factory CreateInfoReq([Function(CreateInfoReqBuilder b) updates]) =
+      _$CreateInfoReq;
+
+  @BuiltValueField(wireName: "first_name")
+  String? get firstName;
+
+  @BuiltValueField(wireName: "last_name")
+  String? get lastName;
+
+    @BuiltValueField(wireName: "middle_name")
+  String? get middleName;
+
+    @BuiltValueField(wireName: "phone_number")
+  String? get phoneNumber;
+
+    @BuiltValueField(wireName: "date_of_birth")
+  String? get dateOfBirth;
+
+    @BuiltValueField(wireName: "gender")
+  String? get gender;
+
+    @BuiltValueField(wireName: "passport_serial")
+  String? get passportSerial;
+  
+static Serializer<CreateInfoReq> get serializer => _$createInfoReqSerializer; 
+
+}
