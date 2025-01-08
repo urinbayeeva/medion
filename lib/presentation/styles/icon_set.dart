@@ -81,6 +81,7 @@ class IconSet {
   final String share;
   final String ringBell;
   final String nonUser;
+  final String map;
 
   IconSet._({
     required this.medicalHistoryFirst,
@@ -163,6 +164,7 @@ class IconSet {
     required this.share,
     required this.ringBell,
     required this.nonUser,
+    required this.map,
   });
 
   static IconSet get create {
@@ -247,6 +249,7 @@ class IconSet {
       nonUser: "assets/icons/non_user.svg",
       flagRu: "assets/icons/flag_ru.svg",
       flagUz: "assets/icons/flag_uz.svg",
+      map: "assets/icons/map.svg",
     );
   }
 }

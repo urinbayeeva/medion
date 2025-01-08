@@ -21,43 +21,26 @@ abstract class BookingTypeModel
       _$bookingTypeModelSerializer;
 }
 
-abstract class Service implements Built<Service, ServiceBuilder> {
+abstract class CategorySeviceModelID
+    implements Built<CategorySeviceModelID, CategorySeviceModelIDBuilder> {
+  @BuiltValueField(wireName: "id")
   int get id;
+  @BuiltValueField(wireName: "name")
   String get name;
+  @BuiltValueField(wireName: "description")
   String? get description;
-  double get doctorPriceStartUzs;
+  @BuiltValueField(wireName: "doctor_price_start_uzs")
+  int get doctorPriceStartUzs;
+  @BuiltValueField(wireName: "doctor_price_start_usd")
   double get doctorPriceStartUsd;
+  @BuiltValueField(wireName: "age")
   String get age;
 
-  Service._();
-  factory Service([void Function(ServiceBuilder) updates]) = _$Service;
+  CategorySeviceModelID._();
+  factory CategorySeviceModelID(
+          [void Function(CategorySeviceModelIDBuilder) updates]) =
+      _$CategorySeviceModelID;
 
-  static Service fromJson(Map<String, dynamic> json) {
-    return serializers.deserializeWith(Service.serializer, json)!;
-  }
-
-  Map<String, dynamic> toJson() {
-    return serializers.serializeWith(Service.serializer, this) as Map<String, dynamic>;
-  }
-
-  static Serializer<Service> get serializer => _$serviceSerializer;
+  static Serializer<CategorySeviceModelID> get serializer =>
+      _$categorySeviceModelIDSerializer;
 }
-
-abstract class CategoryServiceIDModel implements Built<CategoryServiceIDModel, CategoryServiceIDModelBuilder> {
-  String get category;
-  BuiltList<Service> get services;
-
-  CategoryServiceIDModel._();
-  factory CategoryServiceIDModel([void Function(CategoryServiceIDModelBuilder) updates]) = _$CategoryServiceIDModel;
-
-  static CategoryServiceIDModel fromJson(Map<String, dynamic> json) {
-    return serializers.deserializeWith(CategoryServiceIDModel.serializer, json)!;
-  }
-
-  Map<String, dynamic> toJson() {
-    return serializers.serializeWith(CategoryServiceIDModel.serializer, this) as Map<String, dynamic>;
-  }
-
-  static Serializer<CategoryServiceIDModel> get serializer => _$categoryServiceIDModelSerializer;
-}
-

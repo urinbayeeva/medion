@@ -33,7 +33,6 @@ class BuiltValueConverter extends JsonConverter {
     return req;
   }
 
-
   @override
   Future<Response<D>> convertResponse<D, T>(
     Response response,

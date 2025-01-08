@@ -6,140 +6,9 @@ part of 'doctor_model.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<Doctor> _$doctorSerializer = new _$DoctorSerializer();
 Serializer<DoctorCategory> _$doctorCategorySerializer =
     new _$DoctorCategorySerializer();
-
-class _$DoctorSerializer implements StructuredSerializer<Doctor> {
-  @override
-  final Iterable<Type> types = const [Doctor, _$Doctor];
-  @override
-  final String wireName = 'Doctor';
-
-  @override
-  Iterable<Object?> serialize(Serializers serializers, Doctor object,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'name',
-      serializers.serialize(object.name, specifiedType: const FullType(String)),
-      'category_ids',
-      serializers.serialize(object.categoryIds,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(String)])),
-      'specialty',
-      serializers.serialize(object.specialty,
-          specifiedType: const FullType(String)),
-      'academic_rank',
-      serializers.serialize(object.academicRank,
-          specifiedType: const FullType(String)),
-      'work_experience',
-      serializers.serialize(object.workExperience,
-          specifiedType: const FullType(int)),
-    ];
-    Object? value;
-    value = object.infoDdescription;
-    if (value != null) {
-      result
-        ..add('info_description')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
-    }
-    value = object.workMobile;
-    if (value != null) {
-      result
-        ..add('Work_Mobile')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
-    }
-    value = object.workHome;
-    if (value != null) {
-      result
-        ..add('Work_Phone')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
-    }
-    value = object.gender;
-    if (value != null) {
-      result
-        ..add('gender')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
-    }
-    value = object.image;
-    if (value != null) {
-      result
-        ..add('image')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    return result;
-  }
-
-  @override
-  Doctor deserialize(Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new DoctorBuilder();
-
-    final iterator = serialized.iterator;
-    while (iterator.moveNext()) {
-      final key = iterator.current! as String;
-      iterator.moveNext();
-      final Object? value = iterator.current;
-      switch (key) {
-        case 'id':
-          result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
-          break;
-        case 'name':
-          result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
-          break;
-        case 'info_description':
-          result.infoDdescription = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
-          break;
-        case 'Work_Mobile':
-          result.workMobile = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
-          break;
-        case 'Work_Phone':
-          result.workHome = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
-          break;
-        case 'gender':
-          result.gender = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
-          break;
-        case 'category_ids':
-          result.categoryIds.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
-              as BuiltList<Object?>);
-          break;
-        case 'specialty':
-          result.specialty = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
-          break;
-        case 'image':
-          result.image = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'academic_rank':
-          result.academicRank = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
-          break;
-        case 'work_experience':
-          result.workExperience = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
-          break;
-      }
-    }
-
-    return result.build();
-  }
-}
+Serializer<DoctorData> _$doctorDataSerializer = new _$DoctorDataSerializer();
 
 class _$DoctorCategorySerializer
     implements StructuredSerializer<DoctorCategory> {
@@ -158,7 +27,7 @@ class _$DoctorCategorySerializer
       'doctor_data',
       serializers.serialize(object.doctor_data,
           specifiedType:
-              const FullType(BuiltList, const [const FullType(Doctor)])),
+              const FullType(BuiltList, const [const FullType(DoctorData)])),
     ];
 
     return result;
@@ -183,7 +52,7 @@ class _$DoctorCategorySerializer
         case 'doctor_data':
           result.doctor_data.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(Doctor)]))!
+                      BuiltList, const [const FullType(DoctorData)]))!
               as BuiltList<Object?>);
           break;
       }
@@ -193,236 +62,138 @@ class _$DoctorCategorySerializer
   }
 }
 
-class _$Doctor extends Doctor {
+class _$DoctorDataSerializer implements StructuredSerializer<DoctorData> {
   @override
-  final int id;
+  final Iterable<Type> types = const [DoctorData, _$DoctorData];
   @override
-  final String name;
-  @override
-  final bool? infoDdescription;
-  @override
-  final bool? workMobile;
-  @override
-  final bool? workHome;
-  @override
-  final bool? gender;
-  @override
-  final BuiltList<String> categoryIds;
-  @override
-  final String specialty;
-  @override
-  final String? image;
-  @override
-  final String academicRank;
-  @override
-  final int workExperience;
-
-  factory _$Doctor([void Function(DoctorBuilder)? updates]) =>
-      (new DoctorBuilder()..update(updates))._build();
-
-  _$Doctor._(
-      {required this.id,
-      required this.name,
-      this.infoDdescription,
-      this.workMobile,
-      this.workHome,
-      this.gender,
-      required this.categoryIds,
-      required this.specialty,
-      this.image,
-      required this.academicRank,
-      required this.workExperience})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'Doctor', 'id');
-    BuiltValueNullFieldError.checkNotNull(name, r'Doctor', 'name');
-    BuiltValueNullFieldError.checkNotNull(
-        categoryIds, r'Doctor', 'categoryIds');
-    BuiltValueNullFieldError.checkNotNull(specialty, r'Doctor', 'specialty');
-    BuiltValueNullFieldError.checkNotNull(
-        academicRank, r'Doctor', 'academicRank');
-    BuiltValueNullFieldError.checkNotNull(
-        workExperience, r'Doctor', 'workExperience');
-  }
+  final String wireName = 'DoctorData';
 
   @override
-  Doctor rebuild(void Function(DoctorBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
-
-  @override
-  DoctorBuilder toBuilder() => new DoctorBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Doctor &&
-        id == other.id &&
-        name == other.name &&
-        infoDdescription == other.infoDdescription &&
-        workMobile == other.workMobile &&
-        workHome == other.workHome &&
-        gender == other.gender &&
-        categoryIds == other.categoryIds &&
-        specialty == other.specialty &&
-        image == other.image &&
-        academicRank == other.academicRank &&
-        workExperience == other.workExperience;
-  }
-
-  @override
-  int get hashCode {
-    var _$hash = 0;
-    _$hash = $jc(_$hash, id.hashCode);
-    _$hash = $jc(_$hash, name.hashCode);
-    _$hash = $jc(_$hash, infoDdescription.hashCode);
-    _$hash = $jc(_$hash, workMobile.hashCode);
-    _$hash = $jc(_$hash, workHome.hashCode);
-    _$hash = $jc(_$hash, gender.hashCode);
-    _$hash = $jc(_$hash, categoryIds.hashCode);
-    _$hash = $jc(_$hash, specialty.hashCode);
-    _$hash = $jc(_$hash, image.hashCode);
-    _$hash = $jc(_$hash, academicRank.hashCode);
-    _$hash = $jc(_$hash, workExperience.hashCode);
-    _$hash = $jf(_$hash);
-    return _$hash;
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper(r'Doctor')
-          ..add('id', id)
-          ..add('name', name)
-          ..add('infoDdescription', infoDdescription)
-          ..add('workMobile', workMobile)
-          ..add('workHome', workHome)
-          ..add('gender', gender)
-          ..add('categoryIds', categoryIds)
-          ..add('specialty', specialty)
-          ..add('image', image)
-          ..add('academicRank', academicRank)
-          ..add('workExperience', workExperience))
-        .toString();
-  }
-}
-
-class DoctorBuilder implements Builder<Doctor, DoctorBuilder> {
-  _$Doctor? _$v;
-
-  int? _id;
-  int? get id => _$this._id;
-  set id(int? id) => _$this._id = id;
-
-  String? _name;
-  String? get name => _$this._name;
-  set name(String? name) => _$this._name = name;
-
-  bool? _infoDdescription;
-  bool? get infoDdescription => _$this._infoDdescription;
-  set infoDdescription(bool? infoDdescription) =>
-      _$this._infoDdescription = infoDdescription;
-
-  bool? _workMobile;
-  bool? get workMobile => _$this._workMobile;
-  set workMobile(bool? workMobile) => _$this._workMobile = workMobile;
-
-  bool? _workHome;
-  bool? get workHome => _$this._workHome;
-  set workHome(bool? workHome) => _$this._workHome = workHome;
-
-  bool? _gender;
-  bool? get gender => _$this._gender;
-  set gender(bool? gender) => _$this._gender = gender;
-
-  ListBuilder<String>? _categoryIds;
-  ListBuilder<String> get categoryIds =>
-      _$this._categoryIds ??= new ListBuilder<String>();
-  set categoryIds(ListBuilder<String>? categoryIds) =>
-      _$this._categoryIds = categoryIds;
-
-  String? _specialty;
-  String? get specialty => _$this._specialty;
-  set specialty(String? specialty) => _$this._specialty = specialty;
-
-  String? _image;
-  String? get image => _$this._image;
-  set image(String? image) => _$this._image = image;
-
-  String? _academicRank;
-  String? get academicRank => _$this._academicRank;
-  set academicRank(String? academicRank) => _$this._academicRank = academicRank;
-
-  int? _workExperience;
-  int? get workExperience => _$this._workExperience;
-  set workExperience(int? workExperience) =>
-      _$this._workExperience = workExperience;
-
-  DoctorBuilder();
-
-  DoctorBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _id = $v.id;
-      _name = $v.name;
-      _infoDdescription = $v.infoDdescription;
-      _workMobile = $v.workMobile;
-      _workHome = $v.workHome;
-      _gender = $v.gender;
-      _categoryIds = $v.categoryIds.toBuilder();
-      _specialty = $v.specialty;
-      _image = $v.image;
-      _academicRank = $v.academicRank;
-      _workExperience = $v.workExperience;
-      _$v = null;
+  Iterable<Object?> serialize(Serializers serializers, DoctorData object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'id',
+      serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'name',
+      serializers.serialize(object.name, specifiedType: const FullType(String)),
+      'category_ids',
+      serializers.serialize(object.category_ids,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(int)])),
+      'specialty',
+      serializers.serialize(object.specialty,
+          specifiedType: const FullType(String)),
+      'work_experience',
+      serializers.serialize(object.work_experience,
+          specifiedType: const FullType(int)),
+    ];
+    Object? value;
+    value = object.info_description;
+    if (value != null) {
+      result
+        ..add('info_description')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
-    return this;
+    value = object.Work_Mobile;
+    if (value != null) {
+      result
+        ..add('Work_Mobile')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
+    value = object.Work_Phone;
+    if (value != null) {
+      result
+        ..add('Work_Phone')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
+    value = object.gender;
+    if (value != null) {
+      result
+        ..add('gender')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.image;
+    if (value != null) {
+      result
+        ..add('image')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.academic_rank;
+    if (value != null) {
+      result
+        ..add('academic_rank')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
   }
 
   @override
-  void replace(Doctor other) {
-    ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$Doctor;
-  }
+  DoctorData deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new DoctorDataBuilder();
 
-  @override
-  void update(void Function(DoctorBuilder)? updates) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  Doctor build() => _build();
-
-  _$Doctor _build() {
-    _$Doctor _$result;
-    try {
-      _$result = _$v ??
-          new _$Doctor._(
-              id: BuiltValueNullFieldError.checkNotNull(id, r'Doctor', 'id'),
-              name: BuiltValueNullFieldError.checkNotNull(
-                  name, r'Doctor', 'name'),
-              infoDdescription: infoDdescription,
-              workMobile: workMobile,
-              workHome: workHome,
-              gender: gender,
-              categoryIds: categoryIds.build(),
-              specialty: BuiltValueNullFieldError.checkNotNull(
-                  specialty, r'Doctor', 'specialty'),
-              image: image,
-              academicRank: BuiltValueNullFieldError.checkNotNull(
-                  academicRank, r'Doctor', 'academicRank'),
-              workExperience: BuiltValueNullFieldError.checkNotNull(
-                  workExperience, r'Doctor', 'workExperience'));
-    } catch (_) {
-      late String _$failedField;
-      try {
-        _$failedField = 'categoryIds';
-        categoryIds.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'Doctor', _$failedField, e.toString());
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'info_description':
+          result.info_description = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'Work_Mobile':
+          result.Work_Mobile = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'Work_Phone':
+          result.Work_Phone = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'gender':
+          result.gender = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'category_ids':
+          result.category_ids.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(BuiltList, const [const FullType(int)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'specialty':
+          result.specialty = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'image':
+          result.image = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'academic_rank':
+          result.academic_rank = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'work_experience':
+          result.work_experience = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
       }
-      rethrow;
     }
-    replace(_$result);
-    return _$result;
+
+    return result.build();
   }
 }
 
@@ -430,7 +201,7 @@ class _$DoctorCategory extends DoctorCategory {
   @override
   final String category_name;
   @override
-  final BuiltList<Doctor> doctor_data;
+  final BuiltList<DoctorData> doctor_data;
 
   factory _$DoctorCategory([void Function(DoctorCategoryBuilder)? updates]) =>
       (new DoctorCategoryBuilder()..update(updates))._build();
@@ -486,10 +257,10 @@ class DoctorCategoryBuilder
   set category_name(String? category_name) =>
       _$this._category_name = category_name;
 
-  ListBuilder<Doctor>? _doctor_data;
-  ListBuilder<Doctor> get doctor_data =>
-      _$this._doctor_data ??= new ListBuilder<Doctor>();
-  set doctor_data(ListBuilder<Doctor>? doctor_data) =>
+  ListBuilder<DoctorData>? _doctor_data;
+  ListBuilder<DoctorData> get doctor_data =>
+      _$this._doctor_data ??= new ListBuilder<DoctorData>();
+  set doctor_data(ListBuilder<DoctorData>? doctor_data) =>
       _$this._doctor_data = doctor_data;
 
   DoctorCategoryBuilder();
@@ -534,6 +305,239 @@ class DoctorCategoryBuilder
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'DoctorCategory', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$DoctorData extends DoctorData {
+  @override
+  final int id;
+  @override
+  final String name;
+  @override
+  final bool? info_description;
+  @override
+  final bool? Work_Mobile;
+  @override
+  final bool? Work_Phone;
+  @override
+  final String? gender;
+  @override
+  final BuiltList<int> category_ids;
+  @override
+  final String specialty;
+  @override
+  final String? image;
+  @override
+  final String? academic_rank;
+  @override
+  final int work_experience;
+
+  factory _$DoctorData([void Function(DoctorDataBuilder)? updates]) =>
+      (new DoctorDataBuilder()..update(updates))._build();
+
+  _$DoctorData._(
+      {required this.id,
+      required this.name,
+      this.info_description,
+      this.Work_Mobile,
+      this.Work_Phone,
+      this.gender,
+      required this.category_ids,
+      required this.specialty,
+      this.image,
+      this.academic_rank,
+      required this.work_experience})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(id, r'DoctorData', 'id');
+    BuiltValueNullFieldError.checkNotNull(name, r'DoctorData', 'name');
+    BuiltValueNullFieldError.checkNotNull(
+        category_ids, r'DoctorData', 'category_ids');
+    BuiltValueNullFieldError.checkNotNull(
+        specialty, r'DoctorData', 'specialty');
+    BuiltValueNullFieldError.checkNotNull(
+        work_experience, r'DoctorData', 'work_experience');
+  }
+
+  @override
+  DoctorData rebuild(void Function(DoctorDataBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  DoctorDataBuilder toBuilder() => new DoctorDataBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is DoctorData &&
+        id == other.id &&
+        name == other.name &&
+        info_description == other.info_description &&
+        Work_Mobile == other.Work_Mobile &&
+        Work_Phone == other.Work_Phone &&
+        gender == other.gender &&
+        category_ids == other.category_ids &&
+        specialty == other.specialty &&
+        image == other.image &&
+        academic_rank == other.academic_rank &&
+        work_experience == other.work_experience;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, info_description.hashCode);
+    _$hash = $jc(_$hash, Work_Mobile.hashCode);
+    _$hash = $jc(_$hash, Work_Phone.hashCode);
+    _$hash = $jc(_$hash, gender.hashCode);
+    _$hash = $jc(_$hash, category_ids.hashCode);
+    _$hash = $jc(_$hash, specialty.hashCode);
+    _$hash = $jc(_$hash, image.hashCode);
+    _$hash = $jc(_$hash, academic_rank.hashCode);
+    _$hash = $jc(_$hash, work_experience.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'DoctorData')
+          ..add('id', id)
+          ..add('name', name)
+          ..add('info_description', info_description)
+          ..add('Work_Mobile', Work_Mobile)
+          ..add('Work_Phone', Work_Phone)
+          ..add('gender', gender)
+          ..add('category_ids', category_ids)
+          ..add('specialty', specialty)
+          ..add('image', image)
+          ..add('academic_rank', academic_rank)
+          ..add('work_experience', work_experience))
+        .toString();
+  }
+}
+
+class DoctorDataBuilder implements Builder<DoctorData, DoctorDataBuilder> {
+  _$DoctorData? _$v;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
+  bool? _info_description;
+  bool? get info_description => _$this._info_description;
+  set info_description(bool? info_description) =>
+      _$this._info_description = info_description;
+
+  bool? _Work_Mobile;
+  bool? get Work_Mobile => _$this._Work_Mobile;
+  set Work_Mobile(bool? Work_Mobile) => _$this._Work_Mobile = Work_Mobile;
+
+  bool? _Work_Phone;
+  bool? get Work_Phone => _$this._Work_Phone;
+  set Work_Phone(bool? Work_Phone) => _$this._Work_Phone = Work_Phone;
+
+  String? _gender;
+  String? get gender => _$this._gender;
+  set gender(String? gender) => _$this._gender = gender;
+
+  ListBuilder<int>? _category_ids;
+  ListBuilder<int> get category_ids =>
+      _$this._category_ids ??= new ListBuilder<int>();
+  set category_ids(ListBuilder<int>? category_ids) =>
+      _$this._category_ids = category_ids;
+
+  String? _specialty;
+  String? get specialty => _$this._specialty;
+  set specialty(String? specialty) => _$this._specialty = specialty;
+
+  String? _image;
+  String? get image => _$this._image;
+  set image(String? image) => _$this._image = image;
+
+  String? _academic_rank;
+  String? get academic_rank => _$this._academic_rank;
+  set academic_rank(String? academic_rank) =>
+      _$this._academic_rank = academic_rank;
+
+  int? _work_experience;
+  int? get work_experience => _$this._work_experience;
+  set work_experience(int? work_experience) =>
+      _$this._work_experience = work_experience;
+
+  DoctorDataBuilder();
+
+  DoctorDataBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _name = $v.name;
+      _info_description = $v.info_description;
+      _Work_Mobile = $v.Work_Mobile;
+      _Work_Phone = $v.Work_Phone;
+      _gender = $v.gender;
+      _category_ids = $v.category_ids.toBuilder();
+      _specialty = $v.specialty;
+      _image = $v.image;
+      _academic_rank = $v.academic_rank;
+      _work_experience = $v.work_experience;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(DoctorData other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$DoctorData;
+  }
+
+  @override
+  void update(void Function(DoctorDataBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  DoctorData build() => _build();
+
+  _$DoctorData _build() {
+    _$DoctorData _$result;
+    try {
+      _$result = _$v ??
+          new _$DoctorData._(
+              id: BuiltValueNullFieldError.checkNotNull(
+                  id, r'DoctorData', 'id'),
+              name: BuiltValueNullFieldError.checkNotNull(
+                  name, r'DoctorData', 'name'),
+              info_description: info_description,
+              Work_Mobile: Work_Mobile,
+              Work_Phone: Work_Phone,
+              gender: gender,
+              category_ids: category_ids.build(),
+              specialty: BuiltValueNullFieldError.checkNotNull(
+                  specialty, r'DoctorData', 'specialty'),
+              image: image,
+              academic_rank: academic_rank,
+              work_experience: BuiltValueNullFieldError.checkNotNull(
+                  work_experience, r'DoctorData', 'work_experience'));
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'category_ids';
+        category_ids.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'DoctorData', _$failedField, e.toString());
       }
       rethrow;
     }

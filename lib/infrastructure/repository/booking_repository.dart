@@ -36,29 +36,26 @@ class BookingRepository implements IBookingFacade {
     }
   }
 
-   @override
-  Future<Either<ResponseFailure, List<CategoryServiceIDModel>>> fetchCategoryServices(int serviceTypeId) async {
+//fetchCategoryServices
+  @override
+  Future<Either<ResponseFailure, List<CategorySeviceModelID>>>
+      fetchCategoryServices(int id) async {
     try {
-      final response = await _bookingService.getCategoryServices(serviceTypeId: serviceTypeId);
-      LogService.d('Response Status: \${response.statusCode}');
-      LogService.d('Response Body: \${response.body}');
+      final response = await _bookingService.getServiceId(id);
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
-        final data = response.body!.map((category) {
-          final categoryName = category.keys.first;
-          final services = category[categoryName].map<Service>((service) => Service.fromJson(service)).toList();
-          return CategoryServiceIDModel((b) => b
-            ..category = categoryName
-            ..services.replace(services));
-        }).toList();
-        return right(data);
+        final getServices = response.body!.toList();
+        return right(getServices);
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on repo  : \${e.toString()}");
+      LogService.e(" ----> error on repo  : ${e.toString()}");
       return left(handleError(e));
     }
   }
+
 //
 }

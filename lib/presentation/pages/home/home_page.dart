@@ -5,12 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/home/home_bloc.dart';
+import 'package:medion/domain/sources/directions_data.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/domain/sources/doctors_data.dart';
 import 'package:medion/presentation/component/custom_pagination.dart';
 import 'package:medion/presentation/component/un_focus_widget%20copy.dart';
 import 'package:medion/presentation/pages/home/directions/component/inner_pages/image_item.dart';
+import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/pages/home/widgets/adress_item.dart';
 import 'package:medion/domain/sources/med_service.dart';
@@ -115,41 +117,50 @@ class _HomePageState extends State<HomePage> {
                                   style: fonts.regularSemLink
                                       .copyWith(fontSize: 17.sp)),
                               12.h.verticalSpace,
-                              // CustomListView(
-                              //     itemBuilder: (index, context) {
-                              //       final item = directionsData[index];
-                              //       return MedicalDirectionItem(
-                              //         onTap: () async {
-                              //           // context
-                              //           //     .read<BottomNavBarController>()
-                              //           //     .changeNavBar(true);
-                              //           // _onItemTapped(index);
-                              //           // Navigator.push(
-                              //           //   context,
-                              //           //   AppRoutes.getDirectionInfoPage(
-                              //           //     appBarTitle: item["title"],
-                              //           //     informationTitle:
-                              //           //         item["information_title"],
-                              //           //     doctorsList: item["doctorsList"],
-                              //           //     professionServiceType:
-                              //           //         item["professionServiceType"],
-                              //           //     price: item["price"],
-                              //           //   ),
-                              //           // ).then((_) async {
-                              //           //   // ignore: use_build_context_synchronously
-                              //           //   context.read<BottomNavBarController>()
-                              //           //       .changeNavBar(false);
-                              //           // });
-                              //         },
-                              //         title: item['title'],
-                              //         subtitle: item['subtitle'],
-                              //         iconPath: item['icon'],
-                              //       );
-                              //     },
-                              //     data: directionsData,
-                              //     emptyWidgetModel: ErrorWidgetModel(
-                              //         title: "title", subtitle: "subtitle"),
-                              //     status: FormzSubmissionStatus.success),
+                              SizedBox(
+                                height: 280.h,
+                                child: ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  itemCount: directionsData.length,
+                                  itemBuilder: (context, index) {
+                                    final item = directionsData[index];
+                                    return MedicalDirectionItem(
+                                      onTap: () async {
+                                        context
+                                            .read<BottomNavBarController>()
+                                            .changeNavBar(true);
+                                        // _onItemTapped(index);
+                                        Navigator.push(
+                                          context,
+                                          AppRoutes.getDirectionInfoPage(
+                                            appBarTitle: item["title"],
+                                            informationTitle:
+                                                item["information_title"],
+                                            doctorsList: item["doctorsList"],
+                                            professionServiceType:
+                                                item["professionServiceType"],
+                                            price: item["price"],
+                                          ),
+                                        ).then((_) async {
+                                          // ignore: use_build_context_synchronously
+                                          context
+                                              .read<BottomNavBarController>()
+                                              .changeNavBar(false);
+                                        });
+                                      },
+                                      title: item['title'],
+                                      subtitle: item['subtitle'],
+                                      iconPath: item['icon'],
+                                    );
+                                  },
+                                  // data: directionsData,
+                                  // emptyWidgetModel: ErrorWidgetModel(
+                                  //     title: "title", subtitle: "subtitle"),
+                                  // status: FormzSubmissionStatus.success),
+                                ),
+                              ),
                               24.h.verticalSpace,
                               Row(
                                 mainAxisAlignment:

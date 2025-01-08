@@ -34,9 +34,14 @@ class OthersPageComp extends StatelessWidget {
               children: [
                 AnimationButtonEffect(
                   onTap: () {
-                    context.read<BottomNavBarController>().changeNavBar(false);
-                    Navigator.push(context,
-                        AppRoutes.getUnderDevPage(appBarTitle: item['title']));
+                    context.read<BottomNavBarController>().changeNavBar(true);
+                    Navigator.push(context, AppRoutes.getBranchesPage())
+                        .then((_) {
+                      // ignore: use_build_context_synchronously
+                      context
+                          .read<BottomNavBarController>()
+                          .changeNavBar(false);
+                    });
                   },
                   child: ListTile(
                     leading: SvgPicture.asset(item['icon']),

@@ -8,9 +8,8 @@ part of 'booking_type_model.dart';
 
 Serializer<BookingTypeModel> _$bookingTypeModelSerializer =
     new _$BookingTypeModelSerializer();
-Serializer<Service> _$serviceSerializer = new _$ServiceSerializer();
-Serializer<CategoryServiceIDModel> _$categoryServiceIDModelSerializer =
-    new _$CategoryServiceIDModelSerializer();
+Serializer<CategorySeviceModelID> _$categorySeviceModelIDSerializer =
+    new _$CategorySeviceModelIDSerializer();
 
 class _$BookingTypeModelSerializer
     implements StructuredSerializer<BookingTypeModel> {
@@ -70,24 +69,29 @@ class _$BookingTypeModelSerializer
   }
 }
 
-class _$ServiceSerializer implements StructuredSerializer<Service> {
+class _$CategorySeviceModelIDSerializer
+    implements StructuredSerializer<CategorySeviceModelID> {
   @override
-  final Iterable<Type> types = const [Service, _$Service];
+  final Iterable<Type> types = const [
+    CategorySeviceModelID,
+    _$CategorySeviceModelID
+  ];
   @override
-  final String wireName = 'Service';
+  final String wireName = 'CategorySeviceModelID';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, Service object,
+  Iterable<Object?> serialize(
+      Serializers serializers, CategorySeviceModelID object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
-      'doctorPriceStartUzs',
+      'doctor_price_start_uzs',
       serializers.serialize(object.doctorPriceStartUzs,
-          specifiedType: const FullType(double)),
-      'doctorPriceStartUsd',
+          specifiedType: const FullType(int)),
+      'doctor_price_start_usd',
       serializers.serialize(object.doctorPriceStartUsd,
           specifiedType: const FullType(double)),
       'age',
@@ -105,9 +109,10 @@ class _$ServiceSerializer implements StructuredSerializer<Service> {
   }
 
   @override
-  Service deserialize(Serializers serializers, Iterable<Object?> serialized,
+  CategorySeviceModelID deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ServiceBuilder();
+    final result = new CategorySeviceModelIDBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -127,73 +132,17 @@ class _$ServiceSerializer implements StructuredSerializer<Service> {
           result.description = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'doctorPriceStartUzs':
+        case 'doctor_price_start_uzs':
           result.doctorPriceStartUzs = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(int))! as int;
           break;
-        case 'doctorPriceStartUsd':
+        case 'doctor_price_start_usd':
           result.doctorPriceStartUsd = serializers.deserialize(value,
               specifiedType: const FullType(double))! as double;
           break;
         case 'age':
           result.age = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
-          break;
-      }
-    }
-
-    return result.build();
-  }
-}
-
-class _$CategoryServiceIDModelSerializer
-    implements StructuredSerializer<CategoryServiceIDModel> {
-  @override
-  final Iterable<Type> types = const [
-    CategoryServiceIDModel,
-    _$CategoryServiceIDModel
-  ];
-  @override
-  final String wireName = 'CategoryServiceIDModel';
-
-  @override
-  Iterable<Object?> serialize(
-      Serializers serializers, CategoryServiceIDModel object,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'category',
-      serializers.serialize(object.category,
-          specifiedType: const FullType(String)),
-      'services',
-      serializers.serialize(object.services,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(Service)])),
-    ];
-
-    return result;
-  }
-
-  @override
-  CategoryServiceIDModel deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new CategoryServiceIDModelBuilder();
-
-    final iterator = serialized.iterator;
-    while (iterator.moveNext()) {
-      final key = iterator.current! as String;
-      iterator.moveNext();
-      final Object? value = iterator.current;
-      switch (key) {
-        case 'category':
-          result.category = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
-          break;
-        case 'services':
-          result.services.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(Service)]))!
-              as BuiltList<Object?>);
           break;
       }
     }
@@ -313,7 +262,7 @@ class BookingTypeModelBuilder
   }
 }
 
-class _$Service extends Service {
+class _$CategorySeviceModelID extends CategorySeviceModelID {
   @override
   final int id;
   @override
@@ -321,16 +270,17 @@ class _$Service extends Service {
   @override
   final String? description;
   @override
-  final double doctorPriceStartUzs;
+  final int doctorPriceStartUzs;
   @override
   final double doctorPriceStartUsd;
   @override
   final String age;
 
-  factory _$Service([void Function(ServiceBuilder)? updates]) =>
-      (new ServiceBuilder()..update(updates))._build();
+  factory _$CategorySeviceModelID(
+          [void Function(CategorySeviceModelIDBuilder)? updates]) =>
+      (new CategorySeviceModelIDBuilder()..update(updates))._build();
 
-  _$Service._(
+  _$CategorySeviceModelID._(
       {required this.id,
       required this.name,
       this.description,
@@ -338,26 +288,29 @@ class _$Service extends Service {
       required this.doctorPriceStartUsd,
       required this.age})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'Service', 'id');
-    BuiltValueNullFieldError.checkNotNull(name, r'Service', 'name');
+    BuiltValueNullFieldError.checkNotNull(id, r'CategorySeviceModelID', 'id');
     BuiltValueNullFieldError.checkNotNull(
-        doctorPriceStartUzs, r'Service', 'doctorPriceStartUzs');
+        name, r'CategorySeviceModelID', 'name');
     BuiltValueNullFieldError.checkNotNull(
-        doctorPriceStartUsd, r'Service', 'doctorPriceStartUsd');
-    BuiltValueNullFieldError.checkNotNull(age, r'Service', 'age');
+        doctorPriceStartUzs, r'CategorySeviceModelID', 'doctorPriceStartUzs');
+    BuiltValueNullFieldError.checkNotNull(
+        doctorPriceStartUsd, r'CategorySeviceModelID', 'doctorPriceStartUsd');
+    BuiltValueNullFieldError.checkNotNull(age, r'CategorySeviceModelID', 'age');
   }
 
   @override
-  Service rebuild(void Function(ServiceBuilder) updates) =>
+  CategorySeviceModelID rebuild(
+          void Function(CategorySeviceModelIDBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ServiceBuilder toBuilder() => new ServiceBuilder()..replace(this);
+  CategorySeviceModelIDBuilder toBuilder() =>
+      new CategorySeviceModelIDBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Service &&
+    return other is CategorySeviceModelID &&
         id == other.id &&
         name == other.name &&
         description == other.description &&
@@ -381,7 +334,7 @@ class _$Service extends Service {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'Service')
+    return (newBuiltValueToStringHelper(r'CategorySeviceModelID')
           ..add('id', id)
           ..add('name', name)
           ..add('description', description)
@@ -392,8 +345,9 @@ class _$Service extends Service {
   }
 }
 
-class ServiceBuilder implements Builder<Service, ServiceBuilder> {
-  _$Service? _$v;
+class CategorySeviceModelIDBuilder
+    implements Builder<CategorySeviceModelID, CategorySeviceModelIDBuilder> {
+  _$CategorySeviceModelID? _$v;
 
   int? _id;
   int? get id => _$this._id;
@@ -407,9 +361,9 @@ class ServiceBuilder implements Builder<Service, ServiceBuilder> {
   String? get description => _$this._description;
   set description(String? description) => _$this._description = description;
 
-  double? _doctorPriceStartUzs;
-  double? get doctorPriceStartUzs => _$this._doctorPriceStartUzs;
-  set doctorPriceStartUzs(double? doctorPriceStartUzs) =>
+  int? _doctorPriceStartUzs;
+  int? get doctorPriceStartUzs => _$this._doctorPriceStartUzs;
+  set doctorPriceStartUzs(int? doctorPriceStartUzs) =>
       _$this._doctorPriceStartUzs = doctorPriceStartUzs;
 
   double? _doctorPriceStartUsd;
@@ -421,9 +375,9 @@ class ServiceBuilder implements Builder<Service, ServiceBuilder> {
   String? get age => _$this._age;
   set age(String? age) => _$this._age = age;
 
-  ServiceBuilder();
+  CategorySeviceModelIDBuilder();
 
-  ServiceBuilder get _$this {
+  CategorySeviceModelIDBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _id = $v.id;
@@ -438,147 +392,37 @@ class ServiceBuilder implements Builder<Service, ServiceBuilder> {
   }
 
   @override
-  void replace(Service other) {
+  void replace(CategorySeviceModelID other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$Service;
+    _$v = other as _$CategorySeviceModelID;
   }
 
   @override
-  void update(void Function(ServiceBuilder)? updates) {
+  void update(void Function(CategorySeviceModelIDBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  Service build() => _build();
+  CategorySeviceModelID build() => _build();
 
-  _$Service _build() {
+  _$CategorySeviceModelID _build() {
     final _$result = _$v ??
-        new _$Service._(
-            id: BuiltValueNullFieldError.checkNotNull(id, r'Service', 'id'),
-            name:
-                BuiltValueNullFieldError.checkNotNull(name, r'Service', 'name'),
+        new _$CategorySeviceModelID._(
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'CategorySeviceModelID', 'id'),
+            name: BuiltValueNullFieldError.checkNotNull(
+                name, r'CategorySeviceModelID', 'name'),
             description: description,
             doctorPriceStartUzs: BuiltValueNullFieldError.checkNotNull(
-                doctorPriceStartUzs, r'Service', 'doctorPriceStartUzs'),
+                doctorPriceStartUzs,
+                r'CategorySeviceModelID',
+                'doctorPriceStartUzs'),
             doctorPriceStartUsd: BuiltValueNullFieldError.checkNotNull(
-                doctorPriceStartUsd, r'Service', 'doctorPriceStartUsd'),
-            age: BuiltValueNullFieldError.checkNotNull(age, r'Service', 'age'));
-    replace(_$result);
-    return _$result;
-  }
-}
-
-class _$CategoryServiceIDModel extends CategoryServiceIDModel {
-  @override
-  final String category;
-  @override
-  final BuiltList<Service> services;
-
-  factory _$CategoryServiceIDModel(
-          [void Function(CategoryServiceIDModelBuilder)? updates]) =>
-      (new CategoryServiceIDModelBuilder()..update(updates))._build();
-
-  _$CategoryServiceIDModel._({required this.category, required this.services})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        category, r'CategoryServiceIDModel', 'category');
-    BuiltValueNullFieldError.checkNotNull(
-        services, r'CategoryServiceIDModel', 'services');
-  }
-
-  @override
-  CategoryServiceIDModel rebuild(
-          void Function(CategoryServiceIDModelBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
-
-  @override
-  CategoryServiceIDModelBuilder toBuilder() =>
-      new CategoryServiceIDModelBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is CategoryServiceIDModel &&
-        category == other.category &&
-        services == other.services;
-  }
-
-  @override
-  int get hashCode {
-    var _$hash = 0;
-    _$hash = $jc(_$hash, category.hashCode);
-    _$hash = $jc(_$hash, services.hashCode);
-    _$hash = $jf(_$hash);
-    return _$hash;
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper(r'CategoryServiceIDModel')
-          ..add('category', category)
-          ..add('services', services))
-        .toString();
-  }
-}
-
-class CategoryServiceIDModelBuilder
-    implements Builder<CategoryServiceIDModel, CategoryServiceIDModelBuilder> {
-  _$CategoryServiceIDModel? _$v;
-
-  String? _category;
-  String? get category => _$this._category;
-  set category(String? category) => _$this._category = category;
-
-  ListBuilder<Service>? _services;
-  ListBuilder<Service> get services =>
-      _$this._services ??= new ListBuilder<Service>();
-  set services(ListBuilder<Service>? services) => _$this._services = services;
-
-  CategoryServiceIDModelBuilder();
-
-  CategoryServiceIDModelBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _category = $v.category;
-      _services = $v.services.toBuilder();
-      _$v = null;
-    }
-    return this;
-  }
-
-  @override
-  void replace(CategoryServiceIDModel other) {
-    ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$CategoryServiceIDModel;
-  }
-
-  @override
-  void update(void Function(CategoryServiceIDModelBuilder)? updates) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  CategoryServiceIDModel build() => _build();
-
-  _$CategoryServiceIDModel _build() {
-    _$CategoryServiceIDModel _$result;
-    try {
-      _$result = _$v ??
-          new _$CategoryServiceIDModel._(
-              category: BuiltValueNullFieldError.checkNotNull(
-                  category, r'CategoryServiceIDModel', 'category'),
-              services: services.build());
-    } catch (_) {
-      late String _$failedField;
-      try {
-        _$failedField = 'services';
-        services.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'CategoryServiceIDModel', _$failedField, e.toString());
-      }
-      rethrow;
-    }
+                doctorPriceStartUsd,
+                r'CategorySeviceModelID',
+                'doctorPriceStartUsd'),
+            age: BuiltValueNullFieldError.checkNotNull(
+                age, r'CategorySeviceModelID', 'age'));
     replace(_$result);
     return _$result;
   }

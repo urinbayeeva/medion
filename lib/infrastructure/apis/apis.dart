@@ -34,7 +34,7 @@ abstract class AuthService extends ChopperService {
   });
 
   @Post(path: "create")
-   Future<Response<SuccessModel>> createUserInfo({
+  Future<Response<SuccessModel>> createUserInfo({
     @Body() required CreateInfoReq request,
   });
 
@@ -49,9 +49,8 @@ abstract class BookingService extends ChopperService {
   Future<Response<BuiltList<BookingTypeModel>>> bookingTypes();
 
   @Get(path: 'category_services/{id}')
-  Future<Response<List<Map<String, dynamic>>>>  getCategoryServices({
-    @Path('serviceTypeId') required int serviceTypeId,
-  });
+  Future<Response<BuiltList<CategorySeviceModelID>>> getServiceId(
+      @Path('id') int id);
 
   static BookingService create(DBService dbService) =>
       _$BookingService(_Client(Constants.baseUrlP, true, dbService));
@@ -71,13 +70,12 @@ abstract class HomePageService extends ChopperService {
 
 @ChopperApi(baseUrl: "/doctor/")
 abstract class DoctorService extends ChopperService {
-  @Get(path: "doctors_info")
-  Future<Response<BuiltList<DoctorCategory>>> getDoctors();
+  @Get(path: 'doctors_info')
+  Future<Response<List<DoctorCategory>>> getDoctorsInfo();
 
   static DoctorService create(DBService dbService) =>
       _$DoctorService(_Client(Constants.baseUrlP, true, dbService));
 }
-
 
 // main
 @ChopperApi(baseUrl: '/upload/')

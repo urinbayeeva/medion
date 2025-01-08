@@ -7,17 +7,32 @@ import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 
 class DoctorRepository {
-  final DoctorService _service;
+  final DoctorService apiService;
 
-  DoctorRepository(this._service);
+  DoctorRepository(this.apiService);
 
-  Future<Either<ResponseFailure, BuiltList<DoctorCategory>>> getDoctors() async {
+  // Future<List<DoctorCategory>> fetchDoctors() async {
+  //   final response = await apiService.getDoctorsInfo();
+  //   if (response.isSuccessful) {
+  //     return response.body!;
+  //   } else {
+  //     throw Exception('Failed to fetch doctors');
+  //   }
+  // }
+
+  /// Fetch booking types
+  // @override
+  Future<Either<ResponseFailure, List<DoctorCategory>>> fetchDoctors() async {
     try {
-      final response = await _service.getDoctors();
-      if (response.isSuccessful) {
-        return right(response.body!);
+      final response = await apiService.getDoctorsInfo();
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        final bookingTypes = response.body!;
+        return right(bookingTypes);
       } else {
-        return left(InvalidCredentials(message: 'invalid_response'.tr()));
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
       LogService.e(" ----> error on repo  : ${e.toString()}");

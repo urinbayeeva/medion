@@ -1,0 +1,80 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
+import 'package:medion/presentation/styles/style.dart';
+import 'package:medion/presentation/styles/theme_wrapper.dart';
+
+class CButtomIcon extends StatelessWidget {
+  final String title;
+  final double? height;
+  final double? width;
+  final Color? backgroundColor;
+  final Color? textColor;
+  final Color? iconColor;
+  final bool hasBorderRadius;
+  final double borderRadius;
+  final VoidCallback onTap;
+  final String? iconPath;
+
+  const CButtomIcon({
+    super.key,
+    required this.title,
+    this.height,
+    this.width,
+    required this.onTap,
+    this.backgroundColor,
+    this.textColor,
+    this.hasBorderRadius = true,
+    this.borderRadius = 8.0,
+    this.iconPath,
+    this.iconColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+      return AnimationButtonEffect(
+        onTap: onTap,
+        child: Container(
+          width: width?.w ?? double.infinity,
+          height: height?.h ?? 48.h,
+          decoration: BoxDecoration(
+            color: backgroundColor ?? colors.error500,
+            borderRadius:
+                hasBorderRadius ? BorderRadius.circular(borderRadius.r) : null,
+          ),
+          padding:
+              EdgeInsets.symmetric(horizontal: iconPath != null ? 16.w : 0),
+          child: Row(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Center the content horizontally
+            crossAxisAlignment:
+                CrossAxisAlignment.center, // Center the content vertically
+            children: [
+              if (iconPath != null)
+                SvgPicture.asset(
+                  iconPath!,
+                  height: 20.h,
+                  width: 20.w,
+                  color: iconColor ?? colors.primary900,
+                  // color: colors.shade0,
+                ),
+              if (iconPath != null) 4.w.horizontalSpace,
+              Flexible(
+                child: Text(
+                  title,
+                  style: fonts.smallLink
+                      .copyWith(color: textColor ?? colors.primary900),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+}

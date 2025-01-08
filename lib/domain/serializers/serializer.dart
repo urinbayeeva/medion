@@ -15,11 +15,10 @@ part 'serializer.g.dart';
   SuccessModel,
   BookingTypeModel,
   News,
-Service,
-CategoryServiceIDModel,
-CreateInfoReq,
-Doctor,
-DoctorCategory
+  CategorySeviceModelID,
+  CreateInfoReq,
+  DoctorCategory,
+  DoctorData,
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

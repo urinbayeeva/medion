@@ -4,55 +4,32 @@ import 'package:built_collection/built_collection.dart';
 
 part 'doctor_model.g.dart';
 
-abstract class Doctor implements Built<Doctor, DoctorBuilder> {
-  Doctor._();
-  factory Doctor([void Function(DoctorBuilder) updates]) = _$Doctor;
 
-  @BuiltValueField(wireName: 'id')
-  int get id;
+abstract class DoctorCategory implements Built<DoctorCategory, DoctorCategoryBuilder> {
+  String get category_name;
+  BuiltList<DoctorData> get doctor_data;
 
-  @BuiltValueField(wireName: 'name')
-  String get name;
+  DoctorCategory._();
+  factory DoctorCategory([void Function(DoctorCategoryBuilder) updates]) = _$DoctorCategory;
 
-  @BuiltValueField(wireName: 'info_description')
-  bool? get infoDdescription;
-
-  @BuiltValueField(wireName: 'Work_Mobile')
-  bool? get workMobile;
-
-    @BuiltValueField(wireName: 'Work_Phone')
-  bool? get workHome;
-
-    @BuiltValueField(wireName: 'gender')
-  bool? get gender;
-
-  @BuiltValueField(wireName: 'category_ids')
-  BuiltList<String> get categoryIds;
-
-    @BuiltValueField(wireName: 'specialty')
-  String get specialty;
-
-    @BuiltValueField(wireName: 'image')
-  String? get image;
-
-    @BuiltValueField(wireName: 'academic_rank')
-  String get academicRank;
-
-    @BuiltValueField(wireName: 'work_experience')
-  int get workExperience;
-
-  static Serializer<Doctor> get serializer => _$doctorSerializer;
+  static Serializer<DoctorCategory> get serializer => _$doctorCategorySerializer;
 }
 
-abstract class DoctorCategory
-    implements Built<DoctorCategory, DoctorCategoryBuilder> {
-  DoctorCategory._();
-  factory DoctorCategory([void Function(DoctorCategoryBuilder) updates]) =
-      _$DoctorCategory;
+abstract class DoctorData implements Built<DoctorData, DoctorDataBuilder> {
+  int get id;
+  String get name;
+  bool? get info_description;
+  bool? get Work_Mobile;
+  bool? get Work_Phone;
+  String? get gender;
+  BuiltList<int> get category_ids;
+  String get specialty;
+  String? get image;
+  String? get academic_rank;
+  int get work_experience;
 
-  String get category_name;
-  BuiltList<Doctor> get doctor_data;
+  DoctorData._();
+  factory DoctorData([void Function(DoctorDataBuilder) updates]) = _$DoctorData;
 
-  static Serializer<DoctorCategory> get serializer =>
-      _$doctorCategorySerializer;
+  static Serializer<DoctorData> get serializer => _$doctorDataSerializer;
 }

@@ -334,7 +334,7 @@ mixin _$BookingState {
   bool get error => throw _privateConstructorUsedError;
   bool get success => throw _privateConstructorUsedError;
   List<BookingTypeModel> get bookingTypes => throw _privateConstructorUsedError;
-  List<CategoryServiceIDModel> get categoryServices =>
+  List<CategorySeviceModelID> get categoryServices =>
       throw _privateConstructorUsedError;
 
   /// Create a copy of BookingState
@@ -355,7 +355,7 @@ abstract class $BookingStateCopyWith<$Res> {
       bool error,
       bool success,
       List<BookingTypeModel> bookingTypes,
-      List<CategoryServiceIDModel> categoryServices});
+      List<CategorySeviceModelID> categoryServices});
 }
 
 /// @nodoc
@@ -399,7 +399,7 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
       categoryServices: null == categoryServices
           ? _value.categoryServices
           : categoryServices // ignore: cast_nullable_to_non_nullable
-              as List<CategoryServiceIDModel>,
+              as List<CategorySeviceModelID>,
     ) as $Val);
   }
 }
@@ -417,7 +417,7 @@ abstract class _$$BookingStateImplCopyWith<$Res>
       bool error,
       bool success,
       List<BookingTypeModel> bookingTypes,
-      List<CategoryServiceIDModel> categoryServices});
+      List<CategorySeviceModelID> categoryServices});
 }
 
 /// @nodoc
@@ -459,7 +459,7 @@ class __$$BookingStateImplCopyWithImpl<$Res>
       categoryServices: null == categoryServices
           ? _value._categoryServices
           : categoryServices // ignore: cast_nullable_to_non_nullable
-              as List<CategoryServiceIDModel>,
+              as List<CategorySeviceModelID>,
     ));
   }
 }
@@ -472,7 +472,7 @@ class _$BookingStateImpl extends _BookingState {
       this.error = false,
       this.success = false,
       final List<BookingTypeModel> bookingTypes = const [],
-      final List<CategoryServiceIDModel> categoryServices = const []})
+      final List<CategorySeviceModelID> categoryServices = const []})
       : _bookingTypes = bookingTypes,
         _categoryServices = categoryServices,
         super._();
@@ -495,10 +495,10 @@ class _$BookingStateImpl extends _BookingState {
     return EqualUnmodifiableListView(_bookingTypes);
   }
 
-  final List<CategoryServiceIDModel> _categoryServices;
+  final List<CategorySeviceModelID> _categoryServices;
   @override
   @JsonKey()
-  List<CategoryServiceIDModel> get categoryServices {
+  List<CategorySeviceModelID> get categoryServices {
     if (_categoryServices is EqualUnmodifiableListView)
       return _categoryServices;
     // ignore: implicit_dynamic_type
@@ -544,12 +544,11 @@ class _$BookingStateImpl extends _BookingState {
 
 abstract class _BookingState extends BookingState {
   const factory _BookingState(
-          {final bool loading,
-          final bool error,
-          final bool success,
-          final List<BookingTypeModel> bookingTypes,
-          final List<CategoryServiceIDModel> categoryServices}) =
-      _$BookingStateImpl;
+      {final bool loading,
+      final bool error,
+      final bool success,
+      final List<BookingTypeModel> bookingTypes,
+      final List<CategorySeviceModelID> categoryServices}) = _$BookingStateImpl;
   const _BookingState._() : super._();
 
   @override
@@ -561,7 +560,7 @@ abstract class _BookingState extends BookingState {
   @override
   List<BookingTypeModel> get bookingTypes;
   @override
-  List<CategoryServiceIDModel> get categoryServices;
+  List<CategorySeviceModelID> get categoryServices;
 
   /// Create a copy of BookingState
   /// with the given fields replaced by the non-null parameter values.

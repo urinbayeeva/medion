@@ -83,16 +83,15 @@ final class _$BookingService extends BookingService {
   }
 
   @override
-  Future<Response<List<Map<String, dynamic>>>> getCategoryServices(
-      {required int serviceTypeId}) {
-    final Uri $url = Uri.parse('/booking/category_services/{id}');
+  Future<Response<BuiltList<CategorySeviceModelID>>> getServiceId(int id) {
+    final Uri $url = Uri.parse('/booking/category_services/${id}');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client
-        .send<List<Map<String, dynamic>>, Map<String, dynamic>>($request);
+    return client.send<BuiltList<CategorySeviceModelID>, CategorySeviceModelID>(
+        $request);
   }
 }
 
@@ -131,14 +130,14 @@ final class _$DoctorService extends DoctorService {
   final Type definitionType = DoctorService;
 
   @override
-  Future<Response<BuiltList<DoctorCategory>>> getDoctors() {
+  Future<Response<List<DoctorCategory>>> getDoctorsInfo() {
     final Uri $url = Uri.parse('/doctor/doctors_info');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<BuiltList<DoctorCategory>, DoctorCategory>($request);
+    return client.send<List<DoctorCategory>, DoctorCategory>($request);
   }
 }
 

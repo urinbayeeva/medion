@@ -1,36 +1,37 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/presentation/styles/theme.dart';
 
 List<Map<String, dynamic>> othersData = [
   {
-    "title": "Наша деятельность",
+    "title": "our_activities".tr(),
     "icon": IconSet.create.stethoscope,
   },
   {
-    "title": "Услуги",
+    "title": "services".tr(),
     "icon": IconSet.create.hospital,
   },
   {
-    "title": "Команда",
+    "title": "team".tr(),
     "icon": IconSet.create.group,
   },
   {
-    "title": "Обучение",
+    "title": "training".tr(),
     "icon": IconSet.create.book,
   },
   {
-    "title": "Статьи",
+    "title": "articles".tr(),
     "icon": IconSet.create.article,
   },
   {
-    "title": "Филиалы",
+    "title": "branches".tr(),
     "icon": IconSet.create.filial,
   },
   {
-    "title": "Оборудования",
+    "title": "equipment".tr(),
     "icon": IconSet.create.ctScan,
   },
   {
-    "title": "О здоровье",
+    "title": "about_health".tr(),
     "icon": IconSet.create.heartBeat,
   },
   {
@@ -38,19 +39,19 @@ List<Map<String, dynamic>> othersData = [
     "icon": IconSet.create.checkUp,
   },
   {
-    "title": "Партнёры",
+    "title": "partners".tr(),
     "icon": IconSet.create.handshake,
   },
   {
-    "title": "Награды",
+    "title": "achievments".tr(),
     "icon": IconSet.create.badge,
   },
   {
-    "title": "Карьера",
+    "title": "career".tr(),
     "icon": IconSet.create.briefcase,
   },
   {
-    "title": "Документы",
+    "title": "documents".tr(),
     "icon": IconSet.create.document,
   },
 ];

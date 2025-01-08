@@ -36,6 +36,9 @@ import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_phone.dart';
 import 'package:medion/presentation/pages/auth/sign_up/verify_code_page.dart';
 import 'package:medion/presentation/pages/onboarding/onboarding_page.dart';
 import 'package:medion/presentation/pages/onboarding/splash_page.dart';
+import 'package:medion/presentation/pages/others/branches/branches_page.dart';
+import 'package:medion/presentation/pages/others/branches/component/single_branch_info.dart';
+import 'package:medion/presentation/pages/others/branches/single_branch_page.dart';
 import 'package:medion/presentation/pages/others/under_dev_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/recipes_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/results_page.dart';
@@ -237,10 +240,9 @@ class AppRoutes {
         builder: (_) => BlocProvider(
             create: (context) {
               DBService dbService = context.read<DBService>();
-              return DoctorBloc(
-                  DoctorRepository(DoctorService.create(dbService)));
+              return DoctorBloc(DoctorService.create(dbService));
             },
-            child: const AllDoctorsPage()));
+            child: DoctorListScreen()));
   }
 
   static MaterialPageRoute getSettingsPage() {
@@ -300,5 +302,56 @@ class AppRoutes {
 
   static MaterialPageRoute getAdressViewPage() {
     return MaterialPageRoute(builder: (_) => const AdressViewPage());
+  }
+
+  static MaterialPageRoute getBranchesPage() {
+    return MaterialPageRoute(builder: (_) => const BranchesPage());
+  }
+
+  static MaterialPageRoute getSingleBranchPage({
+    required List<String> branchPhotos,
+    required String branchName,
+    required String branchAdress,
+    required String branchWorkingHours,
+    required String branchInfoDescription,
+    required String branchOfferTitle,
+    required String branchOfferSubtitle,
+    required VoidCallback branchPhoneNumberButton,
+  }) {
+    return MaterialPageRoute(
+        builder: (_) => SingleBranchPage(
+              branchPhotos: branchPhotos,
+              branchName: branchName,
+              branchAdress: branchAdress,
+              branchWorkingHours: branchWorkingHours,
+              branchInfoDescription: branchInfoDescription,
+              branchOfferTitle: branchOfferTitle,
+              branchOfferSubtitle: branchOfferSubtitle,
+              branchPhoneNumberButton: branchPhoneNumberButton,
+            ));
+  }
+
+  static MaterialPageRoute getSingleBranchInfoPage({
+    required List<String> branchPhotos,
+    required String branchName,
+    required String branchAdress,
+    required String branchWorkingHours,
+    required String branchInfoDescription,
+    required String branchOfferTitle,
+    required String branchOfferSubtitle,
+    required VoidCallback branchPhoneNumberButton,
+  }) {
+    return MaterialPageRoute(
+      builder: (_) => SingleBranchInfo(
+        branchPhotos: branchPhotos,
+        branchName: branchName,
+        branchAdress: branchAdress,
+        branchWorkingHours: branchWorkingHours,
+        branchInfoDescription: branchInfoDescription,
+        branchOfferTitle: branchOfferTitle,
+        branchOfferSubtitle: branchOfferSubtitle,
+        branchPhoneNumberButton: branchPhoneNumberButton,
+      ),
+    );
   }
 }

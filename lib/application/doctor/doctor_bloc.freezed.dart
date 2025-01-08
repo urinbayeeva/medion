@@ -18,33 +18,33 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DoctorEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() getDoctors,
+    required TResult Function() fetchDoctors,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? getDoctors,
+    TResult? Function()? fetchDoctors,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? getDoctors,
+    TResult Function()? fetchDoctors,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_GetDoctors value) getDoctors,
+    required TResult Function(_FetchDoctors value) fetchDoctors,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GetDoctors value)? getDoctors,
+    TResult? Function(_FetchDoctors value)? fetchDoctors,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GetDoctors value)? getDoctors,
+    TResult Function(_FetchDoctors value)? fetchDoctors,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -72,18 +72,18 @@ class _$DoctorEventCopyWithImpl<$Res, $Val extends DoctorEvent>
 }
 
 /// @nodoc
-abstract class _$$GetDoctorsImplCopyWith<$Res> {
-  factory _$$GetDoctorsImplCopyWith(
-          _$GetDoctorsImpl value, $Res Function(_$GetDoctorsImpl) then) =
-      __$$GetDoctorsImplCopyWithImpl<$Res>;
+abstract class _$$FetchDoctorsImplCopyWith<$Res> {
+  factory _$$FetchDoctorsImplCopyWith(
+          _$FetchDoctorsImpl value, $Res Function(_$FetchDoctorsImpl) then) =
+      __$$FetchDoctorsImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$GetDoctorsImplCopyWithImpl<$Res>
-    extends _$DoctorEventCopyWithImpl<$Res, _$GetDoctorsImpl>
-    implements _$$GetDoctorsImplCopyWith<$Res> {
-  __$$GetDoctorsImplCopyWithImpl(
-      _$GetDoctorsImpl _value, $Res Function(_$GetDoctorsImpl) _then)
+class __$$FetchDoctorsImplCopyWithImpl<$Res>
+    extends _$DoctorEventCopyWithImpl<$Res, _$FetchDoctorsImpl>
+    implements _$$FetchDoctorsImplCopyWith<$Res> {
+  __$$FetchDoctorsImplCopyWithImpl(
+      _$FetchDoctorsImpl _value, $Res Function(_$FetchDoctorsImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of DoctorEvent
@@ -92,18 +92,18 @@ class __$$GetDoctorsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetDoctorsImpl implements _GetDoctors {
-  const _$GetDoctorsImpl();
+class _$FetchDoctorsImpl implements _FetchDoctors {
+  const _$FetchDoctorsImpl();
 
   @override
   String toString() {
-    return 'DoctorEvent.getDoctors()';
+    return 'DoctorEvent.fetchDoctors()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$GetDoctorsImpl);
+        (other.runtimeType == runtimeType && other is _$FetchDoctorsImpl);
   }
 
   @override
@@ -112,27 +112,27 @@ class _$GetDoctorsImpl implements _GetDoctors {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() getDoctors,
+    required TResult Function() fetchDoctors,
   }) {
-    return getDoctors();
+    return fetchDoctors();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? getDoctors,
+    TResult? Function()? fetchDoctors,
   }) {
-    return getDoctors?.call();
+    return fetchDoctors?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? getDoctors,
+    TResult Function()? fetchDoctors,
     required TResult orElse(),
   }) {
-    if (getDoctors != null) {
-      return getDoctors();
+    if (fetchDoctors != null) {
+      return fetchDoctors();
     }
     return orElse();
   }
@@ -140,34 +140,34 @@ class _$GetDoctorsImpl implements _GetDoctors {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_GetDoctors value) getDoctors,
+    required TResult Function(_FetchDoctors value) fetchDoctors,
   }) {
-    return getDoctors(this);
+    return fetchDoctors(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GetDoctors value)? getDoctors,
+    TResult? Function(_FetchDoctors value)? fetchDoctors,
   }) {
-    return getDoctors?.call(this);
+    return fetchDoctors?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GetDoctors value)? getDoctors,
+    TResult Function(_FetchDoctors value)? fetchDoctors,
     required TResult orElse(),
   }) {
-    if (getDoctors != null) {
-      return getDoctors(this);
+    if (fetchDoctors != null) {
+      return fetchDoctors(this);
     }
     return orElse();
   }
 }
 
-abstract class _GetDoctors implements DoctorEvent {
-  const factory _GetDoctors() = _$GetDoctorsImpl;
+abstract class _FetchDoctors implements DoctorEvent {
+  const factory _FetchDoctors() = _$FetchDoctorsImpl;
 }
 
 /// @nodoc
@@ -175,7 +175,7 @@ mixin _$DoctorState {
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
   bool get success => throw _privateConstructorUsedError;
-  BuiltList<DoctorCategory>? get doctors => throw _privateConstructorUsedError;
+  List<DoctorCategory> get doctors => throw _privateConstructorUsedError;
 
   /// Create a copy of DoctorState
   /// with the given fields replaced by the non-null parameter values.
@@ -191,10 +191,7 @@ abstract class $DoctorStateCopyWith<$Res> {
       _$DoctorStateCopyWithImpl<$Res, DoctorState>;
   @useResult
   $Res call(
-      {bool loading,
-      bool error,
-      bool success,
-      BuiltList<DoctorCategory>? doctors});
+      {bool loading, bool error, bool success, List<DoctorCategory> doctors});
 }
 
 /// @nodoc
@@ -215,7 +212,7 @@ class _$DoctorStateCopyWithImpl<$Res, $Val extends DoctorState>
     Object? loading = null,
     Object? error = null,
     Object? success = null,
-    Object? doctors = freezed,
+    Object? doctors = null,
   }) {
     return _then(_value.copyWith(
       loading: null == loading
@@ -230,10 +227,10 @@ class _$DoctorStateCopyWithImpl<$Res, $Val extends DoctorState>
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      doctors: freezed == doctors
+      doctors: null == doctors
           ? _value.doctors
           : doctors // ignore: cast_nullable_to_non_nullable
-              as BuiltList<DoctorCategory>?,
+              as List<DoctorCategory>,
     ) as $Val);
   }
 }
@@ -247,10 +244,7 @@ abstract class _$$DoctorStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool loading,
-      bool error,
-      bool success,
-      BuiltList<DoctorCategory>? doctors});
+      {bool loading, bool error, bool success, List<DoctorCategory> doctors});
 }
 
 /// @nodoc
@@ -269,7 +263,7 @@ class __$$DoctorStateImplCopyWithImpl<$Res>
     Object? loading = null,
     Object? error = null,
     Object? success = null,
-    Object? doctors = freezed,
+    Object? doctors = null,
   }) {
     return _then(_$DoctorStateImpl(
       loading: null == loading
@@ -284,10 +278,10 @@ class __$$DoctorStateImplCopyWithImpl<$Res>
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      doctors: freezed == doctors
-          ? _value.doctors
+      doctors: null == doctors
+          ? _value._doctors
           : doctors // ignore: cast_nullable_to_non_nullable
-              as BuiltList<DoctorCategory>?,
+              as List<DoctorCategory>,
     ));
   }
 }
@@ -299,7 +293,8 @@ class _$DoctorStateImpl implements _DoctorState {
       {this.loading = false,
       this.error = false,
       this.success = false,
-      this.doctors = null});
+      final List<DoctorCategory> doctors = const []})
+      : _doctors = doctors;
 
   @override
   @JsonKey()
@@ -310,9 +305,14 @@ class _$DoctorStateImpl implements _DoctorState {
   @override
   @JsonKey()
   final bool success;
+  final List<DoctorCategory> _doctors;
   @override
   @JsonKey()
-  final BuiltList<DoctorCategory>? doctors;
+  List<DoctorCategory> get doctors {
+    if (_doctors is EqualUnmodifiableListView) return _doctors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_doctors);
+  }
 
   @override
   String toString() {
@@ -327,12 +327,12 @@ class _$DoctorStateImpl implements _DoctorState {
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.success, success) || other.success == success) &&
-            const DeepCollectionEquality().equals(other.doctors, doctors));
+            const DeepCollectionEquality().equals(other._doctors, _doctors));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, loading, error, success,
-      const DeepCollectionEquality().hash(doctors));
+      const DeepCollectionEquality().hash(_doctors));
 
   /// Create a copy of DoctorState
   /// with the given fields replaced by the non-null parameter values.
@@ -348,7 +348,7 @@ abstract class _DoctorState implements DoctorState {
       {final bool loading,
       final bool error,
       final bool success,
-      final BuiltList<DoctorCategory>? doctors}) = _$DoctorStateImpl;
+      final List<DoctorCategory> doctors}) = _$DoctorStateImpl;
 
   @override
   bool get loading;
@@ -357,7 +357,7 @@ abstract class _DoctorState implements DoctorState {
   @override
   bool get success;
   @override
-  BuiltList<DoctorCategory>? get doctors;
+  List<DoctorCategory> get doctors;
 
   /// Create a copy of DoctorState
   /// with the given fields replaced by the non-null parameter values.

@@ -1,13 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
+import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/domain/sources/appoinment_data.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/component/custom_pagination.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -25,6 +28,16 @@ class _SecondServicePageState extends State<SecondServicePage> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   int chose = 0;
+
+  @override
+  void initState() {
+    context
+        .read<BookingBloc>()
+        .add(const BookingEvent.fetchCategoryServices(id: 29));
+
+    super.initState();
+  }
+
   @override
   void dispose() {
     _refreshController.dispose();
@@ -35,103 +48,124 @@ class _SecondServicePageState extends State<SecondServicePage> {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return CustomPagination(
-          controller: _refreshController,
-          onRetry: () {},
-          child: Column(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16.w, right: 16.w),
-                  child: CustomListView(
-                      padding: EdgeInsets.only(top: 16.w),
-                      itemBuilder: (_, item) {
-                        return CustomExpansionListTile(
-                          title: item['service'],
-                          description: '',
-                          price: '',
-                        );
-                      },
-                      data: appointmentDirections,
-                      emptyWidgetModel:
-                          ErrorWidgetModel(title: "", subtitle: ""),
-                      status: FormzSubmissionStatus.inProgress),
+      return BlocBuilder<BookingBloc, BookingState>(builder: (context, state) {
+        if (state.categoryServices.isEmpty) {
+          return Center(
+            child: Text(
+              semanticsLabel: "no_result_found".tr(),
+              "no_result_found".tr(),
+              style: Style.headlineMain(),
+            ),
+          );
+        }
+        return CustomPagination(
+            controller: _refreshController,
+            onRetry: () {
+              context
+                  .read<BookingBloc>()
+                  .add(const BookingEvent.fetchCategoryServices(id: 29));
+            },
+            child: Column(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                    child: CustomListView(
+                        // loadingItemCount: s,
+                        padding: EdgeInsets.only(top: 16.w),
+                        itemBuilder: (index, item) {
+                          var item = state.categoryServices[index];
+                          return CustomExpansionListTile(
+                            title: item.name,
+                            description: item.age,
+                            price: "${item.doctorPriceStartUzs}",
+                          );
+                        },
+                        data: state.categoryServices,
+                        emptyWidgetModel:
+                            ErrorWidgetModel(title: "", subtitle: ""),
+                        status: FormzSubmissionStatus.inProgress),
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-                width: double.infinity,
-                color: chose >= 1 ? null : colors.shade0,
-                decoration: chose >= 1
-                    ? BoxDecoration(
-                        color: colors.shade0,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(24.r),
-                            topRight: Radius.circular(24.r)),
-                      )
-                    : null,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (chose >= 1) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Выбраны $chose услуги",
-                              style: fonts.xSmallLink.copyWith(
-                                  fontSize: 13.sp, fontWeight: FontWeight.bold),
-                            ),
-                            AnimationButtonEffect(
-                              onTap: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return Container(
-                                        width: double.infinity,
-                                        padding: EdgeInsets.all(16.w),
-                                        decoration: BoxDecoration(
-                                            color: colors.shade0,
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(8.r),
-                                                topRight:
-                                                    Radius.circular(8.r))),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              "Выбраны $chose услуги",
-                                              style: fonts.xSmallLink.copyWith(
-                                                  fontSize: 13.sp,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            4.h.verticalSpace,
-                                          ],
-                                        ),
-                                      );
-                                    });
-                              },
-                              child: icons.right.svg(
-                                  width: 20.w,
-                                  height: 20.h,
-                                  color: colors.iconGreyColor),
-                            )
-                          ],
+                Container(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+                  width: double.infinity,
+                  color: chose >= 1 ? null : colors.shade0,
+                  decoration: chose >= 1
+                      ? BoxDecoration(
+                          color: colors.shade0,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(24.r),
+                              topRight: Radius.circular(24.r)),
+                        )
+                      : null,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (chose >= 1) ...[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Выбраны $chose услуги",
+                                style: fonts.xSmallLink.copyWith(
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              AnimationButtonEffect(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return Container(
+                                          width: double.infinity,
+                                          padding: EdgeInsets.all(16.w),
+                                          decoration: BoxDecoration(
+                                              color: colors.shade0,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(8.r),
+                                                  topRight:
+                                                      Radius.circular(8.r))),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                "Выбраны $chose услуги",
+                                                style: fonts.xSmallLink
+                                                    .copyWith(
+                                                        fontSize: 13.sp,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                              ),
+                                              4.h.verticalSpace,
+                                            ],
+                                          ),
+                                        );
+                                      });
+                                },
+                                child: icons.right.svg(
+                                    width: 20.w,
+                                    height: 20.h,
+                                    color: colors.iconGreyColor),
+                              )
+                            ],
+                          ),
+                          12.h.verticalSpace,
+                        ],
+                        CButton(
+                          title: "next".tr(),
+                          onTap: widget.onTap,
+                          // iconPath: icons.right,
                         ),
-                        12.h.verticalSpace,
-                      ],
-                      CButton(
-                        title: "next".tr(),
-                        onTap: widget.onTap,
-                        // iconPath: icons.right,
-                      ),
-                      24.h.verticalSpace,
-                    ]),
-              ),
-            ],
-          ));
+                        24.h.verticalSpace,
+                      ]),
+                ),
+              ],
+            ));
+      });
     });
   }
 }

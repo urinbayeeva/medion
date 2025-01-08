@@ -117,6 +117,7 @@
     "team": "Jamoa",
     "training": "O'qitish",
     "branches": "Filiallar",
+    "branch" : "Filial",
     "equipment": "Uskunalar",
     "about_health": "Sog'liq haqida",
     "partners": "Hamkorlar",
@@ -196,5 +197,6 @@
 "get_code": "Kod orqali kirish",
 "something_went_wrong": "Xatolik yuz berdi",
 "something_went_wrong_subtitle": "Muammo bartaraf etilmoqda. Qayta urinib ko’ring",
+"about_company": "Kompaniya haqida",
   "" : ""
 }

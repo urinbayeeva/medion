@@ -9,6 +9,6 @@ class BookingState with _$BookingState {
     @Default(false) bool error,
     @Default(false) bool success,
     @Default([]) List<BookingTypeModel> bookingTypes,
-@Default([]) List<CategoryServiceIDModel> categoryServices,
+@Default([]) List<CategorySeviceModelID> categoryServices,
   }) = _BookingState;
 }

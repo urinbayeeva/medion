@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
@@ -17,7 +18,7 @@ class OthersPage extends StatelessWidget {
           body: Column(
             children: [
               CAppBar(
-                title: "Ещё",
+                title: "more".tr(),
                 centerTitle: true,
                 isBack: false,
                 trailing: 24.w.horizontalSpace,
@@ -28,9 +29,9 @@ class OthersPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _sectionHeader("О компании", fonts),
+                      _sectionHeader("about_the_company".tr(), fonts),
                       _sectionContent(othersData),
-                      _sectionHeader("Другие", fonts),
+                      _sectionHeader("others".tr(), fonts),
                       _sectionContent(othersData),
                       60.h.verticalSpace,
                     ],

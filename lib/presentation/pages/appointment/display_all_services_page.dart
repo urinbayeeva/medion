@@ -43,7 +43,7 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
     context.read<BookingBloc>().add(const BookingEvent.fetchBookingTypes());
     // context.read<BookingBloc>().add(BookingEvent.fetchCategoryServices(
     //     id: selectedId == 0 ? 29 : selectedId));
-    _apiService.fetchCategoryServices(selectedId);
+    // _apiService.fetchCategoryServices(selectedId);
   }
 
   void _fetchServices(int id) {
