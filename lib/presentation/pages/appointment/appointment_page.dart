@@ -78,7 +78,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
       _AddAppointmentUseCaseModel(
           SecondServicePage(
             onTap: () => navigateToNextScreen(id),
-            // id: id,
+            id: id,
           ),
           "Inner Services",
           AddAppointmentScreenType.secondService),

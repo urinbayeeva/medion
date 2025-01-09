@@ -16,6 +16,7 @@ import 'package:medion/domain/sources/doctor_appoinment_select_page.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/appointment/second_service_page.dart';
 import 'package:medion/presentation/pages/core/choose_language_page.dart';
+import 'package:medion/presentation/pages/core/debug_page.dart';
 import 'package:medion/presentation/pages/core/no_connection.dart';
 
 import 'package:medion/presentation/pages/home/directions/component/inner_pages/directions_info_page.dart';
@@ -39,6 +40,8 @@ import 'package:medion/presentation/pages/onboarding/splash_page.dart';
 import 'package:medion/presentation/pages/others/branches/branches_page.dart';
 import 'package:medion/presentation/pages/others/branches/component/single_branch_info.dart';
 import 'package:medion/presentation/pages/others/branches/single_branch_page.dart';
+import 'package:medion/presentation/pages/others/partners/partners_inner_page.dart';
+import 'package:medion/presentation/pages/others/partners/partners_page.dart';
 import 'package:medion/presentation/pages/others/under_dev_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/recipes_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/results_page.dart';
@@ -353,5 +356,22 @@ class AppRoutes {
         branchPhoneNumberButton: branchPhoneNumberButton,
       ),
     );
+  }
+
+  static MaterialPageRoute getPartnersPage() {
+    return MaterialPageRoute(builder: (_) => const PartnersPage());
+  }
+
+  static MaterialPageRoute getPartnersInnerPage({
+     required String partnerName,
+      required String partnerImage,
+      required String partnerUrl,
+      required String partnerPhoneNumber
+  }) {
+    return MaterialPageRoute(builder: (_) =>  PartnersInnerPage(partnerName: partnerName, partnerImage: partnerImage, partnerUrl: partnerUrl, partnerPhoneNumber: partnerPhoneNumber,));
+  }
+
+  static MaterialPageRoute getDebugPage() {
+    return MaterialPageRoute(builder: (_) => DebugPage());
   }
 }

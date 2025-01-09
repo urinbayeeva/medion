@@ -7,6 +7,6 @@ import 'package:medion/domain/models/booking/booking_type_model.dart';
 
 abstract class IBookingFacade {
   Future<Either<ResponseFailure, List<BookingTypeModel>>> fetchBookingTypes();
-  Future<Either<ResponseFailure, List<CategorySeviceModelID>>> fetchCategoryServices(int serviceTypeId);
+  Future<Either<ResponseFailure, BuiltList<Category>>> fetchCategoryServices(int serviceTypeId);
 
 }

@@ -8,16 +8,20 @@ part of 'serializer.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(BookingTypeModel.serializer)
-      ..add(CategorySeviceModelID.serializer)
+      ..add(Category.serializer)
       ..add(CreateInfoReq.serializer)
       ..add(DoctorCategory.serializer)
       ..add(DoctorData.serializer)
       ..add(News.serializer)
+      ..add(Service.serializer)
       ..add(SuccessModel.serializer)
       ..add(VerificationSendReq.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DoctorData)]),
           () => new ListBuilder<DoctorData>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Service)]),
+          () => new ListBuilder<Service>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(int)]),
           () => new ListBuilder<int>()))

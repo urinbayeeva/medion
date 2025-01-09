@@ -64,18 +64,15 @@ class _SingleBranchPageState extends State<SingleBranchPage> {
                     itemBuilder: (index, _) {
                       // final branch = branches[index];
                       return SingleBranchInfo(
-                        branchPhoneNumberButton: widget.branchPhoneNumberButton,
-                        branchPhotos: widget.branchPhotos,
-                        branchName: widget.branchName,
-                        branchAdress: widget.branchAdress,
-                        branchWorkingHours: widget.branchWorkingHours,
-                        branchInfoDescription: widget.branchInfoDescription,
-                     
-                        branchOfferTitle: widget.branchOfferTitle,
-                      
-                        branchOfferSubtitle: 
-                            widget.branchOfferSubtitle
-                      );
+                          branchPhoneNumberButton:
+                              widget.branchPhoneNumberButton,
+                          branchPhotos: widget.branchPhotos,
+                          branchName: widget.branchName,
+                          branchAdress: widget.branchAdress,
+                          branchWorkingHours: widget.branchWorkingHours,
+                          branchInfoDescription: widget.branchInfoDescription,
+                          branchOfferTitle: widget.branchOfferTitle,
+                          branchOfferSubtitle: widget.branchOfferSubtitle);
                     },
                     data: branches,
                     emptyWidgetModel:

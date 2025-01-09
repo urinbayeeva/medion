@@ -38,16 +38,15 @@ class BookingRepository implements IBookingFacade {
 
 //fetchCategoryServices
   @override
-  Future<Either<ResponseFailure, List<CategorySeviceModelID>>>
-      fetchCategoryServices(int id) async {
+  Future<Either<ResponseFailure, BuiltList<Category>>> fetchCategoryServices(
+      int id) async {
     try {
       final response = await _bookingService.getServiceId(id);
       LogService.d('Response Status: ${response.statusCode}');
       LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
-        final getServices = response.body!.toList();
-        return right(getServices);
+        return right(response.body as BuiltList<Category>);
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }

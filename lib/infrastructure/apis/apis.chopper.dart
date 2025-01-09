@@ -83,15 +83,14 @@ final class _$BookingService extends BookingService {
   }
 
   @override
-  Future<Response<BuiltList<CategorySeviceModelID>>> getServiceId(int id) {
+  Future<Response<BuiltList<Category>>> getServiceId(int id) {
     final Uri $url = Uri.parse('/booking/category_services/${id}');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<BuiltList<CategorySeviceModelID>, CategorySeviceModelID>(
-        $request);
+    return client.send<BuiltList<Category>, Category>($request);
   }
 }
 

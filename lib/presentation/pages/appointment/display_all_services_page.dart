@@ -39,10 +39,10 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
   void initState() {
     super.initState();
 
-    selectedId = widget.id ?? 29;
+    selectedId = widget.id == 0 ? 19 : widget.id;
     context.read<BookingBloc>().add(const BookingEvent.fetchBookingTypes());
-    // context.read<BookingBloc>().add(BookingEvent.fetchCategoryServices(
-    //     id: selectedId == 0 ? 29 : selectedId));
+    context.read<BookingBloc>().add(BookingEvent.fetchCategoryServices(
+        id: selectedId == 0 ? 29 : selectedId));
     // _apiService.fetchCategoryServices(selectedId);
   }
 
@@ -53,7 +53,7 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
   void _updateId(int newId) {
     if (selectedId != newId) {
       setState(() {
-        selectedId = newId; 
+        selectedId = newId;
       });
       _fetchServices(selectedId);
     }
@@ -79,41 +79,42 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
               ),
             );
           }
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: CustomPagination(
-              enablePullUp: false,
-              controller: _refreshController,
-              onRetry: () {
-                context
-                    .read<BookingBloc>()
-                    .add(const BookingEvent.fetchBookingTypes());
-                _refreshController.refreshCompleted();
-              },
-              child: ListView.builder(
-                itemCount: state.bookingTypes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final BookingTypeModel item = state.bookingTypes[index];
-                  return MedicalDirectionItem(
-                    title: item.name,
-                    subtitle:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                    iconPath: 'assets/icons/default_icon.png',
-                    onTap: () {
-                      setState(() {
-                        selectedId = item.id;
-                        _apiService.fetchCategoryServices(selectedId);
-                      });
-                      widget.updateIdCallback(item.id);
-                      if (widget.onTap != null) {
-                        widget.onTap!();
-                      }
-                      print("Selected item index: $selectedId");
+          return Expanded(
+            child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: CustomListView(
+                    data: state.categoryServices,
+                    emptyWidgetModel: ErrorWidgetModel(title: "", subtitle: ""),
+                    status: FormzSubmissionStatus.inProgress,
+                    onRefresh: () {
+                      context
+                          .read<BookingBloc>()
+                          .add(const BookingEvent.fetchBookingTypes());
+                      setState(() {});
+                      _refreshController.refreshCompleted();
                     },
-                  );
-                },
-              ),
-            ),
+                    refreshController: _refreshController,
+                    padding: EdgeInsets.only(top: 16.w),
+                    itemBuilder: (index, _) {
+                      final BookingTypeModel item = state.bookingTypes[index];
+                      return MedicalDirectionItem(
+                        title: item.name,
+                        subtitle:
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        iconPath: 'assets/icons/default_icon.png',
+                        onTap: () {
+                          setState(() {
+                            selectedId = item.id;
+                            _apiService.fetchCategoryServices(selectedId);
+                          });
+                          widget.updateIdCallback(item.id);
+                          if (widget.onTap != null) {
+                            widget.onTap!();
+                          }
+                          print("Selected item index: $selectedId");
+                        },
+                      );
+                    })),
           );
         },
       );

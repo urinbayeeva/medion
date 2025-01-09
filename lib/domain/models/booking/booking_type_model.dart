@@ -21,26 +21,60 @@ abstract class BookingTypeModel
       _$bookingTypeModelSerializer;
 }
 
-abstract class CategorySeviceModelID
-    implements Built<CategorySeviceModelID, CategorySeviceModelIDBuilder> {
-  @BuiltValueField(wireName: "id")
+abstract class Service implements Built<Service, ServiceBuilder> {
+  Service._();
+
+  factory Service([Function(ServiceBuilder b) updates]) = _$Service;
+
+  @BuiltValueField(wireName: 'id')
   int get id;
-  @BuiltValueField(wireName: "name")
+
+  @BuiltValueField(wireName: 'name')
   String get name;
-  @BuiltValueField(wireName: "description")
+
+  @BuiltValueField(wireName: 'description')
   String? get description;
-  @BuiltValueField(wireName: "doctor_price_start_uzs")
-  int get doctorPriceStartUzs;
-  @BuiltValueField(wireName: "doctor_price_start_usd")
-  double get doctorPriceStartUsd;
-  @BuiltValueField(wireName: "age")
+
+  @BuiltValueField(wireName: 'doctor_price_start_uzs')
+  double get priceUzs;
+
+  @BuiltValueField(wireName: 'doctor_price_start_usd')
+  double get priceUsd;
+
+  @BuiltValueField(wireName: 'age')
   String get age;
 
-  CategorySeviceModelID._();
-  factory CategorySeviceModelID(
-          [void Function(CategorySeviceModelIDBuilder) updates]) =
-      _$CategorySeviceModelID;
+  String toJson() {
+    return json.encode(serializers.serializeWith(Service.serializer, this));
+  }
 
-  static Serializer<CategorySeviceModelID> get serializer =>
-      _$categorySeviceModelIDSerializer;
+  static Service? fromJson(String jsonString) {
+    return serializers.deserializeWith(
+        Service.serializer, json.decode(jsonString));
+  }
+
+  static Serializer<Service> get serializer => _$serviceSerializer;
+}
+
+abstract class Category implements Built<Category, CategoryBuilder> {
+  Category._();
+
+  factory Category([Function(CategoryBuilder b) updates]) = _$Category;
+
+  @BuiltValueField(wireName: 'category_name')
+  String get name;
+
+  @BuiltValueField(wireName: 'services')
+  BuiltList<Service> get services;
+
+  String toJson() {
+    return json.encode(serializers.serializeWith(Category.serializer, this));
+  }
+
+  static Category? fromJson(String jsonString) {
+    return serializers.deserializeWith(
+        Category.serializer, json.decode(jsonString));
+  }
+
+  static Serializer<Category> get serializer => _$categorySerializer;
 }

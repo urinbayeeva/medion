@@ -28,7 +28,7 @@ final AliceChopperAdapter aliceChopperAdapter = AliceChopperAdapter();
 Alice alice = Alice(
   configuration: AliceConfiguration(
     showNotification: true,
-    showInspectorOnShake: false,
+    showInspectorOnShake: true,
   ),
 )..addAdapter(aliceChopperAdapter);
 
@@ -52,8 +52,8 @@ class MyApp extends StatelessWidget {
               create: (context) =>
                   HomeBloc(HomeRepository(HomePageService.create(dbService)))),
           BlocProvider<BookingBloc>(
-            create: (context) => BookingBloc(BookingRepository(
-                BookingService.create(dbService))),
+            create: (context) => BookingBloc(
+                BookingRepository(BookingService.create(dbService))),
           ),
           ChangeNotifierProvider(
               create: (_) => GlobalController.create(dbService)),

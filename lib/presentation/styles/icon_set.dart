@@ -82,6 +82,12 @@ class IconSet {
   final String ringBell;
   final String nonUser;
   final String map;
+  final String akfaMedline;
+  final String starMed;
+  final String alHayat;
+  final String eraMed;
+  final String vivaMed;
+  final String asiaMed;
 
   IconSet._({
     required this.medicalHistoryFirst,
@@ -165,6 +171,12 @@ class IconSet {
     required this.ringBell,
     required this.nonUser,
     required this.map,
+    required this.akfaMedline,
+    required this.alHayat,
+    required this.asiaMed,
+    required this.eraMed,
+    required this.starMed,
+    required this.vivaMed,
   });
 
   static IconSet get create {
@@ -250,6 +262,12 @@ class IconSet {
       flagRu: "assets/icons/flag_ru.svg",
       flagUz: "assets/icons/flag_uz.svg",
       map: "assets/icons/map.svg",
+      akfaMedline: 'assets/images/akfa.png',
+      alHayat: 'assets/images/al_hayat.png',
+      asiaMed: 'assets/images/asia_med.png',
+      eraMed: 'assets/images/era_med.png',
+      starMed: 'assets/images/star_med.png',
+      vivaMed: 'assets/images/viva_med.png',
     );
   }
 }
