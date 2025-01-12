@@ -1,24 +1,16 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
-import 'package:medion/application/booking/booking_bloc.dart';
-import 'package:medion/application/doctor/doctor_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
-import 'package:medion/infrastructure/repository/booking_repository.dart';
-import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/domain/sources/doctor_appoinment_select_page.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
-import 'package:medion/presentation/pages/appointment/second_service_page.dart';
 import 'package:medion/presentation/pages/core/choose_language_page.dart';
 import 'package:medion/presentation/pages/core/debug_page.dart';
 import 'package:medion/presentation/pages/core/no_connection.dart';
-
 import 'package:medion/presentation/pages/home/directions/component/inner_pages/directions_info_page.dart';
 import 'package:medion/presentation/pages/home/directions/directions_page.dart';
 import 'package:medion/presentation/pages/home/doctors/all_doctors_page.dart';
@@ -36,10 +28,10 @@ import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_email.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_phone.dart';
 import 'package:medion/presentation/pages/auth/sign_up/verify_code_page.dart';
 import 'package:medion/presentation/pages/onboarding/onboarding_page.dart';
-import 'package:medion/presentation/pages/onboarding/splash_page.dart';
 import 'package:medion/presentation/pages/others/branches/branches_page.dart';
 import 'package:medion/presentation/pages/others/branches/component/single_branch_info.dart';
 import 'package:medion/presentation/pages/others/branches/single_branch_page.dart';
+import 'package:medion/presentation/pages/others/our_activity/our_activity_page.dart';
 import 'package:medion/presentation/pages/others/partners/partners_inner_page.dart';
 import 'package:medion/presentation/pages/others/partners/partners_page.dart';
 import 'package:medion/presentation/pages/others/under_dev_page.dart';
@@ -239,13 +231,7 @@ class AppRoutes {
   // }
 
   static MaterialPageRoute getAllDoctorsPage() {
-    return MaterialPageRoute(
-        builder: (_) => BlocProvider(
-            create: (context) {
-              DBService dbService = context.read<DBService>();
-              return DoctorBloc(DoctorService.create(dbService));
-            },
-            child: DoctorListScreen()));
+    return MaterialPageRoute(builder: (_) => const AllDoctorsPage());
   }
 
   static MaterialPageRoute getSettingsPage() {
@@ -362,16 +348,25 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const PartnersPage());
   }
 
-  static MaterialPageRoute getPartnersInnerPage({
-     required String partnerName,
+  static MaterialPageRoute getPartnersInnerPage(
+      {required String partnerName,
       required String partnerImage,
       required String partnerUrl,
-      required String partnerPhoneNumber
-  }) {
-    return MaterialPageRoute(builder: (_) =>  PartnersInnerPage(partnerName: partnerName, partnerImage: partnerImage, partnerUrl: partnerUrl, partnerPhoneNumber: partnerPhoneNumber,));
+      required String partnerPhoneNumber}) {
+    return MaterialPageRoute(
+        builder: (_) => PartnersInnerPage(
+              partnerName: partnerName,
+              partnerImage: partnerImage,
+              partnerUrl: partnerUrl,
+              partnerPhoneNumber: partnerPhoneNumber,
+            ));
   }
 
   static MaterialPageRoute getDebugPage() {
     return MaterialPageRoute(builder: (_) => DebugPage());
+  }
+
+  static MaterialPageRoute getActivityPage() {
+    return MaterialPageRoute(builder: (_) => const OurActivityPage());
   }
 }

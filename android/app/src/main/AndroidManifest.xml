@@ -71,10 +71,7 @@
               android:resource="@style/NormalTheme"
               />
 
-                <service
-            android:name="com.dexterous.flutterlocalnotifications.ForegroundService"
-            android:exported="false"
-            android:stopWithTask="false"/>
+           
 
 
 

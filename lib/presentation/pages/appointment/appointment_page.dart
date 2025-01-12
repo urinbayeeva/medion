@@ -40,35 +40,12 @@ class _AppointmentPageState extends State<AppointmentPage> {
     "payment".tr()
   ];
 
-  void navigateToNextScreen([int? newId]) {
-    if (newId != null) {
-      updateId(newId);
-    }
-    if (screenIndex < useCase.length - 1) {
-      context.read<BottomNavBarController>().changeNavBar(true);
-      setState(() {
-        screenIndex++;
-      });
-    }
-  }
-
-  void updateId(int newId) {
-    setState(() {
-      id = newId;
-    });
-  }
-
-  void navigateBack() {
-    if (screenIndex > 0) {
-      setState(() {
-        screenIndex--;
-      });
-    }
-  }
+  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController(initialPage: screenIndex);
     useCase = [
       _AddAppointmentUseCaseModel(
           DisplayAllServicesPage(
@@ -94,6 +71,42 @@ class _AppointmentPageState extends State<AppointmentPage> {
           const PaymentPage(), "Payment", AddAppointmentScreenType.payment),
     ];
     canPop = false;
+  }
+
+  void navigateToNextScreen([int? newId]) {
+    if (newId != null) {
+      updateId(newId);
+    }
+    if (screenIndex < useCase.length - 1) {
+      context.read<BottomNavBarController>().changeNavBar(true);
+      setState(() {
+        screenIndex++;
+      });
+      _pageController.animateToPage(
+        screenIndex,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  void updateId(int newId) {
+    setState(() {
+      id = newId;
+    });
+  }
+
+  void navigateBack() {
+    if (screenIndex > 0) {
+      setState(() {
+        screenIndex--;
+      });
+      _pageController.animateToPage(
+        screenIndex,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
@@ -126,9 +139,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       .read<BottomNavBarController>()
                       .changeNavBar(screenIndex >= 2 ? true : false);
 
-                  setState(() {
-                    screenIndex--;
-                  });
+                  navigateBack();
                 },
                 bottom: Column(
                   spacing: 8.h,
@@ -165,12 +176,13 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 ),
               ),
               Expanded(
-                child: IndexedStack(
-                  index: screenIndex,
+                child: PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
                   children: useCase.map((e) => e.widget).toList(),
                 ),
               ),
-              40.h.verticalSpace,
+              20.h.verticalSpace,
             ],
           ),
         ));

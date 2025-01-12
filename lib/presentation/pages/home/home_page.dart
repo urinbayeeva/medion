@@ -10,7 +10,7 @@ import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/domain/sources/doctors_data.dart';
 import 'package:medion/presentation/component/custom_pagination.dart';
-import 'package:medion/presentation/component/un_focus_widget%20copy.dart';
+import 'package:medion/presentation/component/un_focus_widget.dart';
 import 'package:medion/presentation/pages/home/directions/component/inner_pages/image_item.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';

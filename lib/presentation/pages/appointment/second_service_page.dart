@@ -8,7 +8,6 @@ import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
-import 'package:medion/presentation/component/custom_pagination.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -33,6 +32,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
 
   @override
   void initState() {
+    print("-----ID SECOND PAGE------- ${widget.id}");
     context
         .read<BookingBloc>()
         .add(BookingEvent.fetchCategoryServices(id: widget.id));
@@ -67,9 +67,8 @@ class _SecondServicePageState extends State<SecondServicePage> {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: CustomListView(
                     onRefresh: () {
-                      context
-                          .read<BookingBloc>()
-                          .add(BookingEvent.fetchCategoryServices(id: 19));
+                      context.read<BookingBloc>().add(
+                          BookingEvent.fetchCategoryServices(id: widget.id));
                       setState(() {});
                       _refreshController.refreshCompleted();
                     },
@@ -92,7 +91,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                               ),
                             ),
                             subtitle: Text(
-                              service.description ?? 'no_description'.tr(),
+                              service.description ?? 'no_description',
                             ),
                             trailing: Text(
                               "${service.priceUzs} UZS",
@@ -112,7 +111,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
                 width: double.infinity,
                 color: chose >= 1 ? null : colors.shade0,
                 decoration: chose >= 1
@@ -181,7 +180,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                       title: "next".tr(),
                       onTap: widget.onTap,
                     ),
-                    24.h.verticalSpace,
+                    // 24.h.verticalSpace,
                   ],
                 ),
               ),

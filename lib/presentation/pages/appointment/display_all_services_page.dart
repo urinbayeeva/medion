@@ -5,9 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
-import 'package:medion/infrastructure/apis/api_service.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
-import 'package:medion/presentation/component/custom_pagination.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -31,23 +29,17 @@ class DisplayAllServicesPage extends StatefulWidget {
 class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-  final ApiService _apiService = ApiService();
 
   late int selectedId;
 
   @override
   void initState() {
     super.initState();
-
-    selectedId = widget.id == 0 ? 19 : widget.id;
+    
+    // selectedId = widget.id == 0 ? 19 : widget.id;
     context.read<BookingBloc>().add(const BookingEvent.fetchBookingTypes());
-    context.read<BookingBloc>().add(BookingEvent.fetchCategoryServices(
-        id: selectedId == 0 ? 29 : selectedId));
-    // _apiService.fetchCategoryServices(selectedId);
-  }
 
-  void _fetchServices(int id) {
-    _apiService.fetchCategoryServices(id);
+    // _apiService.fetchCategoryServices(selectedId);
   }
 
   void _updateId(int newId) {
@@ -55,7 +47,6 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
       setState(() {
         selectedId = newId;
       });
-      _fetchServices(selectedId);
     }
   }
 
@@ -83,6 +74,7 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
             child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: CustomListView(
+                    loadingItemCount: state.categoryServices.length,
                     data: state.categoryServices,
                     emptyWidgetModel: ErrorWidgetModel(title: "", subtitle: ""),
                     status: FormzSubmissionStatus.inProgress,
@@ -91,9 +83,9 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
                           .read<BookingBloc>()
                           .add(const BookingEvent.fetchBookingTypes());
                       setState(() {});
-                      _refreshController.refreshCompleted();
+                      // _refreshController.refreshCompleted();
                     },
-                    refreshController: _refreshController,
+                    // refreshController: _refreshController,
                     padding: EdgeInsets.only(top: 16.w),
                     itemBuilder: (index, _) {
                       final BookingTypeModel item = state.bookingTypes[index];
@@ -103,9 +95,10 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                         iconPath: 'assets/icons/default_icon.png',
                         onTap: () {
+                          _updateId(widget.id);
                           setState(() {
                             selectedId = item.id;
-                            _apiService.fetchCategoryServices(selectedId);
+                            // _apiService.fetchCategoryServices(selectedId);
                           });
                           widget.updateIdCallback(item.id);
                           if (widget.onTap != null) {

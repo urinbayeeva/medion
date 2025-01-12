@@ -34,6 +34,16 @@ class OthersPageComp extends StatelessWidget {
               children: [
                 AnimationButtonEffect(
                   onTap: () {
+                    if (index == 0) {
+                      context.read<BottomNavBarController>().changeNavBar(true);
+                      Navigator.push(context, AppRoutes.getActivityPage())
+                          .then((_) {
+                        // ignore: use_build_context_synchronously
+                        context
+                            .read<BottomNavBarController>()
+                            .changeNavBar(false);
+                      });
+                    }
                     if (index == 5) {
                       context.read<BottomNavBarController>().changeNavBar(true);
                       Navigator.push(context, AppRoutes.getBranchesPage())

@@ -88,6 +88,8 @@ class IconSet {
   final String eraMed;
   final String vivaMed;
   final String asiaMed;
+  final String ourActivity;
+  final String pattern;
 
   IconSet._({
     required this.medicalHistoryFirst,
@@ -177,6 +179,8 @@ class IconSet {
     required this.eraMed,
     required this.starMed,
     required this.vivaMed,
+    required this.ourActivity,
+    required this.pattern,
   });
 
   static IconSet get create {
@@ -268,6 +272,8 @@ class IconSet {
       eraMed: 'assets/images/era_med.png',
       starMed: 'assets/images/star_med.png',
       vivaMed: 'assets/images/viva_med.png',
+      ourActivity: "assets/icons/pattern.svg",
+      pattern: "assets/images/pattern.png",
     );
   }
 }
