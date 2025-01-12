@@ -37,3 +37,4 @@ show bottomnavbar
 hide bottomnavbar
    context.read<BottomNavBarController>().changeNavBar(true);
 
+# dtmock
