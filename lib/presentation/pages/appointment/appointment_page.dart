@@ -48,14 +48,13 @@ class _AppointmentPageState extends State<AppointmentPage> {
     _pageController = PageController(initialPage: screenIndex);
     useCase = [
       _AddAppointmentUseCaseModel(
-          DisplayAllServicesPage(
-              onTap: navigateToNextScreen, id: id, updateIdCallback: updateId),
+          DisplayAllServicesPage(onTap: navigateToNextScreen),
           "All Services",
           AddAppointmentScreenType.allServices),
       _AddAppointmentUseCaseModel(
           SecondServicePage(
             onTap: () => navigateToNextScreen(id),
-            id: id,
+            id: 39,
           ),
           "Inner Services",
           AddAppointmentScreenType.secondService),
@@ -176,10 +175,11 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 ),
               ),
               Expanded(
-                child: PageView(
-                  controller: _pageController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: useCase.map((e) => e.widget).toList(),
+                child: IndexedStack(
+                  index: screenIndex,
+                  children: useCase
+                      .map((useCaseModel) => useCaseModel.widget)
+                      .toList(),
                 ),
               ),
               20.h.verticalSpace,

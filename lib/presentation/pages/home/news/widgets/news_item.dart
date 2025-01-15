@@ -7,6 +7,7 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 class NewsItem extends StatelessWidget {
   final String title;
   final String subtitle;
+  final bool crop;
 
   final String imagePath;
 
@@ -15,6 +16,7 @@ class NewsItem extends StatelessWidget {
     required this.imagePath,
     required this.title,
     required this.subtitle,
+    required this.crop,
   });
 
   @override
@@ -22,7 +24,7 @@ class NewsItem extends StatelessWidget {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return AnimationButtonEffect(
           onTap: () {
-            Navigator.push(context, AppRoutes.getNewsViewPage());
+            // Navigator.push(context, AppRoutes.getNewsViewPage());
           },
           child: Container(
             margin: EdgeInsets.only(right: 15.5.w),
@@ -47,10 +49,12 @@ class NewsItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(subtitle,
+                      maxLines: crop ? 3 : null,
                       style: fonts.xxSmallText.copyWith(
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w400,
-                          color: colors.neutral600)),
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w400,
+                        color: colors.neutral600,
+                      )),
                 ),
               ],
             ),

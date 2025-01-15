@@ -120,4 +120,5 @@ class AuthRepository implements IAuthFacade {
       return left(handleError(e));
     }
   }
+  
 }

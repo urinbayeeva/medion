@@ -19,11 +19,12 @@ class SignUpWithPhone extends StatefulWidget {
   final Function(dynamic)? onClose;
   final bool additionalPhone;
   final List<String>? phoneNumbers;
+  final String? phoneNumber;
   const SignUpWithPhone(
       {super.key,
       this.onClose,
       required this.additionalPhone,
-      this.phoneNumbers});
+      this.phoneNumbers, this.phoneNumber});
 
   @override
   State<SignUpWithPhone> createState() => _SignUpWithPhoneState();
@@ -37,7 +38,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
 
   @override
   void initState() {
-    _phoneNumberController = TextEditingController(text: "+998");
+    _phoneNumberController = TextEditingController(text: "+998 ");
     _formKey = GlobalKey<FormState>();
     super.initState();
     focusNode = FocusNode();
@@ -111,7 +112,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                           hintText: '+998',
                           validator: (String? text) {
                             if (text != null && text.length < 17) {
-                              return "number_entered_incorrectly";
+                              return "number_entered_incorrectly".tr();
                             } else {
                               if (widget.phoneNumbers != null &&
                                   widget.phoneNumbers!.isNotEmpty) {

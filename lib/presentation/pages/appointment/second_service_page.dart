@@ -32,10 +32,12 @@ class _SecondServicePageState extends State<SecondServicePage> {
 
   @override
   void initState() {
-    print("-----ID SECOND PAGE------- ${widget.id}");
+    final selectedId = context.read<BookingBloc>().state.selectedServiceId;
+
     context
         .read<BookingBloc>()
-        .add(BookingEvent.fetchCategoryServices(id: widget.id));
+        .add(BookingEvent.fetchCategoryServices(id: selectedId!));
+
     super.initState();
   }
 
@@ -43,6 +45,17 @@ class _SecondServicePageState extends State<SecondServicePage> {
   void dispose() {
     _refreshController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final selectedId = context.read<BookingBloc>().state.selectedServiceId;
+    if (selectedId != null) {
+      context
+          .read<BookingBloc>()
+          .add(BookingEvent.fetchCategoryServices(id: selectedId));
+    }
   }
 
   @override
@@ -67,8 +80,11 @@ class _SecondServicePageState extends State<SecondServicePage> {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: CustomListView(
                     onRefresh: () {
+                      final selectedId =
+                          context.read<BookingBloc>().state.selectedServiceId;
+
                       context.read<BookingBloc>().add(
-                          BookingEvent.fetchCategoryServices(id: widget.id));
+                          BookingEvent.fetchCategoryServices(id: selectedId!));
                       setState(() {});
                       _refreshController.refreshCompleted();
                     },
@@ -78,7 +94,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                       var item = state.categoryServices[index];
 
                       return CustomExpansionListTile(
-                        title: item.name,
+                        title: item.name is bool ? "" : item.name.toString(),
                         description: item.services.isEmpty
                             ? 'no_services_available'.tr()
                             : 'services_list'.tr(),

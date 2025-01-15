@@ -10,10 +10,13 @@ import 'package:medion/presentation/pages/auth/sign_up/component/gender_enum.dar
 import 'package:medion/presentation/pages/auth/sign_up/component/gender_selection.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:medion/domain/models/auth/auth.dart'; // Import for CreateInfoReq
+import 'package:medion/domain/models/auth/auth.dart';
+import 'package:medion/utils/extensions.dart'; // Import for CreateInfoReq
 
 class DataEntryPage extends StatefulWidget {
-  const DataEntryPage({super.key});
+  final String phoneNumber;
+
+  const DataEntryPage({super.key, required this.phoneNumber});
 
   @override
   State<DataEntryPage> createState() => _DataEntryPageState();
@@ -42,9 +45,9 @@ class _DataEntryPageState extends State<DataEntryPage> {
       ..firstName = nameController.text.trim()
       ..lastName = secondNameController.text.trim()
       ..middleName = otchestvoController.text.trim()
-      ..phoneNumber = "+998958098661"
-      ..dateOfBirth = "24.03.2004"
-      ..gender = selectedGender == Gender.men ? 'male' : 'female'
+      ..phoneNumber = widget.phoneNumber
+      ..dateOfBirth = "2022-01-23"
+      ..gender = "male"
       ..passportSerial = passportController.text.trim());
 
     context.read<AuthBloc>().add(
@@ -92,12 +95,16 @@ class _DataEntryPageState extends State<DataEntryPage> {
                       SizedBox(height: 16.h),
                       16.h.verticalSpace,
                       CustomTextField(
+                          maxLength: 15,
+                          textCapitalization: TextCapitalization.sentences,
                           controller: secondNameController,
                           title: "second_name".tr(),
                           borderRadius: 8.r,
                           hintText: "enter_your_second_name".tr()),
                       16.h.verticalSpace,
                       CustomTextField(
+                        maxLength: 15,
+                        textCapitalization: TextCapitalization.sentences,
                         controller: otchestvoController,
                         title: "fathers_name".tr(),
                         borderRadius: 8.r,
@@ -105,10 +112,13 @@ class _DataEntryPageState extends State<DataEntryPage> {
                       ),
                       16.h.verticalSpace,
                       CustomTextField(
-                          controller: passportController,
-                          title: "series_of_passport".tr(),
-                          borderRadius: 8.r,
-                          hintText: "AB123456"),
+                        textCapitalization: TextCapitalization.characters,
+                        maxLength: 9, // Adjusted for "AB 123456" format
+                        controller: passportController,
+                        title: "series_of_passport".tr(),
+                        borderRadius: 8.r,
+                        hintText: "AB 123456",
+                      ),
                       16.h.verticalSpace,
                       Text("select_gender".tr(),
                           style: fonts.xSmallMain.copyWith(fontSize: 13.sp)),
@@ -128,7 +138,11 @@ class _DataEntryPageState extends State<DataEntryPage> {
                               title: state.successSendUserInfo
                                   ? "creating_patient".tr()
                                   : "sign_in".tr(),
-                              onTap: () => _submitForm(context));
+                              onTap: () {
+                                _submitForm(context);
+                                // Navigator.pushReplacement(
+                                //     context, AppRoutes.getMainPage(0));
+                              });
                         },
                       ),
                       29.h.verticalSpace,

@@ -17,6 +17,11 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   BookingBloc(this._repository) : super(BookingState()) {
     on<_FetchBookingTypes>(_fetchBookingTypesHandler);
     on<_FetchCategoryServices>(_fetchCategoryServices);
+      on<_SelectService>(_onSelectService); 
+  }
+
+   void _onSelectService(_SelectService event, Emitter<BookingState> emit) {
+    emit(state.copyWith(selectedServiceId: event.id));
   }
 
   FutureOr<void> _fetchBookingTypesHandler(

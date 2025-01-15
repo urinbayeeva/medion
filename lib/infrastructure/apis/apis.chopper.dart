@@ -115,6 +115,39 @@ final class _$HomePageService extends HomePageService {
     );
     return client.send<BuiltList<News>, News>($request);
   }
+
+  @override
+  Future<Response<BuiltList<MedicalServices>>> getMedicalServices() {
+    final Uri $url = Uri.parse('/home/medical_services');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<BuiltList<MedicalServices>, MedicalServices>($request);
+  }
+
+  @override
+  Future<Response<BuiltList<DiseaseModle>>> getDisease() {
+    final Uri $url = Uri.parse('/home/diseases');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<BuiltList<DiseaseModle>, DiseaseModle>($request);
+  }
+
+  @override
+  Future<Response<BuiltList<AdModel>>> getAds() {
+    final Uri $url = Uri.parse('/home/advertisements');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<BuiltList<AdModel>, AdModel>($request);
+  }
 }
 
 // coverage:ignore-file

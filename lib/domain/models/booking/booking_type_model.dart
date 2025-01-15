@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
+import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:medion/domain/serializers/serializer.dart';
 
@@ -62,7 +63,7 @@ abstract class Category implements Built<Category, CategoryBuilder> {
   factory Category([Function(CategoryBuilder b) updates]) = _$Category;
 
   @BuiltValueField(wireName: 'category_name')
-  String get name;
+  JsonObject get name;
 
   @BuiltValueField(wireName: 'services')
   BuiltList<Service> get services;
@@ -78,3 +79,33 @@ abstract class Category implements Built<Category, CategoryBuilder> {
 
   static Serializer<Category> get serializer => _$categorySerializer;
 }
+
+// class NameSerializer implements PrimitiveSerializer<Object> {
+//   @override
+//   final Iterable<Type> types = const [Object];
+
+//   @override
+//   final String wireName = 'Object';
+
+//   @override
+//   Object deserialize(Serializers serializers, Object serialized,
+//       {FullType specifiedType = FullType.unspecified}) {
+//     if (serialized is String) {
+//       return serialized;
+//     } else if (serialized is bool) {
+//       return serialized;
+//     } else {
+//       throw ArgumentError('Invalid type for name field');
+//     }
+//   }
+
+//   @override
+//   Object serialize(Serializers serializers, Object object,
+//       {FullType specifiedType = FullType.unspecified}) {
+//     if (object is String || object is bool) {
+//       return object;
+//     } else {
+//       throw ArgumentError('Invalid type for name field');
+//     }
+//   }
+// }

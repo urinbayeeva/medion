@@ -156,7 +156,8 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'category_name',
-      serializers.serialize(object.name, specifiedType: const FullType(String)),
+      serializers.serialize(object.name,
+          specifiedType: const FullType(JsonObject)),
       'services',
       serializers.serialize(object.services,
           specifiedType:
@@ -179,7 +180,7 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
       switch (key) {
         case 'category_name':
           result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'services':
           result.services.replace(serializers.deserialize(value,
@@ -458,7 +459,7 @@ class ServiceBuilder implements Builder<Service, ServiceBuilder> {
 
 class _$Category extends Category {
   @override
-  final String name;
+  final JsonObject name;
   @override
   final BuiltList<Service> services;
 
@@ -506,9 +507,9 @@ class _$Category extends Category {
 class CategoryBuilder implements Builder<Category, CategoryBuilder> {
   _$Category? _$v;
 
-  String? _name;
-  String? get name => _$this._name;
-  set name(String? name) => _$this._name = name;
+  JsonObject? _name;
+  JsonObject? get name => _$this._name;
+  set name(JsonObject? name) => _$this._name = name;
 
   ListBuilder<Service>? _services;
   ListBuilder<Service> get services =>

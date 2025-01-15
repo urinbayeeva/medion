@@ -151,7 +151,7 @@ class AppRoutes {
             )));
   }
 
-  static MaterialPageRoute getDataEntryPage() {
+  static MaterialPageRoute getDataEntryPage(String phoneNumber) {
     return MaterialPageRoute(
         builder: (_) => BlocProvider(
             create: (context) {
@@ -161,7 +161,7 @@ class AppRoutes {
                 AuthService.create(dbService),
               ));
             },
-            child: const DataEntryPage()));
+            child: DataEntryPage(phoneNumber: phoneNumber)));
   }
 
   static MaterialPageRoute getMainPage(index) {

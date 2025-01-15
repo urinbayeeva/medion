@@ -1,6 +1,5 @@
 part of 'home_bloc.dart';
 
-
 @freezed
 class HomeState with _$HomeState {
   const HomeState._();
@@ -10,6 +9,8 @@ class HomeState with _$HomeState {
     @Default(false) bool error,
     @Default(false) bool success,
     @Default([]) List<News> news,
-    
+    @Default([]) List<DiseaseModle> diseases,
+        @Default([]) List<AdModel> ads,
+
   }) = _HomeState;
 }

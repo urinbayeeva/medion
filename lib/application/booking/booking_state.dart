@@ -10,5 +10,7 @@ class BookingState with _$BookingState {
     @Default(false) bool success,
     @Default([]) List<BookingTypeModel> bookingTypes,
     @Default([]) List<Category> categoryServices,
+        @Default(null) int? selectedServiceId, // New State Property
+
   }) = _BookingState;
 }

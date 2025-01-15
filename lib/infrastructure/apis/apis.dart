@@ -6,6 +6,7 @@ import 'package:http/http.dart' show Client, MultipartFile;
 import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';
+import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
 import 'package:medion/domain/success_model/success_model.dart';
@@ -61,6 +62,15 @@ abstract class BookingService extends ChopperService {
 abstract class HomePageService extends ChopperService {
   @Get(path: "news")
   Future<Response<BuiltList<News>>> getNews();
+
+  @Get(path: "medical_services")
+  Future<Response<BuiltList<MedicalServices>>> getMedicalServices();
+
+  @Get(path: "diseases")
+  Future<Response<BuiltList<DiseaseModle>>> getDisease();
+
+  @Get(path: "advertisements")
+  Future<Response<BuiltList<AdModel>>> getAds();
 
   static HomePageService create(DBService dbService) =>
       _$HomePageService(_Client(Constants.baseUrlP, true, dbService));

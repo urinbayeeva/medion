@@ -13,7 +13,7 @@ import 'package:medion/presentation/pages/core/my_app.dart';
 import 'package:medion/utils/app_config.dart';
 import 'package:medion/utils/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:sentry_flutter/sentry_flutter.dart'; 
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

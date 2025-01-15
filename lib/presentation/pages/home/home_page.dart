@@ -11,9 +11,11 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/domain/sources/doctors_data.dart';
 import 'package:medion/presentation/component/custom_pagination.dart';
 import 'package:medion/presentation/component/un_focus_widget.dart';
+import 'package:medion/presentation/pages/home/ads.dart';
 import 'package:medion/presentation/pages/home/directions/component/inner_pages/image_item.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
+import 'package:medion/presentation/pages/home/news/widgets/news_item.dart';
 import 'package:medion/presentation/pages/home/widgets/adress_item.dart';
 import 'package:medion/domain/sources/med_service.dart';
 import 'package:medion/presentation/pages/home/widgets/problem_slidebale_card.dart';
@@ -22,6 +24,8 @@ import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../../../domain/models/news_model/news_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -97,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               16.h.verticalSpace,
-                              _buildImageSection(colors, fonts),
+                              const SizedBox(height: 250, child: Ads()),
                               16.h.verticalSpace,
                               Text("what_distrubes_you".tr(),
                                   style: fonts.regularSemLink
@@ -105,7 +109,9 @@ class _HomePageState extends State<HomePage> {
                               12.h.verticalSpace,
                               _buildOptionsRow(colors, fonts),
                               12.h.verticalSpace,
-                              const ProblemSlidebaleCard(),
+                              ProblemSlidebaleCard(
+                                isChildren: isChildren,
+                              ),
                               24.h.verticalSpace,
                               Text("med_services".tr(),
                                   style: fonts.regularSemLink
@@ -118,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                                       .copyWith(fontSize: 17.sp)),
                               12.h.verticalSpace,
                               SizedBox(
-                                height: 280.h,
+                                height: 300.h,
                                 child: ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   padding: EdgeInsets.zero,
@@ -259,19 +265,28 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ],
                               ),
-                              // CustomListView(
-                              //     itemBuilder: (index, context) {
-                              //       final News item = state.news[index];
-                              //       return NewsItem(
-                              //         imagePath: item.image ?? "",
-                              //         title: item.title ?? "",
-                              //         subtitle: item.info ?? "",
-                              //       );
-                              //     },
-                              //     data: state.news,
-                              //     emptyWidgetModel:
-                              //         ErrorWidgetModel(title: "", subtitle: ""),
-                              //     status: FormzSubmissionStatus.success),
+                              SizedBox(
+                                height: 250.h,
+                                child: GridView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 8.0,
+                                    childAspectRatio: 4 / 4,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    final News item = state.news[index];
+                                    return NewsItem(
+                                      crop: true,
+                                      imagePath: item.image ?? "",
+                                      title: item.title ?? "",
+                                      subtitle: item.info ?? "",
+                                    );
+                                  },
+                                  itemCount: state.news.length,
+                                ),
+                              ),
                               24.h.verticalSpace,
                               Row(
                                 mainAxisAlignment:
@@ -359,35 +374,6 @@ class _HomePageState extends State<HomePage> {
         });
       }),
     );
-  }
-
-  Widget _buildImageSection(colors, fonts) {
-    return CarouselSlider(
-        items: images.map((images) {
-          return Builder(
-            builder: (BuildContext context) {
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(color: colors.backgroundColor),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.r), child: images),
-              );
-            },
-          );
-        }).toList(),
-        options: CarouselOptions(
-          autoPlay: true,
-          aspectRatio: 2,
-          enlargeCenterPage: true,
-          viewportFraction: 1,
-          initialPage: 0,
-          enableInfiniteScroll: true,
-          reverse: false,
-          autoPlayInterval: const Duration(seconds: 40),
-          autoPlayAnimationDuration: const Duration(milliseconds: 800),
-          autoPlayCurve: Curves.fastOutSlowIn,
-          scrollDirection: Axis.horizontal,
-        ));
   }
 
   Widget _buildOptionsRow(colors, fonts) {

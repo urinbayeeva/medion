@@ -53,6 +53,29 @@ String? formatPhoneNumberAddSpaces(String? phoneNumber) {
   return separatedNumber;
 }
 
+// Format passport serial number
+// Format passport serial number
+String? formatPassportSerialNumber(String? serialNumber) {
+  if (serialNumber == null) {
+    return null;
+  }
+
+  // Remove any extra spaces or invalid characters
+  String cleanedSerial = serialNumber.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '');
+
+  // Validate the input to ensure it matches the expected pattern
+  if (!RegExp(r'^[a-zA-Z]{2}\d{7}\$').hasMatch(cleanedSerial)) {
+    return null; // Return null for invalid input
+  }
+
+  // Format the serial number
+  String formattedSerial = cleanedSerial.replaceFirstMapped(
+      RegExp(r'^([a-zA-Z]{2})(\d{7})\$'),
+      (match) => '${match.group(1)!.toUpperCase()} ${match.group(2)}');
+
+  return formattedSerial;
+}
+
 Color colorValue(String? value) {
   if (value == null || value.isEmpty) {
     return Colors.transparent;

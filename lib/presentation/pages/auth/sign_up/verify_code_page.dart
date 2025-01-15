@@ -197,7 +197,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                     //                   widget.phoneNumber)));
                                     // setState(() {});
                                     Navigator.push(
-                                        context, AppRoutes.getDataEntryPage());
+                                        context, AppRoutes.getDataEntryPage(widget.phoneNumber));
                                   }),
                               27.h.verticalSpace,
                             ],

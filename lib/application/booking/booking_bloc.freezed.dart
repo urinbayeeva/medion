@@ -19,18 +19,21 @@ mixin _$BookingEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBookingTypes,
+    required TResult Function(int id) selectService,
     required TResult Function(int id) fetchCategoryServices,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBookingTypes,
+    TResult? Function(int id)? selectService,
     TResult? Function(int id)? fetchCategoryServices,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBookingTypes,
+    TResult Function(int id)? selectService,
     TResult Function(int id)? fetchCategoryServices,
     required TResult orElse(),
   }) =>
@@ -38,6 +41,7 @@ mixin _$BookingEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
+    required TResult Function(_SelectService value) selectService,
     required TResult Function(_FetchCategoryServices value)
         fetchCategoryServices,
   }) =>
@@ -45,12 +49,14 @@ mixin _$BookingEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult? Function(_SelectService value)? selectService,
     TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult Function(_SelectService value)? selectService,
     TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
     required TResult orElse(),
   }) =>
@@ -120,6 +126,7 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBookingTypes,
+    required TResult Function(int id) selectService,
     required TResult Function(int id) fetchCategoryServices,
   }) {
     return fetchBookingTypes();
@@ -129,6 +136,7 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBookingTypes,
+    TResult? Function(int id)? selectService,
     TResult? Function(int id)? fetchCategoryServices,
   }) {
     return fetchBookingTypes?.call();
@@ -138,6 +146,7 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBookingTypes,
+    TResult Function(int id)? selectService,
     TResult Function(int id)? fetchCategoryServices,
     required TResult orElse(),
   }) {
@@ -151,6 +160,7 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
+    required TResult Function(_SelectService value) selectService,
     required TResult Function(_FetchCategoryServices value)
         fetchCategoryServices,
   }) {
@@ -161,6 +171,7 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult? Function(_SelectService value)? selectService,
     TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
   }) {
     return fetchBookingTypes?.call(this);
@@ -170,6 +181,7 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult Function(_SelectService value)? selectService,
     TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
     required TResult orElse(),
   }) {
@@ -182,6 +194,153 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
 
 abstract class _FetchBookingTypes implements BookingEvent {
   const factory _FetchBookingTypes() = _$FetchBookingTypesImpl;
+}
+
+/// @nodoc
+abstract class _$$SelectServiceImplCopyWith<$Res> {
+  factory _$$SelectServiceImplCopyWith(
+          _$SelectServiceImpl value, $Res Function(_$SelectServiceImpl) then) =
+      __$$SelectServiceImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class __$$SelectServiceImplCopyWithImpl<$Res>
+    extends _$BookingEventCopyWithImpl<$Res, _$SelectServiceImpl>
+    implements _$$SelectServiceImplCopyWith<$Res> {
+  __$$SelectServiceImplCopyWithImpl(
+      _$SelectServiceImpl _value, $Res Function(_$SelectServiceImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$SelectServiceImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SelectServiceImpl implements _SelectService {
+  const _$SelectServiceImpl({required this.id});
+
+  @override
+  final int id;
+
+  @override
+  String toString() {
+    return 'BookingEvent.selectService(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SelectServiceImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SelectServiceImplCopyWith<_$SelectServiceImpl> get copyWith =>
+      __$$SelectServiceImplCopyWithImpl<_$SelectServiceImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBookingTypes,
+    required TResult Function(int id) selectService,
+    required TResult Function(int id) fetchCategoryServices,
+  }) {
+    return selectService(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBookingTypes,
+    TResult? Function(int id)? selectService,
+    TResult? Function(int id)? fetchCategoryServices,
+  }) {
+    return selectService?.call(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBookingTypes,
+    TResult Function(int id)? selectService,
+    TResult Function(int id)? fetchCategoryServices,
+    required TResult orElse(),
+  }) {
+    if (selectService != null) {
+      return selectService(id);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
+    required TResult Function(_SelectService value) selectService,
+    required TResult Function(_FetchCategoryServices value)
+        fetchCategoryServices,
+  }) {
+    return selectService(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+  }) {
+    return selectService?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult Function(_SelectService value)? selectService,
+    TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    required TResult orElse(),
+  }) {
+    if (selectService != null) {
+      return selectService(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SelectService implements BookingEvent {
+  const factory _SelectService({required final int id}) = _$SelectServiceImpl;
+
+  int get id;
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SelectServiceImplCopyWith<_$SelectServiceImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -255,6 +414,7 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBookingTypes,
+    required TResult Function(int id) selectService,
     required TResult Function(int id) fetchCategoryServices,
   }) {
     return fetchCategoryServices(id);
@@ -264,6 +424,7 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBookingTypes,
+    TResult? Function(int id)? selectService,
     TResult? Function(int id)? fetchCategoryServices,
   }) {
     return fetchCategoryServices?.call(id);
@@ -273,6 +434,7 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBookingTypes,
+    TResult Function(int id)? selectService,
     TResult Function(int id)? fetchCategoryServices,
     required TResult orElse(),
   }) {
@@ -286,6 +448,7 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
+    required TResult Function(_SelectService value) selectService,
     required TResult Function(_FetchCategoryServices value)
         fetchCategoryServices,
   }) {
@@ -296,6 +459,7 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult? Function(_SelectService value)? selectService,
     TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
   }) {
     return fetchCategoryServices?.call(this);
@@ -305,6 +469,7 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult Function(_SelectService value)? selectService,
     TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
     required TResult orElse(),
   }) {
@@ -335,6 +500,7 @@ mixin _$BookingState {
   bool get success => throw _privateConstructorUsedError;
   List<BookingTypeModel> get bookingTypes => throw _privateConstructorUsedError;
   List<Category> get categoryServices => throw _privateConstructorUsedError;
+  int? get selectedServiceId => throw _privateConstructorUsedError;
 
   /// Create a copy of BookingState
   /// with the given fields replaced by the non-null parameter values.
@@ -354,7 +520,8 @@ abstract class $BookingStateCopyWith<$Res> {
       bool error,
       bool success,
       List<BookingTypeModel> bookingTypes,
-      List<Category> categoryServices});
+      List<Category> categoryServices,
+      int? selectedServiceId});
 }
 
 /// @nodoc
@@ -377,6 +544,7 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
     Object? success = null,
     Object? bookingTypes = null,
     Object? categoryServices = null,
+    Object? selectedServiceId = freezed,
   }) {
     return _then(_value.copyWith(
       loading: null == loading
@@ -399,6 +567,10 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
           ? _value.categoryServices
           : categoryServices // ignore: cast_nullable_to_non_nullable
               as List<Category>,
+      selectedServiceId: freezed == selectedServiceId
+          ? _value.selectedServiceId
+          : selectedServiceId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -416,7 +588,8 @@ abstract class _$$BookingStateImplCopyWith<$Res>
       bool error,
       bool success,
       List<BookingTypeModel> bookingTypes,
-      List<Category> categoryServices});
+      List<Category> categoryServices,
+      int? selectedServiceId});
 }
 
 /// @nodoc
@@ -437,6 +610,7 @@ class __$$BookingStateImplCopyWithImpl<$Res>
     Object? success = null,
     Object? bookingTypes = null,
     Object? categoryServices = null,
+    Object? selectedServiceId = freezed,
   }) {
     return _then(_$BookingStateImpl(
       loading: null == loading
@@ -459,6 +633,10 @@ class __$$BookingStateImplCopyWithImpl<$Res>
           ? _value._categoryServices
           : categoryServices // ignore: cast_nullable_to_non_nullable
               as List<Category>,
+      selectedServiceId: freezed == selectedServiceId
+          ? _value.selectedServiceId
+          : selectedServiceId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -471,7 +649,8 @@ class _$BookingStateImpl extends _BookingState {
       this.error = false,
       this.success = false,
       final List<BookingTypeModel> bookingTypes = const [],
-      final List<Category> categoryServices = const []})
+      final List<Category> categoryServices = const [],
+      this.selectedServiceId = null})
       : _bookingTypes = bookingTypes,
         _categoryServices = categoryServices,
         super._();
@@ -505,8 +684,12 @@ class _$BookingStateImpl extends _BookingState {
   }
 
   @override
+  @JsonKey()
+  final int? selectedServiceId;
+
+  @override
   String toString() {
-    return 'BookingState(loading: $loading, error: $error, success: $success, bookingTypes: $bookingTypes, categoryServices: $categoryServices)';
+    return 'BookingState(loading: $loading, error: $error, success: $success, bookingTypes: $bookingTypes, categoryServices: $categoryServices, selectedServiceId: $selectedServiceId)';
   }
 
   @override
@@ -520,7 +703,9 @@ class _$BookingStateImpl extends _BookingState {
             const DeepCollectionEquality()
                 .equals(other._bookingTypes, _bookingTypes) &&
             const DeepCollectionEquality()
-                .equals(other._categoryServices, _categoryServices));
+                .equals(other._categoryServices, _categoryServices) &&
+            (identical(other.selectedServiceId, selectedServiceId) ||
+                other.selectedServiceId == selectedServiceId));
   }
 
   @override
@@ -530,7 +715,8 @@ class _$BookingStateImpl extends _BookingState {
       error,
       success,
       const DeepCollectionEquality().hash(_bookingTypes),
-      const DeepCollectionEquality().hash(_categoryServices));
+      const DeepCollectionEquality().hash(_categoryServices),
+      selectedServiceId);
 
   /// Create a copy of BookingState
   /// with the given fields replaced by the non-null parameter values.
@@ -547,7 +733,8 @@ abstract class _BookingState extends BookingState {
       final bool error,
       final bool success,
       final List<BookingTypeModel> bookingTypes,
-      final List<Category> categoryServices}) = _$BookingStateImpl;
+      final List<Category> categoryServices,
+      final int? selectedServiceId}) = _$BookingStateImpl;
   const _BookingState._() : super._();
 
   @override
@@ -560,6 +747,8 @@ abstract class _BookingState extends BookingState {
   List<BookingTypeModel> get bookingTypes;
   @override
   List<Category> get categoryServices;
+  @override
+  int? get selectedServiceId;
 
   /// Create a copy of BookingState
   /// with the given fields replaced by the non-null parameter values.

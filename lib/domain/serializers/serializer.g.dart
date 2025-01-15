@@ -7,11 +7,14 @@ part of 'serializer.dart';
 // **************************************************************************
 
 Serializers _$serializers = (new Serializers().toBuilder()
+      ..add(AdModel.serializer)
       ..add(BookingTypeModel.serializer)
       ..add(Category.serializer)
       ..add(CreateInfoReq.serializer)
+      ..add(DiseaseModle.serializer)
       ..add(DoctorCategory.serializer)
       ..add(DoctorData.serializer)
+      ..add(MedicalServices.serializer)
       ..add(News.serializer)
       ..add(Service.serializer)
       ..add(SuccessModel.serializer)
