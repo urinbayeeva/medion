@@ -2,8 +2,12 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/application/auth/auth_bloc.dart';
+import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/connectivity.dart';
+import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/presentation/component/nav_bar/lib/persistent_tab_view.dart';
@@ -42,7 +46,7 @@ class _MainPageState extends State<MainPage> {
       // ignore: use_build_context_synchronously
       context.read<BottomNavBarController>().changeNavBar(false);
     });
-    DBService dbService = context.read<DBService>();
+    context.read<DBService>();
     _controller = PersistentTabController(initialIndex: widget.index ?? 0);
     super.initState();
 
@@ -50,7 +54,15 @@ class _MainPageState extends State<MainPage> {
       const HomePage(),
       const AppointmentPage(),
       const MyVisitsPage(),
-      const ProfilePage(),
+      BlocProvider(
+          create: (context) {
+            DBService dbService = context.read<DBService>();
+            return AuthBloc(
+                AuthRepository(dbService, AuthService.create(dbService),
+                    PatientService.create(dbService)),
+                dbService);
+          },
+          child: const ProfilePage()),
       const OthersPage(),
     ];
 

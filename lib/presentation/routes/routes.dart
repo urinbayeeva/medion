@@ -112,10 +112,10 @@ class AppRoutes {
         builder: (_) => BlocProvider(
             create: (context) {
               DBService dbService = context.read<DBService>();
-              return AuthBloc(AuthRepository(
-                dbService,
-                AuthService.create(dbService),
-              ));
+              return AuthBloc(
+                  AuthRepository(dbService, AuthService.create(dbService),
+                      PatientService.create(dbService)),
+                  dbService);
             },
             child: SignUpWithPhone(
               phoneNumbers: phoneNumbers,
@@ -138,10 +138,13 @@ class AppRoutes {
         builder: (_) => BlocProvider(
             create: (context) {
               DBService dbService = context.read<DBService>();
-              return AuthBloc(AuthRepository(
-                dbService,
-                AuthService.create(dbService),
-              ));
+              return AuthBloc(
+                  AuthRepository(
+                    dbService,
+                    AuthService.create(dbService),
+                    PatientService.create(dbService),
+                  ),
+                  dbService);
             },
             child: VerifyCodePage(
               additionalPhone: additionalPhone,
@@ -156,10 +159,10 @@ class AppRoutes {
         builder: (_) => BlocProvider(
             create: (context) {
               DBService dbService = context.read<DBService>();
-              return AuthBloc(AuthRepository(
-                dbService,
-                AuthService.create(dbService),
-              ));
+              return AuthBloc(
+                  AuthRepository(dbService, AuthService.create(dbService),
+                      PatientService.create(dbService)),
+                  dbService);
             },
             child: DataEntryPage(phoneNumber: phoneNumber)));
   }

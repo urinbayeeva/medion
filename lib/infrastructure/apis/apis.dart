@@ -3,16 +3,20 @@ import 'dart:async';
 import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' show Client, MultipartFile;
+import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';
 import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
+import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
+import 'package:medion/domain/success_model/response_model.dart';
 import 'package:medion/domain/success_model/success_model.dart';
 import 'package:medion/domain/upload_image/upload_image.dart';
 import 'package:medion/infrastructure/core/exceptions.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
+import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:medion/presentation/pages/core/my_app.dart';
@@ -30,8 +34,8 @@ abstract class AuthService extends ChopperService {
   });
 
   @Post(path: 'registration')
-  Future<Response<SuccessModel>> registerUser({
-    @Body() required VerificationSendReq request,
+  Future<Response<ResponseModel>> registerUser({
+    @Body() required RegisterReq request,
   });
 
   @Post(path: "create")
@@ -52,6 +56,12 @@ abstract class BookingService extends ChopperService {
   @Get(path: 'category_services/{service_type_id}')
   Future<Response<BuiltList<Category>>> getServiceId(
       @Path('service_type_id') int id);
+
+  @Post(path: "doctors")
+  Future<Response<BuiltList<ServiceModel>>> getDoctorsTime({
+    @Body() required GiveSelectedId request,
+   @Query('days') required int days,
+  });
 
   static BookingService create(DBService dbService) =>
       _$BookingService(_Client(Constants.baseUrlP, true, dbService));
@@ -102,6 +112,18 @@ abstract class UploadImage extends ChopperService {
       _$UploadImage(_Client("", true, dbService, timeout: 300));
 }
 
+@ChopperApi(baseUrl: "/profile")
+abstract class PatientService extends ChopperService {
+  // GET Profile Page Info
+  @Get(path: "/patient_info")
+  Future<Response<PatientInfo>> getPatientInfo(
+    @Header("Authorization") String authorization,
+  );
+
+  static PatientService create(DBService dbService) =>
+      _$PatientService(_Client(Constants.baseUrlP, true, dbService));
+}
+
 base class _Client extends ChopperClient {
   _Client(String baseUrl, bool useInterceptors, DBService dbService,
       {int timeout = 20})
@@ -136,28 +158,28 @@ class MyAuthenticator extends Authenticator {
       [Request? originalRequest]) async {
     if (response.statusCode == 401) {
       try {
-        // final result = await AuthRepository.refreshToken(
-        //     dbService.token.refreshToken ?? "");
+        final result = await AuthRepository.refreshToken(
+            dbService.token.refreshToken ?? "");
 
-        // Map<String, String>? header;
+        Map<String, String>? header;
 
-        // result.fold((error) {
-        //   dbService.signOut();
-        // }, (data) {
-        //   dbService.setToken(
-        //       Token(accessToken: data.access, refreshToken: data.refresh));
-        //   String? newToken = data.access;
+        result.fold((error) {
+          dbService.signOut();
+        }, (data) {
+          dbService.setToken(Token(
+              accessToken: data.accessToken, refreshToken: data.refreshToken));
+          String? newToken = data.accessToken;
 
-        //   final Map<String, String> updatedHeaders =
-        //       Map<String, String>.of(request.headers);
+          final Map<String, String> updatedHeaders =
+              Map<String, String>.of(request.headers);
 
-        //   newToken = 'Bearer $newToken';
-        //   updatedHeaders.update('Authorization', (String _) => newToken!,
-        //       ifAbsent: () => newToken!);
+          newToken = 'Bearer $newToken';
+          updatedHeaders.update('Authorization', (String _) => newToken!,
+              ifAbsent: () => newToken!);
 
-        //   header = updatedHeaders;
-        //   return request.copyWith(headers: header);
-        // });
+          header = updatedHeaders;
+          return request.copyWith(headers: header);
+        });
       } catch (e) {
         LogService.i(e.toString());
 

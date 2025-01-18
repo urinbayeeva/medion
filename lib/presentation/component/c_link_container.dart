@@ -35,7 +35,7 @@ class CLinkContainer extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-              iconAlignment: IconAlignment.start,
+              // iconAlignment: IconAlignment.start,
               onPressed: () async {
                 if (link != null && await canLaunchUrl(Uri.parse(link!))) {
                   await launchUrl(Uri.parse(link!));

@@ -9,7 +9,6 @@ import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
-import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/pages/auth/sign_up/component/count_down.dart';
 import 'package:medion/presentation/pages/auth/sign_up/component/custom_pin_put.dart';
 import 'package:medion/presentation/routes/routes.dart';
@@ -83,17 +82,17 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                 current.successVerifyCode,
             listener: (context, state) {
               if (state.successVerifyCode) {
-                // context
-                //     .read<DBService>()
-                //     .setBool(key: DBService.business, isSaved: false);
-                // context.read<BottomNavBarController>().changeNavBar(false);
+                context
+                    .read<DBService>()
+                    .setBool(key: DBService.business, isSaved: false);
+                context.read<BottomNavBarController>().changeNavBar(false);
 
-                // if (widget.onClose != null) {
-                //   widget.onClose!(widget.phoneNumber);
-                // } else {
-                //   Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-                //       AppRoutes.getMainPage(0), (_) => false);
-                // }
+                if (widget.onClose != null) {
+                  widget.onClose!(widget.phoneNumber);
+                } else {
+                  Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                      AppRoutes.getMainPage(0), (_) => false);
+                }
               }
             },
             builder: (context, state) {
@@ -175,10 +174,9 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                       refresh++;
                                       context.read<AuthBloc>().add(
                                           AuthEvent.verificationSend(
-                                              request: VerificationSendReq(
-                                                  (p0) => p0
-                                                    ..phoneNumber =
-                                                        widget.phoneNumber)));
+                                              request: RegisterReq((p0) => p0
+                                                ..phoneNumber =
+                                                    widget.phoneNumber)));
                                       // setState(() {});
                                     },
                                   ),
@@ -189,15 +187,17 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                               CButton(
                                   title: "verify".tr(),
                                   onTap: () {
-                                    // context.read<AuthBloc>().add(
-                                    //     AuthEvent.verificationSend(
-                                    //         request: VerificationSendReq((p0) =>
-                                    //             p0
-                                    //               ..phoneNumber =
-                                    //                   widget.phoneNumber)));
-                                    // setState(() {});
-                                    Navigator.push(
-                                        context, AppRoutes.getDataEntryPage(widget.phoneNumber));
+                                    context.read<AuthBloc>().add(
+                                        AuthEvent.verificationSend(
+                                            request: RegisterReq((p0) => p0
+                                              ..code = "1111"
+                                              ..phoneNumber =
+                                                  widget.phoneNumber)));
+                                    setState(() {});
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pushAndRemoveUntil(
+                                            AppRoutes.getMainPage(0),
+                                            (_) => false);
                                   }),
                               27.h.verticalSpace,
                             ],

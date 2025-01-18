@@ -7,7 +7,7 @@ abstract class AuthEvent with _$AuthEvent {
 
   /// Send verification request
   const factory AuthEvent.verificationSend({
-    required VerificationSendReq request,
+    required RegisterReq request,
   }) = _VerificationSend;
 
   /// Send phone number request
@@ -15,8 +15,13 @@ abstract class AuthEvent with _$AuthEvent {
     required PhoneNumberSendReq request,
   }) = _SendPhoneNumber;
 
-  // Send User Info reques
+  /// Send User Info request
   const factory AuthEvent.sendUserInfo({
     required CreateInfoReq request,
   }) = _SendUserInfo;
+
+  /// Fetch patient information
+  const factory AuthEvent.fetchPatientInfo({
+    required String accessToken,
+  }) = _FetchPatientInfo;
 }

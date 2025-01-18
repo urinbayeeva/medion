@@ -80,32 +80,87 @@ abstract class Category implements Built<Category, CategoryBuilder> {
   static Serializer<Category> get serializer => _$categorySerializer;
 }
 
-// class NameSerializer implements PrimitiveSerializer<Object> {
-//   @override
-//   final Iterable<Type> types = const [Object];
+abstract class GiveSelectedId
+    implements Built<GiveSelectedId, GiveSelectedIdBuilder> {
+  BuiltList<int> get serviceIds;
 
-//   @override
-//   final String wireName = 'Object';
+  GiveSelectedId._();
 
-//   @override
-//   Object deserialize(Serializers serializers, Object serialized,
-//       {FullType specifiedType = FullType.unspecified}) {
-//     if (serialized is String) {
-//       return serialized;
-//     } else if (serialized is bool) {
-//       return serialized;
-//     } else {
-//       throw ArgumentError('Invalid type for name field');
-//     }
-//   }
+  factory GiveSelectedId([void Function(GiveSelectedIdBuilder) updates]) =
+      _$GiveSelectedId;
 
-//   @override
-//   Object serialize(Serializers serializers, Object object,
-//       {FullType specifiedType = FullType.unspecified}) {
-//     if (object is String || object is bool) {
-//       return object;
-//     } else {
-//       throw ArgumentError('Invalid type for name field');
-//     }
-//   }
-// }
+  static Serializer<GiveSelectedId> get serializer =>
+      _$giveSelectedIdSerializer;
+}
+
+
+
+abstract class ServiceModel implements Built<ServiceModel, ServiceModelBuilder> {
+  int get serviceId;
+
+  String get serviceName;
+
+  BuiltList<CompanyDoctor> get companiesDoctors;
+
+  ServiceModel._();
+
+  factory ServiceModel([void Function(ServiceModelBuilder) updates]) = _$ServiceModel;
+
+  static Serializer<ServiceModel> get serializer => _$serviceModelSerializer;
+}
+
+abstract class CompanyDoctor implements Built<CompanyDoctor, CompanyDoctorBuilder> {
+  int get companyId;
+
+  String get companyName;
+
+  BuiltList<Doctor> get doctor;
+
+  CompanyDoctor._();
+
+  factory CompanyDoctor([void Function(CompanyDoctorBuilder) updates]) = _$CompanyDoctor;
+
+  static Serializer<CompanyDoctor> get serializer => _$companyDoctorSerializer;
+}
+
+abstract class Doctor implements Built<Doctor, DoctorBuilder> {
+  int get id;
+
+  String get name;
+
+  String get gender;
+
+  String get image;
+
+  String get specialty;
+
+  String get experience;
+
+  BuiltList<Schedule> get schedules;
+
+  int get price;
+
+  String get location;
+
+  int get workExperience;
+
+  Doctor._();
+
+  factory Doctor([void Function(DoctorBuilder) updates]) = _$Doctor;
+
+  static Serializer<Doctor> get serializer => _$doctorSerializer;
+}
+
+abstract class Schedule implements Built<Schedule, ScheduleBuilder> {
+  String get time;
+
+  bool get active;
+
+  int get duration;
+
+  Schedule._();
+
+  factory Schedule([void Function(ScheduleBuilder) updates]) = _$Schedule;
+
+  static Serializer<Schedule> get serializer => _$scheduleSerializer;
+}

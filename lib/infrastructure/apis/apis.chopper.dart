@@ -32,8 +32,7 @@ final class _$AuthService extends AuthService {
   }
 
   @override
-  Future<Response<SuccessModel>> registerUser(
-      {required VerificationSendReq request}) {
+  Future<Response<ResponseModel>> registerUser({required RegisterReq request}) {
     final Uri $url = Uri.parse('/patient/registration');
     final $body = request;
     final Request $request = Request(
@@ -42,7 +41,7 @@ final class _$AuthService extends AuthService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<SuccessModel, SuccessModel>($request);
+    return client.send<ResponseModel, ResponseModel>($request);
   }
 
   @override
@@ -91,6 +90,24 @@ final class _$BookingService extends BookingService {
       client.baseUrl,
     );
     return client.send<BuiltList<Category>, Category>($request);
+  }
+
+  @override
+  Future<Response<BuiltList<ServiceModel>>> getDoctorsTime({
+    required GiveSelectedId request,
+    required int days,
+  }) {
+    final Uri $url = Uri.parse('/booking/doctors');
+    final Map<String, dynamic> $params = <String, dynamic>{'days': days};
+    final $body = request;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      parameters: $params,
+    );
+    return client.send<BuiltList<ServiceModel>, ServiceModel>($request);
   }
 }
 
@@ -211,5 +228,32 @@ final class _$UploadImage extends UploadImage {
     );
     return client
         .send<ImageUploadResponseModel, ImageUploadResponseModel>($request);
+  }
+}
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$PatientService extends PatientService {
+  _$PatientService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = PatientService;
+
+  @override
+  Future<Response<PatientInfo>> getPatientInfo(String authorization) {
+    final Uri $url = Uri.parse('/profile/patient_info');
+    final Map<String, String> $headers = {
+      'Authorization': authorization,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      headers: $headers,
+    );
+    return client.send<PatientInfo, PatientInfo>($request);
   }
 }

@@ -42,6 +42,7 @@ class _CustomExpansionListTileState extends State<CustomExpansionListTile> {
             dividerColor: Colors.transparent,
           ),
           child: ExpansionTile(
+            childrenPadding: EdgeInsets.symmetric(horizontal: 16.w),
             collapsedBackgroundColor: Colors.transparent,
             backgroundColor: Colors.transparent,
             controlAffinity: ListTileControlAffinity.trailing,

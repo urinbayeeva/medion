@@ -1,3 +1,4 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -20,12 +21,12 @@ abstract class PhoneNumberSendReq
 
 /// Verification Send Request
 
-abstract class VerificationSendReq
-    implements Built<VerificationSendReq, VerificationSendReqBuilder> {
-  VerificationSendReq._();
+abstract class RegisterReq
+    implements Built<RegisterReq, RegisterReqBuilder> {
+  RegisterReq._();
 
-  factory VerificationSendReq(
-      [Function(VerificationSendReqBuilder b) updates]) = _$VerificationSendReq;
+  factory RegisterReq(
+      [Function(RegisterReqBuilder b) updates]) = _$RegisterReq;
 
   @BuiltValueField(wireName: 'phone_number')
   String? get phoneNumber;
@@ -33,9 +34,33 @@ abstract class VerificationSendReq
   @BuiltValueField(wireName: 'code')
   String? get code;
 
-  static Serializer<VerificationSendReq> get serializer =>
-      _$verificationSendReqSerializer;
+  static Serializer<RegisterReq> get serializer =>
+      _$registerReqSerializer;
 }
+
+abstract class RegistrationResponse
+    implements Built<RegistrationResponse, RegistrationResponseBuilder> {
+  RegistrationResponse._();
+
+  factory RegistrationResponse([void Function(RegistrationResponseBuilder) updates]) =
+      _$RegistrationResponse;
+
+  @BuiltValueField(wireName: 'is_new_patient')
+  bool get isNewPatient;
+
+  @BuiltValueField(wireName: 'access_token')
+  BuiltList<String>? get accessToken;
+
+  @BuiltValueField(wireName: 'refresh_token')
+  BuiltList<String>? get refreshToken;
+
+  @BuiltValueField(wireName: 'token_type')
+  String? get tokenType;
+
+  static Serializer<RegistrationResponse> get serializer =>
+      _$registrationResponseSerializer;
+}
+
 
 abstract class CreateInfoReq
     implements Built<CreateInfoReq, CreateInfoReqBuilder> {
@@ -50,21 +75,29 @@ abstract class CreateInfoReq
   @BuiltValueField(wireName: "last_name")
   String? get lastName;
 
-    @BuiltValueField(wireName: "middle_name")
+  @BuiltValueField(wireName: "middle_name")
   String? get middleName;
 
-    @BuiltValueField(wireName: "phone_number")
+  @BuiltValueField(wireName: "phone_number")
   String? get phoneNumber;
 
-    @BuiltValueField(wireName: "date_of_birth")
+  @BuiltValueField(wireName: "date_of_birth")
   String? get dateOfBirth;
 
-    @BuiltValueField(wireName: "gender")
+  @BuiltValueField(wireName: "gender")
   String? get gender;
 
-    @BuiltValueField(wireName: "passport_serial")
+  @BuiltValueField(wireName: "passport_serial")
   String? get passportSerial;
-  
-static Serializer<CreateInfoReq> get serializer => _$createInfoReqSerializer; 
 
+  @BuiltValueField(wireName: "access_token")
+  String? get accessToken;
+
+  @BuiltValueField(wireName: "refresh_token")
+  String? get refreshToken;
+
+  @BuiltValueField(wireName: "token_type")
+  String? get tokenType;
+
+  static Serializer<CreateInfoReq> get serializer => _$createInfoReqSerializer;
 }

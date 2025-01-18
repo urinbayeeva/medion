@@ -96,7 +96,7 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                 title: "next".tr(),
                 onTap: widget.onTap,
               ),
-              24.h.verticalSpace,
+              // 24.h.verticalSpace,
             ]),
           ),
         ],

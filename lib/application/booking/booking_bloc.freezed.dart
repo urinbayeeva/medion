@@ -20,21 +20,36 @@ mixin _$BookingEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBookingTypes,
     required TResult Function(int id) selectService,
+    required TResult Function() refreshServices,
+    required TResult Function(List<int> ids) selectInnerServiceID,
     required TResult Function(int id) fetchCategoryServices,
+    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(String specialty) filterDoctorsBySpecialty,
+    required TResult Function(int maxPrice) filterDoctorsByPrice,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBookingTypes,
     TResult? Function(int id)? selectService,
+    TResult? Function()? refreshServices,
+    TResult? Function(List<int> ids)? selectInnerServiceID,
     TResult? Function(int id)? fetchCategoryServices,
+    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(String specialty)? filterDoctorsBySpecialty,
+    TResult? Function(int maxPrice)? filterDoctorsByPrice,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBookingTypes,
     TResult Function(int id)? selectService,
+    TResult Function()? refreshServices,
+    TResult Function(List<int> ids)? selectInnerServiceID,
     TResult Function(int id)? fetchCategoryServices,
+    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(String specialty)? filterDoctorsBySpecialty,
+    TResult Function(int maxPrice)? filterDoctorsByPrice,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -42,22 +57,39 @@ mixin _$BookingEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
     required TResult Function(_SelectService value) selectService,
+    required TResult Function(_RefreshServices value) refreshServices,
+    required TResult Function(_SelectInnerServiceID value) selectInnerServiceID,
     required TResult Function(_FetchCategoryServices value)
         fetchCategoryServices,
+    required TResult Function(_GetDoctorsTime value) getDoctorsTime,
+    required TResult Function(_FilterDoctorsBySpecialty value)
+        filterDoctorsBySpecialty,
+    required TResult Function(_FilterDoctorsByPrice value) filterDoctorsByPrice,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
     TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_RefreshServices value)? refreshServices,
+    TResult? Function(_SelectInnerServiceID value)? selectInnerServiceID,
     TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult? Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult? Function(_FilterDoctorsBySpecialty value)?
+        filterDoctorsBySpecialty,
+    TResult? Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
     TResult Function(_SelectService value)? selectService,
+    TResult Function(_RefreshServices value)? refreshServices,
+    TResult Function(_SelectInnerServiceID value)? selectInnerServiceID,
     TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult Function(_FilterDoctorsBySpecialty value)? filterDoctorsBySpecialty,
+    TResult Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -127,7 +159,12 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBookingTypes,
     required TResult Function(int id) selectService,
+    required TResult Function() refreshServices,
+    required TResult Function(List<int> ids) selectInnerServiceID,
     required TResult Function(int id) fetchCategoryServices,
+    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(String specialty) filterDoctorsBySpecialty,
+    required TResult Function(int maxPrice) filterDoctorsByPrice,
   }) {
     return fetchBookingTypes();
   }
@@ -137,7 +174,12 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBookingTypes,
     TResult? Function(int id)? selectService,
+    TResult? Function()? refreshServices,
+    TResult? Function(List<int> ids)? selectInnerServiceID,
     TResult? Function(int id)? fetchCategoryServices,
+    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(String specialty)? filterDoctorsBySpecialty,
+    TResult? Function(int maxPrice)? filterDoctorsByPrice,
   }) {
     return fetchBookingTypes?.call();
   }
@@ -147,7 +189,12 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBookingTypes,
     TResult Function(int id)? selectService,
+    TResult Function()? refreshServices,
+    TResult Function(List<int> ids)? selectInnerServiceID,
     TResult Function(int id)? fetchCategoryServices,
+    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(String specialty)? filterDoctorsBySpecialty,
+    TResult Function(int maxPrice)? filterDoctorsByPrice,
     required TResult orElse(),
   }) {
     if (fetchBookingTypes != null) {
@@ -161,8 +208,14 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
     required TResult Function(_SelectService value) selectService,
+    required TResult Function(_RefreshServices value) refreshServices,
+    required TResult Function(_SelectInnerServiceID value) selectInnerServiceID,
     required TResult Function(_FetchCategoryServices value)
         fetchCategoryServices,
+    required TResult Function(_GetDoctorsTime value) getDoctorsTime,
+    required TResult Function(_FilterDoctorsBySpecialty value)
+        filterDoctorsBySpecialty,
+    required TResult Function(_FilterDoctorsByPrice value) filterDoctorsByPrice,
   }) {
     return fetchBookingTypes(this);
   }
@@ -172,7 +225,13 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
     TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_RefreshServices value)? refreshServices,
+    TResult? Function(_SelectInnerServiceID value)? selectInnerServiceID,
     TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult? Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult? Function(_FilterDoctorsBySpecialty value)?
+        filterDoctorsBySpecialty,
+    TResult? Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
   }) {
     return fetchBookingTypes?.call(this);
   }
@@ -182,7 +241,12 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
     TResult Function(_SelectService value)? selectService,
+    TResult Function(_RefreshServices value)? refreshServices,
+    TResult Function(_SelectInnerServiceID value)? selectInnerServiceID,
     TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult Function(_FilterDoctorsBySpecialty value)? filterDoctorsBySpecialty,
+    TResult Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
     required TResult orElse(),
   }) {
     if (fetchBookingTypes != null) {
@@ -266,7 +330,12 @@ class _$SelectServiceImpl implements _SelectService {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBookingTypes,
     required TResult Function(int id) selectService,
+    required TResult Function() refreshServices,
+    required TResult Function(List<int> ids) selectInnerServiceID,
     required TResult Function(int id) fetchCategoryServices,
+    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(String specialty) filterDoctorsBySpecialty,
+    required TResult Function(int maxPrice) filterDoctorsByPrice,
   }) {
     return selectService(id);
   }
@@ -276,7 +345,12 @@ class _$SelectServiceImpl implements _SelectService {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBookingTypes,
     TResult? Function(int id)? selectService,
+    TResult? Function()? refreshServices,
+    TResult? Function(List<int> ids)? selectInnerServiceID,
     TResult? Function(int id)? fetchCategoryServices,
+    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(String specialty)? filterDoctorsBySpecialty,
+    TResult? Function(int maxPrice)? filterDoctorsByPrice,
   }) {
     return selectService?.call(id);
   }
@@ -286,7 +360,12 @@ class _$SelectServiceImpl implements _SelectService {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBookingTypes,
     TResult Function(int id)? selectService,
+    TResult Function()? refreshServices,
+    TResult Function(List<int> ids)? selectInnerServiceID,
     TResult Function(int id)? fetchCategoryServices,
+    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(String specialty)? filterDoctorsBySpecialty,
+    TResult Function(int maxPrice)? filterDoctorsByPrice,
     required TResult orElse(),
   }) {
     if (selectService != null) {
@@ -300,8 +379,14 @@ class _$SelectServiceImpl implements _SelectService {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
     required TResult Function(_SelectService value) selectService,
+    required TResult Function(_RefreshServices value) refreshServices,
+    required TResult Function(_SelectInnerServiceID value) selectInnerServiceID,
     required TResult Function(_FetchCategoryServices value)
         fetchCategoryServices,
+    required TResult Function(_GetDoctorsTime value) getDoctorsTime,
+    required TResult Function(_FilterDoctorsBySpecialty value)
+        filterDoctorsBySpecialty,
+    required TResult Function(_FilterDoctorsByPrice value) filterDoctorsByPrice,
   }) {
     return selectService(this);
   }
@@ -311,7 +396,13 @@ class _$SelectServiceImpl implements _SelectService {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
     TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_RefreshServices value)? refreshServices,
+    TResult? Function(_SelectInnerServiceID value)? selectInnerServiceID,
     TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult? Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult? Function(_FilterDoctorsBySpecialty value)?
+        filterDoctorsBySpecialty,
+    TResult? Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
   }) {
     return selectService?.call(this);
   }
@@ -321,7 +412,12 @@ class _$SelectServiceImpl implements _SelectService {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
     TResult Function(_SelectService value)? selectService,
+    TResult Function(_RefreshServices value)? refreshServices,
+    TResult Function(_SelectInnerServiceID value)? selectInnerServiceID,
     TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult Function(_FilterDoctorsBySpecialty value)? filterDoctorsBySpecialty,
+    TResult Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
     required TResult orElse(),
   }) {
     if (selectService != null) {
@@ -341,6 +437,338 @@ abstract class _SelectService implements BookingEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SelectServiceImplCopyWith<_$SelectServiceImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RefreshServicesImplCopyWith<$Res> {
+  factory _$$RefreshServicesImplCopyWith(_$RefreshServicesImpl value,
+          $Res Function(_$RefreshServicesImpl) then) =
+      __$$RefreshServicesImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$RefreshServicesImplCopyWithImpl<$Res>
+    extends _$BookingEventCopyWithImpl<$Res, _$RefreshServicesImpl>
+    implements _$$RefreshServicesImplCopyWith<$Res> {
+  __$$RefreshServicesImplCopyWithImpl(
+      _$RefreshServicesImpl _value, $Res Function(_$RefreshServicesImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$RefreshServicesImpl implements _RefreshServices {
+  const _$RefreshServicesImpl();
+
+  @override
+  String toString() {
+    return 'BookingEvent.refreshServices()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$RefreshServicesImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBookingTypes,
+    required TResult Function(int id) selectService,
+    required TResult Function() refreshServices,
+    required TResult Function(List<int> ids) selectInnerServiceID,
+    required TResult Function(int id) fetchCategoryServices,
+    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(String specialty) filterDoctorsBySpecialty,
+    required TResult Function(int maxPrice) filterDoctorsByPrice,
+  }) {
+    return refreshServices();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBookingTypes,
+    TResult? Function(int id)? selectService,
+    TResult? Function()? refreshServices,
+    TResult? Function(List<int> ids)? selectInnerServiceID,
+    TResult? Function(int id)? fetchCategoryServices,
+    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(String specialty)? filterDoctorsBySpecialty,
+    TResult? Function(int maxPrice)? filterDoctorsByPrice,
+  }) {
+    return refreshServices?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBookingTypes,
+    TResult Function(int id)? selectService,
+    TResult Function()? refreshServices,
+    TResult Function(List<int> ids)? selectInnerServiceID,
+    TResult Function(int id)? fetchCategoryServices,
+    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(String specialty)? filterDoctorsBySpecialty,
+    TResult Function(int maxPrice)? filterDoctorsByPrice,
+    required TResult orElse(),
+  }) {
+    if (refreshServices != null) {
+      return refreshServices();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
+    required TResult Function(_SelectService value) selectService,
+    required TResult Function(_RefreshServices value) refreshServices,
+    required TResult Function(_SelectInnerServiceID value) selectInnerServiceID,
+    required TResult Function(_FetchCategoryServices value)
+        fetchCategoryServices,
+    required TResult Function(_GetDoctorsTime value) getDoctorsTime,
+    required TResult Function(_FilterDoctorsBySpecialty value)
+        filterDoctorsBySpecialty,
+    required TResult Function(_FilterDoctorsByPrice value) filterDoctorsByPrice,
+  }) {
+    return refreshServices(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_RefreshServices value)? refreshServices,
+    TResult? Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult? Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult? Function(_FilterDoctorsBySpecialty value)?
+        filterDoctorsBySpecialty,
+    TResult? Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+  }) {
+    return refreshServices?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult Function(_SelectService value)? selectService,
+    TResult Function(_RefreshServices value)? refreshServices,
+    TResult Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult Function(_FilterDoctorsBySpecialty value)? filterDoctorsBySpecialty,
+    TResult Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+    required TResult orElse(),
+  }) {
+    if (refreshServices != null) {
+      return refreshServices(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RefreshServices implements BookingEvent {
+  const factory _RefreshServices() = _$RefreshServicesImpl;
+}
+
+/// @nodoc
+abstract class _$$SelectInnerServiceIDImplCopyWith<$Res> {
+  factory _$$SelectInnerServiceIDImplCopyWith(_$SelectInnerServiceIDImpl value,
+          $Res Function(_$SelectInnerServiceIDImpl) then) =
+      __$$SelectInnerServiceIDImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<int> ids});
+}
+
+/// @nodoc
+class __$$SelectInnerServiceIDImplCopyWithImpl<$Res>
+    extends _$BookingEventCopyWithImpl<$Res, _$SelectInnerServiceIDImpl>
+    implements _$$SelectInnerServiceIDImplCopyWith<$Res> {
+  __$$SelectInnerServiceIDImplCopyWithImpl(_$SelectInnerServiceIDImpl _value,
+      $Res Function(_$SelectInnerServiceIDImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? ids = null,
+  }) {
+    return _then(_$SelectInnerServiceIDImpl(
+      ids: null == ids
+          ? _value._ids
+          : ids // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
+  const _$SelectInnerServiceIDImpl({required final List<int> ids}) : _ids = ids;
+
+  final List<int> _ids;
+  @override
+  List<int> get ids {
+    if (_ids is EqualUnmodifiableListView) return _ids;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_ids);
+  }
+
+  @override
+  String toString() {
+    return 'BookingEvent.selectInnerServiceID(ids: $ids)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SelectInnerServiceIDImpl &&
+            const DeepCollectionEquality().equals(other._ids, _ids));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_ids));
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SelectInnerServiceIDImplCopyWith<_$SelectInnerServiceIDImpl>
+      get copyWith =>
+          __$$SelectInnerServiceIDImplCopyWithImpl<_$SelectInnerServiceIDImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBookingTypes,
+    required TResult Function(int id) selectService,
+    required TResult Function() refreshServices,
+    required TResult Function(List<int> ids) selectInnerServiceID,
+    required TResult Function(int id) fetchCategoryServices,
+    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(String specialty) filterDoctorsBySpecialty,
+    required TResult Function(int maxPrice) filterDoctorsByPrice,
+  }) {
+    return selectInnerServiceID(ids);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBookingTypes,
+    TResult? Function(int id)? selectService,
+    TResult? Function()? refreshServices,
+    TResult? Function(List<int> ids)? selectInnerServiceID,
+    TResult? Function(int id)? fetchCategoryServices,
+    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(String specialty)? filterDoctorsBySpecialty,
+    TResult? Function(int maxPrice)? filterDoctorsByPrice,
+  }) {
+    return selectInnerServiceID?.call(ids);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBookingTypes,
+    TResult Function(int id)? selectService,
+    TResult Function()? refreshServices,
+    TResult Function(List<int> ids)? selectInnerServiceID,
+    TResult Function(int id)? fetchCategoryServices,
+    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(String specialty)? filterDoctorsBySpecialty,
+    TResult Function(int maxPrice)? filterDoctorsByPrice,
+    required TResult orElse(),
+  }) {
+    if (selectInnerServiceID != null) {
+      return selectInnerServiceID(ids);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
+    required TResult Function(_SelectService value) selectService,
+    required TResult Function(_RefreshServices value) refreshServices,
+    required TResult Function(_SelectInnerServiceID value) selectInnerServiceID,
+    required TResult Function(_FetchCategoryServices value)
+        fetchCategoryServices,
+    required TResult Function(_GetDoctorsTime value) getDoctorsTime,
+    required TResult Function(_FilterDoctorsBySpecialty value)
+        filterDoctorsBySpecialty,
+    required TResult Function(_FilterDoctorsByPrice value) filterDoctorsByPrice,
+  }) {
+    return selectInnerServiceID(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_RefreshServices value)? refreshServices,
+    TResult? Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult? Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult? Function(_FilterDoctorsBySpecialty value)?
+        filterDoctorsBySpecialty,
+    TResult? Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+  }) {
+    return selectInnerServiceID?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult Function(_SelectService value)? selectService,
+    TResult Function(_RefreshServices value)? refreshServices,
+    TResult Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult Function(_FilterDoctorsBySpecialty value)? filterDoctorsBySpecialty,
+    TResult Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+    required TResult orElse(),
+  }) {
+    if (selectInnerServiceID != null) {
+      return selectInnerServiceID(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SelectInnerServiceID implements BookingEvent {
+  const factory _SelectInnerServiceID({required final List<int> ids}) =
+      _$SelectInnerServiceIDImpl;
+
+  List<int> get ids;
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SelectInnerServiceIDImplCopyWith<_$SelectInnerServiceIDImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -415,7 +843,12 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBookingTypes,
     required TResult Function(int id) selectService,
+    required TResult Function() refreshServices,
+    required TResult Function(List<int> ids) selectInnerServiceID,
     required TResult Function(int id) fetchCategoryServices,
+    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(String specialty) filterDoctorsBySpecialty,
+    required TResult Function(int maxPrice) filterDoctorsByPrice,
   }) {
     return fetchCategoryServices(id);
   }
@@ -425,7 +858,12 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBookingTypes,
     TResult? Function(int id)? selectService,
+    TResult? Function()? refreshServices,
+    TResult? Function(List<int> ids)? selectInnerServiceID,
     TResult? Function(int id)? fetchCategoryServices,
+    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(String specialty)? filterDoctorsBySpecialty,
+    TResult? Function(int maxPrice)? filterDoctorsByPrice,
   }) {
     return fetchCategoryServices?.call(id);
   }
@@ -435,7 +873,12 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBookingTypes,
     TResult Function(int id)? selectService,
+    TResult Function()? refreshServices,
+    TResult Function(List<int> ids)? selectInnerServiceID,
     TResult Function(int id)? fetchCategoryServices,
+    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(String specialty)? filterDoctorsBySpecialty,
+    TResult Function(int maxPrice)? filterDoctorsByPrice,
     required TResult orElse(),
   }) {
     if (fetchCategoryServices != null) {
@@ -449,8 +892,14 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
     required TResult Function(_SelectService value) selectService,
+    required TResult Function(_RefreshServices value) refreshServices,
+    required TResult Function(_SelectInnerServiceID value) selectInnerServiceID,
     required TResult Function(_FetchCategoryServices value)
         fetchCategoryServices,
+    required TResult Function(_GetDoctorsTime value) getDoctorsTime,
+    required TResult Function(_FilterDoctorsBySpecialty value)
+        filterDoctorsBySpecialty,
+    required TResult Function(_FilterDoctorsByPrice value) filterDoctorsByPrice,
   }) {
     return fetchCategoryServices(this);
   }
@@ -460,7 +909,13 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
     TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_RefreshServices value)? refreshServices,
+    TResult? Function(_SelectInnerServiceID value)? selectInnerServiceID,
     TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult? Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult? Function(_FilterDoctorsBySpecialty value)?
+        filterDoctorsBySpecialty,
+    TResult? Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
   }) {
     return fetchCategoryServices?.call(this);
   }
@@ -470,7 +925,12 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
     TResult Function(_SelectService value)? selectService,
+    TResult Function(_RefreshServices value)? refreshServices,
+    TResult Function(_SelectInnerServiceID value)? selectInnerServiceID,
     TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult Function(_FilterDoctorsBySpecialty value)? filterDoctorsBySpecialty,
+    TResult Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
     required TResult orElse(),
   }) {
     if (fetchCategoryServices != null) {
@@ -494,6 +954,574 @@ abstract class _FetchCategoryServices implements BookingEvent {
 }
 
 /// @nodoc
+abstract class _$$GetDoctorsTimeImplCopyWith<$Res> {
+  factory _$$GetDoctorsTimeImplCopyWith(_$GetDoctorsTimeImpl value,
+          $Res Function(_$GetDoctorsTimeImpl) then) =
+      __$$GetDoctorsTimeImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<int> serviceIds, int days});
+}
+
+/// @nodoc
+class __$$GetDoctorsTimeImplCopyWithImpl<$Res>
+    extends _$BookingEventCopyWithImpl<$Res, _$GetDoctorsTimeImpl>
+    implements _$$GetDoctorsTimeImplCopyWith<$Res> {
+  __$$GetDoctorsTimeImplCopyWithImpl(
+      _$GetDoctorsTimeImpl _value, $Res Function(_$GetDoctorsTimeImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? serviceIds = null,
+    Object? days = null,
+  }) {
+    return _then(_$GetDoctorsTimeImpl(
+      serviceIds: null == serviceIds
+          ? _value._serviceIds
+          : serviceIds // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      days: null == days
+          ? _value.days
+          : days // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
+  const _$GetDoctorsTimeImpl(
+      {required final List<int> serviceIds, required this.days})
+      : _serviceIds = serviceIds;
+
+  final List<int> _serviceIds;
+  @override
+  List<int> get serviceIds {
+    if (_serviceIds is EqualUnmodifiableListView) return _serviceIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_serviceIds);
+  }
+
+  @override
+  final int days;
+
+  @override
+  String toString() {
+    return 'BookingEvent.getDoctorsTime(serviceIds: $serviceIds, days: $days)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetDoctorsTimeImpl &&
+            const DeepCollectionEquality()
+                .equals(other._serviceIds, _serviceIds) &&
+            (identical(other.days, days) || other.days == days));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_serviceIds), days);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetDoctorsTimeImplCopyWith<_$GetDoctorsTimeImpl> get copyWith =>
+      __$$GetDoctorsTimeImplCopyWithImpl<_$GetDoctorsTimeImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBookingTypes,
+    required TResult Function(int id) selectService,
+    required TResult Function() refreshServices,
+    required TResult Function(List<int> ids) selectInnerServiceID,
+    required TResult Function(int id) fetchCategoryServices,
+    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(String specialty) filterDoctorsBySpecialty,
+    required TResult Function(int maxPrice) filterDoctorsByPrice,
+  }) {
+    return getDoctorsTime(serviceIds, days);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBookingTypes,
+    TResult? Function(int id)? selectService,
+    TResult? Function()? refreshServices,
+    TResult? Function(List<int> ids)? selectInnerServiceID,
+    TResult? Function(int id)? fetchCategoryServices,
+    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(String specialty)? filterDoctorsBySpecialty,
+    TResult? Function(int maxPrice)? filterDoctorsByPrice,
+  }) {
+    return getDoctorsTime?.call(serviceIds, days);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBookingTypes,
+    TResult Function(int id)? selectService,
+    TResult Function()? refreshServices,
+    TResult Function(List<int> ids)? selectInnerServiceID,
+    TResult Function(int id)? fetchCategoryServices,
+    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(String specialty)? filterDoctorsBySpecialty,
+    TResult Function(int maxPrice)? filterDoctorsByPrice,
+    required TResult orElse(),
+  }) {
+    if (getDoctorsTime != null) {
+      return getDoctorsTime(serviceIds, days);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
+    required TResult Function(_SelectService value) selectService,
+    required TResult Function(_RefreshServices value) refreshServices,
+    required TResult Function(_SelectInnerServiceID value) selectInnerServiceID,
+    required TResult Function(_FetchCategoryServices value)
+        fetchCategoryServices,
+    required TResult Function(_GetDoctorsTime value) getDoctorsTime,
+    required TResult Function(_FilterDoctorsBySpecialty value)
+        filterDoctorsBySpecialty,
+    required TResult Function(_FilterDoctorsByPrice value) filterDoctorsByPrice,
+  }) {
+    return getDoctorsTime(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_RefreshServices value)? refreshServices,
+    TResult? Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult? Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult? Function(_FilterDoctorsBySpecialty value)?
+        filterDoctorsBySpecialty,
+    TResult? Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+  }) {
+    return getDoctorsTime?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult Function(_SelectService value)? selectService,
+    TResult Function(_RefreshServices value)? refreshServices,
+    TResult Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult Function(_FilterDoctorsBySpecialty value)? filterDoctorsBySpecialty,
+    TResult Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+    required TResult orElse(),
+  }) {
+    if (getDoctorsTime != null) {
+      return getDoctorsTime(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetDoctorsTime implements BookingEvent {
+  const factory _GetDoctorsTime(
+      {required final List<int> serviceIds,
+      required final int days}) = _$GetDoctorsTimeImpl;
+
+  List<int> get serviceIds;
+  int get days;
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GetDoctorsTimeImplCopyWith<_$GetDoctorsTimeImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FilterDoctorsBySpecialtyImplCopyWith<$Res> {
+  factory _$$FilterDoctorsBySpecialtyImplCopyWith(
+          _$FilterDoctorsBySpecialtyImpl value,
+          $Res Function(_$FilterDoctorsBySpecialtyImpl) then) =
+      __$$FilterDoctorsBySpecialtyImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String specialty});
+}
+
+/// @nodoc
+class __$$FilterDoctorsBySpecialtyImplCopyWithImpl<$Res>
+    extends _$BookingEventCopyWithImpl<$Res, _$FilterDoctorsBySpecialtyImpl>
+    implements _$$FilterDoctorsBySpecialtyImplCopyWith<$Res> {
+  __$$FilterDoctorsBySpecialtyImplCopyWithImpl(
+      _$FilterDoctorsBySpecialtyImpl _value,
+      $Res Function(_$FilterDoctorsBySpecialtyImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? specialty = null,
+  }) {
+    return _then(_$FilterDoctorsBySpecialtyImpl(
+      specialty: null == specialty
+          ? _value.specialty
+          : specialty // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
+  const _$FilterDoctorsBySpecialtyImpl({required this.specialty});
+
+  @override
+  final String specialty;
+
+  @override
+  String toString() {
+    return 'BookingEvent.filterDoctorsBySpecialty(specialty: $specialty)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FilterDoctorsBySpecialtyImpl &&
+            (identical(other.specialty, specialty) ||
+                other.specialty == specialty));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, specialty);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FilterDoctorsBySpecialtyImplCopyWith<_$FilterDoctorsBySpecialtyImpl>
+      get copyWith => __$$FilterDoctorsBySpecialtyImplCopyWithImpl<
+          _$FilterDoctorsBySpecialtyImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBookingTypes,
+    required TResult Function(int id) selectService,
+    required TResult Function() refreshServices,
+    required TResult Function(List<int> ids) selectInnerServiceID,
+    required TResult Function(int id) fetchCategoryServices,
+    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(String specialty) filterDoctorsBySpecialty,
+    required TResult Function(int maxPrice) filterDoctorsByPrice,
+  }) {
+    return filterDoctorsBySpecialty(specialty);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBookingTypes,
+    TResult? Function(int id)? selectService,
+    TResult? Function()? refreshServices,
+    TResult? Function(List<int> ids)? selectInnerServiceID,
+    TResult? Function(int id)? fetchCategoryServices,
+    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(String specialty)? filterDoctorsBySpecialty,
+    TResult? Function(int maxPrice)? filterDoctorsByPrice,
+  }) {
+    return filterDoctorsBySpecialty?.call(specialty);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBookingTypes,
+    TResult Function(int id)? selectService,
+    TResult Function()? refreshServices,
+    TResult Function(List<int> ids)? selectInnerServiceID,
+    TResult Function(int id)? fetchCategoryServices,
+    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(String specialty)? filterDoctorsBySpecialty,
+    TResult Function(int maxPrice)? filterDoctorsByPrice,
+    required TResult orElse(),
+  }) {
+    if (filterDoctorsBySpecialty != null) {
+      return filterDoctorsBySpecialty(specialty);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
+    required TResult Function(_SelectService value) selectService,
+    required TResult Function(_RefreshServices value) refreshServices,
+    required TResult Function(_SelectInnerServiceID value) selectInnerServiceID,
+    required TResult Function(_FetchCategoryServices value)
+        fetchCategoryServices,
+    required TResult Function(_GetDoctorsTime value) getDoctorsTime,
+    required TResult Function(_FilterDoctorsBySpecialty value)
+        filterDoctorsBySpecialty,
+    required TResult Function(_FilterDoctorsByPrice value) filterDoctorsByPrice,
+  }) {
+    return filterDoctorsBySpecialty(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_RefreshServices value)? refreshServices,
+    TResult? Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult? Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult? Function(_FilterDoctorsBySpecialty value)?
+        filterDoctorsBySpecialty,
+    TResult? Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+  }) {
+    return filterDoctorsBySpecialty?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult Function(_SelectService value)? selectService,
+    TResult Function(_RefreshServices value)? refreshServices,
+    TResult Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult Function(_FilterDoctorsBySpecialty value)? filterDoctorsBySpecialty,
+    TResult Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+    required TResult orElse(),
+  }) {
+    if (filterDoctorsBySpecialty != null) {
+      return filterDoctorsBySpecialty(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FilterDoctorsBySpecialty implements BookingEvent {
+  const factory _FilterDoctorsBySpecialty({required final String specialty}) =
+      _$FilterDoctorsBySpecialtyImpl;
+
+  String get specialty;
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FilterDoctorsBySpecialtyImplCopyWith<_$FilterDoctorsBySpecialtyImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FilterDoctorsByPriceImplCopyWith<$Res> {
+  factory _$$FilterDoctorsByPriceImplCopyWith(_$FilterDoctorsByPriceImpl value,
+          $Res Function(_$FilterDoctorsByPriceImpl) then) =
+      __$$FilterDoctorsByPriceImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int maxPrice});
+}
+
+/// @nodoc
+class __$$FilterDoctorsByPriceImplCopyWithImpl<$Res>
+    extends _$BookingEventCopyWithImpl<$Res, _$FilterDoctorsByPriceImpl>
+    implements _$$FilterDoctorsByPriceImplCopyWith<$Res> {
+  __$$FilterDoctorsByPriceImplCopyWithImpl(_$FilterDoctorsByPriceImpl _value,
+      $Res Function(_$FilterDoctorsByPriceImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? maxPrice = null,
+  }) {
+    return _then(_$FilterDoctorsByPriceImpl(
+      maxPrice: null == maxPrice
+          ? _value.maxPrice
+          : maxPrice // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
+  const _$FilterDoctorsByPriceImpl({required this.maxPrice});
+
+  @override
+  final int maxPrice;
+
+  @override
+  String toString() {
+    return 'BookingEvent.filterDoctorsByPrice(maxPrice: $maxPrice)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FilterDoctorsByPriceImpl &&
+            (identical(other.maxPrice, maxPrice) ||
+                other.maxPrice == maxPrice));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, maxPrice);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FilterDoctorsByPriceImplCopyWith<_$FilterDoctorsByPriceImpl>
+      get copyWith =>
+          __$$FilterDoctorsByPriceImplCopyWithImpl<_$FilterDoctorsByPriceImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBookingTypes,
+    required TResult Function(int id) selectService,
+    required TResult Function() refreshServices,
+    required TResult Function(List<int> ids) selectInnerServiceID,
+    required TResult Function(int id) fetchCategoryServices,
+    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(String specialty) filterDoctorsBySpecialty,
+    required TResult Function(int maxPrice) filterDoctorsByPrice,
+  }) {
+    return filterDoctorsByPrice(maxPrice);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBookingTypes,
+    TResult? Function(int id)? selectService,
+    TResult? Function()? refreshServices,
+    TResult? Function(List<int> ids)? selectInnerServiceID,
+    TResult? Function(int id)? fetchCategoryServices,
+    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(String specialty)? filterDoctorsBySpecialty,
+    TResult? Function(int maxPrice)? filterDoctorsByPrice,
+  }) {
+    return filterDoctorsByPrice?.call(maxPrice);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBookingTypes,
+    TResult Function(int id)? selectService,
+    TResult Function()? refreshServices,
+    TResult Function(List<int> ids)? selectInnerServiceID,
+    TResult Function(int id)? fetchCategoryServices,
+    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(String specialty)? filterDoctorsBySpecialty,
+    TResult Function(int maxPrice)? filterDoctorsByPrice,
+    required TResult orElse(),
+  }) {
+    if (filterDoctorsByPrice != null) {
+      return filterDoctorsByPrice(maxPrice);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
+    required TResult Function(_SelectService value) selectService,
+    required TResult Function(_RefreshServices value) refreshServices,
+    required TResult Function(_SelectInnerServiceID value) selectInnerServiceID,
+    required TResult Function(_FetchCategoryServices value)
+        fetchCategoryServices,
+    required TResult Function(_GetDoctorsTime value) getDoctorsTime,
+    required TResult Function(_FilterDoctorsBySpecialty value)
+        filterDoctorsBySpecialty,
+    required TResult Function(_FilterDoctorsByPrice value) filterDoctorsByPrice,
+  }) {
+    return filterDoctorsByPrice(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_RefreshServices value)? refreshServices,
+    TResult? Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult? Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult? Function(_FilterDoctorsBySpecialty value)?
+        filterDoctorsBySpecialty,
+    TResult? Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+  }) {
+    return filterDoctorsByPrice?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult Function(_SelectService value)? selectService,
+    TResult Function(_RefreshServices value)? refreshServices,
+    TResult Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult Function(_FilterDoctorsBySpecialty value)? filterDoctorsBySpecialty,
+    TResult Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+    required TResult orElse(),
+  }) {
+    if (filterDoctorsByPrice != null) {
+      return filterDoctorsByPrice(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FilterDoctorsByPrice implements BookingEvent {
+  const factory _FilterDoctorsByPrice({required final int maxPrice}) =
+      _$FilterDoctorsByPriceImpl;
+
+  int get maxPrice;
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FilterDoctorsByPriceImplCopyWith<_$FilterDoctorsByPriceImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$BookingState {
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
@@ -501,6 +1529,13 @@ mixin _$BookingState {
   List<BookingTypeModel> get bookingTypes => throw _privateConstructorUsedError;
   List<Category> get categoryServices => throw _privateConstructorUsedError;
   int? get selectedServiceId => throw _privateConstructorUsedError;
+  List<int>? get selectedInnerServiceIds =>
+      throw _privateConstructorUsedError; // New Doctor States
+  List<ServiceModel> get doctors => throw _privateConstructorUsedError;
+  List<ServiceModel> get filteredDoctors => throw _privateConstructorUsedError;
+  String get selectedSpecialty => throw _privateConstructorUsedError;
+  int get maxPrice => throw _privateConstructorUsedError;
+  String get errorMessage => throw _privateConstructorUsedError;
 
   /// Create a copy of BookingState
   /// with the given fields replaced by the non-null parameter values.
@@ -521,7 +1556,13 @@ abstract class $BookingStateCopyWith<$Res> {
       bool success,
       List<BookingTypeModel> bookingTypes,
       List<Category> categoryServices,
-      int? selectedServiceId});
+      int? selectedServiceId,
+      List<int>? selectedInnerServiceIds,
+      List<ServiceModel> doctors,
+      List<ServiceModel> filteredDoctors,
+      String selectedSpecialty,
+      int maxPrice,
+      String errorMessage});
 }
 
 /// @nodoc
@@ -545,6 +1586,12 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
     Object? bookingTypes = null,
     Object? categoryServices = null,
     Object? selectedServiceId = freezed,
+    Object? selectedInnerServiceIds = freezed,
+    Object? doctors = null,
+    Object? filteredDoctors = null,
+    Object? selectedSpecialty = null,
+    Object? maxPrice = null,
+    Object? errorMessage = null,
   }) {
     return _then(_value.copyWith(
       loading: null == loading
@@ -571,6 +1618,30 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
           ? _value.selectedServiceId
           : selectedServiceId // ignore: cast_nullable_to_non_nullable
               as int?,
+      selectedInnerServiceIds: freezed == selectedInnerServiceIds
+          ? _value.selectedInnerServiceIds
+          : selectedInnerServiceIds // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
+      doctors: null == doctors
+          ? _value.doctors
+          : doctors // ignore: cast_nullable_to_non_nullable
+              as List<ServiceModel>,
+      filteredDoctors: null == filteredDoctors
+          ? _value.filteredDoctors
+          : filteredDoctors // ignore: cast_nullable_to_non_nullable
+              as List<ServiceModel>,
+      selectedSpecialty: null == selectedSpecialty
+          ? _value.selectedSpecialty
+          : selectedSpecialty // ignore: cast_nullable_to_non_nullable
+              as String,
+      maxPrice: null == maxPrice
+          ? _value.maxPrice
+          : maxPrice // ignore: cast_nullable_to_non_nullable
+              as int,
+      errorMessage: null == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -589,7 +1660,13 @@ abstract class _$$BookingStateImplCopyWith<$Res>
       bool success,
       List<BookingTypeModel> bookingTypes,
       List<Category> categoryServices,
-      int? selectedServiceId});
+      int? selectedServiceId,
+      List<int>? selectedInnerServiceIds,
+      List<ServiceModel> doctors,
+      List<ServiceModel> filteredDoctors,
+      String selectedSpecialty,
+      int maxPrice,
+      String errorMessage});
 }
 
 /// @nodoc
@@ -611,6 +1688,12 @@ class __$$BookingStateImplCopyWithImpl<$Res>
     Object? bookingTypes = null,
     Object? categoryServices = null,
     Object? selectedServiceId = freezed,
+    Object? selectedInnerServiceIds = freezed,
+    Object? doctors = null,
+    Object? filteredDoctors = null,
+    Object? selectedSpecialty = null,
+    Object? maxPrice = null,
+    Object? errorMessage = null,
   }) {
     return _then(_$BookingStateImpl(
       loading: null == loading
@@ -637,6 +1720,30 @@ class __$$BookingStateImplCopyWithImpl<$Res>
           ? _value.selectedServiceId
           : selectedServiceId // ignore: cast_nullable_to_non_nullable
               as int?,
+      selectedInnerServiceIds: freezed == selectedInnerServiceIds
+          ? _value._selectedInnerServiceIds
+          : selectedInnerServiceIds // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
+      doctors: null == doctors
+          ? _value._doctors
+          : doctors // ignore: cast_nullable_to_non_nullable
+              as List<ServiceModel>,
+      filteredDoctors: null == filteredDoctors
+          ? _value._filteredDoctors
+          : filteredDoctors // ignore: cast_nullable_to_non_nullable
+              as List<ServiceModel>,
+      selectedSpecialty: null == selectedSpecialty
+          ? _value.selectedSpecialty
+          : selectedSpecialty // ignore: cast_nullable_to_non_nullable
+              as String,
+      maxPrice: null == maxPrice
+          ? _value.maxPrice
+          : maxPrice // ignore: cast_nullable_to_non_nullable
+              as int,
+      errorMessage: null == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -650,9 +1757,18 @@ class _$BookingStateImpl extends _BookingState {
       this.success = false,
       final List<BookingTypeModel> bookingTypes = const [],
       final List<Category> categoryServices = const [],
-      this.selectedServiceId = null})
+      this.selectedServiceId = null,
+      final List<int>? selectedInnerServiceIds = null,
+      final List<ServiceModel> doctors = const [],
+      final List<ServiceModel> filteredDoctors = const [],
+      this.selectedSpecialty = '',
+      this.maxPrice = 0,
+      this.errorMessage = ''})
       : _bookingTypes = bookingTypes,
         _categoryServices = categoryServices,
+        _selectedInnerServiceIds = selectedInnerServiceIds,
+        _doctors = doctors,
+        _filteredDoctors = filteredDoctors,
         super._();
 
   @override
@@ -686,10 +1802,51 @@ class _$BookingStateImpl extends _BookingState {
   @override
   @JsonKey()
   final int? selectedServiceId;
+  final List<int>? _selectedInnerServiceIds;
+  @override
+  @JsonKey()
+  List<int>? get selectedInnerServiceIds {
+    final value = _selectedInnerServiceIds;
+    if (value == null) return null;
+    if (_selectedInnerServiceIds is EqualUnmodifiableListView)
+      return _selectedInnerServiceIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+// New Doctor States
+  final List<ServiceModel> _doctors;
+// New Doctor States
+  @override
+  @JsonKey()
+  List<ServiceModel> get doctors {
+    if (_doctors is EqualUnmodifiableListView) return _doctors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_doctors);
+  }
+
+  final List<ServiceModel> _filteredDoctors;
+  @override
+  @JsonKey()
+  List<ServiceModel> get filteredDoctors {
+    if (_filteredDoctors is EqualUnmodifiableListView) return _filteredDoctors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_filteredDoctors);
+  }
+
+  @override
+  @JsonKey()
+  final String selectedSpecialty;
+  @override
+  @JsonKey()
+  final int maxPrice;
+  @override
+  @JsonKey()
+  final String errorMessage;
 
   @override
   String toString() {
-    return 'BookingState(loading: $loading, error: $error, success: $success, bookingTypes: $bookingTypes, categoryServices: $categoryServices, selectedServiceId: $selectedServiceId)';
+    return 'BookingState(loading: $loading, error: $error, success: $success, bookingTypes: $bookingTypes, categoryServices: $categoryServices, selectedServiceId: $selectedServiceId, selectedInnerServiceIds: $selectedInnerServiceIds, doctors: $doctors, filteredDoctors: $filteredDoctors, selectedSpecialty: $selectedSpecialty, maxPrice: $maxPrice, errorMessage: $errorMessage)';
   }
 
   @override
@@ -705,7 +1862,18 @@ class _$BookingStateImpl extends _BookingState {
             const DeepCollectionEquality()
                 .equals(other._categoryServices, _categoryServices) &&
             (identical(other.selectedServiceId, selectedServiceId) ||
-                other.selectedServiceId == selectedServiceId));
+                other.selectedServiceId == selectedServiceId) &&
+            const DeepCollectionEquality().equals(
+                other._selectedInnerServiceIds, _selectedInnerServiceIds) &&
+            const DeepCollectionEquality().equals(other._doctors, _doctors) &&
+            const DeepCollectionEquality()
+                .equals(other._filteredDoctors, _filteredDoctors) &&
+            (identical(other.selectedSpecialty, selectedSpecialty) ||
+                other.selectedSpecialty == selectedSpecialty) &&
+            (identical(other.maxPrice, maxPrice) ||
+                other.maxPrice == maxPrice) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @override
@@ -716,7 +1884,13 @@ class _$BookingStateImpl extends _BookingState {
       success,
       const DeepCollectionEquality().hash(_bookingTypes),
       const DeepCollectionEquality().hash(_categoryServices),
-      selectedServiceId);
+      selectedServiceId,
+      const DeepCollectionEquality().hash(_selectedInnerServiceIds),
+      const DeepCollectionEquality().hash(_doctors),
+      const DeepCollectionEquality().hash(_filteredDoctors),
+      selectedSpecialty,
+      maxPrice,
+      errorMessage);
 
   /// Create a copy of BookingState
   /// with the given fields replaced by the non-null parameter values.
@@ -734,7 +1908,13 @@ abstract class _BookingState extends BookingState {
       final bool success,
       final List<BookingTypeModel> bookingTypes,
       final List<Category> categoryServices,
-      final int? selectedServiceId}) = _$BookingStateImpl;
+      final int? selectedServiceId,
+      final List<int>? selectedInnerServiceIds,
+      final List<ServiceModel> doctors,
+      final List<ServiceModel> filteredDoctors,
+      final String selectedSpecialty,
+      final int maxPrice,
+      final String errorMessage}) = _$BookingStateImpl;
   const _BookingState._() : super._();
 
   @override
@@ -749,6 +1929,18 @@ abstract class _BookingState extends BookingState {
   List<Category> get categoryServices;
   @override
   int? get selectedServiceId;
+  @override
+  List<int>? get selectedInnerServiceIds; // New Doctor States
+  @override
+  List<ServiceModel> get doctors;
+  @override
+  List<ServiceModel> get filteredDoctors;
+  @override
+  String get selectedSpecialty;
+  @override
+  int get maxPrice;
+  @override
+  String get errorMessage;
 
   /// Create a copy of BookingState
   /// with the given fields replaced by the non-null parameter values.

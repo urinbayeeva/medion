@@ -64,10 +64,8 @@ class MyApp extends StatelessWidget {
         child: OnUnFocusTap(
           child: BlocProvider<ProfileBloc>(
               create: (_) => ProfileBloc(
-                    AuthRepository(
-                      dbService,
-                      AuthService.create(dbService),
-                    ),
+                    AuthRepository(dbService, AuthService.create(dbService),
+                        PatientService.create(dbService)),
                     ImageUploadRepo(UploadImage.create(dbService)),
                   ),
               child: MaterialApp(

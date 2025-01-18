@@ -36,6 +36,10 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BookingBloc, BookingState>(
+      buildWhen: (previous, current) {
+        return previous.selectedServiceId != current.selectedServiceId ||
+            previous.bookingTypes != current.bookingTypes;
+      },
       builder: (context, state) {
         if (state.bookingTypes.isEmpty) {
           return Center(
@@ -57,7 +61,9 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
               iconPath: 'assets/icons/default_icon.png',
               onTap: () {
                 // Dispatch the selected ID to the Bloc
-                context.read<BookingBloc>().add(BookingEvent.selectService(id: item.id));
+                context
+                    .read<BookingBloc>()
+                    .add(BookingEvent.selectService(id: item.id));
                 if (widget.onTap != null) {
                   widget.onTap!();
                 }

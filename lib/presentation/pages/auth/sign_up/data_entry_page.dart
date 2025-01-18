@@ -140,8 +140,8 @@ class _DataEntryPageState extends State<DataEntryPage> {
                                   : "sign_in".tr(),
                               onTap: () {
                                 _submitForm(context);
-                                // Navigator.pushReplacement(
-                                //     context, AppRoutes.getMainPage(0));
+                                Navigator.pushReplacement(
+                                    context, AppRoutes.getMainPage(0));
                               });
                         },
                       ),

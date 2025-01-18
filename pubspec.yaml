@@ -99,6 +99,8 @@ dependencies:
   carousel_slider: ^5.0.0
   table: ^0.0.1-dev
   simple_gesture_detector: ^0.2.1
+  motion_toast: ^2.11.0
+  flutter_secure_storage: ^4.2.1
 
 
 dev_dependencies:

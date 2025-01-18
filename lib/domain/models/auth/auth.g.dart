@@ -8,8 +8,9 @@ part of 'auth.dart';
 
 Serializer<PhoneNumberSendReq> _$phoneNumberSendReqSerializer =
     new _$PhoneNumberSendReqSerializer();
-Serializer<VerificationSendReq> _$verificationSendReqSerializer =
-    new _$VerificationSendReqSerializer();
+Serializer<RegisterReq> _$registerReqSerializer = new _$RegisterReqSerializer();
+Serializer<RegistrationResponse> _$registrationResponseSerializer =
+    new _$RegistrationResponseSerializer();
 Serializer<CreateInfoReq> _$createInfoReqSerializer =
     new _$CreateInfoReqSerializer();
 
@@ -56,19 +57,14 @@ class _$PhoneNumberSendReqSerializer
   }
 }
 
-class _$VerificationSendReqSerializer
-    implements StructuredSerializer<VerificationSendReq> {
+class _$RegisterReqSerializer implements StructuredSerializer<RegisterReq> {
   @override
-  final Iterable<Type> types = const [
-    VerificationSendReq,
-    _$VerificationSendReq
-  ];
+  final Iterable<Type> types = const [RegisterReq, _$RegisterReq];
   @override
-  final String wireName = 'VerificationSendReq';
+  final String wireName = 'RegisterReq';
 
   @override
-  Iterable<Object?> serialize(
-      Serializers serializers, VerificationSendReq object,
+  Iterable<Object?> serialize(Serializers serializers, RegisterReq object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[];
     Object? value;
@@ -90,10 +86,9 @@ class _$VerificationSendReqSerializer
   }
 
   @override
-  VerificationSendReq deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
+  RegisterReq deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new VerificationSendReqBuilder();
+    final result = new RegisterReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -107,6 +102,91 @@ class _$VerificationSendReqSerializer
           break;
         case 'code':
           result.code = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$RegistrationResponseSerializer
+    implements StructuredSerializer<RegistrationResponse> {
+  @override
+  final Iterable<Type> types = const [
+    RegistrationResponse,
+    _$RegistrationResponse
+  ];
+  @override
+  final String wireName = 'RegistrationResponse';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, RegistrationResponse object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'is_new_patient',
+      serializers.serialize(object.isNewPatient,
+          specifiedType: const FullType(bool)),
+    ];
+    Object? value;
+    value = object.accessToken;
+    if (value != null) {
+      result
+        ..add('access_token')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
+    }
+    value = object.refreshToken;
+    if (value != null) {
+      result
+        ..add('refresh_token')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
+    }
+    value = object.tokenType;
+    if (value != null) {
+      result
+        ..add('token_type')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  RegistrationResponse deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new RegistrationResponseBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'is_new_patient':
+          result.isNewPatient = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
+          break;
+        case 'access_token':
+          result.accessToken.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'refresh_token':
+          result.refreshToken.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'token_type':
+          result.tokenType = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -176,6 +256,27 @@ class _$CreateInfoReqSerializer implements StructuredSerializer<CreateInfoReq> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.accessToken;
+    if (value != null) {
+      result
+        ..add('access_token')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.refreshToken;
+    if (value != null) {
+      result
+        ..add('refresh_token')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.tokenType;
+    if (value != null) {
+      result
+        ..add('token_type')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -217,6 +318,18 @@ class _$CreateInfoReqSerializer implements StructuredSerializer<CreateInfoReq> {
           break;
         case 'passport_serial':
           result.passportSerial = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'access_token':
+          result.accessToken = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'refresh_token':
+          result.refreshToken = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'token_type':
+          result.tokenType = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -313,31 +426,28 @@ class PhoneNumberSendReqBuilder
   }
 }
 
-class _$VerificationSendReq extends VerificationSendReq {
+class _$RegisterReq extends RegisterReq {
   @override
   final String? phoneNumber;
   @override
   final String? code;
 
-  factory _$VerificationSendReq(
-          [void Function(VerificationSendReqBuilder)? updates]) =>
-      (new VerificationSendReqBuilder()..update(updates))._build();
+  factory _$RegisterReq([void Function(RegisterReqBuilder)? updates]) =>
+      (new RegisterReqBuilder()..update(updates))._build();
 
-  _$VerificationSendReq._({this.phoneNumber, this.code}) : super._();
+  _$RegisterReq._({this.phoneNumber, this.code}) : super._();
 
   @override
-  VerificationSendReq rebuild(
-          void Function(VerificationSendReqBuilder) updates) =>
+  RegisterReq rebuild(void Function(RegisterReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  VerificationSendReqBuilder toBuilder() =>
-      new VerificationSendReqBuilder()..replace(this);
+  RegisterReqBuilder toBuilder() => new RegisterReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is VerificationSendReq &&
+    return other is RegisterReq &&
         phoneNumber == other.phoneNumber &&
         code == other.code;
   }
@@ -353,16 +463,15 @@ class _$VerificationSendReq extends VerificationSendReq {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'VerificationSendReq')
+    return (newBuiltValueToStringHelper(r'RegisterReq')
           ..add('phoneNumber', phoneNumber)
           ..add('code', code))
         .toString();
   }
 }
 
-class VerificationSendReqBuilder
-    implements Builder<VerificationSendReq, VerificationSendReqBuilder> {
-  _$VerificationSendReq? _$v;
+class RegisterReqBuilder implements Builder<RegisterReq, RegisterReqBuilder> {
+  _$RegisterReq? _$v;
 
   String? _phoneNumber;
   String? get phoneNumber => _$this._phoneNumber;
@@ -372,9 +481,9 @@ class VerificationSendReqBuilder
   String? get code => _$this._code;
   set code(String? code) => _$this._code = code;
 
-  VerificationSendReqBuilder();
+  RegisterReqBuilder();
 
-  VerificationSendReqBuilder get _$this {
+  RegisterReqBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _phoneNumber = $v.phoneNumber;
@@ -385,22 +494,167 @@ class VerificationSendReqBuilder
   }
 
   @override
-  void replace(VerificationSendReq other) {
+  void replace(RegisterReq other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$VerificationSendReq;
+    _$v = other as _$RegisterReq;
   }
 
   @override
-  void update(void Function(VerificationSendReqBuilder)? updates) {
+  void update(void Function(RegisterReqBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  VerificationSendReq build() => _build();
+  RegisterReq build() => _build();
 
-  _$VerificationSendReq _build() {
-    final _$result = _$v ??
-        new _$VerificationSendReq._(phoneNumber: phoneNumber, code: code);
+  _$RegisterReq _build() {
+    final _$result =
+        _$v ?? new _$RegisterReq._(phoneNumber: phoneNumber, code: code);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$RegistrationResponse extends RegistrationResponse {
+  @override
+  final bool isNewPatient;
+  @override
+  final BuiltList<String>? accessToken;
+  @override
+  final BuiltList<String>? refreshToken;
+  @override
+  final String? tokenType;
+
+  factory _$RegistrationResponse(
+          [void Function(RegistrationResponseBuilder)? updates]) =>
+      (new RegistrationResponseBuilder()..update(updates))._build();
+
+  _$RegistrationResponse._(
+      {required this.isNewPatient,
+      this.accessToken,
+      this.refreshToken,
+      this.tokenType})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        isNewPatient, r'RegistrationResponse', 'isNewPatient');
+  }
+
+  @override
+  RegistrationResponse rebuild(
+          void Function(RegistrationResponseBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  RegistrationResponseBuilder toBuilder() =>
+      new RegistrationResponseBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is RegistrationResponse &&
+        isNewPatient == other.isNewPatient &&
+        accessToken == other.accessToken &&
+        refreshToken == other.refreshToken &&
+        tokenType == other.tokenType;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, isNewPatient.hashCode);
+    _$hash = $jc(_$hash, accessToken.hashCode);
+    _$hash = $jc(_$hash, refreshToken.hashCode);
+    _$hash = $jc(_$hash, tokenType.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'RegistrationResponse')
+          ..add('isNewPatient', isNewPatient)
+          ..add('accessToken', accessToken)
+          ..add('refreshToken', refreshToken)
+          ..add('tokenType', tokenType))
+        .toString();
+  }
+}
+
+class RegistrationResponseBuilder
+    implements Builder<RegistrationResponse, RegistrationResponseBuilder> {
+  _$RegistrationResponse? _$v;
+
+  bool? _isNewPatient;
+  bool? get isNewPatient => _$this._isNewPatient;
+  set isNewPatient(bool? isNewPatient) => _$this._isNewPatient = isNewPatient;
+
+  ListBuilder<String>? _accessToken;
+  ListBuilder<String> get accessToken =>
+      _$this._accessToken ??= new ListBuilder<String>();
+  set accessToken(ListBuilder<String>? accessToken) =>
+      _$this._accessToken = accessToken;
+
+  ListBuilder<String>? _refreshToken;
+  ListBuilder<String> get refreshToken =>
+      _$this._refreshToken ??= new ListBuilder<String>();
+  set refreshToken(ListBuilder<String>? refreshToken) =>
+      _$this._refreshToken = refreshToken;
+
+  String? _tokenType;
+  String? get tokenType => _$this._tokenType;
+  set tokenType(String? tokenType) => _$this._tokenType = tokenType;
+
+  RegistrationResponseBuilder();
+
+  RegistrationResponseBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _isNewPatient = $v.isNewPatient;
+      _accessToken = $v.accessToken?.toBuilder();
+      _refreshToken = $v.refreshToken?.toBuilder();
+      _tokenType = $v.tokenType;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(RegistrationResponse other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$RegistrationResponse;
+  }
+
+  @override
+  void update(void Function(RegistrationResponseBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  RegistrationResponse build() => _build();
+
+  _$RegistrationResponse _build() {
+    _$RegistrationResponse _$result;
+    try {
+      _$result = _$v ??
+          new _$RegistrationResponse._(
+              isNewPatient: BuiltValueNullFieldError.checkNotNull(
+                  isNewPatient, r'RegistrationResponse', 'isNewPatient'),
+              accessToken: _accessToken?.build(),
+              refreshToken: _refreshToken?.build(),
+              tokenType: tokenType);
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'accessToken';
+        _accessToken?.build();
+        _$failedField = 'refreshToken';
+        _refreshToken?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'RegistrationResponse', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
@@ -421,6 +675,12 @@ class _$CreateInfoReq extends CreateInfoReq {
   final String? gender;
   @override
   final String? passportSerial;
+  @override
+  final String? accessToken;
+  @override
+  final String? refreshToken;
+  @override
+  final String? tokenType;
 
   factory _$CreateInfoReq([void Function(CreateInfoReqBuilder)? updates]) =>
       (new CreateInfoReqBuilder()..update(updates))._build();
@@ -432,7 +692,10 @@ class _$CreateInfoReq extends CreateInfoReq {
       this.phoneNumber,
       this.dateOfBirth,
       this.gender,
-      this.passportSerial})
+      this.passportSerial,
+      this.accessToken,
+      this.refreshToken,
+      this.tokenType})
       : super._();
 
   @override
@@ -452,7 +715,10 @@ class _$CreateInfoReq extends CreateInfoReq {
         phoneNumber == other.phoneNumber &&
         dateOfBirth == other.dateOfBirth &&
         gender == other.gender &&
-        passportSerial == other.passportSerial;
+        passportSerial == other.passportSerial &&
+        accessToken == other.accessToken &&
+        refreshToken == other.refreshToken &&
+        tokenType == other.tokenType;
   }
 
   @override
@@ -465,6 +731,9 @@ class _$CreateInfoReq extends CreateInfoReq {
     _$hash = $jc(_$hash, dateOfBirth.hashCode);
     _$hash = $jc(_$hash, gender.hashCode);
     _$hash = $jc(_$hash, passportSerial.hashCode);
+    _$hash = $jc(_$hash, accessToken.hashCode);
+    _$hash = $jc(_$hash, refreshToken.hashCode);
+    _$hash = $jc(_$hash, tokenType.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -478,7 +747,10 @@ class _$CreateInfoReq extends CreateInfoReq {
           ..add('phoneNumber', phoneNumber)
           ..add('dateOfBirth', dateOfBirth)
           ..add('gender', gender)
-          ..add('passportSerial', passportSerial))
+          ..add('passportSerial', passportSerial)
+          ..add('accessToken', accessToken)
+          ..add('refreshToken', refreshToken)
+          ..add('tokenType', tokenType))
         .toString();
   }
 }
@@ -516,6 +788,18 @@ class CreateInfoReqBuilder
   set passportSerial(String? passportSerial) =>
       _$this._passportSerial = passportSerial;
 
+  String? _accessToken;
+  String? get accessToken => _$this._accessToken;
+  set accessToken(String? accessToken) => _$this._accessToken = accessToken;
+
+  String? _refreshToken;
+  String? get refreshToken => _$this._refreshToken;
+  set refreshToken(String? refreshToken) => _$this._refreshToken = refreshToken;
+
+  String? _tokenType;
+  String? get tokenType => _$this._tokenType;
+  set tokenType(String? tokenType) => _$this._tokenType = tokenType;
+
   CreateInfoReqBuilder();
 
   CreateInfoReqBuilder get _$this {
@@ -528,6 +812,9 @@ class CreateInfoReqBuilder
       _dateOfBirth = $v.dateOfBirth;
       _gender = $v.gender;
       _passportSerial = $v.passportSerial;
+      _accessToken = $v.accessToken;
+      _refreshToken = $v.refreshToken;
+      _tokenType = $v.tokenType;
       _$v = null;
     }
     return this;
@@ -556,7 +843,10 @@ class CreateInfoReqBuilder
             phoneNumber: phoneNumber,
             dateOfBirth: dateOfBirth,
             gender: gender,
-            passportSerial: passportSerial);
+            passportSerial: passportSerial,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+            tokenType: tokenType);
     replace(_$result);
     return _$result;
   }

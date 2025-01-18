@@ -10,7 +10,18 @@ class BookingState with _$BookingState {
     @Default(false) bool success,
     @Default([]) List<BookingTypeModel> bookingTypes,
     @Default([]) List<Category> categoryServices,
-        @Default(null) int? selectedServiceId, // New State Property
+    @Default(null) int? selectedServiceId,
+    @Default(null) List<int>? selectedInnerServiceIds,
 
+    // New Doctor States
+    @Default([]) List<ServiceModel> doctors,
+    @Default([]) List<ServiceModel> filteredDoctors,
+    @Default('') String selectedSpecialty,
+    @Default(0) int maxPrice,
+    @Default('') String errorMessage,
   }) = _BookingState;
+
+  bool get hasError => errorMessage.isNotEmpty;
+  bool get hasDoctors => doctors.isNotEmpty;
+  bool get hasFilters => selectedSpecialty.isNotEmpty || maxPrice > 0;
 }

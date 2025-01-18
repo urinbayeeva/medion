@@ -12,19 +12,24 @@ import 'package:medion/domain/common/token_ext.dart';
 import 'package:medion/domain/failurs/auth/auth_failure.dart';
 import 'package:medion/domain/failurs/auth/i_auth_facade.dart';
 import 'package:medion/domain/models/auth/auth.dart';
+import 'package:medion/domain/models/profile/profile_model.dart';
+import 'package:medion/domain/success_model/response_model.dart';
 import 'package:medion/domain/success_model/success_model.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:medion/utils/constants.dart';
 
 class AuthRepository implements IAuthFacade {
   final DBService _dbService;
   final AuthService _authService;
+  final PatientService _patientService;
 
   AuthRepository(
     this._dbService,
     this._authService,
+    this._patientService,
   );
 
   /// Get user
@@ -36,12 +41,28 @@ class AuthRepository implements IAuthFacade {
 
   /// Send verification code
   @override
-  Future<Either<ResponseFailure, SuccessModel>> verificationSend(
-      {required VerificationSendReq request}) async {
+  Future<Either<ResponseFailure, ResponseModel>> registerUser(
+      {required RegisterReq request}) async {
     try {
       final res = await _authService.registerUser(request: request);
-      if (res.isSuccessful) {
-        return right(res.body!);
+
+      if (res.isSuccessful && res.body != null) {
+        bool isNewUser = res.body!.isNewPatient;
+
+        if (isNewUser) {
+          return right(res.body!);
+        } else {
+          if (res.body!.accessToken.isNotEmpty &&
+              res.body!.refreshToken.isNotEmpty) {
+            await _dbService.setToken(Token(
+              accessToken: res.body!.accessToken[0],
+              refreshToken: res.body!.refreshToken[0],
+            ));
+            return right(res.body!);
+          } else {
+            return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+          }
+        }
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
@@ -57,7 +78,7 @@ class AuthRepository implements IAuthFacade {
     required PhoneNumberSendReq request,
   }) async {
     try {
-      final String url =
+      const String url =
           'https://his.uicgroup.tech/apiweb/patient/phone-number';
 
       // Request Headers
@@ -105,7 +126,8 @@ class AuthRepository implements IAuthFacade {
       return left(InvalidCredentials(message: 'Unknown Error'.tr()));
     }
   }
-   @override
+
+  @override
   Future<Either<ResponseFailure, SuccessModel>> sendUserInfo(
       {required CreateInfoReq request}) async {
     try {
@@ -120,5 +142,66 @@ class AuthRepository implements IAuthFacade {
       return left(handleError(e));
     }
   }
-  
+
+  static Future<Either<ResponseFailure, CreateInfoReq>> refreshToken(
+      String refreshToken) async {
+    try {
+      final response = await Dio().post(
+        "${Constants.baseUrlP}/refresh/",
+        data: {'refresh': refreshToken},
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final createInfoReq = CreateInfoReq(
+          (b) => b
+            ..accessToken = response.data['access_token']
+            ..refreshToken = response.data['refresh_token']
+            ..tokenType = response.data['token_type'],
+        );
+        return right(createInfoReq);
+      } else if (response.statusCode == 401) {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      } else {
+        return left(Unknown(message: 'unknown_error'.tr()));
+      }
+    } on DioException catch (e) {
+      if (e.response != null && e.response!.statusCode == 401) {
+        LogService.e(
+            " ----> Unauthorized access: ${e.response!.statusMessage}");
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+      LogService.e(" ----> DioException: ${e.toString()}");
+      return left(Unknown(message: 'unknown_error'.tr()));
+    } catch (e) {
+      LogService.e(" ----> Unknown exception: ${e.toString()}");
+      return left(Unknown(message: 'unknown_error'.tr()));
+    }
+  }
+
+  /// Get patient information
+  @override
+  Future<Either<ResponseFailure, PatientInfo>> getPatientInfo({
+    required String accessToken,
+  }) async {
+    try {
+      final token = _dbService.token.accessToken;
+
+      if (token == null || token.isEmpty) {
+        return left(InvalidCredentials(message: 'Token not found'));
+      }
+
+      // Call the API
+      final res = await _patientService.getPatientInfo(token);
+
+      if (res.isSuccessful) {
+        return right(res.body!);
+      } else {
+        return left(
+            InvalidCredentials(message: 'Failed to fetch patient info'));
+      }
+    } catch (e) {
+      LogService.e(" ----> error fetching patient info: ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
 }

@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/models/auth/auth.dart';
+import 'package:medion/domain/models/profile/profile_model.dart';
+import 'package:medion/domain/success_model/response_model.dart';
 import 'package:medion/domain/success_model/success_model.dart';
 
 import 'auth_failure.dart';
@@ -11,8 +13,8 @@ abstract class IAuthFacade {
   Option<AuthFailure> checkUser();
 
   /// Send verification request
-  Future<Either<ResponseFailure, SuccessModel>> verificationSend({
-    required VerificationSendReq request,
+  Future<Either<ResponseFailure, ResponseModel>> registerUser({
+    required RegisterReq request,
   });
 
   /// Send phone number request
@@ -20,7 +22,15 @@ abstract class IAuthFacade {
     required PhoneNumberSendReq request,
   });
 
+  /// Send user info
   Future<Either<ResponseFailure, SuccessModel>> sendUserInfo({
     required CreateInfoReq request,
   });
+
+
+  /// Get patient information
+  Future<Either<ResponseFailure, PatientInfo>> getPatientInfo({
+    required String accessToken,
+  });
+  
 }

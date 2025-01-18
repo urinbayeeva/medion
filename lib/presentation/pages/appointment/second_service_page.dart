@@ -8,6 +8,7 @@ import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
+import 'package:medion/presentation/pages/appointment/component/service_selection_model.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -29,34 +30,8 @@ class _SecondServicePageState extends State<SecondServicePage> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   int chose = 0;
-
-  @override
-  void initState() {
-    final selectedId = context.read<BookingBloc>().state.selectedServiceId;
-
-    context
-        .read<BookingBloc>()
-        .add(BookingEvent.fetchCategoryServices(id: selectedId!));
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _refreshController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final selectedId = context.read<BookingBloc>().state.selectedServiceId;
-    if (selectedId != null) {
-      context
-          .read<BookingBloc>()
-          .add(BookingEvent.fetchCategoryServices(id: selectedId));
-    }
-  }
+  int? selectedIndex;
+  final List<dynamic> selectedServices = [];
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +67,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                     padding: EdgeInsets.only(top: 16.w),
                     itemBuilder: (index, category) {
                       var item = state.categoryServices[index];
+                      final isSelected = selectedIndex == index;
 
                       return CustomExpansionListTile(
                         title: item.name is bool ? "" : item.name.toString(),
@@ -99,23 +75,96 @@ class _SecondServicePageState extends State<SecondServicePage> {
                             ? 'no_services_available'.tr()
                             : 'services_list'.tr(),
                         children: item.services.map((service) {
-                          return ListTile(
-                            title: Text(
-                              service.name,
-                              style: fonts.smallSemLink.copyWith(
-                                fontWeight: FontWeight.bold,
+                          return Column(
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          softWrap: true,
+                                          overflow: TextOverflow.clip,
+                                          service.name,
+                                          style: fonts.smallSemLink.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          service.description ??
+                                              'no_description',
+                                          style: fonts.smallLink.copyWith(
+                                              color: colors.neutral600,
+                                              fontSize: 11.sp,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        Text(
+                                          "${service.priceUzs} UZS",
+                                          style: fonts.smallLink.copyWith(
+                                            color: colors.primary900,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  AnimationButtonEffect(
+                                    onTap: () {
+                                      setState(() {
+                                        if (selectedServices
+                                            .contains(service)) {
+                                          selectedServices.remove(service);
+                                          chose--;
+                                        } else {
+                                          selectedServices.add(service);
+                                          chose++;
+                                        }
+
+                                        final selectedIds = selectedServices
+                                            .map<int>((s) => s.id as int)
+                                            .toList();
+
+                                        context.read<BookingBloc>().add(
+                                            BookingEvent.selectInnerServiceID(
+                                                ids: selectedIds));
+
+                                        print(
+                                            "SELECTED SERVICES ID: ${selectedIds}");
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(12.w),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                        color:
+                                            selectedServices.contains(service)
+                                                ? colors.error500
+                                                : colors.neutral200,
+                                      ),
+                                      child: selectedServices.contains(service)
+                                          ? icons.check
+                                              .svg(color: colors.shade0)
+                                          : icons.plus
+                                              .svg(color: colors.primary900),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            subtitle: Text(
-                              service.description ?? 'no_description',
-                            ),
-                            trailing: Text(
-                              "${service.priceUzs} UZS",
-                              style: fonts.smallLink.copyWith(
-                                color: colors.primary900,
-                                fontWeight: FontWeight.bold,
+                              8.h.verticalSpace,
+                              Divider(
+                                color: colors.neutral400,
+                                thickness: 1,
+                                indent: 0,
+                                endIndent: 0,
                               ),
-                            ),
+                              8.h.verticalSpace,
+                            ],
                           );
                         }).toList(),
                       );
@@ -146,7 +195,9 @@ class _SecondServicePageState extends State<SecondServicePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Выбраны $chose услуги",
+                            "count_services_selected".tr(
+                              namedArgs: {"count": "$chose"},
+                            ),
                             style: fonts.xSmallLink.copyWith(
                                 fontSize: 13.sp, fontWeight: FontWeight.bold),
                           ),
@@ -154,40 +205,39 @@ class _SecondServicePageState extends State<SecondServicePage> {
                             onTap: () {
                               showModalBottomSheet(
                                 context: context,
+                                isDismissible: true,
+                                isScrollControlled: true,
+                                enableDrag: true,
                                 builder: (context) {
-                                  return Container(
-                                    width: double.infinity,
-                                    padding: EdgeInsets.all(16.w),
-                                    decoration: BoxDecoration(
-                                      color: colors.shade0,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(8.r),
-                                        topRight: Radius.circular(8.r),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          "Выбраны $chose услуги",
-                                          style: fonts.xSmallLink.copyWith(
-                                              fontSize: 13.sp,
-                                              fontWeight: FontWeight.bold),
+                                  return DraggableScrollableSheet(
+                                    expand: false,
+                                    builder: (BuildContext context,
+                                        ScrollController scrollController) {
+                                      return SingleChildScrollView(
+                                        controller: scrollController,
+                                        child: ServiceSelectionModal(
+                                          selectedServices: selectedServices,
+                                          chose: chose,
+                                          onRemoveService: () {
+                                            setState(() {
+                                              selectedServices.removeWhere(
+                                                  (service) => true);
+                                              chose--;
+                                            });
+                                          },
                                         ),
-                                        4.h.verticalSpace,
-                                      ],
-                                    ),
+                                      );
+                                    },
                                   );
                                 },
                               );
                             },
                             child: icons.right.svg(
-                                width: 20.w,
-                                height: 20.h,
-                                color: colors.iconGreyColor),
-                          ),
+                              width: 20.w,
+                              height: 20.h,
+                              color: colors.iconGreyColor,
+                            ),
+                          )
                         ],
                       ),
                       12.h.verticalSpace,
@@ -196,7 +246,6 @@ class _SecondServicePageState extends State<SecondServicePage> {
                       title: "next".tr(),
                       onTap: widget.onTap,
                     ),
-                    // 24.h.verticalSpace,
                   ],
                 ),
               ),

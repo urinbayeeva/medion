@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/domain/sources/screen_title.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_progress_bar.dart';
@@ -77,6 +78,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
       updateId(newId);
     }
     if (screenIndex < useCase.length - 1) {
+      context.read<BookingBloc>().add(const BookingEvent.refreshServices());
       context.read<BottomNavBarController>().changeNavBar(true);
       setState(() {
         screenIndex++;

@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
+import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 
 import '../../domain/models/auth/auth.dart';
@@ -14,14 +16,17 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _repository;
+  final DBService _dbService;
 
   AuthBloc(
     this._repository,
+    this._dbService,
   ) : super(const _AuthState()) {
     on<_CheckAuth>(_checkAuth);
     on<_VerificationSend>(_verificationSendHandler);
     on<_SendPhoneNumber>(_sendPhoneNumberHandler);
-      on<_SendUserInfo>(_sendUserInfoHandler);
+    on<_SendUserInfo>(_sendUserInfoHandler);
+    on<_FetchPatientInfo>(_fetchPatientInfoHandler);
   }
 
   /// Authentication Check
@@ -46,7 +51,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(
         successSendCode: false, phoneNumber: null, successVerifyCode: false));
     EasyLoading.show();
-    final res = await _repository.verificationSend(request: event.request);
+    final res = await _repository.registerUser(request: event.request);
 
     res.fold((error) async {
       LogService.e(" ----> error on bloc  : $error");
@@ -99,4 +104,49 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
+  /// Fetch patient information
+  FutureOr<void> _fetchPatientInfoHandler(
+    _FetchPatientInfo event,
+    Emitter<AuthState> emit,
+  ) async {
+    // Fetch the token from DBService
+    final token = _dbService.token.accessToken;
+
+    // Check if the token is available
+    if (token == null || token.isEmpty) {
+      emit(state.copyWith(
+        isFetchingPatientInfo: false,
+        errorFetchingPatientInfo: true,
+      ));
+      LogService.e("Token not found");
+      return;
+    }
+
+    // Indicate that the fetch process has started
+    emit(state.copyWith(
+        isFetchingPatientInfo: true, errorFetchingPatientInfo: false));
+
+    // Fetch the patient info from the repository
+    final res = await _repository.getPatientInfo(accessToken: token);
+
+    // Handle the result
+    res.fold(
+      (error) {
+        // Log the error and update the state to indicate failure
+        LogService.e(" ----> error fetching patient info: $error");
+        emit(state.copyWith(
+          isFetchingPatientInfo: false,
+          errorFetchingPatientInfo: true,
+        ));
+      },
+      (patientInfo) {
+        // Update the state with the fetched patient info
+        emit(state.copyWith(
+          isFetchingPatientInfo: false,
+          errorFetchingPatientInfo: false,
+          patientInfo: patientInfo,
+        ));
+      },
+    );
+  }
 }
