@@ -5,12 +5,15 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
+import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/booking_repository.dart';
+import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/repository/image_upload_repo.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_configuration.dart';
@@ -62,6 +65,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (context) =>
                   HomeBloc(HomeRepository(HomePageService.create(dbService)))),
+          BlocProvider(
+              create: (context) => DoctorBloc(
+                  DoctorRepository(DoctorService.create(dbService)))),
           BlocProvider<BookingBloc>(
             create: (context) => BookingBloc(
                 BookingRepository(BookingService.create(dbService))),

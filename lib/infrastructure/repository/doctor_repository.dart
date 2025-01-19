@@ -20,7 +20,7 @@ class DoctorRepository {
 
       if (response.isSuccessful && response.body != null) {
         final bookingTypes = response.body!;
-        return right(bookingTypes);
+        return right(bookingTypes.toList());
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }

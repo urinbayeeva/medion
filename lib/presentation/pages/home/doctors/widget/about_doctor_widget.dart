@@ -3,7 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class AboutDoctorWidget extends StatelessWidget {
-  const AboutDoctorWidget({super.key});
+  final String? name;
+  final String? profession;
+  final String? specialty;
+  final String? image;
+  const AboutDoctorWidget(
+      {super.key, this.name, this.profession, this.specialty, this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -18,19 +23,18 @@ class AboutDoctorWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.r),
                   color: colors.neutral200),
               child: Image.asset(
-                "assets/images/artem_aka.png",
+                image!,
                 fit: BoxFit.contain,
               )),
           12.w.horizontalSpace,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Батманов Артём\nЛеонидович", style: fonts.mediumMain),
+              Text(name!, style: fonts.mediumMain),
               4.h.verticalSpace,
-              Text("Дерматолог", style: fonts.smallLink),
+              Text(profession!, style: fonts.smallLink),
               4.h.verticalSpace,
-              Text(
-                  "Заместитель директора институ\nпо Онкологии, Профессор \nРадиологии",
+              Text(specialty!,
                   style: fonts.mediumMain.copyWith(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w400,

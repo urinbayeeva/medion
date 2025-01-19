@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
+import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
+import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/repository/image_upload_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
@@ -114,9 +116,11 @@ class AppRoutes {
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
-                  AuthRepository(dbService, AuthService.create(dbService),
-                      PatientService.create(dbService)),
-                  dbService,    ImageUploadRepo(UploadImage.create(dbService)),);
+                AuthRepository(dbService, AuthService.create(dbService),
+                    PatientService.create(dbService)),
+                dbService,
+                ImageUploadRepo(UploadImage.create(dbService)),
+              );
             },
             child: SignUpWithPhone(
               phoneNumbers: phoneNumbers,
@@ -140,12 +144,14 @@ class AppRoutes {
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
-                  AuthRepository(
-                    dbService,
-                    AuthService.create(dbService),
-                    PatientService.create(dbService),
-                  ),
-                  dbService,    ImageUploadRepo(UploadImage.create(dbService)),);
+                AuthRepository(
+                  dbService,
+                  AuthService.create(dbService),
+                  PatientService.create(dbService),
+                ),
+                dbService,
+                ImageUploadRepo(UploadImage.create(dbService)),
+              );
             },
             child: VerifyCodePage(
               additionalPhone: additionalPhone,
@@ -161,9 +167,11 @@ class AppRoutes {
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
-                  AuthRepository(dbService, AuthService.create(dbService),
-                      PatientService.create(dbService)),
-                  dbService,    ImageUploadRepo(UploadImage.create(dbService)),);
+                AuthRepository(dbService, AuthService.create(dbService),
+                    PatientService.create(dbService)),
+                dbService,
+                ImageUploadRepo(UploadImage.create(dbService)),
+              );
             },
             child: DataEntryPage(phoneNumber: phoneNumber)));
   }
@@ -235,7 +243,14 @@ class AppRoutes {
   // }
 
   static MaterialPageRoute getAllDoctorsPage() {
-    return MaterialPageRoute(builder: (_) => const AllDoctorsPage());
+    return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+            create: (context) {
+              DBService dbService = context.read<DBService>();
+              return DoctorBloc(
+                  DoctorRepository(DoctorService.create(dbService)));
+            },
+            child: const AllDoctorsPage()));
   }
 
   static MaterialPageRoute getSettingsPage() {
@@ -260,9 +275,11 @@ class AppRoutes {
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
-                  AuthRepository(dbService, AuthService.create(dbService),
-                      PatientService.create(dbService)),
-                  dbService,    ImageUploadRepo(UploadImage.create(dbService)),);
+                AuthRepository(dbService, AuthService.create(dbService),
+                    PatientService.create(dbService)),
+                dbService,
+                ImageUploadRepo(UploadImage.create(dbService)),
+              );
             },
             child: const UserDetailsPage()));
   }
@@ -272,7 +289,18 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getAboutDoctorPage() {
-    return MaterialPageRoute(builder: (_) => const AboutDoctor());
+    return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+            create: (context) {
+              DBService dbService = context.read<DBService>();
+              return AuthBloc(
+                AuthRepository(dbService, AuthService.create(dbService),
+                    PatientService.create(dbService)),
+                dbService,
+                ImageUploadRepo(UploadImage.create(dbService)),
+              );
+            },
+            child: const AboutDoctor()));
   }
 
   static MaterialPageRoute getNewsPage() {

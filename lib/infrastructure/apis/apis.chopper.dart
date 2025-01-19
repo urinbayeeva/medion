@@ -180,14 +180,14 @@ final class _$DoctorService extends DoctorService {
   final Type definitionType = DoctorService;
 
   @override
-  Future<Response<List<DoctorCategory>>> getDoctorsInfo() {
+  Future<Response<BuiltList<DoctorCategory>>> getDoctorsInfo() {
     final Uri $url = Uri.parse('/doctor/doctors_info');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<List<DoctorCategory>, DoctorCategory>($request);
+    return client.send<BuiltList<DoctorCategory>, DoctorCategory>($request);
   }
 }
 
