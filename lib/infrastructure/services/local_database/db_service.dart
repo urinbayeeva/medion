@@ -26,6 +26,7 @@ class DBService {
   static const auctionConsumer = 'auction_consumer';
   static const diagnostics = 'diagnostics';
   static const _messageFaq = 'message_faq';
+  static const _tokenType = "token_type";
 
   static Box? _box;
 
@@ -45,7 +46,12 @@ class DBService {
   Token get token {
     final accessToken = _box?.get(_accessToken);
     final refreshToken = _box?.get(_refreshToken);
-    return Token(accessToken: accessToken, refreshToken: refreshToken);
+    final tokenType = _box?.get(_tokenType);
+    return Token(
+      tokenType: tokenType,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    );
   }
 
   /// UID

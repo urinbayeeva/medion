@@ -38,6 +38,8 @@ class _ProfilePageState extends State<ProfilePage> {
       final dbService = await DBService.create;
       final accessToken = dbService.token.accessToken;
 
+      print("TOKEN ------------------ $accessToken");
+
       if (accessToken != null && accessToken.isNotEmpty) {
         context
             .read<AuthBloc>()

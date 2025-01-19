@@ -109,10 +109,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _FetchPatientInfo event,
     Emitter<AuthState> emit,
   ) async {
-    // Fetch the token from DBService
     final token = _dbService.token.accessToken;
 
-    // Check if the token is available
     if (token == null || token.isEmpty) {
       emit(state.copyWith(
         isFetchingPatientInfo: false,
@@ -122,17 +120,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return;
     }
 
-    // Indicate that the fetch process has started
     emit(state.copyWith(
         isFetchingPatientInfo: true, errorFetchingPatientInfo: false));
 
-    // Fetch the patient info from the repository
     final res = await _repository.getPatientInfo(accessToken: token);
 
     // Handle the result
     res.fold(
       (error) {
-        // Log the error and update the state to indicate failure
         LogService.e(" ----> error fetching patient info: $error");
         emit(state.copyWith(
           isFetchingPatientInfo: false,

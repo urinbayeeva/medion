@@ -21,12 +21,10 @@ abstract class PhoneNumberSendReq
 
 /// Verification Send Request
 
-abstract class RegisterReq
-    implements Built<RegisterReq, RegisterReqBuilder> {
+abstract class RegisterReq implements Built<RegisterReq, RegisterReqBuilder> {
   RegisterReq._();
 
-  factory RegisterReq(
-      [Function(RegisterReqBuilder b) updates]) = _$RegisterReq;
+  factory RegisterReq([Function(RegisterReqBuilder b) updates]) = _$RegisterReq;
 
   @BuiltValueField(wireName: 'phone_number')
   String? get phoneNumber;
@@ -34,15 +32,15 @@ abstract class RegisterReq
   @BuiltValueField(wireName: 'code')
   String? get code;
 
-  static Serializer<RegisterReq> get serializer =>
-      _$registerReqSerializer;
+  static Serializer<RegisterReq> get serializer => _$registerReqSerializer;
 }
 
 abstract class RegistrationResponse
     implements Built<RegistrationResponse, RegistrationResponseBuilder> {
   RegistrationResponse._();
 
-  factory RegistrationResponse([void Function(RegistrationResponseBuilder) updates]) =
+  factory RegistrationResponse(
+          [void Function(RegistrationResponseBuilder) updates]) =
       _$RegistrationResponse;
 
   @BuiltValueField(wireName: 'is_new_patient')
@@ -60,7 +58,6 @@ abstract class RegistrationResponse
   static Serializer<RegistrationResponse> get serializer =>
       _$registrationResponseSerializer;
 }
-
 
 abstract class CreateInfoReq
     implements Built<CreateInfoReq, CreateInfoReqBuilder> {
@@ -90,14 +87,24 @@ abstract class CreateInfoReq
   @BuiltValueField(wireName: "passport_serial")
   String? get passportSerial;
 
-  @BuiltValueField(wireName: "access_token")
-  String? get accessToken;
-
-  @BuiltValueField(wireName: "refresh_token")
-  String? get refreshToken;
-
-  @BuiltValueField(wireName: "token_type")
-  String? get tokenType;
-
   static Serializer<CreateInfoReq> get serializer => _$createInfoReqSerializer;
+}
+
+abstract class CreatePatientInfoResponse
+    implements
+        Built<CreatePatientInfoResponse, CreatePatientInfoResponseBuilder> {
+  @BuiltValueField(wireName: "access_token")
+  String get accesstoken;
+  @BuiltValueField(wireName: "refresh_token")
+  String get refreshtoken;
+  @BuiltValueField(wireName: "token_type")
+  String get tokenType;
+
+  CreatePatientInfoResponse._();
+  factory CreatePatientInfoResponse(
+          [void Function(CreatePatientInfoResponseBuilder) updates]) =
+      _$CreatePatientInfoResponse;
+
+  static Serializer<CreatePatientInfoResponse> get serializer =>
+      _$createPatientInfoResponseSerializer;
 }

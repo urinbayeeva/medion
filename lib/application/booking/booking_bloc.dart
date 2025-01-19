@@ -135,7 +135,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     }
   }
 
-   Future<void> _onGetDoctorsTime(
+  Future<void> _onGetDoctorsTime(
     _GetDoctorsTime event,
     Emitter<BookingState> emit,
   ) async {
@@ -145,8 +145,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       EasyLoading.show();
 
       final result = await _repository.getDoctorsTimeSlots(
-        serviceIds: BuiltList<int>.from(event.serviceIds),
-        days: event.days,
+        serviceIds: BuiltList<int>.from(event.request.serviceIds),
+        days: 1,
       );
 
       result.fold(
@@ -182,26 +182,28 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     _FilterDoctorsBySpecialty event,
     Emitter<BookingState> emit,
   ) {
-    final filteredDoctors = state.doctors.map((service) {
-      return ServiceModel((b) => b
-        ..serviceId = service.serviceId
-        ..serviceName = service.serviceName
-        ..companiesDoctors = BuiltList<CompanyDoctor>.from(
-          service.companiesDoctors.map((company) {
-            return CompanyDoctor((b) => b
-              ..companyId = company.companyId
-              ..companyName = company.companyName
-              ..doctor = BuiltList<Doctor>.from(
-                company.doctor.where(
-                  (doctor) => event.specialty.isEmpty || 
-                    doctor.specialty == event.specialty,
-                ),
-              ).toBuilder());
-          }).where((company) => company.doctor.isNotEmpty),
-        ).toBuilder());
-    }).where((service) => 
-      service.companiesDoctors.isNotEmpty
-    ).toList();
+    final filteredDoctors = state.doctors
+        .map((service) {
+          return ServiceModel((b) => b
+            ..serviceId = service.serviceId
+            ..serviceName = service.serviceName
+            ..companiesDoctors = BuiltList<CompanyDoctor>.from(
+              service.companiesDoctors.map((company) {
+                return CompanyDoctor((b) => b
+                  ..companyId = company.companyId
+                  ..companyName = company.companyName
+                  ..doctor = BuiltList<Doctor>.from(
+                    company.doctor.where(
+                      (doctor) =>
+                          event.specialty.isEmpty ||
+                          doctor.specialty == event.specialty,
+                    ),
+                  ).toBuilder());
+              }).where((company) => company.doctor.isNotEmpty),
+            ).toBuilder());
+        })
+        .where((service) => service.companiesDoctors.isNotEmpty)
+        .toList();
 
     emit(state.copyWith(
       selectedSpecialty: event.specialty,
@@ -213,26 +215,27 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     _FilterDoctorsByPrice event,
     Emitter<BookingState> emit,
   ) {
-    final filteredDoctors = state.doctors.map((service) {
-      return ServiceModel((b) => b
-        ..serviceId = service.serviceId
-        ..serviceName = service.serviceName
-        ..companiesDoctors = BuiltList<CompanyDoctor>.from(
-          service.companiesDoctors.map((company) {
-            return CompanyDoctor((b) => b
-              ..companyId = company.companyId
-              ..companyName = company.companyName
-              ..doctor = BuiltList<Doctor>.from(
-                company.doctor.where(
-                  (doctor) => event.maxPrice == 0 || 
-                    doctor.price <= event.maxPrice,
-                ),
-              ).toBuilder());
-          }).where((company) => company.doctor.isNotEmpty),
-        ).toBuilder());
-    }).where((service) => 
-      service.companiesDoctors.isNotEmpty
-    ).toList();
+    final filteredDoctors = state.doctors
+        .map((service) {
+          return ServiceModel((b) => b
+            ..serviceId = service.serviceId
+            ..serviceName = service.serviceName
+            ..companiesDoctors = BuiltList<CompanyDoctor>.from(
+              service.companiesDoctors.map((company) {
+                return CompanyDoctor((b) => b
+                  ..companyId = company.companyId
+                  ..companyName = company.companyName
+                  ..doctor = BuiltList<Doctor>.from(
+                    company.doctor.where(
+                      (doctor) =>
+                          event.maxPrice == 0 || doctor.price <= event.maxPrice,
+                    ),
+                  ).toBuilder());
+              }).where((company) => company.doctor.isNotEmpty),
+            ).toBuilder());
+        })
+        .where((service) => service.companiesDoctors.isNotEmpty)
+        .toList();
 
     emit(state.copyWith(
       maxPrice: event.maxPrice,

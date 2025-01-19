@@ -45,7 +45,7 @@ final class _$AuthService extends AuthService {
   }
 
   @override
-  Future<Response<SuccessModel>> createUserInfo(
+  Future<Response<CreatePatientInfoResponse>> createUserInfo(
       {required CreateInfoReq request}) {
     final Uri $url = Uri.parse('/patient/create');
     final $body = request;
@@ -55,7 +55,8 @@ final class _$AuthService extends AuthService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<SuccessModel, SuccessModel>($request);
+    return client
+        .send<CreatePatientInfoResponse, CreatePatientInfoResponse>($request);
   }
 }
 

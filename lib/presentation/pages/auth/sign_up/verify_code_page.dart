@@ -196,7 +196,8 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                     setState(() {});
                                     Navigator.of(context, rootNavigator: true)
                                         .pushAndRemoveUntil(
-                                            AppRoutes.getMainPage(0),
+                                            AppRoutes.getDataEntryPage(
+                                                widget.phoneNumber),
                                             (_) => false);
                                   }),
                               27.h.verticalSpace,

@@ -33,7 +33,7 @@ abstract class PatientInfo implements Built<PatientInfo, PatientInfoBuilder> {
   String get phoneNumber;
 
   @BuiltValueField(wireName: "patient_balance")
-  int get patientBalance;
+  double get patientBalance;
 
   static Serializer<PatientInfo> get serializer => _$patientInfoSerializer;
 }

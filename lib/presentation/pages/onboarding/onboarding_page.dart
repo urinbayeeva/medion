@@ -105,8 +105,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           .setBool(isSaved: true, key: DBService.intro);
                       context.read<DBService>().setLang(isSaved: true);
 
-                      Navigator.pushReplacement(
-                          context, AppRoutes.getSignUpPage());
+                      Navigator.push(context, AppRoutes.getSignUpPage());
                     }
                   },
                   title:

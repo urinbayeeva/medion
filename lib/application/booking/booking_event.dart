@@ -14,8 +14,7 @@ const factory BookingEvent.selectInnerServiceID({required List<int> ids}) =
   }) = _FetchCategoryServices;
 
     const factory BookingEvent.getDoctorsTime({
-    required List<int> serviceIds,
-    required int days,
+  required GiveSelectedId request,
   }) = _GetDoctorsTime;
   const factory BookingEvent.filterDoctorsBySpecialty({
     required String specialty,

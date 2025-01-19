@@ -44,20 +44,29 @@ class AuthRepository implements IAuthFacade {
   Future<Either<ResponseFailure, ResponseModel>> registerUser(
       {required RegisterReq request}) async {
     try {
+      // Call the registerUser method from AuthService
       final res = await _authService.registerUser(request: request);
 
+      // Check if the response is successful
       if (res.isSuccessful && res.body != null) {
         bool isNewUser = res.body!.isNewPatient;
 
         if (isNewUser) {
           return right(res.body!);
         } else {
-          if (res.body!.accessToken.isNotEmpty &&
-              res.body!.refreshToken.isNotEmpty) {
+          if (res.body!.accessToken!.isNotEmpty &&
+              res.body!.refreshToken!.isNotEmpty) {
+            final accessToken = res.body!.accessToken![0];
+            final refreshToken = res.body!.refreshToken![0];
+            final tokenType = res.body!.tokenType!;
             await _dbService.setToken(Token(
-              accessToken: res.body!.accessToken[0],
-              refreshToken: res.body!.refreshToken[0],
-            ));
+                accessToken: accessToken,
+                refreshToken: refreshToken,
+                tokenType: tokenType));
+
+            LogService.d("Access Token: $accessToken");
+            LogService.d("Refresh Token: $refreshToken");
+
             return right(res.body!);
           } else {
             return left(InvalidCredentials(message: 'invalid_credential'.tr()));
@@ -128,7 +137,7 @@ class AuthRepository implements IAuthFacade {
   }
 
   @override
-  Future<Either<ResponseFailure, SuccessModel>> sendUserInfo(
+  Future<Either<ResponseFailure, CreatePatientInfoResponse>> sendUserInfo(
       {required CreateInfoReq request}) async {
     try {
       final res = await _authService.createUserInfo(request: request);
@@ -143,8 +152,8 @@ class AuthRepository implements IAuthFacade {
     }
   }
 
-  static Future<Either<ResponseFailure, CreateInfoReq>> refreshToken(
-      String refreshToken) async {
+  static Future<Either<ResponseFailure, CreatePatientInfoResponse>>
+      refreshToken(String refreshToken) async {
     try {
       final response = await Dio().post(
         "${Constants.baseUrlP}/refresh/",
@@ -152,10 +161,10 @@ class AuthRepository implements IAuthFacade {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final createInfoReq = CreateInfoReq(
+        final createInfoReq = CreatePatientInfoResponse(
           (b) => b
-            ..accessToken = response.data['access_token']
-            ..refreshToken = response.data['refresh_token']
+            ..accesstoken = response.data['access_token']
+            ..refreshtoken = response.data['refresh_token']
             ..tokenType = response.data['token_type'],
         );
         return right(createInfoReq);
@@ -184,22 +193,39 @@ class AuthRepository implements IAuthFacade {
     required String accessToken,
   }) async {
     try {
+      final tokenType = _dbService.token.tokenType;
       final token = _dbService.token.accessToken;
 
+      print("TokenType: $tokenType"); // Debugging: print token type
+      print("Token: $token"); // Debugging: print access token
+
       if (token == null || token.isEmpty) {
-        return left(InvalidCredentials(message: 'Token not found'));
+        return left(const InvalidCredentials(message: 'Token not found'));
       }
+      final authHeader = "Bearer $token";
+      print(
+          "----------------AUTH HEADER --------------- :${authHeader}"); // Debugging: print the authHeader
 
-      // Call the API
-      final res = await _patientService.getPatientInfo(token);
+      print("Calling getPatientInfo with authHeader: $authHeader");
 
-      if (res.isSuccessful) {
+      // Make the API call to get patient info
+      final res = await _patientService.getPatientInfo(authHeader);
+
+      // Check the response status and body
+      print("Response Status: ${res.statusCode}");
+      print("Response Body: ${res.body}");
+
+      // Check if the response is successful and contains body
+      if (res.isSuccessful && res.body != null) {
+        print("Patient Info fetched successfully");
         return right(res.body!);
       } else {
-        return left(
-            InvalidCredentials(message: 'Failed to fetch patient info'));
+        print("Failed to fetch patient info, status code: ${res.statusCode}");
+        return left(InvalidCredentials(
+            message: 'Failed to fetch patient info: ${res.statusCode}'));
       }
     } catch (e) {
+      // Catch any other errors
       LogService.e(" ----> error fetching patient info: ${e.toString()}");
       return left(handleError(e));
     }

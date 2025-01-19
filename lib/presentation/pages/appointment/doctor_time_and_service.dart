@@ -78,7 +78,7 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(8.r),
                                           topRight: Radius.circular(8.r))),
-                                  child: CBottomsheetSeans(
+                                  child: const CBottomsheetSeans(
                                     chose: 1,
                                   ));
                             });

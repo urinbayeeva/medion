@@ -23,7 +23,7 @@ mixin _$BookingEvent {
     required TResult Function() refreshServices,
     required TResult Function(List<int> ids) selectInnerServiceID,
     required TResult Function(int id) fetchCategoryServices,
-    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(GiveSelectedId request) getDoctorsTime,
     required TResult Function(String specialty) filterDoctorsBySpecialty,
     required TResult Function(int maxPrice) filterDoctorsByPrice,
   }) =>
@@ -35,7 +35,7 @@ mixin _$BookingEvent {
     TResult? Function()? refreshServices,
     TResult? Function(List<int> ids)? selectInnerServiceID,
     TResult? Function(int id)? fetchCategoryServices,
-    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(GiveSelectedId request)? getDoctorsTime,
     TResult? Function(String specialty)? filterDoctorsBySpecialty,
     TResult? Function(int maxPrice)? filterDoctorsByPrice,
   }) =>
@@ -47,7 +47,7 @@ mixin _$BookingEvent {
     TResult Function()? refreshServices,
     TResult Function(List<int> ids)? selectInnerServiceID,
     TResult Function(int id)? fetchCategoryServices,
-    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(GiveSelectedId request)? getDoctorsTime,
     TResult Function(String specialty)? filterDoctorsBySpecialty,
     TResult Function(int maxPrice)? filterDoctorsByPrice,
     required TResult orElse(),
@@ -162,7 +162,7 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
     required TResult Function() refreshServices,
     required TResult Function(List<int> ids) selectInnerServiceID,
     required TResult Function(int id) fetchCategoryServices,
-    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(GiveSelectedId request) getDoctorsTime,
     required TResult Function(String specialty) filterDoctorsBySpecialty,
     required TResult Function(int maxPrice) filterDoctorsByPrice,
   }) {
@@ -177,7 +177,7 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
     TResult? Function()? refreshServices,
     TResult? Function(List<int> ids)? selectInnerServiceID,
     TResult? Function(int id)? fetchCategoryServices,
-    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(GiveSelectedId request)? getDoctorsTime,
     TResult? Function(String specialty)? filterDoctorsBySpecialty,
     TResult? Function(int maxPrice)? filterDoctorsByPrice,
   }) {
@@ -192,7 +192,7 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
     TResult Function()? refreshServices,
     TResult Function(List<int> ids)? selectInnerServiceID,
     TResult Function(int id)? fetchCategoryServices,
-    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(GiveSelectedId request)? getDoctorsTime,
     TResult Function(String specialty)? filterDoctorsBySpecialty,
     TResult Function(int maxPrice)? filterDoctorsByPrice,
     required TResult orElse(),
@@ -333,7 +333,7 @@ class _$SelectServiceImpl implements _SelectService {
     required TResult Function() refreshServices,
     required TResult Function(List<int> ids) selectInnerServiceID,
     required TResult Function(int id) fetchCategoryServices,
-    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(GiveSelectedId request) getDoctorsTime,
     required TResult Function(String specialty) filterDoctorsBySpecialty,
     required TResult Function(int maxPrice) filterDoctorsByPrice,
   }) {
@@ -348,7 +348,7 @@ class _$SelectServiceImpl implements _SelectService {
     TResult? Function()? refreshServices,
     TResult? Function(List<int> ids)? selectInnerServiceID,
     TResult? Function(int id)? fetchCategoryServices,
-    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(GiveSelectedId request)? getDoctorsTime,
     TResult? Function(String specialty)? filterDoctorsBySpecialty,
     TResult? Function(int maxPrice)? filterDoctorsByPrice,
   }) {
@@ -363,7 +363,7 @@ class _$SelectServiceImpl implements _SelectService {
     TResult Function()? refreshServices,
     TResult Function(List<int> ids)? selectInnerServiceID,
     TResult Function(int id)? fetchCategoryServices,
-    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(GiveSelectedId request)? getDoctorsTime,
     TResult Function(String specialty)? filterDoctorsBySpecialty,
     TResult Function(int maxPrice)? filterDoctorsByPrice,
     required TResult orElse(),
@@ -485,7 +485,7 @@ class _$RefreshServicesImpl implements _RefreshServices {
     required TResult Function() refreshServices,
     required TResult Function(List<int> ids) selectInnerServiceID,
     required TResult Function(int id) fetchCategoryServices,
-    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(GiveSelectedId request) getDoctorsTime,
     required TResult Function(String specialty) filterDoctorsBySpecialty,
     required TResult Function(int maxPrice) filterDoctorsByPrice,
   }) {
@@ -500,7 +500,7 @@ class _$RefreshServicesImpl implements _RefreshServices {
     TResult? Function()? refreshServices,
     TResult? Function(List<int> ids)? selectInnerServiceID,
     TResult? Function(int id)? fetchCategoryServices,
-    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(GiveSelectedId request)? getDoctorsTime,
     TResult? Function(String specialty)? filterDoctorsBySpecialty,
     TResult? Function(int maxPrice)? filterDoctorsByPrice,
   }) {
@@ -515,7 +515,7 @@ class _$RefreshServicesImpl implements _RefreshServices {
     TResult Function()? refreshServices,
     TResult Function(List<int> ids)? selectInnerServiceID,
     TResult Function(int id)? fetchCategoryServices,
-    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(GiveSelectedId request)? getDoctorsTime,
     TResult Function(String specialty)? filterDoctorsBySpecialty,
     TResult Function(int maxPrice)? filterDoctorsByPrice,
     required TResult orElse(),
@@ -664,7 +664,7 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
     required TResult Function() refreshServices,
     required TResult Function(List<int> ids) selectInnerServiceID,
     required TResult Function(int id) fetchCategoryServices,
-    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(GiveSelectedId request) getDoctorsTime,
     required TResult Function(String specialty) filterDoctorsBySpecialty,
     required TResult Function(int maxPrice) filterDoctorsByPrice,
   }) {
@@ -679,7 +679,7 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
     TResult? Function()? refreshServices,
     TResult? Function(List<int> ids)? selectInnerServiceID,
     TResult? Function(int id)? fetchCategoryServices,
-    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(GiveSelectedId request)? getDoctorsTime,
     TResult? Function(String specialty)? filterDoctorsBySpecialty,
     TResult? Function(int maxPrice)? filterDoctorsByPrice,
   }) {
@@ -694,7 +694,7 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
     TResult Function()? refreshServices,
     TResult Function(List<int> ids)? selectInnerServiceID,
     TResult Function(int id)? fetchCategoryServices,
-    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(GiveSelectedId request)? getDoctorsTime,
     TResult Function(String specialty)? filterDoctorsBySpecialty,
     TResult Function(int maxPrice)? filterDoctorsByPrice,
     required TResult orElse(),
@@ -846,7 +846,7 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
     required TResult Function() refreshServices,
     required TResult Function(List<int> ids) selectInnerServiceID,
     required TResult Function(int id) fetchCategoryServices,
-    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(GiveSelectedId request) getDoctorsTime,
     required TResult Function(String specialty) filterDoctorsBySpecialty,
     required TResult Function(int maxPrice) filterDoctorsByPrice,
   }) {
@@ -861,7 +861,7 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
     TResult? Function()? refreshServices,
     TResult? Function(List<int> ids)? selectInnerServiceID,
     TResult? Function(int id)? fetchCategoryServices,
-    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(GiveSelectedId request)? getDoctorsTime,
     TResult? Function(String specialty)? filterDoctorsBySpecialty,
     TResult? Function(int maxPrice)? filterDoctorsByPrice,
   }) {
@@ -876,7 +876,7 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
     TResult Function()? refreshServices,
     TResult Function(List<int> ids)? selectInnerServiceID,
     TResult Function(int id)? fetchCategoryServices,
-    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(GiveSelectedId request)? getDoctorsTime,
     TResult Function(String specialty)? filterDoctorsBySpecialty,
     TResult Function(int maxPrice)? filterDoctorsByPrice,
     required TResult orElse(),
@@ -959,7 +959,7 @@ abstract class _$$GetDoctorsTimeImplCopyWith<$Res> {
           $Res Function(_$GetDoctorsTimeImpl) then) =
       __$$GetDoctorsTimeImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<int> serviceIds, int days});
+  $Res call({GiveSelectedId request});
 }
 
 /// @nodoc
@@ -975,18 +975,13 @@ class __$$GetDoctorsTimeImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? serviceIds = null,
-    Object? days = null,
+    Object? request = null,
   }) {
     return _then(_$GetDoctorsTimeImpl(
-      serviceIds: null == serviceIds
-          ? _value._serviceIds
-          : serviceIds // ignore: cast_nullable_to_non_nullable
-              as List<int>,
-      days: null == days
-          ? _value.days
-          : days // ignore: cast_nullable_to_non_nullable
-              as int,
+      request: null == request
+          ? _value.request
+          : request // ignore: cast_nullable_to_non_nullable
+              as GiveSelectedId,
     ));
   }
 }
@@ -994,24 +989,14 @@ class __$$GetDoctorsTimeImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
-  const _$GetDoctorsTimeImpl(
-      {required final List<int> serviceIds, required this.days})
-      : _serviceIds = serviceIds;
-
-  final List<int> _serviceIds;
-  @override
-  List<int> get serviceIds {
-    if (_serviceIds is EqualUnmodifiableListView) return _serviceIds;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_serviceIds);
-  }
+  const _$GetDoctorsTimeImpl({required this.request});
 
   @override
-  final int days;
+  final GiveSelectedId request;
 
   @override
   String toString() {
-    return 'BookingEvent.getDoctorsTime(serviceIds: $serviceIds, days: $days)';
+    return 'BookingEvent.getDoctorsTime(request: $request)';
   }
 
   @override
@@ -1019,14 +1004,11 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetDoctorsTimeImpl &&
-            const DeepCollectionEquality()
-                .equals(other._serviceIds, _serviceIds) &&
-            (identical(other.days, days) || other.days == days));
+            (identical(other.request, request) || other.request == request));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_serviceIds), days);
+  int get hashCode => Object.hash(runtimeType, request);
 
   /// Create a copy of BookingEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -1045,11 +1027,11 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
     required TResult Function() refreshServices,
     required TResult Function(List<int> ids) selectInnerServiceID,
     required TResult Function(int id) fetchCategoryServices,
-    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(GiveSelectedId request) getDoctorsTime,
     required TResult Function(String specialty) filterDoctorsBySpecialty,
     required TResult Function(int maxPrice) filterDoctorsByPrice,
   }) {
-    return getDoctorsTime(serviceIds, days);
+    return getDoctorsTime(request);
   }
 
   @override
@@ -1060,11 +1042,11 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
     TResult? Function()? refreshServices,
     TResult? Function(List<int> ids)? selectInnerServiceID,
     TResult? Function(int id)? fetchCategoryServices,
-    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(GiveSelectedId request)? getDoctorsTime,
     TResult? Function(String specialty)? filterDoctorsBySpecialty,
     TResult? Function(int maxPrice)? filterDoctorsByPrice,
   }) {
-    return getDoctorsTime?.call(serviceIds, days);
+    return getDoctorsTime?.call(request);
   }
 
   @override
@@ -1075,13 +1057,13 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
     TResult Function()? refreshServices,
     TResult Function(List<int> ids)? selectInnerServiceID,
     TResult Function(int id)? fetchCategoryServices,
-    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(GiveSelectedId request)? getDoctorsTime,
     TResult Function(String specialty)? filterDoctorsBySpecialty,
     TResult Function(int maxPrice)? filterDoctorsByPrice,
     required TResult orElse(),
   }) {
     if (getDoctorsTime != null) {
-      return getDoctorsTime(serviceIds, days);
+      return getDoctorsTime(request);
     }
     return orElse();
   }
@@ -1140,12 +1122,10 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
 }
 
 abstract class _GetDoctorsTime implements BookingEvent {
-  const factory _GetDoctorsTime(
-      {required final List<int> serviceIds,
-      required final int days}) = _$GetDoctorsTimeImpl;
+  const factory _GetDoctorsTime({required final GiveSelectedId request}) =
+      _$GetDoctorsTimeImpl;
 
-  List<int> get serviceIds;
-  int get days;
+  GiveSelectedId get request;
 
   /// Create a copy of BookingEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -1231,7 +1211,7 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
     required TResult Function() refreshServices,
     required TResult Function(List<int> ids) selectInnerServiceID,
     required TResult Function(int id) fetchCategoryServices,
-    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(GiveSelectedId request) getDoctorsTime,
     required TResult Function(String specialty) filterDoctorsBySpecialty,
     required TResult Function(int maxPrice) filterDoctorsByPrice,
   }) {
@@ -1246,7 +1226,7 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
     TResult? Function()? refreshServices,
     TResult? Function(List<int> ids)? selectInnerServiceID,
     TResult? Function(int id)? fetchCategoryServices,
-    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(GiveSelectedId request)? getDoctorsTime,
     TResult? Function(String specialty)? filterDoctorsBySpecialty,
     TResult? Function(int maxPrice)? filterDoctorsByPrice,
   }) {
@@ -1261,7 +1241,7 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
     TResult Function()? refreshServices,
     TResult Function(List<int> ids)? selectInnerServiceID,
     TResult Function(int id)? fetchCategoryServices,
-    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(GiveSelectedId request)? getDoctorsTime,
     TResult Function(String specialty)? filterDoctorsBySpecialty,
     TResult Function(int maxPrice)? filterDoctorsByPrice,
     required TResult orElse(),
@@ -1414,7 +1394,7 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
     required TResult Function() refreshServices,
     required TResult Function(List<int> ids) selectInnerServiceID,
     required TResult Function(int id) fetchCategoryServices,
-    required TResult Function(List<int> serviceIds, int days) getDoctorsTime,
+    required TResult Function(GiveSelectedId request) getDoctorsTime,
     required TResult Function(String specialty) filterDoctorsBySpecialty,
     required TResult Function(int maxPrice) filterDoctorsByPrice,
   }) {
@@ -1429,7 +1409,7 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
     TResult? Function()? refreshServices,
     TResult? Function(List<int> ids)? selectInnerServiceID,
     TResult? Function(int id)? fetchCategoryServices,
-    TResult? Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult? Function(GiveSelectedId request)? getDoctorsTime,
     TResult? Function(String specialty)? filterDoctorsBySpecialty,
     TResult? Function(int maxPrice)? filterDoctorsByPrice,
   }) {
@@ -1444,7 +1424,7 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
     TResult Function()? refreshServices,
     TResult Function(List<int> ids)? selectInnerServiceID,
     TResult Function(int id)? fetchCategoryServices,
-    TResult Function(List<int> serviceIds, int days)? getDoctorsTime,
+    TResult Function(GiveSelectedId request)? getDoctorsTime,
     TResult Function(String specialty)? filterDoctorsBySpecialty,
     TResult Function(int maxPrice)? filterDoctorsByPrice,
     required TResult orElse(),

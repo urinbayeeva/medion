@@ -23,7 +23,7 @@ abstract class IAuthFacade {
   });
 
   /// Send user info
-  Future<Either<ResponseFailure, SuccessModel>> sendUserInfo({
+  Future<Either<ResponseFailure, CreatePatientInfoResponse>> sendUserInfo({
     required CreateInfoReq request,
   });
 

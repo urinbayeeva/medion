@@ -28,16 +28,24 @@ class _$ResponseModelSerializer implements StructuredSerializer<ResponseModel> {
       'is_new_patient',
       serializers.serialize(object.isNewPatient,
           specifiedType: const FullType(bool)),
-      'access_token',
-      serializers.serialize(object.accessToken,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(String)])),
-      'refresh_token',
-      serializers.serialize(object.refreshToken,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(String)])),
     ];
     Object? value;
+    value = object.accessToken;
+    if (value != null) {
+      result
+        ..add('access_token')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
+    }
+    value = object.refreshToken;
+    if (value != null) {
+      result
+        ..add('refresh_token')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
+    }
     value = object.tokenType;
     if (value != null) {
       result
@@ -103,9 +111,9 @@ class _$ResponseModel extends ResponseModel {
   @override
   final bool isNewPatient;
   @override
-  final BuiltList<String> accessToken;
+  final BuiltList<String>? accessToken;
   @override
-  final BuiltList<String> refreshToken;
+  final BuiltList<String>? refreshToken;
   @override
   final String? tokenType;
 
@@ -116,18 +124,14 @@ class _$ResponseModel extends ResponseModel {
       {required this.status,
       required this.message,
       required this.isNewPatient,
-      required this.accessToken,
-      required this.refreshToken,
+      this.accessToken,
+      this.refreshToken,
       this.tokenType})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(status, r'ResponseModel', 'status');
     BuiltValueNullFieldError.checkNotNull(message, r'ResponseModel', 'message');
     BuiltValueNullFieldError.checkNotNull(
         isNewPatient, r'ResponseModel', 'isNewPatient');
-    BuiltValueNullFieldError.checkNotNull(
-        accessToken, r'ResponseModel', 'accessToken');
-    BuiltValueNullFieldError.checkNotNull(
-        refreshToken, r'ResponseModel', 'refreshToken');
   }
 
   @override
@@ -215,8 +219,8 @@ class ResponseModelBuilder
       _status = $v.status;
       _message = $v.message;
       _isNewPatient = $v.isNewPatient;
-      _accessToken = $v.accessToken.toBuilder();
-      _refreshToken = $v.refreshToken.toBuilder();
+      _accessToken = $v.accessToken?.toBuilder();
+      _refreshToken = $v.refreshToken?.toBuilder();
       _tokenType = $v.tokenType;
       _$v = null;
     }
@@ -248,16 +252,16 @@ class ResponseModelBuilder
                   message, r'ResponseModel', 'message'),
               isNewPatient: BuiltValueNullFieldError.checkNotNull(
                   isNewPatient, r'ResponseModel', 'isNewPatient'),
-              accessToken: accessToken.build(),
-              refreshToken: refreshToken.build(),
+              accessToken: _accessToken?.build(),
+              refreshToken: _refreshToken?.build(),
               tokenType: tokenType);
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'accessToken';
-        accessToken.build();
+        _accessToken?.build();
         _$failedField = 'refreshToken';
-        refreshToken.build();
+        _refreshToken?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'ResponseModel', _$failedField, e.toString());

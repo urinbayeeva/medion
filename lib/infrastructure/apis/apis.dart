@@ -39,7 +39,7 @@ abstract class AuthService extends ChopperService {
   });
 
   @Post(path: "create")
-  Future<Response<SuccessModel>> createUserInfo({
+  Future<Response<CreatePatientInfoResponse>> createUserInfo({
     @Body() required CreateInfoReq request,
   });
 
@@ -60,7 +60,7 @@ abstract class BookingService extends ChopperService {
   @Post(path: "doctors")
   Future<Response<BuiltList<ServiceModel>>> getDoctorsTime({
     @Body() required GiveSelectedId request,
-   @Query('days') required int days,
+    @Query('days') required int days,
   });
 
   static BookingService create(DBService dbService) =>
@@ -167,8 +167,9 @@ class MyAuthenticator extends Authenticator {
           dbService.signOut();
         }, (data) {
           dbService.setToken(Token(
-              accessToken: data.accessToken, refreshToken: data.refreshToken));
-          String? newToken = data.accessToken;
+            tokenType: data.tokenType,
+              accessToken: data.accesstoken, refreshToken: data.refreshtoken));
+          String? newToken = data.accesstoken;
 
           final Map<String, String> updatedHeaders =
               Map<String, String>.of(request.headers);

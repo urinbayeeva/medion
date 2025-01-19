@@ -41,7 +41,7 @@ class _$PatientInfoSerializer implements StructuredSerializer<PatientInfo> {
           specifiedType: const FullType(String)),
       'patient_balance',
       serializers.serialize(object.patientBalance,
-          specifiedType: const FullType(int)),
+          specifiedType: const FullType(double)),
     ];
     Object? value;
     value = object.image;
@@ -99,7 +99,7 @@ class _$PatientInfoSerializer implements StructuredSerializer<PatientInfo> {
           break;
         case 'patient_balance':
           result.patientBalance = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(double))! as double;
           break;
       }
     }
@@ -126,7 +126,7 @@ class _$PatientInfo extends PatientInfo {
   @override
   final String phoneNumber;
   @override
-  final int patientBalance;
+  final double patientBalance;
 
   factory _$PatientInfo([void Function(PatientInfoBuilder)? updates]) =>
       (new PatientInfoBuilder()..update(updates))._build();
@@ -246,9 +246,9 @@ class PatientInfoBuilder implements Builder<PatientInfo, PatientInfoBuilder> {
   String? get phoneNumber => _$this._phoneNumber;
   set phoneNumber(String? phoneNumber) => _$this._phoneNumber = phoneNumber;
 
-  int? _patientBalance;
-  int? get patientBalance => _$this._patientBalance;
-  set patientBalance(int? patientBalance) =>
+  double? _patientBalance;
+  double? get patientBalance => _$this._patientBalance;
+  set patientBalance(double? patientBalance) =>
       _$this._patientBalance = patientBalance;
 
   PatientInfoBuilder();

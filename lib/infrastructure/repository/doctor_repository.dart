@@ -11,16 +11,6 @@ class DoctorRepository {
 
   DoctorRepository(this.apiService);
 
-  // Future<List<DoctorCategory>> fetchDoctors() async {
-  //   final response = await apiService.getDoctorsInfo();
-  //   if (response.isSuccessful) {
-  //     return response.body!;
-  //   } else {
-  //     throw Exception('Failed to fetch doctors');
-  //   }
-  // }
-
-  /// Fetch booking types
   // @override
   Future<Either<ResponseFailure, List<DoctorCategory>>> fetchDoctors() async {
     try {

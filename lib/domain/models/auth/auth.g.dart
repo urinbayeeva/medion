@@ -13,6 +13,8 @@ Serializer<RegistrationResponse> _$registrationResponseSerializer =
     new _$RegistrationResponseSerializer();
 Serializer<CreateInfoReq> _$createInfoReqSerializer =
     new _$CreateInfoReqSerializer();
+Serializer<CreatePatientInfoResponse> _$createPatientInfoResponseSerializer =
+    new _$CreatePatientInfoResponseSerializer();
 
 class _$PhoneNumberSendReqSerializer
     implements StructuredSerializer<PhoneNumberSendReq> {
@@ -256,27 +258,6 @@ class _$CreateInfoReqSerializer implements StructuredSerializer<CreateInfoReq> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.accessToken;
-    if (value != null) {
-      result
-        ..add('access_token')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.refreshToken;
-    if (value != null) {
-      result
-        ..add('refresh_token')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.tokenType;
-    if (value != null) {
-      result
-        ..add('token_type')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
     return result;
   }
 
@@ -320,17 +301,65 @@ class _$CreateInfoReqSerializer implements StructuredSerializer<CreateInfoReq> {
           result.passportSerial = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$CreatePatientInfoResponseSerializer
+    implements StructuredSerializer<CreatePatientInfoResponse> {
+  @override
+  final Iterable<Type> types = const [
+    CreatePatientInfoResponse,
+    _$CreatePatientInfoResponse
+  ];
+  @override
+  final String wireName = 'CreatePatientInfoResponse';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, CreatePatientInfoResponse object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'access_token',
+      serializers.serialize(object.accesstoken,
+          specifiedType: const FullType(String)),
+      'refresh_token',
+      serializers.serialize(object.refreshtoken,
+          specifiedType: const FullType(String)),
+      'token_type',
+      serializers.serialize(object.tokenType,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  CreatePatientInfoResponse deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new CreatePatientInfoResponseBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
         case 'access_token':
-          result.accessToken = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.accesstoken = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'refresh_token':
-          result.refreshToken = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.refreshtoken = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'token_type':
           result.tokenType = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -675,12 +704,6 @@ class _$CreateInfoReq extends CreateInfoReq {
   final String? gender;
   @override
   final String? passportSerial;
-  @override
-  final String? accessToken;
-  @override
-  final String? refreshToken;
-  @override
-  final String? tokenType;
 
   factory _$CreateInfoReq([void Function(CreateInfoReqBuilder)? updates]) =>
       (new CreateInfoReqBuilder()..update(updates))._build();
@@ -692,10 +715,7 @@ class _$CreateInfoReq extends CreateInfoReq {
       this.phoneNumber,
       this.dateOfBirth,
       this.gender,
-      this.passportSerial,
-      this.accessToken,
-      this.refreshToken,
-      this.tokenType})
+      this.passportSerial})
       : super._();
 
   @override
@@ -715,10 +735,7 @@ class _$CreateInfoReq extends CreateInfoReq {
         phoneNumber == other.phoneNumber &&
         dateOfBirth == other.dateOfBirth &&
         gender == other.gender &&
-        passportSerial == other.passportSerial &&
-        accessToken == other.accessToken &&
-        refreshToken == other.refreshToken &&
-        tokenType == other.tokenType;
+        passportSerial == other.passportSerial;
   }
 
   @override
@@ -731,9 +748,6 @@ class _$CreateInfoReq extends CreateInfoReq {
     _$hash = $jc(_$hash, dateOfBirth.hashCode);
     _$hash = $jc(_$hash, gender.hashCode);
     _$hash = $jc(_$hash, passportSerial.hashCode);
-    _$hash = $jc(_$hash, accessToken.hashCode);
-    _$hash = $jc(_$hash, refreshToken.hashCode);
-    _$hash = $jc(_$hash, tokenType.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -747,10 +761,7 @@ class _$CreateInfoReq extends CreateInfoReq {
           ..add('phoneNumber', phoneNumber)
           ..add('dateOfBirth', dateOfBirth)
           ..add('gender', gender)
-          ..add('passportSerial', passportSerial)
-          ..add('accessToken', accessToken)
-          ..add('refreshToken', refreshToken)
-          ..add('tokenType', tokenType))
+          ..add('passportSerial', passportSerial))
         .toString();
   }
 }
@@ -788,18 +799,6 @@ class CreateInfoReqBuilder
   set passportSerial(String? passportSerial) =>
       _$this._passportSerial = passportSerial;
 
-  String? _accessToken;
-  String? get accessToken => _$this._accessToken;
-  set accessToken(String? accessToken) => _$this._accessToken = accessToken;
-
-  String? _refreshToken;
-  String? get refreshToken => _$this._refreshToken;
-  set refreshToken(String? refreshToken) => _$this._refreshToken = refreshToken;
-
-  String? _tokenType;
-  String? get tokenType => _$this._tokenType;
-  set tokenType(String? tokenType) => _$this._tokenType = tokenType;
-
   CreateInfoReqBuilder();
 
   CreateInfoReqBuilder get _$this {
@@ -812,9 +811,6 @@ class CreateInfoReqBuilder
       _dateOfBirth = $v.dateOfBirth;
       _gender = $v.gender;
       _passportSerial = $v.passportSerial;
-      _accessToken = $v.accessToken;
-      _refreshToken = $v.refreshToken;
-      _tokenType = $v.tokenType;
       _$v = null;
     }
     return this;
@@ -843,10 +839,128 @@ class CreateInfoReqBuilder
             phoneNumber: phoneNumber,
             dateOfBirth: dateOfBirth,
             gender: gender,
-            passportSerial: passportSerial,
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-            tokenType: tokenType);
+            passportSerial: passportSerial);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$CreatePatientInfoResponse extends CreatePatientInfoResponse {
+  @override
+  final String accesstoken;
+  @override
+  final String refreshtoken;
+  @override
+  final String tokenType;
+
+  factory _$CreatePatientInfoResponse(
+          [void Function(CreatePatientInfoResponseBuilder)? updates]) =>
+      (new CreatePatientInfoResponseBuilder()..update(updates))._build();
+
+  _$CreatePatientInfoResponse._(
+      {required this.accesstoken,
+      required this.refreshtoken,
+      required this.tokenType})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        accesstoken, r'CreatePatientInfoResponse', 'accesstoken');
+    BuiltValueNullFieldError.checkNotNull(
+        refreshtoken, r'CreatePatientInfoResponse', 'refreshtoken');
+    BuiltValueNullFieldError.checkNotNull(
+        tokenType, r'CreatePatientInfoResponse', 'tokenType');
+  }
+
+  @override
+  CreatePatientInfoResponse rebuild(
+          void Function(CreatePatientInfoResponseBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  CreatePatientInfoResponseBuilder toBuilder() =>
+      new CreatePatientInfoResponseBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is CreatePatientInfoResponse &&
+        accesstoken == other.accesstoken &&
+        refreshtoken == other.refreshtoken &&
+        tokenType == other.tokenType;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, accesstoken.hashCode);
+    _$hash = $jc(_$hash, refreshtoken.hashCode);
+    _$hash = $jc(_$hash, tokenType.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'CreatePatientInfoResponse')
+          ..add('accesstoken', accesstoken)
+          ..add('refreshtoken', refreshtoken)
+          ..add('tokenType', tokenType))
+        .toString();
+  }
+}
+
+class CreatePatientInfoResponseBuilder
+    implements
+        Builder<CreatePatientInfoResponse, CreatePatientInfoResponseBuilder> {
+  _$CreatePatientInfoResponse? _$v;
+
+  String? _accesstoken;
+  String? get accesstoken => _$this._accesstoken;
+  set accesstoken(String? accesstoken) => _$this._accesstoken = accesstoken;
+
+  String? _refreshtoken;
+  String? get refreshtoken => _$this._refreshtoken;
+  set refreshtoken(String? refreshtoken) => _$this._refreshtoken = refreshtoken;
+
+  String? _tokenType;
+  String? get tokenType => _$this._tokenType;
+  set tokenType(String? tokenType) => _$this._tokenType = tokenType;
+
+  CreatePatientInfoResponseBuilder();
+
+  CreatePatientInfoResponseBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _accesstoken = $v.accesstoken;
+      _refreshtoken = $v.refreshtoken;
+      _tokenType = $v.tokenType;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(CreatePatientInfoResponse other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$CreatePatientInfoResponse;
+  }
+
+  @override
+  void update(void Function(CreatePatientInfoResponseBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  CreatePatientInfoResponse build() => _build();
+
+  _$CreatePatientInfoResponse _build() {
+    final _$result = _$v ??
+        new _$CreatePatientInfoResponse._(
+            accesstoken: BuiltValueNullFieldError.checkNotNull(
+                accesstoken, r'CreatePatientInfoResponse', 'accesstoken'),
+            refreshtoken: BuiltValueNullFieldError.checkNotNull(
+                refreshtoken, r'CreatePatientInfoResponse', 'refreshtoken'),
+            tokenType: BuiltValueNullFieldError.checkNotNull(
+                tokenType, r'CreatePatientInfoResponse', 'tokenType'));
     replace(_$result);
     return _$result;
   }

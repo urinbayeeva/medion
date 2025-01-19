@@ -60,6 +60,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
 
                       context.read<BookingBloc>().add(
                           BookingEvent.fetchCategoryServices(id: selectedId!));
+
                       setState(() {});
                       _refreshController.refreshCompleted();
                     },

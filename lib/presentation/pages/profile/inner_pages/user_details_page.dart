@@ -1,22 +1,27 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
-import 'package:medion/infrastructure/services/image_service/image_service.dart';
-// import 'package:medion/infrastructure/services/image_service/image_service.dart';
+import 'package:medion/infrastructure/apis/apis.dart';
+import 'package:medion/infrastructure/repository/auth_repo.dart';
+import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/profile/widget/user_info_input.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
-class UserDetailsPage extends StatelessWidget {
+class UserDetailsPage extends StatefulWidget {
   const UserDetailsPage({super.key});
 
+  @override
+  State<UserDetailsPage> createState() => _UserDetailsPageState();
+}
+
+class _UserDetailsPageState extends State<UserDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -84,7 +89,18 @@ class UserDetailsPage extends StatelessWidget {
                           ],
                         ),
                         30.h.verticalSpace,
-                        const UserInfoInput(),
+                        BlocProvider(
+                            create: (context) {
+                              DBService dbService = context.read<DBService>();
+                              return AuthBloc(
+                                  AuthRepository(
+                                    dbService,
+                                    AuthService.create(dbService),
+                                    PatientService.create(dbService),
+                                  ),
+                                  dbService);
+                            },
+                            child: UserInfoInput()),
                         80.h.verticalSpace,
                       ],
                     ),

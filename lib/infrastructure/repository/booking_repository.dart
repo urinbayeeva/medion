@@ -4,8 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/failurs/booking/i_booking_facade.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
-import 'package:medion/domain/serializers/serializer.dart';
-import 'package:medion/infrastructure/apis/api_service.dart';
+
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 
@@ -63,12 +62,12 @@ class BookingRepository implements IBookingFacade {
   }) async {
     try {
       final request = GiveSelectedId((b) => b..serviceIds = serviceIds.toBuilder());
-      
+
       final response = await _bookingService.getDoctorsTime(
         request: request,
         days: days,
       );
-      
+
       LogService.d('Response Status: ${response.statusCode}');
       LogService.d('Response Body: ${response.body}');
 
