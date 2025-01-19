@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
@@ -47,6 +48,17 @@ class MyApp extends StatelessWidget {
     FlutterNativeSplash.remove();
     return MultiProvider(
         providers: [
+          BlocProvider(
+            create: (context) {
+              DBService dbService = context.read<DBService>();
+              return AuthBloc(
+                AuthRepository(dbService, AuthService.create(dbService),
+                    PatientService.create(dbService)),
+                dbService,
+                ImageUploadRepo(UploadImage.create(dbService)),
+              );
+            },
+          ),
           BlocProvider(
               create: (context) =>
                   HomeBloc(HomeRepository(HomePageService.create(dbService)))),

@@ -5,6 +5,7 @@ import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
+import 'package:medion/infrastructure/repository/image_upload_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/domain/sources/doctor_appoinment_select_page.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
@@ -115,7 +116,7 @@ class AppRoutes {
               return AuthBloc(
                   AuthRepository(dbService, AuthService.create(dbService),
                       PatientService.create(dbService)),
-                  dbService);
+                  dbService,    ImageUploadRepo(UploadImage.create(dbService)),);
             },
             child: SignUpWithPhone(
               phoneNumbers: phoneNumbers,
@@ -144,7 +145,7 @@ class AppRoutes {
                     AuthService.create(dbService),
                     PatientService.create(dbService),
                   ),
-                  dbService);
+                  dbService,    ImageUploadRepo(UploadImage.create(dbService)),);
             },
             child: VerifyCodePage(
               additionalPhone: additionalPhone,
@@ -162,7 +163,7 @@ class AppRoutes {
               return AuthBloc(
                   AuthRepository(dbService, AuthService.create(dbService),
                       PatientService.create(dbService)),
-                  dbService);
+                  dbService,    ImageUploadRepo(UploadImage.create(dbService)),);
             },
             child: DataEntryPage(phoneNumber: phoneNumber)));
   }
@@ -254,7 +255,16 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getUserDetailsPage() {
-    return MaterialPageRoute(builder: (_) => const UserDetailsPage());
+    return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+            create: (context) {
+              DBService dbService = context.read<DBService>();
+              return AuthBloc(
+                  AuthRepository(dbService, AuthService.create(dbService),
+                      PatientService.create(dbService)),
+                  dbService,    ImageUploadRepo(UploadImage.create(dbService)),);
+            },
+            child: const UserDetailsPage()));
   }
 
   static MaterialPageRoute getMapPage() {

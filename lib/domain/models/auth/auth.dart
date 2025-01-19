@@ -94,11 +94,13 @@ abstract class CreatePatientInfoResponse
     implements
         Built<CreatePatientInfoResponse, CreatePatientInfoResponseBuilder> {
   @BuiltValueField(wireName: "access_token")
-  String get accesstoken;
+  String? get accesstoken;
+
   @BuiltValueField(wireName: "refresh_token")
-  String get refreshtoken;
+  String? get refreshtoken;
+
   @BuiltValueField(wireName: "token_type")
-  String get tokenType;
+  String? get tokenType;
 
   CreatePatientInfoResponse._();
   factory CreatePatientInfoResponse(

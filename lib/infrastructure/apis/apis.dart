@@ -114,10 +114,11 @@ abstract class UploadImage extends ChopperService {
 
 @ChopperApi(baseUrl: "/profile")
 abstract class PatientService extends ChopperService {
+  //Authorization
   // GET Profile Page Info
   @Get(path: "/patient_info")
   Future<Response<PatientInfo>> getPatientInfo(
-    @Header("Authorization") String authorization,
+    @Header("Authorization") String requires,
   );
 
   static PatientService create(DBService dbService) =>
@@ -167,8 +168,9 @@ class MyAuthenticator extends Authenticator {
           dbService.signOut();
         }, (data) {
           dbService.setToken(Token(
-            tokenType: data.tokenType,
-              accessToken: data.accesstoken, refreshToken: data.refreshtoken));
+              tokenType: data.tokenType,
+              accessToken: data.accesstoken,
+              refreshToken: data.refreshtoken));
           String? newToken = data.accesstoken;
 
           final Map<String, String> updatedHeaders =

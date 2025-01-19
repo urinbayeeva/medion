@@ -89,18 +89,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           ],
                         ),
                         30.h.verticalSpace,
-                        BlocProvider(
-                            create: (context) {
-                              DBService dbService = context.read<DBService>();
-                              return AuthBloc(
-                                  AuthRepository(
-                                    dbService,
-                                    AuthService.create(dbService),
-                                    PatientService.create(dbService),
-                                  ),
-                                  dbService);
-                            },
-                            child: UserInfoInput()),
+                        UserInfoInput(),
                         80.h.verticalSpace,
                       ],
                     ),

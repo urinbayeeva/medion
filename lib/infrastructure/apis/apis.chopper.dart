@@ -244,10 +244,10 @@ final class _$PatientService extends PatientService {
   final Type definitionType = PatientService;
 
   @override
-  Future<Response<PatientInfo>> getPatientInfo(String authorization) {
+  Future<Response<PatientInfo>> getPatientInfo(String requires) {
     final Uri $url = Uri.parse('/profile/patient_info');
     final Map<String, String> $headers = {
-      'Authorization': authorization,
+      'Authorization': requires,
     };
     final Request $request = Request(
       'GET',

@@ -32,7 +32,8 @@ part 'serializer.g.dart';
   ServiceModel,
   CompanyDoctor,
   Doctor,
-  Schedule
+  Schedule,
+  CreatePatientInfoResponse,
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

@@ -17,32 +17,7 @@ class _$PatientInfoSerializer implements StructuredSerializer<PatientInfo> {
   @override
   Iterable<Object?> serialize(Serializers serializers, PatientInfo object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'lastname',
-      serializers.serialize(object.lastName,
-          specifiedType: const FullType(String)),
-      'firstname',
-      serializers.serialize(object.firstName,
-          specifiedType: const FullType(String)),
-      'patient_id',
-      serializers.serialize(object.patientId,
-          specifiedType: const FullType(int)),
-      'passport',
-      serializers.serialize(object.passport,
-          specifiedType: const FullType(String)),
-      'phone',
-      serializers.serialize(object.phone,
-          specifiedType: const FullType(String)),
-      'date_of_birth',
-      serializers.serialize(object.dateOfBirth,
-          specifiedType: const FullType(String)),
-      'phone_number',
-      serializers.serialize(object.phoneNumber,
-          specifiedType: const FullType(String)),
-      'patient_balance',
-      serializers.serialize(object.patientBalance,
-          specifiedType: const FullType(double)),
-    ];
+    final result = <Object?>[];
     Object? value;
     value = object.image;
     if (value != null) {
@@ -50,6 +25,61 @@ class _$PatientInfoSerializer implements StructuredSerializer<PatientInfo> {
         ..add('image')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
+    }
+    value = object.lastName;
+    if (value != null) {
+      result
+        ..add('lastname')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.firstName;
+    if (value != null) {
+      result
+        ..add('firstname')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.patientId;
+    if (value != null) {
+      result
+        ..add('patient_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.passport;
+    if (value != null) {
+      result
+        ..add('passport')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.phone;
+    if (value != null) {
+      result
+        ..add('phone')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.dateOfBirth;
+    if (value != null) {
+      result
+        ..add('date_of_birth')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.phoneNumber;
+    if (value != null) {
+      result
+        ..add('phone_number')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.patientBalance;
+    if (value != null) {
+      result
+        ..add('patient_balance')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     return result;
   }
@@ -71,35 +101,35 @@ class _$PatientInfoSerializer implements StructuredSerializer<PatientInfo> {
           break;
         case 'lastname':
           result.lastName = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'firstname':
           result.firstName = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'patient_id':
           result.patientId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'passport':
           result.passport = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'phone':
           result.phone = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'date_of_birth':
           result.dateOfBirth = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'phone_number':
           result.phoneNumber = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'patient_balance':
           result.patientBalance = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(double)) as double?;
           break;
       }
     }
@@ -112,50 +142,36 @@ class _$PatientInfo extends PatientInfo {
   @override
   final String? image;
   @override
-  final String lastName;
+  final String? lastName;
   @override
-  final String firstName;
+  final String? firstName;
   @override
-  final int patientId;
+  final int? patientId;
   @override
-  final String passport;
+  final String? passport;
   @override
-  final String phone;
+  final String? phone;
   @override
-  final String dateOfBirth;
+  final String? dateOfBirth;
   @override
-  final String phoneNumber;
+  final String? phoneNumber;
   @override
-  final double patientBalance;
+  final double? patientBalance;
 
   factory _$PatientInfo([void Function(PatientInfoBuilder)? updates]) =>
       (new PatientInfoBuilder()..update(updates))._build();
 
   _$PatientInfo._(
       {this.image,
-      required this.lastName,
-      required this.firstName,
-      required this.patientId,
-      required this.passport,
-      required this.phone,
-      required this.dateOfBirth,
-      required this.phoneNumber,
-      required this.patientBalance})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(lastName, r'PatientInfo', 'lastName');
-    BuiltValueNullFieldError.checkNotNull(
-        firstName, r'PatientInfo', 'firstName');
-    BuiltValueNullFieldError.checkNotNull(
-        patientId, r'PatientInfo', 'patientId');
-    BuiltValueNullFieldError.checkNotNull(passport, r'PatientInfo', 'passport');
-    BuiltValueNullFieldError.checkNotNull(phone, r'PatientInfo', 'phone');
-    BuiltValueNullFieldError.checkNotNull(
-        dateOfBirth, r'PatientInfo', 'dateOfBirth');
-    BuiltValueNullFieldError.checkNotNull(
-        phoneNumber, r'PatientInfo', 'phoneNumber');
-    BuiltValueNullFieldError.checkNotNull(
-        patientBalance, r'PatientInfo', 'patientBalance');
-  }
+      this.lastName,
+      this.firstName,
+      this.patientId,
+      this.passport,
+      this.phone,
+      this.dateOfBirth,
+      this.phoneNumber,
+      this.patientBalance})
+      : super._();
 
   @override
   PatientInfo rebuild(void Function(PatientInfoBuilder) updates) =>
@@ -288,22 +304,14 @@ class PatientInfoBuilder implements Builder<PatientInfo, PatientInfoBuilder> {
     final _$result = _$v ??
         new _$PatientInfo._(
             image: image,
-            lastName: BuiltValueNullFieldError.checkNotNull(
-                lastName, r'PatientInfo', 'lastName'),
-            firstName: BuiltValueNullFieldError.checkNotNull(
-                firstName, r'PatientInfo', 'firstName'),
-            patientId: BuiltValueNullFieldError.checkNotNull(
-                patientId, r'PatientInfo', 'patientId'),
-            passport: BuiltValueNullFieldError.checkNotNull(
-                passport, r'PatientInfo', 'passport'),
-            phone: BuiltValueNullFieldError.checkNotNull(
-                phone, r'PatientInfo', 'phone'),
-            dateOfBirth: BuiltValueNullFieldError.checkNotNull(
-                dateOfBirth, r'PatientInfo', 'dateOfBirth'),
-            phoneNumber: BuiltValueNullFieldError.checkNotNull(
-                phoneNumber, r'PatientInfo', 'phoneNumber'),
-            patientBalance: BuiltValueNullFieldError.checkNotNull(
-                patientBalance, r'PatientInfo', 'patientBalance'));
+            lastName: lastName,
+            firstName: firstName,
+            patientId: patientId,
+            passport: passport,
+            phone: phone,
+            dateOfBirth: dateOfBirth,
+            phoneNumber: phoneNumber,
+            patientBalance: patientBalance);
     replace(_$result);
     return _$result;
   }

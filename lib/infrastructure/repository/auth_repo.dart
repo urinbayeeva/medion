@@ -44,10 +44,8 @@ class AuthRepository implements IAuthFacade {
   Future<Either<ResponseFailure, ResponseModel>> registerUser(
       {required RegisterReq request}) async {
     try {
-      // Call the registerUser method from AuthService
       final res = await _authService.registerUser(request: request);
 
-      // Check if the response is successful
       if (res.isSuccessful && res.body != null) {
         bool isNewUser = res.body!.isNewPatient;
 
@@ -142,6 +140,12 @@ class AuthRepository implements IAuthFacade {
     try {
       final res = await _authService.createUserInfo(request: request);
       if (res.isSuccessful) {
+        _dbService.setToken(Token(
+          accessToken: res.body?.accesstoken,
+          refreshToken: res.body?.refreshtoken,
+          tokenType: res.body?.tokenType,
+        ));
+
         return right(res.body!);
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
@@ -193,41 +197,27 @@ class AuthRepository implements IAuthFacade {
     required String accessToken,
   }) async {
     try {
-      final tokenType = _dbService.token.tokenType;
-      final token = _dbService.token.accessToken;
-
-      print("TokenType: $tokenType"); // Debugging: print token type
-      print("Token: $token"); // Debugging: print access token
-
-      if (token == null || token.isEmpty) {
-        return left(const InvalidCredentials(message: 'Token not found'));
+      // Check if accessToken is valid
+      if (accessToken.isEmpty) {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
-      final authHeader = "Bearer $token";
-      print(
-          "----------------AUTH HEADER --------------- :${authHeader}"); // Debugging: print the authHeader
 
-      print("Calling getPatientInfo with authHeader: $authHeader");
-
-      // Make the API call to get patient info
+      final authHeader = "Bearer $accessToken";
       final res = await _patientService.getPatientInfo(authHeader);
 
-      // Check the response status and body
-      print("Response Status: ${res.statusCode}");
-      print("Response Body: ${res.body}");
-
-      // Check if the response is successful and contains body
+      // Handle the response
       if (res.isSuccessful && res.body != null) {
-        print("Patient Info fetched successfully");
         return right(res.body!);
       } else {
-        print("Failed to fetch patient info, status code: ${res.statusCode}");
         return left(InvalidCredentials(
-            message: 'Failed to fetch patient info: ${res.statusCode}'));
+          message:
+              'Failed to fetch patient info: ${res.statusCode}, ${res.body.toString()}',
+        ));
       }
     } catch (e) {
-      // Catch any other errors
       LogService.e(" ----> error fetching patient info: ${e.toString()}");
-      return left(handleError(e));
+      return left(
+          handleError(e)); // ensure handleError returns relevant failure
     }
   }
 }

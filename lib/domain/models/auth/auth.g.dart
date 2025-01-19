@@ -322,18 +322,29 @@ class _$CreatePatientInfoResponseSerializer
   Iterable<Object?> serialize(
       Serializers serializers, CreatePatientInfoResponse object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'access_token',
-      serializers.serialize(object.accesstoken,
-          specifiedType: const FullType(String)),
-      'refresh_token',
-      serializers.serialize(object.refreshtoken,
-          specifiedType: const FullType(String)),
-      'token_type',
-      serializers.serialize(object.tokenType,
-          specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.accesstoken;
+    if (value != null) {
+      result
+        ..add('access_token')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.refreshtoken;
+    if (value != null) {
+      result
+        ..add('refresh_token')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.tokenType;
+    if (value != null) {
+      result
+        ..add('token_type')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -351,15 +362,15 @@ class _$CreatePatientInfoResponseSerializer
       switch (key) {
         case 'access_token':
           result.accesstoken = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'refresh_token':
           result.refreshtoken = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'token_type':
           result.tokenType = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -847,28 +858,19 @@ class CreateInfoReqBuilder
 
 class _$CreatePatientInfoResponse extends CreatePatientInfoResponse {
   @override
-  final String accesstoken;
+  final String? accesstoken;
   @override
-  final String refreshtoken;
+  final String? refreshtoken;
   @override
-  final String tokenType;
+  final String? tokenType;
 
   factory _$CreatePatientInfoResponse(
           [void Function(CreatePatientInfoResponseBuilder)? updates]) =>
       (new CreatePatientInfoResponseBuilder()..update(updates))._build();
 
   _$CreatePatientInfoResponse._(
-      {required this.accesstoken,
-      required this.refreshtoken,
-      required this.tokenType})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        accesstoken, r'CreatePatientInfoResponse', 'accesstoken');
-    BuiltValueNullFieldError.checkNotNull(
-        refreshtoken, r'CreatePatientInfoResponse', 'refreshtoken');
-    BuiltValueNullFieldError.checkNotNull(
-        tokenType, r'CreatePatientInfoResponse', 'tokenType');
-  }
+      {this.accesstoken, this.refreshtoken, this.tokenType})
+      : super._();
 
   @override
   CreatePatientInfoResponse rebuild(
@@ -955,12 +957,9 @@ class CreatePatientInfoResponseBuilder
   _$CreatePatientInfoResponse _build() {
     final _$result = _$v ??
         new _$CreatePatientInfoResponse._(
-            accesstoken: BuiltValueNullFieldError.checkNotNull(
-                accesstoken, r'CreatePatientInfoResponse', 'accesstoken'),
-            refreshtoken: BuiltValueNullFieldError.checkNotNull(
-                refreshtoken, r'CreatePatientInfoResponse', 'refreshtoken'),
-            tokenType: BuiltValueNullFieldError.checkNotNull(
-                tokenType, r'CreatePatientInfoResponse', 'tokenType'));
+            accesstoken: accesstoken,
+            refreshtoken: refreshtoken,
+            tokenType: tokenType);
     replace(_$result);
     return _$result;
   }

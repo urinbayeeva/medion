@@ -68,11 +68,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       clipBehavior: Clip.none,
                       children: [
                         Center(
-                          child: state.patientInfo != null
+                          child: state.pickedImagePath != null
                               ? CircleAvatar(
                                   radius: 70.r,
-                                  // backgroundImage:
-                                  // FileImage(File(state.patientInfo?.profileImagePath ?? '')),
+                                  backgroundImage:
+                                  FileImage(File(state.pickedImagePath ?? '')),
                                 )
                               : CircleAvatar(
                                   radius: 70.r,
@@ -99,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     24.h.verticalSpace,
                     state.patientInfo != null
                         ? Text(state.patientInfo?.firstName ?? "User Name")
-                        : Text("null"),
+                        : const Text("null"),
                     24.h.verticalSpace,
                     const NavListWidget(),
                     Expanded(
