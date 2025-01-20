@@ -9,7 +9,6 @@ import 'package:medion/presentation/component/custom_tabbar.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/about_doctor_widget.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:path/path.dart';
 
 class AboutDoctor extends StatelessWidget {
   const AboutDoctor({super.key});

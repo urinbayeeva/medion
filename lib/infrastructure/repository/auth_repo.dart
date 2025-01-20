@@ -197,7 +197,6 @@ class AuthRepository implements IAuthFacade {
     required String accessToken,
   }) async {
     try {
-      // Check if accessToken is valid
       if (accessToken.isEmpty) {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
@@ -205,7 +204,6 @@ class AuthRepository implements IAuthFacade {
       final authHeader = "Bearer $accessToken";
       final res = await _patientService.getPatientInfo(authHeader);
 
-      // Handle the response
       if (res.isSuccessful && res.body != null) {
         return right(res.body!);
       } else {
@@ -216,8 +214,7 @@ class AuthRepository implements IAuthFacade {
       }
     } catch (e) {
       LogService.e(" ----> error fetching patient info: ${e.toString()}");
-      return left(
-          handleError(e)); // ensure handleError returns relevant failure
+      return left(handleError(e));
     }
   }
 }
