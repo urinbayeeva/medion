@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/domain/sources/category.dart';
@@ -27,14 +28,14 @@ class _CFilterBottomsheetState extends State<CFilterBottomsheet> {
             children: [
               const Spacer(),
               const Spacer(),
-              const Spacer(),
-              Text("Фильтр",
+              20.w.horizontalSpace,
+              Text("filter".tr(),
                   style: fonts.smallSemLink
                       .copyWith(fontSize: 18.sp, fontWeight: FontWeight.w500)),
               8.w.horizontalSpace,
               const Spacer(),
               TextButton(
-                child: Text("Очистить",
+                child: Text("clear".tr(),
                     style: fonts.smallSemLink.copyWith(
                         color: colors.error500,
                         fontSize: 14.sp,
@@ -73,7 +74,7 @@ class _CFilterBottomsheetState extends State<CFilterBottomsheet> {
           8.h.verticalSpace,
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: CButton(title: "Применить", onTap: () {}),
+            child: CButton(title: "apply".tr(), onTap: () {}),
           ),
           40.h.verticalSpace,
         ],

@@ -3,6 +3,7 @@ import 'dart:convert' show utf8;
 import 'dart:io' show HttpHeaders;
 
 import 'package:chopper/chopper.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 import 'package:medion/domain/common/token_ext.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_adapter.dart';
@@ -174,7 +175,7 @@ class CoreInterceptor implements Interceptor {
   @override
   FutureOr<Response<T>> intercept<T>(Chain<T> chain) async {
     final request =
-        applyHeader(chain.request, 'Accept-Language', 'app_lang');
+        applyHeader(chain.request, 'Accept-Language', 'app_lang'.tr());
     final request1 = applyHeader(request, 'uuid', dbService.getUid ?? "");
     final requiresToken = request.headers['requires-token'] == 'true' ||
         request.headers['requires-token'] == 'optional';
@@ -188,7 +189,7 @@ class CoreInterceptor implements Interceptor {
         if (requiresToken) {
           return chain.proceed(request1);
         } else {
-          throw Exception('invalid_credential');
+          throw Exception('invalid_credential'.tr());
         }
       }
     }

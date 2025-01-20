@@ -11,7 +11,10 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class AboutDoctor extends StatelessWidget {
-  const AboutDoctor({super.key});
+  final String? name;
+  final String? profession;
+  final String? status;
+  const AboutDoctor({super.key, this.name, this.profession, this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -31,24 +34,24 @@ class AboutDoctor extends StatelessWidget {
             body: Column(
               children: [
                 CAppBar(
-                  title: "Врачи",
+                  title: "doctors".tr(),
                   isBack: true,
                   centerTitle: true,
                   trailing: icons.filter.svg(width: 24.w, height: 24.h),
                   bottom: Column(
                     children: [
-                      const AboutDoctorWidget(
-                        name: "",
-                        profession: "",
-                        specialty: "",
+                      AboutDoctorWidget(
+                        name: name,
+                        profession: profession,
+                        specialty: status,
                         image: "",
                       ),
                       16.h.verticalSpace,
-                      const CustomTabbarBlack(
-                        leftTab: "О врача",
-                        middleTab: "Опыт работы",
-                        nextMiddle: "Образование",
-                        rightTab: "График работы",
+                      CustomTabbarBlack(
+                        leftTab: "about_the_doctor".tr(),
+                        middleTab: "working_experience".tr(),
+                        nextMiddle: "education".tr(),
+                        rightTab: "working_hours".tr(),
                       ),
                     ],
                   ),
@@ -56,14 +59,14 @@ class AboutDoctor extends StatelessWidget {
                 Expanded(
                   child: TabBarView(
                     children: [
-                      _buildContentSection("О врача",
+                      _buildContentSection("about_the_doctor".tr(),
                           "Заместитель директора институ по Онкологии, Профессор Радиологии, Главный специалист по диагностике."),
-                      _buildContentSection("Опыт работы",
+                      _buildContentSection("working_experience".tr(),
                           "Ежегодно участвует в международных научных конференциях..."),
-                      _buildContentSection("Образование",
+                      _buildContentSection("education".tr(),
                           "1998 г.: Санкт-Петербургский государственный медицинский Университет..."),
                       _buildContentSection(
-                          "График работы", "Пн-Пт: 09:00-18:00"),
+                          "working_hours".tr(), "Пн-Пт: 09:00-18:00"),
                     ],
                   ),
                 ),

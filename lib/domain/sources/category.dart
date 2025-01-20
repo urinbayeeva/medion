@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 enum Category {
   all,
   gynecology,
@@ -11,17 +13,17 @@ extension CategoryExtension on Category {
   String get displayName {
     switch (this) {
       case Category.all:
-        return 'Все';
+        return 'all'.tr();
       case Category.gynecology:
-        return 'Гинекология';
+        return 'gynecology'.tr();
       case Category.cardiology:
-        return 'Кардиология';
+        return 'cardyology'.tr();
       case Category.ophthalmology:
-        return 'Офтальмология';
+        return 'ophthalmology'.tr();
       case Category.neurology:
-        return 'Неврология';
+        return 'neurology'.tr();
       case Category.pediatric:
-        return 'Детские';
+        return 'childre'.tr();
     }
   }
 }

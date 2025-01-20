@@ -288,7 +288,7 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const MapPage());
   }
 
-  static MaterialPageRoute getAboutDoctorPage() {
+  static MaterialPageRoute getAboutDoctorPage(String name, String profession, String status) {
     return MaterialPageRoute(
         builder: (_) => BlocProvider(
             create: (context) {
@@ -300,7 +300,7 @@ class AppRoutes {
                 ImageUploadRepo(UploadImage.create(dbService)),
               );
             },
-            child: const AboutDoctor()));
+            child: AboutDoctor(name: name, profession: profession, status: status,)));
   }
 
   static MaterialPageRoute getNewsPage() {

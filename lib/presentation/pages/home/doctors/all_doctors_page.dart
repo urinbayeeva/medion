@@ -36,15 +36,16 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
         return Scaffold(
           backgroundColor: colors.backgroundColor,
           body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CAppBar(
-                title: "\t\t\t\t\t\tВрачи",
+                title: "\t\t\t\t\t\t\t\t\t ${"doctors".tr()}",
                 isBack: true,
                 hasToggle: true,
                 centerTitle: true,
-                toggleFirstText: "Врачи Медион",
-                toggleSecondText: "Зарубежные врачи",
+                toggleFirstText: "doctors_of_medion".tr(),
+                toggleSecondText: "foreign_doctors".tr(),
                 trailing: Row(
                   children: [
                     icons.search.svg(width: 24.w, height: 24.h),
@@ -66,14 +67,14 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 bottom: CustomToggle(
                   iconList: [
                     Text(
-                      'Врачи Медион',
+                      'doctors_of_medion'.tr(),
                       style: fonts.xSmallLink.copyWith(
                         color:
                             isMedionDoctor ? colors.shade0 : colors.primary900,
                       ),
                     ),
                     Text(
-                      'Зарубежные врачи',
+                      'foreign_doctors'.tr(),
                       style: fonts.xSmallLink.copyWith(
                         color:
                             !isMedionDoctor ? colors.shade0 : colors.primary900,
@@ -99,6 +100,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                       physics: const ScrollPhysics(),
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (isMedionDoctor) ...[
@@ -120,28 +122,21 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                                           .toList(),
                                     )),
                           ] else ...[
-                            GridView.builder(
-                              shrinkWrap: true,
-                              itemCount: foreignDoctorsData.length,
-                              padding: EdgeInsets.zero,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 12.0,
-                                mainAxisSpacing: 12.0,
-                                childAspectRatio: 0.53,
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.7,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  icons.emojiSad.svg(width: 80.w, height: 80.h),
+                                  Center(
+                                    child: Text(
+                                      "no_result_found".tr(),
+                                      style: fonts.mediumMain.copyWith(
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              itemBuilder: (context, index) {
-                                final doctor = foreignDoctorsData[index];
-                                return DoctorsItem(
-                                  onTap: () {},
-                                  imagePath: doctor['image'],
-                                  name: doctor['name'],
-                                  profession: doctor['profession'],
-                                  status: doctor['status'],
-                                  candidateScience: doctor['candidateScience'],
-                                );
-                              },
                             ),
                           ]
                         ],
@@ -166,27 +161,34 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
           children: [
             Text(category, style: fonts.regularSemLink),
             12.h.verticalSpace,
-            SizedBox(
-              height: 380.h,
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                itemCount: doctors.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  final doctor = doctors[index];
-                  return DoctorsItem(
-                    onTap: () {
-                      Navigator.push(context, AppRoutes.getAboutDoctorPage());
-                    },
-                    categoryType: doctor['category'],
-                    imagePath: doctor['image'],
-                    name: doctor['name'],
-                    profession: doctor['profession'],
-                    status: doctor['status'],
-                    candidateScience: doctor['candidateScience'],
-                  );
-                },
+            GridView.builder(
+              shrinkWrap: true,
+              itemCount: doctors.length,
+              padding: EdgeInsets.zero,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12.0,
+                mainAxisSpacing: 12.0,
+                childAspectRatio: 0.53,
               ),
+              itemBuilder: (context, index) {
+                final doctor = doctors[index];
+                return DoctorsItem(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        AppRoutes.getAboutDoctorPage(doctor['name'],
+                            doctor['profession'], doctor['name']));
+                  },
+                  categoryType: doctor['category'],
+                  imagePath: doctor['image'],
+                  name: doctor['name'],
+                  profession: doctor['profession'],
+                  status: doctor['status'],
+                  candidateScience: doctor['candidateScience'],
+                );
+              },
             ),
           ],
         );

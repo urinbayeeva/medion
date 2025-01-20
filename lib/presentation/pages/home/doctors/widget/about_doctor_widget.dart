@@ -27,19 +27,21 @@ class AboutDoctorWidget extends StatelessWidget {
                 fit: BoxFit.contain,
               )),
           12.w.horizontalSpace,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(name!, style: fonts.mediumMain),
-              4.h.verticalSpace,
-              Text(profession!, style: fonts.smallLink),
-              4.h.verticalSpace,
-              Text(specialty!,
-                  style: fonts.mediumMain.copyWith(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w400,
-                      color: colors.neutral600)),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name!, style: fonts.mediumMain),
+                4.h.verticalSpace,
+                Text(profession!, style: fonts.smallLink),
+                4.h.verticalSpace,
+                Text(specialty!,
+                    style: fonts.mediumMain.copyWith(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w400,
+                        color: colors.neutral600)),
+              ],
+            ),
           ),
         ],
       );

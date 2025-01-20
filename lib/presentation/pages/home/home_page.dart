@@ -215,36 +215,33 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context, state) {
                                   if (state.error) {
                                     return Center(
-                                        child: Text('something_went_wrong'.tr(),
-                                            style: fonts.regularSemLink));
+                                      child: Text(
+                                        'something_went_wrong'.tr(),
+                                        style: fonts.regularSemLink,
+                                      ),
+                                    );
                                   }
 
-                                  return SizedBox(
-                                    height: 300,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ...state.doctors.map((category) =>
-                                            _buildDoctorCategoryList(
-                                              category.categoryName,
-                                              category.doctorData
-                                                  .map((doctor) => {
-                                                        'name': doctor.name,
-                                                        'profession':
-                                                            doctor.specialty,
-                                                        'image': doctor.image,
-                                                        // 'status':
-                                                        //     doctor.workPhone as int,
-                                                        // 'candidateScience':
-                                                        //     doctor.academicRank,
-                                                        'category': category
-                                                            .categoryName,
-                                                      })
-                                                  .toList(),
-                                            )),
-                                      ],
-                                    ),
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: state.doctors.length,
+                                    itemBuilder: (context, index) {
+                                      final category = state.doctors[index];
+                                      final doctorData =
+                                          category.doctorData.map((doctor) {
+                                        return {
+                                          'name': doctor.name,
+                                          'profession': doctor.specialty,
+                                          'image': doctor.image,
+                                          // 'status': doctor.workPhone as int,
+                                          // 'candidateScience': doctor.academicRank,
+                                          'category': category.categoryName,
+                                        };
+                                      }).toList();
+
+                                      return _buildDoctorCategoryList(
+                                          category.categoryName, doctorData);
+                                    },
                                   );
                                 },
                               ),
@@ -440,27 +437,27 @@ class _HomePageState extends State<HomePage> {
           children: [
             Text(category, style: fonts.regularSemLink),
             12.h.verticalSpace,
-            SizedBox(
-              height: 380.h,
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                itemCount: doctors.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  final doctor = doctors[index];
-                  return DoctorsItem(
-                    onTap: () {
-                      Navigator.push(context, AppRoutes.getAboutDoctorPage());
-                    },
-                    categoryType: doctor['category'],
-                    imagePath: doctor['image'],
-                    name: doctor['name'],
-                    profession: doctor['profession'],
-                    status: doctor['status'],
-                    candidateScience: doctor['candidateScience'],
-                  );
-                },
-              ),
+            ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: doctors.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                final doctor = doctors[index];
+                return DoctorsItem(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        AppRoutes.getAboutDoctorPage(doctor['name'],
+                            doctor['profession'], doctor['status']));
+                  },
+                  categoryType: doctor['category'],
+                  imagePath: doctor['image'],
+                  name: doctor['name'],
+                  profession: doctor['profession'],
+                  status: doctor['status'],
+                  candidateScience: doctor['candidateScience'],
+                );
+              },
             ),
           ],
         );

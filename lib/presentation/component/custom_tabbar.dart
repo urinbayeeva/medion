@@ -19,60 +19,57 @@ class CustomTabbarBlack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 4,
-      child: ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-        return Container(
-          height: 50.h,
-          width: double.infinity,
-          decoration: const BoxDecoration(),
-          child: TabBar(
-            overlayColor: const WidgetStatePropertyAll(Colors.transparent),
-            indicatorPadding: EdgeInsets.zero,
-            labelPadding: EdgeInsets.zero,
-            padding: EdgeInsets.zero,
-            indicatorColor: colors.error500,
-            tabs: [
-              Tab(
-                child: Center(
-                  child: Text(
-                    leftTab,
-                    textAlign: TextAlign.center,
-                    style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
-                  ),
+    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+      return Container(
+        height: 50.h,
+        width: double.infinity,
+        decoration: const BoxDecoration(),
+        child: TabBar(
+          overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+          indicatorPadding: EdgeInsets.zero,
+          labelPadding: EdgeInsets.zero,
+          padding: EdgeInsets.zero,
+          indicatorColor: colors.error500,
+          tabs: [
+            Tab(
+              child: Center(
+                child: Text(
+                  leftTab,
+                  textAlign: TextAlign.center,
+                  style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
                 ),
               ),
-              Tab(
-                child: Center(
-                  child: Text(
-                    middleTab,
-                    textAlign: TextAlign.center,
-                    style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
-                  ),
+            ),
+            Tab(
+              child: Center(
+                child: Text(
+                  middleTab,
+                  textAlign: TextAlign.center,
+                  style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
                 ),
               ),
-              Tab(
-                child: Center(
-                  child: Text(
-                    nextMiddle,
-                    textAlign: TextAlign.center,
-                    style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
-                  ),
+            ),
+            Tab(
+              child: Center(
+                child: Text(
+                  nextMiddle,
+                  textAlign: TextAlign.center,
+                  style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
                 ),
               ),
-              Tab(
-                child: Center(
-                  child: Text(
-                    rightTab,
-                    textAlign: TextAlign.center,
-                    style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
-                  ),
+            ),
+            Tab(
+              child: Center(
+                child: Text(
+                  rightTab,
+                  textAlign: TextAlign.center,
+                  style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
                 ),
               ),
-            ],
-          ),
-        );
-      }),
-    );
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

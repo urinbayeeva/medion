@@ -125,6 +125,8 @@ abstract class PatientService extends ChopperService {
       _$PatientService(_Client(Constants.baseUrlP, true, dbService));
 }
 
+
+
 base class _Client extends ChopperClient {
   _Client(String baseUrl, bool useInterceptors, DBService dbService,
       {int timeout = 20})
