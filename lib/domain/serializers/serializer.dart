@@ -9,6 +9,7 @@ import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/success_model/response_model.dart';
 
 import 'package:medion/domain/success_model/success_model.dart';
+import 'package:medion/domain/upload_image/upload_image.dart';
 import '../models/auth/auth.dart';
 
 part 'serializer.g.dart';
@@ -34,6 +35,43 @@ part 'serializer.g.dart';
   Doctor,
   Schedule,
   CreatePatientInfoResponse,
+  DoctorCategory,
+  DoctorData,
+  ImageModel,
+  HomepageBookingCategory,
+  ErrorResponse
 ])
-final Serializers serializers =
-    (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();
+final Serializers serializers = (_$serializers.toBuilder()
+      ..addPlugin(StandardJsonPlugin())
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(Service)]),
+        () => ListBuilder<Service>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(int)]),
+        () => ListBuilder<int>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(ServiceModel)]),
+        () => ListBuilder<ServiceModel>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(CompanyDoctor)]),
+        () => ListBuilder<CompanyDoctor>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(Doctor)]),
+        () => ListBuilder<Doctor>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(Schedule)]),
+        () => ListBuilder<Schedule>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltMap, [
+          FullType(String),
+          FullType(BuiltList, [FullType(Schedule)])
+        ]),
+        () => MapBuilder<String, BuiltList<Schedule>>(),
+      ))
+    .build();

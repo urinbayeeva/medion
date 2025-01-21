@@ -18,6 +18,8 @@ Serializer<CompanyDoctor> _$companyDoctorSerializer =
     new _$CompanyDoctorSerializer();
 Serializer<Doctor> _$doctorSerializer = new _$DoctorSerializer();
 Serializer<Schedule> _$scheduleSerializer = new _$ScheduleSerializer();
+Serializer<HomepageBookingCategory> _$homepageBookingCategorySerializer =
+    new _$HomepageBookingCategorySerializer();
 
 class _$BookingTypeModelSerializer
     implements StructuredSerializer<BookingTypeModel> {
@@ -258,13 +260,13 @@ class _$ServiceModelSerializer implements StructuredSerializer<ServiceModel> {
   Iterable<Object?> serialize(Serializers serializers, ServiceModel object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
-      'serviceId',
+      'service_id',
       serializers.serialize(object.serviceId,
           specifiedType: const FullType(int)),
-      'serviceName',
+      'service_name',
       serializers.serialize(object.serviceName,
           specifiedType: const FullType(String)),
-      'companiesDoctors',
+      'companies_doctors',
       serializers.serialize(object.companiesDoctors,
           specifiedType:
               const FullType(BuiltList, const [const FullType(CompanyDoctor)])),
@@ -285,15 +287,15 @@ class _$ServiceModelSerializer implements StructuredSerializer<ServiceModel> {
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
-        case 'serviceId':
+        case 'service_id':
           result.serviceId = serializers.deserialize(value,
               specifiedType: const FullType(int))! as int;
           break;
-        case 'serviceName':
+        case 'service_name':
           result.serviceName = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
-        case 'companiesDoctors':
+        case 'companies_doctors':
           result.companiesDoctors.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(CompanyDoctor)]))!
@@ -316,10 +318,10 @@ class _$CompanyDoctorSerializer implements StructuredSerializer<CompanyDoctor> {
   Iterable<Object?> serialize(Serializers serializers, CompanyDoctor object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
-      'companyId',
+      'company_id',
       serializers.serialize(object.companyId,
           specifiedType: const FullType(int)),
-      'companyName',
+      'company_name',
       serializers.serialize(object.companyName,
           specifiedType: const FullType(String)),
       'doctor',
@@ -343,11 +345,11 @@ class _$CompanyDoctorSerializer implements StructuredSerializer<CompanyDoctor> {
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
-        case 'companyId':
+        case 'company_id':
           result.companyId = serializers.deserialize(value,
               specifiedType: const FullType(int))! as int;
           break;
-        case 'companyName':
+        case 'company_name':
           result.companyName = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
@@ -392,14 +394,16 @@ class _$DoctorSerializer implements StructuredSerializer<Doctor> {
           specifiedType: const FullType(String)),
       'schedules',
       serializers.serialize(object.schedules,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(Schedule)])),
+          specifiedType: const FullType(BuiltMap, const [
+            const FullType(String),
+            const FullType(BuiltList, const [const FullType(Schedule)])
+          ])),
       'price',
       serializers.serialize(object.price, specifiedType: const FullType(int)),
       'location',
       serializers.serialize(object.location,
           specifiedType: const FullType(String)),
-      'workExperience',
+      'work_experience',
       serializers.serialize(object.workExperience,
           specifiedType: const FullType(int)),
     ];
@@ -444,9 +448,10 @@ class _$DoctorSerializer implements StructuredSerializer<Doctor> {
           break;
         case 'schedules':
           result.schedules.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(Schedule)]))!
-              as BuiltList<Object?>);
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(String),
+                const FullType(BuiltList, const [const FullType(Schedule)])
+              ]))!);
           break;
         case 'price':
           result.price = serializers.deserialize(value,
@@ -456,7 +461,7 @@ class _$DoctorSerializer implements StructuredSerializer<Doctor> {
           result.location = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
-        case 'workExperience':
+        case 'work_experience':
           result.workExperience = serializers.deserialize(value,
               specifiedType: const FullType(int))! as int;
           break;
@@ -511,6 +516,76 @@ class _$ScheduleSerializer implements StructuredSerializer<Schedule> {
         case 'duration':
           result.duration = serializers.deserialize(value,
               specifiedType: const FullType(int))! as int;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$HomepageBookingCategorySerializer
+    implements StructuredSerializer<HomepageBookingCategory> {
+  @override
+  final Iterable<Type> types = const [
+    HomepageBookingCategory,
+    _$HomepageBookingCategory
+  ];
+  @override
+  final String wireName = 'HomepageBookingCategory';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, HomepageBookingCategory object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[];
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.name;
+    if (value != null) {
+      result
+        ..add('name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.icon;
+    if (value != null) {
+      result
+        ..add('icond')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  HomepageBookingCategory deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new HomepageBookingCategoryBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'icond':
+          result.icon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -1261,7 +1336,7 @@ class _$Doctor extends Doctor {
   @override
   final String experience;
   @override
-  final BuiltList<Schedule> schedules;
+  final BuiltMap<String, BuiltList<Schedule>> schedules;
   @override
   final int price;
   @override
@@ -1381,10 +1456,10 @@ class DoctorBuilder implements Builder<Doctor, DoctorBuilder> {
   String? get experience => _$this._experience;
   set experience(String? experience) => _$this._experience = experience;
 
-  ListBuilder<Schedule>? _schedules;
-  ListBuilder<Schedule> get schedules =>
-      _$this._schedules ??= new ListBuilder<Schedule>();
-  set schedules(ListBuilder<Schedule>? schedules) =>
+  MapBuilder<String, BuiltList<Schedule>>? _schedules;
+  MapBuilder<String, BuiltList<Schedule>> get schedules =>
+      _$this._schedules ??= new MapBuilder<String, BuiltList<Schedule>>();
+  set schedules(MapBuilder<String, BuiltList<Schedule>>? schedules) =>
       _$this._schedules = schedules;
 
   int? _price;
@@ -1579,6 +1654,110 @@ class ScheduleBuilder implements Builder<Schedule, ScheduleBuilder> {
                 active, r'Schedule', 'active'),
             duration: BuiltValueNullFieldError.checkNotNull(
                 duration, r'Schedule', 'duration'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$HomepageBookingCategory extends HomepageBookingCategory {
+  @override
+  final int? id;
+  @override
+  final String? name;
+  @override
+  final String? icon;
+
+  factory _$HomepageBookingCategory(
+          [void Function(HomepageBookingCategoryBuilder)? updates]) =>
+      (new HomepageBookingCategoryBuilder()..update(updates))._build();
+
+  _$HomepageBookingCategory._({this.id, this.name, this.icon}) : super._();
+
+  @override
+  HomepageBookingCategory rebuild(
+          void Function(HomepageBookingCategoryBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  HomepageBookingCategoryBuilder toBuilder() =>
+      new HomepageBookingCategoryBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is HomepageBookingCategory &&
+        id == other.id &&
+        name == other.name &&
+        icon == other.icon;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, icon.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'HomepageBookingCategory')
+          ..add('id', id)
+          ..add('name', name)
+          ..add('icon', icon))
+        .toString();
+  }
+}
+
+class HomepageBookingCategoryBuilder
+    implements
+        Builder<HomepageBookingCategory, HomepageBookingCategoryBuilder> {
+  _$HomepageBookingCategory? _$v;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
+  String? _icon;
+  String? get icon => _$this._icon;
+  set icon(String? icon) => _$this._icon = icon;
+
+  HomepageBookingCategoryBuilder();
+
+  HomepageBookingCategoryBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _name = $v.name;
+      _icon = $v.icon;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(HomepageBookingCategory other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$HomepageBookingCategory;
+  }
+
+  @override
+  void update(void Function(HomepageBookingCategoryBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  HomepageBookingCategory build() => _build();
+
+  _$HomepageBookingCategory _build() {
+    final _$result =
+        _$v ?? new _$HomepageBookingCategory._(id: id, name: name, icon: icon);
     replace(_$result);
     return _$result;
   }

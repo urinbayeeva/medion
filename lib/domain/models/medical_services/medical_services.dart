@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:built_value/built_value.dart';
+import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:medion/domain/serializers/serializer.dart';
 
@@ -23,7 +24,7 @@ abstract class MedicalServices
   bool? get forChildren;
 
   @BuiltValueField(wireName: 'link')
-  bool? get link; // Typo: `bool?` emas, bu ehtimol `String?` bo‘lishi kerak.
+  JsonObject? get link; 
 
   @BuiltValueField(wireName: 'background_color')
   String? get backgroundColor;

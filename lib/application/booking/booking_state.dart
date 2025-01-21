@@ -19,6 +19,9 @@ class BookingState with _$BookingState {
     @Default('') String selectedSpecialty,
     @Default(0) int maxPrice,
     @Default('') String errorMessage,
+
+    //Home Page
+       @Default([]) List<HomepageBookingCategory> homePageBookingCategory,
   }) = _BookingState;
 
   bool get hasError => errorMessage.isNotEmpty;

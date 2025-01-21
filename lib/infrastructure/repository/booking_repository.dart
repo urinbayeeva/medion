@@ -55,17 +55,18 @@ class BookingRepository implements IBookingFacade {
     }
   }
 
-   @override
+  //Get doctor time
+
+  @override
   Future<Either<ResponseFailure, BuiltList<ServiceModel>>> getDoctorsTimeSlots({
     required BuiltList<int> serviceIds,
     required int days,
   }) async {
     try {
-      final request = GiveSelectedId((b) => b..serviceIds = serviceIds.toBuilder());
+      final request = serviceIds;
 
       final response = await _bookingService.getDoctorsTime(
-        request: request,
-        days: days,
+        request: request.toList(),
       );
 
       LogService.d('Response Status: ${response.statusCode}');
@@ -82,4 +83,22 @@ class BookingRepository implements IBookingFacade {
     }
   }
 
+  @override
+  Future<Either<ResponseFailure, List<HomepageBookingCategory>>>
+      fetchHomePageBookingCategories() async {
+    try {
+      final response = await _bookingService.getHomePageBookingCategory();
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        return right(response.body!.toList());
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      LogService.e(" ----> error on repo  : ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
 }

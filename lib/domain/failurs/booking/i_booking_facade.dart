@@ -12,4 +12,5 @@ abstract class IBookingFacade {
     required BuiltList<int> serviceIds,
     required int days,
   });
+  Future<Either<ResponseFailure, List<HomepageBookingCategory>>>  fetchHomePageBookingCategories();
 }

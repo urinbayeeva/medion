@@ -67,49 +67,49 @@ class _UserInfoInputState extends State<UserInfoInput> {
                 ),
                 CustomTextField(
                   hintText: state.patientInfo?.firstName ?? '',
-                  title: "Имя",
+                  title: "name".tr(),
                   readOnly: true,
                 ),
                 CustomTextField(
                   hintText: state.patientInfo?.lastName ?? '',
-                  title: "Фамилия",
+                  title: "second_name".tr(),
                   readOnly: true,
                 ),
-                CustomTextField(
-                  hintText: state.patientInfo?.dateOfBirth ?? '',
-                  title: "Дата рождения",
-                  readOnly: true,
-                ),
-                CustomTextField(
-                  hintText: state.patientInfo?.phone ?? '',
-                  title: "Телефон",
-                  readOnly: true,
-                ),
+                // CustomTextField(
+                //   hintText: state.patientInfo?.dateOfBirth ?? '',
+                //   title: "Дата рождения",
+                //   readOnly: true,
+                // ),
                 CustomTextField(
                   hintText: state.patientInfo?.phone ?? '',
-                  title: "Дополнительный номер телефона",
+                  title: "phone".tr(),
                   readOnly: true,
                 ),
+                // CustomTextField(
+                //   hintText: state.patientInfo?.phone ?? '',
+                //   title: "Дополнительный номер телефона",
+                //   readOnly: true,
+                // ),
+                // CustomTextField(
+                //   hintText: state.patientInfo?.passport ?? '',
+                //   title: "Тип документа",
+                //   readOnly: true,
+                // ),
                 CustomTextField(
                   hintText: state.patientInfo?.passport ?? '',
-                  title: "Тип документа",
+                  title: "number_series".tr(),
                   readOnly: true,
                 ),
-                CustomTextField(
-                  hintText: state.patientInfo?.passport ?? '',
-                  title: "Серия и номер паспорта",
-                  readOnly: true,
-                ),
-                CustomTextField(
-                  hintText: state.patientInfo?.passport ?? '',
-                  title: "Дата выдачи",
-                  readOnly: true,
-                ),
-                CustomTextField(
-                  hintText: state.patientInfo?.passport ?? '',
-                  title: "Орган выдачион",
-                  readOnly: true,
-                ),
+                // CustomTextField(
+                //   hintText: state.patientInfo?.passport ?? '',
+                //   title: "Дата выдачи",
+                //   readOnly: true,
+                // ),
+                // CustomTextField(
+                //   hintText: state.patientInfo?.passport ?? '',
+                //   title: "Орган выдачион",
+                //   readOnly: true,
+                // ),
               ],
             ),
           );

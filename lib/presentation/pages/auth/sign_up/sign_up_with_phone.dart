@@ -24,7 +24,8 @@ class SignUpWithPhone extends StatefulWidget {
       {super.key,
       this.onClose,
       required this.additionalPhone,
-      this.phoneNumbers, this.phoneNumber});
+      this.phoneNumbers,
+      this.phoneNumber});
 
   @override
   State<SignUpWithPhone> createState() => _SignUpWithPhoneState();

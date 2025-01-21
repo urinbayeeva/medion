@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
@@ -37,7 +38,9 @@ class NewsItem extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(8.r),
                         topRight: Radius.circular(8.r)),
-                    child: Image.asset(imagePath)),
+                    child: CachedNetworkImage(
+                      imageUrl: imagePath,
+                    )),
                 8.h.verticalSpace,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),

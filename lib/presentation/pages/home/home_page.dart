@@ -1,32 +1,32 @@
-import 'package:carousel_slider/carousel_slider.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
-import 'package:medion/application/home/home_bloc.dart';
-import 'package:medion/domain/sources/directions_data.dart';
-import 'package:medion/presentation/component/animation_effect.dart';
-import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/domain/sources/doctors_data.dart';
-import 'package:medion/presentation/component/custom_pagination.dart';
-import 'package:medion/presentation/component/un_focus_widget.dart';
-import 'package:medion/presentation/pages/home/ads.dart';
-import 'package:medion/presentation/pages/home/directions/component/inner_pages/image_item.dart';
-import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
-import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
-import 'package:medion/presentation/pages/home/news/widgets/news_item.dart';
-import 'package:medion/presentation/pages/home/widgets/adress_item.dart';
 import 'package:medion/domain/sources/med_service.dart';
-import 'package:medion/presentation/pages/home/widgets/problem_slidebale_card.dart';
-import 'package:medion/presentation/routes/routes.dart';
-import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
-import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../domain/models/news_model/news_model.dart';
+import '../../../application/home/home_bloc.dart';
+import '../../../domain/sources/directions_data.dart';
+import '../../../domain/sources/doctors_data.dart';
+import '../../../presentation/component/animation_effect.dart';
+import '../../../presentation/component/c_appbar.dart';
+import '../../../presentation/component/custom_pagination.dart';
+import '../../../presentation/component/un_focus_widget.dart';
+import '../../../presentation/pages/home/ads.dart';
+import '../../../presentation/pages/home/directions/widgets/medical_direction_item.dart';
+import '../../../presentation/pages/home/doctors/widget/doctors_item.dart';
+import '../../../presentation/pages/home/news/widgets/news_item.dart';
+import '../../../presentation/pages/home/widgets/adress_item.dart';
+import '../../../presentation/pages/home/widgets/problem_slidebale_card.dart';
+import '../../../presentation/routes/routes.dart';
+import '../../../presentation/styles/style.dart';
+import '../../../presentation/styles/theme_wrapper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,7 +36,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  RefreshController _refreshController = RefreshController();
+  final RefreshController _refreshController = RefreshController();
   bool isChildren = false;
 
   @override
@@ -48,6 +48,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     context.read<HomeBloc>().add(const HomeEvent.fetchNews());
+    context
+        .read<BookingBloc>()
+        .add(const BookingEvent.fetchHomePageServicesBooking());
     super.initState();
   }
 
@@ -57,328 +60,118 @@ class _HomePageState extends State<HomePage> {
       value: Style.dark,
       child: ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
         return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-          // if (state.news.isEmpty) {
-          //   return Center(
-          //     child: Text(
-          //       semanticsLabel: "no_result_found".tr(),
-          //       "no_result_found".tr(),
-          //       style: Style.headlineMain(),
-          //     ),
-          //   );
-          // }
           return OnUnFocusTap(
             child: CustomPagination(
+              enablePullDown: false,
+              enablePullUp: false,
               controller: _refreshController,
-              onRetry: () {},
+              onRetry: () {
+                context.read<HomeBloc>().add(const HomeEvent.fetchNews());
+                context
+                    .read<BookingBloc>()
+                    .add(const BookingEvent.fetchHomePageServicesBooking());
+                setState(() {});
+
+                _refreshController.refreshCompleted();
+              },
+              onRefresh: () {
+                context.read<HomeBloc>().add(const HomeEvent.fetchNews());
+                context
+                    .read<BookingBloc>()
+                    .add(const BookingEvent.fetchHomePageServicesBooking());
+                setState(() {});
+
+                _refreshController.refreshCompleted();
+              },
               child: Scaffold(
                 backgroundColor: colors.backgroundColor,
                 body: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CAppBar(
-                      padding: EdgeInsets.zero,
                       isBack: false,
                       title: "main".tr(),
                       centerTitle: true,
                       trailing: AnimationButtonEffect(
-                        onTap: () {
-                          context
-                              .read<BottomNavBarController>()
-                              .changeNavBar(false);
-                          Navigator.push(
-                              context, AppRoutes.getNotificationPage());
-                        },
-                        child: icons.notification.svg(
-                            width: 24.w,
-                            height: 24.h,
-                            color: colors.primary900),
+                        onTap: () => Navigator.push(
+                          context,
+                          AppRoutes.getNotificationPage(),
+                        ),
+                        child: icons.notification.svg(color: colors.primary900),
                       ),
                     ),
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              16.h.verticalSpace,
-                              const SizedBox(height: 250, child: Ads()),
-                              16.h.verticalSpace,
-                              Text("what_distrubes_you".tr(),
-                                  style: fonts.regularSemLink
-                                      .copyWith(fontSize: 17.sp)),
-                              12.h.verticalSpace,
-                              _buildOptionsRow(colors, fonts),
-                              12.h.verticalSpace,
-                              ProblemSlidebaleCard(
-                                isChildren: isChildren,
-                              ),
-                              24.h.verticalSpace,
-                              Text("med_services".tr(),
-                                  style: fonts.regularSemLink
-                                      .copyWith(fontSize: 17.sp)),
-                              12.h.verticalSpace,
-                              const MedService(),
-                              24.h.verticalSpace,
-                              Text("directions_of_medion_clinic".tr(),
-                                  style: fonts.regularSemLink
-                                      .copyWith(fontSize: 17.sp)),
-                              12.h.verticalSpace,
-                              SizedBox(
-                                height: 300.h,
-                                child: ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  itemCount: directionsData.length,
-                                  itemBuilder: (context, index) {
-                                    final item = directionsData[index];
-                                    return MedicalDirectionItem(
-                                      onTap: () async {
-                                        context
-                                            .read<BottomNavBarController>()
-                                            .changeNavBar(true);
-                                        // _onItemTapped(index);
-                                        Navigator.push(
-                                          context,
-                                          AppRoutes.getDirectionInfoPage(
-                                            appBarTitle: item["title"],
-                                            informationTitle:
-                                                item["information_title"],
-                                            doctorsList: item["doctorsList"],
-                                            professionServiceType:
-                                                item["professionServiceType"],
-                                            price: item["price"],
-                                          ),
-                                        ).then((_) async {
-                                          // ignore: use_build_context_synchronously
-                                          context
-                                              .read<BottomNavBarController>()
-                                              .changeNavBar(false);
-                                        });
-                                      },
-                                      title: item['title'],
-                                      subtitle: item['subtitle'],
-                                      iconPath: item['icon'],
-                                    );
-                                  },
-                                  // data: directionsData,
-                                  // emptyWidgetModel: ErrorWidgetModel(
-                                  //     title: "title", subtitle: "subtitle"),
-                                  // status: FormzSubmissionStatus.success),
-                                ),
-                              ),
-                              24.h.verticalSpace,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("doctors".tr(),
-                                      style: fonts.regularSemLink
-                                          .copyWith(fontSize: 17.sp)),
-                                  IconButton(
-                                    padding: EdgeInsets.zero,
-                                    onPressed: () async {
-                                      context
-                                          .read<BottomNavBarController>()
-                                          .changeNavBar(true);
-                                      Navigator.push(context,
-                                              AppRoutes.getAllDoctorsPage())
-                                          .then((value) {
-                                        context
-                                            .read<BottomNavBarController>()
-                                            .changeNavBar(false);
-                                      });
-                                    },
-                                    icon: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "all".tr(),
-                                          style: fonts.smallTagFirst.copyWith(
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500,
-                                              color: colors.primary900),
-                                        ),
-                                        3.w.horizontalSpace,
-                                        icons.right
-                                            .svg(width: 16.w, height: 16.h),
-                                        12.h.verticalSpace,
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              14.h.verticalSpace,
-                              BlocBuilder<DoctorBloc, DoctorState>(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: ListView(
+                          padding: EdgeInsets.zero,
+                          children: [
+                            const Ads(),
+                            16.h.verticalSpace,
+                            _buildSectionHeader("what_distrubes_you", fonts),
+                            12.h.verticalSpace,
+                            _buildOptionsRow(colors, fonts),
+                            12.h.verticalSpace,
+                            ProblemSlidebaleCard(isChildren: isChildren),
+                            _buildVerticalSpacingAndHeader(
+                                "med_services", fonts, "all", () {}),
+                            const MedService(),
+                            _buildVerticalSpacingAndHeader(
+                                "directions_of_medion_clinic",
+                                fonts,
+                                "all",
+                                () {}),
+                            BlocBuilder<BookingBloc, BookingState>(
                                 builder: (context, state) {
-                                  if (state.error) {
-                                    return Center(
-                                      child: Text(
-                                        'something_went_wrong'.tr(),
-                                        style: fonts.regularSemLink,
-                                      ),
-                                    );
-                                  }
+                              return ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: 8,
+                                itemBuilder: (context, index) {
+                                  final item =
+                                      state.homePageBookingCategory[index];
 
-                                  return ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: state.doctors.length,
-                                    itemBuilder: (context, index) {
-                                      final category = state.doctors[index];
-                                      final doctorData =
-                                          category.doctorData.map((doctor) {
-                                        return {
-                                          'name': doctor.name,
-                                          'profession': doctor.specialty,
-                                          'image': doctor.image,
-                                          // 'status': doctor.workPhone as int,
-                                          // 'candidateScience': doctor.academicRank,
-                                          'category': category.categoryName,
-                                        };
-                                      }).toList();
-
-                                      return _buildDoctorCategoryList(
-                                          category.categoryName, doctorData);
-                                    },
+                                  return MedicalDirectionItem(
+                                    onTap: () {},
+                                    title: item.name ?? "",
+                                    subtitle: "null",
+                                    iconPath: item.icon ?? "",
                                   );
                                 },
+                              );
+                            }),
+                            _buildVerticalSpacingAndHeader(
+                                "doctors", fonts, "all", () {}),
+                            _buildDoctorsSection(context, fonts, colors, icons),
+                            _buildVerticalSpacingAndHeader(
+                                "news", fonts, "all", () {}),
+                            GridView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 8,
+                                mainAxisSpacing: 8,
                               ),
-                              24.h.verticalSpace,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("news".tr(),
-                                      style: fonts.regularSemLink
-                                          .copyWith(fontSize: 17.sp)),
-                                  IconButton(
-                                    padding: EdgeInsets.zero,
-                                    onPressed: () {
-                                      context
-                                          .read<BottomNavBarController>()
-                                          .changeNavBar(false);
-                                      Navigator.push(
-                                          context, AppRoutes.getNewsPage());
-                                    },
-                                    icon: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "all".tr(),
-                                          style: fonts.smallTagFirst.copyWith(
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500,
-                                              color: colors.primary900),
-                                        ),
-                                        3.w.horizontalSpace,
-                                        icons.right
-                                            .svg(width: 16.w, height: 16.h),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 250.h,
-                                child: GridView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 8.0,
-                                    childAspectRatio: 4 / 4,
-                                  ),
-                                  itemBuilder: (context, index) {
-                                    final News item = state.news[index];
-                                    return NewsItem(
-                                      crop: true,
-                                      imagePath: item.image ?? "",
-                                      title: item.title ?? "",
-                                      subtitle: item.info ?? "",
-                                    );
-                                  },
-                                  itemCount: state.news.length,
-                                ),
-                              ),
-                              24.h.verticalSpace,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("address_of_clinic".tr(),
-                                      style: fonts.regularSemLink
-                                          .copyWith(fontSize: 17.sp)),
-                                  AnimationButtonEffect(
-                                    onTap: () {
-                                      context
-                                          .read<BottomNavBarController>()
-                                          .changeNavBar(true);
-                                      Navigator.push(
-                                          context, AppRoutes.getMapPage());
-                                    },
-                                    child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 12.w, vertical: 8.h),
-                                        decoration: BoxDecoration(
-                                            color: colors.shade0,
-                                            borderRadius:
-                                                BorderRadius.circular(8.r)),
-                                        child: Row(
-                                          children: [
-                                            icons.location
-                                                .svg(width: 20.w, height: 20.h),
-                                            3.66.w.horizontalSpace,
-                                            Text("on_map".tr(),
-                                                style: fonts.xSmallLink)
-                                          ],
-                                        )),
-                                  ),
-                                ],
-                              ),
-                              12.h.verticalSpace,
-                              AdressItem(
-                                  address: "street_abdulla".tr(),
-                                  url: '',
-                                  onTap: () {
-                                    // context
-                                    //     .read<BottomNavBarController>()
-                                    //     .changeNavBar(true);
-                                    // showModalBottomSheet(
-                                    //     isDismissible: true,
-                                    //     backgroundColor: Colors.white,
-                                    //     shape: const RoundedRectangleBorder(
-                                    //         borderRadius: BorderRadius.only(
-                                    //             topLeft: Radius.circular(60),
-                                    //             topRight: Radius.circular(60))),
-                                    //     context: context,
-                                    //     builder: (context) {
-                                    //       return Container(
-                                    //         decoration: BoxDecoration(
-                                    //           borderRadius:
-                                    //         ),
-                                    //         child:
-                                    //             const AdressViewPage(), // Removed const for demonstration
-                                    //       );
-                                    //     }).then((value) {
-                                    //   context
-                                    //       .read<BottomNavBarController>()
-                                    //       .changeNavBar(false);
-                                    // });
-                                  }),
-                              AdressItem(
-                                  address: "street_zulfiya".tr(),
-                                  url: '',
-                                  onTap: () {}),
-                              AdressItem(
-                                  address: "street_istiroxat".tr(),
-                                  url: '',
-                                  onTap: () {}),
-                              80.h.verticalSpace,
-                            ],
-                          ),
+                              itemCount: state.news.length,
+                              itemBuilder: (context, index) {
+                                final news = state.news[index];
+                                return NewsItem(
+                                  crop: true,
+                                  imagePath: news.image ?? "",
+                                  title: news.title ?? "",
+                                  subtitle: news.info ?? "",
+                                );
+                              },
+                            ),
+                            _buildVerticalSpacingAndHeader(
+                                "address_of_clinic", fonts, "all", () {}),
+                            _buildAddressSection(context, colors, fonts, icons),
+                            80.h.verticalSpace,
+                          ],
                         ),
                       ),
                     ),
@@ -395,73 +188,131 @@ class _HomePageState extends State<HomePage> {
   Widget _buildOptionsRow(colors, fonts) {
     return Row(
       children: [
-        Text("theme".tr(), style: fonts.smallMain),
-        SizedBox(width: 12.w),
-        _buildOptionButton(
-            "adult".tr(),
-            isChildren ? const Color(0xFFEBEBEB) : colors.error500,
-            fonts.xSmallText.copyWith(
-                color: isChildren ? colors.primary900 : colors.shade0)),
-        SizedBox(width: 4.w),
-        _buildOptionButton(
-            "child".tr(),
-            isChildren ? colors.error500 : const Color(0xFFEBEBEB),
-            fonts.xSmallText.copyWith(
-                color: isChildren ? colors.shade0 : colors.primary900)),
+        _buildOptionButton("adult", !isChildren, colors, fonts),
+        4.w.horizontalSpace,
+        _buildOptionButton("child", isChildren, colors, fonts),
       ],
     );
   }
 
-  Widget _buildOptionButton(String text, Color color, TextStyle textStyle) {
+  Widget _buildOptionButton(String text, bool active, colors, fonts) {
     return AnimationButtonEffect(
-      onTap: () {
-        setState(() {
-          isChildren = !isChildren;
-        });
-      },
+      onTap: () => setState(() => isChildren = !isChildren),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-            color: color, borderRadius: BorderRadius.circular(100.r)),
-        child: Text(text, style: textStyle),
+          color: active ? colors.error500 : const Color(0xFFEBEBEB),
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: Text(text.tr(),
+            style: fonts.xSmallText
+                .copyWith(color: active ? colors.shade0 : colors.primary900)),
       ),
     );
   }
 
-  Widget _buildDoctorCategoryList(
-      String category, List<Map<String, dynamic>> doctors) {
-    return ThemeWrapper(
-      builder: (context, colors, fonts, icons, controller) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(category, style: fonts.regularSemLink),
-            12.h.verticalSpace,
-            ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: doctors.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                final doctor = doctors[index];
-                return DoctorsItem(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        AppRoutes.getAboutDoctorPage(doctor['name'],
-                            doctor['profession'], doctor['status']));
-                  },
-                  categoryType: doctor['category'],
-                  imagePath: doctor['image'],
-                  name: doctor['name'],
-                  profession: doctor['profession'],
-                  status: doctor['status'],
-                  candidateScience: doctor['candidateScience'],
-                );
-              },
+  Widget _buildSectionHeader(String titleKey, fonts) {
+    return Text(
+      titleKey.tr(),
+      style: fonts.regularSemLink,
+    );
+  }
+
+  void _navigateToDirectionInfo(
+      BuildContext context, Map<String, dynamic> item) {
+    context.read<BottomNavBarController>().changeNavBar(true);
+
+    Navigator.push(
+      context,
+      AppRoutes.getDirectionInfoPage(
+        appBarTitle: item['title'],
+        informationTitle: item['information_title'],
+        doctorsList: item['doctorsList'],
+        professionServiceType: item['professionServiceType'],
+        price: item['price'],
+      ),
+    ).then((_) {
+      context.read<BottomNavBarController>().changeNavBar(false);
+    });
+  }
+
+  Widget _buildVerticalSpacingAndHeader(
+      String titleKey, fonts, String title, VoidCallback onTap) {
+    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _buildSectionHeader(titleKey, fonts),
+          TextButton(
+            onPressed: () {},
+            child: Row(
+              children: [
+                Text(title.tr(),
+                    style: fonts.smallLink.copyWith(
+                        fontSize: 14.sp, fontWeight: FontWeight.w500)),
+                3.w.horizontalSpace,
+                icons.right.svg()
+              ],
             ),
-          ],
+          )
+        ],
+      );
+    });
+  }
+
+  Widget _buildDoctorsSection(BuildContext context, fonts, colors, icons) {
+    return BlocBuilder<DoctorBloc, DoctorState>(
+      builder: (context, state) {
+        if (state.error) {
+          return Center(
+              child: Text('something_went_wrong'.tr(),
+                  style: fonts.regularSemLink));
+        }
+        return SizedBox(
+          height: 200,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: state.doctors.length,
+            itemBuilder: (context, index) {
+              final doctor = state.doctors[index];
+              return DoctorsItem(
+                onTap: () => Navigator.push(
+                  context,
+                  AppRoutes.getAboutDoctorPage(
+                      doctor.doctorData[index].name,
+                      doctor.doctorData[index].specialty,
+                      doctor.doctorData[index].name),
+                ),
+                name: doctor.doctorData[index].name,
+                profession: doctor.doctorData[index].name,
+                imagePath: doctor.doctorData[index].image,
+              );
+            },
+          ),
         );
       },
+    );
+  }
+
+  Widget _buildAddressSection(BuildContext context, colors, fonts, icons) {
+    return Column(
+      children: [
+        AdressItem(
+          address: "street_abdulla".tr(),
+          onTap: () {},
+          url: '',
+        ),
+        AdressItem(
+          address: "street_zulfiya".tr(),
+          onTap: () {},
+          url: '',
+        ),
+        AdressItem(
+          address: "street_istiroxat".tr(),
+          onTap: () {},
+          url: '',
+        ),
+      ],
     );
   }
 }

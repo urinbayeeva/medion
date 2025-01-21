@@ -52,23 +52,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
-  Future<String> uploadImage(String path) async {
-    List<String> paths = [path];
 
-    List<ImageUploadResponseModel?> images = [];
-    final res2 =
-        await _repositoryImageUpload.uploadImage(pickedImagePath: paths);
-
-    res2.fold((error) async {
-      EasyLoading.showError(error.message);
-    }, (data) async {
-      LogService.i(data.toString());
-      images = data;
-    });
-
-    return images.firstOrNull?.urls?.original ?? "";
-  }
-  
 
   
 }

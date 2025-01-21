@@ -94,21 +94,30 @@ final class _$BookingService extends BookingService {
   }
 
   @override
-  Future<Response<BuiltList<ServiceModel>>> getDoctorsTime({
-    required GiveSelectedId request,
-    required int days,
-  }) {
+  Future<Response<BuiltList<ServiceModel>>> getDoctorsTime(
+      {required List<int> request}) {
     final Uri $url = Uri.parse('/booking/doctors');
-    final Map<String, dynamic> $params = <String, dynamic>{'days': days};
     final $body = request;
     final Request $request = Request(
       'POST',
       $url,
       client.baseUrl,
       body: $body,
-      parameters: $params,
     );
     return client.send<BuiltList<ServiceModel>, ServiceModel>($request);
+  }
+
+  @override
+  Future<Response<BuiltList<HomepageBookingCategory>>>
+      getHomePageBookingCategory() {
+    final Uri $url = Uri.parse('/booking/categories');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<BuiltList<HomepageBookingCategory>,
+        HomepageBookingCategory>($request);
   }
 }
 
@@ -256,5 +265,19 @@ final class _$PatientService extends PatientService {
       headers: $headers,
     );
     return client.send<PatientInfo, PatientInfo>($request);
+  }
+
+  @override
+  Future<Response<SuccessModel>> patientImageUpload(
+      {required ImageUploadResponseModel image}) {
+    final Uri $url = Uri.parse('/profile/patient_image');
+    final $body = image;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<SuccessModel, SuccessModel>($request);
   }
 }

@@ -175,7 +175,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                             ..phoneNumber =
                                                 widget.phoneNumber)),
                                     );
-                                setState(() {});
+
                                 final token =
                                     context.read<DBService>().token.accessToken;
                                 if (token != null && token.isNotEmpty) {

@@ -59,12 +59,9 @@ class AboutDoctor extends StatelessWidget {
                 Expanded(
                   child: TabBarView(
                     children: [
-                      _buildContentSection("about_the_doctor".tr(),
-                          "Заместитель директора институ по Онкологии, Профессор Радиологии, Главный специалист по диагностике."),
-                      _buildContentSection("working_experience".tr(),
-                          "Ежегодно участвует в международных научных конференциях..."),
-                      _buildContentSection("education".tr(),
-                          "1998 г.: Санкт-Петербургский государственный медицинский Университет..."),
+                      _buildContentSection("about_the_doctor".tr(), ""),
+                      _buildContentSection("working_experience".tr(), ""),
+                      _buildContentSection("education".tr(), ""),
                       _buildContentSection(
                           "working_hours".tr(), "Пн-Пт: 09:00-18:00"),
                     ],

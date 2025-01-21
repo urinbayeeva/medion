@@ -15,6 +15,7 @@ import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/success_model/response_model.dart';
 import 'package:medion/domain/success_model/success_model.dart';
+import 'package:medion/domain/upload_image/upload_image.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
@@ -217,4 +218,29 @@ class AuthRepository implements IAuthFacade {
       return left(handleError(e));
     }
   }
+
+@override
+Future<Either<ResponseFailure, SuccessModel>> postPatientPhoto({
+  required ImageUploadResponseModel image,
+}) async {
+  try {
+    final response = await _patientService.patientImageUpload(
+      image: ImageUploadResponseModel((b) => b
+        ..imageBase64 = image.imageBase64), // Pass required fields here
+    );
+
+    LogService.d('Response Status: ${response.statusCode}');
+    LogService.d('Response Body: ${response.body}');
+
+    if (response.isSuccessful && response.body != null) {
+      return right(response.body!); // Use response.body directly
+    } else {
+      return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+    }
+  } catch (e) {
+    LogService.e(" ----> error on repo : ${e.toString()}");
+    return left(handleError(e));
+  }
+}
+
 }

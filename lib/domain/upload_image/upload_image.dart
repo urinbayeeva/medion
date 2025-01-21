@@ -90,17 +90,8 @@ abstract class ImageUploadResponseModel
           [Function(ImageUploadResponseModelBuilder b) updates]) =
       _$ImageUploadResponseModel;
 
-  @BuiltValueField(wireName: 'urls')
-  Urls? get urls;
-  String toJson() {
-    return json.encode(
-        serializers.serializeWith(ImageUploadResponseModel.serializer, this));
-  }
-
-  static ImageUploadResponseModel? fromJson(String jsonString) {
-    return serializers.deserializeWith(
-        ImageUploadResponseModel.serializer, json.decode(jsonString));
-  }
+  @BuiltValueField(wireName: 'image_base64')
+  String? get imageBase64;
 
   static Serializer<ImageUploadResponseModel> get serializer =>
       _$imageUploadResponseModelSerializer;
@@ -126,4 +117,44 @@ abstract class Urls implements Built<Urls, UrlsBuilder> {
   }
 
   static Serializer<Urls> get serializer => _$urlsSerializer;
+}
+
+abstract class ImageModel implements Built<ImageModel, ImageModelBuilder> {
+  // The base64 representation of an image
+  @BuiltValueField(wireName: 'image_base64')
+  String get imageBase64;
+
+  ImageModel._();
+
+  factory ImageModel([void Function(ImageModelBuilder) updates]) = _$ImageModel;
+
+  static Serializer<ImageModel> get serializer => _$imageModelSerializer;
+}
+
+
+abstract class ErrorResponse
+    implements Built<ErrorResponse, ErrorResponseBuilder> {
+  // The detail field containing error information.
+  ErrorDetail get detail;
+
+  ErrorResponse._();
+
+  factory ErrorResponse([void Function(ErrorResponseBuilder) updates]) =
+      _$ErrorResponse;
+
+  static Serializer<ErrorResponse> get serializer =>
+      _$errorResponseSerializer;
+}
+
+/// The detail object with error information.
+abstract class ErrorDetail implements Built<ErrorDetail, ErrorDetailBuilder> {
+  // The error message.
+  String get error;
+
+  ErrorDetail._();
+
+  factory ErrorDetail([void Function(ErrorDetailBuilder) updates]) =
+      _$ErrorDetail;
+
+  static Serializer<ErrorDetail> get serializer => _$errorDetailSerializer;
 }

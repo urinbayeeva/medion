@@ -25,6 +25,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<_GetDoctorsTime>(_onGetDoctorsTime);
     on<_FilterDoctorsBySpecialty>(_onFilterDoctorsBySpecialty);
     on<_FilterDoctorsByPrice>(_onFilterDoctorsByPrice);
+    on<_FetchHomePageServicesBooking>(_onFetchHomePageServicesBooking);
   }
 
   void _onSelectedInnerServiceID(
@@ -101,6 +102,35 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     );
   }
 
+  //Home Page Service Booking
+
+  FutureOr<void> _onFetchHomePageServicesBooking(
+    _FetchHomePageServicesBooking event,
+    Emitter<BookingState> emit,
+  ) async {
+    emit(state.copyWith(loading: true, error: false, success: false));
+
+    EasyLoading.show();
+
+    final res = await _repository.fetchHomePageBookingCategories();
+
+    res.fold(
+      (error) {
+        LogService.e("Error in fetching booking types: $error");
+        EasyLoading.showError(error.message); // Show error message
+        emit(state.copyWith(loading: false, error: true)); // Update state
+      },
+      (data) {
+        EasyLoading.dismiss();
+        emit(state.copyWith(
+          loading: false,
+          success: true,
+          homePageBookingCategory: data,
+        ));
+      },
+    );
+  }
+
   FutureOr<void> _fetchCategoryServices(
     _FetchCategoryServices event,
     Emitter<BookingState> emit,
@@ -145,7 +175,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       EasyLoading.show();
 
       final result = await _repository.getDoctorsTimeSlots(
-        serviceIds: BuiltList<int>.from(event.request.serviceIds),
+        serviceIds: BuiltList<int>.from(event.id),
         days: 1,
       );
 

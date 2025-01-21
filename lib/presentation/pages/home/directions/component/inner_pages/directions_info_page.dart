@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
@@ -35,11 +36,11 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   Widget buildDoctorItem(Map<String, dynamic> doctor, bool isInnerPage) {
     return DoctorsItem(
       // isInnerPageUsed: isInnerPage,
-      onTap: (){},
+      onTap: () {},
       name: doctor['name'],
       profession: doctor['profession'],
       experience: doctor['experience'],
-      imagePath: doctor['image'],
+      // imagePath: doctor['image'],
     );
   }
 
@@ -73,43 +74,86 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomToggle<int>(
-                      iconList: ['Об.я информация', 'Врачи', 'Услуги']
-                          .asMap()
-                          .entries
-                          .map((entry) => Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    entry.value,
-                                    style: fonts.xSmallLink.copyWith(
-                                      color: selectedIndex == entry.key
-                                          ? colors.shade0
-                                          : colors.primary900,
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w600,
+                    // CustomToggle<int>(
+                    //   iconList: [
+                    //     'all_informations'.tr(),
+                    //     'doctors'.tr(),
+                    //     'services'.tr()
+                    //   ]
+                    //       .asMap()
+                    //       .entries
+                    //       .map((entry) => Row(
+                    //             mainAxisSize: MainAxisSize.min,
+                    //             children: [
+                    //               Text(
+                    //                 entry.value,
+                    //                 style: fonts.xSmallLink.copyWith(
+                    //                   color: selectedIndex == entry.key
+                    //                       ? colors.shade0
+                    //                       : colors.primary900,
+                    //                   fontSize: 11.sp,
+                    //                   fontWeight: FontWeight.w600,
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ))
+                    //       .toList(),
+                    //   onChanged: (value) =>
+                    //       setState(() => selectedIndex = value),
+                    //   current: selectedIndex,
+                    //   values: const [0, 1, 2],
+                    //   height: 38.h,
+                    //   indicatorSize: Size(double.infinity, 40.h),
+                    //   backgroundColor: colors.neutral200,
+                    //   indicatorColor: colors.error500,
+                    //   elevation: false,
+                    // ),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: CustomToggle(
+                        iconList: [
+                          'all_informations'.tr(),
+                          'doctors'.tr(),
+                          'services'.tr()
+                        ]
+                            .asMap()
+                            .entries
+                            .map((entry) => Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      entry.value,
+                                      style: fonts.xSmallLink.copyWith(
+                                        color: selectedIndex == entry.key
+                                            ? colors.shade0
+                                            : colors.primary900,
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ))
-                          .toList(),
-                      onChanged: (value) =>
-                          setState(() => selectedIndex = value),
-                      current: selectedIndex,
-                      values: const [0, 1, 2],
-                      height: 38.h,
-                      indicatorSize: Size(double.infinity, 40.h),
-                      backgroundColor: colors.neutral200,
-                      indicatorColor: colors.error500,
-                      elevation: false,
+                                  ],
+                                ))
+                            .toList(),
+                        onChanged: (value) =>
+                            setState(() => selectedIndex = value),
+                        current: selectedIndex,
+                        values: const [0, 1, 2],
+                        height: 38.h,
+                        indicatorSize: Size(double.infinity, 40.h),
+                        backgroundColor: colors.neutral200,
+                        indicatorColor: colors.error500,
+                        elevation: false,
+                      ),
                     ),
                     12.h.verticalSpace,
                     if (selectedIndex == 0) ...[
-                      Text("Общая информация", style: fonts.regularSemLink),
+                      Text('all_informations'.tr(),
+                          style: fonts.regularSemLink),
                       8.h.verticalSpace,
                       CContainer(text: widget.informationTitle),
                       24.h.verticalSpace,
-                      Text("Врачи", style: fonts.regularSemLink),
+                      Text('doctors'.tr(), style: fonts.regularSemLink),
                       12.h.verticalSpace,
                       SizedBox(
                         height: 350,
@@ -121,7 +165,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                         ),
                       ),
                       24.h.verticalSpace,
-                      Text("Услуги", style: fonts.regularSemLink),
+                      Text('services'.tr(), style: fonts.regularSemLink),
                       8.h.verticalSpace,
                       ServiceWidget(
                         consultInfo: widget.professionServiceType,

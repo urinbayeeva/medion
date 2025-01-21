@@ -93,55 +93,69 @@ abstract class GiveSelectedId
       _$giveSelectedIdSerializer;
 }
 
-
-
 abstract class ServiceModel implements Built<ServiceModel, ServiceModelBuilder> {
+  @BuiltValueField(wireName: 'service_id')
   int get serviceId;
 
+  @BuiltValueField(wireName: 'service_name')
   String get serviceName;
 
+  @BuiltValueField(wireName: 'companies_doctors')
   BuiltList<CompanyDoctor> get companiesDoctors;
 
   ServiceModel._();
-
   factory ServiceModel([void Function(ServiceModelBuilder) updates]) = _$ServiceModel;
-
   static Serializer<ServiceModel> get serializer => _$serviceModelSerializer;
 }
 
-abstract class CompanyDoctor implements Built<CompanyDoctor, CompanyDoctorBuilder> {
+
+abstract class CompanyDoctor
+    implements Built<CompanyDoctor, CompanyDoctorBuilder> {
+  @BuiltValueField(wireName: 'company_id')
   int get companyId;
 
+  @BuiltValueField(wireName: 'company_name')
   String get companyName;
 
   BuiltList<Doctor> get doctor;
 
   CompanyDoctor._();
 
-  factory CompanyDoctor([void Function(CompanyDoctorBuilder) updates]) = _$CompanyDoctor;
+  factory CompanyDoctor([void Function(CompanyDoctorBuilder) updates]) =
+      _$CompanyDoctor;
 
   static Serializer<CompanyDoctor> get serializer => _$companyDoctorSerializer;
 }
 
 abstract class Doctor implements Built<Doctor, DoctorBuilder> {
+  @BuiltValueField(wireName: 'id')
   int get id;
 
+  @BuiltValueField(wireName: 'name')
   String get name;
 
+  @BuiltValueField(wireName: 'gender')
   String get gender;
 
+  @BuiltValueField(wireName: 'image')
   String get image;
 
+  @BuiltValueField(wireName: 'specialty')
   String get specialty;
 
+  @BuiltValueField(wireName: 'experience')
   String get experience;
 
-  BuiltList<Schedule> get schedules;
+  @BuiltValueField(wireName: 'schedules')
+  BuiltMap<String, BuiltList<Schedule>> get schedules;
 
+  @BuiltValueField(wireName: 'price')
   int get price;
 
+  @BuiltValueField(wireName: 'location')
   String get location;
 
+  @BuiltValueField(wireName: 'work_experience')
   int get workExperience;
 
   Doctor._();
@@ -152,10 +166,13 @@ abstract class Doctor implements Built<Doctor, DoctorBuilder> {
 }
 
 abstract class Schedule implements Built<Schedule, ScheduleBuilder> {
+  @BuiltValueField(wireName: 'time')
   String get time;
 
+  @BuiltValueField(wireName: 'active')
   bool get active;
 
+  @BuiltValueField(wireName: 'duration')
   int get duration;
 
   Schedule._();
@@ -163,4 +180,33 @@ abstract class Schedule implements Built<Schedule, ScheduleBuilder> {
   factory Schedule([void Function(ScheduleBuilder) updates]) = _$Schedule;
 
   static Serializer<Schedule> get serializer => _$scheduleSerializer;
+}
+
+
+
+
+//HOME PAGE BOOKING GASTROENTROLOGIYA
+
+abstract class HomepageBookingCategory
+    implements Built<HomepageBookingCategory, HomepageBookingCategoryBuilder> {
+  
+  @BuiltValueField(wireName: "id")
+  int? get id;
+
+    @BuiltValueField(wireName: "name")
+  String? get name;
+
+    @BuiltValueField(wireName: "icond")
+  String? get icon;
+
+  // Serializer
+  static Serializer<HomepageBookingCategory> get serializer =>
+      _$homepageBookingCategorySerializer;
+
+  // Factory Constructor
+  factory HomepageBookingCategory(
+          [void Function(HomepageBookingCategoryBuilder) updates]) =
+      _$HomepageBookingCategory;
+
+  HomepageBookingCategory._();
 }

@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class MedicalDirectionItem extends StatelessWidget {
@@ -40,8 +42,9 @@ class MedicalDirectionItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: iconPath != null && iconPath!.isNotEmpty
-                      ? SvgPicture.asset(iconPath!, width: 32.w, height: 32.h)
-                      : Icon(Icons.image, size: 32.h, color: colors.neutral600),
+                      ? CachedNetworkImage(
+                          imageUrl: iconPath!, width: 32.w, height: 32.h)
+                      : icons.consultation.svg(),
                 ),
                 title: Text(title ?? "Unknown Service",
                     style: fonts.smallSemLink.copyWith(

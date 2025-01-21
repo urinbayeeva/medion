@@ -23,18 +23,19 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _repository;
   final DBService _dbService;
-    final dynamic _repositoryImageUpload;
+  final dynamic _repositoryImageUpload;
 
   AuthBloc(
     this._repository,
-    this._dbService, this._repositoryImageUpload,
+    this._dbService,
+    this._repositoryImageUpload,
   ) : super(const _AuthState()) {
     on<_CheckAuth>(_checkAuth);
     on<_VerificationSend>(_verificationSendHandler);
     on<_SendPhoneNumber>(_sendPhoneNumberHandler);
     on<_SendUserInfo>(_sendUserInfoHandler);
     on<_FetchPatientInfo>(_fetchPatientInfoHandler);
-       on<_PickImage>(_pickImage);
+    on<_PickImage>(_pickImage);
   }
 
   /// Authentication Check
@@ -153,7 +154,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-
   FutureOr<void> _pickImage(
     _PickImage event,
     Emitter<AuthState> emit,
@@ -169,23 +169,4 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(state.copyWith(pickedImagePath: file?.path));
     }
   }
-
-  Future<String> uploadImage(String path) async {
-    List<String> paths = [path];
-
-    List<ImageUploadResponseModel?> images = [];
-    final res2 =
-        await _repositoryImageUpload.uploadImage(pickedImagePath: paths);
-
-    res2.fold((error) async {
-      EasyLoading.showError(error.message);
-    }, (data) async {
-      LogService.i(data.toString());
-      images = data;
-    });
-
-    return images.firstOrNull?.urls?.original ?? "";
-  }
-  
-
 }

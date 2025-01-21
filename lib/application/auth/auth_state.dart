@@ -19,6 +19,7 @@ class AuthState with _$AuthState {
     @Default(false) bool isFetchingPatientInfo,
     @Default(false) bool errorFetchingPatientInfo,
      @Default(null) String? pickedImagePath,
+     
     
   }) = _AuthState;
 }

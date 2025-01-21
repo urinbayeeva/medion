@@ -49,8 +49,8 @@ class _$MedicalServicesSerializer
     if (value != null) {
       result
         ..add('link')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
     }
     value = object.backgroundColor;
     if (value != null) {
@@ -95,7 +95,7 @@ class _$MedicalServicesSerializer
           break;
         case 'link':
           result.link = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'background_color':
           result.backgroundColor = serializers.deserialize(value,
@@ -284,7 +284,7 @@ class _$MedicalServices extends MedicalServices {
   @override
   final bool? forChildren;
   @override
-  final bool? link;
+  final JsonObject? link;
   @override
   final String? backgroundColor;
   @override
@@ -364,9 +364,9 @@ class MedicalServicesBuilder
   bool? get forChildren => _$this._forChildren;
   set forChildren(bool? forChildren) => _$this._forChildren = forChildren;
 
-  bool? _link;
-  bool? get link => _$this._link;
-  set link(bool? link) => _$this._link = link;
+  JsonObject? _link;
+  JsonObject? get link => _$this._link;
+  set link(JsonObject? link) => _$this._link = link;
 
   String? _backgroundColor;
   String? get backgroundColor => _$this._backgroundColor;

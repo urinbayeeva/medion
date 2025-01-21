@@ -4,6 +4,7 @@ import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/success_model/response_model.dart';
 import 'package:medion/domain/success_model/success_model.dart';
+import 'package:medion/domain/upload_image/upload_image.dart';
 
 import 'auth_failure.dart';
 
@@ -27,10 +28,13 @@ abstract class IAuthFacade {
     required CreateInfoReq request,
   });
 
-
   /// Get patient information
   Future<Either<ResponseFailure, PatientInfo>> getPatientInfo({
     required String accessToken,
   });
-  
+
+  /// Post patient photo
+  Future<Either<ResponseFailure, SuccessModel>> postPatientPhoto({
+    required ImageUploadResponseModel image,
+  });
 }

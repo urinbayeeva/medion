@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,12 +34,41 @@ class _AdsState extends State<Ads> {
 
         return Column(
           children: [
-            CachedImageComponent(
-                height: 180,
-                width: double.infinity,
-                imageUrl: state.ads.first.image!),
-            Text(state.ads.first.title ?? "", style: fonts.regularMain),
-            Text(state.ads.first.info ?? "", style: fonts.regularMain),
+            CarouselSlider(
+              items: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: Image.asset(
+                    width: double.infinity,
+                    "assets/images/ad_first.jpg",
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: Image.asset(
+                    width: double.infinity,
+                    "assets/images/ad_third.jpg",
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: Image.asset(
+                    width: double.infinity,
+                    "assets/images/ad_second.jpg",
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ],
+              options: CarouselOptions(
+                  autoPlay: true,
+                  aspectRatio: 1.5,
+                  viewportFraction: 1,
+                  autoPlayInterval: const Duration(seconds: 10)),
+            ),
+            // Text(state.ads.first.title ?? "", style: fonts.regularMain),
+            // Text(state.ads.first.info ?? "", style: fonts.regularMain),
           ],
         );
       });

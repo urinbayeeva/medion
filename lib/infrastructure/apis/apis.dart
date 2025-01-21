@@ -59,9 +59,12 @@ abstract class BookingService extends ChopperService {
 
   @Post(path: "doctors")
   Future<Response<BuiltList<ServiceModel>>> getDoctorsTime({
-    @Body() required GiveSelectedId request,
-    @Query('days') required int days,
+    @Body() required List<int> request,
   });
+
+  @Get(path: "categories")
+  Future<Response<BuiltList<HomepageBookingCategory>>>
+      getHomePageBookingCategory();
 
   static BookingService create(DBService dbService) =>
       _$BookingService(_Client(Constants.baseUrlP, true, dbService));
@@ -121,11 +124,13 @@ abstract class PatientService extends ChopperService {
     @Header("Authorization") String requires,
   );
 
+  @Post(path: "patient_image")
+  Future<Response<SuccessModel>> patientImageUpload({
+    @Body() required ImageUploadResponseModel image,
+  });
   static PatientService create(DBService dbService) =>
       _$PatientService(_Client(Constants.baseUrlP, true, dbService));
 }
-
-
 
 base class _Client extends ChopperClient {
   _Client(String baseUrl, bool useInterceptors, DBService dbService,

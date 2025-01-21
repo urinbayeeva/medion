@@ -14,6 +14,10 @@ Serializer<Fields> _$fieldsSerializer = new _$FieldsSerializer();
 Serializer<ImageUploadResponseModel> _$imageUploadResponseModelSerializer =
     new _$ImageUploadResponseModelSerializer();
 Serializer<Urls> _$urlsSerializer = new _$UrlsSerializer();
+Serializer<ImageModel> _$imageModelSerializer = new _$ImageModelSerializer();
+Serializer<ErrorResponse> _$errorResponseSerializer =
+    new _$ErrorResponseSerializer();
+Serializer<ErrorDetail> _$errorDetailSerializer = new _$ErrorDetailSerializer();
 
 class _$PreSignedUrlReqSerializer
     implements StructuredSerializer<PreSignedUrlReq> {
@@ -263,12 +267,12 @@ class _$ImageUploadResponseModelSerializer
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[];
     Object? value;
-    value = object.urls;
+    value = object.imageBase64;
     if (value != null) {
       result
-        ..add('urls')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(Urls)));
+        ..add('image_base64')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
@@ -285,9 +289,9 @@ class _$ImageUploadResponseModelSerializer
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
-        case 'urls':
-          result.urls.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Urls))! as Urls);
+        case 'image_base64':
+          result.imageBase64 = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -352,6 +356,127 @@ class _$UrlsSerializer implements StructuredSerializer<Urls> {
         case 'thumbnail':
           result.thumbnail = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$ImageModelSerializer implements StructuredSerializer<ImageModel> {
+  @override
+  final Iterable<Type> types = const [ImageModel, _$ImageModel];
+  @override
+  final String wireName = 'ImageModel';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, ImageModel object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'image_base64',
+      serializers.serialize(object.imageBase64,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  ImageModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new ImageModelBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'image_base64':
+          result.imageBase64 = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$ErrorResponseSerializer implements StructuredSerializer<ErrorResponse> {
+  @override
+  final Iterable<Type> types = const [ErrorResponse, _$ErrorResponse];
+  @override
+  final String wireName = 'ErrorResponse';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, ErrorResponse object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'detail',
+      serializers.serialize(object.detail,
+          specifiedType: const FullType(ErrorDetail)),
+    ];
+
+    return result;
+  }
+
+  @override
+  ErrorResponse deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new ErrorResponseBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'detail':
+          result.detail.replace(serializers.deserialize(value,
+              specifiedType: const FullType(ErrorDetail))! as ErrorDetail);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$ErrorDetailSerializer implements StructuredSerializer<ErrorDetail> {
+  @override
+  final Iterable<Type> types = const [ErrorDetail, _$ErrorDetail];
+  @override
+  final String wireName = 'ErrorDetail';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, ErrorDetail object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'error',
+      serializers.serialize(object.error,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  ErrorDetail deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new ErrorDetailBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'error':
+          result.error = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -724,13 +849,13 @@ class FieldsBuilder implements Builder<Fields, FieldsBuilder> {
 
 class _$ImageUploadResponseModel extends ImageUploadResponseModel {
   @override
-  final Urls? urls;
+  final String? imageBase64;
 
   factory _$ImageUploadResponseModel(
           [void Function(ImageUploadResponseModelBuilder)? updates]) =>
       (new ImageUploadResponseModelBuilder()..update(updates))._build();
 
-  _$ImageUploadResponseModel._({this.urls}) : super._();
+  _$ImageUploadResponseModel._({this.imageBase64}) : super._();
 
   @override
   ImageUploadResponseModel rebuild(
@@ -744,13 +869,14 @@ class _$ImageUploadResponseModel extends ImageUploadResponseModel {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is ImageUploadResponseModel && urls == other.urls;
+    return other is ImageUploadResponseModel &&
+        imageBase64 == other.imageBase64;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, urls.hashCode);
+    _$hash = $jc(_$hash, imageBase64.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -758,7 +884,7 @@ class _$ImageUploadResponseModel extends ImageUploadResponseModel {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'ImageUploadResponseModel')
-          ..add('urls', urls))
+          ..add('imageBase64', imageBase64))
         .toString();
   }
 }
@@ -768,16 +894,16 @@ class ImageUploadResponseModelBuilder
         Builder<ImageUploadResponseModel, ImageUploadResponseModelBuilder> {
   _$ImageUploadResponseModel? _$v;
 
-  UrlsBuilder? _urls;
-  UrlsBuilder get urls => _$this._urls ??= new UrlsBuilder();
-  set urls(UrlsBuilder? urls) => _$this._urls = urls;
+  String? _imageBase64;
+  String? get imageBase64 => _$this._imageBase64;
+  set imageBase64(String? imageBase64) => _$this._imageBase64 = imageBase64;
 
   ImageUploadResponseModelBuilder();
 
   ImageUploadResponseModelBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _urls = $v.urls?.toBuilder();
+      _imageBase64 = $v.imageBase64;
       _$v = null;
     }
     return this;
@@ -798,20 +924,8 @@ class ImageUploadResponseModelBuilder
   ImageUploadResponseModel build() => _build();
 
   _$ImageUploadResponseModel _build() {
-    _$ImageUploadResponseModel _$result;
-    try {
-      _$result = _$v ?? new _$ImageUploadResponseModel._(urls: _urls?.build());
-    } catch (_) {
-      late String _$failedField;
-      try {
-        _$failedField = 'urls';
-        _urls?.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'ImageUploadResponseModel', _$failedField, e.toString());
-      }
-      rethrow;
-    }
+    final _$result =
+        _$v ?? new _$ImageUploadResponseModel._(imageBase64: imageBase64);
     replace(_$result);
     return _$result;
   }
@@ -911,6 +1025,263 @@ class UrlsBuilder implements Builder<Urls, UrlsBuilder> {
   _$Urls _build() {
     final _$result =
         _$v ?? new _$Urls._(id: id, original: original, thumbnail: thumbnail);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ImageModel extends ImageModel {
+  @override
+  final String imageBase64;
+
+  factory _$ImageModel([void Function(ImageModelBuilder)? updates]) =>
+      (new ImageModelBuilder()..update(updates))._build();
+
+  _$ImageModel._({required this.imageBase64}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        imageBase64, r'ImageModel', 'imageBase64');
+  }
+
+  @override
+  ImageModel rebuild(void Function(ImageModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ImageModelBuilder toBuilder() => new ImageModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ImageModel && imageBase64 == other.imageBase64;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, imageBase64.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'ImageModel')
+          ..add('imageBase64', imageBase64))
+        .toString();
+  }
+}
+
+class ImageModelBuilder implements Builder<ImageModel, ImageModelBuilder> {
+  _$ImageModel? _$v;
+
+  String? _imageBase64;
+  String? get imageBase64 => _$this._imageBase64;
+  set imageBase64(String? imageBase64) => _$this._imageBase64 = imageBase64;
+
+  ImageModelBuilder();
+
+  ImageModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _imageBase64 = $v.imageBase64;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ImageModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ImageModel;
+  }
+
+  @override
+  void update(void Function(ImageModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ImageModel build() => _build();
+
+  _$ImageModel _build() {
+    final _$result = _$v ??
+        new _$ImageModel._(
+            imageBase64: BuiltValueNullFieldError.checkNotNull(
+                imageBase64, r'ImageModel', 'imageBase64'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ErrorResponse extends ErrorResponse {
+  @override
+  final ErrorDetail detail;
+
+  factory _$ErrorResponse([void Function(ErrorResponseBuilder)? updates]) =>
+      (new ErrorResponseBuilder()..update(updates))._build();
+
+  _$ErrorResponse._({required this.detail}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(detail, r'ErrorResponse', 'detail');
+  }
+
+  @override
+  ErrorResponse rebuild(void Function(ErrorResponseBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ErrorResponseBuilder toBuilder() => new ErrorResponseBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ErrorResponse && detail == other.detail;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, detail.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'ErrorResponse')
+          ..add('detail', detail))
+        .toString();
+  }
+}
+
+class ErrorResponseBuilder
+    implements Builder<ErrorResponse, ErrorResponseBuilder> {
+  _$ErrorResponse? _$v;
+
+  ErrorDetailBuilder? _detail;
+  ErrorDetailBuilder get detail => _$this._detail ??= new ErrorDetailBuilder();
+  set detail(ErrorDetailBuilder? detail) => _$this._detail = detail;
+
+  ErrorResponseBuilder();
+
+  ErrorResponseBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _detail = $v.detail.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ErrorResponse other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ErrorResponse;
+  }
+
+  @override
+  void update(void Function(ErrorResponseBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ErrorResponse build() => _build();
+
+  _$ErrorResponse _build() {
+    _$ErrorResponse _$result;
+    try {
+      _$result = _$v ?? new _$ErrorResponse._(detail: detail.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'detail';
+        detail.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'ErrorResponse', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ErrorDetail extends ErrorDetail {
+  @override
+  final String error;
+
+  factory _$ErrorDetail([void Function(ErrorDetailBuilder)? updates]) =>
+      (new ErrorDetailBuilder()..update(updates))._build();
+
+  _$ErrorDetail._({required this.error}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(error, r'ErrorDetail', 'error');
+  }
+
+  @override
+  ErrorDetail rebuild(void Function(ErrorDetailBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ErrorDetailBuilder toBuilder() => new ErrorDetailBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ErrorDetail && error == other.error;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, error.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'ErrorDetail')..add('error', error))
+        .toString();
+  }
+}
+
+class ErrorDetailBuilder implements Builder<ErrorDetail, ErrorDetailBuilder> {
+  _$ErrorDetail? _$v;
+
+  String? _error;
+  String? get error => _$this._error;
+  set error(String? error) => _$this._error = error;
+
+  ErrorDetailBuilder();
+
+  ErrorDetailBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _error = $v.error;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ErrorDetail other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ErrorDetail;
+  }
+
+  @override
+  void update(void Function(ErrorDetailBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ErrorDetail build() => _build();
+
+  _$ErrorDetail _build() {
+    final _$result = _$v ??
+        new _$ErrorDetail._(
+            error: BuiltValueNullFieldError.checkNotNull(
+                error, r'ErrorDetail', 'error'));
     replace(_$result);
     return _$result;
   }

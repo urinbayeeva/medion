@@ -116,6 +116,9 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                   ),
                                   AnimationButtonEffect(
                                     onTap: () {
+                                      context.read<BookingBloc>().add(
+                                          BookingEvent.selectInnerServiceID(
+                                              ids: [3836, 3835]));
                                       setState(() {
                                         if (selectedServices
                                             .contains(service)) {
@@ -129,10 +132,6 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                         final selectedIds = selectedServices
                                             .map<int>((s) => s.id as int)
                                             .toList();
-
-                                        context.read<BookingBloc>().add(
-                                            BookingEvent.selectInnerServiceID(
-                                                ids: selectedIds));
 
                                         print(
                                             "SELECTED SERVICES ID: ${selectedIds}");

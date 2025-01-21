@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class DoctorsItem extends StatelessWidget {
@@ -78,7 +80,7 @@ class DoctorsItem extends StatelessWidget {
                   color: colors.shade0),
               child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Image.asset(imagePath ?? "", fit: BoxFit.cover)),
+                  child: icons.nonUser.svg()),
             ),
           ],
         );
