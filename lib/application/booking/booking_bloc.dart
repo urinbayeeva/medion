@@ -15,7 +15,7 @@ part 'booking_state.dart';
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
   final BookingRepository _repository;
 
-  BookingBloc(this._repository) : super(BookingState()) {
+  BookingBloc(this._repository) : super(const BookingState()) {
     on<_FetchBookingTypes>(_fetchBookingTypesHandler);
     on<_FetchCategoryServices>(_fetchCategoryServices);
     on<_SelectService>(_onSelectService);
@@ -26,6 +26,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<_FilterDoctorsBySpecialty>(_onFilterDoctorsBySpecialty);
     on<_FilterDoctorsByPrice>(_onFilterDoctorsByPrice);
     on<_FetchHomePageServicesBooking>(_onFetchHomePageServicesBooking);
+    on<_FetchHomePageServiceDoctors>(_onFetchHomePageServiceDoctors);
   }
 
   void _onSelectedInnerServiceID(
@@ -272,4 +273,38 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       filteredDoctors: filteredDoctors,
     ));
   }
+
+FutureOr<void> _onFetchHomePageServiceDoctors(
+  _FetchHomePageServiceDoctors event,
+  Emitter<BookingState> emit,
+) async {
+  emit(state.copyWith(loading: true, error: false, success: false));
+
+  try {
+    EasyLoading.show();
+
+    final res = await _repository.fetchHomePageBookingDoctors(event.id);
+
+    res.fold(
+      (error) {
+        LogService.e("Error in fetching category services: ${error.message}");
+        emit(state.copyWith(loading: false, error: true));
+        EasyLoading.showError(error.message);
+      },
+      (data) {
+        emit(state.copyWith(
+          loading: false,
+          success: true,
+          medicalModel: data,  // Store the single MedicalModel
+        ));
+      },
+    );
+  } catch (e) {
+    LogService.e("Unexpected error in _fetchCategoryServices: $e");
+    emit(state.copyWith(loading: false, error: true));
+    EasyLoading.showError('Unexpected error occurred');
+  } finally {
+    EasyLoading.dismiss();
+  }
+}
 }

@@ -54,6 +54,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: CustomListView(
+                    // count: state.selectedInnerServiceIds!.length,
                     onRefresh: () {
                       final selectedId =
                           context.read<BookingBloc>().state.selectedServiceId;

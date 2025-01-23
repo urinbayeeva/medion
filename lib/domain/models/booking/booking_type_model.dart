@@ -210,3 +210,42 @@ abstract class HomepageBookingCategory
 
   HomepageBookingCategory._();
 }
+
+//HOME PAGE BOOKING GASTROENTROLOGIYA GET DOCTORS 
+
+abstract class MedicalModel implements Built<MedicalModel, MedicalModelBuilder> {
+  int? get id;
+  String? get description;
+  BuiltList<HomeMedicalDoctor> get doctors;
+  BuiltList<HomeServiceBooking> get services;
+
+  MedicalModel._();
+  factory MedicalModel([void Function(MedicalModelBuilder) updates]) = _$MedicalModel;
+
+  static Serializer<MedicalModel> get serializer => _$medicalModelSerializer;
+}
+
+abstract class HomeMedicalDoctor implements Built<HomeMedicalDoctor, HomeMedicalDoctorBuilder> {
+  int? get id;
+  String? get image;
+  String? get name;
+  String? get jobName;
+  int? get experienceYears;
+
+  HomeMedicalDoctor._();
+  factory HomeMedicalDoctor([void Function(HomeMedicalDoctorBuilder) updates]) = _$HomeMedicalDoctor;
+
+  static Serializer<HomeMedicalDoctor> get serializer => _$homeMedicalDoctorSerializer;
+}
+
+abstract class HomeServiceBooking implements Built<HomeServiceBooking, HomeServiceBookingBuilder> {
+  int? get id;
+  String? get name;
+  int? get priceUzs;
+  int? get priceUzd;
+
+  HomeServiceBooking._();
+  factory HomeServiceBooking([void Function(HomeServiceBookingBuilder) updates]) = _$HomeServiceBooking;
+
+  static Serializer<HomeServiceBooking> get serializer => _$homeServiceBookingSerializer;
+}

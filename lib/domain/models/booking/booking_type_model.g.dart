@@ -20,6 +20,12 @@ Serializer<Doctor> _$doctorSerializer = new _$DoctorSerializer();
 Serializer<Schedule> _$scheduleSerializer = new _$ScheduleSerializer();
 Serializer<HomepageBookingCategory> _$homepageBookingCategorySerializer =
     new _$HomepageBookingCategorySerializer();
+Serializer<MedicalModel> _$medicalModelSerializer =
+    new _$MedicalModelSerializer();
+Serializer<HomeMedicalDoctor> _$homeMedicalDoctorSerializer =
+    new _$HomeMedicalDoctorSerializer();
+Serializer<HomeServiceBooking> _$homeServiceBookingSerializer =
+    new _$HomeServiceBookingSerializer();
 
 class _$BookingTypeModelSerializer
     implements StructuredSerializer<BookingTypeModel> {
@@ -586,6 +592,244 @@ class _$HomepageBookingCategorySerializer
         case 'icond':
           result.icon = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$MedicalModelSerializer implements StructuredSerializer<MedicalModel> {
+  @override
+  final Iterable<Type> types = const [MedicalModel, _$MedicalModel];
+  @override
+  final String wireName = 'MedicalModel';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, MedicalModel object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'doctors',
+      serializers.serialize(object.doctors,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(HomeMedicalDoctor)])),
+      'services',
+      serializers.serialize(object.services,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(HomeServiceBooking)])),
+    ];
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.description;
+    if (value != null) {
+      result
+        ..add('description')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  MedicalModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new MedicalModelBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'description':
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'doctors':
+          result.doctors.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(HomeMedicalDoctor)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'services':
+          result.services.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(HomeServiceBooking)]))!
+              as BuiltList<Object?>);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$HomeMedicalDoctorSerializer
+    implements StructuredSerializer<HomeMedicalDoctor> {
+  @override
+  final Iterable<Type> types = const [HomeMedicalDoctor, _$HomeMedicalDoctor];
+  @override
+  final String wireName = 'HomeMedicalDoctor';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, HomeMedicalDoctor object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[];
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.image;
+    if (value != null) {
+      result
+        ..add('image')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.name;
+    if (value != null) {
+      result
+        ..add('name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.jobName;
+    if (value != null) {
+      result
+        ..add('jobName')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.experienceYears;
+    if (value != null) {
+      result
+        ..add('experienceYears')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    return result;
+  }
+
+  @override
+  HomeMedicalDoctor deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new HomeMedicalDoctorBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'image':
+          result.image = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'jobName':
+          result.jobName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'experienceYears':
+          result.experienceYears = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$HomeServiceBookingSerializer
+    implements StructuredSerializer<HomeServiceBooking> {
+  @override
+  final Iterable<Type> types = const [HomeServiceBooking, _$HomeServiceBooking];
+  @override
+  final String wireName = 'HomeServiceBooking';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, HomeServiceBooking object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[];
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.name;
+    if (value != null) {
+      result
+        ..add('name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.priceUzs;
+    if (value != null) {
+      result
+        ..add('priceUzs')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.priceUzd;
+    if (value != null) {
+      result
+        ..add('priceUzd')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    return result;
+  }
+
+  @override
+  HomeServiceBooking deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new HomeServiceBookingBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'priceUzs':
+          result.priceUzs = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'priceUzd':
+          result.priceUzd = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -1758,6 +2002,393 @@ class HomepageBookingCategoryBuilder
   _$HomepageBookingCategory _build() {
     final _$result =
         _$v ?? new _$HomepageBookingCategory._(id: id, name: name, icon: icon);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$MedicalModel extends MedicalModel {
+  @override
+  final int? id;
+  @override
+  final String? description;
+  @override
+  final BuiltList<HomeMedicalDoctor> doctors;
+  @override
+  final BuiltList<HomeServiceBooking> services;
+
+  factory _$MedicalModel([void Function(MedicalModelBuilder)? updates]) =>
+      (new MedicalModelBuilder()..update(updates))._build();
+
+  _$MedicalModel._(
+      {this.id,
+      this.description,
+      required this.doctors,
+      required this.services})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(doctors, r'MedicalModel', 'doctors');
+    BuiltValueNullFieldError.checkNotNull(
+        services, r'MedicalModel', 'services');
+  }
+
+  @override
+  MedicalModel rebuild(void Function(MedicalModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  MedicalModelBuilder toBuilder() => new MedicalModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is MedicalModel &&
+        id == other.id &&
+        description == other.description &&
+        doctors == other.doctors &&
+        services == other.services;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jc(_$hash, doctors.hashCode);
+    _$hash = $jc(_$hash, services.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'MedicalModel')
+          ..add('id', id)
+          ..add('description', description)
+          ..add('doctors', doctors)
+          ..add('services', services))
+        .toString();
+  }
+}
+
+class MedicalModelBuilder
+    implements Builder<MedicalModel, MedicalModelBuilder> {
+  _$MedicalModel? _$v;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
+
+  ListBuilder<HomeMedicalDoctor>? _doctors;
+  ListBuilder<HomeMedicalDoctor> get doctors =>
+      _$this._doctors ??= new ListBuilder<HomeMedicalDoctor>();
+  set doctors(ListBuilder<HomeMedicalDoctor>? doctors) =>
+      _$this._doctors = doctors;
+
+  ListBuilder<HomeServiceBooking>? _services;
+  ListBuilder<HomeServiceBooking> get services =>
+      _$this._services ??= new ListBuilder<HomeServiceBooking>();
+  set services(ListBuilder<HomeServiceBooking>? services) =>
+      _$this._services = services;
+
+  MedicalModelBuilder();
+
+  MedicalModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _description = $v.description;
+      _doctors = $v.doctors.toBuilder();
+      _services = $v.services.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(MedicalModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$MedicalModel;
+  }
+
+  @override
+  void update(void Function(MedicalModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  MedicalModel build() => _build();
+
+  _$MedicalModel _build() {
+    _$MedicalModel _$result;
+    try {
+      _$result = _$v ??
+          new _$MedicalModel._(
+              id: id,
+              description: description,
+              doctors: doctors.build(),
+              services: services.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'doctors';
+        doctors.build();
+        _$failedField = 'services';
+        services.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'MedicalModel', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$HomeMedicalDoctor extends HomeMedicalDoctor {
+  @override
+  final int? id;
+  @override
+  final String? image;
+  @override
+  final String? name;
+  @override
+  final String? jobName;
+  @override
+  final int? experienceYears;
+
+  factory _$HomeMedicalDoctor(
+          [void Function(HomeMedicalDoctorBuilder)? updates]) =>
+      (new HomeMedicalDoctorBuilder()..update(updates))._build();
+
+  _$HomeMedicalDoctor._(
+      {this.id, this.image, this.name, this.jobName, this.experienceYears})
+      : super._();
+
+  @override
+  HomeMedicalDoctor rebuild(void Function(HomeMedicalDoctorBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  HomeMedicalDoctorBuilder toBuilder() =>
+      new HomeMedicalDoctorBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is HomeMedicalDoctor &&
+        id == other.id &&
+        image == other.image &&
+        name == other.name &&
+        jobName == other.jobName &&
+        experienceYears == other.experienceYears;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, image.hashCode);
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, jobName.hashCode);
+    _$hash = $jc(_$hash, experienceYears.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'HomeMedicalDoctor')
+          ..add('id', id)
+          ..add('image', image)
+          ..add('name', name)
+          ..add('jobName', jobName)
+          ..add('experienceYears', experienceYears))
+        .toString();
+  }
+}
+
+class HomeMedicalDoctorBuilder
+    implements Builder<HomeMedicalDoctor, HomeMedicalDoctorBuilder> {
+  _$HomeMedicalDoctor? _$v;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  String? _image;
+  String? get image => _$this._image;
+  set image(String? image) => _$this._image = image;
+
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
+  String? _jobName;
+  String? get jobName => _$this._jobName;
+  set jobName(String? jobName) => _$this._jobName = jobName;
+
+  int? _experienceYears;
+  int? get experienceYears => _$this._experienceYears;
+  set experienceYears(int? experienceYears) =>
+      _$this._experienceYears = experienceYears;
+
+  HomeMedicalDoctorBuilder();
+
+  HomeMedicalDoctorBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _image = $v.image;
+      _name = $v.name;
+      _jobName = $v.jobName;
+      _experienceYears = $v.experienceYears;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(HomeMedicalDoctor other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$HomeMedicalDoctor;
+  }
+
+  @override
+  void update(void Function(HomeMedicalDoctorBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  HomeMedicalDoctor build() => _build();
+
+  _$HomeMedicalDoctor _build() {
+    final _$result = _$v ??
+        new _$HomeMedicalDoctor._(
+            id: id,
+            image: image,
+            name: name,
+            jobName: jobName,
+            experienceYears: experienceYears);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$HomeServiceBooking extends HomeServiceBooking {
+  @override
+  final int? id;
+  @override
+  final String? name;
+  @override
+  final int? priceUzs;
+  @override
+  final int? priceUzd;
+
+  factory _$HomeServiceBooking(
+          [void Function(HomeServiceBookingBuilder)? updates]) =>
+      (new HomeServiceBookingBuilder()..update(updates))._build();
+
+  _$HomeServiceBooking._({this.id, this.name, this.priceUzs, this.priceUzd})
+      : super._();
+
+  @override
+  HomeServiceBooking rebuild(
+          void Function(HomeServiceBookingBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  HomeServiceBookingBuilder toBuilder() =>
+      new HomeServiceBookingBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is HomeServiceBooking &&
+        id == other.id &&
+        name == other.name &&
+        priceUzs == other.priceUzs &&
+        priceUzd == other.priceUzd;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, priceUzs.hashCode);
+    _$hash = $jc(_$hash, priceUzd.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'HomeServiceBooking')
+          ..add('id', id)
+          ..add('name', name)
+          ..add('priceUzs', priceUzs)
+          ..add('priceUzd', priceUzd))
+        .toString();
+  }
+}
+
+class HomeServiceBookingBuilder
+    implements Builder<HomeServiceBooking, HomeServiceBookingBuilder> {
+  _$HomeServiceBooking? _$v;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
+  int? _priceUzs;
+  int? get priceUzs => _$this._priceUzs;
+  set priceUzs(int? priceUzs) => _$this._priceUzs = priceUzs;
+
+  int? _priceUzd;
+  int? get priceUzd => _$this._priceUzd;
+  set priceUzd(int? priceUzd) => _$this._priceUzd = priceUzd;
+
+  HomeServiceBookingBuilder();
+
+  HomeServiceBookingBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _name = $v.name;
+      _priceUzs = $v.priceUzs;
+      _priceUzd = $v.priceUzd;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(HomeServiceBooking other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$HomeServiceBooking;
+  }
+
+  @override
+  void update(void Function(HomeServiceBookingBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  HomeServiceBooking build() => _build();
+
+  _$HomeServiceBooking _build() {
+    final _$result = _$v ??
+        new _$HomeServiceBooking._(
+            id: id, name: name, priceUzs: priceUzs, priceUzd: priceUzd);
     replace(_$result);
     return _$result;
   }

@@ -20,8 +20,11 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ErrorDetail.serializer)
       ..add(ErrorResponse.serializer)
       ..add(GiveSelectedId.serializer)
+      ..add(HomeMedicalDoctor.serializer)
+      ..add(HomeServiceBooking.serializer)
       ..add(HomepageBookingCategory.serializer)
       ..add(ImageModel.serializer)
+      ..add(MedicalModel.serializer)
       ..add(MedicalServices.serializer)
       ..add(News.serializer)
       ..add(PatientInfo.serializer)
@@ -40,6 +43,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DoctorData)]),
           () => new ListBuilder<DoctorData>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(HomeMedicalDoctor)]),
+          () => new ListBuilder<HomeMedicalDoctor>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(HomeServiceBooking)]),
+          () => new ListBuilder<HomeServiceBooking>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Service)]),
           () => new ListBuilder<Service>())

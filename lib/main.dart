@@ -16,12 +16,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await Hive.initFlutter();
-  await AppInit.create;
-  await initializeDateFormatting('ru', null);
-
   if (kDebugMode) {
     Bloc.observer = LogBlocObserver();
   }
@@ -29,6 +23,11 @@ Future<void> main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    await Hive.initFlutter();
+    await AppInit.create;
+    await initializeDateFormatting('ru', null);
     await SentryFlutter.init(
       (options) {
         options.dsn =

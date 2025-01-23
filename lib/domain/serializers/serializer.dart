@@ -39,7 +39,10 @@ part 'serializer.g.dart';
   DoctorData,
   ImageModel,
   HomepageBookingCategory,
-  ErrorResponse
+  ErrorResponse,
+  MedicalModel,
+  HomeMedicalDoctor,
+  HomeServiceBooking
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..addPlugin(StandardJsonPlugin())

@@ -1,12 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
+import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/domain/sources/directions_data.dart';
+import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:provider/provider.dart';
 
 class DirectionsPage extends StatefulWidget {
   const DirectionsPage({super.key});
@@ -16,12 +19,13 @@ class DirectionsPage extends StatefulWidget {
 }
 
 class _DirectionsPageState extends State<DirectionsPage> {
-  int _selectedIndex = 0;
+  @override
+  void initState() {
+    super.initState();
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    context
+        .read<BookingBloc>()
+        .add(const BookingEvent.fetchHomePageServicesBooking());
   }
 
   @override
@@ -45,38 +49,39 @@ class _DirectionsPageState extends State<DirectionsPage> {
                   padding:
                       EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                   children: [
-                    ListView.builder(
-                      padding: EdgeInsets.zero,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: directionsData.length,
-                      itemBuilder: (context, index) {
-                        final item = directionsData[index];
-                        return MedicalDirectionItem(
-                          onTap: () {
-                            _onItemTapped(index);
-
-                            Navigator.push(
-                              context,
-                              AppRoutes.getDirectionInfoPage(
-                                appBarTitle: item["title"],
-                                informationTitle: item["information_title"],
-                                doctorsList: item["doctorsList"],
-                                professionServiceType:
-                                    item["professionServiceType"],
-                                price: item["price"],
-                              ),
-                            );
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(true);
-                          },
-                          title: item['title'],
-                          subtitle: item['subtitle'],
-                          iconPath: item['icon'],
+                    BlocBuilder<BookingBloc, BookingState>(
+                        builder: (context, state) {
+                      if (state.homePageBookingCategory.isEmpty) {
+                        return Center(
+                          child: Lottie.asset("assets/anim/404.json"),
                         );
-                      },
-                    ),
+                      }
+                      return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: state.homePageBookingCategory.length,
+                        itemBuilder: (context, index) {
+                          final item = state.homePageBookingCategory[index];
+
+                          return MedicalDirectionItem(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                AppRoutes.getDirectionInfoPage(id: item.id!),
+                              ).then((_) {
+                                context
+                                    .read<BottomNavBarController>()
+                                    .changeNavBar(false);
+                              });
+                            },
+                            title: item.name ?? "",
+                            subtitle: "null",
+                            iconPath: item.icon ?? "",
+                          );
+                        },
+                      );
+                    }),
                     60.h.verticalSpace,
                   ],
                 ),

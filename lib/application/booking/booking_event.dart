@@ -20,9 +20,14 @@ abstract class BookingEvent with _$BookingEvent {
   const factory BookingEvent.filterDoctorsBySpecialty({
     required String specialty,
   }) = _FilterDoctorsBySpecialty;
+
   const factory BookingEvent.filterDoctorsByPrice({
     required int maxPrice,
   }) = _FilterDoctorsByPrice;
 
     const factory BookingEvent.fetchHomePageServicesBooking() = _FetchHomePageServicesBooking;
+
+  const factory BookingEvent.fetchHomePageServiceDoctors({required int id}) = _FetchHomePageServiceDoctors;
+
+
 }

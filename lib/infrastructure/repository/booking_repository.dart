@@ -101,4 +101,29 @@ class BookingRepository implements IBookingFacade {
       return left(handleError(e));
     }
   }
+
+  //HOME PAGE BOOKING GET DOCTORS
+
+  @override
+  Future<Either<ResponseFailure, MedicalModel>> fetchHomePageBookingDoctors(
+    int id,
+  ) async {
+    try {
+      final response = await _bookingService.getHomePageBookingDoctors(id);
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        print(response.statusCode);
+        return right(response.body!);
+      } else {
+        print(response.statusCode);
+
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      LogService.e(" ----> error on repo: ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
 }

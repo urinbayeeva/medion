@@ -47,11 +47,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    super.initState();
     context.read<HomeBloc>().add(const HomeEvent.fetchNews());
     context
         .read<BookingBloc>()
         .add(const BookingEvent.fetchHomePageServicesBooking());
-    super.initState();
   }
 
   @override
@@ -113,8 +113,9 @@ class _HomePageState extends State<HomePage> {
                             _buildOptionsRow(colors, fonts),
                             12.h.verticalSpace,
                             ProblemSlidebaleCard(isChildren: isChildren),
-                            _buildVerticalSpacingAndHeader(
-                                "med_services", fonts, "all", () {}),
+                            Text("med_services".tr(),
+                                style: fonts.regularSemLink),
+                            12.h.verticalSpace,
                             const MedService(),
                             _buildVerticalSpacingAndHeader(
                                 "directions_of_medion_clinic",
@@ -133,7 +134,17 @@ class _HomePageState extends State<HomePage> {
                                       state.homePageBookingCategory[index];
 
                                   return MedicalDirectionItem(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        AppRoutes.getDirectionInfoPage(
+                                            id: item.id!),
+                                      ).then((_) {
+                                        context
+                                            .read<BottomNavBarController>()
+                                            .changeNavBar(false);
+                                      });
+                                    },
                                     title: item.name ?? "",
                                     subtitle: "null",
                                     iconPath: item.icon ?? "",
@@ -218,24 +229,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _navigateToDirectionInfo(
-      BuildContext context, Map<String, dynamic> item) {
-    context.read<BottomNavBarController>().changeNavBar(true);
-
-    Navigator.push(
-      context,
-      AppRoutes.getDirectionInfoPage(
-        appBarTitle: item['title'],
-        informationTitle: item['information_title'],
-        doctorsList: item['doctorsList'],
-        professionServiceType: item['professionServiceType'],
-        price: item['price'],
-      ),
-    ).then((_) {
-      context.read<BottomNavBarController>().changeNavBar(false);
-    });
-  }
-
   Widget _buildVerticalSpacingAndHeader(
       String titleKey, fonts, String title, VoidCallback onTap) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -244,7 +237,9 @@ class _HomePageState extends State<HomePage> {
         children: [
           _buildSectionHeader(titleKey, fonts),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, AppRoutes.getDiresctionPage());
+            },
             child: Row(
               children: [
                 Text(title.tr(),

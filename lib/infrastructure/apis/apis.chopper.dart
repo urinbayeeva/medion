@@ -119,6 +119,17 @@ final class _$BookingService extends BookingService {
     return client.send<BuiltList<HomepageBookingCategory>,
         HomepageBookingCategory>($request);
   }
+
+  @override
+  Future<Response<MedicalModel>> getHomePageBookingDoctors(int id) {
+    final Uri $url = Uri.parse('/booking/category_doctors_services/${id}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<MedicalModel, MedicalModel>($request);
+  }
 }
 
 // coverage:ignore-file

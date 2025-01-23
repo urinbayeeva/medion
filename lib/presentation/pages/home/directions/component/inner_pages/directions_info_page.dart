@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_container.dart';
@@ -14,17 +17,9 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:provider/provider.dart';
 
 class DirectionInfoPage extends StatefulWidget {
-  final String appBarTitle, informationTitle, professionServiceType, price;
-  final List<Map<String, dynamic>> doctorsList;
+  final int id;
 
-  const DirectionInfoPage({
-    super.key,
-    required this.appBarTitle,
-    required this.informationTitle,
-    required this.doctorsList,
-    required this.professionServiceType,
-    required this.price,
-  });
+  const DirectionInfoPage({super.key, required this.id});
 
   @override
   State<DirectionInfoPage> createState() => _DirectionInfoPageState();
@@ -32,8 +27,10 @@ class DirectionInfoPage extends StatefulWidget {
 
 class _DirectionInfoPageState extends State<DirectionInfoPage> {
   int selectedIndex = 0;
+  double turns = 0.0;
+  bool changeSum = false;
 
-  Widget buildDoctorItem(Map<String, dynamic> doctor, bool isInnerPage) {
+  Widget buildDoctorItem(dynamic doctor, bool isInnerPage) {
     return DoctorsItem(
       // isInnerPageUsed: isInnerPage,
       onTap: () {},
@@ -45,217 +42,243 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    context
+        .read<BookingBloc>()
+        .add(BookingEvent.fetchHomePageServiceDoctors(id: widget.id));
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Scaffold(
-        backgroundColor: colors.backgroundColor,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CAppBar(
-              title: widget.appBarTitle,
-              centerTitle: true,
-              onTap: () {
-                Navigator.pop(context);
-                context.read<BottomNavBarController>().changeNavBar(false);
-              },
-              isBack: true,
-              trailing: Row(
-                children: [
-                  icons.valyutaChange.svg(width: 20.w, height: 20.h),
-                  6.w.horizontalSpace,
-                  icons.filter.svg(width: 20.w, height: 20.h)
-                ],
+    return BlocBuilder<BookingBloc, BookingState>(builder: (context, state) {
+      if (state.medicalModel == null ||
+          state.medicalModel!.doctors.isEmpty ||
+          state.medicalModel!.services.isEmpty) {
+        return Center(
+          child: Column(
+            children: [
+              Text(
+                'no_result_found'.tr(),
               ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.all(12.0.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("back".tr()))
+            ],
+          ),
+        );
+      }
+
+      final medicalModel = state.medicalModel;
+
+      return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+        return Scaffold(
+          backgroundColor: colors.backgroundColor,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CAppBar(
+                bordered: true,
+                title: medicalModel!.services
+                        .firstWhere(
+                          (service) => service.id == widget.id,
+                          orElse: () => medicalModel!.services.first,
+                        )
+                        .name ??
+                    "",
+                centerTitle: true,
+                onTap: () {
+                  Navigator.pop(context);
+                  context.read<BottomNavBarController>().changeNavBar(false);
+                },
+                isBack: true,
+                trailing: Row(
                   children: [
-                    // CustomToggle<int>(
-                    //   iconList: [
-                    //     'all_informations'.tr(),
-                    //     'doctors'.tr(),
-                    //     'services'.tr()
-                    //   ]
-                    //       .asMap()
-                    //       .entries
-                    //       .map((entry) => Row(
-                    //             mainAxisSize: MainAxisSize.min,
-                    //             children: [
-                    //               Text(
-                    //                 entry.value,
-                    //                 style: fonts.xSmallLink.copyWith(
-                    //                   color: selectedIndex == entry.key
-                    //                       ? colors.shade0
-                    //                       : colors.primary900,
-                    //                   fontSize: 11.sp,
-                    //                   fontWeight: FontWeight.w600,
-                    //                 ),
-                    //               ),
-                    //             ],
-                    //           ))
-                    //       .toList(),
-                    //   onChanged: (value) =>
-                    //       setState(() => selectedIndex = value),
-                    //   current: selectedIndex,
-                    //   values: const [0, 1, 2],
-                    //   height: 38.h,
-                    //   indicatorSize: Size(double.infinity, 40.h),
-                    //   backgroundColor: colors.neutral200,
-                    //   indicatorColor: colors.error500,
-                    //   elevation: false,
-                    // ),
-
-                    SizedBox(
-                      width: double.infinity,
-                      child: CustomToggle(
-                        iconList: [
-                          'all_informations'.tr(),
-                          'doctors'.tr(),
-                          'services'.tr()
-                        ]
-                            .asMap()
-                            .entries
-                            .map((entry) => Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      entry.value,
-                                      style: fonts.xSmallLink.copyWith(
-                                        color: selectedIndex == entry.key
-                                            ? colors.shade0
-                                            : colors.primary900,
-                                        fontSize: 11.sp,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ))
-                            .toList(),
-                        onChanged: (value) =>
-                            setState(() => selectedIndex = value),
-                        current: selectedIndex,
-                        values: const [0, 1, 2],
-                        height: 38.h,
-                        indicatorSize: Size(double.infinity, 40.h),
-                        backgroundColor: colors.neutral200,
-                        indicatorColor: colors.error500,
-                        elevation: false,
-                      ),
-                    ),
-                    12.h.verticalSpace,
-                    if (selectedIndex == 0) ...[
-                      Text('all_informations'.tr(),
-                          style: fonts.regularSemLink),
-                      8.h.verticalSpace,
-                      CContainer(text: widget.informationTitle),
-                      24.h.verticalSpace,
-                      Text('doctors'.tr(), style: fonts.regularSemLink),
-                      12.h.verticalSpace,
-                      SizedBox(
-                        height: 350,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: widget.doctorsList.length,
-                          itemBuilder: (_, index) =>
-                              buildDoctorItem(widget.doctorsList[index], true),
-                        ),
-                      ),
-                      24.h.verticalSpace,
-                      Text('services'.tr(), style: fonts.regularSemLink),
-                      8.h.verticalSpace,
-                      ServiceWidget(
-                        consultInfo: widget.professionServiceType,
-                        consultPrice: widget.price,
-                      ),
-                      15.h.verticalSpace,
-                      Container(
-                        width: double.infinity,
-                        color: colors.shade0,
-                        child: Column(
-                          children: [
-                            CButton(
-                              title: "Записаться на приём",
-                              onTap: () {
-                                final selectedDoctor =
-                                    widget.doctorsList[selectedIndex];
-
-                                Navigator.push(
-                                  context,
-                                  AppRoutes.getDoctorAppointmentPage(
-                                    context: context,
-                                    doctorsName: selectedDoctor['name'],
-                                    doctorsJob: selectedDoctor['profession'],
-                                    doctorsExperience:
-                                        selectedDoctor['experience'],
-                                    doctorsImage: selectedDoctor['image'],
-                                  ),
-                                );
-
-                                context
-                                    .read<BottomNavBarController>()
-                                    .changeNavBar(true);
-                              },
-                              iconPath: icons.right,
-                            ),
-                            24.h.verticalSpace
-                          ],
-                        ),
-                      ),
-                    ],
-                    if (selectedIndex == 1)
-                      GridView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 12.w,
-                          childAspectRatio: 0.6,
-                        ),
-                        itemCount: widget.doctorsList.length,
-                        itemBuilder: (_, index) =>
-                            buildDoctorItem(widget.doctorsList[index], false),
-                      ),
-                    if (selectedIndex == 2) ...[
-                      ServiceWidget(
-                        consultInfo: widget.professionServiceType,
-                        consultPrice: widget.price,
-                      ),
-                      24.h.verticalSpace,
-                      CButton(
-                        title: "Записаться на приём",
-                        onTap: () {
-                          final selectedDoctor =
-                              widget.doctorsList[selectedIndex];
-                          Navigator.push(
-                            context,
-                            AppRoutes.getDoctorAppointmentPage(
-                              context: context,
-                              doctorsName: selectedDoctor['name'],
-                              doctorsJob: selectedDoctor['profession'],
-                              doctorsExperience: selectedDoctor['experience'],
-                              doctorsImage: selectedDoctor['image'],
-                            ),
-                          );
-                          context
-                              .read<BottomNavBarController>()
-                              .changeNavBar(true);
-                        },
-                        iconPath: icons.right,
-                      ),
-                      24.h.verticalSpace,
-                    ],
+                    AnimatedRotation(
+                        turns: turns,
+                        duration: const Duration(seconds: 1),
+                        child: AnimationButtonEffect(
+                            onTap: () {
+                              setState(() {
+                                turns += 2 / 4;
+                                changeSum = !changeSum;
+                              });
+                            },
+                            child: icons.valyutaChange
+                                .svg(width: 20.w, height: 20.h))),
+                    6.w.horizontalSpace,
+                    icons.filter.svg(width: 20.w, height: 20.h)
                   ],
                 ),
               ),
-            ),
-          ],
-        ),
-      );
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(12.0.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: CustomToggle(
+                          iconList: [
+                            'all_informations'.tr(),
+                            'doctors'.tr(),
+                            'services'.tr()
+                          ]
+                              .asMap()
+                              .entries
+                              .map((entry) => Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        entry.value,
+                                        style: fonts.xSmallLink.copyWith(
+                                          color: selectedIndex == entry.key
+                                              ? colors.shade0
+                                              : colors.primary900,
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ))
+                              .toList(),
+                          onChanged: (value) =>
+                              setState(() => selectedIndex = value),
+                          current: selectedIndex,
+                          values: const [0, 1, 2],
+                          height: 38.h,
+                          indicatorSize: Size(double.infinity, 40.h),
+                          backgroundColor: colors.neutral200,
+                          indicatorColor: colors.error500,
+                          elevation: false,
+                        ),
+                      ),
+                      if (selectedIndex == 0) ...[
+                        12.h.verticalSpace,
+                        Text('all_informations'.tr(),
+                            style: fonts.regularSemLink),
+                        12.h.verticalSpace,
+                        CContainer(
+                            text: state.medicalModel!.description ?? "Null"),
+                        12.h.verticalSpace,
+                        Text('doctors'.tr(), style: fonts.regularSemLink),
+                        12.h.verticalSpace,
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          child: GridView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 12.w,
+                              mainAxisSpacing: 12.h,
+                              childAspectRatio:
+                                  0.52, // Adjust this value based on your card dimensions
+                            ),
+                            itemCount: state.medicalModel?.doctors.length ?? 0,
+                            itemBuilder: (_, index) {
+                              final doctor = state.medicalModel!.doctors[index];
+                              return DoctorsItem(
+                                isInnerPageUsed: true,
+                                // imagePath: doctor.image ?? icons.nonUser,
+                                onTap: () {},
+                                name: doctor.name ?? '',
+                                profession:
+                                    doctor.jobName ?? "null proffesion name",
+                                experience:
+                                    "${doctor.experienceYears ?? "null experience"}",
+                              );
+                            },
+                          ),
+                        ),
+                        12.h.verticalSpace,
+                        Text('services'.tr(), style: fonts.regularSemLink),
+                        12.h.verticalSpace,
+                        ServiceWidget(
+                          consultInfo: medicalModel!.services
+                                  .firstWhere(
+                                    (service) => service.id == widget.id,
+                                    orElse: () => medicalModel!.services.first,
+                                  )
+                                  .name ??
+                              "",
+                          consultPrice: changeSum
+                              ? "${medicalModel!.services.firstWhere((service) => service.id == widget.id, orElse: () => medicalModel!.services.first).priceUzs ?? 0} UZS"
+                              : "${medicalModel!.services.firstWhere((service) => service.id == widget.id, orElse: () => medicalModel!.services.first).priceUzd ?? 0} USD",
+                        ),
+                        80.h.verticalSpace,
+                      ],
+                      if (selectedIndex == 1) ...[
+                        12.h.verticalSpace,
+                        Text('doctors'.tr(), style: fonts.regularSemLink),
+                        12.h.verticalSpace,
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          child: GridView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 12.w,
+                              mainAxisSpacing: 12.h,
+                              childAspectRatio:
+                                  0.54, // Adjust this value based on your card dimensions
+                            ),
+                            itemCount: state.medicalModel?.doctors.length ?? 0,
+                            itemBuilder: (_, index) {
+                              final doctor = state.medicalModel!.doctors[index];
+                              return DoctorsItem(
+                                isInnerPageUsed: true,
+                                // imagePath: doctor.image ?? icons.nonUser,
+                                onTap: () {},
+                                name: doctor.name ?? '',
+                                profession:
+                                    doctor.jobName ?? "null proffesion name",
+                                experience:
+                                    "${doctor.experienceYears ?? "null experience"}",
+                              );
+                            },
+                          ),
+                        ),
+                        80.h.verticalSpace,
+                      ],
+                      if (selectedIndex == 2) ...[
+                        12.h.verticalSpace,
+                        Text('services'.tr(), style: fonts.regularSemLink),
+                        12.h.verticalSpace,
+                        ServiceWidget(
+                          consultInfo: medicalModel!.services
+                                  .firstWhere(
+                                    (service) => service.id == widget.id,
+                                    orElse: () => medicalModel!.services.first,
+                                  )
+                                  .name ??
+                              "",
+                          consultPrice: " ${"sum".tr(namedArgs: {
+                                "amount": "${medicalModel!.services.firstWhere(
+                                      (service) => service.id == widget.id,
+                                      orElse: () =>
+                                          medicalModel!.services.first,
+                                    ).priceUzs ?? 0}"
+                              })}",
+                        ),
+                        80.h.verticalSpace,
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      });
     });
   }
 }

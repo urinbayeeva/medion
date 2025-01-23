@@ -22,6 +22,8 @@ class BookingState with _$BookingState {
 
     //Home Page
        @Default([]) List<HomepageBookingCategory> homePageBookingCategory,
+          MedicalModel? medicalModel,  // Changed to single MedicalModel
+
   }) = _BookingState;
 
   bool get hasError => errorMessage.isNotEmpty;

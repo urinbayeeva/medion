@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:built_collection/built_collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';

@@ -204,19 +204,12 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getDirectionInfoPage({
-    required String appBarTitle,
-    required String informationTitle,
-    required List<Map<String, dynamic>> doctorsList,
-    required String professionServiceType,
-    required String price,
+   required int id
+  
   }) {
     return MaterialPageRoute(
       builder: (_) => DirectionInfoPage(
-        appBarTitle: appBarTitle,
-        informationTitle: informationTitle,
-        doctorsList: doctorsList,
-        professionServiceType: professionServiceType,
-        price: price,
+       id: id
       ),
     );
   }

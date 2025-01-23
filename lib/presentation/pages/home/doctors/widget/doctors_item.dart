@@ -38,7 +38,7 @@ class DoctorsItem extends StatelessWidget {
         onTap: onTap,
         child: isInnerPageUsed!
             ? Container(
-                // padding: EdgeInsets.all(12.w),
+                padding: EdgeInsets.symmetric(horizontal: 4.w),
                 // margin: EdgeInsets.only(right: 12.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),
@@ -70,18 +70,39 @@ class DoctorsItem extends StatelessWidget {
                     .copyWith(fontSize: 17.sp, fontWeight: FontWeight.w600),
               ),
               // 12.h.verticalSpace,
+              Container(
+                margin: EdgeInsets.only(right: 12.w),
+                width: 164.w,
+                height: 182.h,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: colors.shade0),
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: icons.nonUser.svg()),
+              ),
             ],
             Container(
               margin: EdgeInsets.only(right: 12.w),
               width: 164.w,
               height: 182.h,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.r),
-                  color: colors.shade0),
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: icons.nonUser.svg()),
-            ),
+                borderRadius: BorderRadius.circular(8.r),
+                color: colors.shade0,
+              ),
+              child: imagePath != null && imagePath!.startsWith("http")
+                  ? CachedNetworkImage(
+                      imageUrl: imagePath!,
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(), // Optional: Loading indicator
+                      errorWidget: (context, url, error) => icons.nonUser
+                          .svg(), // Fallback if image fails to load
+                    )
+                  : Align(
+                      alignment: Alignment.bottomCenter,
+                      child: icons.nonUser.svg(),
+                    ),
+            )
           ],
         );
       }),

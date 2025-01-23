@@ -1,22 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:medion/domain/models/auth/auth.dart';
-import 'package:medion/domain/upload_image/upload_image.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/image_service/camera_picker/wechat_camera_picker.dart';
 import 'package:medion/infrastructure/services/image_service/image_service.dart';
-import 'package:medion/infrastructure/services/log_service.dart';
-import 'package:medion/presentation/component/easy_loading.dart';
-import 'package:medion/utils/constants.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 
 part 'profile_bloc.freezed.dart';
 part 'profile_event.dart';
