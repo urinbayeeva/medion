@@ -12,12 +12,14 @@ Serializer<Service> _$serviceSerializer = new _$ServiceSerializer();
 Serializer<Category> _$categorySerializer = new _$CategorySerializer();
 Serializer<GiveSelectedId> _$giveSelectedIdSerializer =
     new _$GiveSelectedIdSerializer();
-Serializer<ServiceModel> _$serviceModelSerializer =
-    new _$ServiceModelSerializer();
+Serializer<BookingThirdService> _$bookingThirdServiceSerializer =
+    new _$BookingThirdServiceSerializer();
 Serializer<CompanyDoctor> _$companyDoctorSerializer =
     new _$CompanyDoctorSerializer();
 Serializer<Doctor> _$doctorSerializer = new _$DoctorSerializer();
 Serializer<Schedule> _$scheduleSerializer = new _$ScheduleSerializer();
+Serializer<ScheduleTime> _$scheduleTimeSerializer =
+    new _$ScheduleTimeSerializer();
 Serializer<HomepageBookingCategory> _$homepageBookingCategorySerializer =
     new _$HomepageBookingCategorySerializer();
 Serializer<MedicalModel> _$medicalModelSerializer =
@@ -256,36 +258,48 @@ class _$GiveSelectedIdSerializer
   }
 }
 
-class _$ServiceModelSerializer implements StructuredSerializer<ServiceModel> {
+class _$BookingThirdServiceSerializer
+    implements StructuredSerializer<BookingThirdService> {
   @override
-  final Iterable<Type> types = const [ServiceModel, _$ServiceModel];
+  final Iterable<Type> types = const [
+    BookingThirdService,
+    _$BookingThirdService
+  ];
   @override
-  final String wireName = 'ServiceModel';
+  final String wireName = 'BookingThirdService';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, ServiceModel object,
+  Iterable<Object?> serialize(
+      Serializers serializers, BookingThirdService object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
-      'service_id',
-      serializers.serialize(object.serviceId,
-          specifiedType: const FullType(int)),
-      'service_name',
-      serializers.serialize(object.serviceName,
-          specifiedType: const FullType(String)),
       'companies_doctors',
       serializers.serialize(object.companiesDoctors,
           specifiedType:
               const FullType(BuiltList, const [const FullType(CompanyDoctor)])),
     ];
-
+    Object? value;
+    value = object.serviceId;
+    if (value != null) {
+      result
+        ..add('service_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.serviceName;
+    if (value != null) {
+      result
+        ..add('service_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
   @override
-  ServiceModel deserialize(
+  BookingThirdService deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ServiceModelBuilder();
+    final result = new BookingThirdServiceBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -295,11 +309,11 @@ class _$ServiceModelSerializer implements StructuredSerializer<ServiceModel> {
       switch (key) {
         case 'service_id':
           result.serviceId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'service_name':
           result.serviceName = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'companies_doctors':
           result.companiesDoctors.replace(serializers.deserialize(value,
@@ -324,18 +338,25 @@ class _$CompanyDoctorSerializer implements StructuredSerializer<CompanyDoctor> {
   Iterable<Object?> serialize(Serializers serializers, CompanyDoctor object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
-      'company_id',
-      serializers.serialize(object.companyId,
-          specifiedType: const FullType(int)),
-      'company_name',
-      serializers.serialize(object.companyName,
-          specifiedType: const FullType(String)),
       'doctor',
       serializers.serialize(object.doctor,
           specifiedType:
               const FullType(BuiltList, const [const FullType(Doctor)])),
     ];
-
+    Object? value;
+    value = object.companyId;
+    if (value != null) {
+      result
+        ..add('company_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.companyName;
+    if (value != null) {
+      result
+        ..add('company_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -353,11 +374,11 @@ class _$CompanyDoctorSerializer implements StructuredSerializer<CompanyDoctor> {
       switch (key) {
         case 'company_id':
           result.companyId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'company_name':
           result.companyName = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'doctor':
           result.doctor.replace(serializers.deserialize(value,
@@ -382,38 +403,72 @@ class _$DoctorSerializer implements StructuredSerializer<Doctor> {
   Iterable<Object?> serialize(Serializers serializers, Doctor object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'name',
-      serializers.serialize(object.name, specifiedType: const FullType(String)),
-      'gender',
-      serializers.serialize(object.gender,
-          specifiedType: const FullType(String)),
-      'image',
-      serializers.serialize(object.image,
-          specifiedType: const FullType(String)),
-      'specialty',
-      serializers.serialize(object.specialty,
-          specifiedType: const FullType(String)),
-      'experience',
-      serializers.serialize(object.experience,
-          specifiedType: const FullType(String)),
       'schedules',
       serializers.serialize(object.schedules,
-          specifiedType: const FullType(BuiltMap, const [
-            const FullType(String),
-            const FullType(BuiltList, const [const FullType(Schedule)])
-          ])),
-      'price',
-      serializers.serialize(object.price, specifiedType: const FullType(int)),
-      'location',
-      serializers.serialize(object.location,
-          specifiedType: const FullType(String)),
-      'work_experience',
-      serializers.serialize(object.workExperience,
-          specifiedType: const FullType(int)),
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(Schedule)])),
     ];
-
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.name;
+    if (value != null) {
+      result
+        ..add('name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.gender;
+    if (value != null) {
+      result
+        ..add('gender')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.image;
+    if (value != null) {
+      result
+        ..add('image')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.specialty;
+    if (value != null) {
+      result
+        ..add('specialty')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.experience;
+    if (value != null) {
+      result
+        ..add('experience')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.price;
+    if (value != null) {
+      result
+        ..add('price')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.location;
+    if (value != null) {
+      result
+        ..add('location')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.workExperience;
+    if (value != null) {
+      result
+        ..add('work_experience')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -430,46 +485,45 @@ class _$DoctorSerializer implements StructuredSerializer<Doctor> {
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'name':
           result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'gender':
           result.gender = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'image':
           result.image = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'specialty':
           result.specialty = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'experience':
           result.experience = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'schedules':
           result.schedules.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltMap, const [
-                const FullType(String),
-                const FullType(BuiltList, const [const FullType(Schedule)])
-              ]))!);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(Schedule)]))!
+              as BuiltList<Object?>);
           break;
         case 'price':
           result.price = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'location':
           result.location = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'work_experience':
           result.workExperience = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -488,15 +542,19 @@ class _$ScheduleSerializer implements StructuredSerializer<Schedule> {
   Iterable<Object?> serialize(Serializers serializers, Schedule object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
-      'time',
-      serializers.serialize(object.time, specifiedType: const FullType(String)),
-      'active',
-      serializers.serialize(object.active, specifiedType: const FullType(bool)),
-      'duration',
-      serializers.serialize(object.duration,
-          specifiedType: const FullType(int)),
+      'times',
+      serializers.serialize(object.times,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(ScheduleTime)])),
     ];
-
+    Object? value;
+    value = object.date;
+    if (value != null) {
+      result
+        ..add('date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -511,17 +569,80 @@ class _$ScheduleSerializer implements StructuredSerializer<Schedule> {
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
+        case 'date':
+          result.date = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'times':
+          result.times.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(ScheduleTime)]))!
+              as BuiltList<Object?>);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$ScheduleTimeSerializer implements StructuredSerializer<ScheduleTime> {
+  @override
+  final Iterable<Type> types = const [ScheduleTime, _$ScheduleTime];
+  @override
+  final String wireName = 'ScheduleTime';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, ScheduleTime object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[];
+    Object? value;
+    value = object.time;
+    if (value != null) {
+      result
+        ..add('time')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.active;
+    if (value != null) {
+      result
+        ..add('active')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
+    value = object.duration;
+    if (value != null) {
+      result
+        ..add('duration')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    return result;
+  }
+
+  @override
+  ScheduleTime deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new ScheduleTimeBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
         case 'time':
           result.time = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'active':
           result.active = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'duration':
           result.duration = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -939,11 +1060,12 @@ class BookingTypeModelBuilder
   _$BookingTypeModel _build() {
     final _$result = _$v ??
         new _$BookingTypeModel._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'BookingTypeModel', 'id'),
-            name: BuiltValueNullFieldError.checkNotNull(
-                name, r'BookingTypeModel', 'name'),
-            icon: icon);
+          id: BuiltValueNullFieldError.checkNotNull(
+              id, r'BookingTypeModel', 'id'),
+          name: BuiltValueNullFieldError.checkNotNull(
+              name, r'BookingTypeModel', 'name'),
+          icon: icon,
+        );
     replace(_$result);
     return _$result;
   }
@@ -1086,15 +1208,15 @@ class ServiceBuilder implements Builder<Service, ServiceBuilder> {
   _$Service _build() {
     final _$result = _$v ??
         new _$Service._(
-            id: BuiltValueNullFieldError.checkNotNull(id, r'Service', 'id'),
-            name:
-                BuiltValueNullFieldError.checkNotNull(name, r'Service', 'name'),
-            description: description,
-            priceUzs: BuiltValueNullFieldError.checkNotNull(
-                priceUzs, r'Service', 'priceUzs'),
-            priceUsd: BuiltValueNullFieldError.checkNotNull(
-                priceUsd, r'Service', 'priceUsd'),
-            age: BuiltValueNullFieldError.checkNotNull(age, r'Service', 'age'));
+          id: BuiltValueNullFieldError.checkNotNull(id, r'Service', 'id'),
+          name: BuiltValueNullFieldError.checkNotNull(name, r'Service', 'name'),
+          description: description,
+          priceUzs: BuiltValueNullFieldError.checkNotNull(
+              priceUzs, r'Service', 'priceUzs'),
+          priceUsd: BuiltValueNullFieldError.checkNotNull(
+              priceUsd, r'Service', 'priceUsd'),
+          age: BuiltValueNullFieldError.checkNotNull(age, r'Service', 'age'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -1190,9 +1312,10 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
     try {
       _$result = _$v ??
           new _$Category._(
-              name: BuiltValueNullFieldError.checkNotNull(
-                  name, r'Category', 'name'),
-              services: services.build());
+            name: BuiltValueNullFieldError.checkNotNull(
+                name, r'Category', 'name'),
+            services: services.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -1289,7 +1412,10 @@ class GiveSelectedIdBuilder
   _$GiveSelectedId _build() {
     _$GiveSelectedId _$result;
     try {
-      _$result = _$v ?? new _$GiveSelectedId._(serviceIds: serviceIds.build());
+      _$result = _$v ??
+          new _$GiveSelectedId._(
+            serviceIds: serviceIds.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -1306,41 +1432,38 @@ class GiveSelectedIdBuilder
   }
 }
 
-class _$ServiceModel extends ServiceModel {
+class _$BookingThirdService extends BookingThirdService {
   @override
-  final int serviceId;
+  final int? serviceId;
   @override
-  final String serviceName;
+  final String? serviceName;
   @override
   final BuiltList<CompanyDoctor> companiesDoctors;
 
-  factory _$ServiceModel([void Function(ServiceModelBuilder)? updates]) =>
-      (new ServiceModelBuilder()..update(updates))._build();
+  factory _$BookingThirdService(
+          [void Function(BookingThirdServiceBuilder)? updates]) =>
+      (new BookingThirdServiceBuilder()..update(updates))._build();
 
-  _$ServiceModel._(
-      {required this.serviceId,
-      required this.serviceName,
-      required this.companiesDoctors})
+  _$BookingThirdService._(
+      {this.serviceId, this.serviceName, required this.companiesDoctors})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
-        serviceId, r'ServiceModel', 'serviceId');
-    BuiltValueNullFieldError.checkNotNull(
-        serviceName, r'ServiceModel', 'serviceName');
-    BuiltValueNullFieldError.checkNotNull(
-        companiesDoctors, r'ServiceModel', 'companiesDoctors');
+        companiesDoctors, r'BookingThirdService', 'companiesDoctors');
   }
 
   @override
-  ServiceModel rebuild(void Function(ServiceModelBuilder) updates) =>
+  BookingThirdService rebuild(
+          void Function(BookingThirdServiceBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ServiceModelBuilder toBuilder() => new ServiceModelBuilder()..replace(this);
+  BookingThirdServiceBuilder toBuilder() =>
+      new BookingThirdServiceBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is ServiceModel &&
+    return other is BookingThirdService &&
         serviceId == other.serviceId &&
         serviceName == other.serviceName &&
         companiesDoctors == other.companiesDoctors;
@@ -1358,7 +1481,7 @@ class _$ServiceModel extends ServiceModel {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ServiceModel')
+    return (newBuiltValueToStringHelper(r'BookingThirdService')
           ..add('serviceId', serviceId)
           ..add('serviceName', serviceName)
           ..add('companiesDoctors', companiesDoctors))
@@ -1366,9 +1489,9 @@ class _$ServiceModel extends ServiceModel {
   }
 }
 
-class ServiceModelBuilder
-    implements Builder<ServiceModel, ServiceModelBuilder> {
-  _$ServiceModel? _$v;
+class BookingThirdServiceBuilder
+    implements Builder<BookingThirdService, BookingThirdServiceBuilder> {
+  _$BookingThirdService? _$v;
 
   int? _serviceId;
   int? get serviceId => _$this._serviceId;
@@ -1384,9 +1507,9 @@ class ServiceModelBuilder
   set companiesDoctors(ListBuilder<CompanyDoctor>? companiesDoctors) =>
       _$this._companiesDoctors = companiesDoctors;
 
-  ServiceModelBuilder();
+  BookingThirdServiceBuilder();
 
-  ServiceModelBuilder get _$this {
+  BookingThirdServiceBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _serviceId = $v.serviceId;
@@ -1398,29 +1521,28 @@ class ServiceModelBuilder
   }
 
   @override
-  void replace(ServiceModel other) {
+  void replace(BookingThirdService other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$ServiceModel;
+    _$v = other as _$BookingThirdService;
   }
 
   @override
-  void update(void Function(ServiceModelBuilder)? updates) {
+  void update(void Function(BookingThirdServiceBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  ServiceModel build() => _build();
+  BookingThirdService build() => _build();
 
-  _$ServiceModel _build() {
-    _$ServiceModel _$result;
+  _$BookingThirdService _build() {
+    _$BookingThirdService _$result;
     try {
       _$result = _$v ??
-          new _$ServiceModel._(
-              serviceId: BuiltValueNullFieldError.checkNotNull(
-                  serviceId, r'ServiceModel', 'serviceId'),
-              serviceName: BuiltValueNullFieldError.checkNotNull(
-                  serviceName, r'ServiceModel', 'serviceName'),
-              companiesDoctors: companiesDoctors.build());
+          new _$BookingThirdService._(
+            serviceId: serviceId,
+            serviceName: serviceName,
+            companiesDoctors: companiesDoctors.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -1428,7 +1550,7 @@ class ServiceModelBuilder
         companiesDoctors.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            r'ServiceModel', _$failedField, e.toString());
+            r'BookingThirdService', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -1439,24 +1561,17 @@ class ServiceModelBuilder
 
 class _$CompanyDoctor extends CompanyDoctor {
   @override
-  final int companyId;
+  final int? companyId;
   @override
-  final String companyName;
+  final String? companyName;
   @override
   final BuiltList<Doctor> doctor;
 
   factory _$CompanyDoctor([void Function(CompanyDoctorBuilder)? updates]) =>
       (new CompanyDoctorBuilder()..update(updates))._build();
 
-  _$CompanyDoctor._(
-      {required this.companyId,
-      required this.companyName,
-      required this.doctor})
+  _$CompanyDoctor._({this.companyId, this.companyName, required this.doctor})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        companyId, r'CompanyDoctor', 'companyId');
-    BuiltValueNullFieldError.checkNotNull(
-        companyName, r'CompanyDoctor', 'companyName');
     BuiltValueNullFieldError.checkNotNull(doctor, r'CompanyDoctor', 'doctor');
   }
 
@@ -1545,11 +1660,10 @@ class CompanyDoctorBuilder
     try {
       _$result = _$v ??
           new _$CompanyDoctor._(
-              companyId: BuiltValueNullFieldError.checkNotNull(
-                  companyId, r'CompanyDoctor', 'companyId'),
-              companyName: BuiltValueNullFieldError.checkNotNull(
-                  companyName, r'CompanyDoctor', 'companyName'),
-              doctor: doctor.build());
+            companyId: companyId,
+            companyName: companyName,
+            doctor: doctor.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -1568,52 +1682,42 @@ class CompanyDoctorBuilder
 
 class _$Doctor extends Doctor {
   @override
-  final int id;
+  final int? id;
   @override
-  final String name;
+  final String? name;
   @override
-  final String gender;
+  final String? gender;
   @override
-  final String image;
+  final String? image;
   @override
-  final String specialty;
+  final String? specialty;
   @override
-  final String experience;
+  final String? experience;
   @override
-  final BuiltMap<String, BuiltList<Schedule>> schedules;
+  final BuiltList<Schedule> schedules;
   @override
-  final int price;
+  final int? price;
   @override
-  final String location;
+  final String? location;
   @override
-  final int workExperience;
+  final int? workExperience;
 
   factory _$Doctor([void Function(DoctorBuilder)? updates]) =>
       (new DoctorBuilder()..update(updates))._build();
 
   _$Doctor._(
-      {required this.id,
-      required this.name,
-      required this.gender,
-      required this.image,
-      required this.specialty,
-      required this.experience,
+      {this.id,
+      this.name,
+      this.gender,
+      this.image,
+      this.specialty,
+      this.experience,
       required this.schedules,
-      required this.price,
-      required this.location,
-      required this.workExperience})
+      this.price,
+      this.location,
+      this.workExperience})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'Doctor', 'id');
-    BuiltValueNullFieldError.checkNotNull(name, r'Doctor', 'name');
-    BuiltValueNullFieldError.checkNotNull(gender, r'Doctor', 'gender');
-    BuiltValueNullFieldError.checkNotNull(image, r'Doctor', 'image');
-    BuiltValueNullFieldError.checkNotNull(specialty, r'Doctor', 'specialty');
-    BuiltValueNullFieldError.checkNotNull(experience, r'Doctor', 'experience');
     BuiltValueNullFieldError.checkNotNull(schedules, r'Doctor', 'schedules');
-    BuiltValueNullFieldError.checkNotNull(price, r'Doctor', 'price');
-    BuiltValueNullFieldError.checkNotNull(location, r'Doctor', 'location');
-    BuiltValueNullFieldError.checkNotNull(
-        workExperience, r'Doctor', 'workExperience');
   }
 
   @override
@@ -1700,10 +1804,10 @@ class DoctorBuilder implements Builder<Doctor, DoctorBuilder> {
   String? get experience => _$this._experience;
   set experience(String? experience) => _$this._experience = experience;
 
-  MapBuilder<String, BuiltList<Schedule>>? _schedules;
-  MapBuilder<String, BuiltList<Schedule>> get schedules =>
-      _$this._schedules ??= new MapBuilder<String, BuiltList<Schedule>>();
-  set schedules(MapBuilder<String, BuiltList<Schedule>>? schedules) =>
+  ListBuilder<Schedule>? _schedules;
+  ListBuilder<Schedule> get schedules =>
+      _$this._schedules ??= new ListBuilder<Schedule>();
+  set schedules(ListBuilder<Schedule>? schedules) =>
       _$this._schedules = schedules;
 
   int? _price;
@@ -1758,24 +1862,17 @@ class DoctorBuilder implements Builder<Doctor, DoctorBuilder> {
     try {
       _$result = _$v ??
           new _$Doctor._(
-              id: BuiltValueNullFieldError.checkNotNull(id, r'Doctor', 'id'),
-              name: BuiltValueNullFieldError.checkNotNull(
-                  name, r'Doctor', 'name'),
-              gender: BuiltValueNullFieldError.checkNotNull(
-                  gender, r'Doctor', 'gender'),
-              image: BuiltValueNullFieldError.checkNotNull(
-                  image, r'Doctor', 'image'),
-              specialty: BuiltValueNullFieldError.checkNotNull(
-                  specialty, r'Doctor', 'specialty'),
-              experience: BuiltValueNullFieldError.checkNotNull(
-                  experience, r'Doctor', 'experience'),
-              schedules: schedules.build(),
-              price: BuiltValueNullFieldError.checkNotNull(
-                  price, r'Doctor', 'price'),
-              location: BuiltValueNullFieldError.checkNotNull(
-                  location, r'Doctor', 'location'),
-              workExperience: BuiltValueNullFieldError.checkNotNull(
-                  workExperience, r'Doctor', 'workExperience'));
+            id: id,
+            name: name,
+            gender: gender,
+            image: image,
+            specialty: specialty,
+            experience: experience,
+            schedules: schedules.build(),
+            price: price,
+            location: location,
+            workExperience: workExperience,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -1794,21 +1891,15 @@ class DoctorBuilder implements Builder<Doctor, DoctorBuilder> {
 
 class _$Schedule extends Schedule {
   @override
-  final String time;
+  final String? date;
   @override
-  final bool active;
-  @override
-  final int duration;
+  final BuiltList<ScheduleTime> times;
 
   factory _$Schedule([void Function(ScheduleBuilder)? updates]) =>
       (new ScheduleBuilder()..update(updates))._build();
 
-  _$Schedule._(
-      {required this.time, required this.active, required this.duration})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(time, r'Schedule', 'time');
-    BuiltValueNullFieldError.checkNotNull(active, r'Schedule', 'active');
-    BuiltValueNullFieldError.checkNotNull(duration, r'Schedule', 'duration');
+  _$Schedule._({this.date, required this.times}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(times, r'Schedule', 'times');
   }
 
   @override
@@ -1821,18 +1912,14 @@ class _$Schedule extends Schedule {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Schedule &&
-        time == other.time &&
-        active == other.active &&
-        duration == other.duration;
+    return other is Schedule && date == other.date && times == other.times;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, time.hashCode);
-    _$hash = $jc(_$hash, active.hashCode);
-    _$hash = $jc(_$hash, duration.hashCode);
+    _$hash = $jc(_$hash, date.hashCode);
+    _$hash = $jc(_$hash, times.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -1840,9 +1927,8 @@ class _$Schedule extends Schedule {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'Schedule')
-          ..add('time', time)
-          ..add('active', active)
-          ..add('duration', duration))
+          ..add('date', date)
+          ..add('times', times))
         .toString();
   }
 }
@@ -1850,26 +1936,22 @@ class _$Schedule extends Schedule {
 class ScheduleBuilder implements Builder<Schedule, ScheduleBuilder> {
   _$Schedule? _$v;
 
-  String? _time;
-  String? get time => _$this._time;
-  set time(String? time) => _$this._time = time;
+  String? _date;
+  String? get date => _$this._date;
+  set date(String? date) => _$this._date = date;
 
-  bool? _active;
-  bool? get active => _$this._active;
-  set active(bool? active) => _$this._active = active;
-
-  int? _duration;
-  int? get duration => _$this._duration;
-  set duration(int? duration) => _$this._duration = duration;
+  ListBuilder<ScheduleTime>? _times;
+  ListBuilder<ScheduleTime> get times =>
+      _$this._times ??= new ListBuilder<ScheduleTime>();
+  set times(ListBuilder<ScheduleTime>? times) => _$this._times = times;
 
   ScheduleBuilder();
 
   ScheduleBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _time = $v.time;
-      _active = $v.active;
-      _duration = $v.duration;
+      _date = $v.date;
+      _times = $v.times.toBuilder();
       _$v = null;
     }
     return this;
@@ -1890,14 +1972,128 @@ class ScheduleBuilder implements Builder<Schedule, ScheduleBuilder> {
   Schedule build() => _build();
 
   _$Schedule _build() {
+    _$Schedule _$result;
+    try {
+      _$result = _$v ??
+          new _$Schedule._(
+            date: date,
+            times: times.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'times';
+        times.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'Schedule', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ScheduleTime extends ScheduleTime {
+  @override
+  final String? time;
+  @override
+  final bool? active;
+  @override
+  final int? duration;
+
+  factory _$ScheduleTime([void Function(ScheduleTimeBuilder)? updates]) =>
+      (new ScheduleTimeBuilder()..update(updates))._build();
+
+  _$ScheduleTime._({this.time, this.active, this.duration}) : super._();
+
+  @override
+  ScheduleTime rebuild(void Function(ScheduleTimeBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ScheduleTimeBuilder toBuilder() => new ScheduleTimeBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ScheduleTime &&
+        time == other.time &&
+        active == other.active &&
+        duration == other.duration;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, time.hashCode);
+    _$hash = $jc(_$hash, active.hashCode);
+    _$hash = $jc(_$hash, duration.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'ScheduleTime')
+          ..add('time', time)
+          ..add('active', active)
+          ..add('duration', duration))
+        .toString();
+  }
+}
+
+class ScheduleTimeBuilder
+    implements Builder<ScheduleTime, ScheduleTimeBuilder> {
+  _$ScheduleTime? _$v;
+
+  String? _time;
+  String? get time => _$this._time;
+  set time(String? time) => _$this._time = time;
+
+  bool? _active;
+  bool? get active => _$this._active;
+  set active(bool? active) => _$this._active = active;
+
+  int? _duration;
+  int? get duration => _$this._duration;
+  set duration(int? duration) => _$this._duration = duration;
+
+  ScheduleTimeBuilder();
+
+  ScheduleTimeBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _time = $v.time;
+      _active = $v.active;
+      _duration = $v.duration;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ScheduleTime other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ScheduleTime;
+  }
+
+  @override
+  void update(void Function(ScheduleTimeBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ScheduleTime build() => _build();
+
+  _$ScheduleTime _build() {
     final _$result = _$v ??
-        new _$Schedule._(
-            time: BuiltValueNullFieldError.checkNotNull(
-                time, r'Schedule', 'time'),
-            active: BuiltValueNullFieldError.checkNotNull(
-                active, r'Schedule', 'active'),
-            duration: BuiltValueNullFieldError.checkNotNull(
-                duration, r'Schedule', 'duration'));
+        new _$ScheduleTime._(
+          time: time,
+          active: active,
+          duration: duration,
+        );
     replace(_$result);
     return _$result;
   }
@@ -2000,8 +2196,12 @@ class HomepageBookingCategoryBuilder
   HomepageBookingCategory build() => _build();
 
   _$HomepageBookingCategory _build() {
-    final _$result =
-        _$v ?? new _$HomepageBookingCategory._(id: id, name: name, icon: icon);
+    final _$result = _$v ??
+        new _$HomepageBookingCategory._(
+          id: id,
+          name: name,
+          icon: icon,
+        );
     replace(_$result);
     return _$result;
   }
@@ -2127,10 +2327,11 @@ class MedicalModelBuilder
     try {
       _$result = _$v ??
           new _$MedicalModel._(
-              id: id,
-              description: description,
-              doctors: doctors.build(),
-              services: services.build());
+            id: id,
+            description: description,
+            doctors: doctors.build(),
+            services: services.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -2269,11 +2470,12 @@ class HomeMedicalDoctorBuilder
   _$HomeMedicalDoctor _build() {
     final _$result = _$v ??
         new _$HomeMedicalDoctor._(
-            id: id,
-            image: image,
-            name: name,
-            jobName: jobName,
-            experienceYears: experienceYears);
+          id: id,
+          image: image,
+          name: name,
+          jobName: jobName,
+          experienceYears: experienceYears,
+        );
     replace(_$result);
     return _$result;
   }
@@ -2388,7 +2590,11 @@ class HomeServiceBookingBuilder
   _$HomeServiceBooking _build() {
     final _$result = _$v ??
         new _$HomeServiceBooking._(
-            id: id, name: name, priceUzs: priceUzs, priceUzd: priceUzd);
+          id: id,
+          name: name,
+          priceUzs: priceUzs,
+          priceUzd: priceUzd,
+        );
     replace(_$result);
     return _$result;
   }

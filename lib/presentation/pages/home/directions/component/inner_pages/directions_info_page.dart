@@ -52,25 +52,6 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BookingBloc, BookingState>(builder: (context, state) {
-      if (state.medicalModel == null ||
-          state.medicalModel!.doctors.isEmpty ||
-          state.medicalModel!.services.isEmpty) {
-        return Center(
-          child: Column(
-            children: [
-              Text(
-                'no_result_found'.tr(),
-              ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("back".tr()))
-            ],
-          ),
-        );
-      }
-
       final medicalModel = state.medicalModel;
 
       return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -253,22 +234,20 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                         12.h.verticalSpace,
                         Text('services'.tr(), style: fonts.regularSemLink),
                         12.h.verticalSpace,
-                        ServiceWidget(
-                          consultInfo: medicalModel!.services
-                                  .firstWhere(
-                                    (service) => service.id == widget.id,
-                                    orElse: () => medicalModel!.services.first,
-                                  )
-                                  .name ??
-                              "",
-                          consultPrice: " ${"sum".tr(namedArgs: {
-                                "amount": "${medicalModel!.services.firstWhere(
-                                      (service) => service.id == widget.id,
-                                      orElse: () =>
-                                          medicalModel!.services.first,
-                                    ).priceUzs ?? 0}"
-                              })}",
-                        ),
+                        ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            itemCount: state.medicalModel!.services.length,
+                            itemBuilder: (context, index) {
+                              final service =
+                                  state.medicalModel!.services[index];
+                              return ServiceWidget(
+                                consultInfo: service.name ?? "",
+                                consultPrice: " ${"sum".tr(namedArgs: {
+                                      "amount": "${service.priceUzs ?? 0}"
+                                    })}",
+                              );
+                            }),
                         80.h.verticalSpace,
                       ],
                     ],

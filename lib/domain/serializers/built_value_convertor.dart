@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' as http;
-import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/serializers/serializer.dart';
 import 'package:medion/infrastructure/core/exceptions.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';

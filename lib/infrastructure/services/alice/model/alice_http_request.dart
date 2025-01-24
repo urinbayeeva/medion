@@ -6,6 +6,7 @@ import 'package:medion/infrastructure/services/alice/model/alice_form_data_file.
 import 'package:medion/infrastructure/services/alice/model/alice_from_data_field.dart';
 
 /// Definition of http request data holder.
+// ignore: must_be_immutable
 class AliceHttpRequest with EquatableMixin {
   int size = 0;
   DateTime time = DateTime.now();

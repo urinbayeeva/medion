@@ -7,7 +7,6 @@ import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
-import 'package:medion/infrastructure/repository/image_upload_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/domain/sources/doctor_appoinment_select_page.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
@@ -119,7 +118,7 @@ class AppRoutes {
                 AuthRepository(dbService, AuthService.create(dbService),
                     PatientService.create(dbService)),
                 dbService,
-                ImageUploadRepo(UploadImage.create(dbService)),
+                
               );
             },
             child: SignUpWithPhone(
@@ -150,7 +149,7 @@ class AppRoutes {
                   PatientService.create(dbService),
                 ),
                 dbService,
-                ImageUploadRepo(UploadImage.create(dbService)),
+                
               );
             },
             child: VerifyCodePage(
@@ -170,7 +169,7 @@ class AppRoutes {
                 AuthRepository(dbService, AuthService.create(dbService),
                     PatientService.create(dbService)),
                 dbService,
-                ImageUploadRepo(UploadImage.create(dbService)),
+                
               );
             },
             child: DataEntryPage(phoneNumber: phoneNumber)));
@@ -271,7 +270,7 @@ class AppRoutes {
                 AuthRepository(dbService, AuthService.create(dbService),
                     PatientService.create(dbService)),
                 dbService,
-                ImageUploadRepo(UploadImage.create(dbService)),
+                
               );
             },
             child: const UserDetailsPage()));
@@ -290,7 +289,7 @@ class AppRoutes {
                 AuthRepository(dbService, AuthService.create(dbService),
                     PatientService.create(dbService)),
                 dbService,
-                ImageUploadRepo(UploadImage.create(dbService)),
+                
               );
             },
             child: AboutDoctor(name: name, profession: profession, status: status,)));

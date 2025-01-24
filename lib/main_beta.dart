@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:medion/presentation/pages/core/app_init.dart';
@@ -28,7 +27,7 @@ Future<void> main() async {
       primaryColor: Colors.green,
       flavor: Flavor.beta,
     );
-    await AppConfig.create;
+     AppConfig.create;
 
     runApp(
       SentryWidget(

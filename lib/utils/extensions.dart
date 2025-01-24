@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -238,4 +240,26 @@ DateTime? parseDateString(String dateString) {
   }
 
   return parsedDate;
+}
+
+
+void parseAndFormatData(String jsonData) {
+  final data = jsonDecode(jsonData) as List<Map<String, dynamic>>;
+
+  for (var entry in data) {
+    entry.forEach((date, slots) {
+      // Parse the date string into a DateTime object
+      final parsedDate = DateTime.parse(date);
+
+      // Format the date as 'Monday, 25 January'
+      final formattedDate = DateFormat('EEEE, d MMMM').format(parsedDate);
+
+      print('Date: $formattedDate');
+
+      // Access the time slots for the date
+      for (var slot in slots) {
+        print('Time: ${slot['time']}, Active: ${slot['active']}, Duration: ${slot['duration']} minutes');
+      }
+    });
+  }
 }

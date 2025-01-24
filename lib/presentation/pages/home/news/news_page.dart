@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/sources/news_data.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/home/news/widgets/news_item.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -41,7 +43,7 @@ class _NewsPageState extends State<NewsPage> {
             children: [
               CAppBar(
                 bordered: true,
-                title: "Новости",
+                title: "news".tr(),
                 centerTitle: true,
                 trailing: 24.w.horizontalSpace,
               ),
@@ -56,11 +58,14 @@ class _NewsPageState extends State<NewsPage> {
                   ),
                   itemBuilder: (context, index) {
                     final News item = state.news[index];
-                    return NewsItem(
-                      crop: true,
-                      imagePath: item.image ?? "",
-                      title: item.title ?? "",
-                      subtitle: item.info ?? "",
+                    return AnimationButtonEffect(
+                      onTap: () {},
+                      child: NewsItem(
+                        crop: true,
+                        imagePath: item.image ?? "",
+                        title: item.title ?? "",
+                        subtitle: item.info ?? "",
+                      ),
                     );
                   },
                   itemCount: state.news.length,

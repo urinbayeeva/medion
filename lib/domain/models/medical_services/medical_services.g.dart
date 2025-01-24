@@ -410,12 +410,13 @@ class MedicalServicesBuilder
   _$MedicalServices _build() {
     final _$result = _$v ??
         new _$MedicalServices._(
-            title: title,
-            info: info,
-            forChildren: forChildren,
-            link: link,
-            backgroundColor: backgroundColor,
-            image: image);
+          title: title,
+          info: info,
+          forChildren: forChildren,
+          link: link,
+          backgroundColor: backgroundColor,
+          image: image,
+        );
     replace(_$result);
     return _$result;
   }
@@ -527,7 +528,11 @@ class DiseaseModleBuilder
   _$DiseaseModle _build() {
     final _$result = _$v ??
         new _$DiseaseModle._(
-            title: title, icon: icon, forChildren: forChildren, link: link);
+          title: title,
+          icon: icon,
+          forChildren: forChildren,
+          link: link,
+        );
     replace(_$result);
     return _$result;
   }
@@ -648,11 +653,12 @@ class AdModelBuilder implements Builder<AdModel, AdModelBuilder> {
   _$AdModel _build() {
     final _$result = _$v ??
         new _$AdModel._(
-            title: title,
-            info: info,
-            image: image,
-            important: important,
-            link: link);
+          title: title,
+          info: info,
+          image: image,
+          important: important,
+          link: link,
+        );
     replace(_$result);
     return _$result;
   }

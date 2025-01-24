@@ -27,7 +27,7 @@ class ServiceWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Приём $consultInfo (консультация)",
+                        consultInfo,
                         style: fonts.xSmallMain.copyWith(
                           color: colors.neutral600,
                           fontSize: 13.sp,
@@ -66,52 +66,6 @@ class ServiceWidget extends StatelessWidget {
               ],
             ),
             Divider(color: colors.neutral400),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Приём $consultInfo (консультация)",
-                        style: fonts.xSmallMain.copyWith(
-                          color: colors.neutral600,
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      4.h.verticalSpace,
-                      Text(
-                        consultPrice,
-                        style: fonts.xSmallMain.copyWith(
-                          color: colors.primary900,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                AnimationButtonEffect(
-                  onTap: () {},
-                  child: Container(
-                    padding: EdgeInsets.all(8.w),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      color: colors.neutral200,
-                    ),
-                    child: Center(
-                      child: icons.plus.svg(width: 20.w, height: 20.h),
-                    ),
-                  ),
-                )
-              ],
-            ),
           ],
         ),
       );

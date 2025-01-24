@@ -145,8 +145,8 @@ class _PaymentPageState extends State<PaymentPage> {
             UserInfoWidget(title: "Кто оплачивает приём", children: [
               CustomRadioTile<String>(
                 value: "Сам",
-                groupValue: _selectedOption!,
-                title: Text("Сам"),
+                groupValue: _selectedOption,
+                title: const Text("Сам"),
                 onChanged: (value) {
                   setState(() {
                     _selectedOption = value!;
@@ -155,7 +155,7 @@ class _PaymentPageState extends State<PaymentPage> {
               ),
               CustomRadioTile<String>(
                 value: "Работодатель",
-                groupValue: _selectedOption!,
+                groupValue: _selectedOption,
                 title: Text(
                   "Работодатель",
                   style: fonts.headlineMain
@@ -169,7 +169,7 @@ class _PaymentPageState extends State<PaymentPage> {
               ),
               CustomRadioTile<String>(
                 value: "Страховая компания",
-                groupValue: _selectedOption!,
+                groupValue: _selectedOption,
                 title: Text(
                   "Страховая компания",
                   style: fonts.headlineMain
@@ -337,6 +337,6 @@ class _PaymentPageState extends State<PaymentPage> {
         ),
       ));
     });
-    ;
+    
   }
 }

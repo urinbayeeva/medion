@@ -110,3 +110,36 @@ abstract class CreatePatientInfoResponse
   static Serializer<CreatePatientInfoResponse> get serializer =>
       _$createPatientInfoResponseSerializer;
 }
+
+abstract class RefreshTokenModel
+    implements Built<RefreshTokenModel, RefreshTokenModelBuilder> {
+  RefreshTokenModel._();
+
+  factory RefreshTokenModel([void Function(RefreshTokenModelBuilder) updates]) =
+      _$RefreshTokenModel;
+
+  @BuiltValueField(wireName: 'token')
+  String? get token;
+
+  static Serializer<RefreshTokenModel> get serializer =>
+      _$refreshTokenModelSerializer;
+}
+
+
+abstract class RefreshTokenResponseModel
+    implements Built<RefreshTokenResponseModel, RefreshTokenResponseModelBuilder> {
+  RefreshTokenResponseModel._();
+
+  factory RefreshTokenResponseModel(
+      [void Function(RefreshTokenResponseModelBuilder) updates]) =
+      _$RefreshTokenResponseModel;
+
+  @BuiltValueField(wireName: 'access_token')
+  String get accessToken;
+
+  @BuiltValueField(wireName: 'token_type')
+  String get tokenType;
+
+  static Serializer<RefreshTokenResponseModel> get serializer =>
+      _$refreshTokenResponseModelSerializer;
+}

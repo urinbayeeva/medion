@@ -293,9 +293,10 @@ class DoctorCategoryBuilder
     try {
       _$result = _$v ??
           new _$DoctorCategory._(
-              categoryName: BuiltValueNullFieldError.checkNotNull(
-                  categoryName, r'DoctorCategory', 'categoryName'),
-              doctorData: doctorData.build());
+            categoryName: BuiltValueNullFieldError.checkNotNull(
+                categoryName, r'DoctorCategory', 'categoryName'),
+            doctorData: doctorData.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -513,21 +514,21 @@ class DoctorDataBuilder implements Builder<DoctorData, DoctorDataBuilder> {
     try {
       _$result = _$v ??
           new _$DoctorData._(
-              id: BuiltValueNullFieldError.checkNotNull(
-                  id, r'DoctorData', 'id'),
-              name: BuiltValueNullFieldError.checkNotNull(
-                  name, r'DoctorData', 'name'),
-              infoDescription: infoDescription,
-              workMobbile: workMobbile,
-              workPhone: workPhone,
-              gender: gender,
-              categoryIds: categoryIds.build(),
-              specialty: BuiltValueNullFieldError.checkNotNull(
-                  specialty, r'DoctorData', 'specialty'),
-              image: image,
-              academicRank: academicRank,
-              workExperience: BuiltValueNullFieldError.checkNotNull(
-                  workExperience, r'DoctorData', 'workExperience'));
+            id: BuiltValueNullFieldError.checkNotNull(id, r'DoctorData', 'id'),
+            name: BuiltValueNullFieldError.checkNotNull(
+                name, r'DoctorData', 'name'),
+            infoDescription: infoDescription,
+            workMobbile: workMobbile,
+            workPhone: workPhone,
+            gender: gender,
+            categoryIds: categoryIds.build(),
+            specialty: BuiltValueNullFieldError.checkNotNull(
+                specialty, r'DoctorData', 'specialty'),
+            image: image,
+            academicRank: academicRank,
+            workExperience: BuiltValueNullFieldError.checkNotNull(
+                workExperience, r'DoctorData', 'workExperience'),
+          );
     } catch (_) {
       late String _$failedField;
       try {

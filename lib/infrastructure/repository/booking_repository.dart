@@ -58,28 +58,48 @@ class BookingRepository implements IBookingFacade {
   //Get doctor time
 
   @override
-  Future<Either<ResponseFailure, BuiltList<ServiceModel>>> getDoctorsTimeSlots({
-    required BuiltList<int> serviceIds,
+  Future<Either<ResponseFailure, BuiltList<BookingThirdService>>>
+      getDoctorsTimeSlots({
+    required List<int> serviceIds,
     required int days,
   }) async {
     try {
-      final request = serviceIds;
+      // Prepare the request body
+      final request = serviceIds.toList();
 
-      final response = await _bookingService.getDoctorsTime(
-        request: request.toList(),
-      );
+      LogService.d('Request ServiceIds: $request');
+
+      // Make the API call using Chopper
+      final response = await _bookingService.getDoctorsTime(request: request);
 
       LogService.d('Response Status: ${response.statusCode}');
       LogService.d('Response Body: ${response.body}');
 
-      if (response.isSuccessful && response.body != null) {
-        return right(response.body!);
+      if (response.isSuccessful) {
+        final body = response.body;
+
+        // Add null check and explicit handling
+        if (body != null && body.isNotEmpty) {
+          return right(body);
+        } else {
+          LogService.e('Response body is null or empty');
+          return left(InvalidCredentials(
+            message: 'No doctors available',
+          ));
+        }
       } else {
-        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+        LogService.e('Request failed: ${response.statusCode}');
+        return left(InvalidCredentials(
+          message: response.error?.toString() ?? 'Request failed',
+        ));
       }
-    } catch (e) {
-      LogService.e(" ----> error on repo  : ${e.toString()}");
-      return left(handleError(e));
+    } catch (e, stackTrace) {
+      // Log the exception and return a failure
+      LogService.e('Error in getDoctorsTimeSlots: $e');
+      LogService.e('StackTrace: $stackTrace');
+      return left(InvalidCredentials(
+        message: e.toString(),
+      ));
     }
   }
 

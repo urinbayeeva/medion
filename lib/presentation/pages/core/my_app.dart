@@ -8,14 +8,12 @@ import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
-import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/booking_repository.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
-import 'package:medion/infrastructure/repository/image_upload_repo.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_configuration.dart';
 import 'package:medion/infrastructure/services/alice/alice.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
@@ -58,7 +56,6 @@ class MyApp extends StatelessWidget {
                 AuthRepository(dbService, AuthService.create(dbService),
                     PatientService.create(dbService)),
                 dbService,
-                ImageUploadRepo(UploadImage.create(dbService)),
               );
             },
           ),
@@ -81,9 +78,8 @@ class MyApp extends StatelessWidget {
         child: OnUnFocusTap(
           child: BlocProvider<ProfileBloc>(
               create: (_) => ProfileBloc(
-                    AuthRepository(dbService, AuthService.create(dbService),
-                        PatientService.create(dbService)),
-                    ImageUploadRepo(UploadImage.create(dbService)),
+                    
+                    // ImageUploadRepo(UploadImage.create(dbService)),
                   ),
               child: MaterialApp(
                 navigatorKey: alice.getNavigatorKey(),

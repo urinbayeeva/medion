@@ -3,10 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
-import 'package:medion/presentation/component/c_progress_bar.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/component/calendar/calendar_day_widget.dart';
-import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 

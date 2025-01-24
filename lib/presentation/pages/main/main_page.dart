@@ -8,7 +8,6 @@ import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/connectivity.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
-import 'package:medion/infrastructure/repository/image_upload_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/presentation/component/nav_bar/lib/persistent_tab_view.dart';
@@ -61,7 +60,7 @@ class _MainPageState extends State<MainPage> {
             return AuthBloc(
                 AuthRepository(dbService, AuthService.create(dbService),
                     PatientService.create(dbService)),
-                dbService,    ImageUploadRepo(UploadImage.create(dbService)),);
+                dbService,   );
           },
           child: const ProfilePage()),
       const OthersPage(),

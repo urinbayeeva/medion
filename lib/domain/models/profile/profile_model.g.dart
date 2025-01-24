@@ -303,15 +303,16 @@ class PatientInfoBuilder implements Builder<PatientInfo, PatientInfoBuilder> {
   _$PatientInfo _build() {
     final _$result = _$v ??
         new _$PatientInfo._(
-            image: image,
-            lastName: lastName,
-            firstName: firstName,
-            patientId: patientId,
-            passport: passport,
-            phone: phone,
-            dateOfBirth: dateOfBirth,
-            phoneNumber: phoneNumber,
-            patientBalance: patientBalance);
+          image: image,
+          lastName: lastName,
+          firstName: firstName,
+          patientId: patientId,
+          passport: passport,
+          phone: phone,
+          dateOfBirth: dateOfBirth,
+          phoneNumber: phoneNumber,
+          patientBalance: patientBalance,
+        );
     replace(_$result);
     return _$result;
   }

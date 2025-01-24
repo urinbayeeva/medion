@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:medion/domain/sources/upcoming_reception_data.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -71,7 +70,7 @@ class CustomFeedback extends StatelessWidget {
                       Text(
                         "10.12.2022",
                         style:
-                            fonts.xSmallText.copyWith(color: Color(0xFF808284)),
+                            fonts.xSmallText.copyWith(color: const Color(0xFF808284)),
                       )
                     ],
                   ),

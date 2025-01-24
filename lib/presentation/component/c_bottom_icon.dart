@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
-import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class CButtomIcon extends StatelessWidget {
@@ -57,6 +56,7 @@ class CButtomIcon extends StatelessWidget {
                   iconPath!,
                   height: 20.h,
                   width: 20.w,
+                  // ignore: deprecated_member_use
                   color: iconColor ?? colors.primary900,
                   // color: colors.shade0,
                 ),

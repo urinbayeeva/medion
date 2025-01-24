@@ -14,8 +14,8 @@ class BookingState with _$BookingState {
     @Default(null) List<int>? selectedInnerServiceIds,
 
     // New Doctor States
-    @Default([]) List<ServiceModel> doctors,
-    @Default([]) List<ServiceModel> filteredDoctors,
+    @Default([]) List<BookingThirdService> doctors,
+    @Default([]) List<BookingThirdService> filteredDoctors,
     @Default('') String selectedSpecialty,
     @Default(0) int maxPrice,
     @Default('') String errorMessage,

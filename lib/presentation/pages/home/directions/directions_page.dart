@@ -66,6 +66,9 @@ class _DirectionsPageState extends State<DirectionsPage> {
 
                           return MedicalDirectionItem(
                             onTap: () {
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(true);
                               Navigator.push(
                                 context,
                                 AppRoutes.getDirectionInfoPage(id: item.id!),

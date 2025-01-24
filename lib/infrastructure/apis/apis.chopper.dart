@@ -61,7 +61,7 @@ final class _$AuthService extends AuthService {
 }
 
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: 
 final class _$BookingService extends BookingService {
   _$BookingService([ChopperClient? client]) {
     if (client == null) return;
@@ -94,7 +94,7 @@ final class _$BookingService extends BookingService {
   }
 
   @override
-  Future<Response<BuiltList<ServiceModel>>> getDoctorsTime(
+  Future<Response<BuiltList<BookingThirdService>>> getDoctorsTime(
       {required List<int> request}) {
     final Uri $url = Uri.parse('/booking/doctors');
     final $body = request;
@@ -104,7 +104,8 @@ final class _$BookingService extends BookingService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<BuiltList<ServiceModel>, ServiceModel>($request);
+    return client
+        .send<BuiltList<BookingThirdService>, BookingThirdService>($request);
   }
 
   @override
@@ -133,7 +134,7 @@ final class _$BookingService extends BookingService {
 }
 
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: 
 final class _$HomePageService extends HomePageService {
   _$HomePageService([ChopperClient? client]) {
     if (client == null) return;
@@ -189,7 +190,7 @@ final class _$HomePageService extends HomePageService {
 }
 
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: 
 final class _$DoctorService extends DoctorService {
   _$DoctorService([ChopperClient? client]) {
     if (client == null) return;
@@ -212,7 +213,7 @@ final class _$DoctorService extends DoctorService {
 }
 
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: 
 final class _$UploadImage extends UploadImage {
   _$UploadImage([ChopperClient? client]) {
     if (client == null) return;
@@ -253,7 +254,7 @@ final class _$UploadImage extends UploadImage {
 }
 
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: 
 final class _$PatientService extends PatientService {
   _$PatientService([ChopperClient? client]) {
     if (client == null) return;

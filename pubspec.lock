@@ -30,6 +30,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.11.0"
+  android_intent_plus:
+    dependency: transitive
+    description:
+      name: android_intent_plus
+      sha256: "884b01361fe3756c4abbb56a382a00b16a2519079794a585afa7019a73cc0add"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.2.2"
   animated_toggle_switch:
     dependency: "direct main"
     description:
@@ -527,7 +535,7 @@ packages:
     source: hosted
     version: "0.0.2"
   equatable:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: equatable
       sha256: "567c64b3cb4cf82397aac55f4f0cbd3ca20d77c6c03bedbc4ceaddc08904aef7"
@@ -1378,6 +1386,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  model_viewer_plus:
+    dependency: "direct main"
+    description:
+      name: model_viewer_plus
+      sha256: "10867167ed889156e17e5781a13b9ae71634464b3ffde8a10aaa58d3a590459f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.9.1"
   motion_toast:
     dependency: "direct main"
     description:

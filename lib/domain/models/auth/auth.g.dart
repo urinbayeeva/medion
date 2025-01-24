@@ -15,6 +15,10 @@ Serializer<CreateInfoReq> _$createInfoReqSerializer =
     new _$CreateInfoReqSerializer();
 Serializer<CreatePatientInfoResponse> _$createPatientInfoResponseSerializer =
     new _$CreatePatientInfoResponseSerializer();
+Serializer<RefreshTokenModel> _$refreshTokenModelSerializer =
+    new _$RefreshTokenModelSerializer();
+Serializer<RefreshTokenResponseModel> _$refreshTokenResponseModelSerializer =
+    new _$RefreshTokenResponseModelSerializer();
 
 class _$PhoneNumberSendReqSerializer
     implements StructuredSerializer<PhoneNumberSendReq> {
@@ -379,6 +383,104 @@ class _$CreatePatientInfoResponseSerializer
   }
 }
 
+class _$RefreshTokenModelSerializer
+    implements StructuredSerializer<RefreshTokenModel> {
+  @override
+  final Iterable<Type> types = const [RefreshTokenModel, _$RefreshTokenModel];
+  @override
+  final String wireName = 'RefreshTokenModel';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, RefreshTokenModel object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[];
+    Object? value;
+    value = object.token;
+    if (value != null) {
+      result
+        ..add('token')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  RefreshTokenModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new RefreshTokenModelBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'token':
+          result.token = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$RefreshTokenResponseModelSerializer
+    implements StructuredSerializer<RefreshTokenResponseModel> {
+  @override
+  final Iterable<Type> types = const [
+    RefreshTokenResponseModel,
+    _$RefreshTokenResponseModel
+  ];
+  @override
+  final String wireName = 'RefreshTokenResponseModel';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, RefreshTokenResponseModel object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'access_token',
+      serializers.serialize(object.accessToken,
+          specifiedType: const FullType(String)),
+      'token_type',
+      serializers.serialize(object.tokenType,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  RefreshTokenResponseModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new RefreshTokenResponseModelBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'access_token':
+          result.accessToken = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'token_type':
+          result.tokenType = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$PhoneNumberSendReq extends PhoneNumberSendReq {
   @override
   final String phoneNumber;
@@ -459,8 +561,9 @@ class PhoneNumberSendReqBuilder
   _$PhoneNumberSendReq _build() {
     final _$result = _$v ??
         new _$PhoneNumberSendReq._(
-            phoneNumber: BuiltValueNullFieldError.checkNotNull(
-                phoneNumber, r'PhoneNumberSendReq', 'phoneNumber'));
+          phoneNumber: BuiltValueNullFieldError.checkNotNull(
+              phoneNumber, r'PhoneNumberSendReq', 'phoneNumber'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -548,8 +651,11 @@ class RegisterReqBuilder implements Builder<RegisterReq, RegisterReqBuilder> {
   RegisterReq build() => _build();
 
   _$RegisterReq _build() {
-    final _$result =
-        _$v ?? new _$RegisterReq._(phoneNumber: phoneNumber, code: code);
+    final _$result = _$v ??
+        new _$RegisterReq._(
+          phoneNumber: phoneNumber,
+          code: code,
+        );
     replace(_$result);
     return _$result;
   }
@@ -677,11 +783,12 @@ class RegistrationResponseBuilder
     try {
       _$result = _$v ??
           new _$RegistrationResponse._(
-              isNewPatient: BuiltValueNullFieldError.checkNotNull(
-                  isNewPatient, r'RegistrationResponse', 'isNewPatient'),
-              accessToken: _accessToken?.build(),
-              refreshToken: _refreshToken?.build(),
-              tokenType: tokenType);
+            isNewPatient: BuiltValueNullFieldError.checkNotNull(
+                isNewPatient, r'RegistrationResponse', 'isNewPatient'),
+            accessToken: _accessToken?.build(),
+            refreshToken: _refreshToken?.build(),
+            tokenType: tokenType,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -844,13 +951,14 @@ class CreateInfoReqBuilder
   _$CreateInfoReq _build() {
     final _$result = _$v ??
         new _$CreateInfoReq._(
-            firstName: firstName,
-            lastName: lastName,
-            middleName: middleName,
-            phoneNumber: phoneNumber,
-            dateOfBirth: dateOfBirth,
-            gender: gender,
-            passportSerial: passportSerial);
+          firstName: firstName,
+          lastName: lastName,
+          middleName: middleName,
+          phoneNumber: phoneNumber,
+          dateOfBirth: dateOfBirth,
+          gender: gender,
+          passportSerial: passportSerial,
+        );
     replace(_$result);
     return _$result;
   }
@@ -957,9 +1065,199 @@ class CreatePatientInfoResponseBuilder
   _$CreatePatientInfoResponse _build() {
     final _$result = _$v ??
         new _$CreatePatientInfoResponse._(
-            accesstoken: accesstoken,
-            refreshtoken: refreshtoken,
-            tokenType: tokenType);
+          accesstoken: accesstoken,
+          refreshtoken: refreshtoken,
+          tokenType: tokenType,
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$RefreshTokenModel extends RefreshTokenModel {
+  @override
+  final String? token;
+
+  factory _$RefreshTokenModel(
+          [void Function(RefreshTokenModelBuilder)? updates]) =>
+      (new RefreshTokenModelBuilder()..update(updates))._build();
+
+  _$RefreshTokenModel._({this.token}) : super._();
+
+  @override
+  RefreshTokenModel rebuild(void Function(RefreshTokenModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  RefreshTokenModelBuilder toBuilder() =>
+      new RefreshTokenModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is RefreshTokenModel && token == other.token;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, token.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'RefreshTokenModel')
+          ..add('token', token))
+        .toString();
+  }
+}
+
+class RefreshTokenModelBuilder
+    implements Builder<RefreshTokenModel, RefreshTokenModelBuilder> {
+  _$RefreshTokenModel? _$v;
+
+  String? _token;
+  String? get token => _$this._token;
+  set token(String? token) => _$this._token = token;
+
+  RefreshTokenModelBuilder();
+
+  RefreshTokenModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _token = $v.token;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(RefreshTokenModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$RefreshTokenModel;
+  }
+
+  @override
+  void update(void Function(RefreshTokenModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  RefreshTokenModel build() => _build();
+
+  _$RefreshTokenModel _build() {
+    final _$result = _$v ??
+        new _$RefreshTokenModel._(
+          token: token,
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$RefreshTokenResponseModel extends RefreshTokenResponseModel {
+  @override
+  final String accessToken;
+  @override
+  final String tokenType;
+
+  factory _$RefreshTokenResponseModel(
+          [void Function(RefreshTokenResponseModelBuilder)? updates]) =>
+      (new RefreshTokenResponseModelBuilder()..update(updates))._build();
+
+  _$RefreshTokenResponseModel._(
+      {required this.accessToken, required this.tokenType})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        accessToken, r'RefreshTokenResponseModel', 'accessToken');
+    BuiltValueNullFieldError.checkNotNull(
+        tokenType, r'RefreshTokenResponseModel', 'tokenType');
+  }
+
+  @override
+  RefreshTokenResponseModel rebuild(
+          void Function(RefreshTokenResponseModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  RefreshTokenResponseModelBuilder toBuilder() =>
+      new RefreshTokenResponseModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is RefreshTokenResponseModel &&
+        accessToken == other.accessToken &&
+        tokenType == other.tokenType;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, accessToken.hashCode);
+    _$hash = $jc(_$hash, tokenType.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'RefreshTokenResponseModel')
+          ..add('accessToken', accessToken)
+          ..add('tokenType', tokenType))
+        .toString();
+  }
+}
+
+class RefreshTokenResponseModelBuilder
+    implements
+        Builder<RefreshTokenResponseModel, RefreshTokenResponseModelBuilder> {
+  _$RefreshTokenResponseModel? _$v;
+
+  String? _accessToken;
+  String? get accessToken => _$this._accessToken;
+  set accessToken(String? accessToken) => _$this._accessToken = accessToken;
+
+  String? _tokenType;
+  String? get tokenType => _$this._tokenType;
+  set tokenType(String? tokenType) => _$this._tokenType = tokenType;
+
+  RefreshTokenResponseModelBuilder();
+
+  RefreshTokenResponseModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _accessToken = $v.accessToken;
+      _tokenType = $v.tokenType;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(RefreshTokenResponseModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$RefreshTokenResponseModel;
+  }
+
+  @override
+  void update(void Function(RefreshTokenResponseModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  RefreshTokenResponseModel build() => _build();
+
+  _$RefreshTokenResponseModel _build() {
+    final _$result = _$v ??
+        new _$RefreshTokenResponseModel._(
+          accessToken: BuiltValueNullFieldError.checkNotNull(
+              accessToken, r'RefreshTokenResponseModel', 'accessToken'),
+          tokenType: BuiltValueNullFieldError.checkNotNull(
+              tokenType, r'RefreshTokenResponseModel', 'tokenType'),
+        );
     replace(_$result);
     return _$result;
   }

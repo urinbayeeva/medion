@@ -153,10 +153,15 @@ class _HomePageState extends State<HomePage> {
                               );
                             }),
                             _buildVerticalSpacingAndHeader(
-                                "doctors", fonts, "all", () {}),
+                                "doctors", fonts, "all", () {
+                              Navigator.push(
+                                  context, AppRoutes.getAllDoctorsPage());
+                            }),
                             _buildDoctorsSection(context, fonts, colors, icons),
-                            _buildVerticalSpacingAndHeader(
-                                "news", fonts, "all", () {}),
+                            _buildVerticalSpacingAndHeader("news", fonts, "all",
+                                () {
+                              Navigator.push(context, AppRoutes.getNewsPage());
+                            }),
                             GridView.builder(
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,
@@ -179,7 +184,9 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                             _buildVerticalSpacingAndHeader(
-                                "address_of_clinic", fonts, "all", () {}),
+                                "address_of_clinic", fonts, "all", () {
+                              Navigator.push(context, AppRoutes.getMapPage());
+                            }),
                             _buildAddressSection(context, colors, fonts, icons),
                             80.h.verticalSpace,
                           ],
@@ -237,9 +244,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           _buildSectionHeader(titleKey, fonts),
           TextButton(
-            onPressed: () {
-              Navigator.push(context, AppRoutes.getDiresctionPage());
-            },
+            onPressed: onTap,
             child: Row(
               children: [
                 Text(title.tr(),

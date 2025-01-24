@@ -1,4 +1,3 @@
-import 'package:built_collection/built_collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/domain/common/failure.dart';

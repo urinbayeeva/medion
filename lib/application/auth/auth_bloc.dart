@@ -22,12 +22,11 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _repository;
   final DBService _dbService;
-  final dynamic _repositoryImageUpload;
 
   AuthBloc(
     this._repository,
     this._dbService,
-    this._repositoryImageUpload,
+   
   ) : super(const _AuthState()) {
     on<_CheckAuth>(_checkAuth);
     on<_VerificationSend>(_verificationSendHandler);

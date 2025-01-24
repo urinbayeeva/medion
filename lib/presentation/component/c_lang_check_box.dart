@@ -103,7 +103,12 @@ class _CLangRadioState extends State<CLangRadio> {
           groupValue: isSelected,
           onChanged: (bool? value) {
             if (value == true) {
-              EasyLocalization.of(context)!.setLocale(locale);
+              setState(() {
+                // Set locale in the bottom sheet
+                EasyLocalization.of(context)!.setLocale(locale);
+              });
+              // Close the bottom sheet after language change
+              Navigator.of(context).pop();
             }
           },
           activeColor: Colors.red,

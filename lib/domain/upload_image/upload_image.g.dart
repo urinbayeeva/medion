@@ -570,7 +570,10 @@ class PreSignedUrlReqBuilder
 
   _$PreSignedUrlReq _build() {
     final _$result = _$v ??
-        new _$PreSignedUrlReq._(fileName: fileName, contentType: contentType);
+        new _$PreSignedUrlReq._(
+          fileName: fileName,
+          contentType: contentType,
+        );
     replace(_$result);
     return _$result;
   }
@@ -674,7 +677,10 @@ class PreSignedUrlResBuilder
     try {
       _$result = _$v ??
           new _$PreSignedUrlRes._(
-              url: url, fields: _fields?.build(), fileName: fileName);
+            url: url,
+            fields: _fields?.build(),
+            fileName: fileName,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -835,13 +841,14 @@ class FieldsBuilder implements Builder<Fields, FieldsBuilder> {
   _$Fields _build() {
     final _$result = _$v ??
         new _$Fields._(
-            contentType: contentType,
-            key: key,
-            aWSAccessKeyId: aWSAccessKeyId,
-            xAmzCredential: xAmzCredential,
-            xAmzDate: xAmzDate,
-            policy: policy,
-            signature: signature);
+          contentType: contentType,
+          key: key,
+          aWSAccessKeyId: aWSAccessKeyId,
+          xAmzCredential: xAmzCredential,
+          xAmzDate: xAmzDate,
+          policy: policy,
+          signature: signature,
+        );
     replace(_$result);
     return _$result;
   }
@@ -924,8 +931,10 @@ class ImageUploadResponseModelBuilder
   ImageUploadResponseModel build() => _build();
 
   _$ImageUploadResponseModel _build() {
-    final _$result =
-        _$v ?? new _$ImageUploadResponseModel._(imageBase64: imageBase64);
+    final _$result = _$v ??
+        new _$ImageUploadResponseModel._(
+          imageBase64: imageBase64,
+        );
     replace(_$result);
     return _$result;
   }
@@ -1023,8 +1032,12 @@ class UrlsBuilder implements Builder<Urls, UrlsBuilder> {
   Urls build() => _build();
 
   _$Urls _build() {
-    final _$result =
-        _$v ?? new _$Urls._(id: id, original: original, thumbnail: thumbnail);
+    final _$result = _$v ??
+        new _$Urls._(
+          id: id,
+          original: original,
+          thumbnail: thumbnail,
+        );
     replace(_$result);
     return _$result;
   }
@@ -1106,8 +1119,9 @@ class ImageModelBuilder implements Builder<ImageModel, ImageModelBuilder> {
   _$ImageModel _build() {
     final _$result = _$v ??
         new _$ImageModel._(
-            imageBase64: BuiltValueNullFieldError.checkNotNull(
-                imageBase64, r'ImageModel', 'imageBase64'));
+          imageBase64: BuiltValueNullFieldError.checkNotNull(
+              imageBase64, r'ImageModel', 'imageBase64'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -1189,7 +1203,10 @@ class ErrorResponseBuilder
   _$ErrorResponse _build() {
     _$ErrorResponse _$result;
     try {
-      _$result = _$v ?? new _$ErrorResponse._(detail: detail.build());
+      _$result = _$v ??
+          new _$ErrorResponse._(
+            detail: detail.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -1280,8 +1297,9 @@ class ErrorDetailBuilder implements Builder<ErrorDetail, ErrorDetailBuilder> {
   _$ErrorDetail _build() {
     final _$result = _$v ??
         new _$ErrorDetail._(
-            error: BuiltValueNullFieldError.checkNotNull(
-                error, r'ErrorDetail', 'error'));
+          error: BuiltValueNullFieldError.checkNotNull(
+              error, r'ErrorDetail', 'error'),
+        );
     replace(_$result);
     return _$result;
   }

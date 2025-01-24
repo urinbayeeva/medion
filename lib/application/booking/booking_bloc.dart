@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:built_collection/built_collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
@@ -23,8 +22,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<_SelectInnerServiceID>(_onSelectedInnerServiceID);
     // New Doctor Event Handlers
     on<_GetDoctorsTime>(_onGetDoctorsTime);
-    on<_FilterDoctorsBySpecialty>(_onFilterDoctorsBySpecialty);
-    on<_FilterDoctorsByPrice>(_onFilterDoctorsByPrice);
     on<_FetchHomePageServicesBooking>(_onFetchHomePageServicesBooking);
     on<_FetchHomePageServiceDoctors>(_onFetchHomePageServiceDoctors);
   }
@@ -176,7 +173,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       EasyLoading.show();
 
       final result = await _repository.getDoctorsTimeSlots(
-        serviceIds: BuiltList<int>.from(event.id),
+        serviceIds: event.id,
         days: 1,
       );
 
@@ -209,102 +206,37 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     }
   }
 
-  void _onFilterDoctorsBySpecialty(
-    _FilterDoctorsBySpecialty event,
+  FutureOr<void> _onFetchHomePageServiceDoctors(
+    _FetchHomePageServiceDoctors event,
     Emitter<BookingState> emit,
-  ) {
-    final filteredDoctors = state.doctors
-        .map((service) {
-          return ServiceModel((b) => b
-            ..serviceId = service.serviceId
-            ..serviceName = service.serviceName
-            ..companiesDoctors = BuiltList<CompanyDoctor>.from(
-              service.companiesDoctors.map((company) {
-                return CompanyDoctor((b) => b
-                  ..companyId = company.companyId
-                  ..companyName = company.companyName
-                  ..doctor = BuiltList<Doctor>.from(
-                    company.doctor.where(
-                      (doctor) =>
-                          event.specialty.isEmpty ||
-                          doctor.specialty == event.specialty,
-                    ),
-                  ).toBuilder());
-              }).where((company) => company.doctor.isNotEmpty),
-            ).toBuilder());
-        })
-        .where((service) => service.companiesDoctors.isNotEmpty)
-        .toList();
+  ) async {
+    emit(state.copyWith(loading: true, error: false, success: false));
 
-    emit(state.copyWith(
-      selectedSpecialty: event.specialty,
-      filteredDoctors: filteredDoctors,
-    ));
+    try {
+      EasyLoading.show();
+
+      final res = await _repository.fetchHomePageBookingDoctors(event.id);
+
+      res.fold(
+        (error) {
+          LogService.e("Error in fetching category services: ${error.message}");
+          emit(state.copyWith(loading: false, error: true));
+          EasyLoading.showError(error.message);
+        },
+        (data) {
+          emit(state.copyWith(
+            loading: false,
+            success: true,
+            medicalModel: data, // Store the single MedicalModel
+          ));
+        },
+      );
+    } catch (e) {
+      LogService.e("Unexpected error in _fetchCategoryServices: $e");
+      emit(state.copyWith(loading: false, error: true));
+      EasyLoading.showError('Unexpected error occurred');
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
-
-  void _onFilterDoctorsByPrice(
-    _FilterDoctorsByPrice event,
-    Emitter<BookingState> emit,
-  ) {
-    final filteredDoctors = state.doctors
-        .map((service) {
-          return ServiceModel((b) => b
-            ..serviceId = service.serviceId
-            ..serviceName = service.serviceName
-            ..companiesDoctors = BuiltList<CompanyDoctor>.from(
-              service.companiesDoctors.map((company) {
-                return CompanyDoctor((b) => b
-                  ..companyId = company.companyId
-                  ..companyName = company.companyName
-                  ..doctor = BuiltList<Doctor>.from(
-                    company.doctor.where(
-                      (doctor) =>
-                          event.maxPrice == 0 || doctor.price <= event.maxPrice,
-                    ),
-                  ).toBuilder());
-              }).where((company) => company.doctor.isNotEmpty),
-            ).toBuilder());
-        })
-        .where((service) => service.companiesDoctors.isNotEmpty)
-        .toList();
-
-    emit(state.copyWith(
-      maxPrice: event.maxPrice,
-      filteredDoctors: filteredDoctors,
-    ));
-  }
-
-FutureOr<void> _onFetchHomePageServiceDoctors(
-  _FetchHomePageServiceDoctors event,
-  Emitter<BookingState> emit,
-) async {
-  emit(state.copyWith(loading: true, error: false, success: false));
-
-  try {
-    EasyLoading.show();
-
-    final res = await _repository.fetchHomePageBookingDoctors(event.id);
-
-    res.fold(
-      (error) {
-        LogService.e("Error in fetching category services: ${error.message}");
-        emit(state.copyWith(loading: false, error: true));
-        EasyLoading.showError(error.message);
-      },
-      (data) {
-        emit(state.copyWith(
-          loading: false,
-          success: true,
-          medicalModel: data,  // Store the single MedicalModel
-        ));
-      },
-    );
-  } catch (e) {
-    LogService.e("Unexpected error in _fetchCategoryServices: $e");
-    emit(state.copyWith(loading: false, error: true));
-    EasyLoading.showError('Unexpected error occurred');
-  } finally {
-    EasyLoading.dismiss();
-  }
-}
 }

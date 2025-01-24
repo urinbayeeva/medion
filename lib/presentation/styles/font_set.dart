@@ -27,6 +27,8 @@ class FontSet {
   final TextStyle xxSmallTagFirst;
   final TextStyle xxSmallTagSecond;
   final TextStyle xxSmallestText;
+    final TextStyle captionSemiBold;
+
 
   FontSet._({
     required this.largeTitle,
@@ -55,6 +57,8 @@ class FontSet {
     required this.xxSmallTagFirst,
     required this.xxSmallTagSecond,
     required this.xxSmallestText,
+        required this.captionSemiBold,
+
   });
 
   static FontSet createOrUpdate(CustomColorSet colorSet) {
@@ -85,6 +89,8 @@ class FontSet {
       xxSmallTagFirst: Style.xxSmallTagFirst(),
       xxSmallTagSecond: Style.xxSmallTagSecond(),
       xxSmallestText: Style.xxSmallestText(),
+            captionSemiBold: Style.semiBold14(size: 12.sp),
+
     );
   }
 }

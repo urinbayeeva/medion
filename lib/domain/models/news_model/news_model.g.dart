@@ -186,8 +186,13 @@ class NewsBuilder implements Builder<News, NewsBuilder> {
   News build() => _build();
 
   _$News _build() {
-    final _$result =
-        _$v ?? new _$News._(title: title, info: info, link: link, image: image);
+    final _$result = _$v ??
+        new _$News._(
+          title: title,
+          info: info,
+          link: link,
+          image: image,
+        );
     replace(_$result);
     return _$result;
   }

@@ -6,6 +6,8 @@ import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_lang_check_box.dart';
 import 'package:medion/presentation/component/c_logout_bottomsheet.dart';
+import 'package:medion/presentation/component/c_toggle.dart';
+import 'package:medion/presentation/pages/home/directions/component/home_list_tile.dart';
 import 'package:medion/presentation/pages/profile/widget/settings_data.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -22,6 +24,8 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
+    final bool isRu = EasyLocalization.of(context)!.locale.languageCode == 'ru';
+
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Scaffold(
         backgroundColor: colors.backgroundColor,
@@ -50,6 +54,43 @@ class _SettingPageState extends State<SettingPage> {
                       itemCount: settingsData.length,
                       itemBuilder: (context, index) {
                         return _buildNavItem(
+                          widget: HomeListTile(
+                            title: "language".tr(),
+                            trailing: CustomToggle(
+                              height: 32.h,
+                              indicatorColor: colors.primary500,
+                              backgroundColor: colors.neutral50,
+                              indicatorSize: Size.fromWidth(78.w),
+                              iconList: [
+                                Text(
+                                  "РУ",
+                                  style: fonts.captionSemiBold.copyWith(
+                                      color: isRu
+                                          ? colors.shade0
+                                          : colors.neutral700),
+                                  semanticsLabel: "РУ",
+                                ),
+                                Text(
+                                  "UZ",
+                                  style: fonts.captionSemiBold.copyWith(
+                                      color: !isRu
+                                          ? colors.shade0
+                                          : colors.neutral700),
+                                  semanticsLabel: "UZ",
+                                ),
+                              ],
+                              onChanged: (bool value) {
+                                EasyLocalization.of(context)!.setLocale(
+                                  value
+                                      ? const Locale('ru', 'RU')
+                                      : const Locale('uz', 'UZ'),
+                                );
+                                setState(() {});
+                              },
+                              current: isRu,
+                              values: const [true, false],
+                            ),
+                          ),
                           context: context,
                           data: settingsData[index],
                           isLastItem: index == settingsData.length - 1,
@@ -80,11 +121,12 @@ class _SettingPageState extends State<SettingPage> {
     });
   }
 
-  Widget _buildNavItem({
+  _buildNavItem({
     required BuildContext context,
     required Map<String, dynamic> data,
     required bool isLastItem,
     required VoidCallback onTap,
+    required Widget widget,
   }) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Column(
@@ -93,7 +135,13 @@ class _SettingPageState extends State<SettingPage> {
             onTap: onTap,
             child: ListTile(
               leading: SvgPicture.asset(data['icon']),
-              title: Text(data['title'], style: fonts.regularLink),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(data['title'], style: fonts.regularLink),
+                  widget != null ? widget : SizedBox.shrink()
+                ],
+              ),
               trailing: icons.right.svg(
                 width: 20.w,
                 height: 20.h,
@@ -120,10 +168,10 @@ class _SettingPageState extends State<SettingPage> {
 
     if (index == 0) {
       setNavBarState(true);
-      showModalBottomSheet(
-        context: context,
-        builder: (item) => const CLangRadio(),
-      ).then((_) => setNavBarState(false));
+      // showModalBottomSheet(
+      //   context: context,
+      //   builder: (item) => const CLangRadio(),
+      // ).then((_) => setNavBarState(false));
     } else if (index == 1) {
       makePhoneCall("+998958098661");
     } else {
@@ -137,7 +185,7 @@ class _SettingPageState extends State<SettingPage> {
           },
           onTapLogOut: () {},
         ),
-      ).then((_) => setNavBarState(false));
+      ).then((_) {});
     }
   }
 }

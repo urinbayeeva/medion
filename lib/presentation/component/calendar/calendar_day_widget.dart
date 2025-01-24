@@ -68,6 +68,7 @@ class CalendarDayWidget extends StatelessWidget {
           bool isSelected = date.day == selectedDate.day &&
               date.month == selectedDate.month &&
               date.year == selectedDate.year;
+          // ignore: unused_local_variable
           bool isToday = date.day == DateTime.now().day &&
               date.month == DateTime.now().month &&
               date.year == DateTime.now().year;

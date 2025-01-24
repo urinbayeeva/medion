@@ -43,6 +43,12 @@ abstract class AuthService extends ChopperService {
     @Body() required CreateInfoReq request,
   });
 
+
+  // @Post(path: "refresh")
+  // Future<Response<CreatePatientInfoResponse>> refreshToken({
+  //   @Body() required RefreshTokenModel request,
+  // });
+
   static AuthService create(DBService dbService) =>
       _$AuthService(_Client(Constants.baseUrlP, true, dbService));
 }
@@ -57,10 +63,10 @@ abstract class BookingService extends ChopperService {
   Future<Response<BuiltList<Category>>> getServiceId(
       @Path('service_type_id') int id);
 
-  @Post(path: "doctors")
-  Future<Response<BuiltList<ServiceModel>>> getDoctorsTime({
-    @Body() required List<int> request,
-  });
+@Post(path: 'doctors')
+Future<Response<BuiltList<BookingThirdService>>> getDoctorsTime({
+  @Body() required List<int> request,
+});
 
   @Get(path: "categories")
   Future<Response<BuiltList<HomepageBookingCategory>>>

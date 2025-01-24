@@ -4,6 +4,7 @@ import 'package:medion/infrastructure/services/alice/model/alice_http_request.da
 import 'package:medion/infrastructure/services/alice/model/alice_http_response.dart';
 
 /// Definition of http calls data holder.
+// ignore: must_be_immutable
 class AliceHttpCall with EquatableMixin {
   AliceHttpCall(this.id);
 

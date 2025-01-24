@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -21,6 +19,7 @@ import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:medion/utils/constants.dart';
+
 
 class AuthRepository implements IAuthFacade {
   final DBService _dbService;
@@ -243,4 +242,20 @@ Future<Either<ResponseFailure, SuccessModel>> postPatientPhoto({
   }
 }
 
+}
+
+
+
+
+///
+Future<List<dynamic>> fetchServiceData() async {
+  final response = await http.get(Uri.parse('https://his.uicgroup.tech/apiweb/booking/doctors'));
+  
+  if (response.statusCode == 200) {
+    // Parse the JSON response
+    return json.decode(response.body);
+  } else {
+    // Throw an error if the request fails
+    throw Exception('Failed to load service data');
+  }
 }

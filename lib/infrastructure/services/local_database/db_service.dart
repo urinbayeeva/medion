@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:medion/domain/common/token.dart';
@@ -9,13 +11,7 @@ class DBService {
   static const _refreshToken = 'refresh_token';
   static const _themeMode = 'theme_mode';
   static const _language = 'language';
-  static const _likesList = "likes_list";
-  static const _changedPartList = "changed_part_list";
-  static const _optionList = "option_list";
-  static const _currencyAmount = "currency_amount";
   static const _currencySymbol = "currency_symbol";
-  static const _starsList = "stars_list";
-  static const _seenList = "seen_list";
   static const intro = 'intro';
   static const prediction = 'prediction';
   static const auction = 'auction';
@@ -25,7 +21,6 @@ class DBService {
   static const auctionBusiness = 'auction_business';
   static const auctionConsumer = 'auction_consumer';
   static const diagnostics = 'diagnostics';
-  static const _messageFaq = 'message_faq';
   static const _tokenType = "token_type";
 
   static Box? _box;
@@ -117,4 +112,14 @@ class DBService {
   static ValueListenable<Box> listenable() {
     return Hive.box(_dbName).listenable();
   }
+
+  bool isTokenExpired(String accessToken) {
+  final payload = accessToken.split('.')[1];
+  final decodedPayload = utf8.decode(base64Url.decode(base64.normalize(payload)));
+  final exp = jsonDecode(decodedPayload)['exp'];
+  final expiryDate = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
+
+  return DateTime.now().isAfter(expiryDate);
+}
+
 }

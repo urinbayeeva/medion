@@ -38,7 +38,7 @@ class TableCalendarBase extends StatefulWidget {
   final void Function(PageController pageController)? onCalendarCreated;
 
   TableCalendarBase({
-    Key? key,
+    super.key,
     required this.firstDay,
     required this.lastDay,
     required this.focusedDay,
@@ -76,10 +76,10 @@ class TableCalendarBase extends StatefulWidget {
     this.onCalendarCreated,
   })  : assert(!dowVisible || (dowHeight != null && dowBuilder != null)),
         assert(isSameDay(focusedDay, firstDay) || focusedDay.isAfter(firstDay)),
-        assert(isSameDay(focusedDay, lastDay) || focusedDay.isBefore(lastDay)),
-        super(key: key);
+        assert(isSameDay(focusedDay, lastDay) || focusedDay.isBefore(lastDay));
 
   @override
+  // ignore: library_private_types_in_public_api
   _TableCalendarBaseState createState() => _TableCalendarBaseState();
 }
 
@@ -209,8 +209,8 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
               constraints: constraints,
               pageController: _pageController,
               scrollPhysics: _canScrollHorizontally
-                  ? PageScrollPhysics()
-                  : NeverScrollableScrollPhysics(),
+                  ? const PageScrollPhysics()
+                  : const NeverScrollableScrollPhysics(),
               firstDay: widget.firstDay,
               lastDay: widget.lastDay,
               startingDayOfWeek: widget.startingDayOfWeek,
@@ -273,9 +273,7 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
         return _getTwoWeekCount(startDay, focusedDay);
       case CalendarFormat.week:
         return _getWeekCount(startDay, focusedDay);
-      default:
-        return _getMonthCount(startDay, focusedDay);
-    }
+      }
   }
 
   int _getMonthCount(DateTime first, DateTime last) {

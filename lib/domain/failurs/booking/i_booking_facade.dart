@@ -7,8 +7,8 @@ abstract class IBookingFacade {
   Future<Either<ResponseFailure, List<BookingTypeModel>>> fetchBookingTypes();
   Future<Either<ResponseFailure, BuiltList<Category>>> fetchCategoryServices(
       int serviceTypeId);
-  Future<Either<ResponseFailure, BuiltList<ServiceModel>>> getDoctorsTimeSlots({
-    required BuiltList<int> serviceIds,
+  Future<Either<ResponseFailure, BuiltList<BookingThirdService>>> getDoctorsTimeSlots({
+    required List<int> serviceIds,
     required int days,
   });
   Future<Either<ResponseFailure, List<HomepageBookingCategory>>>

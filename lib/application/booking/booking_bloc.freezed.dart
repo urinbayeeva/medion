@@ -2047,8 +2047,9 @@ mixin _$BookingState {
   int? get selectedServiceId => throw _privateConstructorUsedError;
   List<int>? get selectedInnerServiceIds =>
       throw _privateConstructorUsedError; // New Doctor States
-  List<ServiceModel> get doctors => throw _privateConstructorUsedError;
-  List<ServiceModel> get filteredDoctors => throw _privateConstructorUsedError;
+  List<BookingThirdService> get doctors => throw _privateConstructorUsedError;
+  List<BookingThirdService> get filteredDoctors =>
+      throw _privateConstructorUsedError;
   String get selectedSpecialty => throw _privateConstructorUsedError;
   int get maxPrice => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError; //Home Page
@@ -2077,8 +2078,8 @@ abstract class $BookingStateCopyWith<$Res> {
       List<Category> categoryServices,
       int? selectedServiceId,
       List<int>? selectedInnerServiceIds,
-      List<ServiceModel> doctors,
-      List<ServiceModel> filteredDoctors,
+      List<BookingThirdService> doctors,
+      List<BookingThirdService> filteredDoctors,
       String selectedSpecialty,
       int maxPrice,
       String errorMessage,
@@ -2148,11 +2149,11 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
       doctors: null == doctors
           ? _value.doctors
           : doctors // ignore: cast_nullable_to_non_nullable
-              as List<ServiceModel>,
+              as List<BookingThirdService>,
       filteredDoctors: null == filteredDoctors
           ? _value.filteredDoctors
           : filteredDoctors // ignore: cast_nullable_to_non_nullable
-              as List<ServiceModel>,
+              as List<BookingThirdService>,
       selectedSpecialty: null == selectedSpecialty
           ? _value.selectedSpecialty
           : selectedSpecialty // ignore: cast_nullable_to_non_nullable
@@ -2193,8 +2194,8 @@ abstract class _$$BookingStateImplCopyWith<$Res>
       List<Category> categoryServices,
       int? selectedServiceId,
       List<int>? selectedInnerServiceIds,
-      List<ServiceModel> doctors,
-      List<ServiceModel> filteredDoctors,
+      List<BookingThirdService> doctors,
+      List<BookingThirdService> filteredDoctors,
       String selectedSpecialty,
       int maxPrice,
       String errorMessage,
@@ -2262,11 +2263,11 @@ class __$$BookingStateImplCopyWithImpl<$Res>
       doctors: null == doctors
           ? _value._doctors
           : doctors // ignore: cast_nullable_to_non_nullable
-              as List<ServiceModel>,
+              as List<BookingThirdService>,
       filteredDoctors: null == filteredDoctors
           ? _value._filteredDoctors
           : filteredDoctors // ignore: cast_nullable_to_non_nullable
-              as List<ServiceModel>,
+              as List<BookingThirdService>,
       selectedSpecialty: null == selectedSpecialty
           ? _value.selectedSpecialty
           : selectedSpecialty // ignore: cast_nullable_to_non_nullable
@@ -2302,8 +2303,8 @@ class _$BookingStateImpl extends _BookingState {
       final List<Category> categoryServices = const [],
       this.selectedServiceId = null,
       final List<int>? selectedInnerServiceIds = null,
-      final List<ServiceModel> doctors = const [],
-      final List<ServiceModel> filteredDoctors = const [],
+      final List<BookingThirdService> doctors = const [],
+      final List<BookingThirdService> filteredDoctors = const [],
       this.selectedSpecialty = '',
       this.maxPrice = 0,
       this.errorMessage = '',
@@ -2361,20 +2362,20 @@ class _$BookingStateImpl extends _BookingState {
   }
 
 // New Doctor States
-  final List<ServiceModel> _doctors;
+  final List<BookingThirdService> _doctors;
 // New Doctor States
   @override
   @JsonKey()
-  List<ServiceModel> get doctors {
+  List<BookingThirdService> get doctors {
     if (_doctors is EqualUnmodifiableListView) return _doctors;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_doctors);
   }
 
-  final List<ServiceModel> _filteredDoctors;
+  final List<BookingThirdService> _filteredDoctors;
   @override
   @JsonKey()
-  List<ServiceModel> get filteredDoctors {
+  List<BookingThirdService> get filteredDoctors {
     if (_filteredDoctors is EqualUnmodifiableListView) return _filteredDoctors;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_filteredDoctors);
@@ -2476,8 +2477,8 @@ abstract class _BookingState extends BookingState {
       final List<Category> categoryServices,
       final int? selectedServiceId,
       final List<int>? selectedInnerServiceIds,
-      final List<ServiceModel> doctors,
-      final List<ServiceModel> filteredDoctors,
+      final List<BookingThirdService> doctors,
+      final List<BookingThirdService> filteredDoctors,
       final String selectedSpecialty,
       final int maxPrice,
       final String errorMessage,
@@ -2500,9 +2501,9 @@ abstract class _BookingState extends BookingState {
   @override
   List<int>? get selectedInnerServiceIds; // New Doctor States
   @override
-  List<ServiceModel> get doctors;
+  List<BookingThirdService> get doctors;
   @override
-  List<ServiceModel> get filteredDoctors;
+  List<BookingThirdService> get filteredDoctors;
   @override
   String get selectedSpecialty;
   @override

@@ -31,12 +31,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(RegisterReq.serializer)
       ..add(ResponseModel.serializer)
       ..add(Schedule.serializer)
+      ..add(ScheduleTime.serializer)
       ..add(Service.serializer)
-      ..add(ServiceModel.serializer)
       ..add(SuccessModel.serializer)
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(CompanyDoctor)]),
-          () => new ListBuilder<CompanyDoctor>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Doctor)]),
           () => new ListBuilder<Doctor>())
@@ -49,6 +46,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(HomeServiceBooking)]),
           () => new ListBuilder<HomeServiceBooking>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Schedule)]),
+          () => new ListBuilder<Schedule>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ScheduleTime)]),
+          () => new ListBuilder<ScheduleTime>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Service)]),
           () => new ListBuilder<Service>())
@@ -63,13 +66,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
           () => new ListBuilder<int>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(int)]),
-          () => new ListBuilder<int>())
-      ..addBuilderFactory(
-          const FullType(BuiltMap, const [
-            const FullType(String),
-            const FullType(BuiltList, const [const FullType(Schedule)])
-          ]),
-          () => new MapBuilder<String, BuiltList<Schedule>>()))
+          () => new ListBuilder<int>()))
     .build();
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

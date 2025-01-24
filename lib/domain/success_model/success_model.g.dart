@@ -124,7 +124,10 @@ class SuccessModelBuilder
   SuccessModel build() => _build();
 
   _$SuccessModel _build() {
-    final _$result = _$v ?? new _$SuccessModel._(detail: detail);
+    final _$result = _$v ??
+        new _$SuccessModel._(
+          detail: detail,
+        );
     replace(_$result);
     return _$result;
   }

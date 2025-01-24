@@ -129,6 +129,16 @@ class Style {
     );
   }
 
+    static TextStyle semiBold14({double size = 14, Color color = primary900}) {
+    return TextStyle(
+      fontSize: size,
+      color: color,
+      fontWeight: FontWeight.w600,
+      fontFamily: 'NunitoSans',
+      letterSpacing: -0.24,
+    );
+  }
+
   static TextStyle headlineMain({double size = 22, Color color = primary900}) {
     return TextStyle(
       fontSize: size,

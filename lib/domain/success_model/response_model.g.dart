@@ -246,15 +246,16 @@ class ResponseModelBuilder
     try {
       _$result = _$v ??
           new _$ResponseModel._(
-              status: BuiltValueNullFieldError.checkNotNull(
-                  status, r'ResponseModel', 'status'),
-              message: BuiltValueNullFieldError.checkNotNull(
-                  message, r'ResponseModel', 'message'),
-              isNewPatient: BuiltValueNullFieldError.checkNotNull(
-                  isNewPatient, r'ResponseModel', 'isNewPatient'),
-              accessToken: _accessToken?.build(),
-              refreshToken: _refreshToken?.build(),
-              tokenType: tokenType);
+            status: BuiltValueNullFieldError.checkNotNull(
+                status, r'ResponseModel', 'status'),
+            message: BuiltValueNullFieldError.checkNotNull(
+                message, r'ResponseModel', 'message'),
+            isNewPatient: BuiltValueNullFieldError.checkNotNull(
+                isNewPatient, r'ResponseModel', 'isNewPatient'),
+            accessToken: _accessToken?.build(),
+            refreshToken: _refreshToken?.build(),
+            tokenType: tokenType,
+          );
     } catch (_) {
       late String _$failedField;
       try {

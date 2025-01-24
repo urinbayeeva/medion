@@ -30,10 +30,6 @@ part 'serializer.g.dart';
   AdModel,
   PatientInfo,
   GiveSelectedId,
-  ServiceModel,
-  CompanyDoctor,
-  Doctor,
-  Schedule,
   CreatePatientInfoResponse,
   DoctorCategory,
   DoctorData,
@@ -42,39 +38,12 @@ part 'serializer.g.dart';
   ErrorResponse,
   MedicalModel,
   HomeMedicalDoctor,
-  HomeServiceBooking
+  HomeServiceBooking,
+  Service,
+  CompanyDoctor,
+  Doctor,
+  Schedule,
+  ScheduleTime,
 ])
-final Serializers serializers = (_$serializers.toBuilder()
-      ..addPlugin(StandardJsonPlugin())
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(Service)]),
-        () => ListBuilder<Service>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(int)]),
-        () => ListBuilder<int>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(ServiceModel)]),
-        () => ListBuilder<ServiceModel>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(CompanyDoctor)]),
-        () => ListBuilder<CompanyDoctor>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(Doctor)]),
-        () => ListBuilder<Doctor>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(Schedule)]),
-        () => ListBuilder<Schedule>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltMap, [
-          FullType(String),
-          FullType(BuiltList, [FullType(Schedule)])
-        ]),
-        () => MapBuilder<String, BuiltList<Schedule>>(),
-      ))
-    .build();
+final Serializers serializers =
+    (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

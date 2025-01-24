@@ -31,10 +31,11 @@ class CalendarCore extends StatelessWidget {
   final StartingDayOfWeek startingDayOfWeek;
   final PageController? pageController;
   final ScrollPhysics? scrollPhysics;
+  // ignore: library_private_types_in_public_api
   final _OnCalendarPageChanged onPageChanged;
 
   const CalendarCore({
-    Key? key,
+    super.key,
     this.dowBuilder,
     required this.dayBuilder,
     required this.onPageChanged,
@@ -57,8 +58,7 @@ class CalendarCore extends StatelessWidget {
     this.tableBorder,
     this.tablePadding,
     this.scrollPhysics,
-  })  : assert(!dowVisible || (dowHeight != null && dowBuilder != null)),
-        super(key: key);
+  })  : assert(!dowVisible || (dowHeight != null && dowBuilder != null));
 
   @override
   Widget build(BuildContext context) {
@@ -137,9 +137,7 @@ class CalendarCore extends StatelessWidget {
         return _getTwoWeekCount(first, last) + 1;
       case CalendarFormat.week:
         return _getWeekCount(first, last) + 1;
-      default:
-        return _getMonthCount(first, last) + 1;
-    }
+      }
   }
 
   int _getMonthCount(DateTime first, DateTime last) {
@@ -223,9 +221,7 @@ class CalendarCore extends StatelessWidget {
         return _daysInTwoWeeks(focusedDay);
       case CalendarFormat.week:
         return _daysInWeek(focusedDay);
-      default:
-        return _daysInMonth(focusedDay);
-    }
+      }
   }
 
   DateTimeRange _daysInWeek(DateTime focusedDay) {
