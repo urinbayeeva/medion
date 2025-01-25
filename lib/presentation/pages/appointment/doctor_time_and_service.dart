@@ -1,27 +1,15 @@
 import 'dart:convert';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:formz/formz.dart';
 import 'package:http/http.dart' as http;
-import 'package:medion/application/booking/booking_bloc.dart';
-import 'package:medion/domain/sources/doctors_time.dart';
-import 'package:medion/presentation/component/animation_effect.dart';
-import 'package:medion/presentation/component/c_bottomsheet_seans.dart';
-import 'package:medion/presentation/component/c_button.dart';
-import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
-
 import 'package:medion/presentation/pages/appointment/component/doctors_date_item.dart';
-import 'package:medion/presentation/styles/style.dart';
-import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:medion/utils/extensions.dart';
 
 class DoctorTimeAndService extends StatefulWidget {
   final int? seansCount;
   final VoidCallback onTap;
+
   const DoctorTimeAndService({super.key, this.seansCount, required this.onTap});
 
   @override
@@ -29,27 +17,31 @@ class DoctorTimeAndService extends StatefulWidget {
 }
 
 class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
-  int chose = 1;
+  static const List<int> _defaultServiceIds = [
+    1961,
+    2021,
+    2023,
+    2024,
+    2078,
+    2391
+  ];
+
+  final int _selectedServiceCount = 0;
   List<dynamic> _services = [];
   bool _isLoading = true;
-  String _error = '';
 
   @override
   void initState() {
     super.initState();
-    fetchServiceData();
+    _fetchServiceData();
   }
 
-  Future<void> fetchServiceData() async {
+  Future<void> _fetchServiceData() async {
     try {
       final response = await http.post(
         Uri.parse('https://his.uicgroup.tech/apiweb/booking/doctors'),
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: json.encode({
-          "service_ids": [1961, 2021, 2023, 2024, 2078, 2391]
-        }),
+        headers: {'Content-Type': 'application/json; charset=utf-8'},
+        body: json.encode({"service_ids": _defaultServiceIds}),
       );
 
       if (response.statusCode == 200) {
@@ -57,142 +49,138 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
         setState(() {
           _services = json.decode(utf8Body);
           _isLoading = false;
-          print("RESPONSE BODY: ${_services = json.decode(utf8Body)}");
         });
       } else {
-        print("RESPONSE: ${response.body}");
-        setState(() {
-          _error = 'Failed to load services';
-          _isLoading = false;
-        });
+        _handleError('Failed to load services');
       }
     } catch (e) {
-      setState(() {
-        _error = 'Error: ${e.toString()}';
-        _isLoading = false;
+      _handleError('Error: ${e.toString()}');
+    }
+  }
+
+  void _handleError(String message) {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  Map<String, List<String>> _processTimeSlots(
+      List<Map<String, dynamic>> schedules) {
+    Map<String, List<String>> timeSlots = {};
+
+    for (var schedule in schedules) {
+      schedule.forEach((date, entries) {
+        timeSlots.putIfAbsent(date, () => []);
+        timeSlots[date]!.addAll((entries as List)
+            .where((entry) => entry['active'] == true)
+            .map((entry) => entry['time'] as String));
       });
     }
+
+    return timeSlots;
+  }
+
+  Widget _buildServiceSection(dynamic service) {
+    var companies = service['companies_doctors'];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildServiceHeader(service),
+        ...companies.expand((company) =>
+            (company['doctor'] as List<dynamic>).map(_buildDoctorItem)),
+      ],
+    );
+  }
+
+  Widget _buildServiceHeader(dynamic service) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+      child: Text(
+        service['service_name'] ?? 'Unknown Service',
+        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w600,
+            ),
+      ),
+    );
+  }
+
+  Widget _buildDoctorItem(dynamic doctor) {
+    var rawSchedules = doctor['schedules'] as List<dynamic>;
+    List<Map<String, dynamic>> schedules =
+        rawSchedules.whereType<Map<String, dynamic>>().toList();
+
+    Map<String, List<String>> timeSlots = _processTimeSlots(schedules);
+
+    return DoctorsDateItem(
+      name: doctor['name'] ?? 'Unknown Name',
+      profession: doctor['specialty'] ?? 'Unknown Profession',
+      image: doctor['image'],
+      dates: schedules,
+      timeSlots: timeSlots,
+    );
+  }
+
+  Widget _buildBottomSection(colors, fonts) {
+    return _selectedServiceCount > 1
+        ? Container(
+            padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: colors.shade0,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(24.r),
+                topRight: Radius.circular(24.r),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Выбраны $_selectedServiceCount услуги",
+                  style: fonts.labelSmall?.copyWith(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Icon(Icons.chevron_right, size: 20.w),
+              ],
+            ),
+          )
+        : const SizedBox.shrink();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      if (_services.isEmpty) {
-        return Center(
-          child: Text(
-            semanticsLabel: "no_result_found".tr(),
-            "no_result_found".tr(),
-            style: Style.headlineMain(),
-          ),
-        );
-      }
-      return Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: _services.length,
-              padding: EdgeInsets.only(top: 16.h),
-              itemBuilder: (context, index) {
-                var service = _services[index];
-                var companies = service['companies_doctors'];
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        if (_isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 12.h, horizontal: 16.w),
-                      child: Text(
-                        service['service_name'] ?? 'Unknown Service',
-                        style: fonts.smallMain.copyWith(
-                            fontSize: 15.sp, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    ...companies.map<Widget>((company) {
-                      var doctors = company['doctor'] as List<dynamic>;
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ...doctors.map<Widget>((doctor) {
-                            return Column(
-                              children: [
-                                DoctorsDateItem(
-                                  name: doctor['name'] ?? 'Unknown Name',
-                                  profession: doctor['specialty'] ??
-                                      'Unknown Profession',
-                                  image: doctor['image'],
-                                  dates: doctor['schedules'],
-                                ),
-                              ],
-                            );
-                          }),
-                        ],
-                      );
-                    }).toList(),
-                  ],
-                );
-              },
+        if (_services.isEmpty) {
+          return Center(
+            child: Text(
+              "no_result_found".tr(),
+              style: fonts.headlineMain,
             ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-            width: double.infinity,
-            color: chose >= 1 ? null : colors.shade0,
-            decoration: chose >= 1
-                ? BoxDecoration(
-                    color: colors.shade0,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24.r),
-                        topRight: Radius.circular(24.r)),
-                  )
-                : null,
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              if (chose >= 1) ...[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Выбраны $chose услуги",
-                      style: fonts.xSmallLink.copyWith(
-                          fontSize: 13.sp, fontWeight: FontWeight.bold),
-                    ),
-                    AnimationButtonEffect(
-                      onTap: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.all(16.w),
-                                  decoration: BoxDecoration(
-                                      color: colors.shade0,
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(8.r),
-                                          topRight: Radius.circular(8.r))),
-                                  child: const CBottomsheetSeans(
-                                    chose: 1,
-                                  ));
-                            });
-                      },
-                      child: icons.right.svg(
-                          width: 20.w,
-                          height: 20.h,
-                          color: colors.iconGreyColor),
-                    )
-                  ],
-                ),
-                12.h.verticalSpace,
-              ],
-              CButton(
-                title: "next".tr(),
-                onTap: widget.onTap,
+          );
+        }
+
+        return Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: _services.length,
+                padding: EdgeInsets.only(top: 16.h),
+                itemBuilder: (context, index) =>
+                    _buildServiceSection(_services[index]),
               ),
-              // 24.h.verticalSpace,
-            ]),
-          ),
-        ],
-      );
-    });
+            ),
+            _buildBottomSection(colors, Theme.of(context).textTheme),
+          ],
+        );
+      },
+    );
   }
 }
