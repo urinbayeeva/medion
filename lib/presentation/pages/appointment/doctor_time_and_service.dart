@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/presentation/pages/appointment/component/doctors_date_item.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -17,15 +19,6 @@ class DoctorTimeAndService extends StatefulWidget {
 }
 
 class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
-  static const List<int> _defaultServiceIds = [
-    1961,
-    2021,
-    2023,
-    2024,
-    2078,
-    2391
-  ];
-
   final int _selectedServiceCount = 0;
   List<dynamic> _services = [];
   bool _isLoading = true;
@@ -33,15 +26,20 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
   @override
   void initState() {
     super.initState();
+
     _fetchServiceData();
   }
 
   Future<void> _fetchServiceData() async {
+    final selectedId =
+        context.read<BookingBloc>().state.selectedInnerServiceIds;
     try {
       final response = await http.post(
         Uri.parse('https://his.uicgroup.tech/apiweb/booking/doctors'),
         headers: {'Content-Type': 'application/json; charset=utf-8'},
-        body: json.encode({"service_ids": _defaultServiceIds}),
+        body: json.encode({
+          "service_ids": selectedId
+        }),
       );
 
       if (response.statusCode == 200) {
@@ -152,35 +150,37 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(
-      builder: (context, colors, fonts, icons, controller) {
-        if (_isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
+    return BlocBuilder<BookingBloc, BookingState>(builder: (context, state) {
+      return ThemeWrapper(
+        builder: (context, colors, fonts, icons, controller) {
+          if (_isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-        if (_services.isEmpty) {
-          return Center(
-            child: Text(
-              "no_result_found".tr(),
-              style: fonts.headlineMain,
-            ),
-          );
-        }
-
-        return Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: _services.length,
-                padding: EdgeInsets.only(top: 16.h),
-                itemBuilder: (context, index) =>
-                    _buildServiceSection(_services[index]),
+          if (_services.isEmpty) {
+            return Center(
+              child: Text(
+                "no_result_found".tr(),
+                style: fonts.headlineMain,
               ),
-            ),
-            _buildBottomSection(colors, Theme.of(context).textTheme),
-          ],
-        );
-      },
-    );
+            );
+          }
+
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _services.length,
+                  padding: EdgeInsets.only(top: 16.h),
+                  itemBuilder: (context, index) =>
+                      _buildServiceSection(_services[index]),
+                ),
+              ),
+              _buildBottomSection(colors, Theme.of(context).textTheme),
+            ],
+          );
+        },
+      );
+    });
   }
 }

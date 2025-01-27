@@ -54,15 +54,17 @@ class _SecondServicePageState extends State<SecondServicePage> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: CustomListView(
-                    // count: state.selectedInnerServiceIds!.length,
-                    onRefresh: () {
+                    onRefresh: () async {
                       final selectedId =
                           context.read<BookingBloc>().state.selectedServiceId;
 
-                      context.read<BookingBloc>().add(
-                          BookingEvent.fetchCategoryServices(id: selectedId!));
-
-                      setState(() {});
+                      // Only fetch data if the state is not already loaded
+                      if (state.categoryServices.isEmpty) {
+                        context.read<BookingBloc>().add(
+                              BookingEvent.fetchCategoryServices(
+                                  id: selectedId!),
+                            );
+                      }
                       _refreshController.refreshCompleted();
                     },
                     refreshController: _refreshController,
@@ -117,9 +119,14 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                   ),
                                   AnimationButtonEffect(
                                     onTap: () {
+                                      final selectedIds = selectedServices
+                                          .map<int>(
+                                              (service) => service.id as int)
+                                          .toList();
                                       context.read<BookingBloc>().add(
                                           BookingEvent.selectInnerServiceID(
-                                              ids: [3836, 3835]));
+                                              ids: selectedIds));
+
                                       setState(() {
                                         if (selectedServices
                                             .contains(service)) {
@@ -129,13 +136,6 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           selectedServices.add(service);
                                           chose++;
                                         }
-
-                                        final selectedIds = selectedServices
-                                            .map<int>((s) => s.id as int)
-                                            .toList();
-
-                                        print(
-                                            "SELECTED SERVICES ID: ${selectedIds}");
                                       });
                                     },
                                     child: Container(
