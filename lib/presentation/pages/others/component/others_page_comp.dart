@@ -55,9 +55,41 @@ class OthersPageComp extends StatelessWidget {
                       });
                     }
 
+                    if (index == 6) {
+                      context.read<BottomNavBarController>().changeNavBar(true);
+                      Navigator.push(context, AppRoutes.getEquipmentPage())
+                          .then((_) {
+                        // ignore: use_build_context_synchronously
+                        context
+                            .read<BottomNavBarController>()
+                            .changeNavBar(false);
+                      });
+                    }
+
+                    if (index == 7) {
+                      context.read<BottomNavBarController>().changeNavBar(true);
+                      Navigator.push(context, AppRoutes.getAboutHealthPage())
+                          .then((_) {
+                        // ignore: use_build_context_synchronously
+                        context
+                            .read<BottomNavBarController>()
+                            .changeNavBar(false);
+                      });
+                    }
+
                     if (index == 9) {
                       context.read<BottomNavBarController>().changeNavBar(true);
                       Navigator.push(context, AppRoutes.getPartnersPage())
+                          .then((_) {
+                        // ignore: use_build_context_synchronously
+                        context
+                            .read<BottomNavBarController>()
+                            .changeNavBar(false);
+                      });
+                    }
+                    if (index == 10) {
+                      context.read<BottomNavBarController>().changeNavBar(true);
+                      Navigator.push(context, AppRoutes.getAwardsPage())
                           .then((_) {
                         // ignore: use_build_context_synchronously
                         context

@@ -9,6 +9,7 @@ import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/domain/sources/doctor_appoinment_select_page.dart';
+import 'package:medion/presentation/component/c_info_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/core/choose_language_page.dart';
 import 'package:medion/presentation/pages/core/debug_page.dart';
@@ -30,9 +31,12 @@ import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_email.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_phone.dart';
 import 'package:medion/presentation/pages/auth/sign_up/verify_code_page.dart';
 import 'package:medion/presentation/pages/onboarding/onboarding_page.dart';
+import 'package:medion/presentation/pages/others/about_health/about_health_page.dart';
+import 'package:medion/presentation/pages/others/awards/awards_page.dart';
 import 'package:medion/presentation/pages/others/branches/branches_page.dart';
 import 'package:medion/presentation/pages/others/branches/component/single_branch_info.dart';
 import 'package:medion/presentation/pages/others/branches/single_branch_page.dart';
+import 'package:medion/presentation/pages/others/equipment/equipment_page.dart';
 import 'package:medion/presentation/pages/others/our_activity/our_activity_page.dart';
 import 'package:medion/presentation/pages/others/partners/partners_inner_page.dart';
 import 'package:medion/presentation/pages/others/partners/partners_page.dart';
@@ -118,7 +122,6 @@ class AppRoutes {
                 AuthRepository(dbService, AuthService.create(dbService),
                     PatientService.create(dbService)),
                 dbService,
-                
               );
             },
             child: SignUpWithPhone(
@@ -149,7 +152,6 @@ class AppRoutes {
                   PatientService.create(dbService),
                 ),
                 dbService,
-                
               );
             },
             child: VerifyCodePage(
@@ -169,7 +171,6 @@ class AppRoutes {
                 AuthRepository(dbService, AuthService.create(dbService),
                     PatientService.create(dbService)),
                 dbService,
-                
               );
             },
             child: DataEntryPage(phoneNumber: phoneNumber)));
@@ -202,14 +203,9 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const DirectionsPage());
   }
 
-  static MaterialPageRoute getDirectionInfoPage({
-   required int id
-  
-  }) {
+  static MaterialPageRoute getDirectionInfoPage({required int id}) {
     return MaterialPageRoute(
-      builder: (_) => DirectionInfoPage(
-       id: id
-      ),
+      builder: (_) => DirectionInfoPage(id: id),
     );
   }
 
@@ -270,7 +266,6 @@ class AppRoutes {
                 AuthRepository(dbService, AuthService.create(dbService),
                     PatientService.create(dbService)),
                 dbService,
-                
               );
             },
             child: const UserDetailsPage()));
@@ -280,7 +275,8 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const MapPage());
   }
 
-  static MaterialPageRoute getAboutDoctorPage(String name, String profession, String status) {
+  static MaterialPageRoute getAboutDoctorPage(
+      String name, String profession, String status) {
     return MaterialPageRoute(
         builder: (_) => BlocProvider(
             create: (context) {
@@ -289,10 +285,13 @@ class AppRoutes {
                 AuthRepository(dbService, AuthService.create(dbService),
                     PatientService.create(dbService)),
                 dbService,
-                
               );
             },
-            child: AboutDoctor(name: name, profession: profession, status: status,)));
+            child: AboutDoctor(
+              name: name,
+              profession: profession,
+              status: status,
+            )));
   }
 
   static MaterialPageRoute getNewsPage() {
@@ -401,5 +400,29 @@ class AppRoutes {
 
   static MaterialPageRoute getActivityPage() {
     return MaterialPageRoute(builder: (_) => const OurActivityPage());
+  }
+
+  static MaterialPageRoute getAboutHealthPage() {
+    return MaterialPageRoute(builder: (_) => const AboutHealthPage());
+  }
+
+  static MaterialPageRoute getInfoViewAboutHealth(
+      {required String imagePath,
+      required String? title,
+      required String? desc}) {
+    return MaterialPageRoute(
+        builder: (_) => CInfoView(
+              imagePath: imagePath,
+              title: title,
+              desc: desc,
+            ));
+  }
+
+  static MaterialPageRoute getEquipmentPage() {
+    return MaterialPageRoute(builder: (_) => const EquipmentPage());
+  }
+
+  static MaterialPageRoute getAwardsPage() {
+    return MaterialPageRoute(builder: (_) => const AwardsPage());
   }
 }
