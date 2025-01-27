@@ -34,18 +34,15 @@ class MedicalDirectionItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.r)),
               child: ListTile(
                 leading: Container(
-                  width: 46.w,
-                  height: 46.h,
-                  padding: EdgeInsets.all(6.0.w),
-                  decoration: BoxDecoration(
-                    color: const Color.fromRGBO(217, 5, 6, 0.05),
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  child: iconPath != null && iconPath!.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: iconPath!, width: 32.w, height: 32.h)
-                      : icons.consultation.svg(),
-                ),
+                    width: 46.w,
+                    height: 46.h,
+                    padding: EdgeInsets.all(6.0.w),
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(217, 5, 6, 0.05),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: CachedNetworkImage(
+                        imageUrl: iconPath!, width: 32.w, height: 32.h)),
                 title: Text(title ?? "Unknown Service",
                     style: fonts.smallSemLink.copyWith(
                         fontSize: 15.sp, fontWeight: FontWeight.w600)),

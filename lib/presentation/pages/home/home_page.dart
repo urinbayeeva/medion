@@ -157,7 +157,40 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                   context, AppRoutes.getAllDoctorsPage());
                             }),
-                            _buildDoctorsSection(context, fonts, colors, icons),
+                            BlocBuilder<DoctorBloc, DoctorState>(
+                              builder: (context, state) {
+                                if (state.doctors.isEmpty) {
+                                  return Center(
+                                      child: Text('something_went_wrong'.tr(),
+                                          style: fonts.regularSemLink));
+                                }
+                                return SizedBox(
+                                  height: 200,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: state.doctors.length,
+                                    itemBuilder: (context, index) {
+                                      final doctor = state.doctors[index];
+                                      return DoctorsItem(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          AppRoutes.getAboutDoctorPage(
+                                              doctor.doctorData[index].name,
+                                              doctor
+                                                  .doctorData[index].specialty,
+                                              doctor.doctorData[index].name),
+                                        ),
+                                        name: doctor.doctorData[index].name,
+                                        profession:
+                                            doctor.doctorData[index].name,
+                                        imagePath:
+                                            doctor.doctorData[index].image,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
                             _buildVerticalSpacingAndHeader("news", fonts, "all",
                                 () {
                               Navigator.push(context, AppRoutes.getNewsPage());
@@ -258,40 +291,6 @@ class _HomePageState extends State<HomePage> {
         ],
       );
     });
-  }
-
-  Widget _buildDoctorsSection(BuildContext context, fonts, colors, icons) {
-    return BlocBuilder<DoctorBloc, DoctorState>(
-      builder: (context, state) {
-        if (state.error) {
-          return Center(
-              child: Text('something_went_wrong'.tr(),
-                  style: fonts.regularSemLink));
-        }
-        return SizedBox(
-          height: 200,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: state.doctors.length,
-            itemBuilder: (context, index) {
-              final doctor = state.doctors[index];
-              return DoctorsItem(
-                onTap: () => Navigator.push(
-                  context,
-                  AppRoutes.getAboutDoctorPage(
-                      doctor.doctorData[index].name,
-                      doctor.doctorData[index].specialty,
-                      doctor.doctorData[index].name),
-                ),
-                name: doctor.doctorData[index].name,
-                profession: doctor.doctorData[index].name,
-                imagePath: doctor.doctorData[index].image,
-              );
-            },
-          ),
-        );
-      },
-    );
   }
 
   Widget _buildAddressSection(BuildContext context, colors, fonts, icons) {

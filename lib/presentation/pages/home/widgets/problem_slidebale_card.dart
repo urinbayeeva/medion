@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,13 +60,10 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CachedImageComponent(
+                          CachedNetworkImage(
                             height: 48.w,
                             width: 48.w,
                             imageUrl: disease.icon ?? '',
-                            borderRadius: 10.r,
-                            fit: BoxFit.cover,
-                            isNetwork: true,
                           ),
                           8.h.verticalSpace,
                           Text(

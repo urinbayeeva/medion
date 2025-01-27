@@ -7,6 +7,8 @@ class ResponsiveTimeSlotGrid extends StatelessWidget {
   final int selectedDateIndex;
   final int? selectedTimeSlotIndex;
   final Function(int) onTimeSlotSelected;
+  final bool active;
+  final Set<String> disabledTimeSlots;
 
   const ResponsiveTimeSlotGrid({
     super.key,
@@ -15,7 +17,29 @@ class ResponsiveTimeSlotGrid extends StatelessWidget {
     required this.selectedDateIndex,
     required this.selectedTimeSlotIndex,
     required this.onTimeSlotSelected,
+    required this.active,
+    required this.disabledTimeSlots,
   });
+
+  // Helper method to get next 30-minute slot
+  String getNext30MinSlot(String timeSlot) {
+    final parts = timeSlot.split(':');
+    int hours = int.parse(parts[0]);
+    int minutes = int.parse(parts[1]);
+
+    minutes += 30;
+    if (minutes >= 60) {
+      minutes = 0;
+      hours += 1;
+    }
+
+    return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}';
+  }
+
+  // Check if a time slot should be disabled
+  bool isTimeSlotDisabled(String timeSlot) {
+    return disabledTimeSlots.contains(timeSlot);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +53,9 @@ class ResponsiveTimeSlotGrid extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: _calculateCrossAxisCount(constraints.maxWidth),
-            childAspectRatio: 1.8,
-            crossAxisSpacing: 8,
+            crossAxisCount: _calculateCrossAxisCount(4),
+            childAspectRatio: 2,
+            crossAxisSpacing: 5,
             mainAxisSpacing: 8,
           ),
           itemCount: availableTimeSlots.length,
@@ -50,23 +74,30 @@ class ResponsiveTimeSlotGrid extends StatelessWidget {
 
   Widget _buildTimeSlotItem(BuildContext context, String timeSlot, int index) {
     final isSelected = selectedTimeSlotIndex == index;
+    final isDisabled = isTimeSlotDisabled(timeSlot);
 
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return GestureDetector(
-        onTap: () => onTimeSlotSelected(index),
+        onTap: isDisabled ? null : () => onTimeSlotSelected(index),
         child: Container(
           decoration: BoxDecoration(
             border: isSelected
                 ? null
                 : Border.all(width: 1, color: colors.neutral400),
-            color: isSelected ? colors.error500 : colors.shade0,
+            color: isDisabled
+                ? colors.neutral200 // Gray out disabled slots
+                : (active
+                    ? colors.neutral200
+                    : (isSelected ? colors.error500 : colors.shade0)),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Center(
             child: Text(
               timeSlot,
               style: fonts.xSmallMain.copyWith(
-                color: isSelected ? Colors.white : Colors.black,
+                color: isDisabled
+                    ? colors.neutral600 // Gray out text for disabled slots
+                    : (isSelected ? Colors.white : Colors.black),
                 fontWeight: FontWeight.w500,
               ),
             ),

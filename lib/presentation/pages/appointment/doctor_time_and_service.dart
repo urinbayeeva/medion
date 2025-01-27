@@ -19,9 +19,29 @@ class DoctorTimeAndService extends StatefulWidget {
 }
 
 class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
-  final int _selectedServiceCount = 0;
+  int _selectedServiceCount = 0;
   List<dynamic> _services = [];
   bool _isLoading = true;
+
+  String? _selectedDate;
+  String? _selectedTime;
+
+  final Set<String> _selectedTimes = {}; // Keep track of all selected times
+  final Set<String> _disabledTimeSlots = {}; // Only for the +30min slots
+
+  String getNext30MinSlot(String timeSlot) {
+    final parts = timeSlot.split(':');
+    int hours = int.parse(parts[0]);
+    int minutes = int.parse(parts[1]);
+
+    minutes += 30;
+    if (minutes >= 60) {
+      minutes = 0;
+      hours += 1;
+    }
+
+    return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}';
+  }
 
   @override
   void initState() {
@@ -38,7 +58,7 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
         Uri.parse('https://his.uicgroup.tech/apiweb/booking/doctors'),
         headers: {'Content-Type': 'application/json; charset=utf-8'},
         body: json.encode({
-          "service_ids": selectedId
+          "service_ids": [1961, 2019, 2021, 2022, 2023, 2024, 2078]
         }),
       );
 
@@ -111,18 +131,45 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
     Map<String, List<String>> timeSlots = _processTimeSlots(schedules);
 
     return DoctorsDateItem(
+      disabledTimeSlots: _disabledTimeSlots,
       name: doctor['name'] ?? 'Unknown Name',
       profession: doctor['specialty'] ?? 'Unknown Profession',
       image: doctor['image'],
       dates: schedules,
       timeSlots: timeSlots,
+      onDateSelected: (date) {
+        setState(() {
+          _selectedDate = date;
+          _selectedTimes.clear();
+          _disabledTimeSlots.clear();
+        });
+      },
+      onTimeSelected: (time) {
+        setState(() {
+          // Update the selected time
+          _selectedTime = time;
+
+          // Increment the service count
+          _selectedServiceCount++;
+
+          // Add selected time to the _selectedTimes set
+          _selectedTimes.add(time);
+
+          // Get the next 30-minute increment of the selected time
+          final next30Min = getNext30MinSlot(time);
+
+          // Add both the selected time and the next 30-minute increment to the disabled time slots
+          _disabledTimeSlots.add(time);
+          _disabledTimeSlots.add(next30Min);
+        });
+      },
     );
   }
 
   Widget _buildBottomSection(colors, fonts) {
-    return _selectedServiceCount > 1
+    return _selectedServiceCount > 0
         ? Container(
-            padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             width: double.infinity,
             decoration: BoxDecoration(
               color: colors.shade0,
@@ -131,8 +178,7 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                 topRight: Radius.circular(24.r),
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
                 Text(
                   "Выбраны $_selectedServiceCount услуги",
@@ -141,7 +187,18 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Icon(Icons.chevron_right, size: 20.w),
+                if (_selectedDate != null && _selectedTime != null)
+                  Padding(
+                    padding: EdgeInsets.only(top: 8.h),
+                    child: Text(
+                      "Дата: ${_formatDate(_selectedDate!)}\nВремя: $_selectedTime",
+                      style: fonts.bodyMedium?.copyWith(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
               ],
             ),
           )
@@ -182,5 +239,15 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
         },
       );
     });
+  }
+}
+
+String _formatDate(String dateStr) {
+  try {
+    final DateTime date = DateTime.parse(dateStr);
+    return DateFormat('EEEE, dd MMMM')
+        .format(date); // Output: Monday, 27 January
+  } catch (e) {
+    return 'Invalid Date'; // Handle invalid date
   }
 }

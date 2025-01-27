@@ -10,8 +10,12 @@ class DoctorsDateItem extends StatefulWidget {
   final String? name;
   final String? profession;
   final String? image;
+  final bool? active;
   final List<dynamic>? dates;
-  final Map<String, List<String>>? timeSlots; // Added time slots
+  final Map<String, List<String>>? timeSlots;
+  final Function(String)? onDateSelected;
+  final Function(String)? onTimeSelected;
+  final Set<String> disabledTimeSlots;
 
   const DoctorsDateItem({
     super.key,
@@ -19,7 +23,11 @@ class DoctorsDateItem extends StatefulWidget {
     this.profession,
     this.image,
     this.dates,
-    this.timeSlots, // Added here
+    this.timeSlots,
+    this.onDateSelected,
+    this.onTimeSelected,
+    this.active,
+    required this.disabledTimeSlots,
   });
 
   @override
@@ -28,7 +36,22 @@ class DoctorsDateItem extends StatefulWidget {
 
 class _DoctorsDateItemState extends State<DoctorsDateItem> {
   int _selectedDateIndex = 0;
-  int _selectedTimeSlotIndex = -1; // Track selected time slot
+  int _selectedTimeSlotIndex = -1;
+
+  // Helper method to get next 30-minute slot
+  String getNext30MinSlot(String timeSlot) {
+    final parts = timeSlot.split(':');
+    int hours = int.parse(parts[0]);
+    int minutes = int.parse(parts[1]);
+    
+    minutes += 30;
+    if (minutes >= 60) {
+      minutes = 0;
+      hours += 1;
+    }
+    
+    return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +66,6 @@ class _DoctorsDateItemState extends State<DoctorsDateItem> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Doctor Information
             ListTile(
               contentPadding: EdgeInsets.zero,
               isThreeLine: true,
@@ -79,8 +101,6 @@ class _DoctorsDateItemState extends State<DoctorsDateItem> {
                   fontWeight: FontWeight.w500,
                 )),
             6.h.verticalSpace,
-
-            // Date selection
             if (widget.dates != null && widget.dates!.isNotEmpty)
               SizedBox(
                 width: double.infinity,
@@ -89,13 +109,13 @@ class _DoctorsDateItemState extends State<DoctorsDateItem> {
                   scrollDirection: Axis.horizontal,
                   itemCount: widget.dates!.length,
                   itemBuilder: (context, index) {
-                    String date =
-                        widget.dates![index].keys.first; // Date as string
+                    String date = widget.dates![index].keys.first;
                     return GestureDetector(
                       onTap: () {
+                        widget.onDateSelected?.call(date);
                         setState(() {
                           _selectedDateIndex = index;
-                          _selectedTimeSlotIndex = -1; // Reset time slot
+                          _selectedTimeSlotIndex = -1;
                         });
                       },
                       child: Container(
@@ -129,27 +149,32 @@ class _DoctorsDateItemState extends State<DoctorsDateItem> {
                 ),
               ),
             12.h.verticalSpace,
-
-            // Time slot selection
             Text("select_recording_time".tr(),
                 style: fonts.xSmallMain.copyWith(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w500,
                 )),
             6.h.verticalSpace,
-
             if (widget.timeSlots != null &&
                 widget.dates != null &&
                 widget.dates!.isNotEmpty)
               ResponsiveTimeSlotGrid(
+                active: widget.active ?? false,
                 dates: widget.dates,
                 timeSlots: widget.timeSlots,
                 selectedDateIndex: _selectedDateIndex,
                 selectedTimeSlotIndex: _selectedTimeSlotIndex,
+                disabledTimeSlots: widget.disabledTimeSlots,
                 onTimeSlotSelected: (index) {
+                  final selectedTime = widget.timeSlots![
+                      widget.dates![_selectedDateIndex].keys.first]![index];
+                  
                   setState(() {
                     _selectedTimeSlotIndex = index;
                   });
+                  
+                  // Call onTimeSelected with the selected time
+                  widget.onTimeSelected?.call(selectedTime);
                 },
               ),
             20.h.verticalSpace,
