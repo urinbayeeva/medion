@@ -10,6 +10,7 @@ import 'package:medion/domain/models/doctors/doctor_model.dart';
 import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
+import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
 import 'package:medion/domain/success_model/response_model.dart';
 import 'package:medion/domain/success_model/success_model.dart';
@@ -43,7 +44,6 @@ abstract class AuthService extends ChopperService {
     @Body() required CreateInfoReq request,
   });
 
-
   // @Post(path: "refresh")
   // Future<Response<CreatePatientInfoResponse>> refreshToken({
   //   @Body() required RefreshTokenModel request,
@@ -64,10 +64,10 @@ abstract class BookingService extends ChopperService {
       @Path('service_type_id') int id);
 
 @Post(path: 'doctors')
-Future<Response<BuiltList<BookingThirdService>>> getDoctorsTime({
-  @Body() required List<int> request,
-});
+Future<Response<BuiltList<ThirdBookingService>>> fetchDoctors(
+    @Body() DoctorsRequest request);
 
+    
   @Get(path: "categories")
   Future<Response<BuiltList<HomepageBookingCategory>>>
       getHomePageBookingCategory();
@@ -75,7 +75,6 @@ Future<Response<BuiltList<BookingThirdService>>> getDoctorsTime({
   @Get(path: 'category_doctors_services/{category_id}')
   Future<Response<MedicalModel>> getHomePageBookingDoctors(
       @Path('category_id') int id);
-
 
   static BookingService create(DBService dbService) =>
       _$BookingService(_Client(Constants.baseUrlP, true, dbService));

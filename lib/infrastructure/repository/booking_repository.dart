@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/failurs/booking/i_booking_facade.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
+import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
@@ -55,54 +56,6 @@ class BookingRepository implements IBookingFacade {
     }
   }
 
-  //Get doctor time
-
-  @override
-  Future<Either<ResponseFailure, BuiltList<BookingThirdService>>>
-      getDoctorsTimeSlots({
-    required List<int> serviceIds,
-    required int days,
-  }) async {
-    try {
-      // Prepare the request body
-      final request = serviceIds.toList();
-
-      LogService.d('Request ServiceIds: $request');
-
-      // Make the API call using Chopper
-      final response = await _bookingService.getDoctorsTime(request: request);
-
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
-
-      if (response.isSuccessful) {
-        final body = response.body;
-
-        // Add null check and explicit handling
-        if (body != null && body.isNotEmpty) {
-          return right(body);
-        } else {
-          LogService.e('Response body is null or empty');
-          return left(InvalidCredentials(
-            message: 'No doctors available',
-          ));
-        }
-      } else {
-        LogService.e('Request failed: ${response.statusCode}');
-        return left(InvalidCredentials(
-          message: response.error?.toString() ?? 'Request failed',
-        ));
-      }
-    } catch (e, stackTrace) {
-      // Log the exception and return a failure
-      LogService.e('Error in getDoctorsTimeSlots: $e');
-      LogService.e('StackTrace: $stackTrace');
-      return left(InvalidCredentials(
-        message: e.toString(),
-      ));
-    }
-  }
-
   @override
   Future<Either<ResponseFailure, List<HomepageBookingCategory>>>
       fetchHomePageBookingCategories() async {
@@ -143,6 +96,33 @@ class BookingRepository implements IBookingFacade {
       }
     } catch (e) {
       LogService.e(" ----> error on repo: ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
+
+  Future<Either<ResponseFailure, BuiltList<ThirdBookingService>>> getDoctors({
+    required List<int> serviceIds,
+  }) async {
+    try {
+      // Create the proper request object
+      final request =
+          DoctorsRequest((b) => b..serviceIds = ListBuilder<int>(serviceIds));
+
+      // API call
+      final response = await _bookingService.fetchDoctors(request);
+
+      // Logging
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
+
+      // Handle response
+      if (response.isSuccessful && response.body != null) {
+        return right(response.body!);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      LogService.e(" ----> Error on repo: ${e.toString()}");
       return left(handleError(e));
     }
   }

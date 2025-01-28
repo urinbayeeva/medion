@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
+import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/infrastructure/repository/booking_repository.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
@@ -21,14 +23,18 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<_RefreshServices>(_refreshServices);
     on<_SelectInnerServiceID>(_onSelectedInnerServiceID);
     // New Doctor Event Handlers
-    on<_GetDoctorsTime>(_onGetDoctorsTime);
+
     on<_FetchHomePageServicesBooking>(_onFetchHomePageServicesBooking);
     on<_FetchHomePageServiceDoctors>(_onFetchHomePageServiceDoctors);
+
+    //Third Service
+    on<_FetchThirdBookingServices>(_onFetchThirdBookingServices);
   }
 
   void _onSelectedInnerServiceID(
       _SelectInnerServiceID event, Emitter<BookingState> emit) {
     emit(state.copyWith(selectedInnerServiceIds: event.ids));
+    print('Updated state: ${state.selectedInnerServiceIds}');
   }
 
   void _onSelectService(_SelectService event, Emitter<BookingState> emit) {
@@ -163,49 +169,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     }
   }
 
-  Future<void> _onGetDoctorsTime(
-    _GetDoctorsTime event,
-    Emitter<BookingState> emit,
-  ) async {
-    emit(state.copyWith(loading: true, errorMessage: ''));
-
-    try {
-      EasyLoading.show();
-
-      final result = await _repository.getDoctorsTimeSlots(
-        serviceIds: event.id,
-        days: 1,
-      );
-
-      result.fold(
-        (failure) {
-          LogService.e("Error in fetching doctors: ${failure.message}");
-          emit(state.copyWith(
-            loading: false,
-            errorMessage: failure.message,
-          ));
-          EasyLoading.showError(failure.message);
-        },
-        (doctors) {
-          emit(state.copyWith(
-            loading: false,
-            doctors: doctors.toList(),
-            filteredDoctors: doctors.toList(),
-          ));
-        },
-      );
-    } catch (e) {
-      LogService.e("Unexpected error in _onGetDoctorsTime: $e");
-      emit(state.copyWith(
-        loading: false,
-        errorMessage: 'Unexpected error occurred',
-      ));
-      EasyLoading.showError('Unexpected error occurred');
-    } finally {
-      EasyLoading.dismiss();
-    }
-  }
-
   FutureOr<void> _onFetchHomePageServiceDoctors(
     _FetchHomePageServiceDoctors event,
     Emitter<BookingState> emit,
@@ -239,4 +202,47 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       EasyLoading.dismiss();
     }
   }
+
+  //Third Service
+
+  Future<void> _onFetchThirdBookingServices(
+  _FetchThirdBookingServices event,
+  Emitter<BookingState> emit,
+) async {
+  emit(state.copyWith(loading: true, error: false, success: false));
+
+  try {
+    final result = await _repository.getDoctors(serviceIds: event.request);
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(
+          loading: false,
+          error: true,
+          errorMessage: failure.message,
+          thirdBookingServices: [], // Clear the list on error
+        ));
+      },
+      (services) {
+        // Convert BuiltList to List
+        final servicesList = services.toList();
+        
+        emit(state.copyWith(
+          loading: false,
+          success: true,
+          error: false,
+          errorMessage: '',
+          thirdBookingServices: servicesList,
+        ));
+      },
+    );
+  } catch (e) {
+    emit(state.copyWith(
+      loading: false,
+      error: true,
+      errorMessage: e.toString(),
+      thirdBookingServices: [], // Clear the list on error
+    ));
+  }
+}
 }

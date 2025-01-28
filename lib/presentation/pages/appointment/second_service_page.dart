@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
@@ -55,6 +56,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: CustomListView(
                     onRefresh: () async {
+
                       final selectedId =
                           context.read<BookingBloc>().state.selectedServiceId;
 

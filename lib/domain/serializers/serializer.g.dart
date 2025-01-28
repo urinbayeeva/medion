@@ -17,6 +17,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Doctor.serializer)
       ..add(DoctorCategory.serializer)
       ..add(DoctorData.serializer)
+      ..add(DoctorsRequest.serializer)
       ..add(ErrorDetail.serializer)
       ..add(ErrorResponse.serializer)
       ..add(GiveSelectedId.serializer)
@@ -34,6 +35,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ScheduleTime.serializer)
       ..add(Service.serializer)
       ..add(SuccessModel.serializer)
+      ..add(ThirdBookingCompanyDoctor.serializer)
+      ..add(ThirdBookingDoctor.serializer)
+      ..add(ThirdBookingDoctorSchedule.serializer)
+      ..add(ThirdBookingService.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Doctor)]),
           () => new ListBuilder<Doctor>())
@@ -61,6 +66,20 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ThirdBookingCompanyDoctor)]),
+          () => new ListBuilder<ThirdBookingCompanyDoctor>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ThirdBookingDoctor)]),
+          () => new ListBuilder<ThirdBookingDoctor>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ThirdBookingDoctorSchedule)]),
+          () => new ListBuilder<ThirdBookingDoctorSchedule>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(int)]),
+          () => new ListBuilder<int>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(int)]),
           () => new ListBuilder<int>())

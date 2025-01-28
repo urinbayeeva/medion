@@ -61,7 +61,7 @@ final class _$AuthService extends AuthService {
 }
 
 // coverage:ignore-file
-// ignore_for_file: 
+// ignore_for_file: type=lint
 final class _$BookingService extends BookingService {
   _$BookingService([ChopperClient? client]) {
     if (client == null) return;
@@ -94,8 +94,8 @@ final class _$BookingService extends BookingService {
   }
 
   @override
-  Future<Response<BuiltList<BookingThirdService>>> getDoctorsTime(
-      {required List<int> request}) {
+  Future<Response<BuiltList<ThirdBookingService>>> fetchDoctors(
+      DoctorsRequest request) {
     final Uri $url = Uri.parse('/booking/doctors');
     final $body = request;
     final Request $request = Request(
@@ -105,7 +105,7 @@ final class _$BookingService extends BookingService {
       body: $body,
     );
     return client
-        .send<BuiltList<BookingThirdService>, BookingThirdService>($request);
+        .send<BuiltList<ThirdBookingService>, ThirdBookingService>($request);
   }
 
   @override
@@ -134,7 +134,7 @@ final class _$BookingService extends BookingService {
 }
 
 // coverage:ignore-file
-// ignore_for_file: 
+// ignore_for_file: type=lint
 final class _$HomePageService extends HomePageService {
   _$HomePageService([ChopperClient? client]) {
     if (client == null) return;
@@ -190,7 +190,7 @@ final class _$HomePageService extends HomePageService {
 }
 
 // coverage:ignore-file
-// ignore_for_file: 
+// ignore_for_file: type=lint
 final class _$DoctorService extends DoctorService {
   _$DoctorService([ChopperClient? client]) {
     if (client == null) return;
@@ -213,7 +213,7 @@ final class _$DoctorService extends DoctorService {
 }
 
 // coverage:ignore-file
-// ignore_for_file: 
+// ignore_for_file: type=lint
 final class _$UploadImage extends UploadImage {
   _$UploadImage([ChopperClient? client]) {
     if (client == null) return;
@@ -254,7 +254,7 @@ final class _$UploadImage extends UploadImage {
 }
 
 // coverage:ignore-file
-// ignore_for_file: 
+// ignore_for_file: type=lint
 final class _$PatientService extends PatientService {
   _$PatientService([ChopperClient? client]) {
     if (client == null) return;
