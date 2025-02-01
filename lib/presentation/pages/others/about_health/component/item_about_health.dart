@@ -43,7 +43,7 @@ class ItemAboutHealth extends StatelessWidget {
                       imagePath!,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      height: imageSize == null ? 172.h : imageSize,
+                      height: imageSize ?? 172.h,
                     ),
                   ),
                   Padding(

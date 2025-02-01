@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
@@ -39,7 +40,6 @@ class DoctorsItem extends StatelessWidget {
         child: isInnerPageUsed!
             ? Container(
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
-                // margin: EdgeInsets.only(right: 12.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),
                   color: colors.shade0,
@@ -64,12 +64,15 @@ class DoctorsItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (isCategoried == true) ...[
-              Text(
-                categoryType! ?? "",
-                style: fonts.regularSemLink
-                    .copyWith(fontSize: 17.sp, fontWeight: FontWeight.w600),
+              SizedBox(
+                width: 164.w,
+                child: Text(
+                  categoryType!,
+                  style: fonts.regularSemLink
+                      .copyWith(fontSize: 17.sp, fontWeight: FontWeight.w600),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              // 12.h.verticalSpace,
               Container(
                 margin: EdgeInsets.only(right: 12.w),
                 width: 164.w,
@@ -90,57 +93,74 @@ class DoctorsItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.r),
                 color: colors.shade0,
               ),
-              child: imagePath != null && imagePath!.startsWith("http")
+              child: imagePath != "" && imagePath!.startsWith("http")
                   ? CachedNetworkImage(
                       imageUrl: imagePath!,
-                      placeholder: (context, url) =>
-                          CircularProgressIndicator(), // Optional: Loading indicator
+                      placeholder: (context, url) => CircularProgressIndicator(
+                        color: colors.error500,
+                      ), // Optional: Loading indicator
                       errorWidget: (context, url, error) => icons.nonUser
                           .svg(), // Fallback if image fails to load
                     )
-                  : Align(
-                      alignment: Alignment.bottomCenter,
-                      child: icons.nonUser.svg(),
-                    ),
+                  : icons.nonUser.svg(color: colors.neutral500),
             )
           ],
         );
       }),
       if (candidateScience ?? false) ...[
-        ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6.r),
-                color: colors.error500),
-            child: Text(
-              "Кандидат наук",
-              style: fonts.xSmallLink.copyWith(
-                  fontSize: 11.sp,
-                  fontWeight: FontWeight.w500,
-                  color: colors.shade0),
-            ),
-          );
-        }),
+        Center(
+          child: ThemeWrapper(
+              builder: (context, colors, fonts, icons, controller) {
+            return SizedBox(
+              width: 164.w,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6.r),
+                  color: colors.error500,
+                ),
+                child: Center(
+                  child: Text(
+                    "candidate_of_state".tr(),
+                    style: fonts.xSmallLink.copyWith(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w500,
+                      color: colors.shade0,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            );
+          }),
+        ),
       ],
       10.h.verticalSpace,
       ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-        return Text(name ?? "",
-            style: fonts.headlineMain
-                .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500));
+        return SizedBox(
+          width: 164.w,
+          child: Text(name ?? "",
+              overflow: TextOverflow.ellipsis,
+              style: fonts.headlineMain
+                  .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500)),
+        );
       }),
       4.h.verticalSpace,
       ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-        return Text(profession ?? "",
-            style: fonts.headlineMain
-                .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w400));
+        return SizedBox(
+          width: 164.w,
+          child: Text(profession ?? "",
+              overflow: TextOverflow.ellipsis,
+              style: fonts.headlineMain
+                  .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w400)),
+        );
       }),
       4.h.verticalSpace,
       ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
         return SizedBox(
           width: 164.w,
           child: Text(status ?? "",
-              overflow: TextOverflow.clip,
+              overflow: TextOverflow.ellipsis,
               style: fonts.headlineMain.copyWith(
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w400,
@@ -149,9 +169,13 @@ class DoctorsItem extends StatelessWidget {
       }),
       if (experience != null) ...[
         ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-          return Text(experience ?? "",
-              style: fonts.xxSmallText
-                  .copyWith(fontSize: 11.sp, fontWeight: FontWeight.w400));
+          return SizedBox(
+            width: 164.w,
+            child: Text(experience ?? "",
+                overflow: TextOverflow.ellipsis,
+                style: fonts.xxSmallText
+                    .copyWith(fontSize: 11.sp, fontWeight: FontWeight.w400)),
+          );
         }),
       ]
     ];

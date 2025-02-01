@@ -21,7 +21,7 @@ class AwardsPage extends StatefulWidget {
 class _AwardsPageState extends State<AwardsPage> {
   @override
   Widget build(BuildContext context) {
-    RefreshController _refreshController = RefreshController();
+    RefreshController refreshController = RefreshController();
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Scaffold(
         backgroundColor: colors.backgroundColor,
@@ -35,13 +35,13 @@ class _AwardsPageState extends State<AwardsPage> {
             Expanded(
               child: CustomListView(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
-                refreshController: _refreshController,
+                refreshController: refreshController,
                 onRefresh: () {
                   setState(() {});
-                  _refreshController.refreshCompleted();
+                  refreshController.refreshCompleted();
                 },
                 itemBuilder: (int index, item) {
-                  final data = item as Map<String, dynamic>;
+                  final data = item;
                   return ItemAboutHealth(
                     imageSize: 279.h,
                     onTap: () {

@@ -87,11 +87,8 @@ class BookingRepository implements IBookingFacade {
       LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
-        print(response.statusCode);
         return right(response.body!);
       } else {
-        print(response.statusCode);
-
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
@@ -99,7 +96,7 @@ class BookingRepository implements IBookingFacade {
       return left(handleError(e));
     }
   }
-
+   @override
   Future<Either<ResponseFailure, BuiltList<ThirdBookingService>>> getDoctors({
     required List<int> serviceIds,
   }) async {

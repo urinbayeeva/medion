@@ -57,7 +57,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                       : CircleAvatar(
                                           radius: 70.r,
                                           backgroundColor:
-                                              colors.neutral500.withOpacity(.3),
+                                              colors.neutral500,
                                           child: icons.nonUser.svg(
                                             height: 110.h,
                                             color: colors.neutral500,
@@ -89,7 +89,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           ],
                         ),
                         30.h.verticalSpace,
-                        UserInfoInput(),
+                        const UserInfoInput(),
                         80.h.verticalSpace,
                       ],
                     ),

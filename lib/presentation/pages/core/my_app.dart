@@ -8,6 +8,7 @@ import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
+import 'package:medion/application/selected_provider.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
@@ -49,6 +50,8 @@ class MyApp extends StatelessWidget {
     FlutterNativeSplash.remove();
     return MultiProvider(
         providers: [
+                  ChangeNotifierProvider(create: (_) => SelectedServicesProvider()),
+
           BlocProvider(
             create: (context) {
               DBService dbService = context.read<DBService>();

@@ -8,7 +8,6 @@ import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
-import 'package:medion/domain/sources/doctor_appoinment_select_page.dart';
 import 'package:medion/presentation/component/c_info_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/core/choose_language_page.dart';
@@ -40,6 +39,7 @@ import 'package:medion/presentation/pages/others/equipment/equipment_page.dart';
 import 'package:medion/presentation/pages/others/our_activity/our_activity_page.dart';
 import 'package:medion/presentation/pages/others/partners/partners_inner_page.dart';
 import 'package:medion/presentation/pages/others/partners/partners_page.dart';
+import 'package:medion/presentation/pages/others/policy_treatment/policy_treatment.dart';
 import 'package:medion/presentation/pages/others/under_dev_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/recipes_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/results_page.dart';
@@ -209,22 +209,22 @@ class AppRoutes {
     );
   }
 
-  static MaterialPageRoute getDoctorAppointmentPage({
-    required BuildContext context,
-    required String doctorsName,
-    required String doctorsJob,
-    required String doctorsExperience,
-    required String doctorsImage,
-  }) {
-    return MaterialPageRoute(
-      builder: (_) => DoctorAppoinmentSelectPage(
-        doctorsName: doctorsName,
-        doctorsJob: doctorsJob,
-        doctorsExperience: doctorsExperience,
-        doctorsImage: doctorsImage,
-      ),
-    );
-  }
+  // static MaterialPageRoute getDoctorAppointmentPage({
+  //   required BuildContext context,
+  //   required String doctorsName,
+  //   required String doctorsJob,
+  //   required String doctorsExperience,
+  //   required String doctorsImage,
+  // }) {
+  //   return MaterialPageRoute(
+  //     builder: (_) => DoctorAppoinmentSelectPage(
+  //       doctorsName: doctorsName,
+  //       doctorsJob: doctorsJob,
+  //       doctorsExperience: doctorsExperience,
+  //       doctorsImage: doctorsImage,
+  //     ),
+  //   );
+  // }
 
   // static MaterialPageRoute getPaymentForAppoinment() {
   //   return MaterialPageRoute(builder: (_) => const StepFifth());
@@ -424,5 +424,9 @@ class AppRoutes {
 
   static MaterialPageRoute getAwardsPage() {
     return MaterialPageRoute(builder: (_) => const AwardsPage());
+  }
+
+    static MaterialPageRoute getPolicyTreatment() {
+    return MaterialPageRoute(builder: (_) => const PolicyTreatment());
   }
 }

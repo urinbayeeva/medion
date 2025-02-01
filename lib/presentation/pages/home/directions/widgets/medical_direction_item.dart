@@ -41,8 +41,10 @@ class MedicalDirectionItem extends StatelessWidget {
                       color: const Color.fromRGBO(217, 5, 6, 0.05),
                       borderRadius: BorderRadius.circular(8.r),
                     ),
-                    child: CachedNetworkImage(
-                        imageUrl: iconPath!, width: 32.w, height: 32.h)),
+                    child: iconPath == "" || iconPath == null
+                        ? icons.stethoscope.svg()
+                        : CachedNetworkImage(
+                            imageUrl: iconPath!, width: 32.w, height: 32.h)),
                 title: Text(title ?? "Unknown Service",
                     style: fonts.smallSemLink.copyWith(
                         fontSize: 15.sp, fontWeight: FontWeight.w600)),

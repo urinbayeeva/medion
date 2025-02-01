@@ -7,8 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
-import 'package:medion/infrastructure/services/image_service/camera_picker/wechat_camera_picker.dart';
-import 'package:medion/infrastructure/services/image_service/image_service.dart';
+
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 
@@ -26,14 +25,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(
     this._repository,
     this._dbService,
-   
   ) : super(const _AuthState()) {
     on<_CheckAuth>(_checkAuth);
     on<_VerificationSend>(_verificationSendHandler);
     on<_SendPhoneNumber>(_sendPhoneNumberHandler);
     on<_SendUserInfo>(_sendUserInfoHandler);
     on<_FetchPatientInfo>(_fetchPatientInfoHandler);
-    on<_PickImage>(_pickImage);
   }
 
   /// Authentication Check
@@ -150,21 +147,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ));
       },
     );
-  }
-
-  FutureOr<void> _pickImage(
-    _PickImage event,
-    Emitter<AuthState> emit,
-  ) async {
-    List<AssetEntity>? imagePaths = await ImageService.showPicker(event.context,
-        cropStyle: CropStyle.rectangle,
-        maxAssets: 1,
-        selectedAssets: [],
-        aspectRatioPresets: [CropAspectRatioPreset.square]);
-    if (imagePaths != null && imagePaths.isNotEmpty) {
-      File? file = await imagePaths.first.originFile;
-
-      emit(state.copyWith(pickedImagePath: file?.path));
-    }
   }
 }

@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:medion/infrastructure/services/image_service/camera_picker/wechat_camera_picker.dart';
 
 import '../constants/config.dart';
 import '../constants/constants.dart';

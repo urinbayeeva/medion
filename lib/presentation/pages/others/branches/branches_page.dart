@@ -63,8 +63,6 @@ class _BranchesPageState extends State<BranchesPage> {
                           });
                         },
                         branchMoreInfo: () {
-                          print(
-                              "Branch adress: ${branch['branch_adress']}, \n Branch name: ${branch['branch_name']}, \n Branch hours ${branch['branch_working_hours']}, \n Branch info: ${branch['branch_more_info']['branch_info_description']} \n Branch subtitle: ${branch['branch_more_info']['branch_offer_subtitle']}");
                           context
                               .read<BottomNavBarController>()
                               .changeNavBar(true);

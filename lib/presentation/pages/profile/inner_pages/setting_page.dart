@@ -139,7 +139,7 @@ class _SettingPageState extends State<SettingPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(data['title'], style: fonts.regularLink),
-                  widget != null ? widget : SizedBox.shrink()
+                  widget
                 ],
               ),
               trailing: icons.right.svg(

@@ -2365,7 +2365,10 @@ mixin _$BookingState {
   String get selectedSpecialty => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   List<ThirdBookingService> get thirdBookingServices =>
-      throw _privateConstructorUsedError; //Home Page
+      throw _privateConstructorUsedError;
+  bool get hasFetchedThirdServices =>
+      throw _privateConstructorUsedError; // Add this flag
+//Home Page
   List<HomepageBookingCategory> get homePageBookingCategory =>
       throw _privateConstructorUsedError;
   MedicalModel? get medicalModel => throw _privateConstructorUsedError;
@@ -2394,6 +2397,7 @@ abstract class $BookingStateCopyWith<$Res> {
       String selectedSpecialty,
       String errorMessage,
       List<ThirdBookingService> thirdBookingServices,
+      bool hasFetchedThirdServices,
       List<HomepageBookingCategory> homePageBookingCategory,
       MedicalModel? medicalModel});
 }
@@ -2423,6 +2427,7 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
     Object? selectedSpecialty = null,
     Object? errorMessage = null,
     Object? thirdBookingServices = null,
+    Object? hasFetchedThirdServices = null,
     Object? homePageBookingCategory = null,
     Object? medicalModel = freezed,
   }) {
@@ -2467,6 +2472,10 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
           ? _value.thirdBookingServices
           : thirdBookingServices // ignore: cast_nullable_to_non_nullable
               as List<ThirdBookingService>,
+      hasFetchedThirdServices: null == hasFetchedThirdServices
+          ? _value.hasFetchedThirdServices
+          : hasFetchedThirdServices // ignore: cast_nullable_to_non_nullable
+              as bool,
       homePageBookingCategory: null == homePageBookingCategory
           ? _value.homePageBookingCategory
           : homePageBookingCategory // ignore: cast_nullable_to_non_nullable
@@ -2498,6 +2507,7 @@ abstract class _$$BookingStateImplCopyWith<$Res>
       String selectedSpecialty,
       String errorMessage,
       List<ThirdBookingService> thirdBookingServices,
+      bool hasFetchedThirdServices,
       List<HomepageBookingCategory> homePageBookingCategory,
       MedicalModel? medicalModel});
 }
@@ -2525,6 +2535,7 @@ class __$$BookingStateImplCopyWithImpl<$Res>
     Object? selectedSpecialty = null,
     Object? errorMessage = null,
     Object? thirdBookingServices = null,
+    Object? hasFetchedThirdServices = null,
     Object? homePageBookingCategory = null,
     Object? medicalModel = freezed,
   }) {
@@ -2569,6 +2580,10 @@ class __$$BookingStateImplCopyWithImpl<$Res>
           ? _value._thirdBookingServices
           : thirdBookingServices // ignore: cast_nullable_to_non_nullable
               as List<ThirdBookingService>,
+      hasFetchedThirdServices: null == hasFetchedThirdServices
+          ? _value.hasFetchedThirdServices
+          : hasFetchedThirdServices // ignore: cast_nullable_to_non_nullable
+              as bool,
       homePageBookingCategory: null == homePageBookingCategory
           ? _value._homePageBookingCategory
           : homePageBookingCategory // ignore: cast_nullable_to_non_nullable
@@ -2595,6 +2610,7 @@ class _$BookingStateImpl extends _BookingState {
       this.selectedSpecialty = '',
       this.errorMessage = '',
       final List<ThirdBookingService> thirdBookingServices = const [],
+      this.hasFetchedThirdServices = false,
       final List<HomepageBookingCategory> homePageBookingCategory = const [],
       this.medicalModel})
       : _bookingTypes = bookingTypes,
@@ -2661,8 +2677,13 @@ class _$BookingStateImpl extends _BookingState {
     return EqualUnmodifiableListView(_thirdBookingServices);
   }
 
+  @override
+  @JsonKey()
+  final bool hasFetchedThirdServices;
+// Add this flag
 //Home Page
   final List<HomepageBookingCategory> _homePageBookingCategory;
+// Add this flag
 //Home Page
   @override
   @JsonKey()
@@ -2678,7 +2699,7 @@ class _$BookingStateImpl extends _BookingState {
 
   @override
   String toString() {
-    return 'BookingState(loading: $loading, error: $error, success: $success, bookingTypes: $bookingTypes, categoryServices: $categoryServices, selectedServiceId: $selectedServiceId, selectedInnerServiceIds: $selectedInnerServiceIds, selectedSpecialty: $selectedSpecialty, errorMessage: $errorMessage, thirdBookingServices: $thirdBookingServices, homePageBookingCategory: $homePageBookingCategory, medicalModel: $medicalModel)';
+    return 'BookingState(loading: $loading, error: $error, success: $success, bookingTypes: $bookingTypes, categoryServices: $categoryServices, selectedServiceId: $selectedServiceId, selectedInnerServiceIds: $selectedInnerServiceIds, selectedSpecialty: $selectedSpecialty, errorMessage: $errorMessage, thirdBookingServices: $thirdBookingServices, hasFetchedThirdServices: $hasFetchedThirdServices, homePageBookingCategory: $homePageBookingCategory, medicalModel: $medicalModel)';
   }
 
   @override
@@ -2703,6 +2724,9 @@ class _$BookingStateImpl extends _BookingState {
                 other.errorMessage == errorMessage) &&
             const DeepCollectionEquality()
                 .equals(other._thirdBookingServices, _thirdBookingServices) &&
+            (identical(
+                    other.hasFetchedThirdServices, hasFetchedThirdServices) ||
+                other.hasFetchedThirdServices == hasFetchedThirdServices) &&
             const DeepCollectionEquality().equals(
                 other._homePageBookingCategory, _homePageBookingCategory) &&
             (identical(other.medicalModel, medicalModel) ||
@@ -2722,6 +2746,7 @@ class _$BookingStateImpl extends _BookingState {
       selectedSpecialty,
       errorMessage,
       const DeepCollectionEquality().hash(_thirdBookingServices),
+      hasFetchedThirdServices,
       const DeepCollectionEquality().hash(_homePageBookingCategory),
       medicalModel);
 
@@ -2746,6 +2771,7 @@ abstract class _BookingState extends BookingState {
       final String selectedSpecialty,
       final String errorMessage,
       final List<ThirdBookingService> thirdBookingServices,
+      final bool hasFetchedThirdServices,
       final List<HomepageBookingCategory> homePageBookingCategory,
       final MedicalModel? medicalModel}) = _$BookingStateImpl;
   const _BookingState._() : super._();
@@ -2769,7 +2795,10 @@ abstract class _BookingState extends BookingState {
   @override
   String get errorMessage;
   @override
-  List<ThirdBookingService> get thirdBookingServices; //Home Page
+  List<ThirdBookingService> get thirdBookingServices;
+  @override
+  bool get hasFetchedThirdServices; // Add this flag
+//Home Page
   @override
   List<HomepageBookingCategory> get homePageBookingCategory;
   @override

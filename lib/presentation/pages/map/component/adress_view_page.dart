@@ -21,8 +21,8 @@ class AdressViewPage extends StatefulWidget {
 }
 
 class _AdressViewPageState extends State<AdressViewPage> {
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  // final RefreshController _refreshController =
+  //     RefreshController(initialRefresh: false);
   late ScrollController scrollController;
   late String currency;
 

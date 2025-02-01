@@ -45,6 +45,8 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
             child: Row(
               children: List.generate(filteredDiseases.length, (index) {
                 final disease = filteredDiseases[index];
+                print("Image URL: ${disease.icon}");
+
                 return Padding(
                   padding: EdgeInsets.only(right: 8.w),
                   child: AnimationButtonEffect(
@@ -63,7 +65,10 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
                           CachedNetworkImage(
                             height: 48.w,
                             width: 48.w,
-                            imageUrl: disease.icon ?? '',
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(
+                                    color: colors.error500),
+                            imageUrl: disease.icon![index],
                           ),
                           8.h.verticalSpace,
                           Text(

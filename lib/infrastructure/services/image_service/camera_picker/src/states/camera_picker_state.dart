@@ -14,6 +14,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
+import 'package:medion/infrastructure/services/image_service/camera_picker/wechat_camera_picker.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
-import 'package:medion/domain/sources/doctors_data.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/pages/appointment/component/verify_appointment_item.dart';
@@ -24,10 +23,10 @@ class VerifyAppointment extends StatelessWidget {
                 itemBuilder: (_, item) {
                   return const VerifyAppointmentItem();
                 },
-                data: doctorsData,
+                // data: doctorsData,
                 emptyWidgetModel:
                     ErrorWidgetModel(title: "", subtitle: "subtitle"),
-                status: FormzSubmissionStatus.success),
+                status: FormzSubmissionStatus.success, data: [],),
           ),
           Container(
               // height: 70.h,

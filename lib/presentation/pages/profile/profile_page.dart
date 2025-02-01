@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -38,17 +40,14 @@ class _ProfilePageState extends State<ProfilePage> {
       final dbService = await DBService.create;
       final accessToken = dbService.token.accessToken;
 
-      print("TOKEN ------------------ $accessToken");
-
       if (accessToken != null && accessToken.isNotEmpty) {
         context
             .read<AuthBloc>()
             .add(AuthEvent.fetchPatientInfo(accessToken: accessToken));
-      } else {
-        print("Access token is missing");
-      }
+      } else {}
+    // ignore: empty_catches
     } catch (e) {
-      print("Error fetching token: $e");
+      
     }
   }
 
@@ -71,8 +70,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: state.pickedImagePath != null
                               ? CircleAvatar(
                                   radius: 70.r,
-                                  backgroundImage:
-                                  FileImage(File(state.pickedImagePath ?? '')),
+                                  backgroundImage: FileImage(
+                                      File(state.pickedImagePath ?? '')),
                                 )
                               : CircleAvatar(
                                   radius: 70.r,

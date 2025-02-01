@@ -9,22 +9,14 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:medion/infrastructure/services/image_service/camera_picker/wechat_camera_picker.dart';
 import 'package:medion/infrastructure/services/image_service/image_service.dart';
 
-
 part 'profile_bloc.freezed.dart';
 part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-
-
-  ProfileBloc(
-    
-  ) : super( const ProfileState()) {
-  
+  ProfileBloc() : super(const ProfileState()) {
     on<_PickImage>(_pickImage);
-
   }
-
 
   FutureOr<void> _pickImage(
     _PickImage event,
@@ -41,8 +33,4 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(state.copyWith(pickedImagePath: file?.path));
     }
   }
-
-
-
-  
 }

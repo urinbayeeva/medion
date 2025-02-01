@@ -35,11 +35,12 @@ class SingleBranchInfo extends StatefulWidget {
 class _SingleBranchInfoState extends State<SingleBranchInfo> {
   @override
   Widget build(BuildContext context) {
-    final Completer<GoogleMapController> _controller =
+    final Completer<GoogleMapController> controller0 =
         Completer<GoogleMapController>();
+    // ignore: unused_local_variable
     GoogleMapController? controller;
 
-    CameraPosition _kGooglePlex = const CameraPosition(
+    CameraPosition kGooglePlex = const CameraPosition(
       target: LatLng(41.327405, 69.184021),
       zoom: 12,
     );
@@ -50,7 +51,7 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.branchName ?? "",
+            Text(widget.branchName,
                 style: fonts.mediumMain
                     .copyWith(fontSize: 18.sp, fontWeight: FontWeight.w600)),
             8.h.verticalSpace,
@@ -59,7 +60,7 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                 child: CButtomIcon(
                     backgroundColor: colors.neutral200,
                     textColor: colors.primary900,
-                    title: widget.branchAdress ?? "",
+                    title: widget.branchAdress,
                     onTap: () {},
                     iconPath: icons.location)),
             8.h.verticalSpace,
@@ -72,7 +73,7 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                     onTap: () {},
                     iconPath: icons.clock)),
             12.h.verticalSpace,
-            Text(widget.branchInfoDescription ?? "",
+            Text(widget.branchInfoDescription,
                 style: fonts.smallLink
                     .copyWith(fontSize: 15.sp, fontWeight: FontWeight.w400)),
             12.h.verticalSpace,
@@ -89,9 +90,9 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                 child: GoogleMap(
                   // markers: markers ?? {},
                   mapType: MapType.normal,
-                  initialCameraPosition: _kGooglePlex,
+                  initialCameraPosition: kGooglePlex,
                   onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
+                    controller0.complete(controller);
                   },
                   myLocationButtonEnabled: false,
                 ),

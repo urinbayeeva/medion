@@ -58,9 +58,8 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
             return MedicalDirectionItem(
               title: item.name,
               subtitle: "Description",
-              iconPath: 'assets/icons/default_icon.png',
+              iconPath: item.icon,
               onTap: () {
-                // Dispatch the selected ID to the Bloc
                 context
                     .read<BookingBloc>()
                     .add(BookingEvent.selectService(id: item.id));

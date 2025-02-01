@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,13 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
+import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/sources/med_service.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../application/home/home_bloc.dart';
-import '../../../domain/sources/directions_data.dart';
-import '../../../domain/sources/doctors_data.dart';
+
 import '../../../presentation/component/animation_effect.dart';
 import '../../../presentation/component/c_appbar.dart';
 import '../../../presentation/component/custom_pagination.dart';
@@ -49,6 +47,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<HomeBloc>().add(const HomeEvent.fetchNews());
+    context.read<DoctorBloc>().add(const DoctorEvent.fetchDoctors());
     context
         .read<BookingBloc>()
         .add(const BookingEvent.fetchHomePageServicesBooking());
@@ -60,174 +59,151 @@ class _HomePageState extends State<HomePage> {
       value: Style.dark,
       child: ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
         return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-          return OnUnFocusTap(
-            child: CustomPagination(
-              enablePullDown: false,
-              enablePullUp: false,
-              controller: _refreshController,
-              onRetry: () {
-                context.read<HomeBloc>().add(const HomeEvent.fetchNews());
-                context
-                    .read<BookingBloc>()
-                    .add(const BookingEvent.fetchHomePageServicesBooking());
-                setState(() {});
+          return CustomPagination(
+            enablePullDown: false,
+            enablePullUp: false,
+            onRetry: () {
+              context.read<HomeBloc>().add(const HomeEvent.fetchNews());
+              context
+                  .read<BookingBloc>()
+                  .add(const BookingEvent.fetchHomePageServicesBooking());
+              setState(() {});
 
-                _refreshController.refreshCompleted();
-              },
-              onRefresh: () {
-                context.read<HomeBloc>().add(const HomeEvent.fetchNews());
-                context
-                    .read<BookingBloc>()
-                    .add(const BookingEvent.fetchHomePageServicesBooking());
-                setState(() {});
-
-                _refreshController.refreshCompleted();
-              },
-              child: Scaffold(
-                backgroundColor: colors.backgroundColor,
-                body: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CAppBar(
-                      isBack: false,
-                      title: "main".tr(),
-                      centerTitle: true,
-                      trailing: AnimationButtonEffect(
-                        onTap: () => Navigator.push(
-                          context,
-                          AppRoutes.getNotificationPage(),
-                        ),
-                        child: icons.notification.svg(color: colors.primary900),
+              _refreshController.refreshCompleted();
+            },
+            controller: _refreshController,
+            child: Scaffold(
+              backgroundColor: colors.backgroundColor,
+              body: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CAppBar(
+                    isBack: false,
+                    title: "main".tr(),
+                    centerTitle: true,
+                    trailing: AnimationButtonEffect(
+                      onTap: () => Navigator.push(
+                        context,
+                        AppRoutes.getNotificationPage(),
                       ),
+                      child: icons.notification.svg(color: colors.primary900),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: ListView(
-                          padding: EdgeInsets.zero,
-                          children: [
-                            const Ads(),
-                            16.h.verticalSpace,
-                            _buildSectionHeader("what_distrubes_you", fonts),
-                            12.h.verticalSpace,
-                            _buildOptionsRow(colors, fonts),
-                            12.h.verticalSpace,
-                            ProblemSlidebaleCard(isChildren: isChildren),
-                            Text("med_services".tr(),
-                                style: fonts.regularSemLink),
-                            12.h.verticalSpace,
-                            const MedService(),
-                            _buildVerticalSpacingAndHeader(
-                                "directions_of_medion_clinic",
-                                fonts,
-                                "all",
-                                () {}),
-                            BlocBuilder<BookingBloc, BookingState>(
-                                builder: (context, state) {
-                              return ListView.builder(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: 8,
-                                itemBuilder: (context, index) {
-                                  final item =
-                                      state.homePageBookingCategory[index];
-
-                                  return MedicalDirectionItem(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        AppRoutes.getDirectionInfoPage(
-                                            id: item.id!),
-                                      ).then((_) {
-                                        context
-                                            .read<BottomNavBarController>()
-                                            .changeNavBar(false);
-                                      });
-                                    },
-                                    title: item.name ?? "",
-                                    subtitle: "null",
-                                    iconPath: item.icon ?? "",
-                                  );
-                                },
-                              );
-                            }),
-                            _buildVerticalSpacingAndHeader(
-                                "doctors", fonts, "all", () {
-                              Navigator.push(
-                                  context, AppRoutes.getAllDoctorsPage());
-                            }),
-                            BlocBuilder<DoctorBloc, DoctorState>(
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        children: [
+                          const Ads(),
+                          16.h.verticalSpace,
+                          _buildSectionHeader("what_distrubes_you", fonts),
+                          12.h.verticalSpace,
+                          _buildOptionsRow(colors, fonts),
+                          12.h.verticalSpace,
+                          ProblemSlidebaleCard(isChildren: isChildren),
+                          Text("med_services".tr(),
+                              style: fonts.regularSemLink),
+                          12.h.verticalSpace,
+                          const MedService(),
+                          _buildVerticalSpacingAndHeader(
+                              "directions_of_medion_clinic", fonts, "all", () {
+                            Navigator.push(
+                                context, AppRoutes.getDiresctionPage());
+                          }),
+                          BlocBuilder<BookingBloc, BookingState>(
                               builder: (context, state) {
-                                if (state.doctors.isEmpty) {
-                                  return Center(
-                                      child: Text('something_went_wrong'.tr(),
-                                          style: fonts.regularSemLink));
-                                }
-                                return SizedBox(
-                                  height: 200,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: state.doctors.length,
-                                    itemBuilder: (context, index) {
-                                      final doctor = state.doctors[index];
-                                      return DoctorsItem(
-                                        onTap: () => Navigator.push(
-                                          context,
-                                          AppRoutes.getAboutDoctorPage(
-                                              doctor.doctorData[index].name,
-                                              doctor
-                                                  .doctorData[index].specialty,
-                                              doctor.doctorData[index].name),
-                                        ),
-                                        name: doctor.doctorData[index].name,
-                                        profession:
-                                            doctor.doctorData[index].name,
-                                        imagePath:
-                                            doctor.doctorData[index].image,
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                            _buildVerticalSpacingAndHeader("news", fonts, "all",
-                                () {
-                              Navigator.push(context, AppRoutes.getNewsPage());
-                            }),
-                            GridView.builder(
+                            final limitedItems =
+                                state.homePageBookingCategory.take(10).toList();
+
+                            return ListView.builder(
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 8,
-                              ),
-                              itemCount: state.news.length,
+                              itemCount: limitedItems.length,
                               itemBuilder: (context, index) {
-                                final news = state.news[index];
-                                return NewsItem(
-                                  crop: true,
-                                  imagePath: news.image ?? "",
-                                  title: news.title ?? "",
-                                  subtitle: news.info ?? "",
+                                final item = limitedItems[index];
+                                return MedicalDirectionItem(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      AppRoutes.getDirectionInfoPage(
+                                          id: item.id!),
+                                    ).then((_) {
+                                      // ignore: use_build_context_synchronously
+                                      context
+                                          .read<BottomNavBarController>()
+                                          .changeNavBar(false);
+                                    });
+                                  },
+                                  title: item.name ?? "",
+                                  subtitle: "null",
+                                  iconPath: item.icon ?? "",
                                 );
                               },
+                            );
+                          }),
+                          12.h.verticalSpace,
+                          _buildVerticalSpacingAndHeader(
+                              "doctors", fonts, "all", () {
+                            Navigator.push(
+                                context, AppRoutes.getAllDoctorsPage());
+                          }),
+                          BlocBuilder<DoctorBloc, DoctorState>(
+                            builder: (context, state) {
+                              if (state.error) {
+                                return Center(
+                                    child: Text('something_went_wrong'.tr(),
+                                        style: fonts.regularSemLink));
+                              }
+
+                              return _buildDoctorCategoryList(state.doctors
+                                  .expand((category) =>
+                                      category.doctorData.map((doctor) => {
+                                            'name': doctor.name,
+                                            'profession': doctor.specialty,
+                                            'image': doctor.image,
+                                          }))
+                                  .toList());
+                            },
+                          ),
+                          _buildVerticalSpacingAndHeader("news", fonts, "all",
+                              () {
+                            Navigator.push(context, AppRoutes.getNewsPage());
+                          }),
+                          GridView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                              childAspectRatio: 0.6,
                             ),
-                            _buildVerticalSpacingAndHeader(
-                                "address_of_clinic", fonts, "all", () {
-                              Navigator.push(context, AppRoutes.getMapPage());
-                            }),
-                            _buildAddressSection(context, colors, fonts, icons),
-                            80.h.verticalSpace,
-                          ],
-                        ),
+                            itemCount: state.news.length,
+                            itemBuilder: (context, index) {
+                              final news = state.news[index];
+                              return NewsItem(
+                                crop: true,
+                                imagePath: news.image ?? "",
+                                title: news.title ?? "",
+                                subtitle: news.info ?? "",
+                              );
+                            },
+                          ),
+                          _buildVerticalSpacingAndHeader(
+                              "address_of_clinic", fonts, "all", () {
+                            Navigator.push(context, AppRoutes.getMapPage());
+                          }),
+                          _buildAddressSection(context, colors, fonts, icons),
+                          80.h.verticalSpace,
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );
@@ -314,4 +290,38 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
+}
+
+Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
+  return ThemeWrapper(
+    builder: (context, colors, fonts, icons, controller) {
+      // Limit the number of doctors to 10
+      final limitedDoctors = doctors.take(10).toList();
+
+      return SizedBox(
+        height: 300.h,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.zero,
+          itemCount: limitedDoctors.length,
+          itemBuilder: (context, index) {
+            final doctor = limitedDoctors[index];
+            return DoctorsItem(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    AppRoutes.getAboutDoctorPage(
+                        doctor['name'], doctor['profession'], doctor['name']));
+              },
+              imagePath: doctor['image'],
+              name: doctor['name'],
+              profession: doctor['profession'],
+              status: doctor['status'],
+              candidateScience: true,
+            );
+          },
+        ),
+      );
+    },
+  );
 }

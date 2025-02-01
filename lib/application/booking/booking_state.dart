@@ -15,6 +15,7 @@ class BookingState with _$BookingState {
     @Default('') String selectedSpecialty,
     @Default('') String errorMessage,
     @Default([]) List<ThirdBookingService> thirdBookingServices,
+    @Default(false) bool hasFetchedThirdServices, // Add this flag
 
     //Home Page
     @Default([]) List<HomepageBookingCategory> homePageBookingCategory,

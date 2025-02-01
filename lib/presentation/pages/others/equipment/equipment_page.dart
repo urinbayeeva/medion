@@ -20,7 +20,7 @@ class EquipmentPage extends StatefulWidget {
 }
 
 class _EquipmentPageState extends State<EquipmentPage> {
-  RefreshController _refreshController = RefreshController();
+  final RefreshController _refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
                   _refreshController.refreshCompleted();
                 },
                 itemBuilder: (int index, item) {
-                  final data = item as Map<String, dynamic>;
+                  final data = item ;
                   return ItemAboutHealth(
                     onTap: () {
                       Navigator.push(

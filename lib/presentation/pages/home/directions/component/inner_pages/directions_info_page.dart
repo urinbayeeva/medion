@@ -14,7 +14,6 @@ import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart'
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:provider/provider.dart';
 
 class DirectionInfoPage extends StatefulWidget {
   final int id;
@@ -65,7 +64,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                 title: medicalModel!.services
                         .firstWhere(
                           (service) => service.id == widget.id,
-                          orElse: () => medicalModel!.services.first,
+                          orElse: () => medicalModel.services.first,
                         )
                         .name ??
                     "",
@@ -181,16 +180,16 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                         Text('services'.tr(), style: fonts.regularSemLink),
                         12.h.verticalSpace,
                         ServiceWidget(
-                          consultInfo: medicalModel!.services
+                          consultInfo: medicalModel.services
                                   .firstWhere(
                                     (service) => service.id == widget.id,
-                                    orElse: () => medicalModel!.services.first,
+                                    orElse: () => medicalModel.services.first,
                                   )
                                   .name ??
                               "",
                           consultPrice: changeSum
-                              ? "${medicalModel!.services.firstWhere((service) => service.id == widget.id, orElse: () => medicalModel!.services.first).priceUzs ?? 0} UZS"
-                              : "${medicalModel!.services.firstWhere((service) => service.id == widget.id, orElse: () => medicalModel!.services.first).priceUzd ?? 0} USD",
+                              ? "${medicalModel.services.firstWhere((service) => service.id == widget.id, orElse: () => medicalModel.services.first).priceUzs ?? 0} UZS"
+                              : "${medicalModel.services.firstWhere((service) => service.id == widget.id, orElse: () => medicalModel.services.first).priceUzd ?? 0} USD",
                         ),
                         80.h.verticalSpace,
                       ],

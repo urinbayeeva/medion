@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:built_collection/built_collection.dart';
+import 'package:dio/dio.dart'; // For CancelToken
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
@@ -15,6 +16,7 @@ part 'booking_state.dart';
 
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
   final BookingRepository _repository;
+  final CancelToken _cancelToken = CancelToken(); // For cancelling requests
 
   BookingBloc(this._repository) : super(const BookingState()) {
     on<_FetchBookingTypes>(_fetchBookingTypesHandler);
@@ -22,19 +24,23 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<_SelectService>(_onSelectService);
     on<_RefreshServices>(_refreshServices);
     on<_SelectInnerServiceID>(_onSelectedInnerServiceID);
-    // New Doctor Event Handlers
-
     on<_FetchHomePageServicesBooking>(_onFetchHomePageServicesBooking);
     on<_FetchHomePageServiceDoctors>(_onFetchHomePageServiceDoctors);
-
-    //Third Service
     on<_FetchThirdBookingServices>(_onFetchThirdBookingServices);
   }
 
+  @override
+  Future<void> close() {
+    _cancelToken.cancel(); // Cancel all pending requests
+    return super.close();
+  }
+
   void _onSelectedInnerServiceID(
-      _SelectInnerServiceID event, Emitter<BookingState> emit) {
+    _SelectInnerServiceID event,
+    Emitter<BookingState> emit,
+  ) {
     emit(state.copyWith(selectedInnerServiceIds: event.ids));
-    print('Updated state: ${state.selectedInnerServiceIds}');
+    LogService.i('Updated selectedInnerServiceIds: ${event.ids}');
   }
 
   void _onSelectService(_SelectService event, Emitter<BookingState> emit) {
@@ -52,12 +58,16 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       try {
         EasyLoading.show();
 
-        final res = await _repository.fetchCategoryServices(selectedId);
+        final res = await _repository.fetchCategoryServices(
+          selectedId,
+        );
+
+        if (isClosed) return; // Early exit if bloc is closed
 
         res.fold(
           (error) {
             LogService.e(
-                "Error in refreshing category services: ${error.message}");
+                "Error refreshing category services: ${error.message}");
             emit(state.copyWith(loading: false, error: true));
             EasyLoading.showError(error.message);
           },
@@ -71,8 +81,10 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         );
       } catch (e) {
         LogService.e("Unexpected error in _refreshServices: $e");
-        emit(state.copyWith(loading: false, error: true));
-        EasyLoading.showError('Unexpected error occurred');
+        if (!isClosed) {
+          emit(state.copyWith(loading: false, error: true));
+          EasyLoading.showError('Unexpected error occurred');
+        }
       } finally {
         EasyLoading.dismiss();
       }
@@ -85,28 +97,37 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   ) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
-    EasyLoading.show();
+    try {
+      EasyLoading.show();
 
-    final res = await _repository.fetchBookingTypes();
+      final res = await _repository.fetchBookingTypes();
 
-    res.fold(
-      (error) {
-        LogService.e("Error in fetching booking types: $error");
-        EasyLoading.showError(error.message); // Show error message
-        emit(state.copyWith(loading: false, error: true)); // Update state
-      },
-      (data) {
-        EasyLoading.dismiss();
-        emit(state.copyWith(
-          loading: false,
-          success: true,
-          bookingTypes: data,
-        ));
-      },
-    );
+      if (isClosed) return; // Early exit if bloc is closed
+
+      res.fold(
+        (error) {
+          LogService.e("Error fetching booking types: ${error.message}");
+          emit(state.copyWith(loading: false, error: true));
+          EasyLoading.showError(error.message);
+        },
+        (data) {
+          emit(state.copyWith(
+            loading: false,
+            success: true,
+            bookingTypes: data,
+          ));
+        },
+      );
+    } catch (e) {
+      LogService.e("Unexpected error in _fetchBookingTypesHandler: $e");
+      if (!isClosed) {
+        emit(state.copyWith(loading: false, error: true));
+        EasyLoading.showError('Unexpected error occurred');
+      }
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
-
-  //Home Page Service Booking
 
   FutureOr<void> _onFetchHomePageServicesBooking(
     _FetchHomePageServicesBooking event,
@@ -114,25 +135,36 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   ) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
-    EasyLoading.show();
+    try {
+      EasyLoading.show();
 
-    final res = await _repository.fetchHomePageBookingCategories();
+      final res = await _repository.fetchHomePageBookingCategories();
 
-    res.fold(
-      (error) {
-        LogService.e("Error in fetching booking types: $error");
-        EasyLoading.showError(error.message); // Show error message
-        emit(state.copyWith(loading: false, error: true)); // Update state
-      },
-      (data) {
-        EasyLoading.dismiss();
-        emit(state.copyWith(
-          loading: false,
-          success: true,
-          homePageBookingCategory: data,
-        ));
-      },
-    );
+      if (isClosed) return; // Early exit if bloc is closed
+
+      res.fold(
+        (error) {
+          LogService.e("Error fetching home page services: ${error.message}");
+          emit(state.copyWith(loading: false, error: true));
+          EasyLoading.showError(error.message);
+        },
+        (data) {
+          emit(state.copyWith(
+            loading: false,
+            success: true,
+            homePageBookingCategory: data,
+          ));
+        },
+      );
+    } catch (e) {
+      LogService.e("Unexpected error in _onFetchHomePageServicesBooking: $e");
+      if (!isClosed) {
+        emit(state.copyWith(loading: false, error: true));
+        EasyLoading.showError('Unexpected error occurred');
+      }
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 
   FutureOr<void> _fetchCategoryServices(
@@ -144,11 +176,15 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     try {
       EasyLoading.show();
 
-      final res = await _repository.fetchCategoryServices(event.id);
+      final res = await _repository.fetchCategoryServices(
+        event.id,
+      );
+
+      if (isClosed) return; // Early exit if bloc is closed
 
       res.fold(
         (error) {
-          LogService.e("Error in fetching category services: ${error.message}");
+          LogService.e("Error fetching category services: ${error.message}");
           emit(state.copyWith(loading: false, error: true));
           EasyLoading.showError(error.message);
         },
@@ -162,8 +198,10 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       );
     } catch (e) {
       LogService.e("Unexpected error in _fetchCategoryServices: $e");
-      emit(state.copyWith(loading: false, error: true));
-      EasyLoading.showError('Unexpected error occurred');
+      if (!isClosed) {
+        emit(state.copyWith(loading: false, error: true));
+        EasyLoading.showError('Unexpected error occurred');
+      }
     } finally {
       EasyLoading.dismiss();
     }
@@ -178,11 +216,15 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     try {
       EasyLoading.show();
 
-      final res = await _repository.fetchHomePageBookingDoctors(event.id);
+      final res = await _repository.fetchHomePageBookingDoctors(
+        event.id,
+      );
+
+      if (isClosed) return; // Early exit if bloc is closed
 
       res.fold(
         (error) {
-          LogService.e("Error in fetching category services: ${error.message}");
+          LogService.e("Error fetching home page doctors: ${error.message}");
           emit(state.copyWith(loading: false, error: true));
           EasyLoading.showError(error.message);
         },
@@ -190,59 +232,63 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           emit(state.copyWith(
             loading: false,
             success: true,
-            medicalModel: data, // Store the single MedicalModel
+            medicalModel: data,
           ));
         },
       );
     } catch (e) {
-      LogService.e("Unexpected error in _fetchCategoryServices: $e");
-      emit(state.copyWith(loading: false, error: true));
-      EasyLoading.showError('Unexpected error occurred');
+      LogService.e("Unexpected error in _onFetchHomePageServiceDoctors: $e");
+      if (!isClosed) {
+        emit(state.copyWith(loading: false, error: true));
+        EasyLoading.showError('Unexpected error occurred');
+      }
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  //Third Service
-
   Future<void> _onFetchThirdBookingServices(
-  _FetchThirdBookingServices event,
-  Emitter<BookingState> emit,
-) async {
-  emit(state.copyWith(loading: true, error: false, success: false));
+    _FetchThirdBookingServices event,
+    Emitter<BookingState> emit,
+  ) async {
+    emit(state.copyWith(loading: true, error: false, success: false));
 
-  try {
-    final result = await _repository.getDoctors(serviceIds: event.request);
+    try {
+      final result = await _repository.getDoctors(
+        serviceIds: event.request,
+      );
 
-    result.fold(
-      (failure) {
+      if (isClosed) return; // Early exit if bloc is closed
+
+      result.fold(
+        (failure) {
+          emit(state.copyWith(
+            loading: false,
+            error: true,
+            errorMessage: failure.message,
+            thirdBookingServices: [],
+          ));
+        },
+        (services) {
+          emit(state.copyWith(
+            loading: false,
+            success: true,
+            error: false,
+            errorMessage: '',
+            thirdBookingServices: services.toList(),
+            hasFetchedThirdServices: true,
+          ));
+        },
+      );
+    } catch (e) {
+      if (!isClosed) {
         emit(state.copyWith(
           loading: false,
           error: true,
-          errorMessage: failure.message,
-          thirdBookingServices: [], // Clear the list on error
+          errorMessage: e.toString(),
+          thirdBookingServices: [],
         ));
-      },
-      (services) {
-        // Convert BuiltList to List
-        final servicesList = services.toList();
-        
-        emit(state.copyWith(
-          loading: false,
-          success: true,
-          error: false,
-          errorMessage: '',
-          thirdBookingServices: servicesList,
-        ));
-      },
-    );
-  } catch (e) {
-    emit(state.copyWith(
-      loading: false,
-      error: true,
-      errorMessage: e.toString(),
-      thirdBookingServices: [], // Clear the list on error
-    ));
+      }
+    }
   }
-}
 }

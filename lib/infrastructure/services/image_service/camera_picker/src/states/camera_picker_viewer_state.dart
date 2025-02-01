@@ -8,6 +8,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
+import 'package:medion/infrastructure/services/image_service/camera_picker/wechat_camera_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:video_player/video_player.dart';
 
