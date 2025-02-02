@@ -28,6 +28,7 @@ class CAppBar extends StatefulWidget {
   final int? allCount;
   final String? toggleFirstText;
   final String? toggleSecondText;
+  final Function(String)? onSearchChanged;
 
   const CAppBar(
       {super.key,
@@ -49,7 +50,8 @@ class CAppBar extends StatefulWidget {
       this.count,
       this.allCount,
       this.toggleFirstText,
-      this.toggleSecondText});
+      this.toggleSecondText,
+      this.onSearchChanged});
 
   @override
   State<CAppBar> createState() => _CAppBarState();
@@ -57,6 +59,8 @@ class CAppBar extends StatefulWidget {
 
 class _CAppBarState extends State<CAppBar> {
   bool isOnline = true;
+  TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
@@ -142,8 +146,10 @@ class _CAppBarState extends State<CAppBar> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.w),
                       child: CustomTextField(
+                        controller: searchController,
                         hintText: "Название направления",
                         prefixIcon: icons.search.svg(width: 16.w, height: 16.h),
+                        onChanged: widget.onSearchChanged,
                       ),
                     ),
                     8.h.verticalSpace

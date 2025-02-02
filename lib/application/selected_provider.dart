@@ -38,3 +38,25 @@ class SelectedServicesProvider extends ChangeNotifier {
     _selectedServiceIDCatch.remove(serviceId);
   }
 }
+
+
+
+class SelectedServiceIdsProvider with ChangeNotifier {
+  List<int> _selectedServiceIds = [];
+
+  List<int> get selectedServiceIds => _selectedServiceIds;
+
+  void addServiceId(int id) {
+    if (!_selectedServiceIds.contains(id)) {
+      _selectedServiceIds.add(id);
+      notifyListeners();
+    }
+  }
+
+  void removeServiceId(int id) {
+    if (_selectedServiceIds.contains(id)) {
+      _selectedServiceIds.remove(id);
+      notifyListeners();
+    }
+  }
+}

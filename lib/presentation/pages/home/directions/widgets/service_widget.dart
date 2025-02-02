@@ -7,8 +7,12 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 class ServiceWidget extends StatelessWidget {
   final String consultInfo;
   final String consultPrice;
+  final VoidCallback onTap;
   const ServiceWidget(
-      {super.key, required this.consultInfo, required this.consultPrice});
+      {super.key,
+      required this.consultInfo,
+      required this.consultPrice,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -51,15 +55,18 @@ class ServiceWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 12.w),
                 AnimationButtonEffect(
-                  onTap: () {},
+                  onTap: onTap,
                   child: Container(
                     padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
-                      color: colors.neutral200,
+                      color:
+                          onTap != null ? colors.error500 : colors.neutral200,
                     ),
                     child: Center(
-                      child: icons.plus.svg(width: 20.w, height: 20.h),
+                      child: onTap != null
+                          ? icons.check.svg(width: 20.w, height: 20.h)
+                          : icons.plus.svg(width: 20.w, height: 20.h),
                     ),
                   ),
                 )

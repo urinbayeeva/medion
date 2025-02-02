@@ -1,113 +1,78 @@
-import 'package:built_value/json_object.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter/foundation.dart';
 
-part 'models.g.dart';
-
-@JsonSerializable()
 class Service {
-  @JsonKey(name: 'service_id')
-  int? serviceId;
-
-  @JsonKey(name: 'service_name')
-  String? serviceName;
-
-  @JsonKey(name: 'companies_doctors')
-  List<CompanyDoctor>? companiesDoctors;
+  final int serviceId;
+  final String serviceName;
+  final List<CompanyDoctor> companiesDoctors;
 
   Service({
-    this.serviceId,
-    this.serviceName,
-    this.companiesDoctors,
+    required this.serviceId,
+    required this.serviceName,
+    required this.companiesDoctors,
   });
 
-  factory Service.fromJson(Map<String, dynamic> json) =>
-      _$ServiceFromJson(json);
-  Map<String, dynamic> toJson() => _$ServiceToJson(this);
+  factory Service.fromJson(Map<String, dynamic> json) {
+    return Service(
+      serviceId: json['service_id'],
+      serviceName: json['service_name'],
+      companiesDoctors: (json['companies_doctors'] as List)
+          .map((cd) => CompanyDoctor.fromJson(cd))
+          .toList(),
+    );
+  }
 }
 
-@JsonSerializable()
 class CompanyDoctor {
-  @JsonKey(name: 'company_id')
-  int? companyId;
-
-  @JsonKey(name: 'company_name')
-  String? companyName;
-
-  List<Doctor>? doctor;
+  final int companyId;
+  final String companyName;
+  final List<Doctor> doctors;
 
   CompanyDoctor({
-    this.companyId,
-    this.companyName,
-    this.doctor,
+    required this.companyId,
+    required this.companyName,
+    required this.doctors,
   });
 
-  factory CompanyDoctor.fromJson(Map<String, dynamic> json) =>
-      _$CompanyDoctorFromJson(json);
-  Map<String, dynamic> toJson() => _$CompanyDoctorToJson(this);
+  factory CompanyDoctor.fromJson(Map<String, dynamic> json) {
+    return CompanyDoctor(
+      companyId: json['company_id'],
+      companyName: json['company_name'],
+      doctors: (json['doctor'] as List).map((d) => Doctor.fromJson(d)).toList(),
+    );
+  }
 }
 
-@JsonSerializable()
 class Doctor {
-  int? id;
-  String? name;
-  Object? gender;
-  String? image;
-  String? specialty;
-  String? experience;
-  List<Schedule>? schedules;
-  int? price;
-  String? location;
-
-  @JsonKey(name: 'work_experience')
-  int? workExperience;
+  final int id;
+  final String name;
+  final String gender;
+  final String specialty;
+  final double price;
+  final String location;
+  final int workExperience;
+  final List<Map<String, dynamic>> schedules;
 
   Doctor({
-    this.id,
-    this.name,
-    this.gender,
-    this.image,
-    this.specialty,
-    this.experience,
-    this.schedules,
-    this.price,
-    this.location,
-    this.workExperience,
+    required this.id,
+    required this.name,
+    required this.gender,
+    required this.specialty,
+    required this.price,
+    required this.location,
+    required this.workExperience,
+    required this.schedules,
   });
 
-  factory Doctor.fromJson(Map<String, dynamic> json) => _$DoctorFromJson(json);
-  Map<String, dynamic> toJson() => _$DoctorToJson(this);
-}
-
-@JsonSerializable()
-class Schedule {
-  String? date;
-
-  @JsonKey(name: 'time_slots')
-  List<TimeSlot>? timeSlots;
-
-  Schedule({
-    this.date,
-    this.timeSlots,
-  });
-
-  factory Schedule.fromJson(Map<String, dynamic> json) =>
-      _$ScheduleFromJson(json);
-  Map<String, dynamic> toJson() => _$ScheduleToJson(this);
-}
-
-@JsonSerializable()
-class TimeSlot {
-  String? time;
-  bool? active;
-  int? duration;
-
-  TimeSlot({
-    this.time,
-    this.active,
-    this.duration,
-  });
-
-  factory TimeSlot.fromJson(Map<String, dynamic> json) =>
-      _$TimeSlotFromJson(json);
-  Map<String, dynamic> toJson() => _$TimeSlotToJson(this);
+  factory Doctor.fromJson(Map<String, dynamic> json) {
+    return Doctor(
+      id: json['id'],
+      name: json['name'],
+      gender: json['gender'].toString(),
+      specialty: json['specialty'],
+      price: json['price'],
+      location: json['location'],
+      workExperience: json['work_experience'],
+      schedules: (json['schedules'] as List).cast<Map<String, dynamic>>(),
+    );
+  }
 }

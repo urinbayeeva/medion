@@ -34,9 +34,36 @@ class _SecondServicePageState extends State<SecondServicePage> {
       RefreshController(initialRefresh: false);
   int chose = 0;
   int? selectedIndex;
-  final List<dynamic> selectedServices = [];
-  final List<int> selectedServiceIDCatch =
-      []; // Add this list to track selected service IDs
+  List<dynamic> selectedServices = [];
+  final List<int> selectedServiceIDCatch = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen for changes in selected IDs
+    Provider.of<SelectedServiceIdsProvider>(context, listen: false)
+        .addListener(_updateSelectedServices);
+    _updateSelectedServices(); // Initial update to fetch current state
+  }
+
+  @override
+  void dispose() {
+    Provider.of<SelectedServiceIdsProvider>(context, listen: false)
+        .removeListener(_updateSelectedServices);
+    super.dispose();
+  }
+
+  void _updateSelectedServices() {
+    final provider =
+        Provider.of<SelectedServiceIdsProvider>(context, listen: false);
+    final bookingState = context.read<BookingBloc>().state;
+    setState(() {
+      selectedServices = bookingState.categoryServices
+          .expand((category) => category.services)
+          .where((service) => provider.selectedServiceIds.contains(service.id))
+          .toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +121,6 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        softWrap: true,
-                                        overflow: TextOverflow.clip,
                                         service.name,
                                         style: fonts.smallSemLink.copyWith(
                                           fontWeight: FontWeight.bold,
@@ -104,16 +129,19 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                       Text(
                                         service.description ?? 'no_description',
                                         style: fonts.smallLink.copyWith(
-                                            color: colors.neutral600,
-                                            fontSize: 11.sp,
-                                            fontWeight: FontWeight.w400),
+                                          color: colors.neutral600,
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        softWrap: true,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                       Text(
                                         "${service.priceUzs} UZS",
                                         style: fonts.smallLink.copyWith(
-                                          color: colors.primary900,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                            color: colors.primary900,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12.sp),
                                       ),
                                     ],
                                   ),
@@ -125,6 +153,10 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                         Provider.of<SelectedServicesProvider>(
                                             context,
                                             listen: false);
+                                    final selectedServiceIdsProvider =
+                                        Provider.of<SelectedServiceIdsProvider>(
+                                            context,
+                                            listen: false);
 
                                     setState(() {
                                       if (selectedServicesProvider
@@ -132,14 +164,15 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           .contains(service)) {
                                         selectedServicesProvider
                                             .removeService(service);
-                                        selectedServiceIDCatch.remove(service
-                                            .id); // Remove from selectedServiceIDCatch
+                                        selectedServiceIdsProvider
+                                            .removeServiceId(service
+                                                .id); // ID ni olib tashlash
                                         chose--;
                                       } else {
                                         selectedServicesProvider
                                             .addService(service);
-                                        selectedServiceIDCatch.add(service
-                                            .id); // Add to selectedServiceIDCatch
+                                        selectedServiceIdsProvider.addServiceId(
+                                            service.id); // ID ni qo'shish
                                         chose++;
                                       }
                                     });
@@ -168,15 +201,9 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                   ),
                                 ),
                                 8.h.verticalSpace,
-                                Divider(
-                                  color: colors.neutral400,
-                                  thickness: 1,
-                                  indent: 0,
-                                  endIndent: 0,
-                                ),
-                                8.h.verticalSpace,
                               ],
-                            )
+                            ),
+                            18.h.verticalSpace,
                           ]);
                         }).toList(),
                       );
@@ -230,7 +257,6 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                         child: ServiceSelectionModal(
                                           selectedServices: selectedServices,
                                           chose: chose,
-                                          // selectedServiceIDCatch: selectedServiceIDCatch, // Pass it to the modal
                                           onRemoveService: () {
                                             setState(() {
                                               selectedServices.removeWhere(

@@ -10,6 +10,8 @@ import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/pages/appointment/component/doctors_date_item.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/date_util.dart';
+import 'package:provider/provider.dart';
 
 import '../../../application/services/api_service.dart';
 import '../../../domain/models/models.dart';
@@ -32,98 +34,68 @@ class DoctorTimeAndService extends StatefulWidget {
 }
 
 class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
-  late Future<List<Service>> futureServices;
-
-  @override
-  void initState() {
-    super.initState();
-    futureServices = ApiService().fetchServices([2492]);
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Scaffold(
-        backgroundColor: colors.backgroundColor,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: FutureBuilder<List<Service>>(
-            future: futureServices,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: colors.error500,
+    final selectedServiceIdsProvider =
+        Provider.of<SelectedServiceIdsProvider>(context);
+    return FutureBuilder<List<Service>>(
+      future: ApiService.fetchServices(
+          selectedServiceIdsProvider.selectedServiceIds),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (snapshot.hasData) {
+          return ThemeWrapper(
+              builder: (context, colors, fonts, icons, controller) {
+            return CustomListView(
+              padding: EdgeInsets.zero,
+              data: snapshot.data!,
+              itemBuilder: (index, _) {
+                final service = snapshot.data![index];
+
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      12.h.verticalSpace,
+                      Text(
+                          service.companiesDoctors.isNotEmpty
+                              ? (index < service.companiesDoctors.length
+                                  ? service.companiesDoctors[index].companyName
+                                  : 'No company name available')
+                              : 'No company name',
+                          style: fonts.regularMain),
+                      12.h.verticalSpace,
+                      Column(
+                        children: service.companiesDoctors.expand((company) {
+                          return [
+                            ...company.doctors.map(
+                              (doctor) {
+                                return DoctorAppointmentWidget(
+                                    doctor: doctor,
+                                    schedules: doctor.schedules);
+                              },
+                            )
+                          ];
+                        }).toList(),
+                      ),
+                    ],
                   ),
                 );
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(child: Text('no_data_found'.tr()));
-              } else {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: CustomListView(
-                        padding: EdgeInsets.zero,
-                        itemBuilder: (int serviceIndex, _) {
-                          Service service = snapshot.data![serviceIndex];
-                          return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                for (var companyDoctor
-                                    in service.companiesDoctors ?? []) ...[
-                                  Text(companyDoctor.companyName ?? "",
-                                      style: fonts.regularMain),
-                                  8.h.verticalSpace,
-                                  if (companyDoctor.doctor != null &&
-                                      companyDoctor.doctor!.isNotEmpty)
-                                  CustomExpansionListTile(
-  title: service.serviceName ?? 'No Service Name',
-  description: "",
-  children: service.companiesDoctors?.map((companyDoctor) {
-    return DoctorAppointmentWidget(doctor: companyDoctor); // Pass doctor data
-  }).toList() ?? [],
-)
-
-                                  else
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 8.h),
-                                      child: Text("No available doctors",
-                                          style: fonts.xSmallMain),
-                                    ),
-                                  24.h.verticalSpace,
-                                ]
-                              ]);
-                        },
-                        data: snapshot.data!,
-                        emptyWidgetModel: ErrorWidgetModel(
-                          title: "title",
-                          subtitle: "subtitle",
-                        ),
-                        status: FormzSubmissionStatus.success,
-                      ),
-                    ),
-                  ],
-                );
-              }
-            },
-          ),
-        ),
-      );
-    });
+              },
+              emptyWidgetModel: ErrorWidgetModel(
+                title: "title",
+                subtitle: "subtitle",
+              ),
+              status: FormzSubmissionStatus.success,
+            );
+          });
+        }
+        return const Center(child: Text('No data available'));
+      },
+    );
   }
 }
-
-
-
-
-//  children: service.companiesDoctors
-//                                     ?.map((companyDoctor) {
-//                                   return DoctorAppointmentWidget(
-//                                     // Pass any required parameters here
-//                                   );
-//                                 }).toList() ??
-//                                 [],
-//                           );
