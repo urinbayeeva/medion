@@ -7,7 +7,8 @@ class CustomExpansionListTile extends StatefulWidget {
   final String? subtitle;
   final String description;
   final dynamic price;
-  final List<Widget> children; // Updated to List<Widget>
+  final List<Widget> children;
+  final Function(bool)? onExpansionChanged;
 
   const CustomExpansionListTile({
     super.key,
@@ -15,7 +16,8 @@ class CustomExpansionListTile extends StatefulWidget {
     this.subtitle,
     required this.description,
     this.price,
-    required this.children, // Updated parameter type
+    required this.children,
+    this.onExpansionChanged,
   });
 
   @override
@@ -24,6 +26,9 @@ class CustomExpansionListTile extends StatefulWidget {
 }
 
 class _CustomExpansionListTileState extends State<CustomExpansionListTile> {
+  final GlobalKey<_CustomExpansionListTileState> _expansionTileKey =
+      GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -40,6 +45,8 @@ class _CustomExpansionListTileState extends State<CustomExpansionListTile> {
             dividerColor: Colors.transparent,
           ),
           child: ExpansionTile(
+            initiallyExpanded: false,
+            key: _expansionTileKey,
             childrenPadding: EdgeInsets.symmetric(horizontal: 16.w),
             collapsedBackgroundColor: Colors.transparent,
             backgroundColor: Colors.transparent,

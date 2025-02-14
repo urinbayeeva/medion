@@ -35,38 +35,24 @@ class _AdsState extends State<Ads> {
         return Column(
           children: [
             CarouselSlider(
-              items: [
-                ClipRRect(
+              items: state.ads.map((ad) {
+                return ClipRRect(
                   borderRadius: BorderRadius.circular(8.r),
-                  child: Image.asset(
+                  child: CachedImageComponent(
+                    height: 250,
                     width: double.infinity,
-                    "assets/images/ad_first.jpg",
-                    fit: BoxFit.fill,
+                    imageUrl: ad.image!,
                   ),
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.r),
-                  child: Image.asset(
-                    width: double.infinity,
-                    "assets/images/ad_third.jpg",
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.r),
-                  child: Image.asset(
-                    width: double.infinity,
-                    "assets/images/ad_second.jpg",
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ],
+                );
+              }).toList(),
               options: CarouselOptions(
-                  autoPlay: true,
-                  aspectRatio: 1.5,
-                  viewportFraction: 1,
-                  autoPlayInterval: const Duration(seconds: 10)),
-            ),
+                autoPlay: true,
+                aspectRatio: 1.5,
+                viewportFraction: 1,
+                autoPlayInterval: const Duration(seconds: 10),
+              ),
+            )
+
             // Text(state.ads.first.title ?? "", style: fonts.regularMain),
             // Text(state.ads.first.info ?? "", style: fonts.regularMain),
           ],

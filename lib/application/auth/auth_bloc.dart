@@ -114,6 +114,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     final token = _dbService.token.accessToken;
+    final refreshToken = _dbService.token.refreshToken;
+
+    String tokenToUse = token!.isNotEmpty ? token : refreshToken!;
 
     if (token == null || token.isEmpty) {
       emit(state.copyWith(
@@ -127,7 +130,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(
         isFetchingPatientInfo: true, errorFetchingPatientInfo: false));
 
-    final res = await _repository.getPatientInfo(accessToken: token);
+    final res = await _repository.getPatientInfo(
+        accessToken: token.isNotEmpty ? token : refreshToken!);
 
     // Handle the result
     res.fold(
@@ -139,7 +143,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ));
       },
       (patientInfo) {
-        // Update the state with the fetched patient info
         emit(state.copyWith(
           isFetchingPatientInfo: false,
           errorFetchingPatientInfo: false,

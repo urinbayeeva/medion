@@ -76,7 +76,11 @@ class ServiceSelectionModal extends StatelessWidget {
                     ),
                     IconButton(
                         onPressed: () => onRemoveService(),
-                        icon: Image.asset("assets/images/trash.png")),
+                        icon: Image.asset(
+                          "assets/images/trash.png",
+                          width: 28.w,
+                          height: 28.h,
+                        )),
                   ],
                 ),
               );

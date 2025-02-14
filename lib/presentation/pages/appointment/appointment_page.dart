@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/domain/sources/screen_title.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_progress_bar.dart';
 import 'package:medion/presentation/component/un_focus_widget.dart';
@@ -56,6 +57,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
           SecondServicePage(
             onTap: () => navigateToNextScreen(id),
             id: 39,
+            isUSD: changeSum,
           ),
           "Inner Services",
           AddAppointmentScreenType.secondService),
@@ -110,6 +112,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
     }
   }
 
+  double turns = 0.0;
+  bool changeSum = false;
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -126,9 +131,21 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 trailing: screenIndex == 1
                     ? Row(
                         children: [
-                          icons.valyutaChange.svg(),
-                          4.w.horizontalSpace,
-                          icons.filter.svg(),
+                          AnimatedRotation(
+                              turns: turns,
+                              duration: const Duration(seconds: 1),
+                              child: AnimationButtonEffect(
+                                  onTap: () {
+                                    setState(() {
+                                      turns += 2 / 4;
+                                      changeSum = !changeSum;
+                                      changeSum = !changeSum;
+                                    });
+                                  },
+                                  child: icons.valyutaChange
+                                      .svg(width: 20.w, height: 20.h))),
+                          6.w.horizontalSpace,
+                          icons.filter.svg(width: 20.w, height: 20.h),
                         ],
                       )
                     : screenIndex == 2 || screenIndex == 3

@@ -26,11 +26,10 @@ class _UserInfoInputState extends State<UserInfoInput> {
     final dbService = await DBService.create;
 
     final accessToken = dbService.token.accessToken;
+    final refreshToken = dbService.token.refreshToken;
 
-    // ignore: use_build_context_synchronously
-    context
-        .read<AuthBloc>()
-        .add(AuthEvent.fetchPatientInfo(accessToken: accessToken!));
+    context.read<AuthBloc>().add(AuthEvent.fetchPatientInfo(
+        accessToken: accessToken!.isEmpty ? refreshToken! : accessToken));
   }
 
   @override
@@ -81,7 +80,7 @@ class _UserInfoInputState extends State<UserInfoInput> {
                 //   readOnly: true,
                 // ),
                 CustomTextField(
-                  hintText: state.patientInfo?.phone ?? '',
+                  hintText: state.patientInfo?.phoneNumber ?? '',
                   title: "phone".tr(),
                   readOnly: true,
                 ),

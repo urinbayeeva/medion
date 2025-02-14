@@ -10,6 +10,7 @@ import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
 import 'package:medion/application/selected_provider.dart';
 import 'package:medion/application/services/time_select_provider.dart';
+import 'package:medion/domain/models/currency_change.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => SelectedServicesProvider()),
           ChangeNotifierProvider(create: (_) => SelectedServiceIdsProvider()),
           ChangeNotifierProvider(create: (_) => TimeSelectionProvider()),
+          ChangeNotifierProvider(create: (_) => CurrencyChangeProvider()),
           BlocProvider(
             create: (context) {
               DBService dbService = context.read<DBService>();

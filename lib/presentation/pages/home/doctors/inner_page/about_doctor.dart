@@ -44,7 +44,7 @@ class AboutDoctor extends StatelessWidget {
                         name: name,
                         profession: profession,
                         specialty: status,
-                        image: "",
+                        image: icons.nonUser,
                       ),
                       16.h.verticalSpace,
                       CustomTabbarBlack(

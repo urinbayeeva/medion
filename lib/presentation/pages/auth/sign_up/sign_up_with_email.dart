@@ -39,25 +39,8 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // const Spacer(),
-                    Text("Введите e-mail", style: fonts.displaySecond),
-                    8.h.verticalSpace,
-                    Text(
-                        "Чтобы войти, записаться на приёмы врачeй\nи следить за вашими посещениями",
-                        style: fonts.smallText.copyWith(
-                            color: colors.neutral700,
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w400)),
-                    16.h.verticalSpace,
-                    CustomTextField(
-                        borderRadius: 8.r,
-                        controller: phoneNumberController,
-                        hintText: "example@gmail.com"),
-                    const Spacer(),
-                    // CButton(
-                    //     title: "Выслать код",
-                    //     onTap: () => Navigator.push(
-                    //         context, AppRoutes.getDataEntryPage())),
+                   
+                
                     27.h.verticalSpace,
                   ],
                 ),

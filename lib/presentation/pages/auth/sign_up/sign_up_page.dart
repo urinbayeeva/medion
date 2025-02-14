@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/component/c_not_available.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -65,8 +66,16 @@ class _SignUpPageState extends State<SignUpPage> {
                 // hasBorderRadius: true,
                 iconPath: icons.mail,
                 title: "continue_with_email".tr(),
-                onTap: () =>
-                    Navigator.push(context, AppRoutes.getSignUpPageWithEmail()),
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          backgroundColor: colors.shade0,
+                          content: const CNotAvailable(),
+                        );
+                      });
+                },
               ),
               27.h.verticalSpace,
             ],

@@ -5,7 +5,6 @@ import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
-
 class HomeListTile extends StatelessWidget {
   final String? icon;
   final String title;
@@ -28,7 +27,7 @@ class HomeListTile extends StatelessWidget {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
         return ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
+        
           minVerticalPadding: 0,
           onTap: onTap,
           leading: icon != null
@@ -40,11 +39,7 @@ class HomeListTile extends StatelessWidget {
                       borderRadius: 8.r,
                       fit: BoxFit.cover,
                     )
-                  : Padding(
-                      padding: EdgeInsets.all(6.r),
-                      child: icon!.svg(
-                          color: colors.primary900, height: 28.r, width: 28.r),
-                    )
+                  : icon!.svg(height: 24.r, width: 24.r)
               : null,
           title: Text(
             semanticsLabel: title,

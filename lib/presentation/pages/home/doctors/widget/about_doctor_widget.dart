@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class AboutDoctorWidget extends StatelessWidget {
@@ -22,7 +23,7 @@ class AboutDoctorWidget extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),
                   color: colors.neutral200),
-              child: Image.asset(
+              child: SvgPicture.asset(
                 image!,
                 fit: BoxFit.contain,
               )),

@@ -20,7 +20,6 @@ import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:medion/utils/constants.dart';
 
-
 class AuthRepository implements IAuthFacade {
   final DBService _dbService;
   final AuthService _authService;
@@ -202,6 +201,7 @@ class AuthRepository implements IAuthFacade {
       }
 
       final authHeader = "Bearer $accessToken";
+
       final res = await _patientService.getPatientInfo(authHeader);
 
       if (res.isSuccessful && res.body != null) {
@@ -218,39 +218,36 @@ class AuthRepository implements IAuthFacade {
     }
   }
 
-@override
-Future<Either<ResponseFailure, SuccessModel>> postPatientPhoto({
-  required ImageUploadResponseModel image,
-}) async {
-  try {
-    final response = await _patientService.patientImageUpload(
-      image: ImageUploadResponseModel((b) => b
-        ..imageBase64 = image.imageBase64), // Pass required fields here
-    );
+  @override
+  Future<Either<ResponseFailure, SuccessModel>> postPatientPhoto({
+    required ImageUploadResponseModel image,
+  }) async {
+    try {
+      final response = await _patientService.patientImageUpload(
+        image: ImageUploadResponseModel((b) =>
+            b..imageBase64 = image.imageBase64), // Pass required fields here
+      );
 
-    LogService.d('Response Status: ${response.statusCode}');
-    LogService.d('Response Body: ${response.body}');
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
 
-    if (response.isSuccessful && response.body != null) {
-      return right(response.body!); // Use response.body directly
-    } else {
-      return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      if (response.isSuccessful && response.body != null) {
+        return right(response.body!); // Use response.body directly
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      LogService.e(" ----> error on repo : ${e.toString()}");
+      return left(handleError(e));
     }
-  } catch (e) {
-    LogService.e(" ----> error on repo : ${e.toString()}");
-    return left(handleError(e));
   }
 }
 
-}
-
-
-
-
 ///
 Future<List<dynamic>> fetchServiceData() async {
-  final response = await http.get(Uri.parse('https://his.uicgroup.tech/apiweb/booking/doctors'));
-  
+  final response = await http
+      .get(Uri.parse('https://his.uicgroup.tech/apiweb/booking/doctors'));
+
   if (response.statusCode == 200) {
     // Parse the JSON response
     return json.decode(response.body);

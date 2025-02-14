@@ -7,6 +7,8 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -99,6 +101,5 @@ dependencies {
     implementation 'com.google.guava:guava:33.3.0-android'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20'
-    classpath 'com.android.tools.build:gradle:3.4.2'
-
+    // classpath 'com.android.tools.build:gradle:3.4.2'
 }

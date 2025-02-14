@@ -125,6 +125,9 @@ class _HomePageState extends State<HomePage> {
                                 final item = limitedItems[index];
                                 return MedicalDirectionItem(
                                   onTap: () {
+                                    context
+                                        .read<BottomNavBarController>()
+                                        .changeNavBar(true);
                                     Navigator.push(
                                       context,
                                       AppRoutes.getDirectionInfoPage(
@@ -146,8 +149,17 @@ class _HomePageState extends State<HomePage> {
                           12.h.verticalSpace,
                           _buildVerticalSpacingAndHeader(
                               "doctors", fonts, "all", () {
+                            context
+                                .read<BottomNavBarController>()
+                                .changeNavBar(true);
+
                             Navigator.push(
-                                context, AppRoutes.getAllDoctorsPage());
+                                    context, AppRoutes.getAllDoctorsPage())
+                                .then((_) {
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(false);
+                            });
                           }),
                           BlocBuilder<DoctorBloc, DoctorState>(
                             builder: (context, state) {
@@ -169,7 +181,16 @@ class _HomePageState extends State<HomePage> {
                           ),
                           _buildVerticalSpacingAndHeader("news", fonts, "all",
                               () {
-                            Navigator.push(context, AppRoutes.getNewsPage());
+                            context
+                                .read<BottomNavBarController>()
+                                .changeNavBar(true);
+
+                            Navigator.push(context, AppRoutes.getNewsPage())
+                                .then((_) {
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(false);
+                            });
                           }),
                           GridView.builder(
                             padding: EdgeInsets.zero,
@@ -195,7 +216,16 @@ class _HomePageState extends State<HomePage> {
                           ),
                           _buildVerticalSpacingAndHeader(
                               "address_of_clinic", fonts, "all", () {
-                            Navigator.push(context, AppRoutes.getMapPage());
+                            context
+                                .read<BottomNavBarController>()
+                                .changeNavBar(true);
+
+                            Navigator.push(context, AppRoutes.getMapPage())
+                                .then((_) {
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(false);
+                            });
                           }),
                           _buildAddressSection(context, colors, fonts, icons),
                           80.h.verticalSpace,

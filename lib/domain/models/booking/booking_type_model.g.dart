@@ -28,6 +28,8 @@ Serializer<HomeMedicalDoctor> _$homeMedicalDoctorSerializer =
     new _$HomeMedicalDoctorSerializer();
 Serializer<HomeServiceBooking> _$homeServiceBookingSerializer =
     new _$HomeServiceBookingSerializer();
+Serializer<CreatePatientBookingReq> _$createPatientBookingReqSerializer =
+    new _$CreatePatientBookingReqSerializer();
 
 class _$BookingTypeModelSerializer
     implements StructuredSerializer<BookingTypeModel> {
@@ -951,6 +953,86 @@ class _$HomeServiceBookingSerializer
         case 'priceUzd':
           result.priceUzd = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$CreatePatientBookingReqSerializer
+    implements StructuredSerializer<CreatePatientBookingReq> {
+  @override
+  final Iterable<Type> types = const [
+    CreatePatientBookingReq,
+    _$CreatePatientBookingReq
+  ];
+  @override
+  final String wireName = 'CreatePatientBookingReq';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, CreatePatientBookingReq object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'service_id',
+      serializers.serialize(object.serviceId,
+          specifiedType: const FullType(int)),
+      'company_id',
+      serializers.serialize(object.companyId,
+          specifiedType: const FullType(int)),
+      'doctor_id',
+      serializers.serialize(object.doctorId,
+          specifiedType: const FullType(int)),
+      'start_time',
+      serializers.serialize(object.startTime,
+          specifiedType: const FullType(String)),
+      'end_time',
+      serializers.serialize(object.endTime,
+          specifiedType: const FullType(String)),
+      'date',
+      serializers.serialize(object.date, specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  CreatePatientBookingReq deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new CreatePatientBookingReqBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'service_id':
+          result.serviceId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'company_id':
+          result.companyId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'doctor_id':
+          result.doctorId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'start_time':
+          result.startTime = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'end_time':
+          result.endTime = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'date':
+          result.date = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -2594,6 +2676,173 @@ class HomeServiceBookingBuilder
           name: name,
           priceUzs: priceUzs,
           priceUzd: priceUzd,
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$CreatePatientBookingReq extends CreatePatientBookingReq {
+  @override
+  final int serviceId;
+  @override
+  final int companyId;
+  @override
+  final int doctorId;
+  @override
+  final String startTime;
+  @override
+  final String endTime;
+  @override
+  final String date;
+
+  factory _$CreatePatientBookingReq(
+          [void Function(CreatePatientBookingReqBuilder)? updates]) =>
+      (new CreatePatientBookingReqBuilder()..update(updates))._build();
+
+  _$CreatePatientBookingReq._(
+      {required this.serviceId,
+      required this.companyId,
+      required this.doctorId,
+      required this.startTime,
+      required this.endTime,
+      required this.date})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        serviceId, r'CreatePatientBookingReq', 'serviceId');
+    BuiltValueNullFieldError.checkNotNull(
+        companyId, r'CreatePatientBookingReq', 'companyId');
+    BuiltValueNullFieldError.checkNotNull(
+        doctorId, r'CreatePatientBookingReq', 'doctorId');
+    BuiltValueNullFieldError.checkNotNull(
+        startTime, r'CreatePatientBookingReq', 'startTime');
+    BuiltValueNullFieldError.checkNotNull(
+        endTime, r'CreatePatientBookingReq', 'endTime');
+    BuiltValueNullFieldError.checkNotNull(
+        date, r'CreatePatientBookingReq', 'date');
+  }
+
+  @override
+  CreatePatientBookingReq rebuild(
+          void Function(CreatePatientBookingReqBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  CreatePatientBookingReqBuilder toBuilder() =>
+      new CreatePatientBookingReqBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is CreatePatientBookingReq &&
+        serviceId == other.serviceId &&
+        companyId == other.companyId &&
+        doctorId == other.doctorId &&
+        startTime == other.startTime &&
+        endTime == other.endTime &&
+        date == other.date;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, serviceId.hashCode);
+    _$hash = $jc(_$hash, companyId.hashCode);
+    _$hash = $jc(_$hash, doctorId.hashCode);
+    _$hash = $jc(_$hash, startTime.hashCode);
+    _$hash = $jc(_$hash, endTime.hashCode);
+    _$hash = $jc(_$hash, date.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'CreatePatientBookingReq')
+          ..add('serviceId', serviceId)
+          ..add('companyId', companyId)
+          ..add('doctorId', doctorId)
+          ..add('startTime', startTime)
+          ..add('endTime', endTime)
+          ..add('date', date))
+        .toString();
+  }
+}
+
+class CreatePatientBookingReqBuilder
+    implements
+        Builder<CreatePatientBookingReq, CreatePatientBookingReqBuilder> {
+  _$CreatePatientBookingReq? _$v;
+
+  int? _serviceId;
+  int? get serviceId => _$this._serviceId;
+  set serviceId(int? serviceId) => _$this._serviceId = serviceId;
+
+  int? _companyId;
+  int? get companyId => _$this._companyId;
+  set companyId(int? companyId) => _$this._companyId = companyId;
+
+  int? _doctorId;
+  int? get doctorId => _$this._doctorId;
+  set doctorId(int? doctorId) => _$this._doctorId = doctorId;
+
+  String? _startTime;
+  String? get startTime => _$this._startTime;
+  set startTime(String? startTime) => _$this._startTime = startTime;
+
+  String? _endTime;
+  String? get endTime => _$this._endTime;
+  set endTime(String? endTime) => _$this._endTime = endTime;
+
+  String? _date;
+  String? get date => _$this._date;
+  set date(String? date) => _$this._date = date;
+
+  CreatePatientBookingReqBuilder();
+
+  CreatePatientBookingReqBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _serviceId = $v.serviceId;
+      _companyId = $v.companyId;
+      _doctorId = $v.doctorId;
+      _startTime = $v.startTime;
+      _endTime = $v.endTime;
+      _date = $v.date;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(CreatePatientBookingReq other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$CreatePatientBookingReq;
+  }
+
+  @override
+  void update(void Function(CreatePatientBookingReqBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  CreatePatientBookingReq build() => _build();
+
+  _$CreatePatientBookingReq _build() {
+    final _$result = _$v ??
+        new _$CreatePatientBookingReq._(
+          serviceId: BuiltValueNullFieldError.checkNotNull(
+              serviceId, r'CreatePatientBookingReq', 'serviceId'),
+          companyId: BuiltValueNullFieldError.checkNotNull(
+              companyId, r'CreatePatientBookingReq', 'companyId'),
+          doctorId: BuiltValueNullFieldError.checkNotNull(
+              doctorId, r'CreatePatientBookingReq', 'doctorId'),
+          startTime: BuiltValueNullFieldError.checkNotNull(
+              startTime, r'CreatePatientBookingReq', 'startTime'),
+          endTime: BuiltValueNullFieldError.checkNotNull(
+              endTime, r'CreatePatientBookingReq', 'endTime'),
+          date: BuiltValueNullFieldError.checkNotNull(
+              date, r'CreatePatientBookingReq', 'date'),
         );
     replace(_$result);
     return _$result;

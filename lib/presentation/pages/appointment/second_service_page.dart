@@ -21,9 +21,15 @@ class SecondServicePage extends StatefulWidget {
   final int id;
   final bool? isAdded;
   final VoidCallback onTap;
+  final bool isUSD;
 
-  const SecondServicePage(
-      {super.key, this.isAdded, required this.onTap, required this.id});
+  const SecondServicePage({
+    super.key,
+    this.isAdded,
+    required this.onTap,
+    required this.id,
+    this.isUSD = false,
+  });
 
   @override
   State<SecondServicePage> createState() => _SecondServicePageState();
@@ -87,16 +93,15 @@ class _SecondServicePageState extends State<SecondServicePage> {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: CustomListView(
                     onRefresh: () async {
-                      final selectedId =
-                          context.read<BookingBloc>().state.selectedServiceId;
+                      setState(() {
+                        final selectedId =
+                            context.read<BookingBloc>().state.selectedServiceId;
 
-                      if (state.categoryServices.isEmpty) {
                         context.read<BookingBloc>().add(
                               BookingEvent.fetchCategoryServices(
                                   id: selectedId!),
                             );
-                      }
-
+                      });
                       _refreshController.refreshCompleted();
                     },
                     refreshController: _refreshController,
@@ -137,7 +142,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                       Text(
-                                        "${service.priceUzs} UZS",
+                                        "${service.priceUzs.toString()} ${widget.isUSD ? "USD" : "UZS"}",
                                         style: fonts.smallLink.copyWith(
                                             color: colors.primary900,
                                             fontWeight: FontWeight.w600,

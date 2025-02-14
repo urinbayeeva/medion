@@ -277,3 +277,30 @@ abstract class HomeServiceBooking
   static Serializer<HomeServiceBooking> get serializer =>
       _$homeServiceBookingSerializer;
 }
+
+abstract class CreatePatientBookingReq implements Built<CreatePatientBookingReq, CreatePatientBookingReqBuilder> {
+
+  @BuiltValueField(wireName: 'service_id')
+  int get serviceId;
+
+  @BuiltValueField(wireName: 'company_id')
+  int get companyId;
+
+  @BuiltValueField(wireName: 'doctor_id')
+  int get doctorId;
+
+  @BuiltValueField(wireName: 'start_time')
+  String get startTime;
+
+  @BuiltValueField(wireName: 'end_time')
+  String get endTime;
+
+  @BuiltValueField(wireName: 'date')
+  String get date;
+
+  CreatePatientBookingReq._();
+
+  static Serializer<CreatePatientBookingReq> get serializer => _$createPatientBookingReqSerializer;
+
+  factory CreatePatientBookingReq([void Function(CreatePatientBookingReqBuilder) updates]) = _$CreatePatientBookingReq;
+}

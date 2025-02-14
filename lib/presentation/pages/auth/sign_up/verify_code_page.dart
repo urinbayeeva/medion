@@ -89,6 +89,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
           return ThemeWrapper(
             builder: (context, colors, fonts, icons, controller) {
               return Scaffold(
+                resizeToAvoidBottomInset: true,
                 backgroundColor: Colors.white,
                 body: Column(
                   children: [
@@ -192,7 +193,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                 }
                               },
                             ),
-                            27.h.verticalSpace,
+                            // 27.h.verticalSpace,
                           ],
                         ),
                       ),

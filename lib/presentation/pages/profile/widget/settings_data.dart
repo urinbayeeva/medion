@@ -3,10 +3,6 @@ import 'package:medion/presentation/styles/theme.dart';
 
 List<Map<String, dynamic>> settingsData = [
   {
-    "title": "language".tr(),
-    "icon": IconSet.create.globe,
-  },
-  {
     "title": "call_center".tr(),
     "icon": IconSet.create.phone,
   },

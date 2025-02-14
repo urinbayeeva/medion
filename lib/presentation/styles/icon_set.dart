@@ -100,6 +100,7 @@ class IconSet {
   final String medTourism;
   final String readFeedbacks;
   final String leaveFeedbacks;
+  final String girlNonUser;
 
   IconSet._(
       {required this.medicalHistoryFirst,
@@ -202,7 +203,9 @@ class IconSet {
       required this.medTourism,
       required this.monets,
       required this.polis,
-      required this.readFeedbacks});
+      required this.readFeedbacks,
+      required this.girlNonUser,
+      });
 
   static IconSet get create {
     return IconSet._(
@@ -305,6 +308,7 @@ class IconSet {
       monets: 'assets/icons/monet.svg',
       polis: 'assets/icons/polis.svg',
       readFeedbacks: 'assets/icons/read_feedback.svg',
+      girlNonUser: ""
     );
   }
 }

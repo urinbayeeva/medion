@@ -8,6 +8,7 @@ import 'package:medion/presentation/component/c_lang_check_box.dart';
 import 'package:medion/presentation/component/c_logout_bottomsheet.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/pages/home/directions/component/home_list_tile.dart';
+import 'package:medion/presentation/pages/profile/widget/nav_list_widget.dart';
 import 'package:medion/presentation/pages/profile/widget/settings_data.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -38,8 +39,8 @@ class _SettingPageState extends State<SettingPage> {
                 trailing: 24.w.horizontalSpace),
             16.h.verticalSpace,
             Expanded(
-              flex: 2,
-              child: Column(
+              child: ListView(
+                padding: EdgeInsets.zero,
                 children: [
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -47,63 +48,68 @@ class _SettingPageState extends State<SettingPage> {
                       borderRadius: BorderRadius.circular(8.r),
                       color: colors.shade0,
                     ),
-                    child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      itemCount: settingsData.length,
-                      itemBuilder: (context, index) {
-                        return _buildNavItem(
-                          widget: HomeListTile(
-                            title: "language".tr(),
-                            trailing: CustomToggle(
-                              height: 32.h,
-                              indicatorColor: colors.primary500,
-                              backgroundColor: colors.neutral50,
-                              indicatorSize: Size.fromWidth(78.w),
-                              iconList: [
-                                Text(
-                                  "РУ",
-                                  style: fonts.captionSemiBold.copyWith(
-                                      color: isRu
-                                          ? colors.shade0
-                                          : colors.neutral700),
-                                  semanticsLabel: "РУ",
-                                ),
-                                Text(
-                                  "UZ",
-                                  style: fonts.captionSemiBold.copyWith(
-                                      color: !isRu
-                                          ? colors.shade0
-                                          : colors.neutral700),
-                                  semanticsLabel: "UZ",
-                                ),
-                              ],
-                              onChanged: (bool value) {
-                                EasyLocalization.of(context)!.setLocale(
-                                  value
-                                      ? const Locale('ru', 'RU')
-                                      : const Locale('uz', 'UZ'),
-                                );
-                                setState(() {});
-                              },
-                              current: isRu,
-                              values: const [true, false],
-                            ),
+                    child: Column(
+                      children: [
+                        HomeListTile(
+                          title: "language".tr(),
+                          icon: icons.globe,
+                          trailing: CustomToggle(
+                            height: 32.h,
+                            indicatorColor: colors.primary500,
+                            backgroundColor: colors.neutral50,
+                            indicatorSize: Size.fromWidth(78.w),
+                            iconList: [
+                              Text(
+                                "РУ",
+                                style: fonts.captionSemiBold.copyWith(
+                                    color: isRu
+                                        ? colors.shade0
+                                        : colors.neutral700),
+                                semanticsLabel: "РУ",
+                              ),
+                              Text(
+                                "UZ",
+                                style: fonts.captionSemiBold.copyWith(
+                                    color: !isRu
+                                        ? colors.shade0
+                                        : colors.neutral700),
+                                semanticsLabel: "UZ",
+                              ),
+                            ],
+                            onChanged: (bool value) {
+                              EasyLocalization.of(context)!.setLocale(
+                                value
+                                    ? const Locale('ru', 'RU')
+                                    : const Locale('uz', 'UZ'),
+                              );
+                              setState(() {});
+                            },
+                            current: isRu,
+                            values: const [true, false],
                           ),
-                          context: context,
-                          data: settingsData[index],
-                          isLastItem: index == settingsData.length - 1,
-                          onTap: () => _handleNavTap(context, index),
-                        );
-                      },
+                        ),
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          itemCount: settingsData.length,
+                          itemBuilder: (context, index) {
+                            return _buildNavItem(
+                              context: context,
+                              data: settingsData[index],
+                              isLastItem: index == settingsData.length - 1,
+                              onTap: () => _handleNavTap(context, index),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ),
+                  // child:
                 ],
               ),
             ),
             Expanded(
-              flex: 1,
               child: Center(
                 child: Text(
                   "Version: Test",
@@ -126,7 +132,6 @@ class _SettingPageState extends State<SettingPage> {
     required Map<String, dynamic> data,
     required bool isLastItem,
     required VoidCallback onTap,
-    required Widget widget,
   }) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Column(
@@ -139,7 +144,6 @@ class _SettingPageState extends State<SettingPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(data['title'], style: fonts.regularLink),
-                  widget
                 ],
               ),
               trailing: icons.right.svg(
