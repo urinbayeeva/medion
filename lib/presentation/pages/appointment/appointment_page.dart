@@ -201,7 +201,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       .toList(),
                 ),
               ),
-              20.h.verticalSpace,
+              18.h.verticalSpace,
             ],
           ),
         ));
