@@ -12,6 +12,7 @@ class DoctorAppointmentWidget extends StatefulWidget {
   final List<Map<String, dynamic>> schedules;
   final int? serviceId;
   final String? serviceName;
+  final String? companyID;
   final Function(Map<String, String>? appointment)? onAppointmentSelected;
 
   const DoctorAppointmentWidget({
@@ -20,7 +21,7 @@ class DoctorAppointmentWidget extends StatefulWidget {
     required this.schedules,
     required this.serviceId,
     this.serviceName,
-    this.onAppointmentSelected,
+    this.onAppointmentSelected, this.companyID,
   });
 
   @override
@@ -43,7 +44,9 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             "doctorPhoto": widget.doctor.name ?? "",
             "price" : widget.doctor.price.toString(),
             "location" : widget.doctor.location,
-            "specialty" : widget.doctor.specialty
+            "specialty" : widget.doctor.specialty,
+            "doctorID" : widget.doctor.id.toString(),
+            "companyID" : widget.companyID!
           };
 
     if (newAppointment != null) {

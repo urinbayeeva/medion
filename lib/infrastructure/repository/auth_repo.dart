@@ -191,32 +191,36 @@ class AuthRepository implements IAuthFacade {
   }
 
   /// Get patient information
-  @override
-  Future<Either<ResponseFailure, PatientInfo>> getPatientInfo({
-    required String accessToken,
-  }) async {
-    try {
-      if (accessToken.isEmpty) {
-        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
-      }
+@override
+Future<Either<ResponseFailure, PatientInfo>> getPatientInfo() async {
+  try {
 
-      final authHeader = "Bearer $accessToken";
-
-      final res = await _patientService.getPatientInfo(authHeader);
-
-      if (res.isSuccessful && res.body != null) {
-        return right(res.body!);
-      } else {
-        return left(InvalidCredentials(
-          message:
-              'Failed to fetch patient info: ${res.statusCode}, ${res.body.toString()}',
-        ));
-      }
-    } catch (e) {
-      LogService.e(" ----> error fetching patient info: ${e.toString()}");
-      return left(handleError(e));
+    final token = _dbService.token.toBearerToken; 
+    
+    if (token == null || token.isEmpty) {
+      return left(InvalidCredentials(message: 'invalid_credential'.tr()));
     }
+
+    final res = await _patientService.getPatientInfo(token);
+
+    if (res.isSuccessful && res.body != null) {
+
+      LogService.d('Response Status: ${res.statusCode}');
+      LogService.d('Response Body: ${res.body}');
+
+      return right(res.body!);
+      
+    } else {
+      return left(InvalidCredentials(
+        message:
+            'Failed to fetch patient info: ${res.statusCode}, ${res.body.toString()}',
+      ));
+    }
+  } catch (e) {
+    LogService.e(" ----> error fetching patient info: ${e.toString()}");
+    return left(handleError(e));
   }
+}
 
   @override
   Future<Either<ResponseFailure, SuccessModel>> postPatientPhoto({

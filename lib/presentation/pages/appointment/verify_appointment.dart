@@ -39,7 +39,7 @@ class VerifyAppointment extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 16.w),
+                    padding:  EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                     child: Column(
                       children: selectedList.map((appointment) => _buildAppointmentItem(
                         appointment,
@@ -84,6 +84,7 @@ class VerifyAppointment extends StatelessWidget {
     BuildContext context
   ) {
     return VerifyAppointmentItem(
+      hasImage: true,
       diagnosis: appointment['serviceName'] ?? '',
       procedure: appointment['specialty'] ?? '',
       doctorName: 'Dr. ${appointment['doctorName']}',

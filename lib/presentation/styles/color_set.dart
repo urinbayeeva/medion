@@ -85,15 +85,12 @@ class CustomColorSet {
   final Color darkMode900;
   final Color med1BoxColor;
 
-  // final LinearGradient grey;
-  // final LinearGradient red;
-  // final LinearGradient texture;
 
-  // final List<BoxShadow> shadowS;
-  // final List<BoxShadow> shadowM;
-  // final List<BoxShadow> shadowMM;
-  // final List<BoxShadow> shadowSSSS;
-  // final List<BoxShadow> shadowMMMM;
+  final List<BoxShadow> shadowS;
+  final List<BoxShadow> shadowM;
+  final List<BoxShadow> shadowMM;
+  final List<BoxShadow> shadowSSSS;
+  final List<BoxShadow> shadowMMMM;
 
   CustomColorSet._({
     required this.transparent,
@@ -180,15 +177,12 @@ class CustomColorSet {
     required this.darkMode800,
     required this.darkMode900,
     required this.iconGreyColor,
-    //
-    // required this.grey,
-    // required this.red,
-    // required this.texture,
-    // required this.shadowS,
-    // required this.shadowSSSS,
-    // required this.shadowM,
-    // required this.shadowMM,
-    // required this.shadowMMMM,
+ 
+    required this.shadowS,
+    required this.shadowSSSS,
+    required this.shadowM,
+    required this.shadowMM,
+    required this.shadowMMMM,
   });
 
   factory CustomColorSet._create(CustomThemeMode mode) {
@@ -276,15 +270,13 @@ class CustomColorSet {
     const darkMode900 = Style.darkMode900;
     const iconGreyColor = Style.iconGreyColor;
 
-    // const grey = Style.neutral100;
-    // const red = Style.error500;
-    // const texture = Style.primary100;
 
-    // const shadowS = Style.shadowS;
-    // const shadowSSSS = Style.shadowSSSS;
-    // const shadowM = Style.shadowM;
-    // const shadowMM = Style.shadowMM;
-    // const shadowMMMM = Style.shadowMMMM;
+
+    const shadowS = Style.shadowS;
+    const shadowSSSS = Style.shadowSSSS;
+    const shadowM = Style.shadowM;
+    const shadowMM = Style.shadowMM;
+    const shadowMMMM = Style.shadowMMMM;
 
     return CustomColorSet._(
       med1BoxColor: med1BoxColor,
@@ -370,15 +362,12 @@ class CustomColorSet {
       darkMode900: darkMode900, backgroundColor: backgroundColor,
       iconGreyColor: iconGreyColor,
       //
-      // grey: neutral900,
-      // red: red,
-      // texture: texture,
-      //
-      // shadowS: shadowS,
-      // shadowSSSS: shadowSSSS,
-      // shadowM: shadowM,
-      // shadowMM: shadowMM,
-      // shadowMMMM: shadowMMMM,
+
+      shadowS: shadowS,
+      shadowSSSS: shadowSSSS,
+      shadowM: shadowM,
+      shadowMM: shadowMM,
+      shadowMMMM: shadowMMMM, 
     );
   }
 

@@ -304,3 +304,4 @@ abstract class CreatePatientBookingReq implements Built<CreatePatientBookingReq,
 
   factory CreatePatientBookingReq([void Function(CreatePatientBookingReqBuilder) updates]) = _$CreatePatientBookingReq;
 }
+

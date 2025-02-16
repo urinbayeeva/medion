@@ -1,9 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/domain/sources/screen_title.dart';
+import 'package:medion/infrastructure/apis/apis.dart';
+import 'package:medion/infrastructure/repository/auth_repo.dart';
+import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_progress_bar.dart';
@@ -70,7 +75,15 @@ class _AppointmentPageState extends State<AppointmentPage> {
           "Fourth Service",
           AddAppointmentScreenType.fourthService),
       _AddAppointmentUseCaseModel(
-          const PaymentPage(), "Payment", AddAppointmentScreenType.payment),
+                BlocProvider(
+          create: (context) {
+            DBService dbService = context.read<DBService>();
+            return AuthBloc(
+                AuthRepository(dbService, AuthService.create(dbService),
+                    PatientService.create(dbService)),
+                dbService,   );
+          },
+          child: const PaymentPage()), "Payment", AddAppointmentScreenType.payment),
     ];
     canPop = false;
   }

@@ -21,6 +21,7 @@ import 'package:medion/infrastructure/services/alice/model/alice_configuration.d
 import 'package:medion/infrastructure/services/alice/alice.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/un_focus_widget.dart';
+import 'package:medion/presentation/pages/appointment/payment_page.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => TimeSelectionProvider()),
           ChangeNotifierProvider(create: (_) => CurrencyChangeProvider()),
           BlocProvider(
+            child: PaymentPage(),
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
@@ -64,6 +66,7 @@ class MyApp extends StatelessWidget {
                     PatientService.create(dbService)),
                 dbService,
               );
+              
             },
           ),
           BlocProvider(

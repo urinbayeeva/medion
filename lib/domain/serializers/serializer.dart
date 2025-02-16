@@ -53,7 +53,9 @@ part 'serializer.g.dart';
   ThirdBookingDoctor,
   ThirdBookingCompanyDoctor,
   ThirdBookingService,
-  CreatePatientBookingReq
+  CreatePatientBookingReq,
+
+
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

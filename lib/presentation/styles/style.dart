@@ -352,6 +352,137 @@ class Style {
     );
   }
 
+  static const LinearGradient grey = LinearGradient(
+    colors: [
+      Color(0xFF313131),
+      Color(0xFF1F1F20),
+    ],
+    begin: Alignment(.99, 1.1),
+    end: Alignment(.02, -.1),
+  );
+
+  static const LinearGradient red = LinearGradient(
+    colors: [
+      Color(0xFFCE2F2B),
+      Color(0xFFA02924),
+    ],
+    begin: Alignment(.97, .03),
+    end: Alignment(.06, .98),
+  );
+
+  static const LinearGradient texture = LinearGradient(
+    colors: [
+      Color(0xFFFFFFFF),
+      Color(0xFF1C0C07),
+    ],
+    begin: Alignment(.57, 0),
+    end: Alignment(.57, 1.87),
+  );
+
+
+
+  static TextStyle regular24({double size = 24, Color color = primary900}) {
+    return TextStyle(
+      fontSize: size,
+      color: color,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'NunitoSans',
+    );
+  }
+
+  static const List<BoxShadow> shadowS = [
+    BoxShadow(
+      offset: Offset(0, 6.43),
+      blurRadius: 33.56,
+      spreadRadius: 0,
+      color: Color(0x12141415),
+    ),
+  ];
+
+  static const List<BoxShadow> shadowSSSS = [
+    BoxShadow(
+      offset: Offset(0, 0.97),
+      blurRadius: 5.04,
+      spreadRadius: 0,
+      color: Color(0x03141415),
+    ),
+    BoxShadow(
+      offset: Offset(0, 2.67),
+      blurRadius: 13.94,
+      spreadRadius: 0,
+      color: Color(0x03141415),
+    ),
+    BoxShadow(
+      offset: Offset(0, 6.43),
+      blurRadius: 33.56,
+      spreadRadius: 0,
+      color: Color(0x02141415),
+    ),
+    BoxShadow(
+      offset: Offset(0, 18.95),
+      blurRadius: 100,
+      spreadRadius: 0,
+      color: Color(0x01141415),
+    ),
+  ];
+
+  static const List<BoxShadow> shadowM = [
+    BoxShadow(
+      offset: Offset(0, .97),
+      blurRadius: 5.04,
+      spreadRadius: 0,
+      color: Color(0x08141415),
+    ),
+    BoxShadow(
+      offset: Offset(0, 2.67),
+      blurRadius: 13.94,
+      spreadRadius: 0,
+      color: Color(0x12141415),
+    ),
+  ];
+
+  static const List<BoxShadow> shadowMM = [
+    BoxShadow(
+      offset: Offset(0, .97),
+      blurRadius: 5.04,
+      spreadRadius: 0,
+      color: Color(0x08141415),
+    ),
+    BoxShadow(
+      offset: Offset(0, 2.67),
+      blurRadius: 13.94,
+      spreadRadius: 0,
+      color: Color(0x06141415),
+    ),
+  ];
+
+  static const List<BoxShadow> shadowMMMM = [
+    BoxShadow(
+      offset: Offset(0, .97),
+      blurRadius: 5.04,
+      spreadRadius: 0,
+      color: Color(0x08141415),
+    ),
+    BoxShadow(
+      offset: Offset(0, 2.67),
+      blurRadius: 13.94,
+      spreadRadius: 0,
+      color: Color(0x06141415),
+    ),
+    BoxShadow(
+      offset: Offset(0, 6.43),
+      blurRadius: 33.56,
+      spreadRadius: 0,
+      color: Color(0x04141415),
+    ),
+    BoxShadow(
+      offset: Offset(0, 18.95),
+      blurRadius: 111.32,
+      spreadRadius: 0,
+      color: Color(0x03141415),
+    ),
+  ];
+
   static const SystemUiOverlayStyle light = SystemUiOverlayStyle(
     systemNavigationBarColor: shade0,
     systemNavigationBarIconBrightness: Brightness.light,

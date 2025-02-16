@@ -29,9 +29,7 @@ abstract class IAuthFacade {
   });
 
   /// Get patient information
-  Future<Either<ResponseFailure, PatientInfo>> getPatientInfo({
-    required String accessToken,
-  });
+  Future<Either<ResponseFailure, PatientInfo>> getPatientInfo();
 
   /// Post patient photo
   Future<Either<ResponseFailure, SuccessModel>> postPatientPhoto({

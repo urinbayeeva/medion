@@ -107,6 +107,7 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                                           doctor: doctor,
                                           schedules: doctor.schedules,
                                           serviceId: service.serviceId,
+                                          companyID: service.companiesDoctors.first.companyId.toString(),
                                           onAppointmentSelected: (appointment) {
                                             if (appointment != null) {
                                               addAppointment(appointment);

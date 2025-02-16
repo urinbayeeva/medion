@@ -36,19 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {});
     }
 
-    try {
-      final dbService = await DBService.create;
-      final accessToken = dbService.token.accessToken;
 
-      if (accessToken != null && accessToken.isNotEmpty) {
-        context
-            .read<AuthBloc>()
-            .add(AuthEvent.fetchPatientInfo(accessToken: accessToken));
-      } else {}
-    // ignore: empty_catches
-    } catch (e) {
-      
-    }
   }
 
   @override

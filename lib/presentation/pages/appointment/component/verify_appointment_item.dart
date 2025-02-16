@@ -13,6 +13,7 @@ class VerifyAppointmentItem extends StatelessWidget {
   final String location;
   final String imagePath;
   final VoidCallback onCancel;
+  final bool? hasImage;
 
   const VerifyAppointmentItem({
     Key? key,
@@ -23,7 +24,7 @@ class VerifyAppointmentItem extends StatelessWidget {
     required this.appointmentTime,
     required this.location,
     required this.imagePath,
-    required this.onCancel,
+    required this.onCancel, this.hasImage,
   }) : super(key: key);
 
   @override
@@ -39,22 +40,25 @@ class VerifyAppointmentItem extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: 80.w, // Fixed width for image container
-              height: 80.w, // Square aspect ratio
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.r),
-                  color: colors.neutral200,
-                ),
-                child: imagePath.isEmpty
-                    ? icons.nonUser.svg()
-                    : Image.asset(
-                        imagePath,
-                        fit: BoxFit.cover,
-                      ),
-              ),
+          if (hasImage ?? false) ...[
+  SizedBox(
+    width: 80.w, 
+    height: 80.w, 
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.r),
+        color: colors.neutral200,
+      ),
+      child: imagePath.isEmpty
+          ? icons.nonUser.svg()
+          : Image.asset(
+              imagePath,
+              fit: BoxFit.cover,
             ),
+    ),
+  ),
+],
+
             12.w.horizontalSpace,
             Expanded(
               flex: 6,

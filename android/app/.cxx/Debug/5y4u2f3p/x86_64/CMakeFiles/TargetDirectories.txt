@@ -1,0 +1,2 @@
+/Users/user/projects/medion/android/app/.cxx/Debug/5y4u2f3p/x86_64/CMakeFiles/edit_cache.dir
+/Users/user/projects/medion/android/app/.cxx/Debug/5y4u2f3p/x86_64/CMakeFiles/rebuild_cache.dir
