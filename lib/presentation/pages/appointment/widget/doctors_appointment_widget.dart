@@ -24,6 +24,7 @@ class DoctorAppointmentWidget extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _DoctorAppointmentWidgetState createState() => _DoctorAppointmentWidgetState();
 }
 
@@ -40,6 +41,9 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             "serviceName": widget.serviceName!,
             "doctorName": widget.doctor.name,
             "doctorPhoto": widget.doctor.name ?? "",
+            "price" : widget.doctor.price.toString(),
+            "location" : widget.doctor.location,
+            "specialty" : widget.doctor.specialty
           };
 
     if (newAppointment != null) {

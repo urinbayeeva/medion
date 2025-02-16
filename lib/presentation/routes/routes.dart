@@ -115,7 +115,8 @@ class AppRoutes {
       List<String>? phoneNumbers}) {
     // AnalyticsService().analyzeScreenView('singUp');
     return MaterialPageRoute(
-        builder: (_) => BlocProvider(
+        builder: (_) =>
+         BlocProvider(
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(

@@ -69,6 +69,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (context) =>
                   HomeBloc(HomeRepository(HomePageService.create(dbService)))),
+                     BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc(AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService)), dbService),
+        ),
           BlocProvider(
               create: (context) => DoctorBloc(
                   DoctorRepository(DoctorService.create(dbService)))),
@@ -81,6 +84,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
               create: (_) => BottomNavBarController.create()),
           Provider<DBService>(create: (_) => dbService),
+
         ],
         child: OnUnFocusTap(
           child: BlocProvider<ProfileBloc>(

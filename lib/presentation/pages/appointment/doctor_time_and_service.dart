@@ -154,25 +154,25 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Display all selected appointments
-                            ...selectedList.map((selected) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Doctor: ${selected['doctorName']}",
-                                    style: fonts.smallMain,
-                                  ),
-                                  Text(
-                                    "Time: ${selected['time']}",
-                                    style: fonts.xSmallMain.copyWith(
-                                      color: colors.neutral500,
-                                    ),
-                                  ),
-                                  CDivider(), // Add a divider between appointments
-                                ],
-                              );
-                            }).toList(),
-                            8.h.verticalSpace,
+                            // ...selectedList.map((selected) {
+                            //   return Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: [
+                            //       Text(
+                            //         "Doctor: ${selected['doctorName']}",
+                            //         style: fonts.smallMain,
+                            //       ),
+                            //       Text(
+                            //         "Time: ${selected['time']}",
+                            //         style: fonts.xSmallMain.copyWith(
+                            //           color: colors.neutral500,
+                            //         ),
+                            //       ),
+                            //       CDivider(), // Add a divider between appointments
+                            //     ],
+                            //   );
+                            // }).toList(),
+                            // 8.h.verticalSpace,
                             CButton(
                               title: 'next'.tr(),
                               onTap: widget.onTap,
