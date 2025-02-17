@@ -7,6 +7,7 @@ part of 'profile_model.dart';
 // **************************************************************************
 
 Serializer<PatientInfo> _$patientInfoSerializer = new _$PatientInfoSerializer();
+Serializer<VisitModel> _$visitModelSerializer = new _$VisitModelSerializer();
 
 class _$PatientInfoSerializer implements StructuredSerializer<PatientInfo> {
   @override
@@ -130,6 +131,102 @@ class _$PatientInfoSerializer implements StructuredSerializer<PatientInfo> {
         case 'patient_balance':
           result.patientBalance = serializers.deserialize(value,
               specifiedType: const FullType(double)) as double?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$VisitModelSerializer implements StructuredSerializer<VisitModel> {
+  @override
+  final Iterable<Type> types = const [VisitModel, _$VisitModel];
+  @override
+  final String wireName = 'VisitModel';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, VisitModel object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'image',
+      serializers.serialize(object.image,
+          specifiedType: const FullType(String)),
+      'doctor_full_name',
+      serializers.serialize(object.doctorFullName,
+          specifiedType: const FullType(String)),
+      'doctor_job_name',
+      serializers.serialize(object.doctorJobName,
+          specifiedType: const FullType(String)),
+      'category_name',
+      serializers.serialize(object.categoryName,
+          specifiedType: const FullType(String)),
+      'service_name',
+      serializers.serialize(object.serviceName,
+          specifiedType: const FullType(String)),
+      'visit_date',
+      serializers.serialize(object.visitDate,
+          specifiedType: const FullType(String)),
+      'visit_time',
+      serializers.serialize(object.visitTime,
+          specifiedType: const FullType(String)),
+      'visit_status',
+      serializers.serialize(object.visitStatus,
+          specifiedType: const FullType(String)),
+      'week_index',
+      serializers.serialize(object.weekIndex,
+          specifiedType: const FullType(int)),
+    ];
+
+    return result;
+  }
+
+  @override
+  VisitModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new VisitModelBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'image':
+          result.image = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'doctor_full_name':
+          result.doctorFullName = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'doctor_job_name':
+          result.doctorJobName = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'category_name':
+          result.categoryName = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'service_name':
+          result.serviceName = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'visit_date':
+          result.visitDate = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'visit_time':
+          result.visitTime = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'visit_status':
+          result.visitStatus = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'week_index':
+          result.weekIndex = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
       }
     }
@@ -312,6 +409,214 @@ class PatientInfoBuilder implements Builder<PatientInfo, PatientInfoBuilder> {
           dateOfBirth: dateOfBirth,
           phoneNumber: phoneNumber,
           patientBalance: patientBalance,
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$VisitModel extends VisitModel {
+  @override
+  final String image;
+  @override
+  final String doctorFullName;
+  @override
+  final String doctorJobName;
+  @override
+  final String categoryName;
+  @override
+  final String serviceName;
+  @override
+  final String visitDate;
+  @override
+  final String visitTime;
+  @override
+  final String visitStatus;
+  @override
+  final int weekIndex;
+
+  factory _$VisitModel([void Function(VisitModelBuilder)? updates]) =>
+      (new VisitModelBuilder()..update(updates))._build();
+
+  _$VisitModel._(
+      {required this.image,
+      required this.doctorFullName,
+      required this.doctorJobName,
+      required this.categoryName,
+      required this.serviceName,
+      required this.visitDate,
+      required this.visitTime,
+      required this.visitStatus,
+      required this.weekIndex})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(image, r'VisitModel', 'image');
+    BuiltValueNullFieldError.checkNotNull(
+        doctorFullName, r'VisitModel', 'doctorFullName');
+    BuiltValueNullFieldError.checkNotNull(
+        doctorJobName, r'VisitModel', 'doctorJobName');
+    BuiltValueNullFieldError.checkNotNull(
+        categoryName, r'VisitModel', 'categoryName');
+    BuiltValueNullFieldError.checkNotNull(
+        serviceName, r'VisitModel', 'serviceName');
+    BuiltValueNullFieldError.checkNotNull(
+        visitDate, r'VisitModel', 'visitDate');
+    BuiltValueNullFieldError.checkNotNull(
+        visitTime, r'VisitModel', 'visitTime');
+    BuiltValueNullFieldError.checkNotNull(
+        visitStatus, r'VisitModel', 'visitStatus');
+    BuiltValueNullFieldError.checkNotNull(
+        weekIndex, r'VisitModel', 'weekIndex');
+  }
+
+  @override
+  VisitModel rebuild(void Function(VisitModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  VisitModelBuilder toBuilder() => new VisitModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is VisitModel &&
+        image == other.image &&
+        doctorFullName == other.doctorFullName &&
+        doctorJobName == other.doctorJobName &&
+        categoryName == other.categoryName &&
+        serviceName == other.serviceName &&
+        visitDate == other.visitDate &&
+        visitTime == other.visitTime &&
+        visitStatus == other.visitStatus &&
+        weekIndex == other.weekIndex;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, image.hashCode);
+    _$hash = $jc(_$hash, doctorFullName.hashCode);
+    _$hash = $jc(_$hash, doctorJobName.hashCode);
+    _$hash = $jc(_$hash, categoryName.hashCode);
+    _$hash = $jc(_$hash, serviceName.hashCode);
+    _$hash = $jc(_$hash, visitDate.hashCode);
+    _$hash = $jc(_$hash, visitTime.hashCode);
+    _$hash = $jc(_$hash, visitStatus.hashCode);
+    _$hash = $jc(_$hash, weekIndex.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'VisitModel')
+          ..add('image', image)
+          ..add('doctorFullName', doctorFullName)
+          ..add('doctorJobName', doctorJobName)
+          ..add('categoryName', categoryName)
+          ..add('serviceName', serviceName)
+          ..add('visitDate', visitDate)
+          ..add('visitTime', visitTime)
+          ..add('visitStatus', visitStatus)
+          ..add('weekIndex', weekIndex))
+        .toString();
+  }
+}
+
+class VisitModelBuilder implements Builder<VisitModel, VisitModelBuilder> {
+  _$VisitModel? _$v;
+
+  String? _image;
+  String? get image => _$this._image;
+  set image(String? image) => _$this._image = image;
+
+  String? _doctorFullName;
+  String? get doctorFullName => _$this._doctorFullName;
+  set doctorFullName(String? doctorFullName) =>
+      _$this._doctorFullName = doctorFullName;
+
+  String? _doctorJobName;
+  String? get doctorJobName => _$this._doctorJobName;
+  set doctorJobName(String? doctorJobName) =>
+      _$this._doctorJobName = doctorJobName;
+
+  String? _categoryName;
+  String? get categoryName => _$this._categoryName;
+  set categoryName(String? categoryName) => _$this._categoryName = categoryName;
+
+  String? _serviceName;
+  String? get serviceName => _$this._serviceName;
+  set serviceName(String? serviceName) => _$this._serviceName = serviceName;
+
+  String? _visitDate;
+  String? get visitDate => _$this._visitDate;
+  set visitDate(String? visitDate) => _$this._visitDate = visitDate;
+
+  String? _visitTime;
+  String? get visitTime => _$this._visitTime;
+  set visitTime(String? visitTime) => _$this._visitTime = visitTime;
+
+  String? _visitStatus;
+  String? get visitStatus => _$this._visitStatus;
+  set visitStatus(String? visitStatus) => _$this._visitStatus = visitStatus;
+
+  int? _weekIndex;
+  int? get weekIndex => _$this._weekIndex;
+  set weekIndex(int? weekIndex) => _$this._weekIndex = weekIndex;
+
+  VisitModelBuilder();
+
+  VisitModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _image = $v.image;
+      _doctorFullName = $v.doctorFullName;
+      _doctorJobName = $v.doctorJobName;
+      _categoryName = $v.categoryName;
+      _serviceName = $v.serviceName;
+      _visitDate = $v.visitDate;
+      _visitTime = $v.visitTime;
+      _visitStatus = $v.visitStatus;
+      _weekIndex = $v.weekIndex;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(VisitModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$VisitModel;
+  }
+
+  @override
+  void update(void Function(VisitModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  VisitModel build() => _build();
+
+  _$VisitModel _build() {
+    final _$result = _$v ??
+        new _$VisitModel._(
+          image: BuiltValueNullFieldError.checkNotNull(
+              image, r'VisitModel', 'image'),
+          doctorFullName: BuiltValueNullFieldError.checkNotNull(
+              doctorFullName, r'VisitModel', 'doctorFullName'),
+          doctorJobName: BuiltValueNullFieldError.checkNotNull(
+              doctorJobName, r'VisitModel', 'doctorJobName'),
+          categoryName: BuiltValueNullFieldError.checkNotNull(
+              categoryName, r'VisitModel', 'categoryName'),
+          serviceName: BuiltValueNullFieldError.checkNotNull(
+              serviceName, r'VisitModel', 'serviceName'),
+          visitDate: BuiltValueNullFieldError.checkNotNull(
+              visitDate, r'VisitModel', 'visitDate'),
+          visitTime: BuiltValueNullFieldError.checkNotNull(
+              visitTime, r'VisitModel', 'visitTime'),
+          visitStatus: BuiltValueNullFieldError.checkNotNull(
+              visitStatus, r'VisitModel', 'visitStatus'),
+          weekIndex: BuiltValueNullFieldError.checkNotNull(
+              weekIndex, r'VisitModel', 'weekIndex'),
         );
     replace(_$result);
     return _$result;

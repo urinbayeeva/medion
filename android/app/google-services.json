@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "952459852570",
+    "firebase_url": "https://real-learn-default-rtdb.firebaseio.com",
+    "project_id": "real-learn",
+    "storage_bucket": "real-learn.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952459852570:android:f83b5024d0903ddda0caa3",
+        "android_client_info": {
+          "package_name": "com.example.real_base_cloud"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5tV0PQJgLwg4TojZaHS_seHxwOzhvghc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952459852570:android:99208df29bf51891a0caa3",
+        "android_client_info": {
+          "package_name": "com.medion.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5tV0PQJgLwg4TojZaHS_seHxwOzhvghc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

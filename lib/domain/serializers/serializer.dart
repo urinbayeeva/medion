@@ -54,6 +54,7 @@ part 'serializer.g.dart';
   ThirdBookingCompanyDoctor,
   ThirdBookingService,
   CreatePatientBookingReq,
+  PatientInfo
 
 
 ])

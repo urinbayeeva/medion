@@ -265,10 +265,10 @@ final class _$PatientService extends PatientService {
   final Type definitionType = PatientService;
 
   @override
-  Future<Response<PatientInfo>> getPatientInfo(String requires) {
+  Future<Response<PatientInfo>> getPatientInfo() {
     final Uri $url = Uri.parse('/profile/patient_info');
     final Map<String, String> $headers = {
-      'Authorization': requires,
+      'requires-token': 'true',
     };
     final Request $request = Request(
       'GET',
@@ -291,5 +291,20 @@ final class _$PatientService extends PatientService {
       body: $body,
     );
     return client.send<SuccessModel, SuccessModel>($request);
+  }
+
+  @override
+  Future<Response<VisitModel>> getPatientVisitsMobile() {
+    final Uri $url = Uri.parse('/profile/patient_visits_mobile');
+    final Map<String, String> $headers = {
+      'requires-token': 'true',
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      headers: $headers,
+    );
+    return client.send<VisitModel, VisitModel>($request);
   }
 }

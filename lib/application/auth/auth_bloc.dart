@@ -31,6 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_SendPhoneNumber>(_sendPhoneNumberHandler);
     on<_SendUserInfo>(_sendUserInfoHandler);
     on<_FetchPatientInfo>(_fetchPatientInfoHandler);
+      on<_FetchPatientVisits>(_fetchPatientVisitsHandler); 
   }
 
   /// Authentication Check
@@ -43,6 +44,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
       (error) {
         return emit(state.copyWith(proceedToHome: false));
+      },
+    );
+  }
+
+   FutureOr<void> _fetchPatientVisitsHandler(
+    _FetchPatientVisits event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(isLoadingVisits: true, errorFetchingVisits: false));
+
+    // Fetch the patient visits
+    final result = await _repository.getPatientVisits();
+
+    result.fold(
+      (failure) {
+        LogService.e(" ----> error fetching patient visits: $failure");
+        emit(state.copyWith(isLoadingVisits: false, errorFetchingVisits: true));
+      },
+      (visits) {
+        emit(state.copyWith(
+          isLoadingVisits: false,
+          errorFetchingVisits: false,
+          patientVisits: visits,
+        ));
       },
     );
   }
@@ -108,20 +133,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
-  /// Fetch patient information
   FutureOr<void> _fetchPatientInfoHandler(
     _FetchPatientInfo event,
     Emitter<AuthState> emit,
   ) async {
-   
-
+    // Emit loading state
     emit(state.copyWith(
-        isFetchingPatientInfo: true, errorFetchingPatientInfo: false));
+      isFetchingPatientInfo: true,
+      errorFetchingPatientInfo: false,
+    ));
 
-    final res = await _repository.getPatientInfo(
-      );
+    // Call the repository method (token is injected by the interceptor)
+    final res = await _repository.getPatientInfo();
 
-    // Handle the result
+    // Process the result using fold (Either)
     res.fold(
       (error) {
         LogService.e(" ----> error fetching patient info: $error");

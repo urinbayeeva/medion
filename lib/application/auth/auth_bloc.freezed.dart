@@ -22,8 +22,9 @@ mixin _$AuthEvent {
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
-    required TResult Function(String accessToken) fetchPatientInfo,
+    required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -32,8 +33,9 @@ mixin _$AuthEvent {
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
-    TResult? Function(String accessToken)? fetchPatientInfo,
+    TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -42,8 +44,9 @@ mixin _$AuthEvent {
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
-    TResult Function(String accessToken)? fetchPatientInfo,
+    TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -55,6 +58,7 @@ mixin _$AuthEvent {
     required TResult Function(_SendUserInfo value) sendUserInfo,
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,6 +69,7 @@ mixin _$AuthEvent {
     TResult? Function(_SendUserInfo value)? sendUserInfo,
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -75,6 +80,7 @@ mixin _$AuthEvent {
     TResult Function(_SendUserInfo value)? sendUserInfo,
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -145,8 +151,9 @@ class _$CheckAuthImpl implements _CheckAuth {
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
-    required TResult Function(String accessToken) fetchPatientInfo,
+    required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
   }) {
     return checkAuth();
   }
@@ -158,8 +165,9 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
-    TResult? Function(String accessToken)? fetchPatientInfo,
+    TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
   }) {
     return checkAuth?.call();
   }
@@ -171,8 +179,9 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
-    TResult Function(String accessToken)? fetchPatientInfo,
+    TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
     required TResult orElse(),
   }) {
     if (checkAuth != null) {
@@ -190,6 +199,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     required TResult Function(_SendUserInfo value) sendUserInfo,
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
   }) {
     return checkAuth(this);
   }
@@ -203,6 +213,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult? Function(_SendUserInfo value)? sendUserInfo,
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
   }) {
     return checkAuth?.call(this);
   }
@@ -216,6 +227,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult Function(_SendUserInfo value)? sendUserInfo,
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     required TResult orElse(),
   }) {
     if (checkAuth != null) {
@@ -302,8 +314,9 @@ class _$VerificationSendImpl implements _VerificationSend {
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
-    required TResult Function(String accessToken) fetchPatientInfo,
+    required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
   }) {
     return verificationSend(request);
   }
@@ -315,8 +328,9 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
-    TResult? Function(String accessToken)? fetchPatientInfo,
+    TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
   }) {
     return verificationSend?.call(request);
   }
@@ -328,8 +342,9 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
-    TResult Function(String accessToken)? fetchPatientInfo,
+    TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
     required TResult orElse(),
   }) {
     if (verificationSend != null) {
@@ -347,6 +362,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     required TResult Function(_SendUserInfo value) sendUserInfo,
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
   }) {
     return verificationSend(this);
   }
@@ -360,6 +376,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult? Function(_SendUserInfo value)? sendUserInfo,
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
   }) {
     return verificationSend?.call(this);
   }
@@ -373,6 +390,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult Function(_SendUserInfo value)? sendUserInfo,
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     required TResult orElse(),
   }) {
     if (verificationSend != null) {
@@ -468,8 +486,9 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
-    required TResult Function(String accessToken) fetchPatientInfo,
+    required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
   }) {
     return sendPhoneNumber(request);
   }
@@ -481,8 +500,9 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
-    TResult? Function(String accessToken)? fetchPatientInfo,
+    TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
   }) {
     return sendPhoneNumber?.call(request);
   }
@@ -494,8 +514,9 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
-    TResult Function(String accessToken)? fetchPatientInfo,
+    TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
     required TResult orElse(),
   }) {
     if (sendPhoneNumber != null) {
@@ -513,6 +534,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     required TResult Function(_SendUserInfo value) sendUserInfo,
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
   }) {
     return sendPhoneNumber(this);
   }
@@ -526,6 +548,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult? Function(_SendUserInfo value)? sendUserInfo,
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
   }) {
     return sendPhoneNumber?.call(this);
   }
@@ -539,6 +562,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult Function(_SendUserInfo value)? sendUserInfo,
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     required TResult orElse(),
   }) {
     if (sendPhoneNumber != null) {
@@ -633,8 +657,9 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
-    required TResult Function(String accessToken) fetchPatientInfo,
+    required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
   }) {
     return sendUserInfo(request);
   }
@@ -646,8 +671,9 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
-    TResult? Function(String accessToken)? fetchPatientInfo,
+    TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
   }) {
     return sendUserInfo?.call(request);
   }
@@ -659,8 +685,9 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
-    TResult Function(String accessToken)? fetchPatientInfo,
+    TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
     required TResult orElse(),
   }) {
     if (sendUserInfo != null) {
@@ -678,6 +705,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     required TResult Function(_SendUserInfo value) sendUserInfo,
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
   }) {
     return sendUserInfo(this);
   }
@@ -691,6 +719,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult? Function(_SendUserInfo value)? sendUserInfo,
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
   }) {
     return sendUserInfo?.call(this);
   }
@@ -704,6 +733,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult Function(_SendUserInfo value)? sendUserInfo,
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     required TResult orElse(),
   }) {
     if (sendUserInfo != null) {
@@ -731,8 +761,6 @@ abstract class _$$FetchPatientInfoImplCopyWith<$Res> {
   factory _$$FetchPatientInfoImplCopyWith(_$FetchPatientInfoImpl value,
           $Res Function(_$FetchPatientInfoImpl) then) =
       __$$FetchPatientInfoImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String accessToken});
 }
 
 /// @nodoc
@@ -745,53 +773,26 @@ class __$$FetchPatientInfoImplCopyWithImpl<$Res>
 
   /// Create a copy of AuthEvent
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? accessToken = null,
-  }) {
-    return _then(_$FetchPatientInfoImpl(
-      accessToken: null == accessToken
-          ? _value.accessToken
-          : accessToken // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$FetchPatientInfoImpl implements _FetchPatientInfo {
-  const _$FetchPatientInfoImpl({required this.accessToken});
-
-  @override
-  final String accessToken;
+  const _$FetchPatientInfoImpl();
 
   @override
   String toString() {
-    return 'AuthEvent.fetchPatientInfo(accessToken: $accessToken)';
+    return 'AuthEvent.fetchPatientInfo()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$FetchPatientInfoImpl &&
-            (identical(other.accessToken, accessToken) ||
-                other.accessToken == accessToken));
+        (other.runtimeType == runtimeType && other is _$FetchPatientInfoImpl);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, accessToken);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$FetchPatientInfoImplCopyWith<_$FetchPatientInfoImpl> get copyWith =>
-      __$$FetchPatientInfoImplCopyWithImpl<_$FetchPatientInfoImpl>(
-          this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
@@ -800,10 +801,11 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
-    required TResult Function(String accessToken) fetchPatientInfo,
+    required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
   }) {
-    return fetchPatientInfo(accessToken);
+    return fetchPatientInfo();
   }
 
   @override
@@ -813,10 +815,11 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
-    TResult? Function(String accessToken)? fetchPatientInfo,
+    TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
   }) {
-    return fetchPatientInfo?.call(accessToken);
+    return fetchPatientInfo?.call();
   }
 
   @override
@@ -826,12 +829,13 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
-    TResult Function(String accessToken)? fetchPatientInfo,
+    TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
     required TResult orElse(),
   }) {
     if (fetchPatientInfo != null) {
-      return fetchPatientInfo(accessToken);
+      return fetchPatientInfo();
     }
     return orElse();
   }
@@ -845,6 +849,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     required TResult Function(_SendUserInfo value) sendUserInfo,
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
   }) {
     return fetchPatientInfo(this);
   }
@@ -858,6 +863,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult? Function(_SendUserInfo value)? sendUserInfo,
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
   }) {
     return fetchPatientInfo?.call(this);
   }
@@ -871,6 +877,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult Function(_SendUserInfo value)? sendUserInfo,
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     required TResult orElse(),
   }) {
     if (fetchPatientInfo != null) {
@@ -881,16 +888,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
 }
 
 abstract class _FetchPatientInfo implements AuthEvent {
-  const factory _FetchPatientInfo({required final String accessToken}) =
-      _$FetchPatientInfoImpl;
-
-  String get accessToken;
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FetchPatientInfoImplCopyWith<_$FetchPatientInfoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory _FetchPatientInfo() = _$FetchPatientInfoImpl;
 }
 
 /// @nodoc
@@ -965,8 +963,9 @@ class _$PickImageImpl implements _PickImage {
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
-    required TResult Function(String accessToken) fetchPatientInfo,
+    required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
   }) {
     return pickImage(context);
   }
@@ -978,8 +977,9 @@ class _$PickImageImpl implements _PickImage {
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
-    TResult? Function(String accessToken)? fetchPatientInfo,
+    TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
   }) {
     return pickImage?.call(context);
   }
@@ -991,8 +991,9 @@ class _$PickImageImpl implements _PickImage {
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
-    TResult Function(String accessToken)? fetchPatientInfo,
+    TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
     required TResult orElse(),
   }) {
     if (pickImage != null) {
@@ -1010,6 +1011,7 @@ class _$PickImageImpl implements _PickImage {
     required TResult Function(_SendUserInfo value) sendUserInfo,
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
   }) {
     return pickImage(this);
   }
@@ -1023,6 +1025,7 @@ class _$PickImageImpl implements _PickImage {
     TResult? Function(_SendUserInfo value)? sendUserInfo,
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
   }) {
     return pickImage?.call(this);
   }
@@ -1036,6 +1039,7 @@ class _$PickImageImpl implements _PickImage {
     TResult Function(_SendUserInfo value)? sendUserInfo,
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     required TResult orElse(),
   }) {
     if (pickImage != null) {
@@ -1058,6 +1062,141 @@ abstract class _PickImage implements AuthEvent {
 }
 
 /// @nodoc
+abstract class _$$FetchPatientVisitsImplCopyWith<$Res> {
+  factory _$$FetchPatientVisitsImplCopyWith(_$FetchPatientVisitsImpl value,
+          $Res Function(_$FetchPatientVisitsImpl) then) =
+      __$$FetchPatientVisitsImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FetchPatientVisitsImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$FetchPatientVisitsImpl>
+    implements _$$FetchPatientVisitsImplCopyWith<$Res> {
+  __$$FetchPatientVisitsImplCopyWithImpl(_$FetchPatientVisitsImpl _value,
+      $Res Function(_$FetchPatientVisitsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
+  const _$FetchPatientVisitsImpl();
+
+  @override
+  String toString() {
+    return 'AuthEvent.fetchPatientVisits()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$FetchPatientVisitsImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() checkAuth,
+    required TResult Function(RegisterReq request) verificationSend,
+    required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
+    required TResult Function(CreateInfoReq request) sendUserInfo,
+    required TResult Function() fetchPatientInfo,
+    required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
+  }) {
+    return fetchPatientVisits();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? checkAuth,
+    TResult? Function(RegisterReq request)? verificationSend,
+    TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult? Function(CreateInfoReq request)? sendUserInfo,
+    TResult? Function()? fetchPatientInfo,
+    TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
+  }) {
+    return fetchPatientVisits?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? checkAuth,
+    TResult Function(RegisterReq request)? verificationSend,
+    TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult Function(CreateInfoReq request)? sendUserInfo,
+    TResult Function()? fetchPatientInfo,
+    TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
+    required TResult orElse(),
+  }) {
+    if (fetchPatientVisits != null) {
+      return fetchPatientVisits();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_VerificationSend value) verificationSend,
+    required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
+    required TResult Function(_SendUserInfo value) sendUserInfo,
+    required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
+    required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+  }) {
+    return fetchPatientVisits(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_VerificationSend value)? verificationSend,
+    TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult? Function(_SendUserInfo value)? sendUserInfo,
+    TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+  }) {
+    return fetchPatientVisits?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_VerificationSend value)? verificationSend,
+    TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult Function(_SendUserInfo value)? sendUserInfo,
+    TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    required TResult orElse(),
+  }) {
+    if (fetchPatientVisits != null) {
+      return fetchPatientVisits(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchPatientVisits implements AuthEvent {
+  const factory _FetchPatientVisits() = _$FetchPatientVisitsImpl;
+}
+
+/// @nodoc
 mixin _$AuthState {
   bool get proceedToHome => throw _privateConstructorUsedError;
   bool get proceedToLogin => throw _privateConstructorUsedError; //
@@ -1071,6 +1210,11 @@ mixin _$AuthState {
   bool get isFetchingPatientInfo => throw _privateConstructorUsedError;
   bool get errorFetchingPatientInfo => throw _privateConstructorUsedError;
   String? get pickedImagePath => throw _privateConstructorUsedError;
+  bool get isLoadingVisits =>
+      throw _privateConstructorUsedError; // Add isLoadingVisits
+  bool get errorFetchingVisits =>
+      throw _privateConstructorUsedError; // Add errorFetchingVisits
+  VisitModel? get patientVisits => throw _privateConstructorUsedError;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -1096,7 +1240,10 @@ abstract class $AuthStateCopyWith<$Res> {
       PatientInfo? patientInfo,
       bool isFetchingPatientInfo,
       bool errorFetchingPatientInfo,
-      String? pickedImagePath});
+      String? pickedImagePath,
+      bool isLoadingVisits,
+      bool errorFetchingVisits,
+      VisitModel? patientVisits});
 }
 
 /// @nodoc
@@ -1126,6 +1273,9 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? isFetchingPatientInfo = null,
     Object? errorFetchingPatientInfo = null,
     Object? pickedImagePath = freezed,
+    Object? isLoadingVisits = null,
+    Object? errorFetchingVisits = null,
+    Object? patientVisits = freezed,
   }) {
     return _then(_value.copyWith(
       proceedToHome: null == proceedToHome
@@ -1176,6 +1326,18 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.pickedImagePath
           : pickedImagePath // ignore: cast_nullable_to_non_nullable
               as String?,
+      isLoadingVisits: null == isLoadingVisits
+          ? _value.isLoadingVisits
+          : isLoadingVisits // ignore: cast_nullable_to_non_nullable
+              as bool,
+      errorFetchingVisits: null == errorFetchingVisits
+          ? _value.errorFetchingVisits
+          : errorFetchingVisits // ignore: cast_nullable_to_non_nullable
+              as bool,
+      patientVisits: freezed == patientVisits
+          ? _value.patientVisits
+          : patientVisits // ignore: cast_nullable_to_non_nullable
+              as VisitModel?,
     ) as $Val);
   }
 }
@@ -1200,7 +1362,10 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       PatientInfo? patientInfo,
       bool isFetchingPatientInfo,
       bool errorFetchingPatientInfo,
-      String? pickedImagePath});
+      String? pickedImagePath,
+      bool isLoadingVisits,
+      bool errorFetchingVisits,
+      VisitModel? patientVisits});
 }
 
 /// @nodoc
@@ -1228,6 +1393,9 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? isFetchingPatientInfo = null,
     Object? errorFetchingPatientInfo = null,
     Object? pickedImagePath = freezed,
+    Object? isLoadingVisits = null,
+    Object? errorFetchingVisits = null,
+    Object? patientVisits = freezed,
   }) {
     return _then(_$AuthStateImpl(
       proceedToHome: null == proceedToHome
@@ -1278,6 +1446,18 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.pickedImagePath
           : pickedImagePath // ignore: cast_nullable_to_non_nullable
               as String?,
+      isLoadingVisits: null == isLoadingVisits
+          ? _value.isLoadingVisits
+          : isLoadingVisits // ignore: cast_nullable_to_non_nullable
+              as bool,
+      errorFetchingVisits: null == errorFetchingVisits
+          ? _value.errorFetchingVisits
+          : errorFetchingVisits // ignore: cast_nullable_to_non_nullable
+              as bool,
+      patientVisits: freezed == patientVisits
+          ? _value.patientVisits
+          : patientVisits // ignore: cast_nullable_to_non_nullable
+              as VisitModel?,
     ));
   }
 }
@@ -1297,7 +1477,10 @@ class _$AuthStateImpl extends _AuthState {
       this.patientInfo = null,
       this.isFetchingPatientInfo = false,
       this.errorFetchingPatientInfo = false,
-      this.pickedImagePath = null})
+      this.pickedImagePath = null,
+      this.isLoadingVisits = false,
+      this.errorFetchingVisits = false,
+      this.patientVisits = null})
       : super._();
 
   @override
@@ -1337,10 +1520,21 @@ class _$AuthStateImpl extends _AuthState {
   @override
   @JsonKey()
   final String? pickedImagePath;
+  @override
+  @JsonKey()
+  final bool isLoadingVisits;
+// Add isLoadingVisits
+  @override
+  @JsonKey()
+  final bool errorFetchingVisits;
+// Add errorFetchingVisits
+  @override
+  @JsonKey()
+  final VisitModel? patientVisits;
 
   @override
   String toString() {
-    return 'AuthState(proceedToHome: $proceedToHome, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath)';
+    return 'AuthState(proceedToHome: $proceedToHome, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits)';
   }
 
   @override
@@ -1372,7 +1566,13 @@ class _$AuthStateImpl extends _AuthState {
                     other.errorFetchingPatientInfo, errorFetchingPatientInfo) ||
                 other.errorFetchingPatientInfo == errorFetchingPatientInfo) &&
             (identical(other.pickedImagePath, pickedImagePath) ||
-                other.pickedImagePath == pickedImagePath));
+                other.pickedImagePath == pickedImagePath) &&
+            (identical(other.isLoadingVisits, isLoadingVisits) ||
+                other.isLoadingVisits == isLoadingVisits) &&
+            (identical(other.errorFetchingVisits, errorFetchingVisits) ||
+                other.errorFetchingVisits == errorFetchingVisits) &&
+            (identical(other.patientVisits, patientVisits) ||
+                other.patientVisits == patientVisits));
   }
 
   @override
@@ -1389,7 +1589,10 @@ class _$AuthStateImpl extends _AuthState {
       patientInfo,
       isFetchingPatientInfo,
       errorFetchingPatientInfo,
-      pickedImagePath);
+      pickedImagePath,
+      isLoadingVisits,
+      errorFetchingVisits,
+      patientVisits);
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -1413,7 +1616,10 @@ abstract class _AuthState extends AuthState {
       final PatientInfo? patientInfo,
       final bool isFetchingPatientInfo,
       final bool errorFetchingPatientInfo,
-      final String? pickedImagePath}) = _$AuthStateImpl;
+      final String? pickedImagePath,
+      final bool isLoadingVisits,
+      final bool errorFetchingVisits,
+      final VisitModel? patientVisits}) = _$AuthStateImpl;
   const _AuthState._() : super._();
 
   @override
@@ -1440,6 +1646,12 @@ abstract class _AuthState extends AuthState {
   bool get errorFetchingPatientInfo;
   @override
   String? get pickedImagePath;
+  @override
+  bool get isLoadingVisits; // Add isLoadingVisits
+  @override
+  bool get errorFetchingVisits; // Add errorFetchingVisits
+  @override
+  VisitModel? get patientVisits;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.

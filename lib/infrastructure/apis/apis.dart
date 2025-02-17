@@ -76,7 +76,6 @@ abstract class BookingService extends ChopperService {
       @Path('category_id') int id);
 
   @Post(path: "doctor/day")
-
   static BookingService create(DBService dbService) =>
       _$BookingService(_Client(Constants.baseUrlP, true, dbService));
 }
@@ -128,17 +127,17 @@ abstract class UploadImage extends ChopperService {
 
 @ChopperApi(baseUrl: "/profile")
 abstract class PatientService extends ChopperService {
-  //Authorization
-  // GET Profile Page Info
-  @Get(path: "/patient_info")
-  Future<Response<PatientInfo>> getPatientInfo(
-    @Header("Authorization") String requires,
-  );
+  @Get(path: "/patient_info", headers: {'requires-token': 'true'})
+  Future<Response<PatientInfo>> getPatientInfo();
 
   @Post(path: "patient_image")
   Future<Response<SuccessModel>> patientImageUpload({
     @Body() required ImageUploadResponseModel image,
   });
+
+  @Get(path: "patient_visits_mobile", headers: {'requires-token': 'true'})
+  Future<Response<VisitModel>> getPatientVisitsMobile();
+
   static PatientService create(DBService dbService) =>
       _$PatientService(_Client(Constants.baseUrlP, true, dbService));
 }

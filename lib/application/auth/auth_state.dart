@@ -18,8 +18,9 @@ class AuthState with _$AuthState {
     @Default(null) PatientInfo? patientInfo,
     @Default(false) bool isFetchingPatientInfo,
     @Default(false) bool errorFetchingPatientInfo,
-     @Default(null) String? pickedImagePath,
-     
-    
+    @Default(null) String? pickedImagePath,
+    @Default(false) bool isLoadingVisits, // Add isLoadingVisits
+    @Default(false) bool errorFetchingVisits, // Add errorFetchingVisits
+    @Default(null) VisitModel? patientVisits, // Add patientVisits
   }) = _AuthState;
 }

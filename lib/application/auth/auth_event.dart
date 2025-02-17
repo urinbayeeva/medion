@@ -21,10 +21,10 @@ abstract class AuthEvent with _$AuthEvent {
   }) = _SendUserInfo;
 
   /// Fetch patient information
-  const factory AuthEvent.fetchPatientInfo({
-    required String accessToken,
-  }) = _FetchPatientInfo;
+  const factory AuthEvent.fetchPatientInfo() = _FetchPatientInfo;
 
-    const factory AuthEvent.pickImage(BuildContext context) = _PickImage;
+  const factory AuthEvent.pickImage(BuildContext context) = _PickImage;
+
+    const factory AuthEvent.fetchPatientVisits() = _FetchPatientVisits;
 
 }
