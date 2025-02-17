@@ -54,7 +54,7 @@ class NavListWidget extends StatelessWidget {
             onTap: onTap,
             child: ListTile(
               leading: SvgPicture.asset(data['icon']),
-              title: Text(data['title'], style: fonts.regularLink),
+              title: Text(data['title'].tr(), style: fonts.regularLink),
               trailing: icons.right.svg(
                 width: 20.w,
                 height: 20.h,

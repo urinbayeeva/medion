@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
+import 'package:medion/application/profile/profile_bloc.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/pages/profile/widget/nav_list_widget.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -29,14 +30,14 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void init() async {
+    context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
+
     final result = await PackageInfo.fromPlatform();
     aboutApp = "Version ${result.version.toString()}";
 
     if (mounted) {
       setState(() {});
     }
-
-
   }
 
   @override
@@ -55,21 +56,25 @@ class _ProfilePageState extends State<ProfilePage> {
                       clipBehavior: Clip.none,
                       children: [
                         Center(
-                          child: state.pickedImagePath != null
-                              ? CircleAvatar(
-                                  radius: 70.r,
-                                  backgroundImage: FileImage(
-                                      File(state.pickedImagePath ?? '')),
-                                )
-                              : CircleAvatar(
-                                  radius: 70.r,
-                                  backgroundColor:
-                                      colors.neutral500.withOpacity(.3),
-                                  child: icons.nonUser.svg(
-                                    height: 110.h,
-                                    color: colors.neutral500,
-                                  ),
-                                ),
+                          child: BlocBuilder<ProfileBloc, ProfileState>(
+                            builder: (context, state) {
+                              return state.pickedImagePath != null
+                                  ? CircleAvatar(
+                                      radius: 70.r,
+                                      backgroundImage: FileImage(
+                                          File(state.pickedImagePath!)),
+                                    )
+                                  : CircleAvatar(
+                                      radius: 70.r,
+                                      backgroundColor:
+                                          colors.neutral500.withOpacity(.3),
+                                      child: icons.nonUser.svg(
+                                        height: 110.h,
+                                        color: colors.neutral500,
+                                      ),
+                                    );
+                            },
+                          ),
                         ),
                         Positioned(
                           bottom: -20,
@@ -84,9 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                     24.h.verticalSpace,
-                    state.patientInfo != null
-                        ? Text(state.patientInfo?.firstName ?? "User Name")
-                        : const Text("null"),
+                    Text(state.patientInfo?.firstName ?? ''),
                     24.h.verticalSpace,
                     const NavListWidget(),
                     Expanded(

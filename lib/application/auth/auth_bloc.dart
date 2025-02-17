@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
+import 'package:medion/domain/upload_image/upload_image.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
@@ -164,4 +165,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
   }
+
+
 }

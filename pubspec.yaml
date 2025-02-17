@@ -102,6 +102,8 @@ dependencies:
   flutter_local_notifications: ^18.0.1
   model_viewer_plus: ^1.9.1
   equatable: ^2.0.7
+  photo_manager: ^3.6.4
+  photo_manager_image_provider: ^2.2.0
   # photo_manager_image_provider: ^2.2.0
   # photo_manager: ^3.6.4
 
