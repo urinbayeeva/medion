@@ -1,2 +1,0 @@
-/Users/user/projects/medion/android/app/.cxx/RelWithDebInfo/1i2hu4j4/x86_64/CMakeFiles/edit_cache.dir
-/Users/user/projects/medion/android/app/.cxx/RelWithDebInfo/1i2hu4j4/x86_64/CMakeFiles/rebuild_cache.dir

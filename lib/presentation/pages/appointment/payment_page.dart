@@ -17,6 +17,10 @@ import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
+
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -27,6 +31,13 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
 
+  Future<void> _launchPaymentUrl(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+  
 
   String _selectedOption = "";
   String _selectedPayment = "Payme";
@@ -36,6 +47,8 @@ class _PaymentPageState extends State<PaymentPage> {
     super.initState();
     _fetchPatientInfo();
   }
+
+  
 
   Future<void> _fetchPatientInfo() async {
     final dbService = await DBService.create;
@@ -47,6 +60,8 @@ class _PaymentPageState extends State<PaymentPage> {
     context.read<AuthBloc>().add(AuthEvent.fetchPatientInfo(
         accessToken: accessToken!.isEmpty ? refreshToken! : accessToken));
   }
+  final VisitService _visitService = VisitService();
+
 
   @override
   Widget build(BuildContext context) {
@@ -144,27 +159,27 @@ class _PaymentPageState extends State<PaymentPage> {
                  Row(
                    children: [
                      Expanded(
-                       child: CustomRadioTile<String>(
-                         value: "Payme",
-                         groupValue: _selectedPayment,
-                         title: Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           children: [
-                             icons.payme.asset(width: 24.w, height: 24.h),
-                             4.w.horizontalSpace,
-                             Text(
-                               "Payme",
-                               style: fonts.headlineMain.copyWith(
-                                   fontSize: 14.sp, fontWeight: FontWeight.w500),
-                             ),
-                           ],
-                         ),
-                         onChanged: (value) {
-                           setState(() {
-                             _selectedPayment = value!;
-                           });
-                         },
-                       ),
+                       child : CustomRadioTile<String>(
+    value: "Payme",
+    groupValue: _selectedPayment,
+    title: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        icons.payme.asset(width: 24.w, height: 24.h),
+        4.w.horizontalSpace,
+        Text(
+          "Payme",
+          style: fonts.headlineMain.copyWith(
+              fontSize: 14.sp, fontWeight: FontWeight.w500),
+        ),
+      ],
+    ),
+    onChanged: (value) async {
+      setState(() {
+        _selectedPayment = value!;
+      });
+    },
+  ),
                      ),
                      8.w.horizontalSpace,
                      Expanded(
@@ -225,7 +240,28 @@ class _PaymentPageState extends State<PaymentPage> {
                      //     backgroundColor: colors.neutral200,
                      //     textColor: colors.secondary900),
                      // 8.h.verticalSpace,
-                     CButton(title: "pay_the_full_amount".tr(), onTap: () {}),
+                   CButton(
+  title: "pay_the_full_amount".tr(), 
+  onTap: () async {
+    final appointments = AppointmentState.selectedAppointments.value;
+    
+    final result = await _visitService.createVisit(appointments);
+    
+    if (result) {
+      // Show success message and navigate
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('appointment_created_successfully'.tr())),
+      );
+      // Navigate to success page or home
+      Navigator.pop(context);
+    } else {
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('error_creating_appointment'.tr())),
+      );
+    }
+  }
+),
                    ],
                  ),
                ),
@@ -334,4 +370,67 @@ Widget _buildPaymentInfo(
                        ),
                      ),
                    ));
+}
+
+
+
+class VisitService {
+  static const String baseUrl = 'https://his.uicgroup.tech/apiweb';
+
+  Future<bool> createVisit(List<Map<String, dynamic>> appointments) async {
+    try {
+    
+      final dbService = await DBService.create;
+      final accessToken = dbService.token.accessToken;
+      final refreshToken = dbService.token.refreshToken;
+      
+      final token = accessToken!.isEmpty ? refreshToken! : accessToken;
+
+      final formattedAppointments = appointments.map((appointment) {
+        String startTime = appointment['time'];
+        DateTime parsedStartTime = DateTime(
+          2024, 
+          1, 
+          1, 
+          int.parse(startTime.split(':')[0]),
+          int.parse(startTime.split(':')[1])
+        );
+        DateTime endTime = parsedStartTime.add(const Duration(minutes: 30));
+        
+        String formattedStartTime = '${parsedStartTime.hour.toString().padLeft(2, '0')}:${parsedStartTime.minute.toString().padLeft(2, '0')}';
+        String formattedEndTime = '${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}';
+
+        return {
+          'service_id': int.parse(appointment['serviceId']),
+          'company_id': int.parse(appointment['companyID']),
+          'doctor_id': int.parse(appointment['doctorID']),
+          'start_time': formattedStartTime,
+          'end_time': formattedEndTime,
+          'date': appointment['date']
+        };
+      }).toList();
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/create_visit'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',  // Add authorization header
+        },
+        body: jsonEncode(formattedAppointments),
+      );
+
+      print('API Response: ${response.body}');
+      print('API Status Code: ${response.statusCode}');
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print('Error creating visit: $e');
+      return false;
+    }
+  }
+
+  
 }

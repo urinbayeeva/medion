@@ -25,11 +25,12 @@ class _UserInfoInputState extends State<UserInfoInput> {
   Future<void> _fetchPatientInfo() async {
     final dbService = await DBService.create;
 
-    final accessToken = dbService.token.accessToken;
-    final refreshToken = dbService.token.refreshToken;
-
+      final accessToken = dbService.token.accessToken;
+      final refreshToken = dbService.token.refreshToken;
+      
+      final token = accessToken!.isEmpty ? refreshToken! : accessToken;
     context.read<AuthBloc>().add(AuthEvent.fetchPatientInfo(
-        accessToken: accessToken!.isEmpty ? refreshToken! : accessToken));
+        accessToken: token));
   }
 
   @override

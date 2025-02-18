@@ -33,22 +33,33 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
   int selectedDateIndex = 0;
 
   void _handleAppointmentSelection(String time, String currentDate, bool isSelected) {
-    Map<String, String>? newAppointment = isSelected
-        ? null
-        : {
-            "time": time,
-            "date": currentDate,
-            "serviceId": widget.serviceId.toString(),
-            "serviceName": widget.serviceName!,
-            "doctorName": widget.doctor.name,
-            "doctorPhoto": widget.doctor.name ?? "",
-            "price" : widget.doctor.price.toString(),
-            "location" : widget.doctor.location,
-            "specialty" : widget.doctor.specialty,
-            "doctorID" : widget.doctor.id.toString(),
-            "companyID" : widget.companyID!
-          };
+String calculateEndTime(String startTime) {
+  final timeFormat = DateFormat('HH:mm');
+  final DateTime start = DateTime(2024, 1, 1, 
+    int.parse(startTime.split(':')[0]), 
+    int.parse(startTime.split(':')[1])
+  );
+  final DateTime end = start.add(const Duration(minutes: 30));
+  return timeFormat.format(end);
+}
 
+Map<String, String>? newAppointment = isSelected
+    ? null
+    : {
+        "time": time,
+        "start_time": time,
+        "end_time": calculateEndTime(time),
+        "date": currentDate,
+        "serviceId": widget.serviceId.toString(),
+        "serviceName": widget.serviceName!,
+        "doctorName": widget.doctor.name,
+        "doctorPhoto": widget.doctor.name ?? "",
+        "price": widget.doctor.price.toString(),
+        "location": widget.doctor.location,
+        "specialty": widget.doctor.specialty,
+        "doctorID": widget.doctor.id.toString(),
+        "companyID": widget.companyID!
+      };
     if (newAppointment != null) {
       AppointmentState.addAppointment(newAppointment);
     } else {

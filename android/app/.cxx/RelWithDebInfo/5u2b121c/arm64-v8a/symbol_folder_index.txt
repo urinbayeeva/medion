@@ -1,1 +1,0 @@
-/Users/feruzaorinboyeva/projects/medion/build/app/intermediates/cxx/RelWithDebInfo/5u2b121c/obj/arm64-v8a
