@@ -1,3 +1,15 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Place the classpath dependencies inside the buildscript block
+        classpath 'com.android.tools.build:gradle:3.4.2'  // Gradle plugin version
+        classpath 'com.google.gms:google-services:4.3.10'  // Example: Firebase services
+    }
+}
+
 allprojects {
     repositories {
         google()

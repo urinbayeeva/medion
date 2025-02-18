@@ -66,12 +66,12 @@ class _PaymentPageState extends State<PaymentPage> {
   CustomTextField(
     padding: const EdgeInsets.only(bottom: 12),
     hintText: state.patientInfo?.firstName ?? "Not available",
-    title: "Имя",
+    title: "name".tr(),
   ),
   CustomTextField(
     padding: const EdgeInsets.only(bottom: 12),
     hintText: state.patientInfo?.lastName ?? "Not available",
-    title: "Фамилия",
+    title: "second_name".tr(),
   ),
   CustomTextField(
     padding: const EdgeInsets.only(bottom: 12),
@@ -81,7 +81,7 @@ class _PaymentPageState extends State<PaymentPage> {
   CustomTextField(
     padding: const EdgeInsets.only(bottom: 12),
     hintText: state.patientInfo?.phoneNumber ?? "Not available",
-    title: "Телефон для связи",
+    title: "contact_phone_number".tr(),
   )
 ]),
                12.h.verticalSpace,
@@ -99,11 +99,11 @@ class _PaymentPageState extends State<PaymentPage> {
                }
              ),
                12.h.verticalSpace,
-               UserInfoWidget(title: "Кто оплачивает приём", children: [
+               UserInfoWidget(title: "who_pays".tr(), children: [
                  CustomRadioTile<String>(
-                   value: "Сам",
+                   value: "myself".tr(),
                    groupValue: _selectedOption,
-                   title: const Text("Сам"),
+                   title:  Text("myself".tr()),
                    onChanged: (value) {
                      setState(() {
                        _selectedOption = value!;
@@ -111,10 +111,10 @@ class _PaymentPageState extends State<PaymentPage> {
                    },
                  ),
                  CustomRadioTile<String>(
-                   value: "Работодатель",
+                   value: "employer".tr(),
                    groupValue: _selectedOption,
                    title: Text(
-                     "Работодатель",
+                     "employer".tr(),
                      style: fonts.headlineMain
                          .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
                    ),
@@ -125,10 +125,10 @@ class _PaymentPageState extends State<PaymentPage> {
                    },
                  ),
                  CustomRadioTile<String>(
-                   value: "Страховая компания",
+                   value: "insurance_company".tr(),
                    groupValue: _selectedOption,
                    title: Text(
-                     "Страховая компания",
+                     "insurance_company".tr(),
                      style: fonts.headlineMain
                          .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
                    ),
@@ -140,7 +140,7 @@ class _PaymentPageState extends State<PaymentPage> {
                  ),
                ]),
                12.h.verticalSpace,
-               UserInfoWidget(title: "Способ оплаты", children: [
+               UserInfoWidget(title: "payment_methods".tr(), children: [
                  Row(
                    children: [
                      Expanded(
@@ -225,7 +225,7 @@ class _PaymentPageState extends State<PaymentPage> {
                      //     backgroundColor: colors.neutral200,
                      //     textColor: colors.secondary900),
                      // 8.h.verticalSpace,
-                     CButton(title: "Оплатить всю сумму", onTap: () {}),
+                     CButton(title: "pay_the_full_amount".tr(), onTap: () {}),
                    ],
                  ),
                ),

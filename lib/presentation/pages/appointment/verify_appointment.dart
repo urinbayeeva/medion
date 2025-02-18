@@ -1,5 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
@@ -9,15 +11,17 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class VerifyAppointment extends StatelessWidget {
   final VoidCallback onTap;
-  
+
   const VerifyAppointment({
     super.key,
     required this.onTap,
   });
 
+  // API endpoint
+  final String apiUrl = 'https://his.uicgroup.tech/apiweb/booking/doctor/day';
+
   @override
   Widget build(BuildContext context) {
-    
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return ValueListenableBuilder<List<Map<String, String>>>(
         valueListenable: AppointmentState.selectedAppointments,
@@ -39,7 +43,7 @@ class VerifyAppointment extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                     child: Column(
                       children: selectedList.map((appointment) => _buildAppointmentItem(
                         appointment,
@@ -54,12 +58,11 @@ class VerifyAppointment extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 16.w,
-                  vertical: 16.h, // Added vertical padding
+                  vertical: 16.h,
                 ),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: colors.shade0,
-               
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(24.r),
                     topRight: Radius.circular(24.r),
@@ -67,7 +70,19 @@ class VerifyAppointment extends StatelessWidget {
                 ),
                 child: CButton(
                   title: 'next'.tr(),
-                  onTap: onTap,
+                  onTap: () {
+                    if (selectedList.isNotEmpty) {
+                      final appointment = selectedList.first;
+                      sendAppointmentData(
+                        appointment['doctorID']!,
+                        appointment['companyID']!,
+                        appointment['serviceId']!,
+                        appointment['date']!, 
+                        context, // Pass context to show error
+                      );
+                      onTap();
+                    }
+                  },
                 ),
               ),
             ],
@@ -89,12 +104,49 @@ class VerifyAppointment extends StatelessWidget {
       procedure: appointment['specialty'] ?? '',
       doctorName: 'Dr. ${appointment['doctorName']}',
       price: appointment['price'] ?? '',
-appointmentTime: '${DateFormat('EEE, dd MMMM', context.locale.toString()).format(DateTime.parse(appointment['date']!))} ${appointment['time']}',
+      appointmentTime: '${DateFormat('EEE, dd MMMM', context.locale.toString()).format(DateTime.parse(appointment['date']!))} ${appointment['time']}',
       location: appointment['location'] ?? '',
-      imagePath: '', 
+      imagePath: '',
       onCancel: () {
         AppointmentState.removeAppointment(appointment['serviceId']!);
       },
     );
   }
+
+  // Send data to the API
+ Future<void> sendAppointmentData(
+  String doctorId,
+  String companyId,
+  String serviceId,
+  String day,
+  BuildContext context, // We need the context for showing the error dialog or Snackbar
+) async {
+  try {
+    // Print the data being sent
+    print("Sending appointment data:");
+    print("Doctor ID: $doctorId");
+    print("Company ID: $companyId");
+    print("Service ID: $serviceId");
+    print("Day: $day"); // Print the 'day' which represents the date
+
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'doctor_id': doctorId,
+        'company_id': companyId,
+        'service_id': serviceId,
+        'day': 1,
+      }),
+    );
+
+   
+  } catch (e) {
+    print('Error: $e');
+   
+  }
+}
+
+
+
 }

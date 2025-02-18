@@ -65,7 +65,7 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
                               height: 48.w,
                               width: 48.w,
                               imageUrl:
-                                  "https://his.uicgroup.tech/apiweb/image/4736"),
+                                  disease.icon!),
                           8.h.verticalSpace,
                           Text(
                             disease.title ?? 'unknown_disease'.tr(),

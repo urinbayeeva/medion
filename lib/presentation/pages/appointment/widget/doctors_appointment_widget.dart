@@ -67,8 +67,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
         valueListenable: AppointmentState.selectedAppointments,
         builder: (context, selectedList, _) {
           String currentDate = widget.schedules[selectedDateIndex].keys.first;
-          
-          // Find current service's appointment
+   
           final currentAppointment = selectedList.firstWhere(
             (appointment) => appointment['serviceId'] == widget.serviceId.toString(),
             orElse: () => {},
