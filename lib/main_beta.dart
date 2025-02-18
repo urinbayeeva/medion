@@ -12,7 +12,7 @@ Future<void> main() async {
     await SentryFlutter.init(
       (options) {
         options.dsn =
-            'https://093642f75fe25d9ee81c4ed7c65c86b2@o4507768261246976.ingest.de.sentry.io/4507768815616080';
+            'https://cd927ec80e2acd5006fb11c41b42a0ff@o482110.ingest.us.sentry.io/4508839849689088';
         options.tracesSampleRate = 1.0;
         options.profilesSampleRate = 1.0;
       },
@@ -27,7 +27,7 @@ Future<void> main() async {
       primaryColor: Colors.green,
       flavor: Flavor.beta,
     );
-     AppConfig.create;
+    AppConfig.create;
 
     runApp(
       SentryWidget(

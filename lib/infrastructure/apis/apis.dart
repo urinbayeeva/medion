@@ -152,8 +152,7 @@ base class _Client extends ChopperClient {
             interceptors: useInterceptors
                 ? [
                     CoreInterceptor(dbService),
-                    if (AppConfig.shared.flavor == Flavor.dev)
-                      aliceChopperAdapter,
+                    aliceChopperAdapter,
                     HttpLoggingInterceptor(),
                     CurlInterceptor(),
                     NetworkInterceptor(),
