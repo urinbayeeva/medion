@@ -123,6 +123,7 @@ class _MainPageState extends State<MainPage> {
             body: Consumer<BottomNavBarController>(
               builder: (context, theme, _) {
                 return PersistentTabView(
+                  
                   context,
                   onItemSelected: (int index) {
                     onDebounce(() {

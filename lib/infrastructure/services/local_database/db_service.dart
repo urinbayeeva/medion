@@ -32,7 +32,6 @@ class DBService {
     return DBService._();
   }
 
-  /// Token
   Future<void> setToken(Token token) async {
     await _box?.put(_accessToken, token.accessToken ?? '');
     await _box?.put(_refreshToken, token.refreshToken ?? '');
@@ -41,14 +40,10 @@ class DBService {
   Token get token {
     final accessToken = _box?.get(_accessToken);
     final refreshToken = _box?.get(_refreshToken);
-    final tokenType = _box?.get(_tokenType);
-    return Token(
-      tokenType: tokenType,
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-    );
+    return Token(accessToken: accessToken, refreshToken: refreshToken);
   }
 
+  /// UID
   /// UID
   Future<void> setUid(String? uid) async {
     await _box?.put(_uid, uid);
@@ -114,12 +109,12 @@ class DBService {
   }
 
   bool isTokenExpired(String accessToken) {
-  final payload = accessToken.split('.')[1];
-  final decodedPayload = utf8.decode(base64Url.decode(base64.normalize(payload)));
-  final exp = jsonDecode(decodedPayload)['exp'];
-  final expiryDate = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
+    final payload = accessToken.split('.')[1];
+    final decodedPayload =
+        utf8.decode(base64Url.decode(base64.normalize(payload)));
+    final exp = jsonDecode(decodedPayload)['exp'];
+    final expiryDate = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
 
-  return DateTime.now().isAfter(expiryDate);
-}
-
+    return DateTime.now().isAfter(expiryDate);
+  }
 }

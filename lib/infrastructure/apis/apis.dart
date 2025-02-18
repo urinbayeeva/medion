@@ -131,7 +131,7 @@ abstract class UploadImage extends ChopperService {
 
 abstract class PatientService extends ChopperService {
   @Get(path: "/patient_info")
-  Future<Response> getPatientInfo({
+  Future<Response<PatientInfo>> getPatientInfo({
     @Header('requires-token') String requiresToken = "true",
     });
 
@@ -194,10 +194,8 @@ class MyAuthenticator extends Authenticator {
         result.fold((error) {
           dbService.signOut();
         }, (data) {
-          dbService.setToken(Token(
-              tokenType: data.tokenType,
-              accessToken: data.accesstoken,
-              refreshToken: data.refreshtoken));
+          dbService.setToken(
+              Token(accessToken: data.accesstoken, refreshToken: data.refreshtoken));
           String? newToken = data.accesstoken;
 
           final Map<String, String> updatedHeaders =

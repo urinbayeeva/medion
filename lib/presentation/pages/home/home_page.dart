@@ -55,191 +55,186 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: Style.dark,
-      child: ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-        return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-          return CustomPagination(
-            enablePullDown: false,
-            enablePullUp: false,
-            onRetry: () {
-              context.read<HomeBloc>().add(const HomeEvent.fetchNews());
-              context
-                  .read<BookingBloc>()
-                  .add(const BookingEvent.fetchHomePageServicesBooking());
-              setState(() {});
+    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+      return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+        return CustomPagination(
+          enablePullDown: true,
+          enablePullUp: true,
+          onRetry: () {
+            context.read<HomeBloc>().add(const HomeEvent.fetchNews());
+            context
+                .read<BookingBloc>()
+                .add(const BookingEvent.fetchHomePageServicesBooking());
+            setState(() {});
 
-              _refreshController.refreshCompleted();
-            },
-            controller: _refreshController,
-            child: Scaffold(
-              backgroundColor: colors.backgroundColor,
-              body: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CAppBar(
-                    isBack: false,
-                    title: "main".tr(),
-                    centerTitle: true,
-                    trailing: AnimationButtonEffect(
-                      onTap: () => Navigator.push(
-                        context,
-                        AppRoutes.getNotificationPage(),
-                      ),
-                      child: icons.notification.svg(color: colors.primary900),
+            _refreshController.refreshCompleted();
+          },
+          controller: _refreshController,
+          child: Scaffold(
+            backgroundColor: colors.backgroundColor,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CAppBar(
+                  isBack: false,
+                  title: "main".tr(),
+                  centerTitle: true,
+                  trailing: AnimationButtonEffect(
+                    onTap: () => Navigator.push(
+                      context,
+                      AppRoutes.getNotificationPage(),
                     ),
+                    child: icons.notification.svg(color: colors.primary900),
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: ListView(
-                        padding: EdgeInsets.zero,
-                        children: [
-                          const Ads(),
-                          16.h.verticalSpace,
-                          _buildSectionHeader("what_distrubes_you", fonts),
-                          12.h.verticalSpace,
-                          _buildOptionsRow(colors, fonts),
-                          12.h.verticalSpace,
-                          ProblemSlidebaleCard(isChildren: isChildren),
-                          Text("med_services".tr(),
-                              style: fonts.regularSemLink),
-                          12.h.verticalSpace,
-                          const MedService(),
-                          _buildVerticalSpacingAndHeader(
-                              "directions_of_medion_clinic", fonts, "all", () {
-                            Navigator.push(
-                                context, AppRoutes.getDiresctionPage());
-                          }),
-                          BlocBuilder<BookingBloc, BookingState>(
-                              builder: (context, state) {
-                            final limitedItems =
-                                state.homePageBookingCategory.take(10).toList();
-
-                            return ListView.builder(
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: limitedItems.length,
-                              itemBuilder: (context, index) {
-                                final item = limitedItems[index];
-                                return MedicalDirectionItem(
-                                  onTap: () {
-                                    context
-                                        .read<BottomNavBarController>()
-                                        .changeNavBar(true);
-                                    Navigator.push(
-                                      context,
-                                      AppRoutes.getDirectionInfoPage(
-                                          id: item.id!),
-                                    ).then((_) {
-                                      // ignore: use_build_context_synchronously
-                                      context
-                                          .read<BottomNavBarController>()
-                                          .changeNavBar(false);
-                                    });
-                                  },
-                                  title: item.name ?? "",
-                                  subtitle: "null",
-                                  iconPath: item.icon ?? "",
-                                );
-                              },
-                            );
-                          }),
-                          12.h.verticalSpace,
-                          _buildVerticalSpacingAndHeader(
-                              "doctors", fonts, "all", () {
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(true);
-
-                            Navigator.push(
-                                    context, AppRoutes.getAllDoctorsPage())
-                                .then((_) {
-                              context
-                                  .read<BottomNavBarController>()
-                                  .changeNavBar(false);
-                            });
-                          }),
-                          BlocBuilder<DoctorBloc, DoctorState>(
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: [
+                        const Ads(),
+                        16.h.verticalSpace,
+                        _buildSectionHeader("what_distrubes_you", fonts),
+                        12.h.verticalSpace,
+                        _buildOptionsRow(colors, fonts),
+                        12.h.verticalSpace,
+                        ProblemSlidebaleCard(isChildren: isChildren),
+                        Text("med_services".tr(), style: fonts.regularSemLink),
+                        12.h.verticalSpace,
+                        const MedService(),
+                        _buildVerticalSpacingAndHeader(
+                            "directions_of_medion_clinic", fonts, "all", () {
+                          Navigator.push(
+                              context, AppRoutes.getDiresctionPage());
+                        }),
+                        BlocBuilder<BookingBloc, BookingState>(
                             builder: (context, state) {
-                              if (state.error) {
-                                return Center(
-                                    child: Text('something_went_wrong'.tr(),
-                                        style: fonts.regularSemLink));
-                              }
+                          final limitedItems =
+                              state.homePageBookingCategory.take(10).toList();
 
-                              return _buildDoctorCategoryList(state.doctors
-                                  .expand((category) =>
-                                      category.doctorData.map((doctor) => {
-                                            'name': doctor.name,
-                                            'profession': doctor.specialty,
-                                            'image': doctor.image,
-                                          }))
-                                  .toList());
-                            },
-                          ),
-                          _buildVerticalSpacingAndHeader("news", fonts, "all",
-                              () {
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(true);
-
-                            Navigator.push(context, AppRoutes.getNewsPage())
-                                .then((_) {
-                              context
-                                  .read<BottomNavBarController>()
-                                  .changeNavBar(false);
-                            });
-                          }),
-                          GridView.builder(
+                          return ListView.builder(
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 8,
-                              mainAxisSpacing: 8,
-                              childAspectRatio: 0.6,
-                            ),
-                            itemCount: state.news.length,
+                            itemCount: limitedItems.length,
                             itemBuilder: (context, index) {
-                              final news = state.news[index];
-                              return NewsItem(
-                                crop: true,
-                                imagePath: news.image ?? "",
-                                title: news.title ?? "",
-                                subtitle: news.info ?? "",
+                              final item = limitedItems[index];
+                              return MedicalDirectionItem(
+                                onTap: () {
+                                  context
+                                      .read<BottomNavBarController>()
+                                      .changeNavBar(true);
+                                  Navigator.push(
+                                    context,
+                                    AppRoutes.getDirectionInfoPage(
+                                        id: item.id!),
+                                  ).then((_) {
+                                    // ignore: use_build_context_synchronously
+                                    context
+                                        .read<BottomNavBarController>()
+                                        .changeNavBar(false);
+                                  });
+                                },
+                                title: item.name ?? "",
+                                subtitle: "null",
+                                iconPath: item.icon ?? "",
                               );
                             },
-                          ),
-                          _buildVerticalSpacingAndHeader(
-                              "address_of_clinic", fonts, "all", () {
+                          );
+                        }),
+                        12.h.verticalSpace,
+                        _buildVerticalSpacingAndHeader("doctors", fonts, "all",
+                            () {
+                          context
+                              .read<BottomNavBarController>()
+                              .changeNavBar(true);
+
+                          Navigator.push(context, AppRoutes.getAllDoctorsPage())
+                              .then((_) {
                             context
                                 .read<BottomNavBarController>()
-                                .changeNavBar(true);
+                                .changeNavBar(false);
+                          });
+                        }),
+                        BlocBuilder<DoctorBloc, DoctorState>(
+                          builder: (context, state) {
+                            if (state.error) {
+                              return Center(
+                                  child: Text('something_went_wrong'.tr(),
+                                      style: fonts.regularSemLink));
+                            }
 
-                            Navigator.push(context, AppRoutes.getMapPage())
-                                .then((_) {
-                              context
-                                  .read<BottomNavBarController>()
-                                  .changeNavBar(false);
-                            });
-                          }),
-                          _buildAddressSection(context, colors, fonts, icons),
-                          80.h.verticalSpace,
-                        ],
-                      ),
+                            return _buildDoctorCategoryList(state.doctors
+                                .expand((category) =>
+                                    category.doctorData.map((doctor) => {
+                                          'name': doctor.name,
+                                          'profession': doctor.specialty,
+                                          'image': doctor.image,
+                                        }))
+                                .toList());
+                          },
+                        ),
+                        _buildVerticalSpacingAndHeader("news", fonts, "all",
+                            () {
+                          context
+                              .read<BottomNavBarController>()
+                              .changeNavBar(true);
+
+                          Navigator.push(context, AppRoutes.getNewsPage())
+                              .then((_) {
+                            context
+                                .read<BottomNavBarController>()
+                                .changeNavBar(false);
+                          });
+                        }),
+                        GridView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                            childAspectRatio: 0.6,
+                          ),
+                          itemCount: state.news.length,
+                          itemBuilder: (context, index) {
+                            final news = state.news[index];
+                            return NewsItem(
+                              crop: true,
+                              imagePath: news.image ?? "",
+                              title: news.title ?? "",
+                              subtitle: news.info ?? "",
+                            );
+                          },
+                        ),
+                        _buildVerticalSpacingAndHeader(
+                            "address_of_clinic", fonts, "all", () {
+                          context
+                              .read<BottomNavBarController>()
+                              .changeNavBar(true);
+
+                          Navigator.push(context, AppRoutes.getMapPage())
+                              .then((_) {
+                            context
+                                .read<BottomNavBarController>()
+                                .changeNavBar(false);
+                          });
+                        }),
+                        _buildAddressSection(context, colors, fonts, icons),
+                        80.h.verticalSpace,
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        });
-      }),
-    );
+          ),
+        );
+      });
+    });
   }
 
   Widget _buildOptionsRow(colors, fonts) {

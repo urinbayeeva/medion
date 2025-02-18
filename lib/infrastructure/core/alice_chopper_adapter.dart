@@ -5,7 +5,7 @@ import 'dart:io' show HttpHeaders;
 import 'package:chopper/chopper.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:medion/domain/token_x.dart';
+import 'package:medion/domain/common/token_ext.dart';
 import 'package:medion/infrastructure/connectivity.dart';
 import 'package:medion/infrastructure/core/exceptions.dart';
 

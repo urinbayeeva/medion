@@ -1,4 +1,3 @@
-
 import 'package:medion/domain/common/token.dart';
 
 import '../failurs/auth/auth_failure.dart';

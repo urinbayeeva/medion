@@ -56,18 +56,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
-    EasyLoading.show();
+    // EasyLoading.show(); // Show loading indicator
 
     final res = await _repository.getDiseases();
 
     res.fold(
       (error) {
         LogService.e("Error in fetching diseases: $error");
+        // EasyLoading.dismiss();
         EasyLoading.showError(error.message);
         emit(state.copyWith(loading: false, error: true));
       },
       (data) {
-        EasyLoading.dismiss();
+        // EasyLoading.dismiss(); // ✅ Ensure loading is dismissed on success
         emit(state.copyWith(
           loading: false,
           success: true,

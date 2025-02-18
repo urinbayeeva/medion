@@ -58,9 +58,9 @@ class AuthRepository implements IAuthFacade {
             final tokenType = res.body!.tokenType!;
 
             await _dbService.setToken(Token(
-                accessToken: accessToken,
-                refreshToken: refreshToken,
-                tokenType: tokenType));
+              accessToken: accessToken,
+              refreshToken: refreshToken,
+            ));
 
             LogService.d("Access Token: $accessToken");
             LogService.d("Refresh Token: $refreshToken");
@@ -140,11 +140,9 @@ class AuthRepository implements IAuthFacade {
     try {
       final res = await _authService.createUserInfo(request: request);
       if (res.isSuccessful) {
-
         _dbService.setToken(Token(
           accessToken: res.body?.accesstoken,
           refreshToken: res.body?.refreshtoken,
-          tokenType: res.body?.tokenType,
         ));
 
         return right(res.body!);
@@ -192,29 +190,29 @@ class AuthRepository implements IAuthFacade {
     }
   }
 
-
-@override
-Future<Either<ResponseFailure, PatientInfo>> getPatientInfo() async {
-  try {
-    final res = await _patientService.getPatientInfo(requiresToken: "true");
-
-    if (res.isSuccessful && res.body != null) {
-      LogService.d('Response Status: ${res.statusCode}');
-      LogService.d('Response Body: ${res.body}');
-      return right(res.body!);
-    } else {
-      return left(InvalidCredentials(
-        message:
-            'Failed to fetch patient info: ${res.statusCode}, ${res.body.toString()}',
-      ));
+  @override
+  Future<Either<ResponseFailure, PatientInfo>> getPatientInfo() async {
+    if (_dbService.token.accessToken == null) {
+      return left(InvalidCredentials(message: 'invalid_credential'.tr()));
     }
-  } catch (e) {
-    LogService.e(" ----> error fetching patient info: ${e.toString()}");
-    return left(handleError(e));
-  }
-}
 
- @override
+    try {
+      final res = await _patientService.getPatientInfo(requiresToken: "true");
+
+      if (res.isSuccessful) {
+        LogService.d('Response Status: ${res.statusCode}');
+        LogService.d('Response Body: ${res.body}');
+        return right(res.body!);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      LogService.e(" ----> error fetching patient info: ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
+
+  @override
   Future<Either<ResponseFailure, VisitModel>> getPatientVisits() async {
     try {
       final res = await _patientService.getPatientVisitsMobile();
@@ -234,7 +232,6 @@ Future<Either<ResponseFailure, PatientInfo>> getPatientInfo() async {
       return left(handleError(e));
     }
   }
-
 
   @override
   Future<Either<ResponseFailure, SuccessModel>> postPatientPhoto({
