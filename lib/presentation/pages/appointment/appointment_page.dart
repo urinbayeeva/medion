@@ -24,7 +24,8 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:provider/provider.dart';
 
 class AppointmentPage extends StatefulWidget {
-  const AppointmentPage({super.key});
+  final int? index;
+  const AppointmentPage({super.key, this.index});
 
   @override
   State<AppointmentPage> createState() => _AppointmentPageState();
@@ -52,6 +53,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
   @override
   void initState() {
     super.initState();
+    screenIndex = widget.index ?? 0;
     _pageController = PageController(initialPage: screenIndex);
     useCase = [
       _AddAppointmentUseCaseModel(
@@ -75,15 +77,18 @@ class _AppointmentPageState extends State<AppointmentPage> {
           "Fourth Service",
           AddAppointmentScreenType.fourthService),
       _AddAppointmentUseCaseModel(
-                BlocProvider(
-          create: (context) {
-            DBService dbService = context.read<DBService>();
-            return AuthBloc(
-                AuthRepository(dbService, AuthService.create(dbService),
-                    PatientService.create(dbService)),
-                dbService,   );
-          },
-          child: const PaymentPage()), "Payment", AddAppointmentScreenType.payment),
+          BlocProvider(
+              create: (context) {
+                DBService dbService = context.read<DBService>();
+                return AuthBloc(
+                  AuthRepository(dbService, AuthService.create(dbService),
+                      PatientService.create(dbService)),
+                  dbService,
+                );
+              },
+              child: const PaymentPage()),
+          "Payment",
+          AddAppointmentScreenType.payment),
     ];
     canPop = false;
   }

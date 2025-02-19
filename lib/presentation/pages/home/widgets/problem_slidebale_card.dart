@@ -44,7 +44,6 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
             child: Row(
               children: List.generate(filteredDiseases.length, (index) {
                 final disease = filteredDiseases[index];
-                print("Image URL: ${disease.icon}");
 
                 return Padding(
                   padding: EdgeInsets.only(right: 8.w),
@@ -64,8 +63,7 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
                           CachedImageComponent(
                               height: 48.w,
                               width: 48.w,
-                              imageUrl:
-                                  disease.icon!),
+                              imageUrl: disease.icon!),
                           8.h.verticalSpace,
                           Text(
                             disease.title ?? 'unknown_disease'.tr(),
