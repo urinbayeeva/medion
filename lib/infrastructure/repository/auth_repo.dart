@@ -56,6 +56,7 @@ class AuthRepository implements IAuthFacade {
             final accessToken = res.body!.accessToken![0];
             final refreshToken = res.body!.refreshToken![0];
             final tokenType = res.body!.tokenType!;
+
             await _dbService.setToken(Token(
                 accessToken: accessToken,
                 refreshToken: refreshToken,
@@ -139,6 +140,7 @@ class AuthRepository implements IAuthFacade {
     try {
       final res = await _authService.createUserInfo(request: request);
       if (res.isSuccessful) {
+
         _dbService.setToken(Token(
           accessToken: res.body?.accesstoken,
           refreshToken: res.body?.refreshtoken,
@@ -194,7 +196,7 @@ class AuthRepository implements IAuthFacade {
 @override
 Future<Either<ResponseFailure, PatientInfo>> getPatientInfo() async {
   try {
-    final res = await _patientService.getPatientInfo();
+    final res = await _patientService.getPatientInfo(requiresToken: "true");
 
     if (res.isSuccessful && res.body != null) {
       LogService.d('Response Status: ${res.statusCode}');

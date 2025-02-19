@@ -265,10 +265,10 @@ final class _$PatientService extends PatientService {
   final Type definitionType = PatientService;
 
   @override
-  Future<Response<PatientInfo>> getPatientInfo() {
+  Future<Response<dynamic>> getPatientInfo({String requiresToken = "true"}) {
     final Uri $url = Uri.parse('/profile/patient_info');
     final Map<String, String> $headers = {
-      'requires-token': 'true',
+      'requires-token': requiresToken,
     };
     final Request $request = Request(
       'GET',
@@ -276,7 +276,7 @@ final class _$PatientService extends PatientService {
       client.baseUrl,
       headers: $headers,
     );
-    return client.send<PatientInfo, PatientInfo>($request);
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override
@@ -294,10 +294,11 @@ final class _$PatientService extends PatientService {
   }
 
   @override
-  Future<Response<VisitModel>> getPatientVisitsMobile() {
+  Future<Response<VisitModel>> getPatientVisitsMobile(
+      {String requiresToken = "true"}) {
     final Uri $url = Uri.parse('/profile/patient_visits_mobile');
     final Map<String, String> $headers = {
-      'requires-token': 'true',
+      'requires-token': requiresToken,
     };
     final Request $request = Request(
       'GET',

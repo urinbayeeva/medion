@@ -118,25 +118,36 @@ abstract class UploadImage extends ChopperService {
   @multipart
   Future<Response<ImageUploadResponseModel>> imageUpload(
       @PartFile('file') MultipartFile file,
-      {@Header('Content-Type') String contentType = 'multipart/form-data',
-      @Header('requires-token') String requiresToken = 'true'});
+      {
+        @Header('Content-Type') String contentType = 'multipart/form-data',
+      @Header('requires-token') String requiresToken = 'true'
+      });
 
   static UploadImage create(DBService dbService) =>
       _$UploadImage(_Client("", true, dbService, timeout: 300));
 }
 
 @ChopperApi(baseUrl: "/profile")
+
 abstract class PatientService extends ChopperService {
-  @Get(path: "/patient_info", headers: {'requires-token': 'true'})
-  Future<Response<PatientInfo>> getPatientInfo();
+  @Get(path: "/patient_info")
+  Future<Response> getPatientInfo({
+    @Header('requires-token') String requiresToken = "true",
+    });
+
+
 
   @Post(path: "patient_image")
   Future<Response<SuccessModel>> patientImageUpload({
     @Body() required ImageUploadResponseModel image,
   });
 
-  @Get(path: "patient_visits_mobile", headers: {'requires-token': 'true'})
-  Future<Response<VisitModel>> getPatientVisitsMobile();
+  @Get(path: "patient_visits_mobile")
+  Future<Response<VisitModel>> getPatientVisitsMobile(
+    {
+         @Header('requires-token') String requiresToken = "true",
+    }
+  );
 
   static PatientService create(DBService dbService) =>
       _$PatientService(_Client(Constants.baseUrlP, true, dbService));
