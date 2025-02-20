@@ -26,10 +26,26 @@ class _AdsState extends State<Ads> {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
         if (state.ads.isEmpty) {
-          return Center(
-              child: Text('no_result_found'.tr(),
-                  style: fonts.xSmallLink
-                      .copyWith(fontSize: 12.sp, fontWeight: FontWeight.w500)));
+          return Column(
+            children: [
+              CarouselSlider(
+                items: [
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(8.r),
+                      child: Image.asset("assets/images/ad_first.jpg"))
+                ],
+                options: CarouselOptions(
+                  autoPlay: true,
+                  aspectRatio: 1.5,
+                  viewportFraction: 1,
+                  autoPlayInterval: const Duration(seconds: 10),
+                ),
+              )
+
+              // Text(state.ads.first.title ?? "", style: fonts.regularMain),
+              // Text(state.ads.first.info ?? "", style: fonts.regularMain),
+            ],
+          );
         }
 
         return Column(
