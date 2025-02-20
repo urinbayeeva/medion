@@ -163,6 +163,7 @@ base class _Client extends ChopperClient {
                     RetryInterceptor(
                         maxRetries: 3, retryDelay: const Duration(seconds: 2)),
                     BackendInterceptor(),
+                    RefreshTokenInterceptor(dbService),
                   ]
                 : const [],
             converter: BuiltValueConverter(),
@@ -181,6 +182,7 @@ class MyAuthenticator extends Authenticator {
       try {
         final result = await AuthRepository.refreshToken(
             dbService.token.refreshToken ?? "");
+            
 
         Map<String, String>? header;
 
@@ -188,6 +190,7 @@ class MyAuthenticator extends Authenticator {
           dbService.signOut();
         }, (data) {
           dbService.setToken(Token(
+            tokenType: data.tokenType,
               accessToken: data.accesstoken, refreshToken: data.refreshtoken));
           String? newToken = data.accesstoken;
 
@@ -214,5 +217,48 @@ class MyAuthenticator extends Authenticator {
       }
     }
     return null;
+  }
+}
+
+
+class RefreshTokenInterceptor implements Interceptor {
+  final DBService dbService;
+
+  RefreshTokenInterceptor(this.dbService);
+
+  @override
+  FutureOr<Response<T>> intercept<T>(Chain<T> chain) async {
+    final response = await chain.proceed(chain.request);
+    if (response.statusCode == 401) {
+      try {
+        final result = await AuthRepository.refreshToken(dbService.token.refreshToken ?? "");
+
+        Map<String, String>? header;
+
+        result.fold((error) {
+          dbService.signOut();
+        }, (data) {
+          dbService.setToken(
+              Token(tokenType: data.tokenType, accessToken: data.accesstoken, refreshToken: data.refreshtoken));
+          String? newToken = data.accesstoken;
+
+          final Map<String, String> updatedHeaders = Map<String, String>.of(chain.request.headers);
+
+          newToken = 'Bearer $newToken';
+          updatedHeaders.update('Authorization', (String _) => newToken!, ifAbsent: () => newToken!);
+
+          header = updatedHeaders;
+        });
+        return chain.proceed(chain.request.copyWith(headers: header));
+      } catch (e) {
+        dbService.signOut();
+      }
+    } else {
+      if (response.statusCode >= 400) {
+        BackendExceptionForSentry exceptionForSentry = BackendExceptionForSentry(response);
+        throw exceptionForSentry;
+      }
+    }
+    return response;
   }
 }

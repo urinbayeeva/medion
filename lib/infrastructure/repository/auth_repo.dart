@@ -58,6 +58,7 @@ class AuthRepository implements IAuthFacade {
             final tokenType = res.body!.tokenType!;
 
             await _dbService.setToken(Token(
+              tokenType: tokenType,
               accessToken: accessToken,
               refreshToken: refreshToken,
             ));
@@ -141,6 +142,7 @@ class AuthRepository implements IAuthFacade {
       final res = await _authService.createUserInfo(request: request);
       if (res.isSuccessful) {
         _dbService.setToken(Token(
+          tokenType: res.body?.tokenType,
           accessToken: res.body?.accesstoken,
           refreshToken: res.body?.refreshtoken,
         ));
@@ -159,15 +161,14 @@ class AuthRepository implements IAuthFacade {
       refreshToken(String refreshToken) async {
     try {
       final response = await Dio().post(
-        "${Constants.baseUrlP}/refresh/",
+        "${Constants.baseUrlP}/refresh",
         data: {'refresh': refreshToken},
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final createInfoReq = CreatePatientInfoResponse(
           (b) => b
-            ..accesstoken = (response.data['access_token'] as List)
-                .first // 
+            ..accesstoken = (response.data['access_token'] as List).first
             ..refreshtoken = (response.data['refresh_token'] as List).first
             ..tokenType = response.data['token_type'],
         );

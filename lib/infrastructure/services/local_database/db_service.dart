@@ -37,11 +37,18 @@ class DBService {
     await _box?.put(_refreshToken, token.refreshToken ?? '');
   }
 
-  Token get token {
-    final accessToken = _box?.get(_accessToken);
-    final refreshToken = _box?.get(_refreshToken);
-    return Token(accessToken: accessToken, refreshToken: refreshToken);
-  }
+Token get token {
+  final accessToken = _box?.get(_accessToken);
+  final refreshToken = _box?.get(_refreshToken);
+  final tokenType = _box?.get(_tokenType) ?? "Bearer"; // Default to "Bearer" if null
+
+  return Token(
+    accessToken: accessToken,
+    refreshToken: refreshToken,
+    tokenType: tokenType,
+  );
+}
+
 
   /// UID
   /// UID
