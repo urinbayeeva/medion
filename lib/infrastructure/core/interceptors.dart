@@ -174,29 +174,31 @@ class CoreInterceptor implements Interceptor {
 
   @override
   FutureOr<Response<T>> intercept<T>(Chain<T> chain) async {
-    final request =
-        applyHeader(chain.request, 'Accept-Language', 'app_lang'.tr());
+    final request = applyHeader(chain.request, 'Accept-Language', 'app_lang'.tr());
     final request1 = applyHeader(request, 'uuid', dbService.getUid ?? "");
+
     final requiresToken = request.headers['requires-token'] == 'true' ||
         request.headers['requires-token'] == 'optional';
+
     if (requiresToken) {
-      if (dbService.token.toBearerToken != null) {
-        final request2 = applyHeader(
-            request1, 'Authorization', dbService.token.toBearerToken!);
+      final latestToken = dbService.token.toBearerToken?.trim(); // Ensure token is clean
+
+      if (latestToken != null && latestToken.isNotEmpty) {
+        final request2 = applyHeader(request1, 'Authorization', latestToken);
         return chain.proceed(request2);
       } else {
-        final requiresToken = request.headers['requires-token'] == 'optional';
-        if (requiresToken) {
+        if (request.headers['requires-token'] == 'optional') {
           return chain.proceed(request1);
         } else {
           throw Exception('invalid_credential'.tr());
         }
       }
     }
-
     return chain.proceed(request1);
   }
 }
+
+
 
 class RetryInterceptor implements Interceptor {
   final int maxRetries;

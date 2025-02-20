@@ -166,10 +166,14 @@ class AuthRepository implements IAuthFacade {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final createInfoReq = CreatePatientInfoResponse(
           (b) => b
-            ..accesstoken = response.data['access_token']
-            ..refreshtoken = response.data['refresh_token']
+            ..accesstoken = (response.data['access_token'] as List)
+                .first // 
+            ..refreshtoken = (response.data['refresh_token'] as List).first
             ..tokenType = response.data['token_type'],
         );
+
+        LogService.d(
+            "✅ Token refreshed successfully: ${createInfoReq.accesstoken}");
         return right(createInfoReq);
       } else if (response.statusCode == 401) {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
@@ -178,14 +182,13 @@ class AuthRepository implements IAuthFacade {
       }
     } on DioException catch (e) {
       if (e.response != null && e.response!.statusCode == 401) {
-        LogService.e(
-            " ----> Unauthorized access: ${e.response!.statusMessage}");
+        LogService.e("❌ Unauthorized access: ${e.response!.statusMessage}");
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
-      LogService.e(" ----> DioException: ${e.toString()}");
+      LogService.e("❌ DioException: ${e.toString()}");
       return left(Unknown(message: 'unknown_error'.tr()));
     } catch (e) {
-      LogService.e(" ----> Unknown exception: ${e.toString()}");
+      LogService.e("❌ Unknown exception: ${e.toString()}");
       return left(Unknown(message: 'unknown_error'.tr()));
     }
   }
@@ -201,9 +204,12 @@ class AuthRepository implements IAuthFacade {
 
       if (res.isSuccessful) {
         LogService.d('Response Status: ${res.statusCode}');
-        LogService.d('Response Body: ${res.body}');
+        LogService.d('Response Status: ${res.statusCode}');
         return right(res.body!);
       } else {
+        LogService.d('Response Status: ${res.statusCode}');
+        LogService.d('Response Status: ${res.statusCode}');
+
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {

@@ -118,24 +118,19 @@ abstract class UploadImage extends ChopperService {
   @multipart
   Future<Response<ImageUploadResponseModel>> imageUpload(
       @PartFile('file') MultipartFile file,
-      {
-        @Header('Content-Type') String contentType = 'multipart/form-data',
-      @Header('requires-token') String requiresToken = 'true'
-      });
+      {@Header('Content-Type') String contentType = 'multipart/form-data',
+      @Header('requires-token') String requiresToken = 'true'});
 
   static UploadImage create(DBService dbService) =>
       _$UploadImage(_Client("", true, dbService, timeout: 300));
 }
 
 @ChopperApi(baseUrl: "/profile")
-
 abstract class PatientService extends ChopperService {
   @Get(path: "/patient_info")
   Future<Response<PatientInfo>> getPatientInfo({
     @Header('requires-token') String requiresToken = "true",
-    });
-
-
+  });
 
   @Post(path: "patient_image")
   Future<Response<SuccessModel>> patientImageUpload({
@@ -143,11 +138,9 @@ abstract class PatientService extends ChopperService {
   });
 
   @Get(path: "patient_visits_mobile")
-  Future<Response<VisitModel>> getPatientVisitsMobile(
-    {
-         @Header('requires-token') String requiresToken = "true",
-    }
-  );
+  Future<Response<VisitModel>> getPatientVisitsMobile({
+    @Header('requires-token') String requiresToken = "true",
+  });
 
   static PatientService create(DBService dbService) =>
       _$PatientService(_Client(Constants.baseUrlP, true, dbService));
@@ -194,8 +187,8 @@ class MyAuthenticator extends Authenticator {
         result.fold((error) {
           dbService.signOut();
         }, (data) {
-          dbService.setToken(
-              Token(accessToken: data.accesstoken, refreshToken: data.refreshtoken));
+          dbService.setToken(Token(
+              accessToken: data.accesstoken, refreshToken: data.refreshtoken));
           String? newToken = data.accesstoken;
 
           final Map<String, String> updatedHeaders =
