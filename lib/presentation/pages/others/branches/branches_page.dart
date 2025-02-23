@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
+import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/domain/sources/branches_data.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/pages/others/branches/component/branches_info.dart';
 import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/phone_utils.dart';
@@ -22,7 +24,13 @@ class BranchesPage extends StatefulWidget {
 
 class _BranchesPageState extends State<BranchesPage> {
   final RefreshController _refreshController = RefreshController();
-  bool isMoreInfo = false;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<BranchBloc>().add(const BranchEvent.fetchBranches());
+  }
+
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -31,79 +39,93 @@ class _BranchesPageState extends State<BranchesPage> {
         body: Column(
           children: [
             CAppBar(
-                blur: true,
-                title: "branches".tr(),
-                centerTitle: true,
-                isBack: true,
-                trailing: 24.w.horizontalSpace),
+              blur: true,
+              title: "branches".tr(),
+              centerTitle: true,
+              isBack: true,
+              trailing: 24.w.horizontalSpace,
+            ),
             Expanded(
-                child: CustomListView(
-                    refreshController: _refreshController,
+              child: BlocBuilder<BranchBloc, BranchState>(
+                builder: (context, state) {
+                  if (state.loading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state.error) {
+                    return Center(child: Text("Error loading branches"));
+                  } else if (state.success && state.branches.isEmpty) {
+                    return const Center(child: Text("No branches found"));
+                  }
+
+                  return SmartRefresher(
+                    controller: _refreshController,
+                    enablePullDown: true,
+                    header: const WaterDropMaterialHeader(
+                      color: Style.shade0,
+                      backgroundColor: Style.error500,
+                    ),
                     onRefresh: () {
-                      setState(() {});
+                      context
+                          .read<BranchBloc>()
+                          .add(const BranchEvent.fetchBranches());
                       _refreshController.refreshCompleted();
                     },
-                    padding: EdgeInsets.only(top: 16.h, bottom: 24.h),
-                    itemBuilder: (index, _) {
-                      final branch = branches[index];
-                      return BranchesInfoCard(
-                        branchPhoneNumberButton: () {
-                          makePhoneCall(branch["branch_phone_number"]);
-                        },
-                        branchAdressButton: () {
-                          context
-                              .read<BottomNavBarController>()
-                              .changeNavBar(true);
-                          Navigator.push(context, AppRoutes.getMapPage())
-                              .then((_) {
-                            // ignore: use_build_context_synchronously
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(top: 16.h, bottom: 24.h),
+                      itemCount: state.branches.length,
+                      itemBuilder: (context, index) {
+                        final branch = state.branches[index];
+
+                        return BranchesInfoCard(
+                          branchPhoneNumberButton: () {
+                            makePhoneCall(branch.phone!);
+                          },
+                          branchAdressButton: () {
                             context
                                 .read<BottomNavBarController>()
                                 .changeNavBar(true);
-                          });
-                        },
-                        branchMoreInfo: () {
-                          context
-                              .read<BottomNavBarController>()
-                              .changeNavBar(true);
-                          Navigator.push(
-                            context,
-                            AppRoutes.getSingleBranchInfoPage(
-                              branchPhotos: List<String>.from(
-                                  branch['branch_more_info']['branch_photos']),
-                              branchName: branch['branch_name'],
-                              branchAdress: branch['branch_adress'],
-                              branchWorkingHours:
-                                  branch['branch_working_hours'],
-                              branchInfoDescription: branch['branch_more_info']
-                                  ['branch_info_description'],
-                              branchOfferTitle: branch['branch_more_info']
-                                  ['branch_offer_title'],
-                              branchOfferSubtitle: branch['branch_more_info']
-                                  ['branch_offer_subtitle'],
-                              branchPhoneNumberButton: () {
-                                makePhoneCall(branch['branch_phone_number']);
-                              },
-                            ),
-                          ).then((_) {
-                            // ignore: use_build_context_synchronously
+                            Navigator.push(context, AppRoutes.getMapPage())
+                                .then((_) {
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(true);
+                            });
+                          },
+                          branchMoreInfo: () {
                             context
                                 .read<BottomNavBarController>()
                                 .changeNavBar(true);
-                          });
-                        },
-                        branchPhotos: List<String>.from(
-                            branch['branch_more_info']['branch_photos']),
-                        branchName: branch['branch_name'],
-                        branchAdress: branch['branch_adress'],
-                        branchPhoneNumber: branch['branch_phone_number'],
-                        branchWorkingHours: branch['branch_working_hours'],
-                      );
-                    },
-                    data: branches,
-                    emptyWidgetModel:
-                        ErrorWidgetModel(title: "title", subtitle: "subtitle"),
-                    status: FormzSubmissionStatus.success))
+                            Navigator.push(
+                              context,
+                              AppRoutes.getSingleBranchInfoPage(
+                                branchPhotos: [],
+                                branchName: branch.name ?? "No Name",
+                                branchAdress: branch.address ?? "",
+                                branchWorkingHours: branch.workTime,
+                                branchInfoDescription: branch.description ?? "",
+                                branchOfferTitle: "",
+                                branchOfferSubtitle: "",
+                                branchPhoneNumberButton: () {
+                                  makePhoneCall(branch.phone ?? "");
+                                },
+                              ),
+                            ).then((_) {
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(true);
+                            });
+                          },
+                          branchPhotos: [],
+                          branchName: branch.name ?? "No Name",
+                          branchAdress: branch.address ?? "",
+                          branchPhoneNumber: branch.phone ?? "",
+                          branchWorkingHours: branch.workTime,
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       );

@@ -1,0 +1,370 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'branch_bloc.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+/// @nodoc
+mixin _$BranchEvent {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBranches,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBranches,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBranches,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBranches value) fetchBranches,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBranches value)? fetchBranches,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBranches value)? fetchBranches,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BranchEventCopyWith<$Res> {
+  factory $BranchEventCopyWith(
+          BranchEvent value, $Res Function(BranchEvent) then) =
+      _$BranchEventCopyWithImpl<$Res, BranchEvent>;
+}
+
+/// @nodoc
+class _$BranchEventCopyWithImpl<$Res, $Val extends BranchEvent>
+    implements $BranchEventCopyWith<$Res> {
+  _$BranchEventCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of BranchEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$FetchBranchesImplCopyWith<$Res> {
+  factory _$$FetchBranchesImplCopyWith(
+          _$FetchBranchesImpl value, $Res Function(_$FetchBranchesImpl) then) =
+      __$$FetchBranchesImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FetchBranchesImplCopyWithImpl<$Res>
+    extends _$BranchEventCopyWithImpl<$Res, _$FetchBranchesImpl>
+    implements _$$FetchBranchesImplCopyWith<$Res> {
+  __$$FetchBranchesImplCopyWithImpl(
+      _$FetchBranchesImpl _value, $Res Function(_$FetchBranchesImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BranchEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$FetchBranchesImpl implements _FetchBranches {
+  const _$FetchBranchesImpl();
+
+  @override
+  String toString() {
+    return 'BranchEvent.fetchBranches()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$FetchBranchesImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBranches,
+  }) {
+    return fetchBranches();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBranches,
+  }) {
+    return fetchBranches?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBranches,
+    required TResult orElse(),
+  }) {
+    if (fetchBranches != null) {
+      return fetchBranches();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBranches value) fetchBranches,
+  }) {
+    return fetchBranches(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBranches value)? fetchBranches,
+  }) {
+    return fetchBranches?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBranches value)? fetchBranches,
+    required TResult orElse(),
+  }) {
+    if (fetchBranches != null) {
+      return fetchBranches(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchBranches implements BranchEvent {
+  const factory _FetchBranches() = _$FetchBranchesImpl;
+}
+
+/// @nodoc
+mixin _$BranchState {
+  bool get loading => throw _privateConstructorUsedError;
+  bool get error => throw _privateConstructorUsedError;
+  bool get success => throw _privateConstructorUsedError;
+  List<BranchModel> get branches => throw _privateConstructorUsedError;
+
+  /// Create a copy of BranchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $BranchStateCopyWith<BranchState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BranchStateCopyWith<$Res> {
+  factory $BranchStateCopyWith(
+          BranchState value, $Res Function(BranchState) then) =
+      _$BranchStateCopyWithImpl<$Res, BranchState>;
+  @useResult
+  $Res call(
+      {bool loading, bool error, bool success, List<BranchModel> branches});
+}
+
+/// @nodoc
+class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
+    implements $BranchStateCopyWith<$Res> {
+  _$BranchStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of BranchState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? loading = null,
+    Object? error = null,
+    Object? success = null,
+    Object? branches = null,
+  }) {
+    return _then(_value.copyWith(
+      loading: null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: null == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as bool,
+      success: null == success
+          ? _value.success
+          : success // ignore: cast_nullable_to_non_nullable
+              as bool,
+      branches: null == branches
+          ? _value.branches
+          : branches // ignore: cast_nullable_to_non_nullable
+              as List<BranchModel>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$BranchStateImplCopyWith<$Res>
+    implements $BranchStateCopyWith<$Res> {
+  factory _$$BranchStateImplCopyWith(
+          _$BranchStateImpl value, $Res Function(_$BranchStateImpl) then) =
+      __$$BranchStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {bool loading, bool error, bool success, List<BranchModel> branches});
+}
+
+/// @nodoc
+class __$$BranchStateImplCopyWithImpl<$Res>
+    extends _$BranchStateCopyWithImpl<$Res, _$BranchStateImpl>
+    implements _$$BranchStateImplCopyWith<$Res> {
+  __$$BranchStateImplCopyWithImpl(
+      _$BranchStateImpl _value, $Res Function(_$BranchStateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BranchState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? loading = null,
+    Object? error = null,
+    Object? success = null,
+    Object? branches = null,
+  }) {
+    return _then(_$BranchStateImpl(
+      loading: null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: null == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as bool,
+      success: null == success
+          ? _value.success
+          : success // ignore: cast_nullable_to_non_nullable
+              as bool,
+      branches: null == branches
+          ? _value._branches
+          : branches // ignore: cast_nullable_to_non_nullable
+              as List<BranchModel>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$BranchStateImpl extends _BranchState {
+  const _$BranchStateImpl(
+      {this.loading = false,
+      this.error = false,
+      this.success = false,
+      final List<BranchModel> branches = const []})
+      : _branches = branches,
+        super._();
+
+  @override
+  @JsonKey()
+  final bool loading;
+  @override
+  @JsonKey()
+  final bool error;
+  @override
+  @JsonKey()
+  final bool success;
+  final List<BranchModel> _branches;
+  @override
+  @JsonKey()
+  List<BranchModel> get branches {
+    if (_branches is EqualUnmodifiableListView) return _branches;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_branches);
+  }
+
+  @override
+  String toString() {
+    return 'BranchState(loading: $loading, error: $error, success: $success, branches: $branches)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BranchStateImpl &&
+            (identical(other.loading, loading) || other.loading == loading) &&
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.success, success) || other.success == success) &&
+            const DeepCollectionEquality().equals(other._branches, _branches));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, loading, error, success,
+      const DeepCollectionEquality().hash(_branches));
+
+  /// Create a copy of BranchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BranchStateImplCopyWith<_$BranchStateImpl> get copyWith =>
+      __$$BranchStateImplCopyWithImpl<_$BranchStateImpl>(this, _$identity);
+}
+
+abstract class _BranchState extends BranchState {
+  const factory _BranchState(
+      {final bool loading,
+      final bool error,
+      final bool success,
+      final List<BranchModel> branches}) = _$BranchStateImpl;
+  const _BranchState._() : super._();
+
+  @override
+  bool get loading;
+  @override
+  bool get error;
+  @override
+  bool get success;
+  @override
+  List<BranchModel> get branches;
+
+  /// Create a copy of BranchState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$BranchStateImplCopyWith<_$BranchStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

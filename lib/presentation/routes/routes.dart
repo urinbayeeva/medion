@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
+import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
+import 'package:medion/infrastructure/repository/branch_repo.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
@@ -115,8 +117,7 @@ class AppRoutes {
       List<String>? phoneNumbers}) {
     // AnalyticsService().analyzeScreenView('singUp');
     return MaterialPageRoute(
-        builder: (_) =>
-         BlocProvider(
+        builder: (_) => BlocProvider(
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
@@ -204,7 +205,8 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const DirectionsPage());
   }
 
-  static MaterialPageRoute getDirectionInfoPage({required int id,  required String name}) {
+  static MaterialPageRoute getDirectionInfoPage(
+      {required int id, required String name}) {
     return MaterialPageRoute(
       builder: (_) => DirectionInfoPage(id: id, name: name),
     );
@@ -327,7 +329,15 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getBranchesPage() {
-    return MaterialPageRoute(builder: (_) => const BranchesPage());
+    return MaterialPageRoute(
+      builder: (context) => BlocProvider(
+        create: (context) {
+          DBService dbService = context.read<DBService>();
+          return BranchBloc(BranchRepository(BranchService.create(dbService)));
+        },
+        child: const BranchesPage(),
+      ),
+    );
   }
 
   static MaterialPageRoute getSingleBranchPage({
@@ -427,7 +437,7 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const AwardsPage());
   }
 
-    static MaterialPageRoute getPolicyTreatment() {
+  static MaterialPageRoute getPolicyTreatment() {
     return MaterialPageRoute(builder: (_) => const PolicyTreatment());
   }
 

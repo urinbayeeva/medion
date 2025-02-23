@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -15,7 +17,7 @@ class BranchesInfoCard extends StatelessWidget {
   final VoidCallback branchPhoneNumberButton;
   final VoidCallback branchAdressButton;
   final VoidCallback branchMoreInfo;
-  
+
   const BranchesInfoCard(
       {super.key,
       required this.branchPhotos,
@@ -37,9 +39,10 @@ class BranchesInfoCard extends StatelessWidget {
         decoration: BoxDecoration(
             color: colors.shade0, borderRadius: BorderRadius.circular(8.r)),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // 16.h.verticalSpace,
-            _buildImageSection(colors, fonts),
+            Center(child: _buildImageSection(colors, fonts)),
 
             12.h.verticalSpace,
             Text(
@@ -54,12 +57,14 @@ class BranchesInfoCard extends StatelessWidget {
               spacing: 4.w,
               children: [
                 icons.location.svg(width: 20.w, height: 20.h),
-                Text(
-                  semanticsLabel: branchAdress,
-                  overflow: TextOverflow.clip,
-                  branchAdress,
-                  style: fonts.smallLink
-                      .copyWith(fontSize: 15.sp, fontWeight: FontWeight.w400),
+                Flexible(
+                  child: Text(
+                    semanticsLabel: branchAdress,
+                    overflow: TextOverflow.clip,
+                    branchAdress,
+                    style: fonts.smallLink
+                        .copyWith(fontSize: 15.sp, fontWeight: FontWeight.w400),
+                  ),
                 )
               ],
             ),
@@ -128,32 +133,14 @@ class BranchesInfoCard extends StatelessWidget {
   }
 
   Widget _buildImageSection(colors, fonts) {
-    return CarouselSlider(
-        items: branchPhotos.map((images) {
-          return Builder(
-            builder: (BuildContext context) {
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(color: colors.backgroundColor),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.r),
-                    child: Image.asset(images)),
-              );
-            },
-          );
-        }).toList(),
-        options: CarouselOptions(
-          // autoPlay: true,
-          aspectRatio: 1.6,
-          enlargeCenterPage: true,
-          viewportFraction: 1,
-          initialPage: 0,
-          enableInfiniteScroll: true,
-          reverse: false,
-          autoPlayInterval: const Duration(seconds: 40),
-          autoPlayAnimationDuration: const Duration(milliseconds: 800),
-          autoPlayCurve: Curves.fastOutSlowIn,
-          scrollDirection: Axis.horizontal,
-        ));
+    return branchPhotos.isEmpty
+        ? SvgPicture.asset(
+            "assets/icons/picture.svg",
+            color: colors.neutral400,
+            width: double.infinity,
+            height: 250,
+          )
+        : CachedImageComponent(
+            height: 250, width: double.infinity, imageUrl: branchPhotos.first);
   }
 }

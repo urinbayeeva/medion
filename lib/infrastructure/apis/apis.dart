@@ -6,6 +6,7 @@ import 'package:http/http.dart' show Client, MultipartFile;
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
+import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';
 import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
@@ -144,6 +145,15 @@ abstract class PatientService extends ChopperService {
 
   static PatientService create(DBService dbService) =>
       _$PatientService(_Client(Constants.baseUrlP, true, dbService));
+}
+
+@ChopperApi(baseUrl: "/branch")
+abstract class BranchService extends ChopperService {
+  @Get(path: "/about-branches")
+  Future<Response<BuiltList<BranchModel>>> getBranchInfo();
+
+  static BranchService create(DBService dbService) =>
+      _$BranchService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 base class _Client extends ChopperClient {

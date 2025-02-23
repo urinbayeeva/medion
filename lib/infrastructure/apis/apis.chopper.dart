@@ -310,3 +310,26 @@ final class _$PatientService extends PatientService {
     return client.send<VisitModel, VisitModel>($request);
   }
 }
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$BranchService extends BranchService {
+  _$BranchService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = BranchService;
+
+  @override
+  Future<Response<BuiltList<BranchModel>>> getBranchInfo() {
+    final Uri $url = Uri.parse('/branch/about-branches');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<BuiltList<BranchModel>, BranchModel>($request);
+  }
+}

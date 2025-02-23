@@ -49,7 +49,6 @@ class AuthRepository implements IAuthFacade {
         if (isNewUser) {
           return right(res.body!);
         } else {
-        
           if (res.body!.accessToken!.isNotEmpty &&
               res.body!.refreshToken!.isNotEmpty) {
             _dbService.setToken(Token(
@@ -132,7 +131,6 @@ class AuthRepository implements IAuthFacade {
     try {
       final res = await _authService.createUserInfo(request: request);
       if (res.isSuccessful) {
-        
         _dbService.setToken(Token(
           tokenType: res.body?.tokenType,
           accessToken: res.body?.accesstoken,

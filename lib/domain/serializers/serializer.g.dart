@@ -9,6 +9,7 @@ part of 'serializer.dart';
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AdModel.serializer)
       ..add(BookingTypeModel.serializer)
+      ..add(BranchModel.serializer)
       ..add(Category.serializer)
       ..add(CompanyDoctor.serializer)
       ..add(CreateInfoReq.serializer)
