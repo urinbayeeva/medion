@@ -49,20 +49,13 @@ class AuthRepository implements IAuthFacade {
         if (isNewUser) {
           return right(res.body!);
         } else {
+        
           if (res.body!.accessToken!.isNotEmpty &&
               res.body!.refreshToken!.isNotEmpty) {
-            final accessToken = res.body!.accessToken![0];
-            final refreshToken = res.body!.refreshToken![0];
-            final tokenType = res.body!.tokenType!;
-
-            await _dbService.setToken(Token(
-              tokenType: tokenType,
-              accessToken: accessToken,
-              refreshToken: refreshToken,
-            ));
-
-            LogService.d("Access Token: $accessToken");
-            LogService.d("Refresh Token: $refreshToken");
+            _dbService.setToken(Token(
+                accessToken: res.body?.accessToken!.first,
+                refreshToken: res.body?.refreshToken!.first,
+                tokenType: 'Bearer'));
 
             return right(res.body!);
           } else {
@@ -139,6 +132,7 @@ class AuthRepository implements IAuthFacade {
     try {
       final res = await _authService.createUserInfo(request: request);
       if (res.isSuccessful) {
+        
         _dbService.setToken(Token(
           tokenType: res.body?.tokenType,
           accessToken: res.body?.accesstoken,
@@ -156,63 +150,57 @@ class AuthRepository implements IAuthFacade {
   }
 
   static Future<Either<ResponseFailure, CreatePatientInfoResponse>>
-      refreshToken(String refreshToken) async {
+      refreshToken(String refresh) async {
     try {
       final response = await Dio().post(
-        "${Constants.baseUrlP}/refresh",
-        data: {'refresh': refreshToken},
+        "${Constants.baseUrlP}/token/refresh/",
+        data: {'refresh': refresh},
       );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final createInfoReq = CreatePatientInfoResponse(
+      if (response.statusCode! >= 200 && response.statusCode! < 300) {
+        return right(CreatePatientInfoResponse(
           (b) => b
-            ..accesstoken = (response.data['access_token'] as List).first
-            ..refreshtoken = (response.data['refresh_token'] as List).first
-            ..tokenType = response.data['token_type'],
-        );
-
-        LogService.d(
-            "✅ Token refreshed successfully: ${createInfoReq.accesstoken}");
-        return right(createInfoReq);
-      } else if (response.statusCode == 401) {
-        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+            ..refreshtoken = response.data['refresh']
+            ..accesstoken = response.data['access'],
+        ));
       } else {
-        return left(Unknown(message: 'unknown_error'.tr()));
-      }
-    } on DioException catch (e) {
-      if (e.response != null && e.response!.statusCode == 401) {
-        LogService.e("❌ Unauthorized access: ${e.response!.statusMessage}");
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
-      LogService.e("❌ DioException: ${e.toString()}");
-      return left(Unknown(message: 'unknown_error'.tr()));
     } catch (e) {
-      LogService.e("❌ Unknown exception: ${e.toString()}");
-      return left(Unknown(message: 'unknown_error'.tr()));
+      LogService.e(" ----> error on repo  : ${e.toString()}");
+      return left(handleError(e));
     }
+  }
+
+  static String _extractToken(Map<String, dynamic> data, String key) {
+    final token = data[key];
+    if (token is List) {
+      return token.first as String;
+    } else if (token is String) {
+      return token;
+    }
+    throw FormatException("Invalid token format for key: $key");
   }
 
   @override
   Future<Either<ResponseFailure, PatientInfo>> getPatientInfo() async {
-    if (_dbService.token.accessToken == null) {
-      return left(InvalidCredentials(message: 'invalid_credential'.tr()));
-    }
-
     try {
-      final res = await _patientService.getPatientInfo(requiresToken: "true");
-
-      if (res.isSuccessful) {
-        LogService.d('Response Status: ${res.statusCode}');
-        LogService.d('Response Status: ${res.statusCode}');
+      final token = _dbService.token.toBearerToken;
+      LogService.d("Fetching patient info with token: $token");
+      if (token == null) {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+      final service = PatientService.create(_dbService);
+      final res = await service.getPatientInfo();
+      if (res.isSuccessful && res.body != null) {
+        LogService.d("Patient info: ${res.body}");
         return right(res.body!);
       } else {
-        LogService.d('Response Status: ${res.statusCode}');
-        LogService.d('Response Status: ${res.statusCode}');
-
+        LogService.e("Server error: ${res.statusCode} - ${res.error}");
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error fetching patient info: ${e.toString()}");
+      LogService.e("----> error fetching patient info: $e");
       return left(handleError(e));
     }
   }

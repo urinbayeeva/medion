@@ -7,12 +7,16 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 class ServiceWidget extends StatelessWidget {
   final String consultInfo;
   final String consultPrice;
+  final bool isSelected; // Indicates if the service is selected
   final VoidCallback onTap;
-  const ServiceWidget(
-      {super.key,
-      required this.consultInfo,
-      required this.consultPrice,
-      required this.onTap});
+
+  const ServiceWidget({
+    super.key,
+    required this.consultInfo,
+    required this.consultPrice,
+    required this.isSelected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +24,9 @@ class ServiceWidget extends StatelessWidget {
       return Container(
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.r), color: colors.shade0),
+          borderRadius: BorderRadius.circular(8.r),
+          color: colors.shade0,
+        ),
         child: Column(
           children: [
             Row(
@@ -40,7 +46,7 @@ class ServiceWidget extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      4.h.verticalSpace,
+                      SizedBox(height: 4.h),
                       Text(
                         consultPrice,
                         style: fonts.xSmallMain.copyWith(
@@ -60,16 +66,15 @@ class ServiceWidget extends StatelessWidget {
                     padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
-                      color:
-                          onTap != null ? colors.error500 : colors.neutral200,
+                      color: isSelected ? colors.error500 : colors.neutral200,
                     ),
                     child: Center(
-                      child: onTap != null
+                      child: isSelected
                           ? icons.check.svg(width: 20.w, height: 20.h)
                           : icons.plus.svg(width: 20.w, height: 20.h),
                     ),
                   ),
-                )
+                ),
               ],
             ),
             Divider(color: colors.neutral400),

@@ -915,13 +915,15 @@ class _$HomeServiceBookingSerializer
     if (value != null) {
       result
         ..add('price_uzs')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     value = object.priceUzd;
     if (value != null) {
       result
         ..add('price_uzd')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     return result;
   }
@@ -948,11 +950,11 @@ class _$HomeServiceBookingSerializer
           break;
         case 'price_uzs':
           result.priceUzs = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'price_uzd':
           result.priceUzd = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+              specifiedType: const FullType(double)) as double?;
           break;
       }
     }
@@ -2569,9 +2571,9 @@ class _$HomeServiceBooking extends HomeServiceBooking {
   @override
   final String? name;
   @override
-  final int? priceUzs;
+  final double? priceUzs;
   @override
-  final int? priceUzd;
+  final double? priceUzd;
 
   factory _$HomeServiceBooking(
           [void Function(HomeServiceBookingBuilder)? updates]) =>
@@ -2633,13 +2635,13 @@ class HomeServiceBookingBuilder
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
 
-  int? _priceUzs;
-  int? get priceUzs => _$this._priceUzs;
-  set priceUzs(int? priceUzs) => _$this._priceUzs = priceUzs;
+  double? _priceUzs;
+  double? get priceUzs => _$this._priceUzs;
+  set priceUzs(double? priceUzs) => _$this._priceUzs = priceUzs;
 
-  int? _priceUzd;
-  int? get priceUzd => _$this._priceUzd;
-  set priceUzd(int? priceUzd) => _$this._priceUzd = priceUzd;
+  double? _priceUzd;
+  double? get priceUzd => _$this._priceUzd;
+  set priceUzd(double? priceUzd) => _$this._priceUzd = priceUzd;
 
   HomeServiceBookingBuilder();
 

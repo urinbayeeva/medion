@@ -5,7 +5,9 @@ import 'dart:io' show HttpHeaders;
 import 'package:chopper/chopper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
+import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/common/token_ext.dart';
+import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_adapter.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_utils.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_call.dart';
@@ -13,6 +15,7 @@ import 'package:medion/infrastructure/services/alice/model/alice_http_error.dart
 import 'package:medion/infrastructure/services/alice/model/alice_http_request.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_response.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:uuid/uuid.dart';
 
 import '../services/connectivity.dart';
@@ -174,31 +177,53 @@ class CoreInterceptor implements Interceptor {
 
   @override
   FutureOr<Response<T>> intercept<T>(Chain<T> chain) async {
-    final request = applyHeader(chain.request, 'Accept-Language', 'app_lang'.tr());
+    final request = applyHeader(chain.request, 'accept', 'application/json');
     final request1 = applyHeader(request, 'uuid', dbService.getUid ?? "");
-
     final requiresToken = request.headers['requires-token'] == 'true' ||
         request.headers['requires-token'] == 'optional';
 
     if (requiresToken) {
-      final latestToken = dbService.token.toBearerToken?.trim(); // Ensure token is clean
-
-      if (latestToken != null && latestToken.isNotEmpty) {
-        final request2 = applyHeader(request1, 'Authorization', latestToken);
-        return chain.proceed(request2);
-      } else {
-        if (request.headers['requires-token'] == 'optional') {
-          return chain.proceed(request1);
+      var token = dbService.token.toBearerToken;
+      if (token == null) {
+        LogService.w("Access token is null, attempting refresh");
+        final refreshToken = dbService.token.refreshToken;
+        if (refreshToken != null && refreshToken.isNotEmpty) {
+          final result = await AuthRepository.refreshToken(refreshToken);
+          return result.fold(
+            (error) async {
+              LogService.e("Refresh failed: ${error.message}");
+              dbService.signOut();
+              throw Exception('invalid_credential'.tr());
+            },
+            (data) async {
+              dbService.setToken(Token(
+                accessToken: data.accesstoken,
+                refreshToken: data.refreshtoken,
+                tokenType: 'Bearer',
+              ));
+              token = dbService.token.toBearerToken!;
+              LogService.d("Refreshed token: $token");
+              final request2 = applyHeader(request1, 'Authorization', token!);
+              return chain.proceed(request2);
+            },
+          );
         } else {
-          throw Exception('invalid_credential'.tr());
+          LogService.e("No refresh token available");
+          if (request.headers['requires-token'] == 'optional') {
+            return chain.proceed(request1);
+          } else {
+            throw Exception('invalid_credential'.tr());
+          }
         }
+      } else {
+        LogService.d("Applying token: $token");
+        final request2 = applyHeader(request1, 'Authorization', token);
+        return chain.proceed(request2);
       }
     }
     return chain.proceed(request1);
   }
 }
-
-
 
 class RetryInterceptor implements Interceptor {
   final int maxRetries;

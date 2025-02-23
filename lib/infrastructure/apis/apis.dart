@@ -95,7 +95,6 @@ abstract class HomePageService extends ChopperService {
   @Get(path: "advertisements")
   Future<Response<BuiltList<AdModel>>> getAds();
 
-
   static HomePageService create(DBService dbService) =>
       _$HomePageService(_Client(Constants.baseUrlP, true, dbService));
 }
@@ -157,14 +156,14 @@ base class _Client extends ChopperClient {
             interceptors: useInterceptors
                 ? [
                     CoreInterceptor(dbService),
-                    aliceChopperAdapter,
+                    if (AppConfig.shared.flavor == Flavor.dev)
+                      aliceChopperAdapter,
                     HttpLoggingInterceptor(),
                     CurlInterceptor(),
                     NetworkInterceptor(),
                     RetryInterceptor(
                         maxRetries: 3, retryDelay: const Duration(seconds: 2)),
                     BackendInterceptor(),
-                    RefreshTokenInterceptor(dbService),
                   ]
                 : const [],
             converter: BuiltValueConverter(),
@@ -181,85 +180,52 @@ class MyAuthenticator extends Authenticator {
       [Request? originalRequest]) async {
     if (response.statusCode == 401) {
       try {
-        final result = await AuthRepository.refreshToken(
-            dbService.token.refreshToken ?? "");
-            
+        final refreshToken = dbService.token.refreshToken;
+        LogService.d("Attempting refresh with token: $refreshToken");
+
+        if (refreshToken == null || refreshToken.isEmpty) {
+          LogService.w("No valid refresh token available");
+          // dbService.signOut();
+          return null;
+        }
+
+        final result = await AuthRepository.refreshToken(refreshToken);
 
         Map<String, String>? header;
 
-        result.fold((error) {
-          dbService.signOut();
-        }, (data) {
-          dbService.setToken(Token(
-            tokenType: data.tokenType,
-              accessToken: data.accesstoken, refreshToken: data.refreshtoken));
-          String? newToken = data.accesstoken;
+        result.fold(
+          (error) {
+            LogService.e("Refresh failed: ${error.message}");
+            // dbService.signOut();
+          },
+          (data) {
+            LogService.d("Refresh succeeded: access=${data.accesstoken}");
+            dbService.setToken(Token(
+              accessToken: data.accesstoken,
+              refreshToken: data.refreshtoken,
+              tokenType: 'Bearer',
+            ));
 
-          final Map<String, String> updatedHeaders =
-              Map<String, String>.of(request.headers);
+            final updatedHeaders = Map<String, String>.of(request.headers);
+            final newToken = 'Bearer ${data.accesstoken}';
+            updatedHeaders['Authorization'] = newToken;
+            header = updatedHeaders;
+          },
+        );
 
-          newToken = 'Bearer $newToken';
-          updatedHeaders.update('Authorization', (String _) => newToken!,
-              ifAbsent: () => newToken!);
-
-          header = updatedHeaders;
+        if (header != null) {
+          LogService.d("Returning request with new headers: $header");
           return request.copyWith(headers: header);
-        });
+        }
       } catch (e) {
-        LogService.i(e.toString());
-
-        dbService.signOut();
+        LogService.e("Refresh exception: $e");
+        // dbService.signOut();
       }
-    } else {
-      if (response.statusCode >= 400) {
-        BackendExceptionForSentry exceptionForSentry =
-            BackendExceptionForSentry(response);
-        throw exceptionForSentry;
-      }
+    } else if (response.statusCode >= 400) {
+      LogService.e("Non-401 error: ${response.statusCode}");
+      throw BackendExceptionForSentry(response);
     }
+
     return null;
-  }
-}
-
-
-class RefreshTokenInterceptor implements Interceptor {
-  final DBService dbService;
-
-  RefreshTokenInterceptor(this.dbService);
-
-  @override
-  FutureOr<Response<T>> intercept<T>(Chain<T> chain) async {
-    final response = await chain.proceed(chain.request);
-    if (response.statusCode == 401) {
-      try {
-        final result = await AuthRepository.refreshToken(dbService.token.refreshToken ?? "");
-
-        Map<String, String>? header;
-
-        result.fold((error) {
-          dbService.signOut();
-        }, (data) {
-          dbService.setToken(
-              Token(tokenType: data.tokenType, accessToken: data.accesstoken, refreshToken: data.refreshtoken));
-          String? newToken = data.accesstoken;
-
-          final Map<String, String> updatedHeaders = Map<String, String>.of(chain.request.headers);
-
-          newToken = 'Bearer $newToken';
-          updatedHeaders.update('Authorization', (String _) => newToken!, ifAbsent: () => newToken!);
-
-          header = updatedHeaders;
-        });
-        return chain.proceed(chain.request.copyWith(headers: header));
-      } catch (e) {
-        dbService.signOut();
-      }
-    } else {
-      if (response.statusCode >= 400) {
-        BackendExceptionForSentry exceptionForSentry = BackendExceptionForSentry(response);
-        throw exceptionForSentry;
-      }
-    }
-    return response;
   }
 }

@@ -284,10 +284,10 @@ abstract class HomeServiceBooking
   String? get name;
 
   @BuiltValueField(wireName: 'price_uzs')
-  int? get priceUzs;
+  double? get priceUzs;
 
   @BuiltValueField(wireName: 'price_uzd')
-  int? get priceUzd;
+  double? get priceUzd;
 
   HomeServiceBooking._();
   factory HomeServiceBooking(

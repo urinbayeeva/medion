@@ -109,7 +109,7 @@ class _DirectionsPageState extends State<DirectionsPage> {
                                     .changeNavBar(true);
                                 Navigator.push(
                                   context,
-                                  AppRoutes.getDirectionInfoPage(id: item.id!),
+                                  AppRoutes.getDirectionInfoPage(id: item.id!, name: item.name!),
                                 ).then((_) {
                                   context
                                       .read<BottomNavBarController>()

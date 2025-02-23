@@ -51,17 +51,16 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
                   padding: EdgeInsets.only(right: 8.w),
                   child: AnimationButtonEffect(
                     onTap: () {
-                         context
-                                    .read<BottomNavBarController>()
-                                    .changeNavBar(true);
-                                Navigator.push(
-                                  context,
-                                  AppRoutes.getDirectionInfoPage(id: disease.categoryId!),
-                                ).then((_) {
-                                  context
-                                      .read<BottomNavBarController>()
-                                      .changeNavBar(false);
-                                });
+                      context.read<BottomNavBarController>().changeNavBar(true);
+                      Navigator.push(
+                        context,
+                        AppRoutes.getDirectionInfoPage(
+                            id: disease.categoryId!, name: disease.title!),
+                      ).then((_) {
+                        context
+                            .read<BottomNavBarController>()
+                            .changeNavBar(false);
+                      });
                     },
                     child: Container(
                       width: 109.w,

@@ -13,6 +13,7 @@ import 'package:medion/presentation/component/c_zigzag_container.dart';
 import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
 import 'package:medion/presentation/pages/appointment/component/user_info_widget.dart';
 import 'package:medion/presentation/pages/appointment/component/verify_appointment_item.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -236,8 +237,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                   content: Text(
                                       'appointment_created_successfully'.tr())),
                             );
-                            // Navigate to success page or home
-                            Navigator.pop(context);
+                            Navigator.push(context, AppRoutes.getMainPage(2));
                           } else {
                             // Show error message
                             ScaffoldMessenger.of(context).showSnackBar(

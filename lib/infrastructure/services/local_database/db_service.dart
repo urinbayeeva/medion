@@ -32,25 +32,22 @@ class DBService {
     return DBService._();
   }
 
+  /// Token
   Future<void> setToken(Token token) async {
     await _box?.put(_accessToken, token.accessToken ?? '');
     await _box?.put(_refreshToken, token.refreshToken ?? '');
   }
 
-Token get token {
-  final accessToken = _box?.get(_accessToken);
-  final refreshToken = _box?.get(_refreshToken);
-  final tokenType = _box?.get(_tokenType) ?? "Bearer"; // Default to "Bearer" if null
+  Token get token {
+    final accessToken = _box?.get(_accessToken);
+    final refreshToken = _box?.get(_refreshToken);
+    return Token(
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      tokenType: "Bearer",
+    );
+  }
 
-  return Token(
-    accessToken: accessToken,
-    refreshToken: refreshToken,
-    tokenType: tokenType,
-  );
-}
-
-
-  /// UID
   /// UID
   Future<void> setUid(String? uid) async {
     await _box?.put(_uid, uid);

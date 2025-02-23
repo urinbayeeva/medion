@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                                   Navigator.push(
                                     context,
                                     AppRoutes.getDirectionInfoPage(
-                                        id: item.id!),
+                                        id: item.id!, name: item.name!),
                                   ).then((_) {
                                     // ignore: use_build_context_synchronously
                                     context

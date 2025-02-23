@@ -196,7 +196,7 @@ class AppRoutes {
   //   return MaterialPageRoute(builder: (_) => const StepFirst());
   // }
 
-  static MaterialPageRoute getMyVisitsPage(index) {
+  static MaterialPageRoute getMyVisitsPage() {
     return MaterialPageRoute(builder: (_) => const MyVisitsPage());
   }
 
@@ -204,9 +204,9 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const DirectionsPage());
   }
 
-  static MaterialPageRoute getDirectionInfoPage({required int id}) {
+  static MaterialPageRoute getDirectionInfoPage({required int id,  required String name}) {
     return MaterialPageRoute(
-      builder: (_) => DirectionInfoPage(id: id),
+      builder: (_) => DirectionInfoPage(id: id, name: name),
     );
   }
 

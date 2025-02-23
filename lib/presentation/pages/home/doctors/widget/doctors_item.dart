@@ -17,6 +17,7 @@ class DoctorsItem extends StatelessWidget {
   final bool? isCategoried;
   final String? categoryType;
   final VoidCallback onTap;
+  final String? gender;
 
   const DoctorsItem({
     super.key,
@@ -30,6 +31,7 @@ class DoctorsItem extends StatelessWidget {
     this.isCategoried = false,
     this.categoryType,
     required this.onTap,
+    this.gender,
   });
 
   @override
@@ -102,7 +104,9 @@ class DoctorsItem extends StatelessWidget {
                       errorWidget: (context, url, error) => icons.nonUser
                           .svg(), // Fallback if image fails to load
                     )
-                  : icons.nonUser.svg(color: colors.neutral500),
+                  : gender == "female"
+                      ? icons.girlNonUser.svg()
+                      : icons.nonUser.svg(color: colors.neutral500),
             )
           ],
         );

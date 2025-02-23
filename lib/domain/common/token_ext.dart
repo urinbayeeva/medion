@@ -2,6 +2,7 @@ import 'package:medion/domain/common/token.dart';
 
 import '../failurs/auth/auth_failure.dart';
 
+
 extension TokenX on Token {
   AuthFailure? get hasFailure {
     if (accessToken == null && refreshToken == null) {
