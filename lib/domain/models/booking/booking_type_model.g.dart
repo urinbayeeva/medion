@@ -833,14 +833,14 @@ class _$HomeMedicalDoctorSerializer
     value = object.jobName;
     if (value != null) {
       result
-        ..add('jobName')
+        ..add('job_name')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
     value = object.experienceYears;
     if (value != null) {
       result
-        ..add('experienceYears')
+        ..add('experience_years')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
     return result;
@@ -870,11 +870,11 @@ class _$HomeMedicalDoctorSerializer
           result.name = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'jobName':
+        case 'job_name':
           result.jobName = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'experienceYears':
+        case 'experience_years':
           result.experienceYears = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
@@ -914,13 +914,13 @@ class _$HomeServiceBookingSerializer
     value = object.priceUzs;
     if (value != null) {
       result
-        ..add('priceUzs')
+        ..add('price_uzs')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
     value = object.priceUzd;
     if (value != null) {
       result
-        ..add('priceUzd')
+        ..add('price_uzd')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
     return result;
@@ -946,11 +946,11 @@ class _$HomeServiceBookingSerializer
           result.name = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'priceUzs':
+        case 'price_uzs':
           result.priceUzs = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
-        case 'priceUzd':
+        case 'price_uzd':
           result.priceUzd = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;

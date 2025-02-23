@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
+import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class ProblemSlidebaleCard extends StatefulWidget {
@@ -48,7 +50,19 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
                 return Padding(
                   padding: EdgeInsets.only(right: 8.w),
                   child: AnimationButtonEffect(
-                    onTap: () {},
+                    onTap: () {
+                         context
+                                    .read<BottomNavBarController>()
+                                    .changeNavBar(true);
+                                Navigator.push(
+                                  context,
+                                  AppRoutes.getDirectionInfoPage(id: disease.categoryId!),
+                                ).then((_) {
+                                  context
+                                      .read<BottomNavBarController>()
+                                      .changeNavBar(false);
+                                });
+                    },
                     child: Container(
                       width: 109.w,
                       height: 120.h,

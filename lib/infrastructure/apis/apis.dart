@@ -95,6 +95,7 @@ abstract class HomePageService extends ChopperService {
   @Get(path: "advertisements")
   Future<Response<BuiltList<AdModel>>> getAds();
 
+
   static HomePageService create(DBService dbService) =>
       _$HomePageService(_Client(Constants.baseUrlP, true, dbService));
 }

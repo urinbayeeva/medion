@@ -28,7 +28,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   int selectedIndex = 0;
   double turns = 0.0;
   bool changeSum = false;
-  List<int> savedIds = []; // List to hold the saved IDs
+  List<int> savedIds = [];
 
   Widget buildDoctorItem(dynamic doctor, bool isInnerPage) {
     return DoctorsItem(
@@ -180,6 +180,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                         Text('services'.tr(), style: fonts.regularSemLink),
                         12.h.verticalSpace,
                         ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,
                             itemCount: state.medicalModel!.services.length,
@@ -188,17 +189,10 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                                 onTap: () {
                                   savedIds.add(widget.id);
                                 },
-                                consultInfo: medicalModel.services
-                                        .firstWhere(
-                                          (service) => service.id == widget.id,
-                                          orElse: () =>
-                                              medicalModel.services.first,
-                                        )
-                                        .name ??
-                                    "",
+                                consultInfo: medicalModel.services[index].name!,
                                 consultPrice: changeSum
-                                    ? "${medicalModel.services.firstWhere((service) => service.id == widget.id, orElse: () => medicalModel.services.first).priceUzs ?? 0} UZS"
-                                    : "${medicalModel.services.firstWhere((service) => service.id == widget.id, orElse: () => medicalModel.services.first).priceUzd ?? 0} USD",
+                                    ? "${medicalModel.services[index].priceUzs} UZS"
+                                    : "${medicalModel.services[index].priceUzd} USD",
                               );
                             }),
                         80.h.verticalSpace,
@@ -244,27 +238,25 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                         Text('services'.tr(), style: fonts.regularSemLink),
                         12.h.verticalSpace,
                         ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            itemCount: state.medicalModel!.services.length,
-                            itemBuilder: (context, index) {
-                              return ServiceWidget(
-                                onTap: () {
-                                  savedIds.add(widget.id);
-                                },
-                                consultInfo: medicalModel.services
-                                        .firstWhere(
-                                          (service) => service.id == widget.id,
-                                          orElse: () =>
-                                              medicalModel.services.first,
-                                        )
-                                        .name ??
-                                    "",
-                                consultPrice: changeSum
-                                    ? "${medicalModel.services.firstWhere((service) => service.id == widget.id, orElse: () => medicalModel.services.first).priceUzs ?? 0} UZS"
-                                    : "${medicalModel.services.firstWhere((service) => service.id == widget.id, orElse: () => medicalModel.services.first).priceUzd ?? 0} USD",
-                              );
-                            }),
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          itemCount: state.medicalModel!.services.length,
+                          itemBuilder: (context, index) {
+                            final service = state.medicalModel!.services[index];
+
+                            print(
+                                "Service Name: ${service.name}, Price UZS: ${service.priceUzs}, Price USD: ${service.priceUzd}");
+
+                            return ServiceWidget(
+                              onTap: () {
+                                savedIds.add(widget.id);
+                              },
+                              consultInfo: service.name!,
+                              consultPrice: "${service.priceUzd}",
+                            );
+                          },
+                        ),
                         80.h.verticalSpace,
                       ],
                     ],

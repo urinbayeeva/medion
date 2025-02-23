@@ -31,14 +31,12 @@ class AuthRepository implements IAuthFacade {
     this._patientService,
   );
 
-  /// Get user
   @override
   Option<AuthFailure> checkUser() {
     final Token token = _dbService.token;
     return optionOf(token.hasFailure);
   }
 
-  /// Send verification code
   @override
   Future<Either<ResponseFailure, ResponseModel>> registerUser(
       {required RegisterReq request}) async {

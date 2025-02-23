@@ -46,10 +46,9 @@ class _SecondServicePageState extends State<SecondServicePage> {
   @override
   void initState() {
     super.initState();
-    // Listen for changes in selected IDs
     Provider.of<SelectedServiceIdsProvider>(context, listen: false)
         .addListener(_updateSelectedServices);
-    _updateSelectedServices(); // Initial update to fetch current state
+    _updateSelectedServices(); 
   }
 
   @override

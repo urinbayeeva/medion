@@ -35,7 +35,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       on<_FetchPatientVisits>(_fetchPatientVisitsHandler); 
   }
 
-  /// Authentication Check
   Future<void> _checkAuth(_CheckAuth event, Emitter<AuthState> emit) async {
     final res = _repository.checkUser();
 

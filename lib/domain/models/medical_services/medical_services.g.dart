@@ -151,6 +151,12 @@ class _$DiseaseModleSerializer implements StructuredSerializer<DiseaseModle> {
         ..add(
             serializers.serialize(value, specifiedType: const FullType(bool)));
     }
+    value = object.categoryId;
+    if (value != null) {
+      result
+        ..add('category_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -181,6 +187,10 @@ class _$DiseaseModleSerializer implements StructuredSerializer<DiseaseModle> {
         case 'link':
           result.link = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'category_id':
+          result.categoryId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -431,11 +441,14 @@ class _$DiseaseModle extends DiseaseModle {
   final bool? forChildren;
   @override
   final bool? link;
+  @override
+  final int? categoryId;
 
   factory _$DiseaseModle([void Function(DiseaseModleBuilder)? updates]) =>
       (new DiseaseModleBuilder()..update(updates))._build();
 
-  _$DiseaseModle._({this.title, this.icon, this.forChildren, this.link})
+  _$DiseaseModle._(
+      {this.title, this.icon, this.forChildren, this.link, this.categoryId})
       : super._();
 
   @override
@@ -452,7 +465,8 @@ class _$DiseaseModle extends DiseaseModle {
         title == other.title &&
         icon == other.icon &&
         forChildren == other.forChildren &&
-        link == other.link;
+        link == other.link &&
+        categoryId == other.categoryId;
   }
 
   @override
@@ -462,6 +476,7 @@ class _$DiseaseModle extends DiseaseModle {
     _$hash = $jc(_$hash, icon.hashCode);
     _$hash = $jc(_$hash, forChildren.hashCode);
     _$hash = $jc(_$hash, link.hashCode);
+    _$hash = $jc(_$hash, categoryId.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -472,7 +487,8 @@ class _$DiseaseModle extends DiseaseModle {
           ..add('title', title)
           ..add('icon', icon)
           ..add('forChildren', forChildren)
-          ..add('link', link))
+          ..add('link', link)
+          ..add('categoryId', categoryId))
         .toString();
   }
 }
@@ -497,6 +513,10 @@ class DiseaseModleBuilder
   bool? get link => _$this._link;
   set link(bool? link) => _$this._link = link;
 
+  int? _categoryId;
+  int? get categoryId => _$this._categoryId;
+  set categoryId(int? categoryId) => _$this._categoryId = categoryId;
+
   DiseaseModleBuilder();
 
   DiseaseModleBuilder get _$this {
@@ -506,6 +526,7 @@ class DiseaseModleBuilder
       _icon = $v.icon;
       _forChildren = $v.forChildren;
       _link = $v.link;
+      _categoryId = $v.categoryId;
       _$v = null;
     }
     return this;
@@ -532,6 +553,7 @@ class DiseaseModleBuilder
           icon: icon,
           forChildren: forChildren,
           link: link,
+          categoryId: categoryId,
         );
     replace(_$result);
     return _$result;

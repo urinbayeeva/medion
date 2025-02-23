@@ -70,19 +70,17 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
   Widget build(BuildContext context) {
     return Unfocuser(
       child: BlocConsumer<AuthBloc, AuthState>(
-        listenWhen: (pre, current) =>
-            pre.successVerifyCode != current.successVerifyCode &&
-            current.successVerifyCode,
         listener: (context, state) {
-          if (state.successVerifyCode) {
-            final token = context.read<DBService>().token.accessToken;
-            if (token != null && token.isNotEmpty) {
-              Navigator.of(context, rootNavigator: true)
-                  .pushAndRemoveUntil(AppRoutes.getMainPage(0), (_) => false);
-            } else {
-              Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-                  AppRoutes.getDataEntryPage(widget.phoneNumber), (_) => false);
-            }
+          if (state.proceedToHome) {
+            Navigator.push(
+              context,
+              AppRoutes.getDataEntryPage(widget.phoneNumber),
+            );
+          } else {
+            Navigator.push(
+              context,
+              AppRoutes.getDataEntryPage(widget.phoneNumber),
+            );
           }
         },
         builder: (context, state) {
@@ -169,31 +167,15 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                             CButton(
                               title: "verify".tr(),
                               onTap: () {
-                                context.read<AuthBloc>().add(
-                                      AuthEvent.verificationSend(
-                                          request: RegisterReq((p0) => p0
-                                            ..code = "1111"
-                                            ..phoneNumber =
-                                                widget.phoneNumber)),
-                                    );
-
-                                final token =
-                                    context.read<DBService>().token.accessToken;
-                                if (token != null && token.isNotEmpty) {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pushAndRemoveUntil(
-                                          AppRoutes.getMainPage(0),
-                                          (_) => false);
-                                } else {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pushAndRemoveUntil(
-                                          AppRoutes.getDataEntryPage(
-                                              widget.phoneNumber),
-                                          (_) => false);
-                                }
+                                context
+                                    .read<AuthBloc>()
+                                    .add(AuthEvent.verificationSend(
+                                        request: RegisterReq((p0) => p0
+                                          ..phoneNumber = widget.phoneNumber
+                                          ..code = "1111")));
                               },
                             ),
-                            // 27.h.verticalSpace,
+                            27.h.verticalSpace,
                           ],
                         ),
                       ),

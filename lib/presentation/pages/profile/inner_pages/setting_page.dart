@@ -171,12 +171,11 @@ class _SettingPageState extends State<SettingPage> {
     }
 
     if (index == 0) {
-      setNavBarState(true);
       // showModalBottomSheet(
       //   context: context,
       //   builder: (item) => const CLangRadio(),
       // ).then((_) => setNavBarState(false));
-    } else if (index == 1) {
+    } else if (index == 0) {
       makePhoneCall("+998958098661");
     } else {
       setNavBarState(true);

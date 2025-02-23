@@ -1,4 +1,3 @@
-
 import 'package:built_value/built_value.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
@@ -22,7 +21,7 @@ abstract class MedicalServices
   bool? get forChildren;
 
   @BuiltValueField(wireName: 'link')
-  JsonObject? get link; 
+  JsonObject? get link;
 
   @BuiltValueField(wireName: 'background_color')
   String? get backgroundColor;
@@ -53,17 +52,16 @@ abstract class DiseaseModle
   @BuiltValueField(wireName: 'link')
   bool? get link;
 
+  @BuiltValueField(wireName: "category_id")
+  int? get categoryId;
+
   static Serializer<DiseaseModle> get serializer => _$diseaseModleSerializer;
 }
 
-
-
-abstract class AdModel
-    implements Built<AdModel, AdModelBuilder> {
+abstract class AdModel implements Built<AdModel, AdModelBuilder> {
   AdModel._();
 
-  factory AdModel([void Function(AdModelBuilder) updates]) =
-      _$AdModel;
+  factory AdModel([void Function(AdModelBuilder) updates]) = _$AdModel;
 
   @BuiltValueField(wireName: 'title')
   String? get title;
@@ -77,7 +75,7 @@ abstract class AdModel
   @BuiltValueField(wireName: 'important')
   bool? get important;
 
-    @BuiltValueField(wireName: 'link')
+  @BuiltValueField(wireName: 'link')
   bool? get link;
 
   static Serializer<AdModel> get serializer => _$adModelSerializer;

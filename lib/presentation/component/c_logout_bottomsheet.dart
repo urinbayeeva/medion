@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class CBottomsheetProfile extends StatefulWidget {
@@ -63,7 +64,10 @@ class _CBottomsheetProfileState extends State<CBottomsheetProfile> {
                     Expanded(
                         child: CButton(
                             borderRadius: 22,
-                            onTap: widget.onTapLogOut,
+                            onTap: () {
+                              Navigator.push(
+                                  context, AppRoutes.getSignUpPage());
+                            },
                             title: "Выйти")),
                   ],
                 ),
