@@ -28,55 +28,54 @@ import 'package:medion/presentation/pages/appointment/widget/doctors_appointment
 import 'package:medion/presentation/styles/style.dart';
 
 class DoctorTimeAndService extends StatefulWidget {
-  final int? seansCount;
   final VoidCallback onTap;
+  final Set<int>? selectedServiceIds;
 
-  const DoctorTimeAndService({super.key, this.seansCount, required this.onTap});
+  const DoctorTimeAndService({
+    super.key,
+    required this.onTap,
+    this.selectedServiceIds,
+  });
 
   @override
   State<DoctorTimeAndService> createState() => _DoctorTimeAndServiceState();
 }
 
 class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
-  // Track multiple selected appointments
-  ValueNotifier<List<Map<String, String>>> selectedAppointments = ValueNotifier([]);
+  ValueNotifier<List<Map<String, String>>> selectedAppointments =
+      ValueNotifier([]);
 
-  // Add an appointment to the list
   void addAppointment(Map<String, String> appointment) {
     selectedAppointments.value = [...selectedAppointments.value, appointment];
     print("Added Appointment: $appointment");
     print("Current Appointments: ${selectedAppointments.value}");
   }
 
-  // Remove an appointment from the list
   void removeAppointment(Map<String, String> appointment) {
-    selectedAppointments.value = selectedAppointments.value
-        .where((a) => a != appointment)
-        .toList();
+    selectedAppointments.value =
+        selectedAppointments.value.where((a) => a != appointment).toList();
     print("Removed Appointment: $appointment");
     print("Current Appointments: ${selectedAppointments.value}");
   }
 
   @override
   Widget build(BuildContext context) {
-    final selectedServiceIdsProvider =
-        Provider.of<SelectedServiceIdsProvider>(context);
+    // Convert Set<int>? to List<int>, defaulting to empty list if null
+    List<int> serviceIds = widget.selectedServiceIds?.toList() ?? [];
 
     return FutureBuilder<List<Service>>(
-      future: ApiService.fetchServices(
-          selectedServiceIdsProvider.selectedServiceIds),
+      future: ApiService.fetchServices(serviceIds), // Pass List<int>
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
               child: CircularProgressIndicator(color: Style.error500));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (snapshot.hasData) {
+        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           return ThemeWrapper(
               builder: (context, colors, fonts, icons, controller) {
             return Column(
               children: [
-                // Display Services
                 Expanded(
                   child: CustomListView(
                     padding: EdgeInsets.zero,
@@ -89,10 +88,11 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                                service.companiesDoctors.isNotEmpty
-                                    ? service.companiesDoctors.first.companyName
-                                    : 'No Company',
-                                style: fonts.regularMain),
+                              service.companiesDoctors.isNotEmpty
+                                  ? service.companiesDoctors.first.companyName
+                                  : 'No Company',
+                              style: fonts.regularMain,
+                            ),
                             CustomExpansionListTile(
                               title: service.serviceName,
                               description: "${service.serviceId}",
@@ -107,7 +107,9 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                                           doctor: doctor,
                                           schedules: doctor.schedules,
                                           serviceId: service.serviceId,
-                                          companyID: service.companiesDoctors.first.companyId.toString(),
+                                          companyID: service
+                                              .companiesDoctors.first.companyId
+                                              .toString(),
                                           onAppointmentSelected: (appointment) {
                                             if (appointment != null) {
                                               addAppointment(appointment);
@@ -130,15 +132,12 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                     status: FormzSubmissionStatus.success,
                   ),
                 ),
-
-  
                 ValueListenableBuilder<List<Map<String, String>>>(
                   valueListenable: selectedAppointments,
                   builder: (context, selectedList, _) {
                     if (selectedList.isEmpty) {
                       return const SizedBox.shrink();
                     }
-
                     return Container(
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       width: double.infinity,
@@ -154,26 +153,25 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Display all selected appointments
-                            // ...selectedList.map((selected) {
-                            //   return Column(
-                            //     crossAxisAlignment: CrossAxisAlignment.start,
-                            //     children: [
-                            //       Text(
-                            //         "Doctor: ${selected['doctorName']}",
-                            //         style: fonts.smallMain,
-                            //       ),
-                            //       Text(
-                            //         "Time: ${selected['time']}",
-                            //         style: fonts.xSmallMain.copyWith(
-                            //           color: colors.neutral500,
-                            //         ),
-                            //       ),
-                            //       CDivider(), // Add a divider between appointments
-                            //     ],
-                            //   );
-                            // }).toList(),
-                            // 8.h.verticalSpace,
+                            ...selectedList.map((selected) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Doctor: ${selected['doctorName']}",
+                                    style: fonts.smallMain,
+                                  ),
+                                  Text(
+                                    "Time: ${selected['time']}",
+                                    style: fonts.xSmallMain.copyWith(
+                                      color: colors.neutral500,
+                                    ),
+                                  ),
+                                  const CDivider(),
+                                ],
+                              );
+                            }).toList(),
+                            8.h.verticalSpace,
                             CButton(
                               title: 'next'.tr(),
                               onTap: widget.onTap,
@@ -188,7 +186,7 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
             );
           });
         }
-        return const SizedBox.shrink();
+        return const Center(child: Text('No services selected'));
       },
     );
   }

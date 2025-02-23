@@ -25,7 +25,8 @@ import 'package:provider/provider.dart';
 
 class AppointmentPage extends StatefulWidget {
   final int? index;
-  const AppointmentPage({super.key, this.index});
+  final Set<int>? selectedServiceIds; // Add this to receive IDs
+  const AppointmentPage({super.key, this.index, this.selectedServiceIds});
 
   @override
   State<AppointmentPage> createState() => _AppointmentPageState();
@@ -33,12 +34,13 @@ class AppointmentPage extends StatefulWidget {
 
 class _AppointmentPageState extends State<AppointmentPage> {
   late bool canPop;
-
+  late DBService dbService;
   List<_AddAppointmentUseCaseModel> useCase = [];
   AddAppointmentScreenType currentScreenType =
       AddAppointmentScreenType.allServices;
   int screenIndex = 0;
   int id = 0;
+  Set<int> selectedServiceIds = {}; // Store selected IDs
 
   List<String> listof = [
     'selecting_service_type'.tr(),
@@ -49,12 +51,28 @@ class _AppointmentPageState extends State<AppointmentPage> {
   ];
 
   late PageController _pageController;
+  double turns = 0.0;
+  bool changeSum = false; // Default to false (USD) until DB loads
 
-  @override
+@override
   void initState() {
     super.initState();
     screenIndex = widget.index ?? 0;
+    selectedServiceIds = widget.selectedServiceIds ?? {};
     _pageController = PageController(initialPage: screenIndex);
+    _initializeDBService();
+    _setupUseCases();
+    canPop = false;
+  }
+
+  Future<void> _initializeDBService() async {
+    dbService = await DBService.create;
+    setState(() {
+      changeSum = dbService.getCurrencyPreference; // Update after loading
+    });
+  }
+
+  void _setupUseCases() {
     useCase = [
       _AddAppointmentUseCaseModel(
           DisplayAllServicesPage(onTap: navigateToNextScreen),
@@ -68,8 +86,11 @@ class _AppointmentPageState extends State<AppointmentPage> {
           ),
           "Inner Services",
           AddAppointmentScreenType.secondService),
-      _AddAppointmentUseCaseModel(
-          DoctorTimeAndService(onTap: navigateToNextScreen),
+_AddAppointmentUseCaseModel(
+          DoctorTimeAndService(
+            onTap: navigateToNextScreen,
+            selectedServiceIds: selectedServiceIds, // Pass IDs here
+          ),
           "Doctors Time",
           AddAppointmentScreenType.doctorsTime),
       _AddAppointmentUseCaseModel(
@@ -90,7 +111,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
           "Payment",
           AddAppointmentScreenType.payment),
     ];
-    canPop = false;
   }
 
   void navigateToNextScreen([int? newId]) {
@@ -102,6 +122,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
       context.read<BottomNavBarController>().changeNavBar(true);
       setState(() {
         screenIndex++;
+        _updateUseCaseForCurrency();
       });
       _pageController.animateToPage(
         screenIndex,
@@ -121,6 +142,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
     if (screenIndex > 0) {
       setState(() {
         screenIndex--;
+        _updateUseCaseForCurrency();
       });
       _pageController.animateToPage(
         screenIndex,
@@ -130,8 +152,51 @@ class _AppointmentPageState extends State<AppointmentPage> {
     }
   }
 
-  double turns = 0.0;
-  bool changeSum = false;
+  void _updateUseCaseForCurrency() {
+    useCase[1] = _AddAppointmentUseCaseModel(
+      SecondServicePage(
+        onTap: () => navigateToNextScreen(id),
+        id: id,
+        isUSD: changeSum,
+      ),
+      "Inner Services",
+      AddAppointmentScreenType.secondService,
+    );
+  }
+
+  String formatNumber(dynamic number, {bool isDecimal = false}) {
+    if (number == null) return isDecimal ? "0.00" : "0";
+
+    if (isDecimal) {
+      double doubleValue = (number is int) ? number.toDouble() : number as double;
+      String formatted = doubleValue.toStringAsFixed(2);
+      List<String> parts = formatted.split('.');
+      String integerPart = parts[0];
+      String decimalPart = parts.length > 1 ? parts[1] : "00";
+
+      final buffer = StringBuffer();
+      for (int i = 0; i < integerPart.length; i++) {
+        if (i > 0 && (integerPart.length - i) % 3 == 0) {
+          buffer.write(' ');
+        }
+        buffer.write(integerPart[i]);
+      }
+      buffer.write('.');
+      buffer.write(decimalPart);
+      return buffer.toString();
+    } else {
+      int intValue = (number is double) ? number.toInt() : number as int;
+      String numberStr = intValue.toString();
+      final buffer = StringBuffer();
+      for (int i = 0; i < numberStr.length; i++) {
+        if (i > 0 && (numberStr.length - i) % 3 == 0) {
+          buffer.write(' ');
+        }
+        buffer.write(numberStr[i]);
+      }
+      return buffer.toString();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +222,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                     setState(() {
                                       turns += 2 / 4;
                                       changeSum = !changeSum;
-                                      changeSum = !changeSum;
+                                      dbService.setCurrencyPreference(changeSum);
+                                      _updateUseCaseForCurrency();
                                     });
                                   },
                                   child: icons.valyutaChange
@@ -174,7 +240,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   context
                       .read<BottomNavBarController>()
                       .changeNavBar(screenIndex >= 2 ? true : false);
-
                   navigateBack();
                 },
                 bottom: Column(
@@ -212,8 +277,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 ),
               ),
               Expanded(
-                child: IndexedStack(
-                  index: screenIndex,
+                child: PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
                   children: useCase
                       .map((useCaseModel) => useCaseModel.widget)
                       .toList(),

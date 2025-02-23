@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:medion/domain/common/token.dart';
@@ -11,7 +10,7 @@ class DBService {
   static const _refreshToken = 'refresh_token';
   static const _themeMode = 'theme_mode';
   static const _language = 'language';
-  static const _currencySymbol = "currency_symbol";
+  static const _currencyPreference = 'currency_preference'; // New key for currency
   static const intro = 'intro';
   static const prediction = 'prediction';
   static const auction = 'auction';
@@ -58,12 +57,16 @@ class DBService {
     return uid;
   }
 
-  // Currency
-  Future<void> setCurrencySymbol(String model) async {
-    await _box?.put(_currencySymbol, model);
+  /// Currency Preference
+  Future<void> setCurrencyPreference(bool isUzs) async {
+    await _box?.put(_currencyPreference, isUzs);
   }
 
-  /// Name
+  bool get getCurrencyPreference {
+    return _box?.get(_currencyPreference, defaultValue: false) as bool;
+  }
+
+  /// Theme Mode
   Future<void> setThemeMode(String? mode) async {
     await _box?.put(_themeMode, mode);
   }
@@ -79,7 +82,7 @@ class DBService {
     setLang(isSaved: langSaved ?? false);
   }
 
-  /// Lang
+  /// Language
   Future<void> setLang({bool isSaved = false}) async {
     await _box?.put(_language, isSaved);
   }
@@ -90,7 +93,6 @@ class DBService {
 
   bool? get getLang {
     bool? language = _box?.get(_language, defaultValue: false);
-
     return language;
   }
 
@@ -100,7 +102,6 @@ class DBService {
 
   bool? getBool({required String key}) {
     final bool? result = _box?.get(key, defaultValue: false);
-
     return result;
   }
 
@@ -118,7 +119,6 @@ class DBService {
         utf8.decode(base64Url.decode(base64.normalize(payload)));
     final exp = jsonDecode(decodedPayload)['exp'];
     final expiryDate = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
-
     return DateTime.now().isAfter(expiryDate);
   }
 }

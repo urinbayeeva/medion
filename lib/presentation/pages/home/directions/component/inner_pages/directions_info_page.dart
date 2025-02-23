@@ -4,11 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_container.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
+import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/service_widget.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/styles/style.dart';
@@ -32,12 +34,22 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   double turns = 0.0;
   Set<int> selectedServiceIds = {};
 
+  late DBService dbService;
+
   @override
   void initState() {
     super.initState();
+    _initializeDBService();
     context
         .read<BookingBloc>()
         .add(BookingEvent.fetchHomePageServiceDoctors(id: widget.id));
+  }
+
+  Future<void> _initializeDBService() async {
+    dbService = await DBService.create;
+    setState(() {
+      changeSum = dbService.getCurrencyPreference;
+    });
   }
 
   @override
@@ -68,6 +80,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                               setState(() {
                                 turns += 2 / 4;
                                 changeSum = !changeSum;
+                                dbService.setCurrencyPreference(changeSum);
                               });
                             },
                             child: icons.valyutaChange
@@ -278,42 +291,59 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   }
 
   Widget _buildSelectedServicesContainer(
-      BuildContext context, BookingState state, dynamic colors, dynamic fonts) {
-    return Container(
-      decoration: BoxDecoration(
-          color: colors.shade0,
-          boxShadow: Style.shadowMMMM,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8.r), topRight: Radius.circular(8.r))),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      child: GestureDetector(
-        onTap: () =>
-            _showSelectedServicesBottomSheet(context, state, colors, fonts),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "selected_services"
-                      .tr(args: [selectedServiceIds.length.toString()]),
-                  style: fonts.regularSemLink.copyWith(fontSize: 14.sp),
+    BuildContext context, BookingState state, dynamic colors, dynamic fonts) {
+  return Container(
+    decoration: BoxDecoration(
+        color: colors.shade0,
+        boxShadow: Style.shadowMMMM,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(8.r), topRight: Radius.circular(8.r))),
+    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+    child: GestureDetector(
+      onTap: () =>
+          _showSelectedServicesBottomSheet(context, state, colors, fonts),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "selected_services".tr(args: [selectedServiceIds.length.toString()]),
+                style: fonts.regularSemLink.copyWith(fontSize: 14.sp),
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 16.sp,
+                color: colors.primary900,
+              ),
+            ],
+          ),
+          12.h.verticalSpace,
+          CButton(
+            title: "next".tr(),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AppointmentPage(
+                    index: 2,
+                    selectedServiceIds: selectedServiceIds, // Pass Set<int>
+                  ),
                 ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 16.sp,
-                  color: colors.primary900,
-                ),
-              ],
-            ),
-            12.h.verticalSpace,
-            CButton(title: "next".tr(), onTap: () {})
-          ],
-        ),
+              ).then((value) {
+                if (value != null && value is Set<int>) {
+                  setState(() {
+                    selectedServiceIds = value;
+                  });
+                }
+              });
+            },
+          ),
+        ],
       ),
-    );
-  }
-
+    ),
+  );
+}
   void _showSelectedServicesBottomSheet(
       BuildContext context, BookingState state, dynamic colors, dynamic fonts) {
     final selectedServices = state.medicalModel!.services
