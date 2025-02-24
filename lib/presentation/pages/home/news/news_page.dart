@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
@@ -28,14 +29,14 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   void initState() {
-    context.read<HomeBloc>().add(const HomeEvent.fetchNews());
+    context.read<ContentBloc>().add(ContentEvent.fetchContent(type: "news"));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+      return BlocBuilder<ContentBloc, ContentState>(builder: (context, state) {
         return Scaffold(
           backgroundColor: colors.backgroundColor,
           body: Column(
@@ -53,21 +54,21 @@ class _NewsPageState extends State<NewsPage> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 4.w,
                     mainAxisSpacing: 8.h,
-                    childAspectRatio: 4 / 4,
+                    childAspectRatio: 4 / 2,
                   ),
                   itemBuilder: (context, index) {
-                    final News item = state.news[index];
+                    final item = state.content[index];
                     return AnimationButtonEffect(
                       onTap: () {},
                       child: NewsItem(
                         crop: true,
-                        imagePath: item.image ?? "",
-                        title: item.title ?? "",
-                        subtitle: item.info ?? "",
+                        imagePath: item.primaryImage,
+                        title: item.title,
+                        subtitle: item.description,
                       ),
                     );
                   },
-                  itemCount: state.news.length,
+                  itemCount: state.content.length,
                 ),
               ),
             ],

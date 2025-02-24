@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/sources/med_service.dart';
@@ -51,6 +52,9 @@ class _HomePageState extends State<HomePage> {
     context
         .read<BookingBloc>()
         .add(const BookingEvent.fetchHomePageServicesBooking());
+    context
+        .read<ContentBloc>()
+        .add(const ContentEvent.fetchContent(type: "news"));
   }
 
   @override
@@ -188,28 +192,40 @@ class _HomePageState extends State<HomePage> {
                                 .changeNavBar(false);
                           });
                         }),
-                        GridView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                            childAspectRatio: 0.6,
-                          ),
-                          itemCount: state.news.length,
-                          itemBuilder: (context, index) {
-                            final news = state.news[index];
-                            return NewsItem(
-                              crop: true,
-                              imagePath: news.image ?? "",
-                              title: news.title ?? "",
-                              subtitle: news.info ?? "",
-                            );
-                          },
-                        ),
+                        BlocBuilder<ContentBloc, ContentState>(
+                            builder: (context, state) {
+                          if (state.error) {
+                            return Center(
+                                child: Text('something_went_wrong'.tr(),
+                                    style: fonts.regularSemLink));
+                          }
+
+                          return SizedBox(
+                            height: 300.h,
+                            child: GridView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 8,
+                                mainAxisSpacing: 8,
+                                childAspectRatio: 0.6,
+                              ),
+                              itemCount: 1,
+                              itemBuilder: (context, index) {
+                                final news = state.content[index];
+                                return NewsItem(
+                                  crop: true,
+                                  imagePath: news.primaryImage,
+                                  title: news.title,
+                                  subtitle: news.description,
+                                );
+                              },
+                            ),
+                          );
+                        }),
                         _buildVerticalSpacingAndHeader(
                             "address_of_clinic", fonts, "all", () {
                           context

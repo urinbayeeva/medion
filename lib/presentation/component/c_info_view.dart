@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -20,12 +21,18 @@ class CInfoView extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Image.asset(
-                  imagePath ?? 'assets/placeholder.png', // Default image path
-                  width: double.infinity,
-                  height: 264.h,
-                  fit: BoxFit.cover,
-                ),
+                imagePath!.isNotEmpty
+                    ? CachedImageComponent(
+                        height: MediaQuery.of(context).size.height * 0.19,
+                        width: double.infinity,
+                        imageUrl: imagePath!)
+                    : Image.asset(
+                        imagePath ??
+                            'assets/placeholder.png', // Default image path
+                        width: double.infinity,
+                        height: 264.h,
+                        fit: BoxFit.cover,
+                      ),
                 Positioned(
                   top: 60.h,
                   left: 16.w,

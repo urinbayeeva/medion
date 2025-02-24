@@ -5,6 +5,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/booking_repository.dart';
+import 'package:medion/infrastructure/repository/content_service.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_configuration.dart';
@@ -58,7 +60,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => TimeSelectionProvider()),
           ChangeNotifierProvider(create: (_) => CurrencyChangeProvider()),
           BlocProvider(
-            child: PaymentPage(),
+            child: const PaymentPage(),
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
@@ -87,6 +89,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
               create: (_) => BottomNavBarController.create()),
           Provider<DBService>(create: (_) => dbService),
+                    BlocProvider(
+              create: (context) => ContentBloc(
+                  ContentServiceRepo(ContentService.create(dbService)))),
 
         ],
         child: OnUnFocusTap(

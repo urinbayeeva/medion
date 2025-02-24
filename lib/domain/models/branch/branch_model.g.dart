@@ -11,6 +11,10 @@ Serializer<AwardsModel> _$awardsModelSerializer = new _$AwardsModelSerializer();
 Serializer<EducationModel> _$educationModelSerializer =
     new _$EducationModelSerializer();
 Serializer<Course> _$courseSerializer = new _$CourseSerializer();
+Serializer<ContentModel> _$contentModelSerializer =
+    new _$ContentModelSerializer();
+Serializer<ChildContentModel> _$childContentModelSerializer =
+    new _$ChildContentModelSerializer();
 
 class _$BranchModelSerializer implements StructuredSerializer<BranchModel> {
   @override
@@ -425,6 +429,230 @@ class _$CourseSerializer implements StructuredSerializer<Course> {
         case 'image':
           result.image = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$ContentModelSerializer implements StructuredSerializer<ContentModel> {
+  @override
+  final Iterable<Type> types = const [ContentModel, _$ContentModel];
+  @override
+  final String wireName = 'ContentModel';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, ContentModel object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'type',
+      serializers.serialize(object.type, specifiedType: const FullType(String)),
+      'id',
+      serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'create_date',
+      serializers.serialize(object.createDate,
+          specifiedType: const FullType(String)),
+      'title',
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
+      'description',
+      serializers.serialize(object.description,
+          specifiedType: const FullType(String)),
+      'link',
+      serializers.serialize(object.link,
+          specifiedType: const FullType(JsonObject)),
+      'primary_image',
+      serializers.serialize(object.primaryImage,
+          specifiedType: const FullType(String)),
+      'images',
+      serializers.serialize(object.images,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
+      'children',
+      serializers.serialize(object.children,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(ChildContentModel)])),
+      'discount_condition',
+      serializers.serialize(object.discountCondition,
+          specifiedType: const FullType(JsonObject)),
+      'discount_location',
+      serializers.serialize(object.discountLocation,
+          specifiedType: const FullType(JsonObject)),
+      'phone_number',
+      serializers.serialize(object.phoneNumber,
+          specifiedType: const FullType(JsonObject)),
+    ];
+    Object? value;
+    value = object.discountStartDate;
+    if (value != null) {
+      result
+        ..add('discount_start_date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
+    }
+    value = object.discountEndDate;
+    if (value != null) {
+      result
+        ..add('discount_end_date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
+    }
+    value = object.phoneNumberShort;
+    if (value != null) {
+      result
+        ..add('phone_number_short')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
+    }
+    return result;
+  }
+
+  @override
+  ContentModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new ContentModelBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'type':
+          result.type = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'create_date':
+          result.createDate = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'title':
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'description':
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'link':
+          result.link = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject))! as JsonObject;
+          break;
+        case 'primary_image':
+          result.primaryImage = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'images':
+          result.images.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'children':
+          result.children.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(ChildContentModel)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'discount_condition':
+          result.discountCondition = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject))! as JsonObject;
+          break;
+        case 'discount_location':
+          result.discountLocation = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject))! as JsonObject;
+          break;
+        case 'discount_start_date':
+          result.discountStartDate = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
+          break;
+        case 'discount_end_date':
+          result.discountEndDate = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
+          break;
+        case 'phone_number':
+          result.phoneNumber = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject))! as JsonObject;
+          break;
+        case 'phone_number_short':
+          result.phoneNumberShort = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$ChildContentModelSerializer
+    implements StructuredSerializer<ChildContentModel> {
+  @override
+  final Iterable<Type> types = const [ChildContentModel, _$ChildContentModel];
+  @override
+  final String wireName = 'ChildContentModel';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, ChildContentModel object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'id',
+      serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'title',
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
+      'description',
+      serializers.serialize(object.description,
+          specifiedType: const FullType(String)),
+      'primary_image',
+      serializers.serialize(object.primaryImage,
+          specifiedType: const FullType(String)),
+      'create_date',
+      serializers.serialize(object.createDate,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  ChildContentModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new ChildContentModelBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'title':
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'description':
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'primary_image':
+          result.primaryImage = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'create_date':
+          result.createDate = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -1063,6 +1291,459 @@ class CourseBuilder implements Builder<Course, CourseBuilder> {
           name: name,
           description: description,
           image: image,
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ContentModel extends ContentModel {
+  @override
+  final String type;
+  @override
+  final int id;
+  @override
+  final String createDate;
+  @override
+  final String title;
+  @override
+  final String description;
+  @override
+  final JsonObject link;
+  @override
+  final String primaryImage;
+  @override
+  final BuiltList<String> images;
+  @override
+  final BuiltList<ChildContentModel> children;
+  @override
+  final JsonObject discountCondition;
+  @override
+  final JsonObject discountLocation;
+  @override
+  final JsonObject? discountStartDate;
+  @override
+  final JsonObject? discountEndDate;
+  @override
+  final JsonObject phoneNumber;
+  @override
+  final JsonObject? phoneNumberShort;
+
+  factory _$ContentModel([void Function(ContentModelBuilder)? updates]) =>
+      (new ContentModelBuilder()..update(updates))._build();
+
+  _$ContentModel._(
+      {required this.type,
+      required this.id,
+      required this.createDate,
+      required this.title,
+      required this.description,
+      required this.link,
+      required this.primaryImage,
+      required this.images,
+      required this.children,
+      required this.discountCondition,
+      required this.discountLocation,
+      this.discountStartDate,
+      this.discountEndDate,
+      required this.phoneNumber,
+      this.phoneNumberShort})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(type, r'ContentModel', 'type');
+    BuiltValueNullFieldError.checkNotNull(id, r'ContentModel', 'id');
+    BuiltValueNullFieldError.checkNotNull(
+        createDate, r'ContentModel', 'createDate');
+    BuiltValueNullFieldError.checkNotNull(title, r'ContentModel', 'title');
+    BuiltValueNullFieldError.checkNotNull(
+        description, r'ContentModel', 'description');
+    BuiltValueNullFieldError.checkNotNull(link, r'ContentModel', 'link');
+    BuiltValueNullFieldError.checkNotNull(
+        primaryImage, r'ContentModel', 'primaryImage');
+    BuiltValueNullFieldError.checkNotNull(images, r'ContentModel', 'images');
+    BuiltValueNullFieldError.checkNotNull(
+        children, r'ContentModel', 'children');
+    BuiltValueNullFieldError.checkNotNull(
+        discountCondition, r'ContentModel', 'discountCondition');
+    BuiltValueNullFieldError.checkNotNull(
+        discountLocation, r'ContentModel', 'discountLocation');
+    BuiltValueNullFieldError.checkNotNull(
+        phoneNumber, r'ContentModel', 'phoneNumber');
+  }
+
+  @override
+  ContentModel rebuild(void Function(ContentModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ContentModelBuilder toBuilder() => new ContentModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ContentModel &&
+        type == other.type &&
+        id == other.id &&
+        createDate == other.createDate &&
+        title == other.title &&
+        description == other.description &&
+        link == other.link &&
+        primaryImage == other.primaryImage &&
+        images == other.images &&
+        children == other.children &&
+        discountCondition == other.discountCondition &&
+        discountLocation == other.discountLocation &&
+        discountStartDate == other.discountStartDate &&
+        discountEndDate == other.discountEndDate &&
+        phoneNumber == other.phoneNumber &&
+        phoneNumberShort == other.phoneNumberShort;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, type.hashCode);
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, createDate.hashCode);
+    _$hash = $jc(_$hash, title.hashCode);
+    _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jc(_$hash, link.hashCode);
+    _$hash = $jc(_$hash, primaryImage.hashCode);
+    _$hash = $jc(_$hash, images.hashCode);
+    _$hash = $jc(_$hash, children.hashCode);
+    _$hash = $jc(_$hash, discountCondition.hashCode);
+    _$hash = $jc(_$hash, discountLocation.hashCode);
+    _$hash = $jc(_$hash, discountStartDate.hashCode);
+    _$hash = $jc(_$hash, discountEndDate.hashCode);
+    _$hash = $jc(_$hash, phoneNumber.hashCode);
+    _$hash = $jc(_$hash, phoneNumberShort.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'ContentModel')
+          ..add('type', type)
+          ..add('id', id)
+          ..add('createDate', createDate)
+          ..add('title', title)
+          ..add('description', description)
+          ..add('link', link)
+          ..add('primaryImage', primaryImage)
+          ..add('images', images)
+          ..add('children', children)
+          ..add('discountCondition', discountCondition)
+          ..add('discountLocation', discountLocation)
+          ..add('discountStartDate', discountStartDate)
+          ..add('discountEndDate', discountEndDate)
+          ..add('phoneNumber', phoneNumber)
+          ..add('phoneNumberShort', phoneNumberShort))
+        .toString();
+  }
+}
+
+class ContentModelBuilder
+    implements Builder<ContentModel, ContentModelBuilder> {
+  _$ContentModel? _$v;
+
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  String? _createDate;
+  String? get createDate => _$this._createDate;
+  set createDate(String? createDate) => _$this._createDate = createDate;
+
+  String? _title;
+  String? get title => _$this._title;
+  set title(String? title) => _$this._title = title;
+
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
+
+  JsonObject? _link;
+  JsonObject? get link => _$this._link;
+  set link(JsonObject? link) => _$this._link = link;
+
+  String? _primaryImage;
+  String? get primaryImage => _$this._primaryImage;
+  set primaryImage(String? primaryImage) => _$this._primaryImage = primaryImage;
+
+  ListBuilder<String>? _images;
+  ListBuilder<String> get images =>
+      _$this._images ??= new ListBuilder<String>();
+  set images(ListBuilder<String>? images) => _$this._images = images;
+
+  ListBuilder<ChildContentModel>? _children;
+  ListBuilder<ChildContentModel> get children =>
+      _$this._children ??= new ListBuilder<ChildContentModel>();
+  set children(ListBuilder<ChildContentModel>? children) =>
+      _$this._children = children;
+
+  JsonObject? _discountCondition;
+  JsonObject? get discountCondition => _$this._discountCondition;
+  set discountCondition(JsonObject? discountCondition) =>
+      _$this._discountCondition = discountCondition;
+
+  JsonObject? _discountLocation;
+  JsonObject? get discountLocation => _$this._discountLocation;
+  set discountLocation(JsonObject? discountLocation) =>
+      _$this._discountLocation = discountLocation;
+
+  JsonObject? _discountStartDate;
+  JsonObject? get discountStartDate => _$this._discountStartDate;
+  set discountStartDate(JsonObject? discountStartDate) =>
+      _$this._discountStartDate = discountStartDate;
+
+  JsonObject? _discountEndDate;
+  JsonObject? get discountEndDate => _$this._discountEndDate;
+  set discountEndDate(JsonObject? discountEndDate) =>
+      _$this._discountEndDate = discountEndDate;
+
+  JsonObject? _phoneNumber;
+  JsonObject? get phoneNumber => _$this._phoneNumber;
+  set phoneNumber(JsonObject? phoneNumber) => _$this._phoneNumber = phoneNumber;
+
+  JsonObject? _phoneNumberShort;
+  JsonObject? get phoneNumberShort => _$this._phoneNumberShort;
+  set phoneNumberShort(JsonObject? phoneNumberShort) =>
+      _$this._phoneNumberShort = phoneNumberShort;
+
+  ContentModelBuilder();
+
+  ContentModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _type = $v.type;
+      _id = $v.id;
+      _createDate = $v.createDate;
+      _title = $v.title;
+      _description = $v.description;
+      _link = $v.link;
+      _primaryImage = $v.primaryImage;
+      _images = $v.images.toBuilder();
+      _children = $v.children.toBuilder();
+      _discountCondition = $v.discountCondition;
+      _discountLocation = $v.discountLocation;
+      _discountStartDate = $v.discountStartDate;
+      _discountEndDate = $v.discountEndDate;
+      _phoneNumber = $v.phoneNumber;
+      _phoneNumberShort = $v.phoneNumberShort;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ContentModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ContentModel;
+  }
+
+  @override
+  void update(void Function(ContentModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ContentModel build() => _build();
+
+  _$ContentModel _build() {
+    _$ContentModel _$result;
+    try {
+      _$result = _$v ??
+          new _$ContentModel._(
+            type: BuiltValueNullFieldError.checkNotNull(
+                type, r'ContentModel', 'type'),
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'ContentModel', 'id'),
+            createDate: BuiltValueNullFieldError.checkNotNull(
+                createDate, r'ContentModel', 'createDate'),
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'ContentModel', 'title'),
+            description: BuiltValueNullFieldError.checkNotNull(
+                description, r'ContentModel', 'description'),
+            link: BuiltValueNullFieldError.checkNotNull(
+                link, r'ContentModel', 'link'),
+            primaryImage: BuiltValueNullFieldError.checkNotNull(
+                primaryImage, r'ContentModel', 'primaryImage'),
+            images: images.build(),
+            children: children.build(),
+            discountCondition: BuiltValueNullFieldError.checkNotNull(
+                discountCondition, r'ContentModel', 'discountCondition'),
+            discountLocation: BuiltValueNullFieldError.checkNotNull(
+                discountLocation, r'ContentModel', 'discountLocation'),
+            discountStartDate: discountStartDate,
+            discountEndDate: discountEndDate,
+            phoneNumber: BuiltValueNullFieldError.checkNotNull(
+                phoneNumber, r'ContentModel', 'phoneNumber'),
+            phoneNumberShort: phoneNumberShort,
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'images';
+        images.build();
+        _$failedField = 'children';
+        children.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'ContentModel', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ChildContentModel extends ChildContentModel {
+  @override
+  final int id;
+  @override
+  final String title;
+  @override
+  final String description;
+  @override
+  final String primaryImage;
+  @override
+  final String createDate;
+
+  factory _$ChildContentModel(
+          [void Function(ChildContentModelBuilder)? updates]) =>
+      (new ChildContentModelBuilder()..update(updates))._build();
+
+  _$ChildContentModel._(
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.primaryImage,
+      required this.createDate})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(id, r'ChildContentModel', 'id');
+    BuiltValueNullFieldError.checkNotNull(title, r'ChildContentModel', 'title');
+    BuiltValueNullFieldError.checkNotNull(
+        description, r'ChildContentModel', 'description');
+    BuiltValueNullFieldError.checkNotNull(
+        primaryImage, r'ChildContentModel', 'primaryImage');
+    BuiltValueNullFieldError.checkNotNull(
+        createDate, r'ChildContentModel', 'createDate');
+  }
+
+  @override
+  ChildContentModel rebuild(void Function(ChildContentModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ChildContentModelBuilder toBuilder() =>
+      new ChildContentModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ChildContentModel &&
+        id == other.id &&
+        title == other.title &&
+        description == other.description &&
+        primaryImage == other.primaryImage &&
+        createDate == other.createDate;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, title.hashCode);
+    _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jc(_$hash, primaryImage.hashCode);
+    _$hash = $jc(_$hash, createDate.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'ChildContentModel')
+          ..add('id', id)
+          ..add('title', title)
+          ..add('description', description)
+          ..add('primaryImage', primaryImage)
+          ..add('createDate', createDate))
+        .toString();
+  }
+}
+
+class ChildContentModelBuilder
+    implements Builder<ChildContentModel, ChildContentModelBuilder> {
+  _$ChildContentModel? _$v;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  String? _title;
+  String? get title => _$this._title;
+  set title(String? title) => _$this._title = title;
+
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
+
+  String? _primaryImage;
+  String? get primaryImage => _$this._primaryImage;
+  set primaryImage(String? primaryImage) => _$this._primaryImage = primaryImage;
+
+  String? _createDate;
+  String? get createDate => _$this._createDate;
+  set createDate(String? createDate) => _$this._createDate = createDate;
+
+  ChildContentModelBuilder();
+
+  ChildContentModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _title = $v.title;
+      _description = $v.description;
+      _primaryImage = $v.primaryImage;
+      _createDate = $v.createDate;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ChildContentModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ChildContentModel;
+  }
+
+  @override
+  void update(void Function(ChildContentModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ChildContentModel build() => _build();
+
+  _$ChildContentModel _build() {
+    final _$result = _$v ??
+        new _$ChildContentModel._(
+          id: BuiltValueNullFieldError.checkNotNull(
+              id, r'ChildContentModel', 'id'),
+          title: BuiltValueNullFieldError.checkNotNull(
+              title, r'ChildContentModel', 'title'),
+          description: BuiltValueNullFieldError.checkNotNull(
+              description, r'ChildContentModel', 'description'),
+          primaryImage: BuiltValueNullFieldError.checkNotNull(
+              primaryImage, r'ChildContentModel', 'primaryImage'),
+          createDate: BuiltValueNullFieldError.checkNotNull(
+              createDate, r'ChildContentModel', 'createDate'),
         );
     replace(_$result);
     return _$result;

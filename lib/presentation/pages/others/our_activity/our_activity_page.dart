@@ -36,7 +36,10 @@ class _OurActivityPageState extends State<OurActivityPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    PatternBackground(patternTitle: "medion_activity".tr()),
+                    SizedBox(
+                        height: 180.h,
+                        child: PatternBackground(
+                            patternTitle: "medion_activity".tr())),
                     const CDivider(padding: false),
                     CustomTabbarBlack(
                       leftTab: "about_the_company".tr(),

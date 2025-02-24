@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
+import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -13,7 +15,8 @@ class PartnersCard extends StatelessWidget {
       {super.key,
       required this.partnerImage,
       required this.parnterName,
-      required this.partnerSubtitle, required this.onTap});
+      required this.partnerSubtitle,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,11 @@ class PartnersCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(partnerImage, width: 80.w, height: 80.h),
+              partnerImage.isEmpty
+                  ? SvgPicture.asset("assets/icons/picture.svg",
+                      width: 80.w, height: 80.h, color: colors.neutral500)
+                  : CachedImageComponent(
+                      height: 80.h, width: 80.w, imageUrl: partnerImage),
               8.h.verticalSpace,
               Text(parnterName, style: fonts.mediumMain),
               12.h.verticalSpace,

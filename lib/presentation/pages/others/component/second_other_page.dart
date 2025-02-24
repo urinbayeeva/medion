@@ -7,9 +7,9 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:provider/provider.dart';
 
-class OthersPageComp extends StatelessWidget {
+class SecondOthersPage extends StatelessWidget {
   final List data;
-  const OthersPageComp({super.key, required this.data});
+  const SecondOthersPage({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -45,30 +45,10 @@ class OthersPageComp extends StatelessWidget {
                     }
 
                     switch (index) {
-                      case 0:
-                        navigateTo(AppRoutes.getActivityPage());
+                      case 1:
+                        navigateTo(AppRoutes.getDiscountPage());
                         break;
-                      case 3:
-                        navigateTo(AppRoutes.getEducationPage());
-                        break;
-                      case 4:
-                        navigateTo(AppRoutes.getArticlePage());
-                        break;
-                      case 5:
-                        navigateTo(AppRoutes.getBranchesPage());
-                        break;
-                      case 6:
-                        navigateTo(AppRoutes.getEquipmentPage());
-                        break;
-                      case 7:
-                        navigateTo(AppRoutes.getAboutHealthPage());
-                        break;
-                      case 9:
-                        navigateTo(AppRoutes.getPartnersPage());
-                        break;
-                      case 10:
-                        navigateTo(AppRoutes.getAwardsPage());
-                        break;
+
                       default:
                         navigateTo(AppRoutes.getUnderDevPage(
                             appBarTitle: item["title"]));

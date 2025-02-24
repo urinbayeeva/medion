@@ -63,7 +63,8 @@ part 'serializer.g.dart';
   AwardsModel,
   EducationModel,
   Course, 
-  
+  ContentModel,
+  ChildContentModel
 
 
 ])

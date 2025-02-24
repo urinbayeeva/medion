@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/branches/branch_bloc.dart';
+import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/branch_repo.dart';
+import 'package:medion/infrastructure/repository/content_service.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
@@ -33,10 +35,13 @@ import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_phone.dart';
 import 'package:medion/presentation/pages/auth/sign_up/verify_code_page.dart';
 import 'package:medion/presentation/pages/onboarding/onboarding_page.dart';
 import 'package:medion/presentation/pages/others/about_health/about_health_page.dart';
+import 'package:medion/presentation/pages/others/article/article_page.dart';
 import 'package:medion/presentation/pages/others/awards/awards_page.dart';
 import 'package:medion/presentation/pages/others/branches/branches_page.dart';
 import 'package:medion/presentation/pages/others/branches/component/single_branch_info.dart';
 import 'package:medion/presentation/pages/others/branches/single_branch_page.dart';
+import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
+import 'package:medion/presentation/pages/others/dicsount/widgets/discount_page_view.dart';
 import 'package:medion/presentation/pages/others/education/education_page.dart';
 import 'package:medion/presentation/pages/others/equipment/equipment_page.dart';
 import 'package:medion/presentation/pages/others/our_activity/our_activity_page.dart';
@@ -390,7 +395,29 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getPartnersPage() {
-    return MaterialPageRoute(builder: (_) => const PartnersPage());
+    return MaterialPageRoute(
+      builder: (context) => BlocProvider(
+        create: (context) {
+          DBService dbService = context.read<DBService>();
+          return ContentBloc(
+              ContentServiceRepo(ContentService.create(dbService)));
+        },
+        child: const PartnersPage(),
+      ),
+    );
+  }
+
+  static MaterialPageRoute getArticlePage() {
+    return MaterialPageRoute(
+      builder: (context) => BlocProvider(
+        create: (context) {
+          DBService dbService = context.read<DBService>();
+          return ContentBloc(
+              ContentServiceRepo(ContentService.create(dbService)));
+        },
+        child: const ArticlePage(),
+      ),
+    );
   }
 
   static MaterialPageRoute getPartnersInnerPage(
@@ -416,7 +443,16 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getAboutHealthPage() {
-    return MaterialPageRoute(builder: (_) => const AboutHealthPage());
+    return MaterialPageRoute(
+        builder: (context) => BlocProvider(
+              create: (context) {
+                DBService dbService = context.read<DBService>();
+                return BranchBloc(BranchRepository(
+                    BranchService.create(dbService),
+                    StudyService.create(dbService)));
+              },
+              child: const AboutHealthPage(),
+            ));
   }
 
   static MaterialPageRoute getInfoViewAboutHealth(
@@ -431,8 +467,34 @@ class AppRoutes {
             ));
   }
 
+  static MaterialPageRoute getDiscountPageView({
+    required String imagePath,
+    required String? title,
+    required String? desc,
+      required String? discountAddress,
+  required String? discountDuration,
+  required String? phoneShortNumber,
+  required String? phoneNumber,
+  }) {
+    return MaterialPageRoute(
+        builder: (_) => DiscountPageView(
+              imagePath: imagePath,
+              title: title,
+              desc: desc,
+            ));
+  }
+
   static MaterialPageRoute getEquipmentPage() {
-    return MaterialPageRoute(builder: (_) => const EquipmentPage());
+    return MaterialPageRoute(
+        builder: (context) => BlocProvider(
+              create: (context) {
+                DBService dbService = context.read<DBService>();
+                return BranchBloc(BranchRepository(
+                    BranchService.create(dbService),
+                    StudyService.create(dbService)));
+              },
+              child: const EquipmentPage(),
+            ));
   }
 
   static MaterialPageRoute getAwardsPage() {
@@ -462,6 +524,19 @@ class AppRoutes {
                     StudyService.create(dbService)));
               },
               child: const EducationPage(),
+            ));
+  }
+
+  static MaterialPageRoute getDiscountPage() {
+    return MaterialPageRoute(
+        builder: (context) => BlocProvider(
+              create: (context) {
+                DBService dbService = context.read<DBService>();
+                return BranchBloc(BranchRepository(
+                    BranchService.create(dbService),
+                    StudyService.create(dbService)));
+              },
+              child: const DiscountPage(),
             ));
   }
 

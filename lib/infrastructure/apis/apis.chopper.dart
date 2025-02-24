@@ -367,3 +367,26 @@ final class _$StudyService extends StudyService {
     return client.send<EducationModel, EducationModel>($request);
   }
 }
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$ContentService extends ContentService {
+  _$ContentService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = ContentService;
+
+  @override
+  Future<Response<BuiltList<ContentModel>>> getContentType(String type) {
+    final Uri $url = Uri.parse('/content/${type}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<BuiltList<ContentModel>, ContentModel>($request);
+  }
+}

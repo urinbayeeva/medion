@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
+import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/pages/others/about_health/component/item_about_health.dart';
@@ -19,6 +21,14 @@ class AboutHealthPage extends StatefulWidget {
 
 class _AboutHealthPageState extends State<AboutHealthPage> {
   @override
+  void initState() {
+    context
+        .read<ContentBloc>()
+        .add(const ContentEvent.fetchContent(type: "blog_health"));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     RefreshController refreshController = RefreshController();
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -31,8 +41,14 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
               centerTitle: true,
               trailing: 24.w.horizontalSpace,
             ),
-            Expanded(
-              child: CustomListView(
+            Expanded(child: BlocBuilder<ContentBloc, ContentState>(
+                builder: (context, state) {
+              if (state.error) {
+                return Center(
+                    child: Text('something_went_wrong'.tr(),
+                        style: fonts.regularSemLink));
+              }
+              return CustomListView(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 refreshController: refreshController,
                 onRefresh: () {
@@ -40,27 +56,28 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
                   refreshController.refreshCompleted();
                 },
                 itemBuilder: (int index, item) {
-                  final data = item;
+                  final data = state.content[index];
                   return ItemAboutHealth(
                     onTap: () {
                       Navigator.push(
                           context,
                           AppRoutes.getInfoViewAboutHealth(
-                              imagePath: data['image'],
-                              title: data["title"],
-                              desc: data['decs']));
+                            imagePath: data.primaryImage,
+                            title: data.title,
+                            desc: data.description,
+                          ));
                     },
-                    title: data['title'],
-                    desc: data['decs'],
-                    imagePath: data['image'],
+                    imagePath: data.primaryImage,
+                    title: data.title,
+                    desc: data.description,
                   );
                 },
-                data: aboutHealthData, // Pass the data list here
+                data: state.content,
                 emptyWidgetModel:
                     ErrorWidgetModel(title: "title", subtitle: 'subtitle'),
                 status: FormzSubmissionStatus.success,
-              ),
-            )
+              );
+            }))
           ],
         ),
       );

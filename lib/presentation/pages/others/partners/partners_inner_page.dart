@@ -2,9 +2,11 @@ import 'package:chopper/chopper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
+import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/phone_utils.dart';
@@ -73,7 +75,13 @@ class _PartnersInnerPageState extends State<PartnersInnerPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(widget.partnerImage, width: 80.w, height: 80.h),
+                    widget.partnerImage.isEmpty
+                        ? SvgPicture.asset("assets/icons/picture.svg",
+                            width: 80.w, height: 80.h, color: colors.neutral500)
+                        : CachedImageComponent(
+                            height: 80.h,
+                            width: 80.w,
+                            imageUrl: widget.partnerImage),
                     16.h.verticalSpace,
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,

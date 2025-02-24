@@ -1,5 +1,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
+import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 
 part 'branch_model.g.dart';
@@ -124,4 +125,86 @@ abstract class Course implements Built<Course, CourseBuilder> {
   Course._();
 
   factory Course([void Function(CourseBuilder) updates]) = _$Course;
+}
+
+abstract class ContentModel
+    implements Built<ContentModel, ContentModelBuilder> {
+  ContentModel._();
+
+  factory ContentModel([void Function(ContentModelBuilder) updates]) =
+      _$ContentModel;
+
+  // Fields with explicit wireName mappings
+  @BuiltValueField(wireName: 'type')
+  String get type;
+
+  @BuiltValueField(wireName: 'id')
+  int get id;
+
+  @BuiltValueField(wireName: 'create_date')
+  String get createDate;
+
+  @BuiltValueField(wireName: 'title')
+  String get title;
+
+  @BuiltValueField(wireName: 'description')
+  String get description;
+
+  @BuiltValueField(wireName: 'link')
+  JsonObject get link;
+
+  @BuiltValueField(wireName: 'primary_image')
+  String get primaryImage;
+
+  @BuiltValueField(wireName: 'images')
+  BuiltList<String> get images;
+
+  @BuiltValueField(wireName: 'children')
+  BuiltList<ChildContentModel> get children;
+
+  @BuiltValueField(wireName: 'discount_condition')
+  JsonObject? get discountCondition;
+
+  @BuiltValueField(wireName: 'discount_location')
+  JsonObject? get discountLocation;
+
+  @BuiltValueField(wireName: 'discount_start_date')
+  JsonObject? get discountStartDate;
+
+  @BuiltValueField(wireName: 'discount_end_date')
+  JsonObject? get discountEndDate;
+
+  @BuiltValueField(wireName: 'phone_number')
+  JsonObject? get phoneNumber;
+
+  @BuiltValueField(wireName: 'phone_number_short')
+  JsonObject? get phoneNumberShort;
+
+  // Serialization
+  static Serializer<ContentModel> get serializer => _$contentModelSerializer;
+}
+
+abstract class ChildContentModel
+    implements Built<ChildContentModel, ChildContentModelBuilder> {
+  @BuiltValueField(wireName: 'id')
+  int get id;
+
+  @BuiltValueField(wireName: 'title')
+  String get title;
+
+  @BuiltValueField(wireName: 'description')
+  String get description;
+
+  @BuiltValueField(wireName: 'primary_image')
+  String get primaryImage;
+
+  @BuiltValueField(wireName: 'create_date')
+  String get createDate;
+
+  ChildContentModel._();
+  factory ChildContentModel([void Function(ChildContentModelBuilder) updates]) =
+      _$ChildContentModel;
+
+  static Serializer<ChildContentModel> get serializer =>
+      _$childContentModelSerializer;
 }

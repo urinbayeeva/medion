@@ -12,7 +12,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(BookingTypeModel.serializer)
       ..add(BranchModel.serializer)
       ..add(Category.serializer)
+      ..add(ChildContentModel.serializer)
       ..add(CompanyDoctor.serializer)
+      ..add(ContentModel.serializer)
       ..add(Course.serializer)
       ..add(CreateInfoReq.serializer)
       ..add(CreatePatientBookingReq.serializer)
@@ -68,6 +70,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Service)]),
           () => new ListBuilder<Service>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ChildContentModel)]),
+          () => new ListBuilder<ChildContentModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

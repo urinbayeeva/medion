@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/others/component/others_page_comp.dart';
 import 'package:medion/domain/sources/others_data.dart';
+import 'package:medion/presentation/pages/others/component/second_other_page.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class OthersPage extends StatelessWidget {
@@ -32,7 +33,7 @@ class OthersPage extends StatelessWidget {
                       _sectionHeader("about_the_company".tr(), fonts),
                       _sectionContent(othersData),
                       _sectionHeader("others".tr(), fonts),
-                      _sectionContent(othersData),
+                      _sectionContentSecond(othersDataSecond),
                       60.h.verticalSpace,
                     ],
                   ),
@@ -59,3 +60,12 @@ class OthersPage extends StatelessWidget {
     );
   }
 }
+
+
+  Widget _sectionContentSecond(List<dynamic> data) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 24.h),
+      child: SecondOthersPage(data: data),
+    );
+  }
+

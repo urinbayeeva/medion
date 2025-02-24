@@ -102,6 +102,7 @@ class IconSet {
   final String leaveFeedbacks;
   final String girlNonUser;
   final String playButton;
+  final String alertIcon;
 
   IconSet._({
     required this.medicalHistoryFirst,
@@ -207,6 +208,7 @@ class IconSet {
     required this.polis,
     required this.readFeedbacks,
     required this.girlNonUser,
+    required this.alertIcon,
   });
 
   static IconSet get create {
@@ -312,6 +314,7 @@ class IconSet {
       readFeedbacks: 'assets/icons/read_feedback.svg',
       girlNonUser: "assets/icons/non_user_female.svg",
       playButton: "assets/icons/play_button.svg",
+      alertIcon: "assets/icons/alert_circle.svg",
     );
   }
 }

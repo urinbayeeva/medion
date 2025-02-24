@@ -168,6 +168,15 @@ abstract class StudyService extends ChopperService {
       _$StudyService(_Client(Constants.baseUrlP, true, dbService));
 }
 
+@ChopperApi(baseUrl: "")
+abstract class ContentService extends ChopperService {
+  @Get(path: "/content/{type}")
+  Future<Response<BuiltList<ContentModel>>> getContentType(  @Path('type') String type);
+
+  static ContentService create(DBService dbService) =>
+      _$ContentService(_Client(Constants.baseUrlP, true, dbService));
+}
+
 base class _Client extends ChopperClient {
   _Client(String baseUrl, bool useInterceptors, DBService dbService,
       {int timeout = 20})
