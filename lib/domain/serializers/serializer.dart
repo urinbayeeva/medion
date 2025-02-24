@@ -60,6 +60,9 @@ part 'serializer.g.dart';
   //Branches
 
   BranchModel,
+  AwardsModel,
+  EducationModel,
+  Course, 
   
 
 

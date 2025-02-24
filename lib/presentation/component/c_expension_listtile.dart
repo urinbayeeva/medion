@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class CustomExpansionListTile extends StatefulWidget {
   final String title;
+  final String? hasIcon;
   final String? subtitle;
   final String description;
   final dynamic price;
@@ -17,7 +19,7 @@ class CustomExpansionListTile extends StatefulWidget {
     required this.description,
     this.price,
     required this.children,
-    this.onExpansionChanged,
+    this.onExpansionChanged, this.hasIcon,
   });
 
   @override
@@ -51,7 +53,20 @@ class _CustomExpansionListTileState extends State<CustomExpansionListTile> {
             collapsedBackgroundColor: Colors.transparent,
             backgroundColor: Colors.transparent,
             controlAffinity: ListTileControlAffinity.trailing,
-            title: Text(
+            title: widget.hasIcon!= null? Row(
+              children: [
+           SvgPicture.asset(  widget.hasIcon!),
+           6.w.horizontalSpace,
+            Text(
+              widget.title,
+              style: fonts.smallSemLink.copyWith(
+                color: colors.primary900,
+                fontWeight: FontWeight.bold,
+                fontSize: 13.sp,
+              ),
+            ),
+        ],
+            ) : Text(
               widget.title,
               style: fonts.smallSemLink.copyWith(
                 color: colors.primary900,

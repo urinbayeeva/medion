@@ -8,10 +8,12 @@ part of 'serializer.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AdModel.serializer)
+      ..add(AwardsModel.serializer)
       ..add(BookingTypeModel.serializer)
       ..add(BranchModel.serializer)
       ..add(Category.serializer)
       ..add(CompanyDoctor.serializer)
+      ..add(Course.serializer)
       ..add(CreateInfoReq.serializer)
       ..add(CreatePatientBookingReq.serializer)
       ..add(CreatePatientInfoResponse.serializer)
@@ -20,6 +22,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(DoctorCategory.serializer)
       ..add(DoctorData.serializer)
       ..add(DoctorsRequest.serializer)
+      ..add(EducationModel.serializer)
       ..add(ErrorDetail.serializer)
       ..add(ErrorResponse.serializer)
       ..add(GiveSelectedId.serializer)
@@ -41,6 +44,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ThirdBookingDoctor.serializer)
       ..add(ThirdBookingDoctorSchedule.serializer)
       ..add(ThirdBookingService.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Course)]),
+          () => new ListBuilder<Course>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Doctor)]),
           () => new ListBuilder<Doctor>())

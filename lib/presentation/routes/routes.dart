@@ -37,6 +37,7 @@ import 'package:medion/presentation/pages/others/awards/awards_page.dart';
 import 'package:medion/presentation/pages/others/branches/branches_page.dart';
 import 'package:medion/presentation/pages/others/branches/component/single_branch_info.dart';
 import 'package:medion/presentation/pages/others/branches/single_branch_page.dart';
+import 'package:medion/presentation/pages/others/education/education_page.dart';
 import 'package:medion/presentation/pages/others/equipment/equipment_page.dart';
 import 'package:medion/presentation/pages/others/our_activity/our_activity_page.dart';
 import 'package:medion/presentation/pages/others/partners/partners_inner_page.dart';
@@ -333,7 +334,8 @@ class AppRoutes {
       builder: (context) => BlocProvider(
         create: (context) {
           DBService dbService = context.read<DBService>();
-          return BranchBloc(BranchRepository(BranchService.create(dbService)));
+          return BranchBloc(BranchRepository(
+              BranchService.create(dbService), StudyService.create(dbService)));
         },
         child: const BranchesPage(),
       ),
@@ -434,11 +436,33 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getAwardsPage() {
-    return MaterialPageRoute(builder: (_) => const AwardsPage());
+    return MaterialPageRoute(
+        builder: (context) => BlocProvider(
+              create: (context) {
+                DBService dbService = context.read<DBService>();
+                return BranchBloc(BranchRepository(
+                    BranchService.create(dbService),
+                    StudyService.create(dbService)));
+              },
+              child: const AwardsPage(),
+            ));
   }
 
   static MaterialPageRoute getPolicyTreatment() {
     return MaterialPageRoute(builder: (_) => const PolicyTreatment());
+  }
+
+  static MaterialPageRoute getEducationPage() {
+    return MaterialPageRoute(
+        builder: (context) => BlocProvider(
+              create: (context) {
+                DBService dbService = context.read<DBService>();
+                return BranchBloc(BranchRepository(
+                    BranchService.create(dbService),
+                    StudyService.create(dbService)));
+              },
+              child: const EducationPage(),
+            ));
   }
 
   //     static MaterialPageRoute getPolicyTreatment() {

@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
+import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/pages/others/about_health/component/item_about_health.dart';
@@ -32,37 +34,47 @@ class _AwardsPageState extends State<AwardsPage> {
               centerTitle: true,
               trailing: 24.w.horizontalSpace,
             ),
-            Expanded(
-              child: CustomListView(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                refreshController: refreshController,
-                onRefresh: () {
-                  setState(() {});
-                  refreshController.refreshCompleted();
-                },
-                itemBuilder: (int index, item) {
-                  final data = item;
-                  return ItemAboutHealth(
-                    imageSize: 279.h,
-                    onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     AppRoutes.getInfoViewAboutHealth(
-                      //         imagePath: data['image'],
-                      //         title: data["title"],
-                      //         desc: data['decs']));
-                    },
-                    title: data['title'],
-                    desc: data['decs'],
-                    imagePath: data['image'],
-                  );
-                },
-                data: dataAwards,
-                emptyWidgetModel:
-                    ErrorWidgetModel(title: "title", subtitle: 'subtitle'),
-                status: FormzSubmissionStatus.success,
-              ),
-            )
+            BlocBuilder<BranchBloc, BranchState>(builder: (context, state) {
+              if (state.awards.isEmpty) {
+                return Center(
+                  child: Text(
+                    "no_result_found".tr(),
+                    style: fonts.regularMain,
+                  ),
+                );
+              }
+              return Expanded(
+                child: CustomListView(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  refreshController: refreshController,
+                  onRefresh: () {
+                    setState(() {});
+                    refreshController.refreshCompleted();
+                  },
+                  itemBuilder: (int index, item) {
+                    final data = item;
+                    return ItemAboutHealth(
+                      imageSize: 279.h,
+                      onTap: () {
+                        // Navigator.push(
+                        //     context,
+                        //     AppRoutes.getInfoViewAboutHealth(
+                        //         imagePath: data['image'],
+                        //         title: data["title"],
+                        //         desc: data['decs']));
+                      },
+                      title: state.awards[index].title,
+                      desc: state.awards[index].description,
+                      imagePath: state.awards[index].image,
+                    );
+                  },
+                  data: dataAwards,
+                  emptyWidgetModel:
+                      ErrorWidgetModel(title: "title", subtitle: 'subtitle'),
+                  status: FormzSubmissionStatus.success,
+                ),
+              );
+            })
           ],
         ),
       );

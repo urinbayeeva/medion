@@ -15,6 +15,8 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
 
   BranchBloc(this._repository) : super(const BranchState()) {
     on<_FetchBranches>(_fetchBranches);
+    on<_FetchAwards>(_fetchAwards);
+    on<_FetchStudy>(_fetchStudy);
   }
 
   FutureOr<void> _fetchBranches(
@@ -37,6 +39,56 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
           loading: false,
           success: true,
           branches: data,
+        ));
+      },
+    );
+  }
+
+  FutureOr<void> _fetchAwards(
+    _FetchAwards event,
+    Emitter<BranchState> emit,
+  ) async {
+    emit(state.copyWith(loading: true, error: false, success: false));
+    EasyLoading.show();
+
+    final res = await _repository.fetchAwards();
+    res.fold(
+      (error) {
+        LogService.e("Error in fetching branches: $error");
+        EasyLoading.showError(error.message);
+        emit(state.copyWith(loading: false, error: true));
+      },
+      (data) {
+        EasyLoading.dismiss();
+        emit(state.copyWith(
+          loading: false,
+          success: true,
+          awards: data,
+        ));
+      },
+    );
+  }
+
+   FutureOr<void> _fetchStudy(
+    _FetchStudy event,
+    Emitter<BranchState> emit,
+  ) async {
+    emit(state.copyWith(loading: true, error: false, success: false));
+    EasyLoading.show();
+
+    final res = await _repository.fetchStudy();
+    res.fold(
+      (error) {
+        LogService.e("Error in fetching branches: $error");
+        EasyLoading.showError(error.message);
+        emit(state.copyWith(loading: false, error: true));
+      },
+      (data) {
+        EasyLoading.dismiss();
+        emit(state.copyWith(
+          loading: false,
+          success: true,
+          study: data,
         ));
       },
     );

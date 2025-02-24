@@ -44,6 +44,17 @@ class OthersPageComp extends StatelessWidget {
                             .changeNavBar(false);
                       });
                     }
+
+                    if (index == 3) {
+                      context.read<BottomNavBarController>().changeNavBar(true);
+                      Navigator.push(context, AppRoutes.getEducationPage())
+                          .then((_) {
+                        // ignore: use_build_context_synchronously
+                        context
+                            .read<BottomNavBarController>()
+                            .changeNavBar(false);
+                      });
+                    }
                     if (index == 5) {
                       context.read<BottomNavBarController>().changeNavBar(true);
                       Navigator.push(context, AppRoutes.getBranchesPage())

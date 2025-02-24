@@ -12,7 +12,7 @@ class PatternBackground extends StatelessWidget {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Container(
         padding: EdgeInsets.only(top: 16.w),
-        height: 180.h,
+        // height: 180.h,
         child: Stack(
           children: [
             icons.pattern.asset(),

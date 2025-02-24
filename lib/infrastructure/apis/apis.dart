@@ -152,8 +152,20 @@ abstract class BranchService extends ChopperService {
   @Get(path: "/about-branches")
   Future<Response<BuiltList<BranchModel>>> getBranchInfo();
 
+  @Get(path: "/awards")
+  Future<Response<BuiltList<AwardsModel>>> getAwards();
+
   static BranchService create(DBService dbService) =>
       _$BranchService(_Client(Constants.baseUrlP, true, dbService));
+}
+
+@ChopperApi(baseUrl: "")
+abstract class StudyService extends ChopperService {
+  @Get(path: "/study")
+  Future<Response<EducationModel>> getStudy();
+
+  static StudyService create(DBService dbService) =>
+      _$StudyService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 base class _Client extends ChopperClient {

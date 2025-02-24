@@ -332,4 +332,38 @@ final class _$BranchService extends BranchService {
     );
     return client.send<BuiltList<BranchModel>, BranchModel>($request);
   }
+
+  @override
+  Future<Response<BuiltList<AwardsModel>>> getAwards() {
+    final Uri $url = Uri.parse('/branch/awards');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<BuiltList<AwardsModel>, AwardsModel>($request);
+  }
+}
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$StudyService extends StudyService {
+  _$StudyService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = StudyService;
+
+  @override
+  Future<Response<EducationModel>> getStudy() {
+    final Uri $url = Uri.parse('/study');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<EducationModel, EducationModel>($request);
+  }
 }

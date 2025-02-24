@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
+import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class ItemAboutHealth extends StatelessWidget {
@@ -39,12 +41,14 @@ class ItemAboutHealth extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(8.r),
                         topRight: Radius.circular(8.r)),
-                    child: Image.asset(
-                      imagePath!,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      height: imageSize ?? 172.h,
-                    ),
+                    child: imagePath == null
+                        ? SvgPicture.asset("assets/icons/picture.svg")
+                        : CachedImageComponent(
+                            imageUrl: imagePath!,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            height: imageSize ?? 172.h,
+                          ),
                   ),
                   Padding(
                     padding:

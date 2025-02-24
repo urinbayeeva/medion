@@ -8,8 +8,9 @@ import 'package:medion/infrastructure/services/log_service.dart';
 
 class BranchRepository implements IBranchRepository {
   final BranchService apiService;
+  final StudyService studyService;
 
-  BranchRepository(this.apiService);
+  BranchRepository(this.apiService, this.studyService);
 
   @override
   Future<Either<ResponseFailure, List<BranchModel>>> fetchBranches() async {
@@ -21,6 +22,44 @@ class BranchRepository implements IBranchRepository {
       if (response.isSuccessful && response.body != null) {
         final branches = response.body!;
         return right(branches.toList());
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      LogService.e(" ----> error on branch repo  : ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, List<AwardsModel>>> fetchAwards() async {
+    try {
+      final response = await apiService.getAwards();
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        final branches = response.body!;
+        return right(branches.toList());
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      LogService.e(" ----> error on branch repo  : ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
+  
+  @override
+  Future<Either<ResponseFailure, EducationModel>> fetchStudy() async {
+     try {
+      final response = await studyService.getStudy();
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        final study = response.body!;
+        return right(study);
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }

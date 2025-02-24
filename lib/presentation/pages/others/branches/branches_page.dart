@@ -49,7 +49,7 @@ class _BranchesPageState extends State<BranchesPage> {
               child: BlocBuilder<BranchBloc, BranchState>(
                 builder: (context, state) {
                   if (state.loading) {
-                    return const Center(child: CircularProgressIndicator());
+                    // return const Center(child: CircularProgressIndicator());
                   } else if (state.error) {
                     return Center(child: Text("Error loading branches"));
                   } else if (state.success && state.branches.isEmpty) {
