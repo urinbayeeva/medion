@@ -35,9 +35,10 @@ final AliceChopperAdapter aliceChopperAdapter = AliceChopperAdapter();
 Alice alice = Alice(
   configuration: AliceConfiguration(
     showNotification: true,
-    showInspectorOnShake: true,
+    showInspectorOnShake: false,
   ),
 )..addAdapter(aliceChopperAdapter);
+
 
 class MyApp extends StatelessWidget {
   final DBService dbService;

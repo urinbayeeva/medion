@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 /// Definition of http response data holder.
-// ignore: must_be_immutable
 class AliceHttpResponse with EquatableMixin {
   int? status = 0;
   int size = 0;

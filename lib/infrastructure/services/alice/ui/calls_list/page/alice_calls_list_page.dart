@@ -1,5 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
 
-import 'package:flutter/material.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_core.dart';
 import 'package:medion/infrastructure/services/alice/helper/operating_system.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_export_result.dart';
@@ -16,6 +16,8 @@ import 'package:medion/infrastructure/services/alice/ui/common/alice_dialog.dart
 import 'package:medion/infrastructure/services/alice/ui/common/alice_navigation.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_page.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_theme.dart';
+import 'package:flutter/material.dart';
+import 'package:open_filex/open_filex.dart';
 
 /// Page which displays list of calls caught by Alice. It displays tab view
 /// where calls and logs can be inspected. It allows to sort calls, delete calls
@@ -265,7 +267,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
             ? context.i18n(AliceTranslationKey.saveSuccessView)
             : null,
         secondButtonAction: () =>
-            OperatingSystem.isAndroid
+            OperatingSystem.isAndroid ? OpenFilex.open(result.path!) : null,
       );
     } else {
       final [String title, String description] = switch (result.error) {

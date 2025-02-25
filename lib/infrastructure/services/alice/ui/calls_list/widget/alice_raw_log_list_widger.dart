@@ -1,10 +1,9 @@
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_translation.dart';
 import 'package:medion/infrastructure/services/alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
 import 'package:medion/infrastructure/services/alice/ui/calls_list/widget/alice_error_logs_widget.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_context_ext.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// Widget which displays raw logs list (logs collected with ADB).
 class AliceRawLogListWidget extends StatelessWidget {

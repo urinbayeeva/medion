@@ -32,7 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_SendPhoneNumber>(_sendPhoneNumberHandler);
     on<_SendUserInfo>(_sendUserInfoHandler);
     on<_FetchPatientInfo>(_fetchPatientInfoHandler);
-      on<_FetchPatientVisits>(_fetchPatientVisitsHandler); 
+    on<_FetchPatientVisits>(_fetchPatientVisitsHandler);
   }
 
   Future<void> _checkAuth(_CheckAuth event, Emitter<AuthState> emit) async {
@@ -48,7 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-   FutureOr<void> _fetchPatientVisitsHandler(
+  FutureOr<void> _fetchPatientVisitsHandler(
     _FetchPatientVisits event,
     Emitter<AuthState> emit,
   ) async {
@@ -164,6 +164,4 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
   }
-
-
 }

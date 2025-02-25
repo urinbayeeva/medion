@@ -474,17 +474,22 @@ class _$ContentModelSerializer implements StructuredSerializer<ContentModel> {
       serializers.serialize(object.children,
           specifiedType: const FullType(
               BuiltList, const [const FullType(ChildContentModel)])),
-      'discount_condition',
-      serializers.serialize(object.discountCondition,
-          specifiedType: const FullType(JsonObject)),
-      'discount_location',
-      serializers.serialize(object.discountLocation,
-          specifiedType: const FullType(JsonObject)),
-      'phone_number',
-      serializers.serialize(object.phoneNumber,
-          specifiedType: const FullType(JsonObject)),
     ];
     Object? value;
+    value = object.discountCondition;
+    if (value != null) {
+      result
+        ..add('discount_condition')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
+    }
+    value = object.discountLocation;
+    if (value != null) {
+      result
+        ..add('discount_location')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
+    }
     value = object.discountStartDate;
     if (value != null) {
       result
@@ -496,6 +501,13 @@ class _$ContentModelSerializer implements StructuredSerializer<ContentModel> {
     if (value != null) {
       result
         ..add('discount_end_date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
+    }
+    value = object.phoneNumber;
+    if (value != null) {
+      result
+        ..add('phone_number')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(JsonObject)));
     }
@@ -563,11 +575,11 @@ class _$ContentModelSerializer implements StructuredSerializer<ContentModel> {
           break;
         case 'discount_condition':
           result.discountCondition = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject))! as JsonObject;
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'discount_location':
           result.discountLocation = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject))! as JsonObject;
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'discount_start_date':
           result.discountStartDate = serializers.deserialize(value,
@@ -579,7 +591,7 @@ class _$ContentModelSerializer implements StructuredSerializer<ContentModel> {
           break;
         case 'phone_number':
           result.phoneNumber = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject))! as JsonObject;
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'phone_number_short':
           result.phoneNumberShort = serializers.deserialize(value,
@@ -1317,15 +1329,15 @@ class _$ContentModel extends ContentModel {
   @override
   final BuiltList<ChildContentModel> children;
   @override
-  final JsonObject discountCondition;
+  final JsonObject? discountCondition;
   @override
-  final JsonObject discountLocation;
+  final JsonObject? discountLocation;
   @override
   final JsonObject? discountStartDate;
   @override
   final JsonObject? discountEndDate;
   @override
-  final JsonObject phoneNumber;
+  final JsonObject? phoneNumber;
   @override
   final JsonObject? phoneNumberShort;
 
@@ -1342,11 +1354,11 @@ class _$ContentModel extends ContentModel {
       required this.primaryImage,
       required this.images,
       required this.children,
-      required this.discountCondition,
-      required this.discountLocation,
+      this.discountCondition,
+      this.discountLocation,
       this.discountStartDate,
       this.discountEndDate,
-      required this.phoneNumber,
+      this.phoneNumber,
       this.phoneNumberShort})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(type, r'ContentModel', 'type');
@@ -1362,12 +1374,6 @@ class _$ContentModel extends ContentModel {
     BuiltValueNullFieldError.checkNotNull(images, r'ContentModel', 'images');
     BuiltValueNullFieldError.checkNotNull(
         children, r'ContentModel', 'children');
-    BuiltValueNullFieldError.checkNotNull(
-        discountCondition, r'ContentModel', 'discountCondition');
-    BuiltValueNullFieldError.checkNotNull(
-        discountLocation, r'ContentModel', 'discountLocation');
-    BuiltValueNullFieldError.checkNotNull(
-        phoneNumber, r'ContentModel', 'phoneNumber');
   }
 
   @override
@@ -1574,14 +1580,11 @@ class ContentModelBuilder
                 primaryImage, r'ContentModel', 'primaryImage'),
             images: images.build(),
             children: children.build(),
-            discountCondition: BuiltValueNullFieldError.checkNotNull(
-                discountCondition, r'ContentModel', 'discountCondition'),
-            discountLocation: BuiltValueNullFieldError.checkNotNull(
-                discountLocation, r'ContentModel', 'discountLocation'),
+            discountCondition: discountCondition,
+            discountLocation: discountLocation,
             discountStartDate: discountStartDate,
             discountEndDate: discountEndDate,
-            phoneNumber: BuiltValueNullFieldError.checkNotNull(
-                phoneNumber, r'ContentModel', 'phoneNumber'),
+            phoneNumber: phoneNumber,
             phoneNumberShort: phoneNumberShort,
           );
     } catch (_) {

@@ -1,8 +1,7 @@
-
-import 'package:flutter/material.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_translation.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_context_ext.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_theme.dart';
+import 'package:flutter/material.dart';
 
 /// Widget which renders empty text for calls list.
 class AliceEmptyLogsWidget extends StatelessWidget {

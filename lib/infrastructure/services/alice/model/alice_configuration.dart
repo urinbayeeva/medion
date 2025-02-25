@@ -1,9 +1,8 @@
-
-import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_logger.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_memory_storage.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_storage.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 
 class AliceConfiguration with EquatableMixin {
   /// Default max calls count used in default memory storage.

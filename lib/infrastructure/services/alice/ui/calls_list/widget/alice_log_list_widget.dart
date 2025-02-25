@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_log.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_translation.dart';
 import 'package:medion/infrastructure/services/alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
@@ -10,6 +7,9 @@ import 'package:medion/infrastructure/services/alice/ui/calls_list/widget/alice_
 import 'package:medion/infrastructure/services/alice/ui/common/alice_context_ext.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_scroll_behavior.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_theme.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// Widget which renders log list for calls list page.
 class AliceLogListWidget extends StatefulWidget {

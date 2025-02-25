@@ -34,13 +34,17 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.example.medion"
-    compileSdkVersion 34
+    compileSdkVersion 35
     ndkVersion flutter.ndkVersion
 
     compileOptions {
         coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    
+    aaptOptions {
+        ignoreAssetsPattern "values-v35.xml"
     }
 
     kotlinOptions {
@@ -54,10 +58,10 @@ android {
   
 defaultConfig {
     applicationId "com.medion.app"
-    minSdkVersion 23
-    targetSdkVersion 34
-    versionCode flutterVersionCode.toInteger()
-    versionName flutterVersionName
+    minSdkVersion 21
+    targetSdkVersion 35
+    versionCode 1
+    versionName "1.0"
     multiDexEnabled true
 }
 
@@ -92,7 +96,32 @@ defaultConfig {
             shrinkResources false
         }
     }
+
+    flavorDimensions "default"
+    productFlavors {
+        dev {
+            dimension "default"
+            applicationIdSuffix ".dev"
+            versionNameSuffix ".dev"
+            resValue "string", "app_name", "Medion Dev"
+            resValue "string", "app_icon", "@mipmap/ic_launcher"
+        }
+        beta {
+            dimension "default"
+            applicationIdSuffix ".beta"
+            versionNameSuffix ".beta"
+            resValue "string", "app_name", "Medion Beta"
+            resValue "string", "app_icon", "@mipmap/ic_launcher"
+        }
+        prod {
+            dimension "default"
+            resValue "string", "app_name", "Medion"
+            resValue "string", "app_icon", "@mipmap/ic_launcher"
+        }
+    }
 }
+
+
 
 flutter {
     source '../..'

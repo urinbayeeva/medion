@@ -58,6 +58,20 @@ final class _$AuthService extends AuthService {
     return client
         .send<CreatePatientInfoResponse, CreatePatientInfoResponse>($request);
   }
+
+  @override
+  Future<Response<RefreshTokenResponse>> refreshToken(
+      {required Map<String, dynamic> request}) {
+    final Uri $url = Uri.parse('/patient/refresh');
+    final $body = request;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<RefreshTokenResponse, RefreshTokenResponse>($request);
+  }
 }
 
 // coverage:ignore-file

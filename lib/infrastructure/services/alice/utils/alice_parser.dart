@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-
-import 'package:flutter/material.dart';
+import 'package:medion/infrastructure/services/alice/model/alice_translation.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_context_ext.dart';
-
-import '../model/alice_translation.dart';
+import 'package:flutter/material.dart';
 
 /// Body parser helper used to parsing body data.
 class AliceParser {

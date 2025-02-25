@@ -2,7 +2,7 @@
 
 import 'dart:convert' show JsonEncoder;
 import 'dart:io' show Directory, File, FileMode, IOSink;
-import 'package:flutter/material.dart';
+
 import 'package:medion/infrastructure/services/alice/core/alice_utils.dart';
 import 'package:medion/infrastructure/services/alice/helper/alice_conversion_helper.dart';
 import 'package:medion/infrastructure/services/alice/helper/operating_system.dart';
@@ -12,6 +12,7 @@ import 'package:medion/infrastructure/services/alice/model/alice_translation.dar
 import 'package:medion/infrastructure/services/alice/ui/common/alice_context_ext.dart';
 import 'package:medion/infrastructure/services/alice/utils/alice_parser.dart';
 import 'package:medion/infrastructure/services/alice/utils/curl.dart';
+import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';

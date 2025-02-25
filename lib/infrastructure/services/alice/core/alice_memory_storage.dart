@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_storage.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_utils.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_call.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_error.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_response.dart';
 import 'package:medion/infrastructure/services/alice/utils/num_comparison.dart';
+import 'package:collection/collection.dart';
 import 'package:rxdart/subjects.dart';
 
 /// Storage which uses memory to store calls data. It's a default storage
@@ -31,37 +31,37 @@ class AliceMemoryStorage implements AliceStorage {
   List<AliceHttpCall> getCalls() => _callsSubject.value;
 
   /// Returns stats based on calls.
-@override
-AliceStats getStats() {
-  final List<AliceHttpCall> calls = getCalls();
+  @override
+  AliceStats getStats() {
+    final List<AliceHttpCall> calls = getCalls();
 
-  return (
-    total: calls.length,
-    successes: calls
-        .where(
-          (AliceHttpCall call) =>
-              (call.response?.status?.gte(200) ?? false) &&
-              (call.response?.status?.lt(300) ?? false),
-        )
-        .length,
-    redirects: calls
-        .where(
-          (AliceHttpCall call) =>
-              (call.response?.status?.gte(300) ?? false) &&
-              (call.response?.status?.lt(400) ?? false),
-        )
-        .length,
-    errors: calls
-        .where(
-          (AliceHttpCall call) =>
-              ((call.response?.status?.gte(400) ?? false) &&
-                  (call.response?.status?.lt(600) ?? false)) ||
-              const [-1, 0].contains(call.response?.status),
-        )
-        .length,
-    loading: calls.where((AliceHttpCall call) => call.loading).length,
-  );
-}
+    return (
+      total: calls.length,
+      successes: calls
+          .where(
+            (AliceHttpCall call) =>
+                (call.response?.status.gte(200) ?? false) &&
+                (call.response?.status.lt(300) ?? false),
+          )
+          .length,
+      redirects: calls
+          .where(
+            (AliceHttpCall call) =>
+                (call.response?.status.gte(300) ?? false) &&
+                (call.response?.status.lt(400) ?? false),
+          )
+          .length,
+      errors: calls
+          .where(
+            (AliceHttpCall call) =>
+                ((call.response?.status.gte(400) ?? false) &&
+                    (call.response?.status.lt(600) ?? false)) ||
+                const [-1, 0].contains(call.response?.status),
+          )
+          .length,
+      loading: calls.where((AliceHttpCall call) => call.loading).length,
+    );
+  }
 
   /// Adds new call to calls list.
   @override
@@ -103,8 +103,8 @@ AliceStats getStats() {
     selectedCall
       ..loading = false
       ..response = response
-      ..duration = (response.time.millisecondsSinceEpoch -
-                  (selectedCall.request?.time.millisecondsSinceEpoch ?? 0)).toInt();
+      ..duration = response.time.millisecondsSinceEpoch -
+          (selectedCall.request?.time.millisecondsSinceEpoch ?? 0);
 
     _callsSubject.add([..._callsSubject.value]);
   }

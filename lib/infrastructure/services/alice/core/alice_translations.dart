@@ -1,6 +1,5 @@
 import 'package:medion/infrastructure/services/alice/model/alice_translation.dart';
 
-
 /// Class used to manage translations in Alice.
 class AliceTranslations {
   /// Contains list of translation data for all languages.

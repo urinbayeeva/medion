@@ -1,5 +1,5 @@
-import 'package:medion/infrastructure/services/alice/core/alice_translations.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_translation.dart';
+import 'package:medion/infrastructure/services/alice/core/alice_translations.dart';
 import 'package:flutter/material.dart';
 
 /// Extension for [BuildContext].

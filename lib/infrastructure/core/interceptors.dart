@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/common/token_ext.dart';
+import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_adapter.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_utils.dart';
@@ -177,8 +178,9 @@ class CoreInterceptor implements Interceptor {
 
   @override
   FutureOr<Response<T>> intercept<T>(Chain<T> chain) async {
-    final request = applyHeader(chain.request, 'accept', 'application/json');
-    final request1 = applyHeader(request, 'uuid', dbService.getUid ?? "");
+    var request = applyHeader(chain.request, 'accept', 'application/json');
+    request = applyHeader(request, 'uuid', dbService.getUid ?? "");
+
     final requiresToken = request.headers['requires-token'] == 'true' ||
         request.headers['requires-token'] == 'optional';
 
@@ -187,41 +189,51 @@ class CoreInterceptor implements Interceptor {
       if (token == null) {
         LogService.w("Access token is null, attempting refresh");
         final refreshToken = dbService.token.refreshToken;
+
         if (refreshToken != null && refreshToken.isNotEmpty) {
-          final result = await AuthRepository.refreshToken(refreshToken);
+          // Create an instance of AuthRepository
+          final authRepo = AuthRepository(
+            dbService,
+            AuthService.create(dbService),
+            PatientService.create(dbService),
+          );
+          final result =
+              await authRepo.refreshToken(refreshToken); // Call instance method
+
           return result.fold(
             (error) async {
               LogService.e("Refresh failed: ${error.message}");
-              dbService.signOut();
+              await dbService.signOut();
               throw Exception('invalid_credential'.tr());
             },
             (data) async {
               dbService.setToken(Token(
-                accessToken: data.accesstoken,
-                refreshToken: data.refreshtoken,
-                tokenType: 'Bearer',
+                accessToken: data.access_token,
+                refreshToken: refreshToken, // Reuse existing refresh token
+                tokenType: data.token_type,
               ));
               token = dbService.token.toBearerToken!;
               LogService.d("Refreshed token: $token");
-              final request2 = applyHeader(request1, 'Authorization', token!);
-              return chain.proceed(request2);
+              final updatedRequest =
+                  applyHeader(request, 'Authorization', token!);
+              return chain.proceed(updatedRequest);
             },
           );
         } else {
           LogService.e("No refresh token available");
           if (request.headers['requires-token'] == 'optional') {
-            return chain.proceed(request1);
+            return chain.proceed(request);
           } else {
             throw Exception('invalid_credential'.tr());
           }
         }
       } else {
         LogService.d("Applying token: $token");
-        final request2 = applyHeader(request1, 'Authorization', token);
-        return chain.proceed(request2);
+        final updatedRequest = applyHeader(request, 'Authorization', token);
+        return chain.proceed(updatedRequest);
       }
     }
-    return chain.proceed(request1);
+    return chain.proceed(request);
   }
 }
 

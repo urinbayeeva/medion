@@ -1,11 +1,9 @@
+import 'dart:async' show FutureOr, StreamSubscription;
 
-import 'dart:async';
-
-import 'package:flutter/material.dart';
-import 'package:medion/infrastructure/services/alice/core/alice_notification.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_storage.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_utils.dart';
 import 'package:medion/infrastructure/services/alice/helper/alice_export_helper.dart';
+import 'package:medion/infrastructure/services/alice/core/alice_notification.dart';
 import 'package:medion/infrastructure/services/alice/helper/operating_system.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_configuration.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_export_result.dart';
@@ -15,6 +13,7 @@ import 'package:medion/infrastructure/services/alice/model/alice_http_response.d
 import 'package:medion/infrastructure/services/alice/model/alice_log.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_navigation.dart';
 import 'package:medion/infrastructure/services/alice/utils/shake_detector.dart';
+import 'package:flutter/material.dart';
 
 class AliceCore {
   /// Configuration of Alice

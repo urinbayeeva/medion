@@ -1,11 +1,10 @@
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_storage.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_utils.dart';
 import 'package:medion/infrastructure/services/alice/helper/operating_system.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_translation.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_context_ext.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 /// Helper for displaying local notifications.
 class AliceNotification {

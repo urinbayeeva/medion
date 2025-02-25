@@ -1,10 +1,8 @@
-
-
-import 'package:flutter/material.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_logger.dart';
 import 'package:medion/infrastructure/services/alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
 import 'package:medion/infrastructure/services/alice/ui/calls_list/widget/alice_log_list_widget.dart';
 import 'package:medion/infrastructure/services/alice/ui/calls_list/widget/alice_raw_log_list_widger.dart';
+import 'package:flutter/material.dart';
 
 /// Screen hosted in calls list which displays logs list.
 class AliceLogsScreen extends StatelessWidget {

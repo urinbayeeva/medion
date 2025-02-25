@@ -2,7 +2,6 @@ import 'dart:io' show HttpHeaders;
 
 import 'package:medion/infrastructure/services/alice/model/alice_http_call.dart';
 
-
 class Curl {
   /// Builds Curl command based on [call] instance.
   static String getCurlCommand(AliceHttpCall call) {

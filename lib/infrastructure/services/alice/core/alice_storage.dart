@@ -1,10 +1,8 @@
+import 'package:medion/infrastructure/services/alice/model/alice_http_call.dart';
 import 'dart:async' show FutureOr;
 
-import 'package:medion/infrastructure/services/alice/model/alice_http_call.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_error.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_response.dart';
-
-
 
 /// Definition of call stats.
 typedef AliceStats = ({

@@ -1,13 +1,14 @@
-
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_adapter.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_core.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_configuration.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_call.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_log.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-
+export 'package:medion/infrastructure/services/alice/model/alice_log.dart';
+export 'package:medion/infrastructure/services/alice/core/alice_memory_storage.dart';
+export 'package:medion/infrastructure/services/alice/utils/alice_parser.dart';
 
 class Alice {
   /// Alice core instance

@@ -1,13 +1,12 @@
 import 'package:medion/infrastructure/services/alice/core/alice_core.dart';
 import 'package:medion/infrastructure/services/alice/helper/alice_conversion_helper.dart';
+import 'package:medion/infrastructure/services/alice/model/alice_http_call.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_translation.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_context_ext.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_page.dart';
-import 'package:flutter/material.dart';
 import 'package:medion/infrastructure/services/alice/ui/widget/alice_stats_row.dart';
 import 'package:medion/infrastructure/services/alice/utils/num_comparison.dart';
-
-import '../../model/alice_http_call.dart';
+import 'package:flutter/material.dart';
 
 /// General stats page for currently caught HTTP calls.
 class AliceStatsPage extends StatelessWidget {
@@ -123,7 +122,7 @@ class AliceStatsPage extends StatelessWidget {
   int _getRedirectionRequests() => _calls
       .where(
         (AliceHttpCall call) =>
-            (call.response!.status?.gte(300) ?? false) &&
+            (call.response?.status.gte(300) ?? false) &&
             (call.response?.status.lt(400) ?? false),
       )
       .toList()

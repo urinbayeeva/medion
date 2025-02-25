@@ -45,11 +45,10 @@ abstract class AuthService extends ChopperService {
     @Body() required CreateInfoReq request,
   });
 
-  // @Post(path: "refresh")
-  // Future<Response<CreatePatientInfoResponse>> refreshToken({
-  //   @Body() required RefreshTokenModel request,
-  // });
-
+@Post(path: "refresh") 
+  Future<Response<RefreshTokenResponse>> refreshToken({
+    @Body() required Map<String, dynamic> request,
+  });
   static AuthService create(DBService dbService) =>
       _$AuthService(_Client(Constants.baseUrlP, true, dbService));
 }
@@ -138,6 +137,7 @@ abstract class PatientService extends ChopperService {
     @Body() required ImageUploadResponseModel image,
   });
 
+
   @Get(path: "patient_visits_mobile")
   Future<Response<VisitModel>> getPatientVisitsMobile({
     @Header('requires-token') String requiresToken = "true",
@@ -206,57 +206,45 @@ class MyAuthenticator extends Authenticator {
   final DBService dbService;
 
   MyAuthenticator(this.dbService);
+
   @override
-  FutureOr<Request?> authenticate(Request request, Response response,
-      [Request? originalRequest]) async {
+  FutureOr<Request?> authenticate(Request request, Response response, [Request? originalRequest]) async {
     if (response.statusCode == 401) {
-      try {
-        final refreshToken = dbService.token.refreshToken;
-        LogService.d("Attempting refresh with token: $refreshToken");
+      final refreshToken = dbService.token.refreshToken;
+      LogService.d("Attempting refresh with token: $refreshToken");
 
-        if (refreshToken == null || refreshToken.isEmpty) {
-          LogService.w("No valid refresh token available");
-          // dbService.signOut();
-          return null;
-        }
-
-        final result = await AuthRepository.refreshToken(refreshToken);
-
-        Map<String, String>? header;
-
-        result.fold(
-          (error) {
-            LogService.e("Refresh failed: ${error.message}");
-            // dbService.signOut();
-          },
-          (data) {
-            LogService.d("Refresh succeeded: access=${data.accesstoken}");
-            dbService.setToken(Token(
-              accessToken: data.accesstoken,
-              refreshToken: data.refreshtoken,
-              tokenType: 'Bearer',
-            ));
-
-            final updatedHeaders = Map<String, String>.of(request.headers);
-            final newToken = 'Bearer ${data.accesstoken}';
-            updatedHeaders['Authorization'] = newToken;
-            header = updatedHeaders;
-          },
-        );
-
-        if (header != null) {
-          LogService.d("Returning request with new headers: $header");
-          return request.copyWith(headers: header);
-        }
-      } catch (e) {
-        LogService.e("Refresh exception: $e");
-        // dbService.signOut();
+      if (refreshToken == null || refreshToken.isEmpty) {
+        LogService.w("No valid refresh token");
+        await dbService.signOut();
+        return null;
       }
+
+      final authRepo = AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService));
+      final result = await authRepo.refreshToken(refreshToken);
+
+      return result.fold(
+        (failure) {
+          LogService.e("Refresh failed: $failure");
+           dbService.signOut();
+          return null;
+        },
+        (data) {
+          LogService.d("Refresh succeeded: access=${data.access_token}");
+          dbService.setToken(Token(
+            accessToken: data.access_token,
+            refreshToken: refreshToken, // Keep old refresh token since no new one is provided
+            tokenType: data.token_type,
+          ));
+
+          final updatedHeaders = Map<String, String>.of(request.headers);
+          updatedHeaders['Authorization'] = '${data.token_type} ${data.access_token}';
+          return request.copyWith(headers: updatedHeaders);
+        },
+      );
     } else if (response.statusCode >= 400) {
       LogService.e("Non-401 error: ${response.statusCode}");
       throw BackendExceptionForSentry(response);
     }
-
     return null;
   }
 }

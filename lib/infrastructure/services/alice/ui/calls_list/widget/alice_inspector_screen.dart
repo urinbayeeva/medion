@@ -1,10 +1,9 @@
-
-import 'package:flutter/material.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_core.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_call.dart';
 import 'package:medion/infrastructure/services/alice/ui/calls_list/model/alice_calls_list_sort_option.dart';
 import 'package:medion/infrastructure/services/alice/ui/calls_list/widget/alice_calls_list_screen.dart';
 import 'package:medion/infrastructure/services/alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
+import 'package:flutter/material.dart';
 
 /// Screen which is hosted in calls list page. It displays HTTP calls. It allows
 /// to search call and sort items based on provided criteria.

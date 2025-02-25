@@ -89,29 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                     24.h.verticalSpace,
-                    FutureBuilder<DBService>(
-                      future: DBService.create, // Create instance
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          final dbService = snapshot.data;
-                          return Text("Access ${dbService?.token.accessToken}");
-                        } else {
-                          return CircularProgressIndicator();
-                        }
-                      },
-                    ),
-                    FutureBuilder<DBService>(
-                      future: DBService.create, // Create instance
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          final dbService = snapshot.data;
-                          return Text(
-                              "Refresh ${dbService?.token.refreshToken}");
-                        } else {
-                          return CircularProgressIndicator();
-                        }
-                      },
-                    ),
+                    Text(state.patientInfo?.firstName ?? 'Loading...'),
                     24.h.verticalSpace,
                     const NavListWidget(),
                     Expanded(

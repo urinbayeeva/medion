@@ -1,9 +1,8 @@
-
-import 'package:flutter/material.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_call.dart';
 import 'package:medion/infrastructure/services/alice/ui/calls_list/model/alice_calls_list_sort_option.dart';
 import 'package:medion/infrastructure/services/alice/ui/calls_list/widget/alice_call_list_item_widget.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_scroll_behavior.dart';
+import 'package:flutter/material.dart';
 
 /// Widget which displays calls list. It's hosted in tab in calls list page.
 class AliceCallsListScreen extends StatelessWidget {

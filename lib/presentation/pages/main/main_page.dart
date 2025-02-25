@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/connectivity.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
+import 'package:medion/infrastructure/services/deep_link/deep_link_handle.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:medion/infrastructure/services/notification_service.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/presentation/component/nav_bar/lib/persistent_tab_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
@@ -34,6 +37,10 @@ class _MainPageState extends State<MainPage> {
   ScrollController scrollController = ScrollController();
   late List<Widget> pageList;
   late PersistentTabController _controller = PersistentTabController();
+  late NotificationService notificationService;
+  late DynamicLinkService dynamicLinkService;
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
@@ -58,16 +65,24 @@ class _MainPageState extends State<MainPage> {
           create: (context) {
             DBService dbService = context.read<DBService>();
             return AuthBloc(
-                AuthRepository(dbService, AuthService.create(dbService),
-                    PatientService.create(dbService)),
-                dbService,   );
+              AuthRepository(dbService, AuthService.create(dbService),
+                  PatientService.create(dbService)),
+              dbService,
+            );
           },
           child: const ProfilePage()),
       const OthersPage(),
     ];
-
+    notificationService = NotificationService.create(
+        context: context,
+        flutterLocalNotificationsPlugin: _flutterLocalNotificationsPlugin);
+    notificationService.notificationInit();
+    notificationService.firebaseCloudMessagingListeners();
+    notificationService.setupInteractedMessage();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    dynamicLinkService = DynamicLinkService.instance;
+    dynamicLinkService.initialize(notificationService);
   }
 
   Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
@@ -123,7 +138,6 @@ class _MainPageState extends State<MainPage> {
             body: Consumer<BottomNavBarController>(
               builder: (context, theme, _) {
                 return PersistentTabView(
-                  
                   context,
                   onItemSelected: (int index) {
                     onDebounce(() {

@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:medion/infrastructure/services/alice/helper/alice_conversion_helper.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_call.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_translation.dart';
 import 'package:medion/infrastructure/services/alice/ui/call_details/widget/alice_call_list_row.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_context_ext.dart';
-import 'package:medion/infrastructure/services/alice/ui/common/alice_scroll_behavior.dart';
 import 'package:medion/infrastructure/services/alice/utils/alice_parser.dart';
+import 'package:medion/infrastructure/services/alice/ui/common/alice_scroll_behavior.dart';
 import 'package:medion/infrastructure/services/alice/utils/num_comparison.dart';
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Screen which displays information about HTTP call response.

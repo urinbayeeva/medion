@@ -1,11 +1,10 @@
-
-import 'package:flutter/material.dart';
 import 'package:medion/infrastructure/services/alice/helper/alice_conversion_helper.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_call.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_translation.dart';
 import 'package:medion/infrastructure/services/alice/ui/call_details/widget/alice_call_list_row.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_context_ext.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_scroll_behavior.dart';
+import 'package:flutter/material.dart';
 
 /// Screen which displays call overview data, for example method, server.
 class AliceCallOverviewScreen extends StatelessWidget {
