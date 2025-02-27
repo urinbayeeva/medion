@@ -31,17 +31,19 @@ class AuthRepository implements IAuthFacade {
     this._patientService,
   );
 
-Future<Either<ResponseFailure, RefreshTokenResponse>> refreshToken(String refresh) async {
+  Future<Either<ResponseFailure, RefreshTokenResponse>> refreshToken(
+      String refresh) async {
     try {
       final response = await _authService.refreshToken(
-        request: {'refresh_token': refresh}, // Match backend's expected key
+        request: {'token': refresh}, // Match backend's expected key
       );
 
       if (response.isSuccessful && response.body != null) {
         LogService.d("Refresh succeeded: ${response.body!.access_token}");
         return right(response.body!);
       } else {
-        LogService.e("Refresh failed: ${response.statusCode} - ${response.error}");
+        LogService.e(
+            "Refresh failed: ${response.statusCode} - ${response.error}");
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
@@ -50,38 +52,42 @@ Future<Either<ResponseFailure, RefreshTokenResponse>> refreshToken(String refres
     }
   }
 
-
   @override
   Option<AuthFailure> checkUser() {
     final Token token = _dbService.token;
     return optionOf(token.hasFailure);
   }
 
-Future<Either<ResponseFailure, ResponseModel>> registerUser({required RegisterReq request}) async {
-  try {
-    final res = await _authService.registerUser(request: request);
+  @override
+  Future<Either<ResponseFailure, ResponseModel>> registerUser(
+      {required RegisterReq request}) async {
+    try {
+      final res = await _authService.registerUser(request: request);
 
-    if (res.isSuccessful && res.body != null) {
-      bool isNewUser = res.body!.isNewPatient;
+      if (res.isSuccessful && res.body != null) {
+        bool isNewUser = res.body!.isNewPatient;
 
-      if (!isNewUser && res.body!.accessToken!.isNotEmpty && res.body!.refreshToken!.isNotEmpty) {
-        _dbService.setToken(Token(
-          accessToken: res.body!.accessToken!.first, // Extract from array
-          refreshToken: res.body!.refreshToken!.first, // Extract from array
-          tokenType: 'Bearer',
-        ));
-        return right(res.body!);
+        if (!isNewUser &&
+            res.body!.accessToken!.isNotEmpty &&
+            res.body!.refreshToken!.isNotEmpty) {
+          _dbService.setToken(Token(
+            accessToken: res.body!.accessToken!.first, // Extract from array
+            refreshToken: res.body!.refreshToken!.first, // Extract from array
+            tokenType: 'Bearer',
+          ));
+          // print("TOKEN: ${res.body}")
+          return right(res.body!);
+        } else {
+          return right(res.body!); // For new users, no tokens yet
+        }
       } else {
-        return right(res.body!); // For new users, no tokens yet
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
-    } else {
-      return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+    } catch (e) {
+      LogService.e("Register error: $e");
+      return left(handleError(e));
     }
-  } catch (e) {
-    LogService.e("Register error: $e");
-    return left(handleError(e));
   }
-}
 
   /// Send phone number
   @override
@@ -160,7 +166,6 @@ Future<Either<ResponseFailure, ResponseModel>> registerUser({required RegisterRe
     }
   }
 
-
   @override
   Future<Either<ResponseFailure, PatientInfo>> getPatientInfo() async {
     try {
@@ -230,7 +235,6 @@ Future<Either<ResponseFailure, ResponseModel>> registerUser({required RegisterRe
   }
 }
 
-
 ///
 Future<List<dynamic>> fetchServiceData() async {
   final response = await http
@@ -243,6 +247,4 @@ Future<List<dynamic>> fetchServiceData() async {
     // Throw an error if the request fails
     throw Exception('Failed to load service data');
   }
-
-  
 }

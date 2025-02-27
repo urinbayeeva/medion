@@ -145,8 +145,8 @@ abstract class RefreshTokenResponseModel
 }
 
 abstract class RefreshTokenResponse implements Built<RefreshTokenResponse, RefreshTokenResponseBuilder> {
-  String get access_token; // Match JSON key exactly
-  String get token_type;
+  String? get access_token; // Match JSON key exactly
+  String? get token_type;
 
   RefreshTokenResponse._();
   factory RefreshTokenResponse([void Function(RefreshTokenResponseBuilder) updates]) = _$RefreshTokenResponse;

@@ -178,62 +178,27 @@ class CoreInterceptor implements Interceptor {
 
   @override
   FutureOr<Response<T>> intercept<T>(Chain<T> chain) async {
-    var request = applyHeader(chain.request, 'accept', 'application/json');
-    request = applyHeader(request, 'uuid', dbService.getUid ?? "");
-
+    final request =
+        applyHeader(chain.request, 'Accept-Language', 'app_lang'.tr());
+    final request1 = applyHeader(request, 'uuid', dbService.getUid ?? "");
     final requiresToken = request.headers['requires-token'] == 'true' ||
         request.headers['requires-token'] == 'optional';
-
     if (requiresToken) {
-      var token = dbService.token.toBearerToken;
-      if (token == null) {
-        LogService.w("Access token is null, attempting refresh");
-        final refreshToken = dbService.token.refreshToken;
-
-        if (refreshToken != null && refreshToken.isNotEmpty) {
-          // Create an instance of AuthRepository
-          final authRepo = AuthRepository(
-            dbService,
-            AuthService.create(dbService),
-            PatientService.create(dbService),
-          );
-          final result =
-              await authRepo.refreshToken(refreshToken); // Call instance method
-
-          return result.fold(
-            (error) async {
-              LogService.e("Refresh failed: ${error.message}");
-              await dbService.signOut();
-              throw Exception('invalid_credential'.tr());
-            },
-            (data) async {
-              dbService.setToken(Token(
-                accessToken: data.access_token,
-                refreshToken: refreshToken, // Reuse existing refresh token
-                tokenType: data.token_type,
-              ));
-              token = dbService.token.toBearerToken!;
-              LogService.d("Refreshed token: $token");
-              final updatedRequest =
-                  applyHeader(request, 'Authorization', token!);
-              return chain.proceed(updatedRequest);
-            },
-          );
-        } else {
-          LogService.e("No refresh token available");
-          if (request.headers['requires-token'] == 'optional') {
-            return chain.proceed(request);
-          } else {
-            throw Exception('invalid_credential'.tr());
-          }
-        }
+      if (dbService.token.toBearerToken != null) {
+        final request2 = applyHeader(
+            request1, 'Authorization', dbService.token.toBearerToken!);
+        return chain.proceed(request2);
       } else {
-        LogService.d("Applying token: $token");
-        final updatedRequest = applyHeader(request, 'Authorization', token);
-        return chain.proceed(updatedRequest);
+        final requiresToken = request.headers['requires-token'] == 'optional';
+        if (requiresToken) {
+          return chain.proceed(request1);
+        } else {
+          throw Exception('invalid_credential'.tr());
+        }
       }
     }
-    return chain.proceed(request);
+
+    return chain.proceed(request1);
   }
 }
 

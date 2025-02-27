@@ -45,7 +45,7 @@ abstract class AuthService extends ChopperService {
     @Body() required CreateInfoReq request,
   });
 
-@Post(path: "refresh") 
+  @Post(path: "refresh")
   Future<Response<RefreshTokenResponse>> refreshToken({
     @Body() required Map<String, dynamic> request,
   });
@@ -137,7 +137,6 @@ abstract class PatientService extends ChopperService {
     @Body() required ImageUploadResponseModel image,
   });
 
-
   @Get(path: "patient_visits_mobile")
   Future<Response<VisitModel>> getPatientVisitsMobile({
     @Header('requires-token') String requiresToken = "true",
@@ -171,7 +170,8 @@ abstract class StudyService extends ChopperService {
 @ChopperApi(baseUrl: "")
 abstract class ContentService extends ChopperService {
   @Get(path: "/content/{type}")
-  Future<Response<BuiltList<ContentModel>>> getContentType(  @Path('type') String type);
+  Future<Response<BuiltList<ContentModel>>> getContentType(
+      @Path('type') String type);
 
   static ContentService create(DBService dbService) =>
       _$ContentService(_Client(Constants.baseUrlP, true, dbService));
@@ -179,7 +179,7 @@ abstract class ContentService extends ChopperService {
 
 base class _Client extends ChopperClient {
   _Client(String baseUrl, bool useInterceptors, DBService dbService,
-      {int timeout = 20})
+      {int timeout = 5})
       : super(
             client: TimeoutHttpClient(Client(),
                 timeout: Duration(seconds: timeout)),
@@ -208,7 +208,8 @@ class MyAuthenticator extends Authenticator {
   MyAuthenticator(this.dbService);
 
   @override
-  FutureOr<Request?> authenticate(Request request, Response response, [Request? originalRequest]) async {
+  FutureOr<Request?> authenticate(Request request, Response response,
+      [Request? originalRequest]) async {
     if (response.statusCode == 401) {
       final refreshToken = dbService.token.refreshToken;
       LogService.d("Attempting refresh with token: $refreshToken");
@@ -219,25 +220,30 @@ class MyAuthenticator extends Authenticator {
         return null;
       }
 
-      final authRepo = AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService));
+      final authRepo = AuthRepository(dbService, AuthService.create(dbService),
+          PatientService.create(dbService));
       final result = await authRepo.refreshToken(refreshToken);
+
+      print("$refreshToken");
 
       return result.fold(
         (failure) {
           LogService.e("Refresh failed: $failure");
-           dbService.signOut();
+          dbService.signOut();
           return null;
         },
         (data) {
           LogService.d("Refresh succeeded: access=${data.access_token}");
           dbService.setToken(Token(
             accessToken: data.access_token,
-            refreshToken: refreshToken, // Keep old refresh token since no new one is provided
+            refreshToken:
+                refreshToken, // Keep old refresh token since no new one is provided
             tokenType: data.token_type,
           ));
 
           final updatedHeaders = Map<String, String>.of(request.headers);
-          updatedHeaders['Authorization'] = '${data.token_type} ${data.access_token}';
+          updatedHeaders['Authorization'] =
+              '${data.token_type} ${data.access_token}';
           return request.copyWith(headers: updatedHeaders);
         },
       );
