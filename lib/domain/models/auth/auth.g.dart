@@ -19,8 +19,6 @@ Serializer<RefreshTokenModel> _$refreshTokenModelSerializer =
     new _$RefreshTokenModelSerializer();
 Serializer<RefreshTokenResponseModel> _$refreshTokenResponseModelSerializer =
     new _$RefreshTokenResponseModelSerializer();
-Serializer<RefreshTokenResponse> _$refreshTokenResponseSerializer =
-    new _$RefreshTokenResponseSerializer();
 
 class _$PhoneNumberSendReqSerializer
     implements StructuredSerializer<PhoneNumberSendReq> {
@@ -444,15 +442,22 @@ class _$RefreshTokenResponseModelSerializer
   Iterable<Object?> serialize(
       Serializers serializers, RefreshTokenResponseModel object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'access_token',
-      serializers.serialize(object.accessToken,
-          specifiedType: const FullType(String)),
-      'token_type',
-      serializers.serialize(object.tokenType,
-          specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.accessToken;
+    if (value != null) {
+      result
+        ..add('access_token')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.tokenType;
+    if (value != null) {
+      result
+        ..add('token_type')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -470,70 +475,10 @@ class _$RefreshTokenResponseModelSerializer
       switch (key) {
         case 'access_token':
           result.accessToken = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
-          break;
-        case 'token_type':
-          result.tokenType = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
-          break;
-      }
-    }
-
-    return result.build();
-  }
-}
-
-class _$RefreshTokenResponseSerializer
-    implements StructuredSerializer<RefreshTokenResponse> {
-  @override
-  final Iterable<Type> types = const [
-    RefreshTokenResponse,
-    _$RefreshTokenResponse
-  ];
-  @override
-  final String wireName = 'RefreshTokenResponse';
-
-  @override
-  Iterable<Object?> serialize(
-      Serializers serializers, RefreshTokenResponse object,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[];
-    Object? value;
-    value = object.access_token;
-    if (value != null) {
-      result
-        ..add('access_token')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.token_type;
-    if (value != null) {
-      result
-        ..add('token_type')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    return result;
-  }
-
-  @override
-  RefreshTokenResponse deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new RefreshTokenResponseBuilder();
-
-    final iterator = serialized.iterator;
-    while (iterator.moveNext()) {
-      final key = iterator.current! as String;
-      iterator.moveNext();
-      final Object? value = iterator.current;
-      switch (key) {
-        case 'access_token':
-          result.access_token = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'token_type':
-          result.token_type = serializers.deserialize(value,
+          result.tokenType = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -1221,22 +1166,15 @@ class RefreshTokenModelBuilder
 
 class _$RefreshTokenResponseModel extends RefreshTokenResponseModel {
   @override
-  final String accessToken;
+  final String? accessToken;
   @override
-  final String tokenType;
+  final String? tokenType;
 
   factory _$RefreshTokenResponseModel(
           [void Function(RefreshTokenResponseModelBuilder)? updates]) =>
       (new RefreshTokenResponseModelBuilder()..update(updates))._build();
 
-  _$RefreshTokenResponseModel._(
-      {required this.accessToken, required this.tokenType})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        accessToken, r'RefreshTokenResponseModel', 'accessToken');
-    BuiltValueNullFieldError.checkNotNull(
-        tokenType, r'RefreshTokenResponseModel', 'tokenType');
-  }
+  _$RefreshTokenResponseModel._({this.accessToken, this.tokenType}) : super._();
 
   @override
   RefreshTokenResponseModel rebuild(
@@ -1315,106 +1253,8 @@ class RefreshTokenResponseModelBuilder
   _$RefreshTokenResponseModel _build() {
     final _$result = _$v ??
         new _$RefreshTokenResponseModel._(
-          accessToken: BuiltValueNullFieldError.checkNotNull(
-              accessToken, r'RefreshTokenResponseModel', 'accessToken'),
-          tokenType: BuiltValueNullFieldError.checkNotNull(
-              tokenType, r'RefreshTokenResponseModel', 'tokenType'),
-        );
-    replace(_$result);
-    return _$result;
-  }
-}
-
-class _$RefreshTokenResponse extends RefreshTokenResponse {
-  @override
-  final String? access_token;
-  @override
-  final String? token_type;
-
-  factory _$RefreshTokenResponse(
-          [void Function(RefreshTokenResponseBuilder)? updates]) =>
-      (new RefreshTokenResponseBuilder()..update(updates))._build();
-
-  _$RefreshTokenResponse._({this.access_token, this.token_type}) : super._();
-
-  @override
-  RefreshTokenResponse rebuild(
-          void Function(RefreshTokenResponseBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
-
-  @override
-  RefreshTokenResponseBuilder toBuilder() =>
-      new RefreshTokenResponseBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is RefreshTokenResponse &&
-        access_token == other.access_token &&
-        token_type == other.token_type;
-  }
-
-  @override
-  int get hashCode {
-    var _$hash = 0;
-    _$hash = $jc(_$hash, access_token.hashCode);
-    _$hash = $jc(_$hash, token_type.hashCode);
-    _$hash = $jf(_$hash);
-    return _$hash;
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper(r'RefreshTokenResponse')
-          ..add('access_token', access_token)
-          ..add('token_type', token_type))
-        .toString();
-  }
-}
-
-class RefreshTokenResponseBuilder
-    implements Builder<RefreshTokenResponse, RefreshTokenResponseBuilder> {
-  _$RefreshTokenResponse? _$v;
-
-  String? _access_token;
-  String? get access_token => _$this._access_token;
-  set access_token(String? access_token) => _$this._access_token = access_token;
-
-  String? _token_type;
-  String? get token_type => _$this._token_type;
-  set token_type(String? token_type) => _$this._token_type = token_type;
-
-  RefreshTokenResponseBuilder();
-
-  RefreshTokenResponseBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _access_token = $v.access_token;
-      _token_type = $v.token_type;
-      _$v = null;
-    }
-    return this;
-  }
-
-  @override
-  void replace(RefreshTokenResponse other) {
-    ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$RefreshTokenResponse;
-  }
-
-  @override
-  void update(void Function(RefreshTokenResponseBuilder)? updates) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  RefreshTokenResponse build() => _build();
-
-  _$RefreshTokenResponse _build() {
-    final _$result = _$v ??
-        new _$RefreshTokenResponse._(
-          access_token: access_token,
-          token_type: token_type,
+          accessToken: accessToken,
+          tokenType: tokenType,
         );
     replace(_$result);
     return _$result;

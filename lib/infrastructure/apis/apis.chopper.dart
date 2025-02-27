@@ -60,8 +60,8 @@ final class _$AuthService extends AuthService {
   }
 
   @override
-  Future<Response<RefreshTokenResponse>> refreshToken(
-      {required Map<String, dynamic> request}) {
+  Future<Response<RefreshTokenResponseModel>> refreshToken(
+      {required RefreshTokenModel request}) {
     final Uri $url = Uri.parse('/patient/refresh');
     final $body = request;
     final Request $request = Request(
@@ -70,7 +70,8 @@ final class _$AuthService extends AuthService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<RefreshTokenResponse, RefreshTokenResponse>($request);
+    return client
+        .send<RefreshTokenResponseModel, RefreshTokenResponseModel>($request);
   }
 }
 

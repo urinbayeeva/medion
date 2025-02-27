@@ -46,9 +46,10 @@ abstract class AuthService extends ChopperService {
   });
 
   @Post(path: "refresh")
-  Future<Response<RefreshTokenResponse>> refreshToken({
-    @Body() required Map<String, dynamic> request,
+  Future<Response<RefreshTokenResponseModel>> refreshToken({
+    @Body() required RefreshTokenModel request,
   });
+
   static AuthService create(DBService dbService) =>
       _$AuthService(_Client(Constants.baseUrlP, true, dbService));
 }
@@ -224,7 +225,7 @@ class MyAuthenticator extends Authenticator {
           PatientService.create(dbService));
       final result = await authRepo.refreshToken(refreshToken);
 
-      print("$refreshToken");
+      print("REFRESH TOKEN AUTH$refreshToken");
 
       return result.fold(
         (failure) {
@@ -233,17 +234,16 @@ class MyAuthenticator extends Authenticator {
           return null;
         },
         (data) {
-          LogService.d("Refresh succeeded: access=${data.access_token}");
+          LogService.d("Refresh succeeded: access=${data.accessToken}");
           dbService.setToken(Token(
-            accessToken: data.access_token,
-            refreshToken:
-                refreshToken, // Keep old refresh token since no new one is provided
-            tokenType: data.token_type,
+            accessToken: data.accessToken,
+            refreshToken: refreshToken,
+            tokenType: data.tokenType,
           ));
 
           final updatedHeaders = Map<String, String>.of(request.headers);
           updatedHeaders['Authorization'] =
-              '${data.token_type} ${data.access_token}';
+              '${data.tokenType} ${data.accessToken}';
           return request.copyWith(headers: updatedHeaders);
         },
       );

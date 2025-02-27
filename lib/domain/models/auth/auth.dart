@@ -135,20 +135,12 @@ abstract class RefreshTokenResponseModel
       _$RefreshTokenResponseModel;
 
   @BuiltValueField(wireName: 'access_token')
-  String get accessToken;
+  String? get accessToken;
 
   @BuiltValueField(wireName: 'token_type')
-  String get tokenType;
+  String? get tokenType;
 
   static Serializer<RefreshTokenResponseModel> get serializer =>
       _$refreshTokenResponseModelSerializer;
 }
 
-abstract class RefreshTokenResponse implements Built<RefreshTokenResponse, RefreshTokenResponseBuilder> {
-  String? get access_token; // Match JSON key exactly
-  String? get token_type;
-
-  RefreshTokenResponse._();
-  factory RefreshTokenResponse([void Function(RefreshTokenResponseBuilder) updates]) = _$RefreshTokenResponse;
-  static Serializer<RefreshTokenResponse> get serializer => _$refreshTokenResponseSerializer;
-}

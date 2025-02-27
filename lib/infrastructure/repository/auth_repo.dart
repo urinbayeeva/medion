@@ -31,26 +31,26 @@ class AuthRepository implements IAuthFacade {
     this._patientService,
   );
 
-  Future<Either<ResponseFailure, RefreshTokenResponse>> refreshToken(
-      String refresh) async {
-    try {
-      final response = await _authService.refreshToken(
-        request: {'token': refresh}, // Match backend's expected key
-      );
+Future<Either<ResponseFailure, RefreshTokenResponseModel>> refreshToken(
+    String refresh) async {
+  try {
+    final response = await _authService.refreshToken(
+      request: RefreshTokenModel((b) => b..token = refresh),
+    );
 
-      if (response.isSuccessful && response.body != null) {
-        LogService.d("Refresh succeeded: ${response.body!.access_token}");
-        return right(response.body!);
-      } else {
-        LogService.e(
-            "Refresh failed: ${response.statusCode} - ${response.error}");
-        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
-      }
-    } catch (e) {
-      LogService.e("Refresh error: $e");
-      return left(handleError(e));
+    if (response.isSuccessful && response.body != null) {
+      LogService.d("Refresh succeeded: ${response.body!.accessToken}");
+      return right(response.body!);
+    } else {
+      LogService.e(
+          "Refresh failed: ${response.statusCode} - ${response.error}");
+      return left(InvalidCredentials(message: 'invalid_credential'.tr()));
     }
+  } catch (e) {
+    LogService.e("Refresh error: $e");
+    return left(handleError(e));
   }
+}
 
   @override
   Option<AuthFailure> checkUser() {
