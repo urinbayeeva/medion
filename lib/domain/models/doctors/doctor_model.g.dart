@@ -80,12 +80,6 @@ class _$DoctorDataSerializer implements StructuredSerializer<DoctorData> {
       serializers.serialize(object.categoryIds,
           specifiedType:
               const FullType(BuiltList, const [const FullType(int)])),
-      'specialty',
-      serializers.serialize(object.specialty,
-          specifiedType: const FullType(String)),
-      'work_experience',
-      serializers.serialize(object.workExperience,
-          specifiedType: const FullType(int)),
     ];
     Object? value;
     value = object.infoDescription;
@@ -116,19 +110,33 @@ class _$DoctorDataSerializer implements StructuredSerializer<DoctorData> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(JsonObject)));
     }
+    value = object.specialty;
+    if (value != null) {
+      result
+        ..add('specialty')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
+    }
     value = object.image;
     if (value != null) {
       result
         ..add('image')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+            specifiedType: const FullType(JsonObject)));
     }
     value = object.academicRank;
     if (value != null) {
       result
         ..add('academic_rank')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+            specifiedType: const FullType(JsonObject)));
+    }
+    value = object.workExperience;
+    if (value != null) {
+      result
+        ..add('work_experience')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
     }
     return result;
   }
@@ -176,19 +184,19 @@ class _$DoctorDataSerializer implements StructuredSerializer<DoctorData> {
           break;
         case 'specialty':
           result.specialty = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'image':
           result.image = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'academic_rank':
           result.academicRank = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'work_experience':
           result.workExperience = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
       }
     }
@@ -329,13 +337,13 @@ class _$DoctorData extends DoctorData {
   @override
   final BuiltList<int> categoryIds;
   @override
-  final String specialty;
+  final JsonObject? specialty;
   @override
-  final String? image;
+  final JsonObject? image;
   @override
-  final String? academicRank;
+  final JsonObject? academicRank;
   @override
-  final int workExperience;
+  final JsonObject? workExperience;
 
   factory _$DoctorData([void Function(DoctorDataBuilder)? updates]) =>
       (new DoctorDataBuilder()..update(updates))._build();
@@ -348,19 +356,15 @@ class _$DoctorData extends DoctorData {
       this.workPhone,
       this.gender,
       required this.categoryIds,
-      required this.specialty,
+      this.specialty,
       this.image,
       this.academicRank,
-      required this.workExperience})
+      this.workExperience})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'DoctorData', 'id');
     BuiltValueNullFieldError.checkNotNull(name, r'DoctorData', 'name');
     BuiltValueNullFieldError.checkNotNull(
         categoryIds, r'DoctorData', 'categoryIds');
-    BuiltValueNullFieldError.checkNotNull(
-        specialty, r'DoctorData', 'specialty');
-    BuiltValueNullFieldError.checkNotNull(
-        workExperience, r'DoctorData', 'workExperience');
   }
 
   @override
@@ -457,21 +461,22 @@ class DoctorDataBuilder implements Builder<DoctorData, DoctorDataBuilder> {
   set categoryIds(ListBuilder<int>? categoryIds) =>
       _$this._categoryIds = categoryIds;
 
-  String? _specialty;
-  String? get specialty => _$this._specialty;
-  set specialty(String? specialty) => _$this._specialty = specialty;
+  JsonObject? _specialty;
+  JsonObject? get specialty => _$this._specialty;
+  set specialty(JsonObject? specialty) => _$this._specialty = specialty;
 
-  String? _image;
-  String? get image => _$this._image;
-  set image(String? image) => _$this._image = image;
+  JsonObject? _image;
+  JsonObject? get image => _$this._image;
+  set image(JsonObject? image) => _$this._image = image;
 
-  String? _academicRank;
-  String? get academicRank => _$this._academicRank;
-  set academicRank(String? academicRank) => _$this._academicRank = academicRank;
+  JsonObject? _academicRank;
+  JsonObject? get academicRank => _$this._academicRank;
+  set academicRank(JsonObject? academicRank) =>
+      _$this._academicRank = academicRank;
 
-  int? _workExperience;
-  int? get workExperience => _$this._workExperience;
-  set workExperience(int? workExperience) =>
+  JsonObject? _workExperience;
+  JsonObject? get workExperience => _$this._workExperience;
+  set workExperience(JsonObject? workExperience) =>
       _$this._workExperience = workExperience;
 
   DoctorDataBuilder();
@@ -522,12 +527,10 @@ class DoctorDataBuilder implements Builder<DoctorData, DoctorDataBuilder> {
             workPhone: workPhone,
             gender: gender,
             categoryIds: categoryIds.build(),
-            specialty: BuiltValueNullFieldError.checkNotNull(
-                specialty, r'DoctorData', 'specialty'),
+            specialty: specialty,
             image: image,
             academicRank: academicRank,
-            workExperience: BuiltValueNullFieldError.checkNotNull(
-                workExperience, r'DoctorData', 'workExperience'),
+            workExperience: workExperience,
           );
     } catch (_) {
       late String _$failedField;

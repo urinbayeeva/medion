@@ -352,12 +352,12 @@ Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
                 Navigator.push(
                     context,
                     AppRoutes.getAboutDoctorPage(
-                        doctor['name'], doctor['profession'], doctor['name']));
+                        doctor['name'].toString(), doctor['profession'].toString(), doctor['name'].toString()));
               },
-              imagePath: doctor['image'],
-              name: doctor['name'],
-              profession: doctor['profession'],
-              status: doctor['status'],
+              imagePath: doctor['image'].toString(),
+              name: doctor['name'].toString(),
+              profession: doctor['profession'].toString(),
+              status: doctor['status'].toString(),
               candidateScience: true,
             );
           },

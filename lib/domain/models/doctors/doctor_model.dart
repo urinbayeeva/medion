@@ -44,16 +44,16 @@ abstract class DoctorData implements Built<DoctorData, DoctorDataBuilder> {
   BuiltList<int> get categoryIds;
 
   @BuiltValueField(wireName: "specialty")
-  String get specialty;
+  JsonObject?  get specialty;
 
   @BuiltValueField(wireName: "image")
-  String? get image;
+  JsonObject?  get image;
 
   @BuiltValueField(wireName: "academic_rank")
-  String? get academicRank;
+  JsonObject?  get academicRank;
 
   @BuiltValueField(wireName: "work_experience")
-  int get workExperience;
+  JsonObject?  get workExperience;
 
   DoctorData._();
   factory DoctorData([void Function(DoctorDataBuilder) updates]) = _$DoctorData;

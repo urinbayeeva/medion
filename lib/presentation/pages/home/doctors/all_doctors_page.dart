@@ -108,15 +108,15 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                                       category.categoryName,
                                       category.doctorData
                                           .map((doctor) => {
-                                                'name': doctor.name,
-                                                'profession': doctor.specialty,
-                                                'image': doctor.image,
+                                                'name': doctor.name.toString(),
+                                                'profession': doctor.specialty.toString(),
+                                                'image': doctor.image.toString(),
                                                 // 'status':
                                                 //     doctor.workPhone as int,
                                                 // 'candidateScience':
                                                 //     doctor.academicRank,
                                                 'category':
-                                                    category.categoryName,
+                                                    category.categoryName.toString(),
                                               })
                                           .toList(),
                                     )),
@@ -177,14 +177,14 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                   onTap: () {
                     Navigator.push(
                         context,
-                        AppRoutes.getAboutDoctorPage(doctor['name'],
-                            doctor['profession'], doctor['name']));
+                        AppRoutes.getAboutDoctorPage(doctor['name'].toString(),
+                            doctor['profession'], doctor['name'].toString()));
                   },
-                  categoryType: doctor['category'],
-                  imagePath: doctor['image'],
-                  name: doctor['name'],
-                  profession: doctor['profession'],
-                  status: doctor['status'],
+                  categoryType: doctor['category'].toString(),
+                  imagePath: doctor['image'].toString(),
+                  name: doctor['name'].toString(),
+                  profession: doctor['profession'].toString(),
+                  status: doctor['status'].toString(),
                   candidateScience: doctor['candidateScience'],
                 );
               },

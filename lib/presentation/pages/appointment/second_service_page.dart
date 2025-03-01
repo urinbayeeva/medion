@@ -36,8 +36,9 @@ class SecondServicePage extends StatefulWidget {
 }
 
 class _SecondServicePageState extends State<SecondServicePage> {
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+  late final SelectedServiceIdsProvider _serviceIdsProvider;
+  late final SelectedServicesProvider _servicesProvider;
   int chose = 0;
   int? selectedIndex;
   List<dynamic> selectedServices = [];
@@ -46,27 +47,28 @@ class _SecondServicePageState extends State<SecondServicePage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<SelectedServiceIdsProvider>(context, listen: false)
-        .addListener(_updateSelectedServices);
-    _updateSelectedServices(); 
+    _serviceIdsProvider = Provider.of<SelectedServiceIdsProvider>(context, listen: false);
+    _servicesProvider = Provider.of<SelectedServicesProvider>(context, listen: false);
+    _serviceIdsProvider.addListener(_updateSelectedServices);
+    _updateSelectedServices();
   }
 
   @override
   void dispose() {
-    Provider.of<SelectedServiceIdsProvider>(context, listen: false)
-        .removeListener(_updateSelectedServices);
+    _serviceIdsProvider.removeListener(_updateSelectedServices);
+    _refreshController.dispose();
     super.dispose();
   }
 
   void _updateSelectedServices() {
-    final provider =
-        Provider.of<SelectedServiceIdsProvider>(context, listen: false);
+    if (!mounted) return; // Prevent execution if widget is disposed
     final bookingState = context.read<BookingBloc>().state;
     setState(() {
       selectedServices = bookingState.categoryServices
           .expand((category) => category.services)
-          .where((service) => provider.selectedServiceIds.contains(service.id))
+          .where((service) => _serviceIdsProvider.selectedServiceIds.contains(service.id))
           .toList();
+      chose = selectedServices.length; // Sync chose with selected services
     });
   }
 
@@ -92,15 +94,11 @@ class _SecondServicePageState extends State<SecondServicePage> {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: CustomListView(
                     onRefresh: () async {
-                      setState(() {
-                        final selectedId =
-                            context.read<BookingBloc>().state.selectedServiceId;
-
-                        context.read<BookingBloc>().add(
-                              BookingEvent.fetchCategoryServices(
-                                  id: selectedId!),
-                            );
-                      });
+                      if (!mounted) return;
+                      final selectedId = context.read<BookingBloc>().state.selectedServiceId;
+                      context.read<BookingBloc>().add(
+                            BookingEvent.fetchCategoryServices(id: selectedId!),
+                          );
                       _refreshController.refreshCompleted();
                     },
                     refreshController: _refreshController,
@@ -114,101 +112,77 @@ class _SecondServicePageState extends State<SecondServicePage> {
                             ? 'no_services_available'.tr()
                             : 'services_list'.tr(),
                         children: item.services.map((service) {
-                          return Column(children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        service.name,
-                                        style: fonts.smallSemLink.copyWith(
-                                          fontWeight: FontWeight.bold,
+                          return Column(
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          service.name,
+                                          style: fonts.smallSemLink.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        service.description ?? 'no_description',
-                                        style: fonts.smallLink.copyWith(
-                                          color: colors.neutral600,
-                                          fontSize: 11.sp,
-                                          fontWeight: FontWeight.w400,
+                                        Text(
+                                          service.description ?? 'no_description',
+                                          style: fonts.smallLink.copyWith(
+                                            color: colors.neutral600,
+                                            fontSize: 11.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                          softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        softWrap: true,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Text(
-                                        "${service.priceUzs.toString()} ${widget.isUSD ? "USD" : "UZS"}",
-                                        style: fonts.smallLink.copyWith(
-                                            color: colors.primary900,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12.sp),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const Spacer(),
-                                AnimationButtonEffect(
-                                  onTap: () {
-                                    final selectedServicesProvider =
-                                        Provider.of<SelectedServicesProvider>(
-                                            context,
-                                            listen: false);
-                                    final selectedServiceIdsProvider =
-                                        Provider.of<SelectedServiceIdsProvider>(
-                                            context,
-                                            listen: false);
-
-                                    setState(() {
-                                      if (selectedServicesProvider
-                                          .selectedServices
-                                          .contains(service)) {
-                                        selectedServicesProvider
-                                            .removeService(service);
-                                        selectedServiceIdsProvider
-                                            .removeServiceId(service
-                                                .id); // ID ni olib tashlash
-                                        chose--;
-                                      } else {
-                                        selectedServicesProvider
-                                            .addService(service);
-                                        selectedServiceIdsProvider.addServiceId(
-                                            service.id); // ID ni qo'shish
-                                        chose++;
-                                      }
-                                    });
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(12.w),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.r),
-                                      color:
-                                          Provider.of<SelectedServicesProvider>(
-                                                      context)
-                                                  .selectedServices
-                                                  .contains(service)
-                                              ? colors.error500
-                                              : colors.neutral200,
+                                        Text(
+                                          "${service.priceUzs.toString()} ${widget.isUSD ? "USD" : "UZS"}",
+                                          style: fonts.smallLink.copyWith(
+                                              color: colors.primary900,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12.sp),
+                                        ),
+                                      ],
                                     ),
-                                    child:
-                                        Provider.of<SelectedServicesProvider>(
-                                                    context)
-                                                .selectedServices
-                                                .contains(service)
-                                            ? icons.check
-                                                .svg(color: colors.shade0)
-                                            : icons.plus
-                                                .svg(color: colors.primary900),
                                   ),
-                                ),
-                                8.h.verticalSpace,
-                              ],
-                            ),
-                            18.h.verticalSpace,
-                          ]);
+                                  const Spacer(),
+                                  AnimationButtonEffect(
+                                    onTap: () {
+                                      if (!mounted) return;
+                                      setState(() {
+                                        if (_servicesProvider.selectedServices.contains(service)) {
+                                          _servicesProvider.removeService(service);
+                                          _serviceIdsProvider.removeServiceId(service.id);
+                                          chose--;
+                                        } else {
+                                          _servicesProvider.addService(service);
+                                          _serviceIdsProvider.addServiceId(service.id);
+                                          chose++;
+                                        }
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(12.w),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8.r),
+                                        color: _servicesProvider.selectedServices.contains(service)
+                                            ? colors.error500
+                                            : colors.neutral200,
+                                      ),
+                                      child: _servicesProvider.selectedServices.contains(service)
+                                          ? icons.check.svg(color: colors.shade0)
+                                          : icons.plus.svg(color: colors.primary900),
+                                    ),
+                                  ),
+                                  8.h.verticalSpace,
+                                ],
+                              ),
+                              18.h.verticalSpace,
+                            ],
+                          );
                         }).toList(),
                       );
                     },
@@ -226,8 +200,9 @@ class _SecondServicePageState extends State<SecondServicePage> {
                     ? BoxDecoration(
                         color: colors.shade0,
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(24.r),
-                            topRight: Radius.circular(24.r)),
+                          topLeft: Radius.circular(24.r),
+                          topRight: Radius.circular(24.r),
+                        ),
                       )
                     : null,
                 child: Column(
@@ -238,14 +213,12 @@ class _SecondServicePageState extends State<SecondServicePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "count_services_selected".tr(
-                              namedArgs: {"count": "$chose"},
-                            ),
-                            style: fonts.xSmallLink.copyWith(
-                                fontSize: 13.sp, fontWeight: FontWeight.bold),
+                            "count_services_selected".tr(namedArgs: {"count": "$chose"}),
+                            style: fonts.xSmallLink.copyWith(fontSize: 13.sp, fontWeight: FontWeight.bold),
                           ),
                           AnimationButtonEffect(
                             onTap: () {
+                              if (!mounted) return;
                               showModalBottomSheet(
                                 context: context,
                                 isDismissible: true,
@@ -254,20 +227,18 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                 builder: (context) {
                                   return DraggableScrollableSheet(
                                     expand: false,
-                                    builder: (BuildContext context,
-                                        ScrollController scrollController) {
+                                    builder: (BuildContext context, ScrollController scrollController) {
                                       return SingleChildScrollView(
                                         controller: scrollController,
                                         child: ServiceSelectionModal(
                                           selectedServices: selectedServices,
                                           chose: chose,
                                           onRemoveService: () {
+                                            if (!mounted) return;
                                             setState(() {
-                                              selectedServices.removeWhere(
-                                                  (service) => true);
-                                              selectedServiceIDCatch
-                                                  .clear(); // Clear selected IDs
-                                              chose--;
+                                              selectedServices.clear();
+                                              selectedServiceIDCatch.clear();
+                                              chose = 0;
                                             });
                                           },
                                         ),
@@ -282,7 +253,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                               height: 20.h,
                               color: colors.iconGreyColor,
                             ),
-                          )
+                          ),
                         ],
                       ),
                       12.h.verticalSpace,

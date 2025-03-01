@@ -19,7 +19,6 @@ import 'package:provider/provider.dart';
 
 import '../../../application/services/api_service.dart';
 import '../../../domain/models/models.dart';
-
 import 'package:formz/formz.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
@@ -42,38 +41,51 @@ class DoctorTimeAndService extends StatefulWidget {
 }
 
 class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
-  ValueNotifier<List<Map<String, String>>> selectedAppointments =
-      ValueNotifier([]);
+  ValueNotifier<List<Map<String, String>>> selectedAppointments = ValueNotifier([]);
+
+  @override
+  void dispose() {
+    selectedAppointments.dispose(); // Dispose ValueNotifier
+    super.dispose();
+  }
 
   void addAppointment(Map<String, String> appointment) {
+    if (!mounted) return;
     selectedAppointments.value = [...selectedAppointments.value, appointment];
     print("Added Appointment: $appointment");
     print("Current Appointments: ${selectedAppointments.value}");
   }
 
   void removeAppointment(Map<String, String> appointment) {
-    selectedAppointments.value =
-        selectedAppointments.value.where((a) => a != appointment).toList();
+    if (!mounted) return;
+    selectedAppointments.value = selectedAppointments.value.where((a) => a != appointment).toList();
     print("Removed Appointment: $appointment");
     print("Current Appointments: ${selectedAppointments.value}");
   }
 
   @override
   Widget build(BuildContext context) {
-    // Convert Set<int>? to List<int>, defaulting to empty list if null
     List<int> serviceIds = widget.selectedServiceIds?.toList() ?? [];
 
-    return FutureBuilder<List<Service>>(
-      future: ApiService.fetchServices(serviceIds), // Pass List<int>
+    if (serviceIds.isEmpty) {
+      return const Center(child: Text('Please select services first'));
+    }
+
+    return FutureBuilder<List<Service>?>(
+      future: ApiService.fetchServices(serviceIds),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-              child: CircularProgressIndicator(color: Style.error500));
-        } else if (snapshot.hasError) {
+          return const Center(child: CircularProgressIndicator(color: Style.error500));
+        } 
+        if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-          return ThemeWrapper(
-              builder: (context, colors, fonts, icons, controller) {
+        } 
+        if (!snapshot.hasData || snapshot.data == null || snapshot.data!.isEmpty) {
+          return const Center(child: Text('No services available'));
+        }
+
+        return ThemeWrapper(
+          builder: (context, colors, fonts, icons, controller) {
             return Column(
               children: [
                 Expanded(
@@ -82,14 +94,15 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                     data: snapshot.data!,
                     itemBuilder: (index, _) {
                       final service = snapshot.data![index];
+
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              service.companiesDoctors.isNotEmpty
-                                  ? service.companiesDoctors.first.companyName
+                              (service.companiesDoctors.isNotEmpty && service.companiesDoctors.first.companyName != null)
+                                  ? service.companiesDoctors.first.companyName!
                                   : 'No Company',
                               style: fonts.regularMain,
                             ),
@@ -98,23 +111,23 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                               description: "${service.serviceId}",
                               children: [
                                 Column(
-                                  children: service.companiesDoctors
-                                      .expand((company) {
+                                  children: service.companiesDoctors.expand((company) {
                                     return company.doctors.map(
                                       (doctor) {
                                         return DoctorAppointmentWidget(
                                           serviceName: service.serviceName,
                                           doctor: doctor,
-                                          schedules: doctor.schedules,
+                                          schedules: doctor.schedules ?? [], // Ensure schedules is not null
                                           serviceId: service.serviceId,
-                                          companyID: service
-                                              .companiesDoctors.first.companyId
-                                              .toString(),
+                                          companyID: service.companiesDoctors.isNotEmpty
+                                              ? service.companiesDoctors.first.companyId.toString()
+                                              : 'Unknown',
                                           onAppointmentSelected: (appointment) {
+                                            if (!mounted) return;
                                             if (appointment != null) {
                                               addAppointment(appointment);
                                             } else {
-                                              removeAppointment(appointment!);
+                                              print("Received null appointment"); // Debugging output
                                             }
                                           },
                                         );
@@ -158,11 +171,11 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Doctor: ${selected['doctorName']}",
+                                    "Doctor: ${selected['doctorName'] ?? 'Unknown'}",
                                     style: fonts.smallMain,
                                   ),
                                   Text(
-                                    "Time: ${selected['time']}",
+                                    "Time: ${selected['time'] ?? 'Not specified'}",
                                     style: fonts.xSmallMain.copyWith(
                                       color: colors.neutral500,
                                     ),
@@ -184,9 +197,8 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                 ),
               ],
             );
-          });
-        }
-        return const Center(child: Text('No services selected'));
+          },
+        );
       },
     );
   }
