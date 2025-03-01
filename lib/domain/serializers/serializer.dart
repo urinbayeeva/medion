@@ -64,7 +64,12 @@ part 'serializer.g.dart';
   EducationModel,
   Course, 
   ContentModel,
-  ChildContentModel
+  ChildContentModel,
+
+  RefreshTokenModel,
+  RefreshTokenResponseModel,
+  CreatePatientInfoResponse,
+  RegistrationResponse,
 
 
 ])

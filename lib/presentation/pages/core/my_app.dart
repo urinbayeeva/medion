@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
                 AuthRepository(dbService, AuthService.create(dbService),
-                    PatientService.create(dbService)),
+                    PatientService.create(dbService), RefreshService.create(dbService)),
                 dbService,
               );
               
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
               create: (context) =>
                   HomeBloc(HomeRepository(HomePageService.create(dbService)))),
                      BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService)), dbService),
+          create: (context) => AuthBloc(AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService), RefreshService.create(dbService)), dbService),
         ),
           BlocProvider(
               create: (context) => DoctorBloc(

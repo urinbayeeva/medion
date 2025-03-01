@@ -58,11 +58,23 @@ final class _$AuthService extends AuthService {
     return client
         .send<CreatePatientInfoResponse, CreatePatientInfoResponse>($request);
   }
+}
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$RefreshService extends RefreshService {
+  _$RefreshService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = RefreshService;
 
   @override
   Future<Response<RefreshTokenResponseModel>> refreshToken(
       {required RefreshTokenModel request}) {
-    final Uri $url = Uri.parse('/patient/refresh');
+    final Uri $url = Uri.parse('refresh');
     final $body = request;
     final Request $request = Request(
       'POST',

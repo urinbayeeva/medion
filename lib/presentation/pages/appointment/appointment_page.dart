@@ -103,7 +103,7 @@ _AddAppointmentUseCaseModel(
                 DBService dbService = context.read<DBService>();
                 return AuthBloc(
                   AuthRepository(dbService, AuthService.create(dbService),
-                      PatientService.create(dbService)),
+                      PatientService.create(dbService), RefreshService.create(dbService)),
                   dbService,
                 );
               },

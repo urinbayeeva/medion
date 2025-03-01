@@ -45,13 +45,21 @@ abstract class AuthService extends ChopperService {
     @Body() required CreateInfoReq request,
   });
 
-  @Post(path: "refresh")
+
+
+  static AuthService create(DBService dbService) =>
+      _$AuthService(_Client(Constants.baseUrlP, true, dbService));
+}
+
+@ChopperApi(baseUrl: "")
+abstract class RefreshService extends ChopperService {
+    @Post(path: "refresh")
   Future<Response<RefreshTokenResponseModel>> refreshToken({
     @Body() required RefreshTokenModel request,
   });
 
-  static AuthService create(DBService dbService) =>
-      _$AuthService(_Client(Constants.baseUrlP, true, dbService));
+  static RefreshService create(DBService dbService) =>
+      _$RefreshService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 //Booking
@@ -222,7 +230,7 @@ class MyAuthenticator extends Authenticator {
       }
 
       final authRepo = AuthRepository(dbService, AuthService.create(dbService),
-          PatientService.create(dbService));
+          PatientService.create(dbService), RefreshService.create(dbService));
       final result = await authRepo.refreshToken(refreshToken);
 
       print("REFRESH TOKEN AUTH$refreshToken");

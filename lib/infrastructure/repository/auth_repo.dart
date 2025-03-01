@@ -24,33 +24,39 @@ class AuthRepository implements IAuthFacade {
   final DBService _dbService;
   final AuthService _authService;
   final PatientService _patientService;
+  final RefreshService _refreshService;
 
   AuthRepository(
     this._dbService,
     this._authService,
-    this._patientService,
+    this._patientService, this._refreshService,
   );
-
+  
 Future<Either<ResponseFailure, RefreshTokenResponseModel>> refreshToken(
     String refresh) async {
   try {
-    final response = await _authService.refreshToken(
+    final response = await _refreshService.refreshToken(
       request: RefreshTokenModel((b) => b..token = refresh),
     );
 
-    if (response.isSuccessful && response.body != null) {
-      LogService.d("Refresh succeeded: ${response.body!.accessToken}");
-      return right(response.body!);
+    if (response.isSuccessful) {
+      if (response.body != null) {
+        LogService.d("Refresh succeeded: ${response.body!.accessToken}");
+        return right(response.body!);
+      } else {
+        LogService.e("Response successful but body is null");
+        return left(InvalidCredentials(message: 'Response body is null'));
+      }
     } else {
-      LogService.e(
-          "Refresh failed: ${response.statusCode} - ${response.error}");
+      LogService.e("Refresh failed: ${response.statusCode} - ${response.error}");
       return left(InvalidCredentials(message: 'invalid_credential'.tr()));
     }
-  } catch (e) {
-    LogService.e("Refresh error: $e");
+  } catch (e, stackTrace) {
+    LogService.e("Refresh error: $e\nStackTrace: $stackTrace");
     return left(handleError(e));
   }
 }
+
 
   @override
   Option<AuthFailure> checkUser() {
