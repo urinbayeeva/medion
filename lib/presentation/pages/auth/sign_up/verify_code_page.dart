@@ -72,12 +72,12 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.proceedToHome) {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               AppRoutes.getDataEntryPage(widget.phoneNumber),
             );
           } else {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               AppRoutes.getDataEntryPage(widget.phoneNumber),
             );

@@ -76,7 +76,7 @@ abstract class AdModel implements Built<AdModel, AdModelBuilder> {
   bool? get important;
 
   @BuiltValueField(wireName: 'link')
-  bool? get link;
+  JsonObject? get link;
 
   static Serializer<AdModel> get serializer => _$adModelSerializer;
 }

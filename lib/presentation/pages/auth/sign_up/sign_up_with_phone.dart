@@ -58,7 +58,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
       return BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           SmsAutoFill().getAppSignature.then((value) {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 AppRoutes.getVerifyCodePage(
                     additionalPhone: widget.additionalPhone,

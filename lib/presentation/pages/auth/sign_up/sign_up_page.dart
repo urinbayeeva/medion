@@ -56,7 +56,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 iconPath: icons.phoneTwo,
                 title: "continue_with_phone_number".tr(),
                 onTap: () {
-                  Navigator.push(context, AppRoutes.getSignUpWithPhone());
+                  Navigator.pushReplacement(context, AppRoutes.getSignUpWithPhone());
                 },
               ),
               12.h.verticalSpace,
