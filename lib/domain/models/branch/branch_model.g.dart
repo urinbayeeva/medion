@@ -72,7 +72,8 @@ class _$BranchModelSerializer implements StructuredSerializer<BranchModel> {
       result
         ..add('work_days')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
     }
     value = object.description;
     if (value != null) {
@@ -128,8 +129,10 @@ class _$BranchModelSerializer implements StructuredSerializer<BranchModel> {
               specifiedType: const FullType(String))! as String;
           break;
         case 'work_days':
-          result.workDays = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.workDays.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
         case 'description':
           result.description = serializers.deserialize(value,
@@ -691,7 +694,7 @@ class _$BranchModel extends BranchModel {
   @override
   final String workTime;
   @override
-  final String? workDays;
+  final BuiltList<String>? workDays;
   @override
   final String? description;
 
@@ -809,9 +812,10 @@ class BranchModelBuilder implements Builder<BranchModel, BranchModelBuilder> {
   String? get workTime => _$this._workTime;
   set workTime(String? workTime) => _$this._workTime = workTime;
 
-  String? _workDays;
-  String? get workDays => _$this._workDays;
-  set workDays(String? workDays) => _$this._workDays = workDays;
+  ListBuilder<String>? _workDays;
+  ListBuilder<String> get workDays =>
+      _$this._workDays ??= new ListBuilder<String>();
+  set workDays(ListBuilder<String>? workDays) => _$this._workDays = workDays;
 
   String? _description;
   String? get description => _$this._description;
@@ -830,7 +834,7 @@ class BranchModelBuilder implements Builder<BranchModel, BranchModelBuilder> {
       _latitude = $v.latitude;
       _longitude = $v.longitude;
       _workTime = $v.workTime;
-      _workDays = $v.workDays;
+      _workDays = $v.workDays?.toBuilder();
       _description = $v.description;
       _$v = null;
     }
@@ -852,22 +856,35 @@ class BranchModelBuilder implements Builder<BranchModel, BranchModelBuilder> {
   BranchModel build() => _build();
 
   _$BranchModel _build() {
-    final _$result = _$v ??
-        new _$BranchModel._(
-          id: BuiltValueNullFieldError.checkNotNull(id, r'BranchModel', 'id'),
-          image: image,
-          name: name,
-          address: address,
-          phone: phone,
-          latitude: BuiltValueNullFieldError.checkNotNull(
-              latitude, r'BranchModel', 'latitude'),
-          longitude: BuiltValueNullFieldError.checkNotNull(
-              longitude, r'BranchModel', 'longitude'),
-          workTime: BuiltValueNullFieldError.checkNotNull(
-              workTime, r'BranchModel', 'workTime'),
-          workDays: workDays,
-          description: description,
-        );
+    _$BranchModel _$result;
+    try {
+      _$result = _$v ??
+          new _$BranchModel._(
+            id: BuiltValueNullFieldError.checkNotNull(id, r'BranchModel', 'id'),
+            image: image,
+            name: name,
+            address: address,
+            phone: phone,
+            latitude: BuiltValueNullFieldError.checkNotNull(
+                latitude, r'BranchModel', 'latitude'),
+            longitude: BuiltValueNullFieldError.checkNotNull(
+                longitude, r'BranchModel', 'longitude'),
+            workTime: BuiltValueNullFieldError.checkNotNull(
+                workTime, r'BranchModel', 'workTime'),
+            workDays: _workDays?.build(),
+            description: description,
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'workDays';
+        _workDays?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'BranchModel', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

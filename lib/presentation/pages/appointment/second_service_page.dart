@@ -10,6 +10,7 @@ import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
+import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/appointment/component/service_selection_model.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -69,6 +70,9 @@ class _SecondServicePageState extends State<SecondServicePage> {
           .where((service) => _serviceIdsProvider.selectedServiceIds.contains(service.id))
           .toList();
       chose = selectedServices.length; // Sync chose with selected services
+      // Sync selectedServiceIDCatch with selected service IDs
+      selectedServiceIDCatch.clear();
+      selectedServiceIDCatch.addAll(_serviceIdsProvider.selectedServiceIds);
     });
   }
 
@@ -151,7 +155,6 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                   const Spacer(),
                                   AnimationButtonEffect(
                                     onTap: () {
-                                      if (!mounted) return;
                                       setState(() {
                                         if (_servicesProvider.selectedServices.contains(service)) {
                                           _servicesProvider.removeService(service);
@@ -162,6 +165,10 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           _serviceIdsProvider.addServiceId(service.id);
                                           chose++;
                                         }
+                                        // Sync selectedServiceIDCatch after selection changes
+                                        selectedServiceIDCatch.clear();
+                                        selectedServiceIDCatch.addAll(_serviceIdsProvider.selectedServiceIds);
+                                        print("Updated : $selectedServiceIDCatch");
                                       });
                                     },
                                     child: Container(
@@ -236,6 +243,8 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           onRemoveService: () {
                                             if (!mounted) return;
                                             setState(() {
+                                              _servicesProvider.clearServices();
+                                              _serviceIdsProvider.clearServiceIds();
                                               selectedServices.clear();
                                               selectedServiceIDCatch.clear();
                                               chose = 0;
@@ -258,10 +267,21 @@ class _SecondServicePageState extends State<SecondServicePage> {
                       ),
                       12.h.verticalSpace,
                     ],
-                    CButton(
-                      title: "next".tr(),
-                      onTap: widget.onTap,
-                    ),
+                CButton(
+  title: "next".tr(),
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AppointmentPage(
+          index: 2, // Move to "Doctors Time" step
+          selectedServiceIds: selectedServiceIDCatch.toSet(), // Pass selected IDs
+        ),
+      ),
+    );
+  },
+),
+
                   ],
                 ),
               ),

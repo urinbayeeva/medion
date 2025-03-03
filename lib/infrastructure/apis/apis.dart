@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:http/http.dart' show Client, MultipartFile;
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
@@ -204,6 +205,7 @@ base class _Client extends ChopperClient {
                     RetryInterceptor(
                         maxRetries: 3, retryDelay: const Duration(seconds: 2)),
                     BackendInterceptor(),
+                            ChuckerChopperInterceptor(), 
                   ]
                 : const [],
             converter: BuiltValueConverter(),

@@ -36,7 +36,7 @@ abstract class BranchModel implements Built<BranchModel, BranchModelBuilder> {
   String get workTime;
 
   @BuiltValueField(wireName: 'work_days')
-  String? get workDays;
+  BuiltList<String>? get workDays;
 
   @BuiltValueField(wireName: 'description')
   String? get description;
