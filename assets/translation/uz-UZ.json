@@ -299,5 +299,6 @@
 "day_before" : "O'tgan kun",
 "last_day" : "Kecha", 
 "todays" : "Bugun",
-  "" : ""
+"you_have_no_visits_on": "Sizning {date} sanasida tashrifingiz yo'q",
+"" : ""
 }

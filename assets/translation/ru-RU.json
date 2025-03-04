@@ -298,5 +298,6 @@
 "day_before" : "Позавчера",
 "last_day" : "Вчера", 
 "todays" : "Сегодня",
+"you_have_no_visits_on": "У вас нет встречи на {date}",
 " " : ""
 }

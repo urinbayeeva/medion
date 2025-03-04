@@ -87,7 +87,6 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                                 width: 560.w,
                                 color: colors.shade0,
                                 child: TableCalendar(
-                                  
                                   locale: Localizations.localeOf(context)
                                       .toString(),
                                   rowHeight: 40,
@@ -155,10 +154,20 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset("assets/icons/big_calendar.svg"),
+            SvgPicture.asset(
+              "assets/icons/emoji-sad_d.svg",
+              width: 73.w,
+              height: 75.h,
+            ),
             12.h.verticalSpace,
             Text(
-              "you_have_no_visits".tr(),
+              selectedDate == null
+                  ? "you_have_no_visits".tr()
+                  : "you_have_no_visits_on".tr(namedArgs: {
+                      "date":
+                          DateFormat('dd MMMM yyyy', context.locale.toString())
+                              .format(selectedDate!)
+                    }),
               style: fonts.smallLink.copyWith(
                 color: colors.neutral600,
                 fontSize: 15.sp,
