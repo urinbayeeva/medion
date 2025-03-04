@@ -1,6 +1,7 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
@@ -34,7 +35,9 @@ class CalendarHeader extends StatelessWidget {
     required this.onHeaderLongPress,
     required this.onFormatButtonTap,
     required this.availableCalendarFormats,
-    thiseaderTitleBuilder, required this.headerStyle, this.headerTitleBuilder,
+    thiseaderTitleBuilder,
+    required this.headerStyle,
+    this.headerTitleBuilder,
   });
 
   @override
@@ -74,12 +77,12 @@ class CalendarHeader extends StatelessWidget {
               CustomIconButton(
                 icon: headerStyle.rightChevronIcon,
                 onTap: onRightChevronTap,
-                    margin: headerStyle.rightChevronMargin,
+                margin: headerStyle.rightChevronMargin,
                 padding: headerStyle.rightChevronMargin,
               ),
             ],
           ),
-       SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -87,32 +90,32 @@ class CalendarHeader extends StatelessWidget {
                 child: Container(
                   height: 34,
                   decoration: BoxDecoration(
-                    color: Color(0xFFF2F2F3),
+                    color: const Color(0xFFF2F2F3),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Center(child: Text("Позавчера")),
+                  child: Center(child: Text("day_before".tr())),
                 ),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Expanded(
                 child: Container(
                   height: 34,
                   decoration: BoxDecoration(
-                    color: Color(0xFFF2F2F3),
+                    color: const Color(0xFFF2F2F3),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Center(child: Text("Вчера")),
+                  child: Center(child: Text("last_day".tr())),
                 ),
               ),
-             SizedBox(width: 12),
+              const SizedBox(width: 12),
               Expanded(
                 child: Container(
                   height: 34,
                   decoration: BoxDecoration(
-                    color: Color(0xFFF2F2F3),
+                    color: const Color(0xFFF2F2F3),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Center(child: Text("Сегодня")),
+                  child: Center(child: Text("todays".tr())),
                 ),
               ),
             ],

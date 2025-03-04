@@ -295,5 +295,8 @@
 "discount_phone_number" : "Номер телефона:",
 "status" : "Статус",
 "pays_the_appoinment" : "Оплачивает прием: {name}",
+"day_before" : "Позавчера",
+"last_day" : "Вчера", 
+"todays" : "Сегодня",
 " " : ""
 }

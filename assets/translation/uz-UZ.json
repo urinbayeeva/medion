@@ -296,5 +296,8 @@
 "discount_phone_number": "Telefon raqami:",
 "status" : "Status",
 "pays_the_appoinment" : "Ko'rikni to'laydi: {name}",
+"day_before" : "O'tgan kun",
+"last_day" : "Kecha", 
+"todays" : "Bugun",
   "" : ""
 }
