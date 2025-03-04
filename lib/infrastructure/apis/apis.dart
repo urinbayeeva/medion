@@ -46,15 +46,13 @@ abstract class AuthService extends ChopperService {
     @Body() required CreateInfoReq request,
   });
 
-
-
   static AuthService create(DBService dbService) =>
       _$AuthService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "")
 abstract class RefreshService extends ChopperService {
-    @Post(path: "refresh")
+  @Post(path: "refresh")
   Future<Response<RefreshTokenResponseModel>> refreshToken({
     @Body() required RefreshTokenModel request,
   });
@@ -197,15 +195,16 @@ base class _Client extends ChopperClient {
             interceptors: useInterceptors
                 ? [
                     CoreInterceptor(dbService),
-                    if (AppConfig.shared.flavor == Flavor.dev)
-                      aliceChopperAdapter,
+                    if (AppConfig.shared.flavor == Flavor.dev) ...[
+                      ChuckerChopperInterceptor(),
+                      ChuckerHttpLoggingInterceptor(),
+                    ],
                     HttpLoggingInterceptor(),
                     CurlInterceptor(),
                     NetworkInterceptor(),
                     RetryInterceptor(
                         maxRetries: 3, retryDelay: const Duration(seconds: 2)),
                     BackendInterceptor(),
-                            ChuckerChopperInterceptor(), 
                   ]
                 : const [],
             converter: BuiltValueConverter(),

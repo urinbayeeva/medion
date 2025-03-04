@@ -19,6 +19,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
+  ChuckerFlutter.showOnRelease = true;
 
   if (kDebugMode) {
     Bloc.observer = LogBlocObserver();
