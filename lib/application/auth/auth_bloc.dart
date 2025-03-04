@@ -66,7 +66,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(state.copyWith(
           isLoadingVisits: false,
           errorFetchingVisits: false,
-          patientVisits: visits,
+          patientVisits: visits.toList(),
         ));
       },
     );
@@ -143,10 +143,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       errorFetchingPatientInfo: false,
     ));
 
-    // Call the repository method (token is injected by the interceptor)
     final res = await _repository.getPatientInfo();
 
-    // Process the result using fold (Either)
     res.fold(
       (error) {
         LogService.e(" ----> error fetching patient info: $error");

@@ -146,7 +146,7 @@ abstract class PatientService extends ChopperService {
   });
 
   @Get(path: "patient_visits_mobile")
-  Future<Response<VisitModel>> getPatientVisitsMobile({
+  Future<Response<BuiltList<VisitModel>>> getPatientVisitsMobile({
     @Header('requires-token') String requiresToken = "true",
   });
 

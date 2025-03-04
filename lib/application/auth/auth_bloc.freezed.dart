@@ -1210,11 +1210,9 @@ mixin _$AuthState {
   bool get isFetchingPatientInfo => throw _privateConstructorUsedError;
   bool get errorFetchingPatientInfo => throw _privateConstructorUsedError;
   String? get pickedImagePath => throw _privateConstructorUsedError;
-  bool get isLoadingVisits =>
-      throw _privateConstructorUsedError; // Add isLoadingVisits
-  bool get errorFetchingVisits =>
-      throw _privateConstructorUsedError; // Add errorFetchingVisits
-  VisitModel? get patientVisits => throw _privateConstructorUsedError;
+  bool get isLoadingVisits => throw _privateConstructorUsedError;
+  bool get errorFetchingVisits => throw _privateConstructorUsedError;
+  List<VisitModel?> get patientVisits => throw _privateConstructorUsedError;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -1243,7 +1241,7 @@ abstract class $AuthStateCopyWith<$Res> {
       String? pickedImagePath,
       bool isLoadingVisits,
       bool errorFetchingVisits,
-      VisitModel? patientVisits});
+      List<VisitModel?> patientVisits});
 }
 
 /// @nodoc
@@ -1275,7 +1273,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? pickedImagePath = freezed,
     Object? isLoadingVisits = null,
     Object? errorFetchingVisits = null,
-    Object? patientVisits = freezed,
+    Object? patientVisits = null,
   }) {
     return _then(_value.copyWith(
       proceedToHome: null == proceedToHome
@@ -1334,10 +1332,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.errorFetchingVisits
           : errorFetchingVisits // ignore: cast_nullable_to_non_nullable
               as bool,
-      patientVisits: freezed == patientVisits
+      patientVisits: null == patientVisits
           ? _value.patientVisits
           : patientVisits // ignore: cast_nullable_to_non_nullable
-              as VisitModel?,
+              as List<VisitModel?>,
     ) as $Val);
   }
 }
@@ -1365,7 +1363,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       String? pickedImagePath,
       bool isLoadingVisits,
       bool errorFetchingVisits,
-      VisitModel? patientVisits});
+      List<VisitModel?> patientVisits});
 }
 
 /// @nodoc
@@ -1395,7 +1393,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? pickedImagePath = freezed,
     Object? isLoadingVisits = null,
     Object? errorFetchingVisits = null,
-    Object? patientVisits = freezed,
+    Object? patientVisits = null,
   }) {
     return _then(_$AuthStateImpl(
       proceedToHome: null == proceedToHome
@@ -1454,10 +1452,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.errorFetchingVisits
           : errorFetchingVisits // ignore: cast_nullable_to_non_nullable
               as bool,
-      patientVisits: freezed == patientVisits
-          ? _value.patientVisits
+      patientVisits: null == patientVisits
+          ? _value._patientVisits
           : patientVisits // ignore: cast_nullable_to_non_nullable
-              as VisitModel?,
+              as List<VisitModel?>,
     ));
   }
 }
@@ -1480,8 +1478,9 @@ class _$AuthStateImpl extends _AuthState {
       this.pickedImagePath = null,
       this.isLoadingVisits = false,
       this.errorFetchingVisits = false,
-      this.patientVisits = null})
-      : super._();
+      final List<VisitModel?> patientVisits = const []})
+      : _patientVisits = patientVisits,
+        super._();
 
   @override
   @JsonKey()
@@ -1523,14 +1522,17 @@ class _$AuthStateImpl extends _AuthState {
   @override
   @JsonKey()
   final bool isLoadingVisits;
-// Add isLoadingVisits
   @override
   @JsonKey()
   final bool errorFetchingVisits;
-// Add errorFetchingVisits
+  final List<VisitModel?> _patientVisits;
   @override
   @JsonKey()
-  final VisitModel? patientVisits;
+  List<VisitModel?> get patientVisits {
+    if (_patientVisits is EqualUnmodifiableListView) return _patientVisits;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_patientVisits);
+  }
 
   @override
   String toString() {
@@ -1571,8 +1573,8 @@ class _$AuthStateImpl extends _AuthState {
                 other.isLoadingVisits == isLoadingVisits) &&
             (identical(other.errorFetchingVisits, errorFetchingVisits) ||
                 other.errorFetchingVisits == errorFetchingVisits) &&
-            (identical(other.patientVisits, patientVisits) ||
-                other.patientVisits == patientVisits));
+            const DeepCollectionEquality()
+                .equals(other._patientVisits, _patientVisits));
   }
 
   @override
@@ -1592,7 +1594,7 @@ class _$AuthStateImpl extends _AuthState {
       pickedImagePath,
       isLoadingVisits,
       errorFetchingVisits,
-      patientVisits);
+      const DeepCollectionEquality().hash(_patientVisits));
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -1619,7 +1621,7 @@ abstract class _AuthState extends AuthState {
       final String? pickedImagePath,
       final bool isLoadingVisits,
       final bool errorFetchingVisits,
-      final VisitModel? patientVisits}) = _$AuthStateImpl;
+      final List<VisitModel?> patientVisits}) = _$AuthStateImpl;
   const _AuthState._() : super._();
 
   @override
@@ -1647,11 +1649,11 @@ abstract class _AuthState extends AuthState {
   @override
   String? get pickedImagePath;
   @override
-  bool get isLoadingVisits; // Add isLoadingVisits
+  bool get isLoadingVisits;
   @override
-  bool get errorFetchingVisits; // Add errorFetchingVisits
+  bool get errorFetchingVisits;
   @override
-  VisitModel? get patientVisits;
+  List<VisitModel?> get patientVisits;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:built_collection/built_collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -196,7 +197,7 @@ Future<Either<ResponseFailure, RefreshTokenResponseModel>> refreshToken(
   }
 
   @override
-  Future<Either<ResponseFailure, VisitModel>> getPatientVisits() async {
+  Future<Either<ResponseFailure, BuiltList<VisitModel>>> getPatientVisits() async {
     try {
       final res = await _patientService.getPatientVisitsMobile();
 

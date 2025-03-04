@@ -71,6 +71,9 @@ part 'serializer.g.dart';
   CreatePatientInfoResponse,
   RegistrationResponse,
 
+  //Visit
+  VisitModel
+
 
 ])
 final Serializers serializers =

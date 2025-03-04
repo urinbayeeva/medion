@@ -154,7 +154,7 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
     return Container(
       decoration: BoxDecoration(
         color: colors.shade0,
-        boxShadow: Style.shadowMMMM, // Added from second example
+        boxShadow: Style.shadowMMMM, 
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(8.r),
           topRight: Radius.circular(8.r),

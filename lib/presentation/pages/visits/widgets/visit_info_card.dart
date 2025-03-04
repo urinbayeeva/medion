@@ -12,6 +12,7 @@ class VisitInfoCard extends StatefulWidget {
   final String? visitDate;
   final String? visitTime;
   final String? visitStatus;
+  final VoidCallback onTap;
   const VisitInfoCard(
       {super.key,
       this.image,
@@ -21,7 +22,7 @@ class VisitInfoCard extends StatefulWidget {
       this.serviceName,
       this.visitDate,
       this.visitTime,
-      this.visitStatus});
+      this.visitStatus, required this.onTap});
 
   @override
   State<VisitInfoCard> createState() => _VisitInfoCardState();
@@ -32,7 +33,7 @@ class _VisitInfoCardState extends State<VisitInfoCard> {
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return AnimationButtonEffect(
-        onTap: () {},
+        onTap: widget.onTap,
         child: SizedBox(
           child: Card(
             elevation: 0,
@@ -61,7 +62,7 @@ class _VisitInfoCardState extends State<VisitInfoCard> {
                         style: fonts.xSmallMain
                             .copyWith(color: const Color(0xFFFFA41B)),
                       ),
-                      Text(widget.doctorName!,
+                      Text(widget.doctorJob!,
                           style: fonts.xSmallMain
                               .copyWith(color: colors.neutral600))
                     ],

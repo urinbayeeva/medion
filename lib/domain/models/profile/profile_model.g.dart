@@ -148,36 +148,84 @@ class _$VisitModelSerializer implements StructuredSerializer<VisitModel> {
   @override
   Iterable<Object?> serialize(Serializers serializers, VisitModel object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'image',
-      serializers.serialize(object.image,
-          specifiedType: const FullType(String)),
-      'doctor_full_name',
-      serializers.serialize(object.doctorFullName,
-          specifiedType: const FullType(String)),
-      'doctor_job_name',
-      serializers.serialize(object.doctorJobName,
-          specifiedType: const FullType(String)),
-      'category_name',
-      serializers.serialize(object.categoryName,
-          specifiedType: const FullType(String)),
-      'service_name',
-      serializers.serialize(object.serviceName,
-          specifiedType: const FullType(String)),
-      'visit_date',
-      serializers.serialize(object.visitDate,
-          specifiedType: const FullType(String)),
-      'visit_time',
-      serializers.serialize(object.visitTime,
-          specifiedType: const FullType(String)),
-      'visit_status',
-      serializers.serialize(object.visitStatus,
-          specifiedType: const FullType(String)),
-      'week_index',
-      serializers.serialize(object.weekIndex,
-          specifiedType: const FullType(int)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.image;
+    if (value != null) {
+      result
+        ..add('image')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.doctorFullName;
+    if (value != null) {
+      result
+        ..add('doctor_full_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.doctorJobName;
+    if (value != null) {
+      result
+        ..add('doctor_job_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.categoryName;
+    if (value != null) {
+      result
+        ..add('category_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.serviceName;
+    if (value != null) {
+      result
+        ..add('service_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.visitDate;
+    if (value != null) {
+      result
+        ..add('visit_date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.visitTime;
+    if (value != null) {
+      result
+        ..add('visit_time')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.visitStatus;
+    if (value != null) {
+      result
+        ..add('visit_status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.weekIndex;
+    if (value != null) {
+      result
+        ..add('week_index')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.address;
+    if (value != null) {
+      result
+        ..add('address')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.paymentMethod;
+    if (value != null) {
+      result
+        ..add('payment_method')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -194,39 +242,47 @@ class _$VisitModelSerializer implements StructuredSerializer<VisitModel> {
       switch (key) {
         case 'image':
           result.image = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'doctor_full_name':
           result.doctorFullName = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'doctor_job_name':
           result.doctorJobName = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'category_name':
           result.categoryName = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'service_name':
           result.serviceName = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'visit_date':
           result.visitDate = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'visit_time':
           result.visitTime = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'visit_status':
           result.visitStatus = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'week_index':
           result.weekIndex = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'address':
+          result.address = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'payment_method':
+          result.paymentMethod = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -417,56 +473,44 @@ class PatientInfoBuilder implements Builder<PatientInfo, PatientInfoBuilder> {
 
 class _$VisitModel extends VisitModel {
   @override
-  final String image;
+  final String? image;
   @override
-  final String doctorFullName;
+  final String? doctorFullName;
   @override
-  final String doctorJobName;
+  final String? doctorJobName;
   @override
-  final String categoryName;
+  final String? categoryName;
   @override
-  final String serviceName;
+  final String? serviceName;
   @override
-  final String visitDate;
+  final String? visitDate;
   @override
-  final String visitTime;
+  final String? visitTime;
   @override
-  final String visitStatus;
+  final String? visitStatus;
   @override
-  final int weekIndex;
+  final int? weekIndex;
+  @override
+  final String? address;
+  @override
+  final String? paymentMethod;
 
   factory _$VisitModel([void Function(VisitModelBuilder)? updates]) =>
       (new VisitModelBuilder()..update(updates))._build();
 
   _$VisitModel._(
-      {required this.image,
-      required this.doctorFullName,
-      required this.doctorJobName,
-      required this.categoryName,
-      required this.serviceName,
-      required this.visitDate,
-      required this.visitTime,
-      required this.visitStatus,
-      required this.weekIndex})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(image, r'VisitModel', 'image');
-    BuiltValueNullFieldError.checkNotNull(
-        doctorFullName, r'VisitModel', 'doctorFullName');
-    BuiltValueNullFieldError.checkNotNull(
-        doctorJobName, r'VisitModel', 'doctorJobName');
-    BuiltValueNullFieldError.checkNotNull(
-        categoryName, r'VisitModel', 'categoryName');
-    BuiltValueNullFieldError.checkNotNull(
-        serviceName, r'VisitModel', 'serviceName');
-    BuiltValueNullFieldError.checkNotNull(
-        visitDate, r'VisitModel', 'visitDate');
-    BuiltValueNullFieldError.checkNotNull(
-        visitTime, r'VisitModel', 'visitTime');
-    BuiltValueNullFieldError.checkNotNull(
-        visitStatus, r'VisitModel', 'visitStatus');
-    BuiltValueNullFieldError.checkNotNull(
-        weekIndex, r'VisitModel', 'weekIndex');
-  }
+      {this.image,
+      this.doctorFullName,
+      this.doctorJobName,
+      this.categoryName,
+      this.serviceName,
+      this.visitDate,
+      this.visitTime,
+      this.visitStatus,
+      this.weekIndex,
+      this.address,
+      this.paymentMethod})
+      : super._();
 
   @override
   VisitModel rebuild(void Function(VisitModelBuilder) updates) =>
@@ -487,7 +531,9 @@ class _$VisitModel extends VisitModel {
         visitDate == other.visitDate &&
         visitTime == other.visitTime &&
         visitStatus == other.visitStatus &&
-        weekIndex == other.weekIndex;
+        weekIndex == other.weekIndex &&
+        address == other.address &&
+        paymentMethod == other.paymentMethod;
   }
 
   @override
@@ -502,6 +548,8 @@ class _$VisitModel extends VisitModel {
     _$hash = $jc(_$hash, visitTime.hashCode);
     _$hash = $jc(_$hash, visitStatus.hashCode);
     _$hash = $jc(_$hash, weekIndex.hashCode);
+    _$hash = $jc(_$hash, address.hashCode);
+    _$hash = $jc(_$hash, paymentMethod.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -517,7 +565,9 @@ class _$VisitModel extends VisitModel {
           ..add('visitDate', visitDate)
           ..add('visitTime', visitTime)
           ..add('visitStatus', visitStatus)
-          ..add('weekIndex', weekIndex))
+          ..add('weekIndex', weekIndex)
+          ..add('address', address)
+          ..add('paymentMethod', paymentMethod))
         .toString();
   }
 }
@@ -563,6 +613,15 @@ class VisitModelBuilder implements Builder<VisitModel, VisitModelBuilder> {
   int? get weekIndex => _$this._weekIndex;
   set weekIndex(int? weekIndex) => _$this._weekIndex = weekIndex;
 
+  String? _address;
+  String? get address => _$this._address;
+  set address(String? address) => _$this._address = address;
+
+  String? _paymentMethod;
+  String? get paymentMethod => _$this._paymentMethod;
+  set paymentMethod(String? paymentMethod) =>
+      _$this._paymentMethod = paymentMethod;
+
   VisitModelBuilder();
 
   VisitModelBuilder get _$this {
@@ -577,6 +636,8 @@ class VisitModelBuilder implements Builder<VisitModel, VisitModelBuilder> {
       _visitTime = $v.visitTime;
       _visitStatus = $v.visitStatus;
       _weekIndex = $v.weekIndex;
+      _address = $v.address;
+      _paymentMethod = $v.paymentMethod;
       _$v = null;
     }
     return this;
@@ -599,24 +660,17 @@ class VisitModelBuilder implements Builder<VisitModel, VisitModelBuilder> {
   _$VisitModel _build() {
     final _$result = _$v ??
         new _$VisitModel._(
-          image: BuiltValueNullFieldError.checkNotNull(
-              image, r'VisitModel', 'image'),
-          doctorFullName: BuiltValueNullFieldError.checkNotNull(
-              doctorFullName, r'VisitModel', 'doctorFullName'),
-          doctorJobName: BuiltValueNullFieldError.checkNotNull(
-              doctorJobName, r'VisitModel', 'doctorJobName'),
-          categoryName: BuiltValueNullFieldError.checkNotNull(
-              categoryName, r'VisitModel', 'categoryName'),
-          serviceName: BuiltValueNullFieldError.checkNotNull(
-              serviceName, r'VisitModel', 'serviceName'),
-          visitDate: BuiltValueNullFieldError.checkNotNull(
-              visitDate, r'VisitModel', 'visitDate'),
-          visitTime: BuiltValueNullFieldError.checkNotNull(
-              visitTime, r'VisitModel', 'visitTime'),
-          visitStatus: BuiltValueNullFieldError.checkNotNull(
-              visitStatus, r'VisitModel', 'visitStatus'),
-          weekIndex: BuiltValueNullFieldError.checkNotNull(
-              weekIndex, r'VisitModel', 'weekIndex'),
+          image: image,
+          doctorFullName: doctorFullName,
+          doctorJobName: doctorJobName,
+          categoryName: categoryName,
+          serviceName: serviceName,
+          visitDate: visitDate,
+          visitTime: visitTime,
+          visitStatus: visitStatus,
+          weekIndex: weekIndex,
+          address: address,
+          paymentMethod: paymentMethod,
         );
     replace(_$result);
     return _$result;

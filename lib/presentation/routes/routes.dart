@@ -54,7 +54,9 @@ import 'package:medion/presentation/pages/profile/inner_pages/results_page.dart'
 import 'package:medion/presentation/pages/profile/inner_pages/setting_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/user_details_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/wallet_page.dart';
+import 'package:medion/presentation/pages/visits/component/visit_detail_page.dart';
 import 'package:medion/presentation/pages/visits/my_visits_page.dart';
+import 'package:medion/presentation/pages/visits/widgets/visit_info_detail_card.dart';
 
 import '../../infrastructure/apis/apis.dart';
 
@@ -541,9 +543,64 @@ class AppRoutes {
             ));
   }
 
+ static MaterialPageRoute getVisitDetailPage({
+  required String? categoryName,
+  required String? serviceName,
+  required String? doctorName,
+  required double? servicePrice,
+  required String? visitDate,
+  required String? visitLocation,
+  required String? visitStatus,
+  required String? visitPaymentByWhom,
+  required String? paymentMethod,
+  required dynamic data,
+  required String? image,
+}) {
+  return MaterialPageRoute(
+    builder: (_) => VisitDetailPage(
+      categoryName: categoryName,
+      serviceName: serviceName,
+      doctorName: doctorName,
+      servicePrice: servicePrice,
+      visitDate: visitDate,
+      visitLocation: visitLocation,
+      visitStatus: visitStatus,
+      visitPaymentByWhom: visitPaymentByWhom,
+      paymentMethod: paymentMethod,
+      data: data,
+    ),
+  );
+}
 
 
-  //     static MaterialPageRoute getPolicyTreatment() {
-  //   return MaterialPageRoute(builder: (_) => const PolicyTreatment());
-  // }
+ static MaterialPageRoute getVisitDetailCard({
+  required String? categoryName,
+  required String? serviceName,
+  required String? doctorName,
+  required double? servicePrice,
+  required String? visitDate,
+  required String? visitLocation,
+  required String? visitStatus,
+  required String? visitPaymentByWhom,
+  required String? paymentMethod,
+  required dynamic data,
+  required String? image,
+}) {
+  return MaterialPageRoute(
+    builder: (_) => VisitInfoDetailCard(
+      categoryName: categoryName,
+      serviceName: serviceName,
+      doctorName: doctorName,
+      servicePrice: servicePrice,
+      visitDate: visitDate,
+      visitLocation: visitLocation,
+      visitStatus: visitStatus,
+      visitPaymentByWhom: visitPaymentByWhom,
+      paymentMethod: paymentMethod,
+      data: data,
+      image: image,
+    ),
+  );
+}
+
 }

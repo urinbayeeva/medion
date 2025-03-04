@@ -294,5 +294,7 @@
 "discount_duration": "Aksiya amal qilish muddati:",
 "number_call_center": "Call-markaz raqami:",
 "discount_phone_number": "Telefon raqami:",
+"status" : "Status",
+"pays_the_appoinment" : "Ko'rikni to'laydi: {name}",
   "" : ""
 }
