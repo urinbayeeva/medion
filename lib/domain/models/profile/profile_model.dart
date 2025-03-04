@@ -78,3 +78,19 @@ abstract class VisitModel implements Built<VisitModel, VisitModelBuilder> {
 
   static Serializer<VisitModel> get serializer => _$visitModelSerializer;
 }
+
+abstract class PatientAnalysis implements Built<PatientAnalysis, PatientAnalysisBuilder> {
+  @BuiltValueField(wireName: 'document_name')
+  String get documentName;
+
+  @BuiltValueField(wireName: 'date')
+  String get date;
+
+  @BuiltValueField(wireName: 'document_url')
+  String get documentUrl;
+
+  PatientAnalysis._();
+  factory PatientAnalysis([void Function(PatientAnalysisBuilder) updates]) = _$PatientAnalysis;
+
+  static Serializer<PatientAnalysis> get serializer => _$patientAnalysisSerializer;
+}

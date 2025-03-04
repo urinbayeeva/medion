@@ -336,6 +336,22 @@ final class _$PatientService extends PatientService {
     );
     return client.send<BuiltList<VisitModel>, VisitModel>($request);
   }
+
+  @override
+  Future<Response<BuiltList<PatientAnalysis>>> getPatientAnalyze(
+      {String requiresToken = "true"}) {
+    final Uri $url = Uri.parse('/profile/patient_analysis');
+    final Map<String, String> $headers = {
+      'requires-token': requiresToken,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      headers: $headers,
+    );
+    return client.send<BuiltList<PatientAnalysis>, PatientAnalysis>($request);
+  }
 }
 
 // coverage:ignore-file

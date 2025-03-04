@@ -30,34 +30,35 @@ class AuthRepository implements IAuthFacade {
   AuthRepository(
     this._dbService,
     this._authService,
-    this._patientService, this._refreshService,
+    this._patientService,
+    this._refreshService,
   );
-  
-Future<Either<ResponseFailure, RefreshTokenResponseModel>> refreshToken(
-    String refresh) async {
-  try {
-    final response = await _refreshService.refreshToken(
-      request: RefreshTokenModel((b) => b..token = refresh),
-    );
 
-    if (response.isSuccessful) {
-      if (response.body != null) {
-        LogService.d("Refresh succeeded: ${response.body!.accessToken}");
-        return right(response.body!);
+  Future<Either<ResponseFailure, RefreshTokenResponseModel>> refreshToken(
+      String refresh) async {
+    try {
+      final response = await _refreshService.refreshToken(
+        request: RefreshTokenModel((b) => b..token = refresh),
+      );
+
+      if (response.isSuccessful) {
+        if (response.body != null) {
+          LogService.d("Refresh succeeded: ${response.body!.accessToken}");
+          return right(response.body!);
+        } else {
+          LogService.e("Response successful but body is null");
+          return left(InvalidCredentials(message: 'Response body is null'));
+        }
       } else {
-        LogService.e("Response successful but body is null");
-        return left(InvalidCredentials(message: 'Response body is null'));
+        LogService.e(
+            "Refresh failed: ${response.statusCode} - ${response.error}");
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
-    } else {
-      LogService.e("Refresh failed: ${response.statusCode} - ${response.error}");
-      return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+    } catch (e, stackTrace) {
+      LogService.e("Refresh error: $e\nStackTrace: $stackTrace");
+      return left(handleError(e));
     }
-  } catch (e, stackTrace) {
-    LogService.e("Refresh error: $e\nStackTrace: $stackTrace");
-    return left(handleError(e));
   }
-}
-
 
   @override
   Option<AuthFailure> checkUser() {
@@ -197,9 +198,32 @@ Future<Either<ResponseFailure, RefreshTokenResponseModel>> refreshToken(
   }
 
   @override
-  Future<Either<ResponseFailure, BuiltList<VisitModel>>> getPatientVisits() async {
+  Future<Either<ResponseFailure, BuiltList<VisitModel>>>
+      getPatientVisits() async {
     try {
       final res = await _patientService.getPatientVisitsMobile();
+
+      if (res.isSuccessful && res.body != null) {
+        LogService.d('Response Status: ${res.statusCode}');
+        LogService.d('Response Body: ${res.body}');
+        return right(res.body!);
+      } else {
+        return left(InvalidCredentials(
+          message:
+              'Failed to fetch patient visits: ${res.statusCode}, ${res.body.toString()}',
+        ));
+      }
+    } catch (e) {
+      LogService.e(" ----> error fetching patient visits: ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, BuiltList<PatientAnalysis>>>
+      getPatientAnalyze() async {
+    try {
+      final res = await _patientService.getPatientAnalyze();
 
       if (res.isSuccessful && res.body != null) {
         LogService.d('Response Status: ${res.statusCode}');
@@ -223,8 +247,8 @@ Future<Either<ResponseFailure, RefreshTokenResponseModel>> refreshToken(
   }) async {
     try {
       final response = await _patientService.patientImageUpload(
-        image: ImageUploadResponseModel((b) =>
-            b..imageBase64 = image.imageBase64), // Pass required fields here
+        image:
+            ImageUploadResponseModel((b) => b..imageBase64 = image.imageBase64),
       );
 
       LogService.d('Response Status: ${response.statusCode}');

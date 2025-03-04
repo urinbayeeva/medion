@@ -21,4 +21,6 @@ abstract class AuthEvent with _$AuthEvent {
   const factory AuthEvent.pickImage(BuildContext context) = _PickImage;
 
   const factory AuthEvent.fetchPatientVisits() = _FetchPatientVisits;
+
+  const factory AuthEvent.fetchPatientAnalyze() = _FetchPatientAnalyze;
 }

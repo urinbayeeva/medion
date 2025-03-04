@@ -150,6 +150,13 @@ abstract class PatientService extends ChopperService {
     @Header('requires-token') String requiresToken = "true",
   });
 
+
+  @Get(path: "patient_analysis")
+  Future<Response<BuiltList<PatientAnalysis>>> getPatientAnalyze({
+    @Header('requires-token') String requiresToken = "true",
+  });
+
+
   static PatientService create(DBService dbService) =>
       _$PatientService(_Client(Constants.baseUrlP, true, dbService));
 }
