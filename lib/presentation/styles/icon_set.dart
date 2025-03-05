@@ -103,6 +103,12 @@ class IconSet {
   final String girlNonUser;
   final String playButton;
   final String alertIcon;
+  final String recipeFirst;
+  final String recipeSecond;
+  final String recipeThird;
+  final String recipeFour;
+  final String recipeFive;
+  final String recipeSix;
 
   IconSet._({
     required this.medicalHistoryFirst,
@@ -209,6 +215,14 @@ class IconSet {
     required this.readFeedbacks,
     required this.girlNonUser,
     required this.alertIcon,
+
+    ///
+    required this.recipeFirst,
+    required this.recipeSecond,
+    required this.recipeThird,
+    required this.recipeFour,
+    required this.recipeFive,
+    required this.recipeSix,
   });
 
   static IconSet get create {
@@ -315,6 +329,12 @@ class IconSet {
       girlNonUser: "assets/icons/non_user_female.svg",
       playButton: "assets/icons/play_button.svg",
       alertIcon: "assets/icons/alert_circle.svg",
+      recipeFirst: 'assets/icons/recipe_first.svg',
+      recipeSecond: 'assets/icons/recipe_second.svg',
+      recipeThird: 'assets/icons/recipe_third.svg',
+      recipeFour: 'assets/icons/recipe_four.svg',
+      recipeFive: 'assets/icons/recipe_five.svg',
+      recipeSix: 'assets/icons/recipe_six.svg',
     );
   }
 }

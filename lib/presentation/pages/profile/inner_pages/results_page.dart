@@ -46,7 +46,7 @@ class _ResultsPageState extends State<ResultsPage> {
                           width: 560.w,
                           color: colors.shade0,
                           child: TableCalendar(
-                            locale: "ru_RU",
+                            locale: Localizations.localeOf(context).toString(),
                             rowHeight: 40,
                             daysOfWeekHeight: 35,
                             headerStyle: const HeaderStyle(

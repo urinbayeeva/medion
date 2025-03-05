@@ -300,5 +300,11 @@
 "last_day" : "Kecha", 
 "todays" : "Bugun",
 "you_have_no_visits_on": "Sizning {date} sanasida tashrifingiz yo'q",
+"introduction_method": "Qabul qilish usuli: ",
+"regarding_food": "Ovqatga nisbatan: ",
+"starting_from": "Boshlanish vaqti: ",
+"times_a_day": "{count} marta kuniga ({times})",
+"infusion_rate": "Infuziya tezligi: ",
+"comments": "Izohlar: ",
 "" : ""
 }

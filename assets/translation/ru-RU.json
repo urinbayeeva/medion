@@ -299,5 +299,11 @@
 "last_day" : "Вчера", 
 "todays" : "Сегодня",
 "you_have_no_visits_on": "У вас нет встречи на {date}",
+"introduction_method" : "Метод ввдения: ",
+"regarding_food" : "Относительно еды: ",
+"starting_from" : "Начиная с: ",
+"times_a_day" : "{count} раза в день ({times})",
+"infusion_rate" : "Скорость инфузии: ",
+"comments" : "Комментарии: ",
 " " : ""
 }
