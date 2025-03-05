@@ -200,31 +200,38 @@ class _HomePageState extends State<HomePage> {
                                     style: fonts.regularSemLink));
                           }
 
-                          return SizedBox(
-                            height: 300.h,
-                            child: GridView.builder(
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 8,
-                                childAspectRatio: 0.6,
-                              ),
-                              itemCount: 1,
-                              itemBuilder: (context, index) {
-                                final news = state.content[index];
-                                return NewsItem(
-                                  crop: true,
-                                  imagePath: news.primaryImage,
-                                  title: news.title,
-                                  subtitle: news.description,
+                         return SizedBox(
+  height: 320.h,
+  child: ListView.builder(
+    padding: EdgeInsets.zero,
+    shrinkWrap: true,
+    scrollDirection: Axis.horizontal,
+    itemCount: state.content.length,
+    itemBuilder: (context, index) {
+      final news = state.content[index];
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 8.0), 
+        child: NewsItem(
+          onTap: (){
+              Navigator.push(
+                                  context,
+                                  AppRoutes.getInfoViewAboutHealth(
+                                    imagePath: news.primaryImage,
+                                    title: news.title,
+                                    desc: news.description,
+                                  ),
                                 );
-                              },
-                            ),
-                          );
+          },
+          crop: true,
+          imagePath: news.primaryImage,
+          title: news.title,
+          subtitle: news.description,
+        ),
+      );
+    },
+  ),
+);
+
                         }),
                         _buildVerticalSpacingAndHeader(
                             "address_of_clinic", fonts, "all", () {

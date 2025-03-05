@@ -242,8 +242,8 @@ class _$AdModelSerializer implements StructuredSerializer<AdModel> {
     if (value != null) {
       result
         ..add('link')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
     }
     return result;
   }
@@ -277,7 +277,7 @@ class _$AdModelSerializer implements StructuredSerializer<AdModel> {
           break;
         case 'link':
           result.link = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
       }
     }
@@ -570,7 +570,7 @@ class _$AdModel extends AdModel {
   @override
   final bool? important;
   @override
-  final bool? link;
+  final JsonObject? link;
 
   factory _$AdModel([void Function(AdModelBuilder)? updates]) =>
       (new AdModelBuilder()..update(updates))._build();
@@ -639,9 +639,9 @@ class AdModelBuilder implements Builder<AdModel, AdModelBuilder> {
   bool? get important => _$this._important;
   set important(bool? important) => _$this._important = important;
 
-  bool? _link;
-  bool? get link => _$this._link;
-  set link(bool? link) => _$this._link = link;
+  JsonObject? _link;
+  JsonObject? get link => _$this._link;
+  set link(JsonObject? link) => _$this._link = link;
 
   AdModelBuilder();
 

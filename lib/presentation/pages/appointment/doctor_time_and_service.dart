@@ -45,7 +45,7 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
 
   @override
   void dispose() {
-    selectedAppointments.dispose(); // Dispose ValueNotifier
+    selectedAppointments.dispose();
     super.dispose();
   }
 
@@ -53,25 +53,23 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
     if (!mounted) return;
     selectedAppointments.value = [...selectedAppointments.value, appointment];
     print("Added Appointment: $appointment");
-    print("Current Appointments: ${selectedAppointments.value}");
   }
 
   void removeAppointment(Map<String, String> appointment) {
     if (!mounted) return;
     selectedAppointments.value = selectedAppointments.value.where((a) => a != appointment).toList();
     print("Removed Appointment: $appointment");
-    print("Current Appointments: ${selectedAppointments.value}");
   }
 
   @override
   Widget build(BuildContext context) {
-    List<int> serviceIds = widget.selectedServiceIds?.toList() ?? [];
+    List<int> serviceIds = widget.selectedServiceIds != null ? widget.selectedServiceIds!.toList() : [];
 
     if (serviceIds.isEmpty) {
-      return const Center(child: Text('Please select services first'));
+      return  Center(child: Text(serviceIds.toString()));
     }
 
-    return FutureBuilder<List<Service>?>(
+    return FutureBuilder<List<Service>>(
       future: ApiService.fetchServices(serviceIds),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -80,7 +78,7 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
         if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } 
-        if (!snapshot.hasData || snapshot.data == null || snapshot.data!.isEmpty) {
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(child: Text('No services available'));
         }
 
@@ -90,6 +88,9 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
               children: [
                 Expanded(
                   child: CustomListView(
+                  enablePullDown: false,
+                  enablePullUp: false,
+                  
                     padding: EdgeInsets.zero,
                     data: snapshot.data!,
                     itemBuilder: (index, _) {
@@ -117,17 +118,16 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                                         return DoctorAppointmentWidget(
                                           serviceName: service.serviceName,
                                           doctor: doctor,
-                                          schedules: doctor.schedules ?? [], // Ensure schedules is not null
+                                          schedules: doctor.schedules ?? [],
                                           serviceId: service.serviceId,
                                           companyID: service.companiesDoctors.isNotEmpty
                                               ? service.companiesDoctors.first.companyId.toString()
                                               : 'Unknown',
                                           onAppointmentSelected: (appointment) {
-                                            if (!mounted) return;
                                             if (appointment != null) {
                                               addAppointment(appointment);
                                             } else {
-                                              print("Received null appointment"); // Debugging output
+                                              print("⚠️ Received null appointment");
                                             }
                                           },
                                         );
@@ -145,61 +145,143 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                     status: FormzSubmissionStatus.success,
                   ),
                 ),
-                ValueListenableBuilder<List<Map<String, String>>>(
-                  valueListenable: selectedAppointments,
-                  builder: (context, selectedList, _) {
-                    if (selectedList.isEmpty) {
-                      return const SizedBox.shrink();
-                    }
-                    return Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: colors.shade0,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(24.r),
-                          topRight: Radius.circular(24.r),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ...selectedList.map((selected) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Doctor: ${selected['doctorName'] ?? 'Unknown'}",
-                                    style: fonts.smallMain,
-                                  ),
-                                  Text(
-                                    "Time: ${selected['time'] ?? 'Not specified'}",
-                                    style: fonts.xSmallMain.copyWith(
-                                      color: colors.neutral500,
-                                    ),
-                                  ),
-                                  const CDivider(),
-                                ],
-                              );
-                            }).toList(),
-                            8.h.verticalSpace,
-                            CButton(
-                              title: 'next'.tr(),
-                              onTap: widget.onTap,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+           ValueListenableBuilder<List<Map<String, String>>>(
+  valueListenable: selectedAppointments,
+  builder: (context, selectedList, _) {
+    if (selectedList.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.shade0,
+        boxShadow: Style.shadowMMMM, 
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(8.r),
+          topRight: Radius.circular(8.r),
+        ),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      child: GestureDetector(
+        onTap: () => _showAppointmentsBottomSheet(context, selectedList, colors, fonts),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "selected_appointments".tr(args: [selectedList.length.toString()]),
+                  style: fonts.regularSemLink.copyWith(fontSize: 14.sp),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16.sp,
+                  color: colors.primary900,
                 ),
               ],
+            ),
+            12.h.verticalSpace,
+            CButton(
+              title: 'next'.tr(),
+              onTap: widget.onTap,
+            ),
+          ],
+        ),
+      ),
+    );
+  },
+)
+
+
+           
+              ],
+
+
             );
           },
         );
       },
     );
   }
+  void _showAppointmentsBottomSheet(
+    BuildContext context, 
+    List<Map<String, String>> selectedList, 
+    dynamic colors, 
+    dynamic fonts
+) {
+  showModalBottomSheet(
+    backgroundColor: colors.shade0,
+    context: context,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+    ),
+    builder: (context) {
+      return Container(
+        padding: EdgeInsets.all(16.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "selected_appointments".tr(args: [selectedList.length.toString()]),
+              style: fonts.headlineMain.copyWith(fontSize: 16.sp),
+            ),
+            SizedBox(height: 10.h),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(selectedList.length, (index) {
+                final appointment = selectedList[index];
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 10.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Doctor: ${appointment['doctorName'] ?? 'Unknown'}",
+                              style: fonts.xSmallLink.copyWith(
+                                color: colors.primary900,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                            Text(
+                              "Time: ${appointment['time'] ?? 'Not specified'}",
+                              style: fonts.xSmallLink.copyWith(
+                                color: colors.neutral500,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10.w),
+                      GestureDetector(
+                        onTap: () {
+                          // Assuming selectedAppointments is a ValueNotifier
+                          selectedAppointments.value = List.from(selectedAppointments.value)
+                            ..removeAt(index);
+                          Navigator.pop(context);
+                        },
+                        child: Image.asset(
+                          "assets/images/trash.png",
+                          width: 40,
+                          height: 40,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ),
+            SizedBox(height: 10.h),
+          ],
+        ),
+      );
+    },
+  );
 }
+}
+

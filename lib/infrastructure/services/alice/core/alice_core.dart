@@ -3,7 +3,6 @@ import 'dart:async' show FutureOr, StreamSubscription;
 import 'package:medion/infrastructure/services/alice/core/alice_storage.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_utils.dart';
 import 'package:medion/infrastructure/services/alice/helper/alice_export_helper.dart';
-import 'package:medion/infrastructure/services/alice/core/alice_notification.dart';
 import 'package:medion/infrastructure/services/alice/helper/operating_system.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_configuration.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_export_result.dart';
@@ -23,7 +22,6 @@ class AliceCore {
   ShakeDetector? _shakeDetector;
 
   /// Helper used for notification management
-  AliceNotification? _notification;
 
   /// Subscription for call changes
   StreamSubscription<List<AliceHttpCall>>? _callsSubscription;
@@ -36,11 +34,7 @@ class AliceCore {
     _configuration = configuration;
     _subscribeToCallChanges();
     if (_configuration.showNotification) {
-      _notification = AliceNotification();
-      _notification?.configure(
-        notificationIcon: _configuration.notificationIcon,
-        openInspectorCallback: navigateToCallListScreen,
-      );
+   
     }
     if (_configuration.showInspectorOnShake) {
       if (OperatingSystem.isAndroid || OperatingSystem.isMacOS) {
@@ -70,10 +64,7 @@ class AliceCore {
   Future<void> _onCallsChanged(List<AliceHttpCall>? calls) async {
     if (calls != null && calls.isNotEmpty) {
       final AliceStats stats = _configuration.aliceStorage.getStats();
-      _notification?.showStatsNotification(
-        context: getContext()!,
-        stats: stats,
-      );
+      
     }
   }
 

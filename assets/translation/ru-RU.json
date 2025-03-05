@@ -1,5 +1,5 @@
 {
-  "choose_language" : "Выберите язык",
+"choose_language" : "Выберите язык",
  "skip" : "Пропустить",
  "make_an_appoinment_doctor_online" : "Запишитесь на приём врача онлайн",
  "choose_one_of_the_many" : "Выберите один из многих направлений клиники Medion и запишитесь на приёмы самых опытных врачей",
@@ -103,7 +103,7 @@
 "myself" : "Сам",
 "employer" : "Работадатель",
 "insurance_company" : "Страховая компания",
-"payment_methods" : "Способ оплаты",
+"" : "Способ оплаты",
 "your_check" : "Ваш чек",
 "total" : "Итого",
 "if_you_make_an_advance_payment" : "Если вы вносите предоплату 15% онлайн, оставшуюся сумму оплачиваете перед посещением врача в клинике",
@@ -293,5 +293,17 @@
 "discount_duration" : "Акция действует:",
 "number_call_center" : "Номер кол-центра:",
 "discount_phone_number" : "Номер телефона:",
-  "": ""
+"status" : "Статус",
+"pays_the_appoinment" : "Оплачивает прием: {name}",
+"day_before" : "Позавчера",
+"last_day" : "Вчера", 
+"todays" : "Сегодня",
+"you_have_no_visits_on": "У вас нет встречи на {date}",
+"introduction_method" : "Метод ввдения: ",
+"regarding_food" : "Относительно еды: ",
+"starting_from" : "Начиная с: ",
+"times_a_day" : "{count} раза в день ({times})",
+"infusion_rate" : "Скорость инфузии: ",
+"comments" : "Комментарии: ",
+" " : ""
 }

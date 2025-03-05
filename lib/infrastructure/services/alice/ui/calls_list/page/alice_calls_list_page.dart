@@ -17,7 +17,6 @@ import 'package:medion/infrastructure/services/alice/ui/common/alice_navigation.
 import 'package:medion/infrastructure/services/alice/ui/common/alice_page.dart';
 import 'package:medion/infrastructure/services/alice/ui/common/alice_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:open_filex/open_filex.dart';
 
 /// Page which displays list of calls caught by Alice. It displays tab view
 /// where calls and logs can be inspected. It allows to sort calls, delete calls
@@ -266,8 +265,8 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
         secondButtonTitle: OperatingSystem.isAndroid
             ? context.i18n(AliceTranslationKey.saveSuccessView)
             : null,
-        secondButtonAction: () =>
-            OperatingSystem.isAndroid ? OpenFilex.open(result.path!) : null,
+       
+     
       );
     } else {
       final [String title, String description] = switch (result.error) {

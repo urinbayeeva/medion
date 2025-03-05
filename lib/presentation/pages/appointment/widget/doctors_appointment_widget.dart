@@ -75,43 +75,48 @@ Map<String, String>? newAppointment = isSelected
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return ValueListenableBuilder<List<Map<String, String>>>(
-        valueListenable: AppointmentState.selectedAppointments,
-        builder: (context, selectedList, _) {
-          String currentDate = widget.schedules[selectedDateIndex].keys.first;
-   
-          final currentAppointment = selectedList.firstWhere(
-            (appointment) => appointment['serviceId'] == widget.serviceId.toString(),
-            orElse: () => {},
-          );
-          
-          return Container(
-            margin: EdgeInsets.only(bottom: 12.h),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.r),
-              color: colors.shade0,
+  valueListenable: AppointmentState.selectedAppointments,
+  builder: (context, selectedList, _) {
+    if (widget.schedules.isEmpty) {
+      return Text("No available schedules".tr());
+    }
+
+    String currentDate = widget.schedules[selectedDateIndex].keys.first;
+
+    final currentAppointment = selectedList.firstWhere(
+      (appointment) => appointment['serviceId'] == widget.serviceId.toString(),
+      orElse: () => {},
+    );
+
+    return Container(
+      margin: EdgeInsets.only(bottom: 12.h),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.r),
+        color: colors.shade0,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildDoctorHeader(colors, fonts, icons),
+          12.h.verticalSpace,
+          if (widget.schedules.isNotEmpty) ...[
+            _buildDateSelector(context, colors, fonts),
+            16.h.verticalSpace,
+            _buildTimeSlots(
+              context, 
+              colors, 
+              fonts, 
+              currentDate, 
+              currentAppointment,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildDoctorHeader(colors, fonts, icons),
-                12.h.verticalSpace,
-                if (widget.schedules.isNotEmpty) ...[
-                  _buildDateSelector(context, colors, fonts),
-                  16.h.verticalSpace,
-                  _buildTimeSlots(
-                    context, 
-                    colors, 
-                    fonts, 
-                    currentDate, 
-                    currentAppointment,
-                  ),
-                  12.h.verticalSpace,
-                ]
-              ],
-            ),
-          );
-        },
-      );
+            12.h.verticalSpace,
+          ]
+        ],
+      ),
+    );
+  },
+);
+
     });
   }
 
@@ -200,77 +205,81 @@ Map<String, String>? newAppointment = isSelected
     );
   }
 
-  Widget _buildTimeSlots(
-     context,
-     colors,
-     fonts,
-     currentDate,
-    Map<String, String> currentAppointment,
-  ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('select_recording_time'.tr(), style: fonts.xSmallMain),
-        8.h.verticalSpace,
-        GridView.builder(
-          padding: EdgeInsets.zero,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            childAspectRatio: 2.2,
-            crossAxisSpacing: 8.w,
-            mainAxisSpacing: 8.h,
-          ),
-          itemCount: widget.schedules[selectedDateIndex][currentDate].length,
-          itemBuilder: (context, index) {
-            var timeSlot = widget.schedules[selectedDateIndex][currentDate][index];
-            String time = timeSlot['time'];
+ Widget _buildTimeSlots(
+  context,
+  colors,
+  fonts,
+  currentDate,
+  Map<String, String> currentAppointment,
+) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text('select_recording_time'.tr(), style: fonts.xSmallMain),
+      8.h.verticalSpace,
+      GridView.builder(
+        padding: EdgeInsets.zero,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          childAspectRatio: 2.2,
+          crossAxisSpacing: 8.w,
+          mainAxisSpacing: 8.h,
+        ),
+        itemCount: widget.schedules[selectedDateIndex][currentDate].length,
+        itemBuilder: (context, index) {
+          var timeSlot = widget.schedules[selectedDateIndex][currentDate][index];
+          String time = timeSlot['time'];
+          bool isActive = timeSlot['active'] ?? true; // Default to true if not specified
 
-            bool isSelected = currentAppointment['date'] == currentDate && 
-                            currentAppointment['time'] == time;
+          bool isSelected = currentAppointment['date'] == currentDate && 
+                          currentAppointment['time'] == time;
 
-            bool isDisabledForOtherServices = AppointmentState.isTimeSlotTaken(
-              currentDate,
-              time,
-              widget.serviceId.toString()
-            );
+          bool isDisabledForOtherServices = AppointmentState.isTimeSlotTaken(
+            currentDate,
+            time,
+            widget.serviceId.toString()
+          );
 
-            return GestureDetector(
-              onTap: () {
-                if (isDisabledForOtherServices) return;
-                _handleAppointmentSelection(time, currentDate, isSelected);
-              },
-              child: Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: isDisabledForOtherServices
-                      ? colors.neutral400
-                      : isSelected
-                          ? colors.primary500
-                          : colors.neutral200,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: isSelected ? colors.primary500 : colors.neutral200,
-                    width: 0,
-                  ),
-                ),
-                child: Text(
-                  time,
-                  style: TextStyle(
-                    color: isDisabledForOtherServices
-                        ? colors.shade0
-                        : isSelected
-                            ? colors.shade0
-                            : colors.primary900,
-                    fontSize: 13.sp,
-                  ),
+          bool isDisabled = !isActive || isDisabledForOtherServices;
+
+          return GestureDetector(
+            onTap: isDisabled 
+                ? null // Disable tap if not active or taken
+                : () {
+                    _handleAppointmentSelection(time, currentDate, isSelected);
+                  },
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: isDisabled
+                    ? colors.neutral400 // Grey for disabled
+                    : isSelected
+                        ? colors.primary500 // Selected color
+                        : colors.neutral200, // Default color
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: isSelected ? colors.primary500 : colors.neutral200,
+                  width: 0,
                 ),
               ),
-            );
-          },
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-        ),
-      ],
-    );
-  }
+              child: Text(
+                time,
+                style: TextStyle(
+                  color: isDisabled
+                      ? colors.neutral600 // Darker grey text for disabled
+                      : isSelected
+                          ? colors.shade0 // White for selected
+                          : colors.primary900, // Default text color
+                  fontSize: 13.sp,
+                ),
+              ),
+            ),
+          );
+        },
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+      ),
+    ],
+  );
+}
 }

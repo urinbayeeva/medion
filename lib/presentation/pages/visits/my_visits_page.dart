@@ -1,14 +1,19 @@
-import 'dart:convert';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:http/http.dart' as http;
-import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
+import 'package:medion/presentation/component/table_calendar/src/customization/calendar_style.dart';
+import 'package:medion/presentation/component/table_calendar/src/customization/header_style.dart';
+import 'package:medion/presentation/component/table_calendar/src/shared/utils.dart';
+import 'package:medion/presentation/component/table_calendar/src/table_calendar.dart';
 import 'package:medion/presentation/pages/visits/widgets/visit_info_card.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/application/auth/auth_bloc.dart';
 
 class MyVisitsPage extends StatefulWidget {
   const MyVisitsPage({super.key});
@@ -18,93 +23,36 @@ class MyVisitsPage extends StatefulWidget {
 }
 
 class _MyVisitsPageState extends State<MyVisitsPage> {
-  bool isOnline = true;
-  bool isLoading = false;
-  List<dynamic> visitsData = [];
-
   @override
   void initState() {
+    context.read<AuthBloc>().add(const AuthEvent.fetchPatientVisits());
     super.initState();
-    _fetchPatientVisits();
   }
 
-  Future<void> _fetchPatientVisits() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    if (isOnline) {
-      final dbService = await DBService.create;
-      final token = dbService.token.accessToken;
-
-      if (token != null && token.isNotEmpty) {
-        final response = await _getPatientVisits(token);
-        setState(() {
-          isLoading = false;
-          if (response != null) {
-            visitsData = response;
-          }
-        });
-      } else {
-        setState(() {
-          isLoading = false;
-          // Handle token absence or invalid token scenario
-        });
-      }
-    } else {
-      setState(() {
-        isLoading = false;
-        visitsData = [];
-      });
-    }
-  }
-
-  Future<List<dynamic>?> _getPatientVisits(String token) async {
-    final url =
-        'https://his.uicgroup.tech/apiweb/profile/patient_visits_mobile';
-
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {
-        'Authorization': 'Bearer $token',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      // Decode the response body using UTF-8
-      final decodedBody = utf8.decode(response.bodyBytes);
-
-      print("Decoded body: $decodedBody");
-
-      return jsonDecode(decodedBody);
-    } else {
-      print('Request failed with status: ${response.statusCode}');
-      return null;
-    }
-  }
+  final DateTime firstDay = DateTime(2020, 1, 1);
+  final DateTime lastDay = DateTime(2030, 1, 1);
+  DateTime? selectedDate; 
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Scaffold(
-        backgroundColor: colors.backgroundColor,
-        body: Column(
-          children: [
-            CAppBar(
-              padding: EdgeInsets.zero,
-              bottom: Column(
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return ThemeWrapper(
+          builder: (context, colors, fonts, icons, controller) {
+            return Scaffold(
+              backgroundColor: colors.backgroundColor,
+              body: Column(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: SizedBox(
-                      width: double.infinity,
+                  CAppBar(
+                    padding: EdgeInsets.zero,
+                    bottom: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: CustomToggle(
                         iconList: [
                           Text(
                             'online'.tr(),
                             style: fonts.xSmallLink.copyWith(
-                              color:
-                                  isOnline ? colors.shade0 : colors.primary900,
+                              color: colors.primary900,
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
                             ),
@@ -112,94 +60,159 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                           Text(
                             'offline'.tr(),
                             style: fonts.xSmallLink.copyWith(
-                              color:
-                                  !isOnline ? colors.shade0 : colors.primary900,
+                              color: colors.primary900,
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
-                        onChanged: (value) {
-                          setState(() {
-                            isOnline = value;
-                            _fetchPatientVisits(); // Re-fetch data when toggled
-                          });
-                        },
-                        current: isOnline,
+                        onChanged: (value) {},
+                        current: true,
                         values: const [true, false],
                       ),
                     ),
-                  ),
-                ],
-              ),
-              bordered: true,
-              isBack: false,
-              title: "my_visits".tr(),
-              centerTitle: true,
-              trailing: icons.calendar.svg(width: 24.w, height: 24.h),
-            ),
-            8.h.verticalSpace,
-            Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  if (isLoading) {
-                    return Center(
-                        child: CircularProgressIndicator(
-                      color: colors.error500,
-                    ));
-                  }
-
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        if (visitsData.isEmpty)
-                          ConstrainedBox(
-                            constraints: BoxConstraints(
-                                minHeight: constraints.maxHeight),
-                            child: Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  icons.bigCalendar
-                                      .svg(width: 72.w, height: 75.h),
-                                  12.h.verticalSpace,
-                                  Text(
-                                    "you_have_no_visits".tr(),
-                                    style: fonts.smallLink.copyWith(
-                                      color: colors.neutral600,
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w400,
+                    bordered: true,
+                    isBack: false,
+                    title: "my_visits".tr(),
+                    centerTitle: true,
+                    trailing: GestureDetector(
+                      onTap: () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              backgroundColor: colors.shade0,
+                              content: Container(
+                                height: 400.h,
+                                width: 560.w,
+                                color: colors.shade0,
+                                child: TableCalendar(
+                                  locale: Localizations.localeOf(context)
+                                      .toString(),
+                                  rowHeight: 40,
+                                  daysOfWeekHeight: 35,
+                                  headerStyle: const HeaderStyle(
+                                    formatButtonVisible: false,
+                                    titleCentered: true,
+                                  ),
+                                  calendarStyle: CalendarStyle(
+                                    markerSize: 48,
+                                    todayDecoration: BoxDecoration(
+                                      color: colors.error500,
+                                      borderRadius: BorderRadius.circular(8.r),
                                     ),
                                   ),
-                                ],
+                                  focusedDay: selectedDate ?? DateTime.now(),
+                                  firstDay: firstDay,
+                                  lastDay: lastDay,
+                                  selectedDayPredicate: (day) =>
+                                      isSameDay(selectedDate, day),
+                                  onDaySelected: (selectedDay, _) {
+                                    setState(() {
+                                      selectedDate = selectedDay;
+                                    });
+                                    Navigator.pop(context); // Close the dialog
+                                  },
+                                ),
                               ),
-                            ),
-                          )
-                        else
-                          ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            shrinkWrap: true,
-                            itemCount: visitsData.length,
-                            itemBuilder: (context, index) {
-                              final visit = visitsData[index];
-                              return VisitInfoCard(
-                                doctorName: visit['doctor_full_name'],
-                                doctorJob: visit['doctor_job_name'],
-                                visitStatus: visit['visit_status'],
-                                visitTime: visit['visit_time'],
-                              );
-                            },
-                          ),
-                      ],
+                            );
+                          },
+                        );
+                      },
+                      child: icons.calendar.svg(width: 20.w, height: 20.h),
                     ),
-                  );
-                },
+                  ),
+                  8.h.verticalSpace,
+                  Expanded(
+                    child: state.isLoadingVisits
+                        ? Center(
+                            child: CircularProgressIndicator(
+                                color: colors.error500))
+                        : _buildVisitsList(state, colors, fonts),
+                  ),
+                  80.h.verticalSpace,
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildVisitsList(AuthState state, colors, fonts) {
+    final filteredVisits = selectedDate == null
+        ? state.patientVisits
+        : state.patientVisits
+            .where((visit) =>
+                visit!.visitDate! ==
+                DateFormat('yyyy-MM-dd').format(selectedDate!))
+            .toList();
+
+    if (filteredVisits.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SvgPicture.asset(
+              "assets/icons/emoji-sad_d.svg",
+              width: 73.w,
+              height: 75.h,
+            ),
+            12.h.verticalSpace,
+            Text(
+              selectedDate == null
+                  ? "you_have_no_visits".tr()
+                  : "you_have_no_visits_on".tr(namedArgs: {
+                      "date":
+                          DateFormat('dd MMMM yyyy', context.locale.toString())
+                              .format(selectedDate!)
+                    }),
+              style: fonts.smallLink.copyWith(
+                color: colors.neutral600,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ],
         ),
       );
-    });
+    }
+
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      itemCount: filteredVisits.length,
+      itemBuilder: (context, index) {
+        final visit = filteredVisits[index];
+
+        return VisitInfoCard(
+          onTap: () {
+            context.read<BottomNavBarController>().changeNavBar(true);
+            Navigator.push(
+              context,
+              AppRoutes.getVisitDetailPage(
+                categoryName: visit!.categoryName,
+                serviceName: visit.serviceName,
+                doctorName: visit.doctorFullName,
+                servicePrice: 10,
+                visitDate: "${visit.visitDate}, ${visit.visitTime}",
+                visitLocation: visit.address,
+                visitStatus: visit.visitStatus,
+                visitPaymentByWhom: "",
+                paymentMethod: visit.paymentMethod,
+                data: [visit],
+                image: "",
+              ),
+            ).then((_) {
+              context.read<BottomNavBarController>().changeNavBar(false);
+            });
+          },
+          doctorName: visit!.doctorFullName!,
+          doctorJob: visit.doctorJobName!,
+          visitStatus: visit.visitStatus!,
+          visitTime: visit.visitTime!,
+        );
+      },
+    );
   }
 }

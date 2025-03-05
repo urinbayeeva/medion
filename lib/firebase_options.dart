@@ -50,21 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC5tV0PQJgLwg4TojZaHS_seHxwOzhvghc',
-    appId: '1:952459852570:android:99208df29bf51891a0caa3',
-    messagingSenderId: '952459852570',
-    projectId: 'real-learn',
-    databaseURL: 'https://real-learn-default-rtdb.firebaseio.com',
-    storageBucket: 'real-learn.firebasestorage.app',
+    apiKey: 'AIzaSyBtB8vD9Z_vWR_2rAt2Vr7go1nR0MU-kzg',
+    appId: '1:742595836910:android:c3c07e00b8bf95b49cecff',
+    messagingSenderId: '742595836910',
+    projectId: 'save-smth',
+    storageBucket: 'save-smth.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBBfYMghbBPveXB-DXpGr-qP-Nys7KK_ew',
-    appId: '1:952459852570:ios:da0a20f7ae04c22da0caa3',
-    messagingSenderId: '952459852570',
-    projectId: 'real-learn',
-    databaseURL: 'https://real-learn-default-rtdb.firebaseio.com',
-    storageBucket: 'real-learn.firebasestorage.app',
+    apiKey: 'AIzaSyDZdQ_bgQB81KD1UwrTy_MvPeL9J2iKKOk',
+    appId: '1:742595836910:ios:aeaa7b73aa74726e9cecff',
+    messagingSenderId: '742595836910',
+    projectId: 'save-smth',
+    storageBucket: 'save-smth.firebasestorage.app',
     iosBundleId: 'com.example.medion',
   );
+
 }

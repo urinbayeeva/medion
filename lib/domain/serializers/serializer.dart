@@ -62,7 +62,7 @@ part 'serializer.g.dart';
   BranchModel,
   AwardsModel,
   EducationModel,
-  Course, 
+  Course,
   ContentModel,
   ChildContentModel,
 
@@ -71,7 +71,11 @@ part 'serializer.g.dart';
   CreatePatientInfoResponse,
   RegistrationResponse,
 
+  //Visit
+  VisitModel,
 
+  //Analyse
+  PatientAnalysis
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

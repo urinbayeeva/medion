@@ -40,34 +40,57 @@ abstract class PatientInfo implements Built<PatientInfo, PatientInfoBuilder> {
 
 abstract class VisitModel implements Built<VisitModel, VisitModelBuilder> {
   @BuiltValueField(wireName: 'image')
-  String get image;
+  String? get image;
 
   @BuiltValueField(wireName: 'doctor_full_name')
-  String get doctorFullName;
+  String? get doctorFullName;
 
   @BuiltValueField(wireName: 'doctor_job_name')
-  String get doctorJobName;
+  String? get doctorJobName;
 
   @BuiltValueField(wireName: 'category_name')
-  String get categoryName;
+  String? get categoryName;
 
   @BuiltValueField(wireName: 'service_name')
-  String get serviceName;
+  String? get serviceName;
 
   @BuiltValueField(wireName: 'visit_date')
-  String get visitDate;
+  String? get visitDate;
 
   @BuiltValueField(wireName: 'visit_time')
-  String get visitTime;
+  String? get visitTime;
 
   @BuiltValueField(wireName: 'visit_status')
-  String get visitStatus;
+  String? get visitStatus;
 
   @BuiltValueField(wireName: 'week_index')
-  int get weekIndex;
+  int? get weekIndex;
+
+   @BuiltValueField(wireName: 'address')
+  String? get address;
+
+  @BuiltValueField(wireName: 'payment_method')
+  String? get paymentMethod;
+
 
   VisitModel._();
   factory VisitModel([void Function(VisitModelBuilder) updates]) = _$VisitModel;
 
   static Serializer<VisitModel> get serializer => _$visitModelSerializer;
+}
+
+abstract class PatientAnalysis implements Built<PatientAnalysis, PatientAnalysisBuilder> {
+  @BuiltValueField(wireName: 'document_name')
+  String get documentName;
+
+  @BuiltValueField(wireName: 'date')
+  String get date;
+
+  @BuiltValueField(wireName: 'document_url')
+  String get documentUrl;
+
+  PatientAnalysis._();
+  factory PatientAnalysis([void Function(PatientAnalysisBuilder) updates]) = _$PatientAnalysis;
+
+  static Serializer<PatientAnalysis> get serializer => _$patientAnalysisSerializer;
 }

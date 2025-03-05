@@ -294,5 +294,17 @@
 "discount_duration": "Aksiya amal qilish muddati:",
 "number_call_center": "Call-markaz raqami:",
 "discount_phone_number": "Telefon raqami:",
-  "" : ""
+"status" : "Status",
+"pays_the_appoinment" : "Ko'rikni to'laydi: {name}",
+"day_before" : "O'tgan kun",
+"last_day" : "Kecha", 
+"todays" : "Bugun",
+"you_have_no_visits_on": "Sizning {date} sanasida tashrifingiz yo'q",
+"introduction_method": "Qabul qilish usuli: ",
+"regarding_food": "Ovqatga nisbatan: ",
+"starting_from": "Boshlanish vaqti: ",
+"times_a_day": "{count} marta kuniga ({times})",
+"infusion_rate": "Infuziya tezligi: ",
+"comments": "Izohlar: ",
+"" : ""
 }

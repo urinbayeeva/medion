@@ -33,6 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_SendUserInfo>(_sendUserInfoHandler);
     on<_FetchPatientInfo>(_fetchPatientInfoHandler);
     on<_FetchPatientVisits>(_fetchPatientVisitsHandler);
+    on<_FetchPatientAnalyze>(_fetchPatientAnalyze);
   }
 
   Future<void> _checkAuth(_CheckAuth event, Emitter<AuthState> emit) async {
@@ -66,7 +67,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(state.copyWith(
           isLoadingVisits: false,
           errorFetchingVisits: false,
-          patientVisits: visits,
+          patientVisits: visits.toList(),
         ));
       },
     );
@@ -137,16 +138,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _FetchPatientInfo event,
     Emitter<AuthState> emit,
   ) async {
-    // Emit loading state
     emit(state.copyWith(
       isFetchingPatientInfo: true,
       errorFetchingPatientInfo: false,
     ));
 
-    // Call the repository method (token is injected by the interceptor)
     final res = await _repository.getPatientInfo();
 
-    // Process the result using fold (Either)
     res.fold(
       (error) {
         LogService.e(" ----> error fetching patient info: $error");
@@ -160,6 +158,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           isFetchingPatientInfo: false,
           errorFetchingPatientInfo: false,
           patientInfo: patientInfo,
+        ));
+      },
+    );
+  }
+
+  FutureOr<void> _fetchPatientAnalyze(
+    _FetchPatientAnalyze event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith());
+
+    final res = await _repository.getPatientAnalyze();
+
+    res.fold(
+      (error) {
+        LogService.e(" ----> error fetching patient info: $error");
+        emit(state.copyWith());
+      },
+      (patientAnalyze) {
+        emit(state.copyWith(
+          isFetchingPatientInfo: false,
+          errorFetchingPatientInfo: false,
+          patientAnalyze: patientAnalyze.toList(),
         ));
       },
     );

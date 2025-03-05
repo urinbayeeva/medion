@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -12,13 +13,14 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 class VerifyAppointment extends StatelessWidget {
   final VoidCallback onTap;
 
-  const VerifyAppointment({
+   VerifyAppointment({
     super.key,
     required this.onTap,
   });
 
   // API endpoint
   final String apiUrl = 'https://his.uicgroup.tech/apiweb/booking/doctor/day';
+  final _chuckerHttpClient = ChuckerHttpClient(http.Client());
 
   @override
   Widget build(BuildContext context) {
@@ -114,39 +116,32 @@ class VerifyAppointment extends StatelessWidget {
   }
 
   // Send data to the API
- Future<void> sendAppointmentData(
-  String doctorId,
-  String companyId,
-  String serviceId,
-  String day,
-  BuildContext context, // We need the context for showing the error dialog or Snackbar
-) async {
-  try {
-    // Print the data being sent
-    print("Sending appointment data:");
-    print("Doctor ID: $doctorId");
-    print("Company ID: $companyId");
-    print("Service ID: $serviceId");
-    print("Day: $day"); // Print the 'day' which represents the date
+  Future<void> sendAppointmentData(
+    String doctorId,
+    String companyId,
+    String serviceId,
+    String day,
+    BuildContext context, // We need the context for showing the error dialog or Snackbar
+  ) async {
+    try {
+      print("Sending appointment data:");
+      print("Doctor ID: $doctorId");
+      print("Company ID: $companyId");
+      print("Service ID: $serviceId");
+      print("Day: $day");
 
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        'doctor_id': doctorId,
-        'company_id': companyId,
-        'service_id': serviceId,
-        'day': 1,
-      }),
-    );
-
-   
-  } catch (e) {
-    print('Error: $e');
-   
+      final response = await _chuckerHttpClient.post(
+        Uri.parse(apiUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'doctor_id': doctorId,
+          'company_id': companyId,
+          'service_id': serviceId,
+          'day': 1,
+        }),
+      );
+    } catch (e) {
+      print('Error: $e');
+    }
   }
-}
-
-
-
 }

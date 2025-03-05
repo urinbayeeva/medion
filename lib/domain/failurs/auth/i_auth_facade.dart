@@ -1,3 +1,4 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/models/auth/auth.dart';
@@ -13,27 +14,24 @@ abstract class IAuthFacade {
   /// Check if user exists
   Option<AuthFailure> checkUser();
 
-  /// Send verification request
   Future<Either<ResponseFailure, ResponseModel>> registerUser({
     required RegisterReq request,
   });
 
-  /// Send phone number request
   Future<Either<ResponseFailure, SuccessModel>> sendPhoneNumber({
     required PhoneNumberSendReq request,
   });
 
-  /// Send user info
   Future<Either<ResponseFailure, CreatePatientInfoResponse>> sendUserInfo({
     required CreateInfoReq request,
   });
 
-  /// Get patient information
   Future<Either<ResponseFailure, PatientInfo>> getPatientInfo();
 
-  Future<Either<ResponseFailure, VisitModel>> getPatientVisits();
+  Future<Either<ResponseFailure, BuiltList<VisitModel>> >getPatientVisits();
 
-  /// Post patient photo
+    Future<Either<ResponseFailure, BuiltList<PatientAnalysis>> >getPatientAnalyze();
+
   Future<Either<ResponseFailure, SuccessModel>> postPatientPhoto({
     required ImageUploadResponseModel image,
   });

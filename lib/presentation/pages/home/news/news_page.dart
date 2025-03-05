@@ -8,6 +8,7 @@ import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/home/news/widgets/news_item.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -54,18 +55,25 @@ class _NewsPageState extends State<NewsPage> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 4.w,
                     mainAxisSpacing: 8.h,
-                    childAspectRatio: 4 / 2,
+                    childAspectRatio: 2.3 / 4,
                   ),
                   itemBuilder: (context, index) {
                     final item = state.content[index];
-                    return AnimationButtonEffect(
-                      onTap: () {},
-                      child: NewsItem(
-                        crop: true,
-                        imagePath: item.primaryImage,
-                        title: item.title,
-                        subtitle: item.description,
-                      ),
+                    return NewsItem(
+                        onTap: (){
+                                  Navigator.push(
+                                context,
+                                AppRoutes.getInfoViewAboutHealth(
+                                  imagePath: item.primaryImage,
+                                  title: item.title,
+                                  desc: item.description,
+                                ),
+                              );
+                              },
+                      crop: true,
+                      imagePath: item.primaryImage,
+                      title: item.title,
+                      subtitle: item.description,
                     );
                   },
                   itemCount: state.content.length,

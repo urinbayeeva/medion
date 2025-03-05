@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:http/http.dart' show Client, MultipartFile;
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
@@ -45,15 +46,13 @@ abstract class AuthService extends ChopperService {
     @Body() required CreateInfoReq request,
   });
 
-
-
   static AuthService create(DBService dbService) =>
       _$AuthService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "")
 abstract class RefreshService extends ChopperService {
-    @Post(path: "refresh")
+  @Post(path: "refresh")
   Future<Response<RefreshTokenResponseModel>> refreshToken({
     @Body() required RefreshTokenModel request,
   });
@@ -147,9 +146,16 @@ abstract class PatientService extends ChopperService {
   });
 
   @Get(path: "patient_visits_mobile")
-  Future<Response<VisitModel>> getPatientVisitsMobile({
+  Future<Response<BuiltList<VisitModel>>> getPatientVisitsMobile({
     @Header('requires-token') String requiresToken = "true",
   });
+
+
+  @Get(path: "patient_analysis")
+  Future<Response<BuiltList<PatientAnalysis>>> getPatientAnalyze({
+    @Header('requires-token') String requiresToken = "true",
+  });
+
 
   static PatientService create(DBService dbService) =>
       _$PatientService(_Client(Constants.baseUrlP, true, dbService));
@@ -196,8 +202,10 @@ base class _Client extends ChopperClient {
             interceptors: useInterceptors
                 ? [
                     CoreInterceptor(dbService),
-                    if (AppConfig.shared.flavor == Flavor.dev)
-                      aliceChopperAdapter,
+                    if (AppConfig.shared.flavor == Flavor.dev) ...[
+                      ChuckerChopperInterceptor(),
+                      ChuckerHttpLoggingInterceptor(),
+                    ],
                     HttpLoggingInterceptor(),
                     CurlInterceptor(),
                     NetworkInterceptor(),

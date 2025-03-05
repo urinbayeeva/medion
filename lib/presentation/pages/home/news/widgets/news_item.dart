@@ -9,6 +9,7 @@ class NewsItem extends StatelessWidget {
   final String title;
   final String subtitle;
   final bool crop;
+  final VoidCallback onTap;
 
   final String imagePath;
 
@@ -17,16 +18,14 @@ class NewsItem extends StatelessWidget {
     required this.imagePath,
     required this.title,
     required this.subtitle,
-    required this.crop,
+    required this.crop, required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return AnimationButtonEffect(
-          onTap: () {
-            // Navigator.push(context, AppRoutes.getNewsViewPage());
-          },
+          onTap: onTap,
           child: Container(
             margin: EdgeInsets.only(right: 15.5.w),
             width: 164.w,

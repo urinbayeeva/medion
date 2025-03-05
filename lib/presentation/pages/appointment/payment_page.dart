@@ -21,6 +21,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:chucker_flutter/chucker_flutter.dart';
+
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -341,8 +343,12 @@ Widget _buildPaymentInfo(Map appointment, colors, fonts, BuildContext context) {
   ));
 }
 
+
+
 class VisitService {
   static const String baseUrl = 'https://his.uicgroup.tech/apiweb';
+
+  final _chuckerHttpClient = ChuckerHttpClient(http.Client());
 
   Future<bool> createVisit(List<Map<String, dynamic>> appointments) async {
     try {
@@ -355,11 +361,12 @@ class VisitService {
       final formattedAppointments = appointments.map((appointment) {
         String startTime = appointment['time'];
         DateTime parsedStartTime = DateTime(
-            2024,
-            1,
-            1,
-            int.parse(startTime.split(':')[0]),
-            int.parse(startTime.split(':')[1]));
+          2024,
+          1,
+          1,
+          int.parse(startTime.split(':')[0]),
+          int.parse(startTime.split(':')[1]),
+        );
         DateTime endTime = parsedStartTime.add(const Duration(minutes: 30));
 
         String formattedStartTime =
@@ -373,15 +380,15 @@ class VisitService {
           'doctor_id': int.parse(appointment['doctorID']),
           'start_time': formattedStartTime,
           'end_time': formattedEndTime,
-          'date': appointment['date']
+          'date': appointment['date'],
         };
       }).toList();
 
-      final response = await http.post(
+      final response = await _chuckerHttpClient.post(
         Uri.parse('$baseUrl/create_visit'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token', // Add authorization header
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(formattedAppointments),
       );
