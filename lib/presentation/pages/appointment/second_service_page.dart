@@ -15,6 +15,7 @@ import 'package:medion/presentation/pages/appointment/component/service_selectio
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/format_currency.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -37,7 +38,8 @@ class SecondServicePage extends StatefulWidget {
 }
 
 class _SecondServicePageState extends State<SecondServicePage> {
-  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   late final SelectedServiceIdsProvider _serviceIdsProvider;
   late final SelectedServicesProvider _servicesProvider;
   int chose = 0;
@@ -48,8 +50,10 @@ class _SecondServicePageState extends State<SecondServicePage> {
   @override
   void initState() {
     super.initState();
-    _serviceIdsProvider = Provider.of<SelectedServiceIdsProvider>(context, listen: false);
-    _servicesProvider = Provider.of<SelectedServicesProvider>(context, listen: false);
+    _serviceIdsProvider =
+        Provider.of<SelectedServiceIdsProvider>(context, listen: false);
+    _servicesProvider =
+        Provider.of<SelectedServicesProvider>(context, listen: false);
     _serviceIdsProvider.addListener(_updateSelectedServices);
     _updateSelectedServices();
   }
@@ -62,15 +66,15 @@ class _SecondServicePageState extends State<SecondServicePage> {
   }
 
   void _updateSelectedServices() {
-    if (!mounted) return; // Prevent execution if widget is disposed
+    if (!mounted) return;
     final bookingState = context.read<BookingBloc>().state;
     setState(() {
       selectedServices = bookingState.categoryServices
           .expand((category) => category.services)
-          .where((service) => _serviceIdsProvider.selectedServiceIds.contains(service.id))
+          .where((service) =>
+              _serviceIdsProvider.selectedServiceIds.contains(service.id))
           .toList();
-      chose = selectedServices.length; // Sync chose with selected services
-      // Sync selectedServiceIDCatch with selected service IDs
+      chose = selectedServices.length;
       selectedServiceIDCatch.clear();
       selectedServiceIDCatch.addAll(_serviceIdsProvider.selectedServiceIds);
     });
@@ -99,7 +103,8 @@ class _SecondServicePageState extends State<SecondServicePage> {
                   child: CustomListView(
                     onRefresh: () async {
                       if (!mounted) return;
-                      final selectedId = context.read<BookingBloc>().state.selectedServiceId;
+                      final selectedId =
+                          context.read<BookingBloc>().state.selectedServiceId;
                       context.read<BookingBloc>().add(
                             BookingEvent.fetchCategoryServices(id: selectedId!),
                           );
@@ -120,11 +125,13 @@ class _SecondServicePageState extends State<SecondServicePage> {
                             children: [
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Flexible(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           service.name,
@@ -133,7 +140,8 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           ),
                                         ),
                                         Text(
-                                          service.description ?? 'no_description',
+                                          service.description ??
+                                              'no_description',
                                           style: fonts.smallLink.copyWith(
                                             color: colors.neutral600,
                                             fontSize: 11.sp,
@@ -143,7 +151,9 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                         Text(
-                                          "${service.priceUzs.toString()} ${widget.isUSD ? "USD" : "UZS"}",
+                                          widget.isUSD
+                                              ? "${formatNumber(service.priceUzs)} UZS"
+                                              : "${formatNumber(service.priceUsd, isDecimal: true)} USD",
                                           style: fonts.smallLink.copyWith(
                                               color: colors.primary900,
                                               fontWeight: FontWeight.w600,
@@ -156,32 +166,45 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                   AnimationButtonEffect(
                                     onTap: () {
                                       setState(() {
-                                        if (_servicesProvider.selectedServices.contains(service)) {
-                                          _servicesProvider.removeService(service);
-                                          _serviceIdsProvider.removeServiceId(service.id);
+                                        if (_servicesProvider.selectedServices
+                                            .contains(service)) {
+                                          _servicesProvider
+                                              .removeService(service);
+                                          _serviceIdsProvider
+                                              .removeServiceId(service.id);
                                           chose--;
                                         } else {
                                           _servicesProvider.addService(service);
-                                          _serviceIdsProvider.addServiceId(service.id);
+                                          _serviceIdsProvider
+                                              .addServiceId(service.id);
                                           chose++;
                                         }
                                         // Sync selectedServiceIDCatch after selection changes
                                         selectedServiceIDCatch.clear();
-                                        selectedServiceIDCatch.addAll(_serviceIdsProvider.selectedServiceIds);
-                                        print("Updated : $selectedServiceIDCatch");
+                                        selectedServiceIDCatch.addAll(
+                                            _serviceIdsProvider
+                                                .selectedServiceIds);
+                                        print(
+                                            "Updated : $selectedServiceIDCatch");
                                       });
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(12.w),
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8.r),
-                                        color: _servicesProvider.selectedServices.contains(service)
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                        color: _servicesProvider
+                                                .selectedServices
+                                                .contains(service)
                                             ? colors.error500
                                             : colors.neutral200,
                                       ),
-                                      child: _servicesProvider.selectedServices.contains(service)
-                                          ? icons.check.svg(color: colors.shade0)
-                                          : icons.plus.svg(color: colors.primary900),
+                                      child: _servicesProvider.selectedServices
+                                              .contains(service)
+                                          ? icons.check
+                                              .svg(color: colors.shade0)
+                                          : icons.plus
+                                              .svg(color: colors.primary900),
                                     ),
                                   ),
                                   8.h.verticalSpace,
@@ -220,8 +243,10 @@ class _SecondServicePageState extends State<SecondServicePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "count_services_selected".tr(namedArgs: {"count": "$chose"}),
-                            style: fonts.xSmallLink.copyWith(fontSize: 13.sp, fontWeight: FontWeight.bold),
+                            "count_services_selected"
+                                .tr(namedArgs: {"count": "$chose"}),
+                            style: fonts.xSmallLink.copyWith(
+                                fontSize: 13.sp, fontWeight: FontWeight.bold),
                           ),
                           AnimationButtonEffect(
                             onTap: () {
@@ -234,7 +259,8 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                 builder: (context) {
                                   return DraggableScrollableSheet(
                                     expand: false,
-                                    builder: (BuildContext context, ScrollController scrollController) {
+                                    builder: (BuildContext context,
+                                        ScrollController scrollController) {
                                       return SingleChildScrollView(
                                         controller: scrollController,
                                         child: ServiceSelectionModal(
@@ -244,7 +270,8 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                             if (!mounted) return;
                                             setState(() {
                                               _servicesProvider.clearServices();
-                                              _serviceIdsProvider.clearServiceIds();
+                                              _serviceIdsProvider
+                                                  .clearServiceIds();
                                               selectedServices.clear();
                                               selectedServiceIDCatch.clear();
                                               chose = 0;
@@ -267,21 +294,21 @@ class _SecondServicePageState extends State<SecondServicePage> {
                       ),
                       12.h.verticalSpace,
                     ],
-                CButton(
-  title: "next".tr(),
-  onTap: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AppointmentPage(
-          index: 2, // Move to "Doctors Time" step
-          selectedServiceIds: selectedServiceIDCatch.toSet(), // Pass selected IDs
-        ),
-      ),
-    );
-  },
-),
-
+                    CButton(
+                      title: "next".tr(),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AppointmentPage(
+                              index: 2, // Move to "Doctors Time" step
+                              selectedServiceIds: selectedServiceIDCatch
+                                  .toSet(), // Pass selected IDs
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
