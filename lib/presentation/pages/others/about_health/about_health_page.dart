@@ -62,6 +62,7 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
                       Navigator.push(
                           context,
                           AppRoutes.getInfoViewAboutHealth(
+                            date: data.createDate,
                             imagePath: data.primaryImage,
                             title: data.title,
                             desc: data.description,

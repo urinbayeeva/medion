@@ -60,16 +60,17 @@ class _NewsPageState extends State<NewsPage> {
                   itemBuilder: (context, index) {
                     final item = state.content[index];
                     return NewsItem(
-                        onTap: (){
-                                  Navigator.push(
-                                context,
-                                AppRoutes.getInfoViewAboutHealth(
-                                  imagePath: item.primaryImage,
-                                  title: item.title,
-                                  desc: item.description,
-                                ),
-                              );
-                              },
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          AppRoutes.getInfoViewAboutHealth(
+                            date: item.createDate,
+                            imagePath: item.primaryImage,
+                            title: item.title,
+                            desc: item.description,
+                          ),
+                        );
+                      },
                       crop: true,
                       imagePath: item.primaryImage,
                       title: item.title,

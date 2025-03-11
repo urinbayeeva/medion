@@ -461,12 +461,15 @@ class AppRoutes {
   static MaterialPageRoute getInfoViewAboutHealth(
       {required String imagePath,
       required String? title,
-      required String? desc}) {
+      required String? desc,
+      required String? date
+      }) {
     return MaterialPageRoute(
         builder: (_) => CInfoView(
               imagePath: imagePath,
               title: title,
               desc: desc,
+              date: date,
             ));
   }
 

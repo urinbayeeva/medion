@@ -216,10 +216,10 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.push(
                                         context,
                                         AppRoutes.getInfoViewAboutHealth(
-                                          imagePath: news.primaryImage,
-                                          title: news.decodedTitle,
-                                          desc: news.decodedDescription,
-                                        ),
+                                            imagePath: news.primaryImage,
+                                            title: news.decodedTitle,
+                                            desc: news.decodedDescription,
+                                            date: news.createDate),
                                       );
                                     },
                                     crop: true,

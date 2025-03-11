@@ -72,6 +72,7 @@ class _ArticlePageState extends State<ArticlePage> {
                               Navigator.push(
                                   context,
                                   AppRoutes.getInfoViewAboutHealth(
+                                    date: article.createDate,
                                       imagePath: article.primaryImage,
                                       title: article.title,
                                       desc: article.description));
