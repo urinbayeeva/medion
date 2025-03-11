@@ -109,14 +109,17 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                                       category.doctorData
                                           .map((doctor) => {
                                                 'name': doctor.name.toString(),
-                                                'profession': doctor.specialty.toString(),
-                                                'image': doctor.image.toString(),
+                                                'profession':
+                                                    doctor.specialty.toString(),
+                                                'image':
+                                                    doctor.image.toString(),
                                                 // 'status':
                                                 //     doctor.workPhone as int,
                                                 // 'candidateScience':
                                                 //     doctor.academicRank,
-                                                'category':
-                                                    category.categoryName.toString(),
+                                                'category': category
+                                                    .categoryName
+                                                    .toString(),
                                               })
                                           .toList(),
                                     )),

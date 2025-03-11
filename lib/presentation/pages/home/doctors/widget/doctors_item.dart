@@ -100,13 +100,11 @@ class DoctorsItem extends StatelessWidget {
                       imageUrl: imagePath!,
                       placeholder: (context, url) => CircularProgressIndicator(
                         color: colors.error500,
-                      ), // Optional: Loading indicator
-                      errorWidget: (context, url, error) => icons.nonUser
-                          .svg(), // Fallback if image fails to load
+                      ),
                     )
                   : gender == "female"
                       ? icons.girlNonUser.svg()
-                      : icons.nonUser.svg(color: colors.neutral500),
+                      : icons.girlNonUser.svg(color: colors.neutral500),
             )
           ],
         );

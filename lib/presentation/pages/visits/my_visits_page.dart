@@ -29,9 +29,11 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
     super.initState();
   }
 
+  bool current = true;
+
   final DateTime firstDay = DateTime(2020, 1, 1);
   final DateTime lastDay = DateTime(2030, 1, 1);
-  DateTime? selectedDate; 
+  DateTime? selectedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -45,32 +47,6 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                 children: [
                   CAppBar(
                     padding: EdgeInsets.zero,
-                    bottom: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: CustomToggle(
-                        iconList: [
-                          Text(
-                            'online'.tr(),
-                            style: fonts.xSmallLink.copyWith(
-                              color: colors.primary900,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            'offline'.tr(),
-                            style: fonts.xSmallLink.copyWith(
-                              color: colors.primary900,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                        onChanged: (value) {},
-                        current: true,
-                        values: const [true, false],
-                      ),
-                    ),
                     bordered: true,
                     isBack: false,
                     title: "my_visits".tr(),
@@ -111,7 +87,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                                     setState(() {
                                       selectedDate = selectedDay;
                                     });
-                                    Navigator.pop(context); // Close the dialog
+                                    Navigator.pop(context);
                                   },
                                 ),
                               ),

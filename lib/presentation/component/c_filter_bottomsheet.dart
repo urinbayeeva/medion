@@ -15,6 +15,7 @@ class CFilterBottomsheet extends StatefulWidget {
 
 class _CFilterBottomsheetState extends State<CFilterBottomsheet> {
   Category selectedCategory = Category.all;
+
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -40,7 +41,11 @@ class _CFilterBottomsheetState extends State<CFilterBottomsheet> {
                         color: colors.error500,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500)),
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    selectedCategory = Category.all; // Reset to "All"
+                  });
+                },
               ),
               16.w.horizontalSpace,
             ],
@@ -60,7 +65,7 @@ class _CFilterBottomsheetState extends State<CFilterBottomsheet> {
                     ? Icon(
                         Icons.check_circle,
                         color: colors.error500,
-                        weight: 30.w,
+                        size: 30.w,
                       )
                     : null,
                 onTap: () {
@@ -74,7 +79,12 @@ class _CFilterBottomsheetState extends State<CFilterBottomsheet> {
           8.h.verticalSpace,
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: CButton(title: "apply".tr(), onTap: () {}),
+            child: CButton(
+              title: "apply".tr(),
+              onTap: () {
+                Navigator.pop(context, selectedCategory);
+              },
+            ),
           ),
           40.h.verticalSpace,
         ],

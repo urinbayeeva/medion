@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                                   });
                                 },
                                 title: item.name ?? "",
-                                subtitle: "null",
+                                subtitle: "",
                                 iconPath: item.icon ?? "",
                               );
                             },
@@ -342,9 +342,7 @@ class _HomePageState extends State<HomePage> {
 Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
   return ThemeWrapper(
     builder: (context, colors, fonts, icons, controller) {
-      // Limit the number of doctors to 10
       final limitedDoctors = doctors.take(10).toList();
-
       return SizedBox(
         height: 300.h,
         child: ListView.builder(
@@ -360,13 +358,14 @@ Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
                     AppRoutes.getAboutDoctorPage(
                         doctor['name'].toString(),
                         doctor['profession'].toString(),
-                        doctor['name'].toString()));
+                        doctor['status'].toString()));
               },
               imagePath: doctor['image'].toString(),
               name: doctor['name'].toString(),
               profession: doctor['profession'].toString(),
               status: doctor['status'].toString(),
-              candidateScience: true,
+              gender: doctor['gender'].toString(),
+              candidateScience: false,
             );
           },
         ),
