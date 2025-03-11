@@ -2,6 +2,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
+import 'package:medion/utils/helpers/decode_html.dart';
 
 part 'branch_model.g.dart';
 
@@ -180,6 +181,10 @@ abstract class ContentModel
   @BuiltValueField(wireName: 'phone_number_short')
   JsonObject? get phoneNumberShort;
 
+  // Add decoded getters
+  String get decodedTitle => decodeHtml(title);
+  String get decodedDescription => decodeHtml(description);
+
   // Serialization
   static Serializer<ContentModel> get serializer => _$contentModelSerializer;
 }
@@ -200,6 +205,10 @@ abstract class ChildContentModel
 
   @BuiltValueField(wireName: 'create_date')
   String get createDate;
+
+  // Add decoded getters
+  String get decodedTitle => decodeHtml(title);
+  String get decodedDescription => decodeHtml(description);
 
   ChildContentModel._();
   factory ChildContentModel([void Function(ChildContentModelBuilder) updates]) =

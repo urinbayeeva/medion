@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:medion/domain/models/models.dart';
-import 'package:chucker_flutter/chucker_flutter.dart';
 
 class ApiService {
-  static final _chuckerHttpClient = ChuckerHttpClient(http.Client());
 
   static Future<List<Service>> fetchServices(List<int> serviceIds) async {
-    final response = await _chuckerHttpClient.post(
+    final response = await http.post(
       Uri.parse('https://his.uicgroup.tech/apiweb/booking/doctors'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'service_ids': serviceIds}),

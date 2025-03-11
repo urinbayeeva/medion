@@ -200,38 +200,37 @@ class _HomePageState extends State<HomePage> {
                                     style: fonts.regularSemLink));
                           }
 
-                         return SizedBox(
-  height: 320.h,
-  child: ListView.builder(
-    padding: EdgeInsets.zero,
-    shrinkWrap: true,
-    scrollDirection: Axis.horizontal,
-    itemCount: state.content.length,
-    itemBuilder: (context, index) {
-      final news = state.content[index];
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 8.0), 
-        child: NewsItem(
-          onTap: (){
-              Navigator.push(
-                                  context,
-                                  AppRoutes.getInfoViewAboutHealth(
+                          return SizedBox(
+                            height: 220.h,
+                            child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: state.content.length,
+                              itemBuilder: (context, index) {
+                                final news = state.content[index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: NewsItem(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        AppRoutes.getInfoViewAboutHealth(
+                                          imagePath: news.primaryImage,
+                                          title: news.decodedTitle,
+                                          desc: news.decodedDescription,
+                                        ),
+                                      );
+                                    },
+                                    crop: true,
                                     imagePath: news.primaryImage,
-                                    title: news.title,
-                                    desc: news.description,
+                                    title: news.decodedTitle,
+                                    subtitle: news.decodedDescription,
                                   ),
                                 );
-          },
-          crop: true,
-          imagePath: news.primaryImage,
-          title: news.title,
-          subtitle: news.description,
-        ),
-      );
-    },
-  ),
-);
-
+                              },
+                            ),
+                          );
                         }),
                         _buildVerticalSpacingAndHeader(
                             "address_of_clinic", fonts, "all", () {
@@ -359,7 +358,9 @@ Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
                 Navigator.push(
                     context,
                     AppRoutes.getAboutDoctorPage(
-                        doctor['name'].toString(), doctor['profession'].toString(), doctor['name'].toString()));
+                        doctor['name'].toString(),
+                        doctor['profession'].toString(),
+                        doctor['name'].toString()));
               },
               imagePath: doctor['image'].toString(),
               name: doctor['name'].toString(),

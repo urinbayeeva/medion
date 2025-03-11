@@ -1,5 +1,4 @@
 import 'package:http/http.dart' as http;
-import 'package:chucker_flutter/chucker_flutter.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -20,7 +19,6 @@ class VerifyAppointment extends StatelessWidget {
 
   // API endpoint
   final String apiUrl = 'https://his.uicgroup.tech/apiweb/booking/doctor/day';
-  final _chuckerHttpClient = ChuckerHttpClient(http.Client());
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +128,7 @@ class VerifyAppointment extends StatelessWidget {
       print("Service ID: $serviceId");
       print("Day: $day");
 
-      final response = await _chuckerHttpClient.post(
+      final response = await http.post(
         Uri.parse(apiUrl),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({

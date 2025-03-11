@@ -21,7 +21,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:chucker_flutter/chucker_flutter.dart';
 
 
 class PaymentPage extends StatefulWidget {
@@ -348,7 +347,6 @@ Widget _buildPaymentInfo(Map appointment, colors, fonts, BuildContext context) {
 class VisitService {
   static const String baseUrl = 'https://his.uicgroup.tech/apiweb';
 
-  final _chuckerHttpClient = ChuckerHttpClient(http.Client());
 
   Future<bool> createVisit(List<Map<String, dynamic>> appointments) async {
     try {
@@ -384,7 +382,7 @@ class VisitService {
         };
       }).toList();
 
-      final response = await _chuckerHttpClient.post(
+      final response = await http.post(
         Uri.parse('$baseUrl/create_visit'),
         headers: {
           'Content-Type': 'application/json',
