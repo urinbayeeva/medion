@@ -228,8 +228,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             var timeSlot =
                 widget.schedules[selectedDateIndex][currentDate][index];
             String time = timeSlot['time'];
-            bool isActive =
-                timeSlot['active'] ?? true; // Default to true if not specified
+            bool isActive = timeSlot['active'] ?? true;
 
             bool isSelected = currentAppointment['date'] == currentDate &&
                 currentAppointment['time'] == time;
@@ -250,10 +249,10 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: isDisabled
-                      ? colors.neutral400 // Grey for disabled
+                      ? colors.neutral400
                       : isSelected
-                          ? colors.primary500 // Selected color
-                          : colors.neutral200, // Default color
+                          ? colors.primary500
+                          : colors.neutral200,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
                     color: isSelected ? colors.primary500 : colors.neutral200,
@@ -264,10 +263,10 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
                   time,
                   style: TextStyle(
                     color: isDisabled
-                        ? colors.neutral600 // Darker grey text for disabled
+                        ? colors.neutral600
                         : isSelected
-                            ? colors.shade0 // White for selected
-                            : colors.primary900, // Default text color
+                            ? colors.shade0
+                            : colors.primary900,
                     fontSize: 13.sp,
                   ),
                 ),
