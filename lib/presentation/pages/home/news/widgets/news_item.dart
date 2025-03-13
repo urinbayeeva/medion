@@ -31,7 +31,9 @@ class NewsItem extends StatelessWidget {
             margin: EdgeInsets.only(right: 15.5.w),
             width: 164.w,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r), color: colors.shade0),
+                boxShadow: colors.shadowMM,
+                borderRadius: BorderRadius.circular(8.r),
+                color: colors.shade0),
             child: Column(
               children: [
                 ClipRRect(

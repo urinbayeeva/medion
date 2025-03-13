@@ -8,6 +8,7 @@ import 'package:medion/application/selected_provider.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
@@ -74,7 +75,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
           .where((service) =>
               _serviceIdsProvider.selectedServiceIds.contains(service.id))
           .toList();
-      chose = selectedServices.length;
+      chose = selectedServices.length - 1;
       selectedServiceIDCatch.clear();
       selectedServiceIDCatch.addAll(_serviceIdsProvider.selectedServiceIds);
     });
@@ -140,8 +141,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           ),
                                         ),
                                         Text(
-                                          service.description ??
-                                              'no_description',
+                                          service.description ?? '',
                                           style: fonts.smallLink.copyWith(
                                             color: colors.neutral600,
                                             fontSize: 11.sp,
@@ -158,6 +158,10 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                               color: colors.primary900,
                                               fontWeight: FontWeight.w600,
                                               fontSize: 12.sp),
+                                        ),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: CDivider(),
                                         ),
                                       ],
                                     ),

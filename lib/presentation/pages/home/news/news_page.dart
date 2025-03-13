@@ -55,7 +55,7 @@ class _NewsPageState extends State<NewsPage> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 4.w,
                     mainAxisSpacing: 8.h,
-                    childAspectRatio: 2.3 / 4,
+                    childAspectRatio: 2.3 / 3,
                   ),
                   itemBuilder: (context, index) {
                     final item = state.content[index];
@@ -66,15 +66,15 @@ class _NewsPageState extends State<NewsPage> {
                           AppRoutes.getInfoViewAboutHealth(
                             date: item.createDate,
                             imagePath: item.primaryImage,
-                            title: item.title,
-                            desc: item.description,
+                            title: item.decodedTitle,
+                            desc: item.decodedDescription,
                           ),
                         );
                       },
                       crop: true,
                       imagePath: item.primaryImage,
-                      title: item.title,
-                      subtitle: item.description,
+                      title: item.decodedTitle,
+                      subtitle: item.decodedDescription,
                     );
                   },
                   itemCount: state.content.length,

@@ -50,25 +50,32 @@ class _DisplayAllServicesPageState extends State<DisplayAllServicesPage> {
           );
         }
 
-        return ListView.builder(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          itemCount: state.bookingTypes.length,
-          itemBuilder: (context, index) {
-            final BookingTypeModel item = state.bookingTypes[index];
-            return MedicalDirectionItem(
-              title: item.name,
-              subtitle: "Description",
-              iconPath: item.icon,
-              onTap: () {
-                context
-                    .read<BookingBloc>()
-                    .add(BookingEvent.selectService(id: item.id));
-                if (widget.onTap != null) {
-                  widget.onTap!();
-                }
-              },
-            );
-          },
+        return Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                itemCount: state.bookingTypes.length,
+                itemBuilder: (context, index) {
+                  final BookingTypeModel item = state.bookingTypes[index];
+                  return MedicalDirectionItem(
+                    title: item.name,
+                    subtitle: "",
+                    iconPath: item.icon,
+                    onTap: () {
+                      context
+                          .read<BookingBloc>()
+                          .add(BookingEvent.selectService(id: item.id));
+                      if (widget.onTap != null) {
+                        widget.onTap!();
+                      }
+                    },
+                  );
+                },
+              ),
+            ),
+            60.h.verticalSpace,
+          ],
         );
       },
     );

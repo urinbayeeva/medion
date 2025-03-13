@@ -103,8 +103,8 @@ class DoctorsItem extends StatelessWidget {
                       ),
                     )
                   : gender == "female"
-                      ? icons.girlNonUser.svg()
-                      : icons.girlNonUser.svg(color: colors.neutral500),
+                      ? icons.nonUser.svg()
+                      : icons.nonUser.svg(color: colors.neutral500),
             )
           ],
         );
@@ -161,7 +161,7 @@ class DoctorsItem extends StatelessWidget {
       ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
         return SizedBox(
           width: 164.w,
-          child: Text(status ?? "",
+          child: Text("",
               overflow: TextOverflow.ellipsis,
               style: fonts.headlineMain.copyWith(
                   fontSize: 11.sp,
