@@ -88,18 +88,18 @@ class _EquipmentPageState extends State<EquipmentPage> {
                                   AppRoutes.getInfoViewAboutHealth(
                                     date: data.createDate,
                                     imagePath: data.primaryImage,
-                                    title: data.title,
-                                    desc: data.description,
+                                    title: data.decodedTitle,
+                                    desc: data.decodedDescription,
                                   ),
                                 );
                               },
                               imagePath: data.primaryImage,
-                              title: data.title,
-                              desc: data.description,
+                              title: data.decodedTitle,
+                              desc: data.decodedDescription,
                             );
                           },
                         ),
-                        // Second ListView: Children of the first equipment item
+
                         ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -114,14 +114,14 @@ class _EquipmentPageState extends State<EquipmentPage> {
                                   AppRoutes.getInfoViewAboutHealth(
                                     imagePath: childData.primaryImage,
                                     date: childData.createDate,
-                                    title: childData.title,
-                                    desc: childData.description,
+                                    title: childData.decodedTitle,
+                                    desc: childData.decodedDescription,
                                   ),
                                 );
                               },
                               imagePath: childData.primaryImage,
-                              title: childData.title,
-                              desc: childData.description,
+                              title: childData.decodedTitle,
+                              desc: childData.decodedDescription,
                             );
                           },
                         ),

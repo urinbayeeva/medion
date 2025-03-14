@@ -1,23 +1,34 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/presentation/styles/theme.dart';
+import 'package:medion/utils/app_config.dart';
 
 List<Map<String, dynamic>> othersData = [
-  {
-    "title": "our_activities".tr(),
-    "icon": IconSet.create.stethoscope,
-  },
-  {
-    "title": "services".tr(),
-    "icon": IconSet.create.hospital,
-  },
-  {
-    "title": "team".tr(),
-    "icon": IconSet.create.group,
-  },
-  {
-    "title": "training".tr(),
-    "icon": IconSet.create.book,
-  },
+  if (AppConfig.shared.flavor == Flavor.dev) ...[
+    {
+      "title": "our_activities".tr(),
+      "icon": IconSet.create.stethoscope,
+    },
+    {
+      "title": "services".tr(),
+      "icon": IconSet.create.hospital,
+    },
+    {
+      "title": "team".tr(),
+      "icon": IconSet.create.group,
+    },
+    {
+      "title": "training".tr(),
+      "icon": IconSet.create.book,
+    },
+    {
+      "title": "documents".tr(),
+      "icon": IconSet.create.document,
+    },
+    {
+      "title": "Check-up",
+      "icon": IconSet.create.checkUp,
+    },
+  ],
   {
     "title": "articles".tr(),
     "icon": IconSet.create.article,
@@ -35,10 +46,6 @@ List<Map<String, dynamic>> othersData = [
     "icon": IconSet.create.heartBeat,
   },
   {
-    "title": "Check-up",
-    "icon": IconSet.create.checkUp,
-  },
-  {
     "title": "partners".tr(),
     "icon": IconSet.create.handshake,
   },
@@ -50,48 +57,46 @@ List<Map<String, dynamic>> othersData = [
     "title": "career".tr(),
     "icon": IconSet.create.briefcase,
   },
-  {
-    "title": "documents".tr(),
-    "icon": IconSet.create.document,
-  },
 ];
 
 List<Map<String, dynamic>> othersDataSecond = [
+  if (AppConfig.shared.flavor == Flavor.dev) ...[
+    {
+      "title": "documents".tr(),
+      "icon": IconSet.create.document,
+    },
+    {
+      "title": "loyalty_program".tr(),
+      "icon": IconSet.create.stethoscope,
+    },
+    {
+      "title": "treatments_for_installments".tr(),
+      "icon": IconSet.create.monets,
+    },
+    {
+      "title": "for_corporate_clients".tr(),
+      "icon": IconSet.create.group,
+    },
+    {
+      "title": "treatment_according_to_fms".tr(),
+      "icon": IconSet.create.briefcase,
+    },
+    {
+      "title": "treatment_accortinf_to_dms".tr(),
+      "icon": IconSet.create.polis,
+    },
+    {
+      "title": "med_tourism".tr(),
+      "icon": IconSet.create.medTourism,
+    },
+  ],
   {
-    "title": "loyalty_program".tr(),
-    "icon": IconSet.create.stethoscope,
-  },
-  {
-    "title": "dicsounts".tr(),
+    "title": "discounts".tr(),
     "icon": IconSet.create.discounts,
-  },
-  {
-    "title": "treatments_for_installments".tr(),
-    "icon": IconSet.create.monets,
-  },
-  {
-    "title": "for_corporate_clients".tr(),
-    "icon": IconSet.create.group,
-  },
-  {
-    "title": "treatment_according_to_fms".tr(),
-    "icon": IconSet.create.briefcase,
-  },
-  {
-    "title": "treatment_accortinf_to_dms".tr(),
-    "icon": IconSet.create.polis,
-  },
-  {
-    "title": "med_tourism".tr(),
-    "icon": IconSet.create.medTourism,
   },
   {
     "title": "customers_reviews".tr(),
     "icon": IconSet.create.readFeedbacks,
-  },
-  {
-    "title": "documents".tr(),
-    "icon": IconSet.create.document,
   },
   {
     "title": "leave_feedback".tr(),

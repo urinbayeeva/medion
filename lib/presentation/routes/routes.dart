@@ -40,6 +40,7 @@ import 'package:medion/presentation/pages/others/awards/awards_page.dart';
 import 'package:medion/presentation/pages/others/branches/branches_page.dart';
 import 'package:medion/presentation/pages/others/branches/component/single_branch_info.dart';
 import 'package:medion/presentation/pages/others/branches/single_branch_page.dart';
+import 'package:medion/presentation/pages/others/career/career_page.dart';
 import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
 import 'package:medion/presentation/pages/others/dicsount/widgets/discount_page_view.dart';
 import 'package:medion/presentation/pages/others/education/education_page.dart';
@@ -320,6 +321,10 @@ class AppRoutes {
 
   static MaterialPageRoute getAppointmentPage() {
     return MaterialPageRoute(builder: (_) => const AppointmentPage());
+  }
+
+    static MaterialPageRoute getCareerPage() {
+    return MaterialPageRoute(builder: (_) => const CareerPage());
   }
 
   // static MaterialPageRoute getSecondServicePage(onTap, id) {
