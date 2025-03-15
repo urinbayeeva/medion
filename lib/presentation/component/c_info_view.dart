@@ -5,6 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
+import 'package:medion/presentation/pages/others/dicsount/widgets/condition_of_discount_widget.dart';
+import 'package:medion/presentation/pages/others/dicsount/widgets/discount_duration_widget.dart';
 import 'package:medion/presentation/pages/visits/widgets/visit_info_detail_card.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -17,9 +19,19 @@ class CInfoView extends StatelessWidget {
   final String? title;
   final String? desc;
   final String? date;
+  final bool? isDiscount;
+  final String? discountAddress;
+  final String? discountDuration;
+  final String? phoneNumber;
+  final String? phoneShortNumber;
 
   const CInfoView(
-      {super.key, this.imagePath, this.title, this.desc, this.date});
+      {super.key,
+      this.imagePath,
+      this.title,
+      this.desc,
+      this.date,
+      this.isDiscount, this.discountAddress, this.discountDuration, this.phoneNumber, this.phoneShortNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +111,24 @@ class CInfoView extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Text(desc ?? '', style: fonts.smallLink),
                 ),
+                if (isDiscount!) ...[
+                  24.h.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: const ConditionOfDiscountWidget(),
+                  ),
+                  24.h.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: DiscountDurationWidget(
+                      discountAddress: discountAddress ?? "",
+                      discountDuration: discountDuration ?? "",
+                      phoneNumber: phoneNumber ?? "",
+                      phoneShortNumber: phoneShortNumber ?? "",
+                    ),
+                  ),
+                  24.h.verticalSpace,
+                ]
               ],
             ))
           ],

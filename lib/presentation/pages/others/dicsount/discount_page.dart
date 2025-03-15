@@ -69,10 +69,12 @@ class _DiscountPageState extends State<DiscountPage> {
                             onTap: () {
                               Navigator.push(
                                   context,
-                                  AppRoutes.getDiscountPageView(
+                                  AppRoutes.getInfoViewAboutHealth(
                                     imagePath: discount.primaryImage,
-                                    title: discount.title,
-                                    desc: discount.description,
+                                    title: discount.decodedTitle,
+                                    desc: discount.decodedDescription,
+                                    date: discount.createDate,
+                                    isDiscount: true,
                                     discountAddress:
                                         discount.discountLocation.toString(),
                                     discountDuration:
