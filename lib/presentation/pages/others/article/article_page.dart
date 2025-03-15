@@ -8,6 +8,7 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
 import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class ArticlePage extends StatefulWidget {
@@ -48,6 +49,18 @@ class _ArticlePageState extends State<ArticlePage> {
                           style: fonts.regularSemLink));
                 }
 
+                if (state.content.isEmpty) {
+                  return Center(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      icons.emojiSad.svg(width: 80.w, height: 80.h),
+                      4.h.verticalSpace,
+                      Text('no_result_found'.tr(), style: fonts.regularSemLink),
+                    ],
+                  ));
+                }
+
                 return Column(
                   children: [
                     12.h.verticalSpace,
@@ -72,7 +85,7 @@ class _ArticlePageState extends State<ArticlePage> {
                               Navigator.push(
                                   context,
                                   AppRoutes.getInfoViewAboutHealth(
-                                    date: article.createDate,
+                                      date: article.createDate,
                                       imagePath: article.primaryImage,
                                       title: article.title,
                                       desc: article.description));

@@ -31,7 +31,11 @@ class CInfoView extends StatelessWidget {
       this.title,
       this.desc,
       this.date,
-      this.isDiscount, this.discountAddress, this.discountDuration, this.phoneNumber, this.phoneShortNumber});
+      this.isDiscount,
+      this.discountAddress,
+      this.discountDuration,
+      this.phoneNumber,
+      this.phoneShortNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +115,7 @@ class CInfoView extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Text(desc ?? '', style: fonts.smallLink),
                 ),
-                if (isDiscount!) ...[
+                if (isDiscount != null) ...[
                   24.h.verticalSpace,
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
