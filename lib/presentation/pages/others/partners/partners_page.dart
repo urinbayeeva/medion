@@ -67,14 +67,15 @@ class _PartnersPageState extends State<PartnersPage> {
                               AppRoutes.getPartnersInnerPage(
                                 partnerName: state.content[index].title,
                                 partnerImage: state.content[index].primaryImage,
-                                partnerUrl: state.content[index].link as String,
+                                partnerUrl: "" ,
                                 partnerPhoneNumber:
-                                    state.content[index].phoneNumber as String,
+                                    
+                                  "",
                               ));
                         },
                         partnerImage: state.content[index].primaryImage,
                         parnterName: state.content[index].title,
-                        partnerSubtitle: state.content[index].description,
+                        partnerSubtitle: "",
                       ),
                     );
                   },

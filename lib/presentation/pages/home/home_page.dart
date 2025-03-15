@@ -47,7 +47,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeBloc>().add(const HomeEvent.fetchNews());
     context.read<DoctorBloc>().add(const DoctorEvent.fetchDoctors());
     context
         .read<BookingBloc>()
