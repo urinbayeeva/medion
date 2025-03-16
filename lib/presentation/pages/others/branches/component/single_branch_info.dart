@@ -13,7 +13,7 @@ import 'package:medion/presentation/pages/others/branches/widget/what_we_offer_c
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class SingleBranchInfo extends StatefulWidget {
-  final List<String> branchPhotos;
+  final String branchPhotos;
   final String branchName;
   final String branchAdress;
   final String branchWorkingHours;

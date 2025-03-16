@@ -368,7 +368,7 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getSingleBranchPage({
-    required List<String> branchPhotos,
+    required String branchPhotos,
     required String branchName,
     required String branchAdress,
     required String branchWorkingHours,
@@ -391,7 +391,7 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getSingleBranchInfoPage({
-    required List<String> branchPhotos,
+    required String branchPhotos,
     required String branchName,
     required String branchAdress,
     required String branchWorkingHours,

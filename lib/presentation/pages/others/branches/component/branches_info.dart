@@ -9,7 +9,7 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class BranchesInfoCard extends StatelessWidget {
-  final List<String> branchPhotos;
+  final String branchPhotos;
   final String branchName;
   final String branchAdress;
   final String branchPhoneNumber;
@@ -133,14 +133,8 @@ class BranchesInfoCard extends StatelessWidget {
   }
 
   Widget _buildImageSection(colors, fonts) {
-    return branchPhotos.isEmpty
-        ? SvgPicture.asset(
-            "assets/icons/picture.svg",
-            color: colors.neutral400,
-            width: double.infinity,
-            height: 250,
-          )
-        : CachedImageComponent(
-            height: 250, width: double.infinity, imageUrl: branchPhotos.first);
+    return 
+        CachedImageComponent(
+            height: 250, width: double.infinity, imageUrl: branchPhotos);
   }
 }
