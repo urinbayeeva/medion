@@ -75,8 +75,7 @@ class _DiscountPageState extends State<DiscountPage> {
                                     desc: discount.decodedDescription,
                                     date: discount.createDate,
                                     isDiscount: true,
-                                    discountAddress:
-                                        discount.discountLocation.toString(),
+                                    discountAddress: "",
                                     discountDuration:
                                         "${discount.discountStartDate.toString()} - ${discount.discountEndDate.toString()}",
                                     phoneShortNumber:

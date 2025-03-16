@@ -32,8 +32,6 @@ class OthersPage extends StatelessWidget {
                     children: [
                       _sectionHeader("about_the_company".tr(), fonts),
                       _sectionContent(othersData),
-                      _sectionHeader("others".tr(), fonts),
-                      _sectionContentSecond(othersDataSecond),
                       60.h.verticalSpace,
                     ],
                   ),
@@ -61,11 +59,9 @@ class OthersPage extends StatelessWidget {
   }
 }
 
-
-  Widget _sectionContentSecond(List<dynamic> data) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 24.h),
-      child: SecondOthersPage(data: data),
-    );
-  }
-
+Widget _sectionContentSecond(List<dynamic> data) {
+  return Padding(
+    padding: EdgeInsets.only(bottom: 24.h),
+    child: SecondOthersPage(data: data),
+  );
+}
