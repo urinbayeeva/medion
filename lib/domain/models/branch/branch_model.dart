@@ -46,7 +46,6 @@ abstract class BranchModel implements Built<BranchModel, BranchModelBuilder> {
 }
 
 abstract class AwardsModel implements Built<AwardsModel, AwardsModelBuilder> {
-  // Serializers for JSON serialization/deserialization
   static Serializer<AwardsModel> get serializer => _$awardsModelSerializer;
 
   @BuiltValueField(wireName: 'branch_id')
@@ -63,6 +62,9 @@ abstract class AwardsModel implements Built<AwardsModel, AwardsModelBuilder> {
 
   @BuiltValueField(wireName: 'image')
   String? get image;
+
+  String get decodedTitle => decodeHtml(title);
+  String get decodedDescription => decodeHtml(description);
 
   AwardsModel._();
 
@@ -135,7 +137,6 @@ abstract class ContentModel
   factory ContentModel([void Function(ContentModelBuilder) updates]) =
       _$ContentModel;
 
-  // Fields with explicit wireName mappings
   @BuiltValueField(wireName: 'type')
   String get type;
 
@@ -181,11 +182,9 @@ abstract class ContentModel
   @BuiltValueField(wireName: 'phone_number_short')
   JsonObject? get phoneNumberShort;
 
-  // Add decoded getters
   String get decodedTitle => decodeHtml(title);
   String get decodedDescription => decodeHtml(description);
 
-  // Serialization
   static Serializer<ContentModel> get serializer => _$contentModelSerializer;
 }
 
