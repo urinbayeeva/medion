@@ -16,10 +16,14 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
+// [Imports remain the same]
+
 class VerifyCodePage extends StatefulWidget {
   final Function(dynamic)? onClose;
   final String? password;
   final bool additionalPhone;
+  final String phoneNumber;
+  final String autofill;
 
   const VerifyCodePage({
     super.key,
@@ -29,8 +33,6 @@ class VerifyCodePage extends StatefulWidget {
     required this.phoneNumber,
     required this.autofill,
   });
-  final String phoneNumber;
-  final String autofill;
 
   @override
   State<VerifyCodePage> createState() => _VerifyCodePageState();
@@ -71,10 +73,10 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
     return Unfocuser(
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state.proceedToHome) {
+          if (state.isNewPatient == false) {
             Navigator.pushReplacement(
               context,
-              AppRoutes.getDataEntryPage(widget.phoneNumber),
+              AppRoutes.getMainPage(0),
             );
           } else {
             Navigator.pushReplacement(
@@ -138,7 +140,9 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                         colors.primary900,
                                       ),
                                     ),
-                                    onCodeChanged: (code) {},
+                                    onCodeChanged: (code) {
+                                      codeValue = code!;
+                                    },
                                   ),
                                 ),
                               ),
@@ -167,12 +171,16 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                             CButton(
                               title: "verify".tr(),
                               onTap: () {
-                                context
-                                    .read<AuthBloc>()
-                                    .add(AuthEvent.verificationSend(
+                                context.read<AuthBloc>().add(
+                                      AuthEvent.verificationSend(
                                         request: RegisterReq((p0) => p0
                                           ..phoneNumber = widget.phoneNumber
-                                          ..code = "1111")));
+                                          ..code = _smsController.text),
+                                      ),
+                                    );
+                                context.read<AuthBloc>().add(
+                                      AuthEvent.checkAuth(),
+                                    );
                               },
                             ),
                             27.h.verticalSpace,

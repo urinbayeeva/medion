@@ -1405,6 +1405,7 @@ mixin _$AuthState {
   List<VisitModel?> get patientVisits => throw _privateConstructorUsedError;
   List<PatientAnalysis?> get patientAnalyze =>
       throw _privateConstructorUsedError;
+  bool? get isNewPatient => throw _privateConstructorUsedError;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -1434,7 +1435,8 @@ abstract class $AuthStateCopyWith<$Res> {
       bool isLoadingVisits,
       bool errorFetchingVisits,
       List<VisitModel?> patientVisits,
-      List<PatientAnalysis?> patientAnalyze});
+      List<PatientAnalysis?> patientAnalyze,
+      bool? isNewPatient});
 }
 
 /// @nodoc
@@ -1468,6 +1470,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? errorFetchingVisits = null,
     Object? patientVisits = null,
     Object? patientAnalyze = null,
+    Object? isNewPatient = freezed,
   }) {
     return _then(_value.copyWith(
       proceedToHome: null == proceedToHome
@@ -1534,6 +1537,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.patientAnalyze
           : patientAnalyze // ignore: cast_nullable_to_non_nullable
               as List<PatientAnalysis?>,
+      isNewPatient: freezed == isNewPatient
+          ? _value.isNewPatient
+          : isNewPatient // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -1562,7 +1569,8 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       bool isLoadingVisits,
       bool errorFetchingVisits,
       List<VisitModel?> patientVisits,
-      List<PatientAnalysis?> patientAnalyze});
+      List<PatientAnalysis?> patientAnalyze,
+      bool? isNewPatient});
 }
 
 /// @nodoc
@@ -1594,6 +1602,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? errorFetchingVisits = null,
     Object? patientVisits = null,
     Object? patientAnalyze = null,
+    Object? isNewPatient = freezed,
   }) {
     return _then(_$AuthStateImpl(
       proceedToHome: null == proceedToHome
@@ -1660,6 +1669,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value._patientAnalyze
           : patientAnalyze // ignore: cast_nullable_to_non_nullable
               as List<PatientAnalysis?>,
+      isNewPatient: freezed == isNewPatient
+          ? _value.isNewPatient
+          : isNewPatient // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -1683,7 +1696,8 @@ class _$AuthStateImpl extends _AuthState {
       this.isLoadingVisits = false,
       this.errorFetchingVisits = false,
       final List<VisitModel?> patientVisits = const [],
-      final List<PatientAnalysis?> patientAnalyze = const []})
+      final List<PatientAnalysis?> patientAnalyze = const [],
+      this.isNewPatient = null})
       : _patientVisits = patientVisits,
         _patientAnalyze = patientAnalyze,
         super._();
@@ -1750,8 +1764,12 @@ class _$AuthStateImpl extends _AuthState {
   }
 
   @override
+  @JsonKey()
+  final bool? isNewPatient;
+
+  @override
   String toString() {
-    return 'AuthState(proceedToHome: $proceedToHome, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze)';
+    return 'AuthState(proceedToHome: $proceedToHome, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient)';
   }
 
   @override
@@ -1791,7 +1809,9 @@ class _$AuthStateImpl extends _AuthState {
             const DeepCollectionEquality()
                 .equals(other._patientVisits, _patientVisits) &&
             const DeepCollectionEquality()
-                .equals(other._patientAnalyze, _patientAnalyze));
+                .equals(other._patientAnalyze, _patientAnalyze) &&
+            (identical(other.isNewPatient, isNewPatient) ||
+                other.isNewPatient == isNewPatient));
   }
 
   @override
@@ -1812,7 +1832,8 @@ class _$AuthStateImpl extends _AuthState {
       isLoadingVisits,
       errorFetchingVisits,
       const DeepCollectionEquality().hash(_patientVisits),
-      const DeepCollectionEquality().hash(_patientAnalyze));
+      const DeepCollectionEquality().hash(_patientAnalyze),
+      isNewPatient);
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -1840,7 +1861,8 @@ abstract class _AuthState extends AuthState {
       final bool isLoadingVisits,
       final bool errorFetchingVisits,
       final List<VisitModel?> patientVisits,
-      final List<PatientAnalysis?> patientAnalyze}) = _$AuthStateImpl;
+      final List<PatientAnalysis?> patientAnalyze,
+      final bool? isNewPatient}) = _$AuthStateImpl;
   const _AuthState._() : super._();
 
   @override
@@ -1875,6 +1897,8 @@ abstract class _AuthState extends AuthState {
   List<VisitModel?> get patientVisits;
   @override
   List<PatientAnalysis?> get patientAnalyze;
+  @override
+  bool? get isNewPatient;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.

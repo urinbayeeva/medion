@@ -79,8 +79,8 @@ class AuthRepository implements IAuthFacade {
             res.body!.accessToken!.isNotEmpty &&
             res.body!.refreshToken!.isNotEmpty) {
           _dbService.setToken(Token(
-            accessToken: res.body!.accessToken!.first, // Extract from array
-            refreshToken: res.body!.refreshToken!.first, // Extract from array
+            accessToken: res.body!.accessToken!.first, 
+            refreshToken: res.body!.refreshToken!.first, 
             tokenType: 'Bearer',
           ));
           // print("TOKEN: ${res.body}")

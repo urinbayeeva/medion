@@ -23,5 +23,6 @@ class AuthState with _$AuthState {
     @Default(false) bool errorFetchingVisits, 
     @Default([]) List<VisitModel?> patientVisits, 
     @Default([]) List<PatientAnalysis?> patientAnalyze, 
+    @Default(null) bool? isNewPatient,  
   }) = _AuthState;
 }
