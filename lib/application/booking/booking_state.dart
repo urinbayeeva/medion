@@ -10,14 +10,13 @@ class BookingState with _$BookingState {
     @Default(false) bool success,
     @Default([]) List<BookingTypeModel> bookingTypes,
     @Default([]) List<Category> categoryServices,
-    @Default(null) int? selectedServiceId,
+    int? selectedServiceId,
     @Default([]) List<int> selectedInnerServiceIds,
     @Default('') String selectedSpecialty,
     @Default('') String errorMessage,
     @Default([]) List<ThirdBookingService> thirdBookingServices,
-    @Default(false) bool hasFetchedThirdServices, // Add this flag
-
-    //Home Page
+    @Default(false) bool hasFetchedThirdServices,
+    @Default([]) BuiltList<CreatePatientResponse>? createPatientVisits,
     @Default([]) List<HomepageBookingCategory> homePageBookingCategory,
     MedicalModel? medicalModel, 
   }) = _BookingState;

@@ -57,6 +57,14 @@ part 'serializer.g.dart';
   CreatePatientBookingReq,
   PatientInfo,
 
+  //Payment Booking
+
+  CreatePatientRequest,
+  CreatePatientResponse,
+  CreatePatientBookingReq,
+
+
+
   //Branches
 
   BranchModel,
@@ -75,7 +83,8 @@ part 'serializer.g.dart';
   VisitModel,
 
   //Analyse
-  PatientAnalysis
+  PatientAnalysis,
+
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

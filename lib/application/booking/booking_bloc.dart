@@ -16,7 +16,7 @@ part 'booking_state.dart';
 
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
   final BookingRepository _repository;
-  final CancelToken _cancelToken = CancelToken(); // For cancelling requests
+  final CancelToken _cancelToken = CancelToken(); 
 
   BookingBloc(this._repository) : super(const BookingState()) {
     on<_FetchBookingTypes>(_fetchBookingTypesHandler);
@@ -27,11 +27,52 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<_FetchHomePageServicesBooking>(_onFetchHomePageServicesBooking);
     on<_FetchHomePageServiceDoctors>(_onFetchHomePageServiceDoctors);
     on<_FetchThirdBookingServices>(_onFetchThirdBookingServices);
+    on<_GetCreatePatientVisit>(_onGetCreatePatientVisit);
+
+  }
+
+
+  FutureOr<void> _onGetCreatePatientVisit(
+    _GetCreatePatientVisit event,
+    Emitter<BookingState> emit,
+  ) async {
+    emit(state.copyWith(loading: true, error: false, success: false));
+
+    try {
+      EasyLoading.show();
+
+      final res = await _repository.getCreatePatientVisit(request: event.request);
+
+      if (isClosed) return; 
+
+      res.fold(
+        (error) {
+          LogService.e("Error fetching home page services: ${error.message}");
+          emit(state.copyWith(loading: false, error: true));
+          EasyLoading.showError(error.message);
+        },
+        (data) {
+          emit(state.copyWith(
+            loading: false,
+            success: true,
+            createPatientVisits: data,
+          ));
+        },
+      );
+    } catch (e) {
+      LogService.e("Unexpected error in _onFetchHomePageServicesBooking: $e");
+      if (!isClosed) {
+        emit(state.copyWith(loading: false, error: true));
+        EasyLoading.showError('Unexpected error occurred');
+      }
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 
   @override
   Future<void> close() {
-    _cancelToken.cancel(); // Cancel all pending requests
+    _cancelToken.cancel();
     return super.close();
   }
 
@@ -140,7 +181,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
 
       final res = await _repository.fetchHomePageBookingCategories();
 
-      if (isClosed) return; // Early exit if bloc is closed
+      if (isClosed) return; 
 
       res.fold(
         (error) {
@@ -220,7 +261,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         event.id,
       );
 
-      if (isClosed) return; // Early exit if bloc is closed
+      if (isClosed) return; 
 
       res.fold(
         (error) {
@@ -291,4 +332,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       }
     }
   }
+
+
 }

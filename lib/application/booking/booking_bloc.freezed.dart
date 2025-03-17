@@ -29,6 +29,8 @@ mixin _$BookingEvent {
     required TResult Function(List<int> request) fetchThirdBookingServices,
     required TResult Function() fetchHomePageServicesBooking,
     required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(CreatePatientRequest request)
+        getCreatePatientVisit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -44,6 +46,7 @@ mixin _$BookingEvent {
     TResult? Function(List<int> request)? fetchThirdBookingServices,
     TResult? Function()? fetchHomePageServicesBooking,
     TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(CreatePatientRequest request)? getCreatePatientVisit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -59,6 +62,7 @@ mixin _$BookingEvent {
     TResult Function(List<int> request)? fetchThirdBookingServices,
     TResult Function()? fetchHomePageServicesBooking,
     TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(CreatePatientRequest request)? getCreatePatientVisit,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -80,6 +84,8 @@ mixin _$BookingEvent {
         fetchHomePageServicesBooking,
     required TResult Function(_FetchHomePageServiceDoctors value)
         fetchHomePageServiceDoctors,
+    required TResult Function(_GetCreatePatientVisit value)
+        getCreatePatientVisit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -99,6 +105,7 @@ mixin _$BookingEvent {
         fetchHomePageServicesBooking,
     TResult? Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult? Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -117,6 +124,7 @@ mixin _$BookingEvent {
         fetchHomePageServicesBooking,
     TResult Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -195,6 +203,8 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
     required TResult Function(List<int> request) fetchThirdBookingServices,
     required TResult Function() fetchHomePageServicesBooking,
     required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(CreatePatientRequest request)
+        getCreatePatientVisit,
   }) {
     return fetchBookingTypes();
   }
@@ -213,6 +223,7 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
     TResult? Function(List<int> request)? fetchThirdBookingServices,
     TResult? Function()? fetchHomePageServicesBooking,
     TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(CreatePatientRequest request)? getCreatePatientVisit,
   }) {
     return fetchBookingTypes?.call();
   }
@@ -231,6 +242,7 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
     TResult Function(List<int> request)? fetchThirdBookingServices,
     TResult Function()? fetchHomePageServicesBooking,
     TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(CreatePatientRequest request)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (fetchBookingTypes != null) {
@@ -258,6 +270,8 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
         fetchHomePageServicesBooking,
     required TResult Function(_FetchHomePageServiceDoctors value)
         fetchHomePageServiceDoctors,
+    required TResult Function(_GetCreatePatientVisit value)
+        getCreatePatientVisit,
   }) {
     return fetchBookingTypes(this);
   }
@@ -280,6 +294,7 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
         fetchHomePageServicesBooking,
     TResult? Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult? Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
   }) {
     return fetchBookingTypes?.call(this);
   }
@@ -301,6 +316,7 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
         fetchHomePageServicesBooking,
     TResult Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (fetchBookingTypes != null) {
@@ -393,6 +409,8 @@ class _$SelectServiceImpl implements _SelectService {
     required TResult Function(List<int> request) fetchThirdBookingServices,
     required TResult Function() fetchHomePageServicesBooking,
     required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(CreatePatientRequest request)
+        getCreatePatientVisit,
   }) {
     return selectService(id);
   }
@@ -411,6 +429,7 @@ class _$SelectServiceImpl implements _SelectService {
     TResult? Function(List<int> request)? fetchThirdBookingServices,
     TResult? Function()? fetchHomePageServicesBooking,
     TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(CreatePatientRequest request)? getCreatePatientVisit,
   }) {
     return selectService?.call(id);
   }
@@ -429,6 +448,7 @@ class _$SelectServiceImpl implements _SelectService {
     TResult Function(List<int> request)? fetchThirdBookingServices,
     TResult Function()? fetchHomePageServicesBooking,
     TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(CreatePatientRequest request)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (selectService != null) {
@@ -456,6 +476,8 @@ class _$SelectServiceImpl implements _SelectService {
         fetchHomePageServicesBooking,
     required TResult Function(_FetchHomePageServiceDoctors value)
         fetchHomePageServiceDoctors,
+    required TResult Function(_GetCreatePatientVisit value)
+        getCreatePatientVisit,
   }) {
     return selectService(this);
   }
@@ -478,6 +500,7 @@ class _$SelectServiceImpl implements _SelectService {
         fetchHomePageServicesBooking,
     TResult? Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult? Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
   }) {
     return selectService?.call(this);
   }
@@ -499,6 +522,7 @@ class _$SelectServiceImpl implements _SelectService {
         fetchHomePageServicesBooking,
     TResult Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (selectService != null) {
@@ -572,6 +596,8 @@ class _$RefreshServicesImpl implements _RefreshServices {
     required TResult Function(List<int> request) fetchThirdBookingServices,
     required TResult Function() fetchHomePageServicesBooking,
     required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(CreatePatientRequest request)
+        getCreatePatientVisit,
   }) {
     return refreshServices();
   }
@@ -590,6 +616,7 @@ class _$RefreshServicesImpl implements _RefreshServices {
     TResult? Function(List<int> request)? fetchThirdBookingServices,
     TResult? Function()? fetchHomePageServicesBooking,
     TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(CreatePatientRequest request)? getCreatePatientVisit,
   }) {
     return refreshServices?.call();
   }
@@ -608,6 +635,7 @@ class _$RefreshServicesImpl implements _RefreshServices {
     TResult Function(List<int> request)? fetchThirdBookingServices,
     TResult Function()? fetchHomePageServicesBooking,
     TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(CreatePatientRequest request)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (refreshServices != null) {
@@ -635,6 +663,8 @@ class _$RefreshServicesImpl implements _RefreshServices {
         fetchHomePageServicesBooking,
     required TResult Function(_FetchHomePageServiceDoctors value)
         fetchHomePageServiceDoctors,
+    required TResult Function(_GetCreatePatientVisit value)
+        getCreatePatientVisit,
   }) {
     return refreshServices(this);
   }
@@ -657,6 +687,7 @@ class _$RefreshServicesImpl implements _RefreshServices {
         fetchHomePageServicesBooking,
     TResult? Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult? Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
   }) {
     return refreshServices?.call(this);
   }
@@ -678,6 +709,7 @@ class _$RefreshServicesImpl implements _RefreshServices {
         fetchHomePageServicesBooking,
     TResult Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (refreshServices != null) {
@@ -778,6 +810,8 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
     required TResult Function(List<int> request) fetchThirdBookingServices,
     required TResult Function() fetchHomePageServicesBooking,
     required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(CreatePatientRequest request)
+        getCreatePatientVisit,
   }) {
     return selectInnerServiceID(ids);
   }
@@ -796,6 +830,7 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
     TResult? Function(List<int> request)? fetchThirdBookingServices,
     TResult? Function()? fetchHomePageServicesBooking,
     TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(CreatePatientRequest request)? getCreatePatientVisit,
   }) {
     return selectInnerServiceID?.call(ids);
   }
@@ -814,6 +849,7 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
     TResult Function(List<int> request)? fetchThirdBookingServices,
     TResult Function()? fetchHomePageServicesBooking,
     TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(CreatePatientRequest request)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (selectInnerServiceID != null) {
@@ -841,6 +877,8 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
         fetchHomePageServicesBooking,
     required TResult Function(_FetchHomePageServiceDoctors value)
         fetchHomePageServiceDoctors,
+    required TResult Function(_GetCreatePatientVisit value)
+        getCreatePatientVisit,
   }) {
     return selectInnerServiceID(this);
   }
@@ -863,6 +901,7 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
         fetchHomePageServicesBooking,
     TResult? Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult? Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
   }) {
     return selectInnerServiceID?.call(this);
   }
@@ -884,6 +923,7 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
         fetchHomePageServicesBooking,
     TResult Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (selectInnerServiceID != null) {
@@ -987,6 +1027,8 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
     required TResult Function(List<int> request) fetchThirdBookingServices,
     required TResult Function() fetchHomePageServicesBooking,
     required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(CreatePatientRequest request)
+        getCreatePatientVisit,
   }) {
     return fetchCategoryServices(id);
   }
@@ -1005,6 +1047,7 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
     TResult? Function(List<int> request)? fetchThirdBookingServices,
     TResult? Function()? fetchHomePageServicesBooking,
     TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(CreatePatientRequest request)? getCreatePatientVisit,
   }) {
     return fetchCategoryServices?.call(id);
   }
@@ -1023,6 +1066,7 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
     TResult Function(List<int> request)? fetchThirdBookingServices,
     TResult Function()? fetchHomePageServicesBooking,
     TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(CreatePatientRequest request)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (fetchCategoryServices != null) {
@@ -1050,6 +1094,8 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
         fetchHomePageServicesBooking,
     required TResult Function(_FetchHomePageServiceDoctors value)
         fetchHomePageServiceDoctors,
+    required TResult Function(_GetCreatePatientVisit value)
+        getCreatePatientVisit,
   }) {
     return fetchCategoryServices(this);
   }
@@ -1072,6 +1118,7 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
         fetchHomePageServicesBooking,
     TResult? Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult? Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
   }) {
     return fetchCategoryServices?.call(this);
   }
@@ -1093,6 +1140,7 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
         fetchHomePageServicesBooking,
     TResult Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (fetchCategoryServices != null) {
@@ -1201,6 +1249,8 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
     required TResult Function(List<int> request) fetchThirdBookingServices,
     required TResult Function() fetchHomePageServicesBooking,
     required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(CreatePatientRequest request)
+        getCreatePatientVisit,
   }) {
     return getDoctorsTime(id);
   }
@@ -1219,6 +1269,7 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
     TResult? Function(List<int> request)? fetchThirdBookingServices,
     TResult? Function()? fetchHomePageServicesBooking,
     TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(CreatePatientRequest request)? getCreatePatientVisit,
   }) {
     return getDoctorsTime?.call(id);
   }
@@ -1237,6 +1288,7 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
     TResult Function(List<int> request)? fetchThirdBookingServices,
     TResult Function()? fetchHomePageServicesBooking,
     TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(CreatePatientRequest request)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (getDoctorsTime != null) {
@@ -1264,6 +1316,8 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
         fetchHomePageServicesBooking,
     required TResult Function(_FetchHomePageServiceDoctors value)
         fetchHomePageServiceDoctors,
+    required TResult Function(_GetCreatePatientVisit value)
+        getCreatePatientVisit,
   }) {
     return getDoctorsTime(this);
   }
@@ -1286,6 +1340,7 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
         fetchHomePageServicesBooking,
     TResult? Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult? Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
   }) {
     return getDoctorsTime?.call(this);
   }
@@ -1307,6 +1362,7 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
         fetchHomePageServicesBooking,
     TResult Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (getDoctorsTime != null) {
@@ -1411,6 +1467,8 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
     required TResult Function(List<int> request) fetchThirdBookingServices,
     required TResult Function() fetchHomePageServicesBooking,
     required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(CreatePatientRequest request)
+        getCreatePatientVisit,
   }) {
     return filterDoctorsBySpecialty(specialty);
   }
@@ -1429,6 +1487,7 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
     TResult? Function(List<int> request)? fetchThirdBookingServices,
     TResult? Function()? fetchHomePageServicesBooking,
     TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(CreatePatientRequest request)? getCreatePatientVisit,
   }) {
     return filterDoctorsBySpecialty?.call(specialty);
   }
@@ -1447,6 +1506,7 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
     TResult Function(List<int> request)? fetchThirdBookingServices,
     TResult Function()? fetchHomePageServicesBooking,
     TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(CreatePatientRequest request)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (filterDoctorsBySpecialty != null) {
@@ -1474,6 +1534,8 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
         fetchHomePageServicesBooking,
     required TResult Function(_FetchHomePageServiceDoctors value)
         fetchHomePageServiceDoctors,
+    required TResult Function(_GetCreatePatientVisit value)
+        getCreatePatientVisit,
   }) {
     return filterDoctorsBySpecialty(this);
   }
@@ -1496,6 +1558,7 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
         fetchHomePageServicesBooking,
     TResult? Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult? Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
   }) {
     return filterDoctorsBySpecialty?.call(this);
   }
@@ -1517,6 +1580,7 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
         fetchHomePageServicesBooking,
     TResult Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (filterDoctorsBySpecialty != null) {
@@ -1621,6 +1685,8 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
     required TResult Function(List<int> request) fetchThirdBookingServices,
     required TResult Function() fetchHomePageServicesBooking,
     required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(CreatePatientRequest request)
+        getCreatePatientVisit,
   }) {
     return filterDoctorsByPrice(maxPrice);
   }
@@ -1639,6 +1705,7 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
     TResult? Function(List<int> request)? fetchThirdBookingServices,
     TResult? Function()? fetchHomePageServicesBooking,
     TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(CreatePatientRequest request)? getCreatePatientVisit,
   }) {
     return filterDoctorsByPrice?.call(maxPrice);
   }
@@ -1657,6 +1724,7 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
     TResult Function(List<int> request)? fetchThirdBookingServices,
     TResult Function()? fetchHomePageServicesBooking,
     TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(CreatePatientRequest request)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (filterDoctorsByPrice != null) {
@@ -1684,6 +1752,8 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
         fetchHomePageServicesBooking,
     required TResult Function(_FetchHomePageServiceDoctors value)
         fetchHomePageServiceDoctors,
+    required TResult Function(_GetCreatePatientVisit value)
+        getCreatePatientVisit,
   }) {
     return filterDoctorsByPrice(this);
   }
@@ -1706,6 +1776,7 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
         fetchHomePageServicesBooking,
     TResult? Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult? Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
   }) {
     return filterDoctorsByPrice?.call(this);
   }
@@ -1727,6 +1798,7 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
         fetchHomePageServicesBooking,
     TResult Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (filterDoctorsByPrice != null) {
@@ -1838,6 +1910,8 @@ class _$FetchThirdBookingServicesImpl implements _FetchThirdBookingServices {
     required TResult Function(List<int> request) fetchThirdBookingServices,
     required TResult Function() fetchHomePageServicesBooking,
     required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(CreatePatientRequest request)
+        getCreatePatientVisit,
   }) {
     return fetchThirdBookingServices(request);
   }
@@ -1856,6 +1930,7 @@ class _$FetchThirdBookingServicesImpl implements _FetchThirdBookingServices {
     TResult? Function(List<int> request)? fetchThirdBookingServices,
     TResult? Function()? fetchHomePageServicesBooking,
     TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(CreatePatientRequest request)? getCreatePatientVisit,
   }) {
     return fetchThirdBookingServices?.call(request);
   }
@@ -1874,6 +1949,7 @@ class _$FetchThirdBookingServicesImpl implements _FetchThirdBookingServices {
     TResult Function(List<int> request)? fetchThirdBookingServices,
     TResult Function()? fetchHomePageServicesBooking,
     TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(CreatePatientRequest request)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (fetchThirdBookingServices != null) {
@@ -1901,6 +1977,8 @@ class _$FetchThirdBookingServicesImpl implements _FetchThirdBookingServices {
         fetchHomePageServicesBooking,
     required TResult Function(_FetchHomePageServiceDoctors value)
         fetchHomePageServiceDoctors,
+    required TResult Function(_GetCreatePatientVisit value)
+        getCreatePatientVisit,
   }) {
     return fetchThirdBookingServices(this);
   }
@@ -1923,6 +2001,7 @@ class _$FetchThirdBookingServicesImpl implements _FetchThirdBookingServices {
         fetchHomePageServicesBooking,
     TResult? Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult? Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
   }) {
     return fetchThirdBookingServices?.call(this);
   }
@@ -1944,6 +2023,7 @@ class _$FetchThirdBookingServicesImpl implements _FetchThirdBookingServices {
         fetchHomePageServicesBooking,
     TResult Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (fetchThirdBookingServices != null) {
@@ -2022,6 +2102,8 @@ class _$FetchHomePageServicesBookingImpl
     required TResult Function(List<int> request) fetchThirdBookingServices,
     required TResult Function() fetchHomePageServicesBooking,
     required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(CreatePatientRequest request)
+        getCreatePatientVisit,
   }) {
     return fetchHomePageServicesBooking();
   }
@@ -2040,6 +2122,7 @@ class _$FetchHomePageServicesBookingImpl
     TResult? Function(List<int> request)? fetchThirdBookingServices,
     TResult? Function()? fetchHomePageServicesBooking,
     TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(CreatePatientRequest request)? getCreatePatientVisit,
   }) {
     return fetchHomePageServicesBooking?.call();
   }
@@ -2058,6 +2141,7 @@ class _$FetchHomePageServicesBookingImpl
     TResult Function(List<int> request)? fetchThirdBookingServices,
     TResult Function()? fetchHomePageServicesBooking,
     TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(CreatePatientRequest request)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (fetchHomePageServicesBooking != null) {
@@ -2085,6 +2169,8 @@ class _$FetchHomePageServicesBookingImpl
         fetchHomePageServicesBooking,
     required TResult Function(_FetchHomePageServiceDoctors value)
         fetchHomePageServiceDoctors,
+    required TResult Function(_GetCreatePatientVisit value)
+        getCreatePatientVisit,
   }) {
     return fetchHomePageServicesBooking(this);
   }
@@ -2107,6 +2193,7 @@ class _$FetchHomePageServicesBookingImpl
         fetchHomePageServicesBooking,
     TResult? Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult? Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
   }) {
     return fetchHomePageServicesBooking?.call(this);
   }
@@ -2128,6 +2215,7 @@ class _$FetchHomePageServicesBookingImpl
         fetchHomePageServicesBooking,
     TResult Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (fetchHomePageServicesBooking != null) {
@@ -2225,6 +2313,8 @@ class _$FetchHomePageServiceDoctorsImpl
     required TResult Function(List<int> request) fetchThirdBookingServices,
     required TResult Function() fetchHomePageServicesBooking,
     required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(CreatePatientRequest request)
+        getCreatePatientVisit,
   }) {
     return fetchHomePageServiceDoctors(id);
   }
@@ -2243,6 +2333,7 @@ class _$FetchHomePageServiceDoctorsImpl
     TResult? Function(List<int> request)? fetchThirdBookingServices,
     TResult? Function()? fetchHomePageServicesBooking,
     TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(CreatePatientRequest request)? getCreatePatientVisit,
   }) {
     return fetchHomePageServiceDoctors?.call(id);
   }
@@ -2261,6 +2352,7 @@ class _$FetchHomePageServiceDoctorsImpl
     TResult Function(List<int> request)? fetchThirdBookingServices,
     TResult Function()? fetchHomePageServicesBooking,
     TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(CreatePatientRequest request)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (fetchHomePageServiceDoctors != null) {
@@ -2288,6 +2380,8 @@ class _$FetchHomePageServiceDoctorsImpl
         fetchHomePageServicesBooking,
     required TResult Function(_FetchHomePageServiceDoctors value)
         fetchHomePageServiceDoctors,
+    required TResult Function(_GetCreatePatientVisit value)
+        getCreatePatientVisit,
   }) {
     return fetchHomePageServiceDoctors(this);
   }
@@ -2310,6 +2404,7 @@ class _$FetchHomePageServiceDoctorsImpl
         fetchHomePageServicesBooking,
     TResult? Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult? Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
   }) {
     return fetchHomePageServiceDoctors?.call(this);
   }
@@ -2331,6 +2426,7 @@ class _$FetchHomePageServiceDoctorsImpl
         fetchHomePageServicesBooking,
     TResult Function(_FetchHomePageServiceDoctors value)?
         fetchHomePageServiceDoctors,
+    TResult Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
     required TResult orElse(),
   }) {
     if (fetchHomePageServiceDoctors != null) {
@@ -2354,6 +2450,224 @@ abstract class _FetchHomePageServiceDoctors implements BookingEvent {
 }
 
 /// @nodoc
+abstract class _$$GetCreatePatientVisitImplCopyWith<$Res> {
+  factory _$$GetCreatePatientVisitImplCopyWith(
+          _$GetCreatePatientVisitImpl value,
+          $Res Function(_$GetCreatePatientVisitImpl) then) =
+      __$$GetCreatePatientVisitImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({CreatePatientRequest request});
+}
+
+/// @nodoc
+class __$$GetCreatePatientVisitImplCopyWithImpl<$Res>
+    extends _$BookingEventCopyWithImpl<$Res, _$GetCreatePatientVisitImpl>
+    implements _$$GetCreatePatientVisitImplCopyWith<$Res> {
+  __$$GetCreatePatientVisitImplCopyWithImpl(_$GetCreatePatientVisitImpl _value,
+      $Res Function(_$GetCreatePatientVisitImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? request = null,
+  }) {
+    return _then(_$GetCreatePatientVisitImpl(
+      request: null == request
+          ? _value.request
+          : request // ignore: cast_nullable_to_non_nullable
+              as CreatePatientRequest,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetCreatePatientVisitImpl implements _GetCreatePatientVisit {
+  const _$GetCreatePatientVisitImpl({required this.request});
+
+  @override
+  final CreatePatientRequest request;
+
+  @override
+  String toString() {
+    return 'BookingEvent.getCreatePatientVisit(request: $request)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetCreatePatientVisitImpl &&
+            (identical(other.request, request) || other.request == request));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, request);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetCreatePatientVisitImplCopyWith<_$GetCreatePatientVisitImpl>
+      get copyWith => __$$GetCreatePatientVisitImplCopyWithImpl<
+          _$GetCreatePatientVisitImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBookingTypes,
+    required TResult Function(int id) selectService,
+    required TResult Function() refreshServices,
+    required TResult Function(List<int> ids) selectInnerServiceID,
+    required TResult Function(int id) fetchCategoryServices,
+    required TResult Function(List<int> id) getDoctorsTime,
+    required TResult Function(String specialty) filterDoctorsBySpecialty,
+    required TResult Function(int maxPrice) filterDoctorsByPrice,
+    required TResult Function(List<int> request) fetchThirdBookingServices,
+    required TResult Function() fetchHomePageServicesBooking,
+    required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(CreatePatientRequest request)
+        getCreatePatientVisit,
+  }) {
+    return getCreatePatientVisit(request);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBookingTypes,
+    TResult? Function(int id)? selectService,
+    TResult? Function()? refreshServices,
+    TResult? Function(List<int> ids)? selectInnerServiceID,
+    TResult? Function(int id)? fetchCategoryServices,
+    TResult? Function(List<int> id)? getDoctorsTime,
+    TResult? Function(String specialty)? filterDoctorsBySpecialty,
+    TResult? Function(int maxPrice)? filterDoctorsByPrice,
+    TResult? Function(List<int> request)? fetchThirdBookingServices,
+    TResult? Function()? fetchHomePageServicesBooking,
+    TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(CreatePatientRequest request)? getCreatePatientVisit,
+  }) {
+    return getCreatePatientVisit?.call(request);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBookingTypes,
+    TResult Function(int id)? selectService,
+    TResult Function()? refreshServices,
+    TResult Function(List<int> ids)? selectInnerServiceID,
+    TResult Function(int id)? fetchCategoryServices,
+    TResult Function(List<int> id)? getDoctorsTime,
+    TResult Function(String specialty)? filterDoctorsBySpecialty,
+    TResult Function(int maxPrice)? filterDoctorsByPrice,
+    TResult Function(List<int> request)? fetchThirdBookingServices,
+    TResult Function()? fetchHomePageServicesBooking,
+    TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(CreatePatientRequest request)? getCreatePatientVisit,
+    required TResult orElse(),
+  }) {
+    if (getCreatePatientVisit != null) {
+      return getCreatePatientVisit(request);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
+    required TResult Function(_SelectService value) selectService,
+    required TResult Function(_RefreshServices value) refreshServices,
+    required TResult Function(_SelectInnerServiceID value) selectInnerServiceID,
+    required TResult Function(_FetchCategoryServices value)
+        fetchCategoryServices,
+    required TResult Function(_GetDoctorsTime value) getDoctorsTime,
+    required TResult Function(_FilterDoctorsBySpecialty value)
+        filterDoctorsBySpecialty,
+    required TResult Function(_FilterDoctorsByPrice value) filterDoctorsByPrice,
+    required TResult Function(_FetchThirdBookingServices value)
+        fetchThirdBookingServices,
+    required TResult Function(_FetchHomePageServicesBooking value)
+        fetchHomePageServicesBooking,
+    required TResult Function(_FetchHomePageServiceDoctors value)
+        fetchHomePageServiceDoctors,
+    required TResult Function(_GetCreatePatientVisit value)
+        getCreatePatientVisit,
+  }) {
+    return getCreatePatientVisit(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_RefreshServices value)? refreshServices,
+    TResult? Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult? Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult? Function(_FilterDoctorsBySpecialty value)?
+        filterDoctorsBySpecialty,
+    TResult? Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+    TResult? Function(_FetchThirdBookingServices value)?
+        fetchThirdBookingServices,
+    TResult? Function(_FetchHomePageServicesBooking value)?
+        fetchHomePageServicesBooking,
+    TResult? Function(_FetchHomePageServiceDoctors value)?
+        fetchHomePageServiceDoctors,
+    TResult? Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
+  }) {
+    return getCreatePatientVisit?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult Function(_SelectService value)? selectService,
+    TResult Function(_RefreshServices value)? refreshServices,
+    TResult Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult Function(_FilterDoctorsBySpecialty value)? filterDoctorsBySpecialty,
+    TResult Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+    TResult Function(_FetchThirdBookingServices value)?
+        fetchThirdBookingServices,
+    TResult Function(_FetchHomePageServicesBooking value)?
+        fetchHomePageServicesBooking,
+    TResult Function(_FetchHomePageServiceDoctors value)?
+        fetchHomePageServiceDoctors,
+    TResult Function(_GetCreatePatientVisit value)? getCreatePatientVisit,
+    required TResult orElse(),
+  }) {
+    if (getCreatePatientVisit != null) {
+      return getCreatePatientVisit(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetCreatePatientVisit implements BookingEvent {
+  const factory _GetCreatePatientVisit(
+          {required final CreatePatientRequest request}) =
+      _$GetCreatePatientVisitImpl;
+
+  CreatePatientRequest get request;
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GetCreatePatientVisitImplCopyWith<_$GetCreatePatientVisitImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$BookingState {
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
@@ -2366,9 +2680,9 @@ mixin _$BookingState {
   String get errorMessage => throw _privateConstructorUsedError;
   List<ThirdBookingService> get thirdBookingServices =>
       throw _privateConstructorUsedError;
-  bool get hasFetchedThirdServices =>
-      throw _privateConstructorUsedError; // Add this flag
-//Home Page
+  bool get hasFetchedThirdServices => throw _privateConstructorUsedError;
+  BuiltList<CreatePatientResponse> get createPatientVisits =>
+      throw _privateConstructorUsedError;
   List<HomepageBookingCategory> get homePageBookingCategory =>
       throw _privateConstructorUsedError;
   MedicalModel? get medicalModel => throw _privateConstructorUsedError;
@@ -2398,6 +2712,7 @@ abstract class $BookingStateCopyWith<$Res> {
       String errorMessage,
       List<ThirdBookingService> thirdBookingServices,
       bool hasFetchedThirdServices,
+      BuiltList<CreatePatientResponse> createPatientVisits,
       List<HomepageBookingCategory> homePageBookingCategory,
       MedicalModel? medicalModel});
 }
@@ -2428,6 +2743,7 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
     Object? errorMessage = null,
     Object? thirdBookingServices = null,
     Object? hasFetchedThirdServices = null,
+    Object? createPatientVisits = null,
     Object? homePageBookingCategory = null,
     Object? medicalModel = freezed,
   }) {
@@ -2476,6 +2792,10 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
           ? _value.hasFetchedThirdServices
           : hasFetchedThirdServices // ignore: cast_nullable_to_non_nullable
               as bool,
+      createPatientVisits: null == createPatientVisits
+          ? _value.createPatientVisits
+          : createPatientVisits // ignore: cast_nullable_to_non_nullable
+              as BuiltList<CreatePatientResponse>,
       homePageBookingCategory: null == homePageBookingCategory
           ? _value.homePageBookingCategory
           : homePageBookingCategory // ignore: cast_nullable_to_non_nullable
@@ -2508,6 +2828,7 @@ abstract class _$$BookingStateImplCopyWith<$Res>
       String errorMessage,
       List<ThirdBookingService> thirdBookingServices,
       bool hasFetchedThirdServices,
+      BuiltList<CreatePatientResponse> createPatientVisits,
       List<HomepageBookingCategory> homePageBookingCategory,
       MedicalModel? medicalModel});
 }
@@ -2536,6 +2857,7 @@ class __$$BookingStateImplCopyWithImpl<$Res>
     Object? errorMessage = null,
     Object? thirdBookingServices = null,
     Object? hasFetchedThirdServices = null,
+    Object? createPatientVisits = null,
     Object? homePageBookingCategory = null,
     Object? medicalModel = freezed,
   }) {
@@ -2584,6 +2906,10 @@ class __$$BookingStateImplCopyWithImpl<$Res>
           ? _value.hasFetchedThirdServices
           : hasFetchedThirdServices // ignore: cast_nullable_to_non_nullable
               as bool,
+      createPatientVisits: null == createPatientVisits
+          ? _value.createPatientVisits
+          : createPatientVisits // ignore: cast_nullable_to_non_nullable
+              as BuiltList<CreatePatientResponse>,
       homePageBookingCategory: null == homePageBookingCategory
           ? _value._homePageBookingCategory
           : homePageBookingCategory // ignore: cast_nullable_to_non_nullable
@@ -2605,12 +2931,13 @@ class _$BookingStateImpl extends _BookingState {
       this.success = false,
       final List<BookingTypeModel> bookingTypes = const [],
       final List<Category> categoryServices = const [],
-      this.selectedServiceId = null,
+      this.selectedServiceId,
       final List<int> selectedInnerServiceIds = const [],
       this.selectedSpecialty = '',
       this.errorMessage = '',
       final List<ThirdBookingService> thirdBookingServices = const [],
       this.hasFetchedThirdServices = false,
+      this.createPatientVisits = const [],
       final List<HomepageBookingCategory> homePageBookingCategory = const [],
       this.medicalModel})
       : _bookingTypes = bookingTypes,
@@ -2649,7 +2976,6 @@ class _$BookingStateImpl extends _BookingState {
   }
 
   @override
-  @JsonKey()
   final int? selectedServiceId;
   final List<int> _selectedInnerServiceIds;
   @override
@@ -2680,11 +3006,10 @@ class _$BookingStateImpl extends _BookingState {
   @override
   @JsonKey()
   final bool hasFetchedThirdServices;
-// Add this flag
-//Home Page
+  @override
+  @JsonKey()
+  final BuiltList<CreatePatientResponse> createPatientVisits;
   final List<HomepageBookingCategory> _homePageBookingCategory;
-// Add this flag
-//Home Page
   @override
   @JsonKey()
   List<HomepageBookingCategory> get homePageBookingCategory {
@@ -2699,7 +3024,7 @@ class _$BookingStateImpl extends _BookingState {
 
   @override
   String toString() {
-    return 'BookingState(loading: $loading, error: $error, success: $success, bookingTypes: $bookingTypes, categoryServices: $categoryServices, selectedServiceId: $selectedServiceId, selectedInnerServiceIds: $selectedInnerServiceIds, selectedSpecialty: $selectedSpecialty, errorMessage: $errorMessage, thirdBookingServices: $thirdBookingServices, hasFetchedThirdServices: $hasFetchedThirdServices, homePageBookingCategory: $homePageBookingCategory, medicalModel: $medicalModel)';
+    return 'BookingState(loading: $loading, error: $error, success: $success, bookingTypes: $bookingTypes, categoryServices: $categoryServices, selectedServiceId: $selectedServiceId, selectedInnerServiceIds: $selectedInnerServiceIds, selectedSpecialty: $selectedSpecialty, errorMessage: $errorMessage, thirdBookingServices: $thirdBookingServices, hasFetchedThirdServices: $hasFetchedThirdServices, createPatientVisits: $createPatientVisits, homePageBookingCategory: $homePageBookingCategory, medicalModel: $medicalModel)';
   }
 
   @override
@@ -2727,6 +3052,8 @@ class _$BookingStateImpl extends _BookingState {
             (identical(
                     other.hasFetchedThirdServices, hasFetchedThirdServices) ||
                 other.hasFetchedThirdServices == hasFetchedThirdServices) &&
+            const DeepCollectionEquality()
+                .equals(other.createPatientVisits, createPatientVisits) &&
             const DeepCollectionEquality().equals(
                 other._homePageBookingCategory, _homePageBookingCategory) &&
             (identical(other.medicalModel, medicalModel) ||
@@ -2747,6 +3074,7 @@ class _$BookingStateImpl extends _BookingState {
       errorMessage,
       const DeepCollectionEquality().hash(_thirdBookingServices),
       hasFetchedThirdServices,
+      const DeepCollectionEquality().hash(createPatientVisits),
       const DeepCollectionEquality().hash(_homePageBookingCategory),
       medicalModel);
 
@@ -2772,6 +3100,7 @@ abstract class _BookingState extends BookingState {
       final String errorMessage,
       final List<ThirdBookingService> thirdBookingServices,
       final bool hasFetchedThirdServices,
+      final BuiltList<CreatePatientResponse> createPatientVisits,
       final List<HomepageBookingCategory> homePageBookingCategory,
       final MedicalModel? medicalModel}) = _$BookingStateImpl;
   const _BookingState._() : super._();
@@ -2797,8 +3126,9 @@ abstract class _BookingState extends BookingState {
   @override
   List<ThirdBookingService> get thirdBookingServices;
   @override
-  bool get hasFetchedThirdServices; // Add this flag
-//Home Page
+  bool get hasFetchedThirdServices;
+  @override
+  BuiltList<CreatePatientResponse> get createPatientVisits;
   @override
   List<HomepageBookingCategory> get homePageBookingCategory;
   @override

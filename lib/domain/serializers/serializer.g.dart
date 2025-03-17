@@ -19,6 +19,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(CreateInfoReq.serializer)
       ..add(CreatePatientBookingReq.serializer)
       ..add(CreatePatientInfoResponse.serializer)
+      ..add(CreatePatientRequest.serializer)
+      ..add(CreatePatientResponse.serializer)
       ..add(DiseaseModle.serializer)
       ..add(Doctor.serializer)
       ..add(DoctorCategory.serializer)
@@ -72,6 +74,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ScheduleTime)]),
           () => new ListBuilder<ScheduleTime>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Service)]),
+          () => new ListBuilder<Service>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Service)]),
           () => new ListBuilder<Service>())

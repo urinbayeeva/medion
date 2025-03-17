@@ -12,7 +12,7 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 class VerifyAppointment extends StatelessWidget {
   final VoidCallback onTap;
 
-   VerifyAppointment({
+   const VerifyAppointment({
     super.key,
     required this.onTap,
   });
@@ -73,13 +73,7 @@ class VerifyAppointment extends StatelessWidget {
                   onTap: () {
                     if (selectedList.isNotEmpty) {
                       final appointment = selectedList.first;
-                      sendAppointmentData(
-                        appointment['doctorID']!,
-                        appointment['companyID']!,
-                        appointment['serviceId']!,
-                        appointment['date']!, 
-                        context, // Pass context to show error
-                      );
+                     
                       onTap();
                     }
                   },
@@ -111,35 +105,5 @@ class VerifyAppointment extends StatelessWidget {
         AppointmentState.removeAppointment(appointment['serviceId']!);
       },
     );
-  }
-
-  // Send data to the API
-  Future<void> sendAppointmentData(
-    String doctorId,
-    String companyId,
-    String serviceId,
-    String day,
-    BuildContext context, // We need the context for showing the error dialog or Snackbar
-  ) async {
-    try {
-      print("Sending appointment data:");
-      print("Doctor ID: $doctorId");
-      print("Company ID: $companyId");
-      print("Service ID: $serviceId");
-      print("Day: $day");
-
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'doctor_id': doctorId,
-          'company_id': companyId,
-          'service_id': serviceId,
-          'day': 1,
-        }),
-      );
-    } catch (e) {
-      print('Error: $e');
-    }
   }
 }

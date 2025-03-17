@@ -89,6 +89,32 @@ final class _$RefreshService extends RefreshService {
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
+final class _$CreateVisitService extends CreateVisitService {
+  _$CreateVisitService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = CreateVisitService;
+
+  @override
+  Future<Response<CreatePatientResponse>> createVisit(
+      {required CreatePatientRequest request}) {
+    final Uri $url = Uri.parse('create_visit');
+    final $body = request;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<CreatePatientResponse, CreatePatientResponse>($request);
+  }
+}
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _$BookingService extends BookingService {
   _$BookingService([ChopperClient? client]) {
     if (client == null) return;

@@ -18,4 +18,9 @@ abstract class IBookingFacade {
   Future<Either<ResponseFailure, BuiltList<ThirdBookingService>>> getDoctors({
     required List<int> serviceIds,
   });
+
+
+  Future<Either<ResponseFailure, BuiltList<CreatePatientResponse>>> getCreatePatientVisit({
+    required CreatePatientRequest request
+  });
 }

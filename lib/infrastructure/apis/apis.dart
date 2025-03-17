@@ -60,6 +60,17 @@ abstract class RefreshService extends ChopperService {
       _$RefreshService(_Client(Constants.baseUrlP, true, dbService));
 }
 
+@ChopperApi(baseUrl: "")
+abstract class CreateVisitService extends ChopperService {
+  @Post(path: "create_visit")
+  Future<Response<CreatePatientResponse>> createVisit({
+    @Body() required CreatePatientRequest request,
+  });
+
+  static CreateVisitService create(DBService dbService) =>
+      _$CreateVisitService(_Client(Constants.baseUrlP, true, dbService));
+}
+
 //Booking
 @ChopperApi(baseUrl: "/booking/")
 abstract class BookingService extends ChopperService {
