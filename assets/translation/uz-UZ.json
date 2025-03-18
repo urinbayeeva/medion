@@ -308,5 +308,15 @@
 "comments": "Izohlar: ",
 "pay_right_now" : "Hoziroq to'lash",
 "pay_not_right_now" : "Keyinchalik to'lash",
-"" : ""
+"Uploading...": "Yuklanmoqda...",
+"Upload Successful": "Yuklash muvaffaqiyatli bo'ldi",
+"Upload Failed": "Yuklash muvaffaqiyatsiz bo'ldi",
+"Select Image": "Rasmni tanlang",
+"Crop Image": "Rasmdan qirqish",
+"Save Changes": "O'zgarishlarni saqlash",
+"Try Again": "Qayta urinib ko'ring",
+"Cancel": "Bekor qilish",
+"Error": "Xato",
+"Loading...": "Yuklanmoqda...",
+"": ""
 }
