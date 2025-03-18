@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
+import 'package:medion/application/payment_provider.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
@@ -10,9 +11,11 @@ import 'package:medion/presentation/component/c_not_available.dart';
 import 'package:medion/presentation/component/c_radio_tile.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/component/c_zigzag_container.dart';
+import 'package:medion/presentation/component/nav_bar/lib/persistent_tab_view.dart';
 import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
 import 'package:medion/presentation/pages/appointment/component/user_info_widget.dart';
 import 'package:medion/presentation/pages/appointment/component/verify_appointment_item.dart';
+import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -20,8 +23,8 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -138,65 +141,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   },
                 ),
               ]),
-              12.h.verticalSpace,
-              UserInfoWidget(title: "payment_methods".tr(), children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: CustomRadioTile<String>(
-                        value: "Payme",
-                        groupValue: _selectedPayment,
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            icons.payme.asset(width: 24.w, height: 24.h),
-                            4.w.horizontalSpace,
-                            Text(
-                              "Payme",
-                              style: fonts.headlineMain.copyWith(
-                                  fontSize: 14.sp, fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                        onChanged: (value) async {
-                          setState(() {
-                            _selectedPayment = value!;
-                          });
-                        },
-                      ),
-                    ),
-                    8.w.horizontalSpace,
-                    Expanded(
-                      child: CustomRadioTile<String>(
-                        value: "Click",
-                        groupValue: _selectedPayment,
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            icons.click.svg(width: 24.w, height: 24.h),
-                            4.w.horizontalSpace,
-                            Text(
-                              "Click",
-                              style: fonts.headlineMain.copyWith(
-                                  fontSize: 14.sp, fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                        onChanged: (value) {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  backgroundColor: colors.shade0,
-                                  content: const CNotAvailable(),
-                                );
-                              });
-                        },
-                      ),
-                    ),
-                  ],
-                )
-              ]),
+
               12.h.verticalSpace,
               ValueListenableBuilder<List<Map<String, String>>>(
                   valueListenable: AppointmentState.selectedAppointments,
@@ -214,17 +159,34 @@ class _PaymentPageState extends State<PaymentPage> {
                 color: colors.shade0,
                 child: Column(
                   children: [
-                    // CButton(
-                    //     title: "Внести предоплату (15%) - 69 000 сум",
-                    //     onTap: () {},
-                    //     backgroundColor: colors.neutral200,
-                    //     textColor: colors.secondary900),
-                    // 8.h.verticalSpace,
                     CButton(
-                        title: "pay_the_full_amount".tr(),
-                        onTap: () async {
-                       
-                        }),
+                      title: "pay_not_right_now".tr(),
+                      onTap: () {
+                        final navController =
+                            context.read<BottomNavBarController>();
+                        navController.changeNavBar(false);
+                        navController.setIndex(2); 
+                      },
+                      backgroundColor: colors.neutral200,
+                      textColor: colors.secondary900,
+                    ),
+                    8.h.verticalSpace,
+                    CButton(
+                      title: "pay_right_now".tr(),
+                      onTap: () async {
+                        final paymentProvider = Provider.of<PaymentProvider>(
+                            context,
+                            listen: false);
+                        if (paymentProvider.multiUrl != null &&
+                            paymentProvider.multiUrl!.isNotEmpty) {
+                          await _launchPaymentUrl(paymentProvider.multiUrl!);
+                        } else {
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   SnackBar(content: Text("No payment URL available")),
+                          // );
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -318,6 +280,3 @@ Widget _buildPaymentInfo(Map appointment, colors, fonts, BuildContext context) {
     ),
   ));
 }
-
-
-

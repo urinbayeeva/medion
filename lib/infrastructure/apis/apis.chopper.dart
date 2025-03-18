@@ -89,18 +89,18 @@ final class _$RefreshService extends RefreshService {
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-final class _$CreateVisitService extends CreateVisitService {
-  _$CreateVisitService([ChopperClient? client]) {
+final class _$VisitCreateService extends VisitCreateService {
+  _$VisitCreateService([ChopperClient? client]) {
     if (client == null) return;
     this.client = client;
   }
 
   @override
-  final Type definitionType = CreateVisitService;
+  final Type definitionType = VisitCreateService;
 
   @override
-  Future<Response<List<CreatePatientResponse>>> createVisit({
-    required List<CreatePatientRequest> request,
+  Future<Response<BuiltList<VisitResponse>>> visitCreate({
+    required VisitRequest request,
     String requiresToken = "true",
   }) {
     final Uri $url = Uri.parse('create_visit');
@@ -115,8 +115,7 @@ final class _$CreateVisitService extends CreateVisitService {
       body: $body,
       headers: $headers,
     );
-    return client
-        .send<List<CreatePatientResponse>, CreatePatientResponse>($request);
+    return client.send<BuiltList<VisitResponse>, VisitResponse>($request);
   }
 }
 

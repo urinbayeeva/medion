@@ -12,9 +12,8 @@ import 'package:medion/infrastructure/services/log_service.dart';
 class BookingRepository implements IBookingFacade {
   final BookingService _bookingService;
   // final ApiService _apiService;
-  final CreateVisitService _createVisitService;
 
-  BookingRepository(this._bookingService, this._createVisitService);
+  BookingRepository(this._bookingService);
 
   /// Fetch booking types
   @override
@@ -125,30 +124,6 @@ class BookingRepository implements IBookingFacade {
     }
   }
   
-@override
-Future<Either<ResponseFailure, List<CreatePatientResponse>>> getCreatePatientVisit({
-  required List<CreatePatientRequest> request,
-}) async {
-  try {
-   final response = await _createVisitService.createVisit(request: request.toList());
-LogService.d('Response Status: ${response.statusCode}');
-LogService.d('Response Body: ${response.body}');
-
-if (response.isSuccessful && response.body != null) {
-  final body = response.body!;
-  if (body.first == null) {
-    LogService.e('Services list is null in response');
-    return left(InvalidCredentials(message: 'invalid_response'.tr()));
-  }
-  return right(body);
-} else {
-  return left(InvalidCredentials(message: 'server_error'.tr()));
-}
-  } catch (e) {
-    LogService.e(" ----> error on repo  : ${e.toString()}");
-    return left(handleError(e));
-  }
-}
 
 
 }

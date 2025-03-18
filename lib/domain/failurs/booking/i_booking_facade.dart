@@ -19,8 +19,4 @@ abstract class IBookingFacade {
     required List<int> serviceIds,
   });
 
-
-  Future<Either<ResponseFailure, List<CreatePatientResponse>>> getCreatePatientVisit({
-    required List<CreatePatientRequest> request
-  });
 }

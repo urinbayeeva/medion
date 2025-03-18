@@ -32,6 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_FetchPatientInfo>(_fetchPatientInfoHandler);
     on<_FetchPatientVisits>(_fetchPatientVisitsHandler);
     on<_FetchPatientAnalyze>(_fetchPatientAnalyze);
+
   }
 
   FutureOr<void> _verificationSendHandler(
@@ -199,4 +200,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
   }
+
+  
 }

@@ -33,8 +33,4 @@ abstract class BookingEvent with _$BookingEvent {
 
   const factory BookingEvent.fetchHomePageServiceDoctors({required int id}) = _FetchHomePageServiceDoctors;
 
-const factory BookingEvent.getCreatePatientVisit({
-  required List<CreatePatientRequest> request,
-}) = _GetCreatePatientVisit;
-
 }

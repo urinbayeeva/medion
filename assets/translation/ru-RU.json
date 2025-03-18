@@ -305,5 +305,7 @@
 "times_a_day" : "{count} раза в день ({times})",
 "infusion_rate" : "Скорость инфузии: ",
 "comments" : "Комментарии: ",
+"pay_right_now" : "Оплатить прямо сейчас",
+"pay_not_right_now" : "Оплатить позже",
 " " : ""
 }

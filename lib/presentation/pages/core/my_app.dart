@@ -8,9 +8,11 @@ import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
+import 'package:medion/application/payment_provider.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
 import 'package:medion/application/selected_provider.dart';
 import 'package:medion/application/services/time_select_provider.dart';
+import 'package:medion/application/visit/visit_bloc.dart';
 import 'package:medion/domain/models/currency_change.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
@@ -19,6 +21,7 @@ import 'package:medion/infrastructure/repository/booking_repository.dart';
 import 'package:medion/infrastructure/repository/content_service.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
+import 'package:medion/infrastructure/repository/visit_create_repo.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_configuration.dart';
 import 'package:medion/infrastructure/services/alice/alice.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
@@ -38,7 +41,6 @@ Alice alice = Alice(
     showInspectorOnShake: false,
   ),
 )..addAdapter(aliceChopperAdapter);
-
 
 class MyApp extends StatelessWidget {
   final DBService dbService;
@@ -60,40 +62,61 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => SelectedServiceIdsProvider()),
           ChangeNotifierProvider(create: (_) => TimeSelectionProvider()),
           ChangeNotifierProvider(create: (_) => CurrencyChangeProvider()),
+                  ChangeNotifierProvider(create: (_) => PaymentProvider()),
+
           BlocProvider(
             child: const PaymentPage(),
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
-                AuthRepository(dbService, AuthService.create(dbService),
-                    PatientService.create(dbService), RefreshService.create(dbService)),
+                AuthRepository(
+                    dbService,
+                    AuthService.create(dbService),
+                    PatientService.create(dbService),
+                    RefreshService.create(dbService)),
                 dbService,
               );
-              
             },
           ),
           BlocProvider(
               create: (context) =>
                   HomeBloc(HomeRepository(HomePageService.create(dbService)))),
-                     BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService), RefreshService.create(dbService)), dbService),
-        ),
+          BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(
+                AuthRepository(
+                    dbService,
+                    AuthService.create(dbService),
+                    PatientService.create(dbService),
+                    RefreshService.create(dbService)),
+                dbService),
+          ),
+          BlocProvider(
+              create: (context) => VisitBloc(
+                  VisitRepository(VisitCreateService.create(dbService)))),
+          BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(
+                AuthRepository(
+                    dbService,
+                    AuthService.create(dbService),
+                    PatientService.create(dbService),
+                    RefreshService.create(dbService)),
+                dbService),
+          ),
           BlocProvider(
               create: (context) => DoctorBloc(
                   DoctorRepository(DoctorService.create(dbService)))),
           BlocProvider<BookingBloc>(
             create: (context) => BookingBloc(
-                BookingRepository(BookingService.create(dbService), CreateVisitService.create(dbService))),
+                BookingRepository(BookingService.create(dbService))),
           ),
           ChangeNotifierProvider(
               create: (_) => GlobalController.create(dbService)),
           ChangeNotifierProvider(
               create: (_) => BottomNavBarController.create()),
           Provider<DBService>(create: (_) => dbService),
-                    BlocProvider(
+          BlocProvider(
               create: (context) => ContentBloc(
                   ContentServiceRepo(ContentService.create(dbService)))),
-
         ],
         child: OnUnFocusTap(
           child: BlocProvider<ProfileBloc>(

@@ -306,5 +306,7 @@
 "times_a_day": "{count} marta kuniga ({times})",
 "infusion_rate": "Infuziya tezligi: ",
 "comments": "Izohlar: ",
+"pay_right_now" : "Hoziroq to'lash",
+"pay_not_right_now" : "Keyinchalik to'lash",
 "" : ""
 }

@@ -12,6 +12,7 @@ import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
+import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
 import 'package:medion/domain/success_model/response_model.dart';
 import 'package:medion/domain/success_model/success_model.dart';
@@ -60,17 +61,22 @@ abstract class RefreshService extends ChopperService {
       _$RefreshService(_Client(Constants.baseUrlP, true, dbService));
 }
 
+
 @ChopperApi(baseUrl: "")
-abstract class CreateVisitService extends ChopperService {
+
+abstract class VisitCreateService extends ChopperService {
   @Post(path: "create_visit")
-  Future<Response<List<CreatePatientResponse>>> createVisit({
-    @Body() required List<CreatePatientRequest> request,
-       @Header('requires-token') String requiresToken = "true",
+  Future<Response<BuiltList<VisitResponse>>> visitCreate({
+  @Body() required VisitRequest request,  
+    @Header('requires-token') String requiresToken = "true",
+
   });
 
-  static CreateVisitService create(DBService dbService) =>
-      _$CreateVisitService(_Client(Constants.baseUrlP, true, dbService));
+  static VisitCreateService create(DBService dbService) =>
+      _$VisitCreateService(_Client(Constants.baseUrlP, true, dbService));
 }
+
+
 
 //Booking
 @ChopperApi(baseUrl: "/booking/")
