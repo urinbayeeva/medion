@@ -16,44 +16,43 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ProfileEvent {
-  BuildContext get context => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(BuildContext context) pickImage,
+    required TResult Function() uploadImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? uploadImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(BuildContext context)? pickImage,
+    TResult Function()? uploadImage,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_UploadImage value) uploadImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_UploadImage value)? uploadImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PickImage value)? pickImage,
+    TResult Function(_UploadImage value)? uploadImage,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  /// Create a copy of ProfileEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ProfileEventCopyWith<ProfileEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -62,8 +61,6 @@ abstract class $ProfileEventCopyWith<$Res> {
   factory $ProfileEventCopyWith(
           ProfileEvent value, $Res Function(ProfileEvent) then) =
       _$ProfileEventCopyWithImpl<$Res, ProfileEvent>;
-  @useResult
-  $Res call({BuildContext context});
 }
 
 /// @nodoc
@@ -78,27 +75,13 @@ class _$ProfileEventCopyWithImpl<$Res, $Val extends ProfileEvent>
 
   /// Create a copy of ProfileEvent
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? context = null,
-  }) {
-    return _then(_value.copyWith(
-      context: null == context
-          ? _value.context
-          : context // ignore: cast_nullable_to_non_nullable
-              as BuildContext,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$PickImageImplCopyWith<$Res>
-    implements $ProfileEventCopyWith<$Res> {
+abstract class _$$PickImageImplCopyWith<$Res> {
   factory _$$PickImageImplCopyWith(
           _$PickImageImpl value, $Res Function(_$PickImageImpl) then) =
       __$$PickImageImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({BuildContext context});
 }
@@ -163,6 +146,7 @@ class _$PickImageImpl implements _PickImage {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(BuildContext context) pickImage,
+    required TResult Function() uploadImage,
   }) {
     return pickImage(context);
   }
@@ -171,6 +155,7 @@ class _$PickImageImpl implements _PickImage {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? uploadImage,
   }) {
     return pickImage?.call(context);
   }
@@ -179,6 +164,7 @@ class _$PickImageImpl implements _PickImage {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(BuildContext context)? pickImage,
+    TResult Function()? uploadImage,
     required TResult orElse(),
   }) {
     if (pickImage != null) {
@@ -191,6 +177,7 @@ class _$PickImageImpl implements _PickImage {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_UploadImage value) uploadImage,
   }) {
     return pickImage(this);
   }
@@ -199,6 +186,7 @@ class _$PickImageImpl implements _PickImage {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_UploadImage value)? uploadImage,
   }) {
     return pickImage?.call(this);
   }
@@ -207,6 +195,7 @@ class _$PickImageImpl implements _PickImage {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PickImage value)? pickImage,
+    TResult Function(_UploadImage value)? uploadImage,
     required TResult orElse(),
   }) {
     if (pickImage != null) {
@@ -219,15 +208,118 @@ class _$PickImageImpl implements _PickImage {
 abstract class _PickImage implements ProfileEvent {
   const factory _PickImage(final BuildContext context) = _$PickImageImpl;
 
-  @override
   BuildContext get context;
 
   /// Create a copy of ProfileEvent
   /// with the given fields replaced by the non-null parameter values.
-  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PickImageImplCopyWith<_$PickImageImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UploadImageImplCopyWith<$Res> {
+  factory _$$UploadImageImplCopyWith(
+          _$UploadImageImpl value, $Res Function(_$UploadImageImpl) then) =
+      __$$UploadImageImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$UploadImageImplCopyWithImpl<$Res>
+    extends _$ProfileEventCopyWithImpl<$Res, _$UploadImageImpl>
+    implements _$$UploadImageImplCopyWith<$Res> {
+  __$$UploadImageImplCopyWithImpl(
+      _$UploadImageImpl _value, $Res Function(_$UploadImageImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$UploadImageImpl implements _UploadImage {
+  const _$UploadImageImpl();
+
+  @override
+  String toString() {
+    return 'ProfileEvent.uploadImage()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$UploadImageImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(BuildContext context) pickImage,
+    required TResult Function() uploadImage,
+  }) {
+    return uploadImage();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? uploadImage,
+  }) {
+    return uploadImage?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(BuildContext context)? pickImage,
+    TResult Function()? uploadImage,
+    required TResult orElse(),
+  }) {
+    if (uploadImage != null) {
+      return uploadImage();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_UploadImage value) uploadImage,
+  }) {
+    return uploadImage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_UploadImage value)? uploadImage,
+  }) {
+    return uploadImage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_PickImage value)? pickImage,
+    TResult Function(_UploadImage value)? uploadImage,
+    required TResult orElse(),
+  }) {
+    if (uploadImage != null) {
+      return uploadImage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UploadImage implements ProfileEvent {
+  const factory _UploadImage() = _$UploadImageImpl;
 }
 
 /// @nodoc
@@ -314,10 +406,9 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ProfileStateImpl extends _ProfileState {
-  const _$ProfileStateImpl({this.pickedImagePath = null}) : super._();
+  const _$ProfileStateImpl({this.pickedImagePath}) : super._();
 
   @override
-  @JsonKey()
   final String? pickedImagePath;
 
   @override

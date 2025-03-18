@@ -47,21 +47,37 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           children: [
                             Center(
                               child: BlocBuilder<ProfileBloc, ProfileState>(
-                                builder: (context, state) {
-                                  return state.pickedImagePath != null
-                                      ? CircleAvatar(
-                                          radius: 70.r,
-                                          backgroundImage: FileImage(
-                                              File(state.pickedImagePath!)),
-                                        )
-                                      : CircleAvatar(
-                                          radius: 70.r,
-                                          backgroundColor: colors.neutral200,
-                                          child: icons.nonUser.svg(
-                                            height: 110.h,
-                                            color: colors.neutral500,
-                                          ),
-                                        );
+                                builder: (context, profileState) {
+                                  return BlocBuilder<AuthBloc, AuthState>(
+                                    builder: (context, authState) {
+                                      String? backendImageUrl =
+                                          authState.patientInfo?.image;
+                                      String? pickedImagePath =
+                                          profileState.pickedImagePath;
+
+                                      return CircleAvatar(
+                                        radius: 70.r,
+                                        backgroundColor: colors.neutral200,
+                                        backgroundImage: backendImageUrl !=
+                                                    null &&
+                                                backendImageUrl.isNotEmpty
+                                            ? NetworkImage(backendImageUrl)
+                                            : pickedImagePath != null
+                                                ? FileImage(
+                                                        File(pickedImagePath))
+                                                    as ImageProvider
+                                                : null,
+                                        child: (backendImageUrl == null ||
+                                                    backendImageUrl.isEmpty) &&
+                                                pickedImagePath == null
+                                            ? icons.nonUser.svg(
+                                                height: 110.h,
+                                                color: colors.neutral500,
+                                              )
+                                            : null,
+                                      );
+                                    },
+                                  );
                                 },
                               ),
                             ),
@@ -74,8 +90,6 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                   context
                                       .read<ProfileBloc>()
                                       .add(ProfileEvent.pickImage(context));
-
-                                  // ImageService.showPicker(context);
                                 },
                                 child: CircleAvatar(
                                   radius: 20.r,

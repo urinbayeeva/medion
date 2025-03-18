@@ -48,7 +48,7 @@ class MedicalDirectionItem extends StatelessWidget {
                 title: Text(title ?? "Unknown Service",
                     style: fonts.smallSemLink.copyWith(
                         fontSize: 15.sp, fontWeight: FontWeight.w600)),
-                subtitle: Text(subtitle ?? "No additional info",
+                subtitle: Text(subtitle == "null" ? "" : subtitle!,
                     style: fonts.xSmallText.copyWith(
                         color: colors.neutral600,
                         fontSize: 13.sp,

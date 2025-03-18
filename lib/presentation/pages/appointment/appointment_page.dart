@@ -54,7 +54,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
   double turns = 0.0;
   bool changeSum = false; // Default to false (USD) until DB loads
 
-@override
+  @override
   void initState() {
     super.initState();
     screenIndex = widget.index ?? 0;
@@ -86,7 +86,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
           ),
           "Inner Services",
           AddAppointmentScreenType.secondService),
-_AddAppointmentUseCaseModel(
+      _AddAppointmentUseCaseModel(
           DoctorTimeAndService(
             onTap: navigateToNextScreen,
             selectedServiceIds: selectedServiceIds, // Pass IDs here
@@ -102,8 +102,11 @@ _AddAppointmentUseCaseModel(
               create: (context) {
                 DBService dbService = context.read<DBService>();
                 return AuthBloc(
-                  AuthRepository(dbService, AuthService.create(dbService),
-                      PatientService.create(dbService), RefreshService.create(dbService)),
+                  AuthRepository(
+                      dbService,
+                      AuthService.create(dbService),
+                      PatientService.create(dbService),
+                      RefreshService.create(dbService)),
                   dbService,
                 );
               },
@@ -168,7 +171,8 @@ _AddAppointmentUseCaseModel(
     if (number == null) return isDecimal ? "0.00" : "0";
 
     if (isDecimal) {
-      double doubleValue = (number is int) ? number.toDouble() : number as double;
+      double doubleValue =
+          (number is int) ? number.toDouble() : number as double;
       String formatted = doubleValue.toStringAsFixed(2);
       List<String> parts = formatted.split('.');
       String integerPart = parts[0];
@@ -222,7 +226,8 @@ _AddAppointmentUseCaseModel(
                                     setState(() {
                                       turns += 2 / 4;
                                       changeSum = !changeSum;
-                                      dbService.setCurrencyPreference(changeSum);
+                                      dbService
+                                          .setCurrencyPreference(changeSum);
                                       _updateUseCaseForCurrency();
                                     });
                                   },
