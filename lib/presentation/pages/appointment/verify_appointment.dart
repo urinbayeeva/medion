@@ -1,8 +1,11 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
@@ -17,8 +20,6 @@ class VerifyAppointment extends StatelessWidget {
     required this.onTap,
   });
 
-  // API endpoint
-  final String apiUrl = 'https://his.uicgroup.tech/apiweb/booking/doctor/day';
 
   @override
   Widget build(BuildContext context) {
@@ -38,48 +39,64 @@ class VerifyAppointment extends StatelessWidget {
             );
           }
 
-          return Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                    child: Column(
-                      children: selectedList.map((appointment) => _buildAppointmentItem(
-                        appointment,
-                        colors,
-                        fonts,
-                        context
-                      )).toList(),
+         return BlocBuilder<BookingBloc, BookingState>(
+        builder: (context, state) {
+          
+              return Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                        child: Column(
+                          children: selectedList.map((appointment) => _buildAppointmentItem(
+                            appointment,
+                            colors,
+                            fonts,
+                            context
+                          )).toList(),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 16.h,
-                ),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: colors.shade0,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24.r),
-                    topRight: Radius.circular(24.r),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 16.h,
+                    ),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: colors.shade0,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24.r),
+                        topRight: Radius.circular(24.r),
+                      ),
+                    ),
+                   child: CButton(
+  title: 'next'.tr(),
+  onTap: () {
+                        if (selectedList.isNotEmpty) {
+                          final createPatientRequest = selectedList.map((appointment) => 
+                            CreatePatientRequest((b) => b
+                              ..serviceId = int.parse(appointment['serviceId']!)
+                              ..companyId = int.parse(appointment['companyID']!)
+                              ..doctorId = int.parse(appointment['doctorID']!)
+                              ..startTime = appointment['start_time'].toString()
+                              ..endTime = appointment['end_time'].toString()
+                              ..date = appointment['date'].toString()
+                            )).toList();
+
+                          // context.read<BookingBloc>().add(
+                          //   BookingEvent.createPatientVisit(requests: createPatientRequest),
+                          // );
+                        }
+  },
+),
+
                   ),
-                ),
-                child: CButton(
-                  title: 'next'.tr(),
-                  onTap: () {
-                    if (selectedList.isNotEmpty) {
-                      final appointment = selectedList.first;
-                     
-                      onTap();
-                    }
-                  },
-                ),
-              ),
-            ],
+                ],
+              );
+            }
           );
         },
       );

@@ -99,17 +99,24 @@ final class _$CreateVisitService extends CreateVisitService {
   final Type definitionType = CreateVisitService;
 
   @override
-  Future<Response<CreatePatientResponse>> createVisit(
-      {required CreatePatientRequest request}) {
+  Future<Response<List<CreatePatientResponse>>> createVisit({
+    required List<CreatePatientRequest> request,
+    String requiresToken = "true",
+  }) {
     final Uri $url = Uri.parse('create_visit');
+    final Map<String, String> $headers = {
+      'requires-token': requiresToken,
+    };
     final $body = request;
     final Request $request = Request(
       'POST',
       $url,
       client.baseUrl,
       body: $body,
+      headers: $headers,
     );
-    return client.send<CreatePatientResponse, CreatePatientResponse>($request);
+    return client
+        .send<List<CreatePatientResponse>, CreatePatientResponse>($request);
   }
 }
 

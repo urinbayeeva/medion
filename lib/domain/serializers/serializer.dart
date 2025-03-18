@@ -62,6 +62,7 @@ part 'serializer.g.dart';
   CreatePatientRequest,
   CreatePatientResponse,
   CreatePatientBookingReq,
+  CreatePatientServiceResponse,
 
 
 

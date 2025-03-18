@@ -126,19 +126,24 @@ class BookingRepository implements IBookingFacade {
   }
   
 @override
-Future<Either<ResponseFailure, BuiltList<CreatePatientResponse>>> getCreatePatientVisit({
-  required CreatePatientRequest request,
+Future<Either<ResponseFailure, List<CreatePatientResponse>>> getCreatePatientVisit({
+  required List<CreatePatientRequest> request,
 }) async {
   try {
-    final response = await _createVisitService.createVisit(request: request);
-    LogService.d('Response Status: ${response.statusCode}');
-    LogService.d('Response Body: ${response.body}');
+   final response = await _createVisitService.createVisit(request: request.toList());
+LogService.d('Response Status: ${response.statusCode}');
+LogService.d('Response Body: ${response.body}');
 
-    if (response.isSuccessful && response.body != null) {
-      return right(BuiltList<CreatePatientResponse>([response.body!]));
-    } else {
-      return left(InvalidCredentials(message: 'server_error'.tr()));
-    }
+if (response.isSuccessful && response.body != null) {
+  final body = response.body!;
+  if (body.first == null) {
+    LogService.e('Services list is null in response');
+    return left(InvalidCredentials(message: 'invalid_response'.tr()));
+  }
+  return right(body);
+} else {
+  return left(InvalidCredentials(message: 'server_error'.tr()));
+}
   } catch (e) {
     LogService.e(" ----> error on repo  : ${e.toString()}");
     return left(handleError(e));

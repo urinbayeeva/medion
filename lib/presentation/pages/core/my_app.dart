@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
                   DoctorRepository(DoctorService.create(dbService)))),
           BlocProvider<BookingBloc>(
             create: (context) => BookingBloc(
-                BookingRepository(BookingService.create(dbService))),
+                BookingRepository(BookingService.create(dbService), CreateVisitService.create(dbService))),
           ),
           ChangeNotifierProvider(
               create: (_) => GlobalController.create(dbService)),

@@ -63,8 +63,9 @@ abstract class RefreshService extends ChopperService {
 @ChopperApi(baseUrl: "")
 abstract class CreateVisitService extends ChopperService {
   @Post(path: "create_visit")
-  Future<Response<CreatePatientResponse>> createVisit({
-    @Body() required CreatePatientRequest request,
+  Future<Response<List<CreatePatientResponse>>> createVisit({
+    @Body() required List<CreatePatientRequest> request,
+       @Header('requires-token') String requiresToken = "true",
   });
 
   static CreateVisitService create(DBService dbService) =>

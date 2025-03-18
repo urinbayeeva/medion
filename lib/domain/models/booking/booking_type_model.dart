@@ -351,40 +351,40 @@ abstract class CreatePatientResponse
 
 abstract class CreatePatientServiceResponse implements Built<CreatePatientServiceResponse, CreatePatientServiceResponseBuilder> {
   @BuiltValueField(wireName: 'id')
-  int get id;
+  int? get id;
 
   @BuiltValueField(wireName: 'doctor_id')
-  String get doctorId;
+  String? get doctorId;
 
   @BuiltValueField(wireName: 'image')
-  String get image;
+  String? get image;
 
   @BuiltValueField(wireName: 'company_id')
-  String get companyId;
+  String? get companyId;
 
   @BuiltValueField(wireName: 'main_service_id')
-  String get mainServiceId;
+  String? get mainServiceId;
 
   @BuiltValueField(wireName: 'product_type')
-  String get productType;
+  String? get productType;
 
   @BuiltValueField(wireName: 'doctor_first_visit_price_uzs')
-  int get doctorFirstVisitPriceUzs;
+  int? get doctorFirstVisitPriceUzs;
 
   @BuiltValueField(wireName: 'doctor_first_visit_price_uzd')
-  int get doctorFirstVisitPriceUzd;
+  int? get doctorFirstVisitPriceUzd;
 
   @BuiltValueField(wireName: 'doctor_revisit_price_uzs')
-  int get doctorRevisitPriceUzs;
+  int? get doctorRevisitPriceUzs;
 
   @BuiltValueField(wireName: 'doctor_revisit_price_uzd')
-  int get doctorRevisitPriceUzd;
+  int? get doctorRevisitPriceUzd;
 
   @BuiltValueField(wireName: 'date')
-  String get date;
+  String? get date;
 
   @BuiltValueField(wireName: 'start_time')
-  String get startTime;
+  String? get startTime;
 
   CreatePatientServiceResponse._();
   factory CreatePatientServiceResponse([void Function(CreatePatientServiceResponseBuilder) updates]) = _$CreatePatientServiceResponse;

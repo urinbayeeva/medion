@@ -1149,43 +1149,87 @@ class _$CreatePatientServiceResponseSerializer
   Iterable<Object?> serialize(
       Serializers serializers, CreatePatientServiceResponse object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'doctor_id',
-      serializers.serialize(object.doctorId,
-          specifiedType: const FullType(String)),
-      'image',
-      serializers.serialize(object.image,
-          specifiedType: const FullType(String)),
-      'company_id',
-      serializers.serialize(object.companyId,
-          specifiedType: const FullType(String)),
-      'main_service_id',
-      serializers.serialize(object.mainServiceId,
-          specifiedType: const FullType(String)),
-      'product_type',
-      serializers.serialize(object.productType,
-          specifiedType: const FullType(String)),
-      'doctor_first_visit_price_uzs',
-      serializers.serialize(object.doctorFirstVisitPriceUzs,
-          specifiedType: const FullType(int)),
-      'doctor_first_visit_price_uzd',
-      serializers.serialize(object.doctorFirstVisitPriceUzd,
-          specifiedType: const FullType(int)),
-      'doctor_revisit_price_uzs',
-      serializers.serialize(object.doctorRevisitPriceUzs,
-          specifiedType: const FullType(int)),
-      'doctor_revisit_price_uzd',
-      serializers.serialize(object.doctorRevisitPriceUzd,
-          specifiedType: const FullType(int)),
-      'date',
-      serializers.serialize(object.date, specifiedType: const FullType(String)),
-      'start_time',
-      serializers.serialize(object.startTime,
-          specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.doctorId;
+    if (value != null) {
+      result
+        ..add('doctor_id')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.image;
+    if (value != null) {
+      result
+        ..add('image')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.companyId;
+    if (value != null) {
+      result
+        ..add('company_id')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.mainServiceId;
+    if (value != null) {
+      result
+        ..add('main_service_id')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.productType;
+    if (value != null) {
+      result
+        ..add('product_type')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.doctorFirstVisitPriceUzs;
+    if (value != null) {
+      result
+        ..add('doctor_first_visit_price_uzs')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.doctorFirstVisitPriceUzd;
+    if (value != null) {
+      result
+        ..add('doctor_first_visit_price_uzd')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.doctorRevisitPriceUzs;
+    if (value != null) {
+      result
+        ..add('doctor_revisit_price_uzs')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.doctorRevisitPriceUzd;
+    if (value != null) {
+      result
+        ..add('doctor_revisit_price_uzd')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.date;
+    if (value != null) {
+      result
+        ..add('date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.startTime;
+    if (value != null) {
+      result
+        ..add('start_time')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -1203,51 +1247,51 @@ class _$CreatePatientServiceResponseSerializer
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'doctor_id':
           result.doctorId = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'image':
           result.image = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'company_id':
           result.companyId = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'main_service_id':
           result.mainServiceId = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'product_type':
           result.productType = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'doctor_first_visit_price_uzs':
           result.doctorFirstVisitPriceUzs = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'doctor_first_visit_price_uzd':
           result.doctorFirstVisitPriceUzd = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'doctor_revisit_price_uzs':
           result.doctorRevisitPriceUzs = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'doctor_revisit_price_uzd':
           result.doctorRevisitPriceUzd = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'date':
           result.date = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'start_time':
           result.startTime = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -3280,73 +3324,48 @@ class CreatePatientResponseBuilder
 
 class _$CreatePatientServiceResponse extends CreatePatientServiceResponse {
   @override
-  final int id;
+  final int? id;
   @override
-  final String doctorId;
+  final String? doctorId;
   @override
-  final String image;
+  final String? image;
   @override
-  final String companyId;
+  final String? companyId;
   @override
-  final String mainServiceId;
+  final String? mainServiceId;
   @override
-  final String productType;
+  final String? productType;
   @override
-  final int doctorFirstVisitPriceUzs;
+  final int? doctorFirstVisitPriceUzs;
   @override
-  final int doctorFirstVisitPriceUzd;
+  final int? doctorFirstVisitPriceUzd;
   @override
-  final int doctorRevisitPriceUzs;
+  final int? doctorRevisitPriceUzs;
   @override
-  final int doctorRevisitPriceUzd;
+  final int? doctorRevisitPriceUzd;
   @override
-  final String date;
+  final String? date;
   @override
-  final String startTime;
+  final String? startTime;
 
   factory _$CreatePatientServiceResponse(
           [void Function(CreatePatientServiceResponseBuilder)? updates]) =>
       (new CreatePatientServiceResponseBuilder()..update(updates))._build();
 
   _$CreatePatientServiceResponse._(
-      {required this.id,
-      required this.doctorId,
-      required this.image,
-      required this.companyId,
-      required this.mainServiceId,
-      required this.productType,
-      required this.doctorFirstVisitPriceUzs,
-      required this.doctorFirstVisitPriceUzd,
-      required this.doctorRevisitPriceUzs,
-      required this.doctorRevisitPriceUzd,
-      required this.date,
-      required this.startTime})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        id, r'CreatePatientServiceResponse', 'id');
-    BuiltValueNullFieldError.checkNotNull(
-        doctorId, r'CreatePatientServiceResponse', 'doctorId');
-    BuiltValueNullFieldError.checkNotNull(
-        image, r'CreatePatientServiceResponse', 'image');
-    BuiltValueNullFieldError.checkNotNull(
-        companyId, r'CreatePatientServiceResponse', 'companyId');
-    BuiltValueNullFieldError.checkNotNull(
-        mainServiceId, r'CreatePatientServiceResponse', 'mainServiceId');
-    BuiltValueNullFieldError.checkNotNull(
-        productType, r'CreatePatientServiceResponse', 'productType');
-    BuiltValueNullFieldError.checkNotNull(doctorFirstVisitPriceUzs,
-        r'CreatePatientServiceResponse', 'doctorFirstVisitPriceUzs');
-    BuiltValueNullFieldError.checkNotNull(doctorFirstVisitPriceUzd,
-        r'CreatePatientServiceResponse', 'doctorFirstVisitPriceUzd');
-    BuiltValueNullFieldError.checkNotNull(doctorRevisitPriceUzs,
-        r'CreatePatientServiceResponse', 'doctorRevisitPriceUzs');
-    BuiltValueNullFieldError.checkNotNull(doctorRevisitPriceUzd,
-        r'CreatePatientServiceResponse', 'doctorRevisitPriceUzd');
-    BuiltValueNullFieldError.checkNotNull(
-        date, r'CreatePatientServiceResponse', 'date');
-    BuiltValueNullFieldError.checkNotNull(
-        startTime, r'CreatePatientServiceResponse', 'startTime');
-  }
+      {this.id,
+      this.doctorId,
+      this.image,
+      this.companyId,
+      this.mainServiceId,
+      this.productType,
+      this.doctorFirstVisitPriceUzs,
+      this.doctorFirstVisitPriceUzd,
+      this.doctorRevisitPriceUzs,
+      this.doctorRevisitPriceUzd,
+      this.date,
+      this.startTime})
+      : super._();
 
   @override
   CreatePatientServiceResponse rebuild(
@@ -3511,38 +3530,18 @@ class CreatePatientServiceResponseBuilder
   _$CreatePatientServiceResponse _build() {
     final _$result = _$v ??
         new _$CreatePatientServiceResponse._(
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'CreatePatientServiceResponse', 'id'),
-          doctorId: BuiltValueNullFieldError.checkNotNull(
-              doctorId, r'CreatePatientServiceResponse', 'doctorId'),
-          image: BuiltValueNullFieldError.checkNotNull(
-              image, r'CreatePatientServiceResponse', 'image'),
-          companyId: BuiltValueNullFieldError.checkNotNull(
-              companyId, r'CreatePatientServiceResponse', 'companyId'),
-          mainServiceId: BuiltValueNullFieldError.checkNotNull(
-              mainServiceId, r'CreatePatientServiceResponse', 'mainServiceId'),
-          productType: BuiltValueNullFieldError.checkNotNull(
-              productType, r'CreatePatientServiceResponse', 'productType'),
-          doctorFirstVisitPriceUzs: BuiltValueNullFieldError.checkNotNull(
-              doctorFirstVisitPriceUzs,
-              r'CreatePatientServiceResponse',
-              'doctorFirstVisitPriceUzs'),
-          doctorFirstVisitPriceUzd: BuiltValueNullFieldError.checkNotNull(
-              doctorFirstVisitPriceUzd,
-              r'CreatePatientServiceResponse',
-              'doctorFirstVisitPriceUzd'),
-          doctorRevisitPriceUzs: BuiltValueNullFieldError.checkNotNull(
-              doctorRevisitPriceUzs,
-              r'CreatePatientServiceResponse',
-              'doctorRevisitPriceUzs'),
-          doctorRevisitPriceUzd: BuiltValueNullFieldError.checkNotNull(
-              doctorRevisitPriceUzd,
-              r'CreatePatientServiceResponse',
-              'doctorRevisitPriceUzd'),
-          date: BuiltValueNullFieldError.checkNotNull(
-              date, r'CreatePatientServiceResponse', 'date'),
-          startTime: BuiltValueNullFieldError.checkNotNull(
-              startTime, r'CreatePatientServiceResponse', 'startTime'),
+          id: id,
+          doctorId: doctorId,
+          image: image,
+          companyId: companyId,
+          mainServiceId: mainServiceId,
+          productType: productType,
+          doctorFirstVisitPriceUzs: doctorFirstVisitPriceUzs,
+          doctorFirstVisitPriceUzd: doctorFirstVisitPriceUzd,
+          doctorRevisitPriceUzs: doctorRevisitPriceUzs,
+          doctorRevisitPriceUzd: doctorRevisitPriceUzd,
+          date: date,
+          startTime: startTime,
         );
     replace(_$result);
     return _$result;

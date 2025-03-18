@@ -41,13 +41,15 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     try {
       EasyLoading.show();
 
-      final res = await _repository.getCreatePatientVisit(request: event.request);
+      final res = await _repository.getCreatePatientVisit(request: event.request.toList());
+
+      
 
       if (isClosed) return; 
 
       res.fold(
         (error) {
-          LogService.e("Error fetching home page services: ${error.message}");
+          LogService.e("Error fetching : ${error.message}");
           emit(state.copyWith(loading: false, error: true));
           EasyLoading.showError(error.message);
         },
@@ -55,7 +57,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           emit(state.copyWith(
             loading: false,
             success: true,
-            createPatientVisits: data,
+            // patientVisits: data.toList(),
           ));
         },
       );

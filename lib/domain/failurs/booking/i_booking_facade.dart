@@ -20,7 +20,7 @@ abstract class IBookingFacade {
   });
 
 
-  Future<Either<ResponseFailure, BuiltList<CreatePatientResponse>>> getCreatePatientVisit({
-    required CreatePatientRequest request
+  Future<Either<ResponseFailure, List<CreatePatientResponse>>> getCreatePatientVisit({
+    required List<CreatePatientRequest> request
   });
 }
