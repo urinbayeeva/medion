@@ -9,6 +9,7 @@ import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_container.dart';
+import 'package:medion/presentation/component/c_filter.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/service_widget.dart';
@@ -88,7 +89,15 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                             child: icons.valyutaChange
                                 .svg(width: 20.w, height: 20.h))),
                     6.w.horizontalSpace,
-                    icons.filter.svg(width: 20.w, height: 20.h)
+                    AnimationButtonEffect(
+                        onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return CFilter();
+                              });
+                        },
+                        child: icons.filter.svg(width: 20.w, height: 20.h))
                   ],
                 ),
               ),
@@ -235,30 +244,23 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
       itemCount: state.medicalModel!.doctors.length,
       itemBuilder: (_, index) {
         final doctor = state.medicalModel!.doctors[index];
-        return Builder(
-          builder: (innerContext) {
-            return AnimationButtonEffect(
-              onTap: () {
-                Navigator.push(
-                  innerContext,
-                  AppRoutes.getAboutDoctorPage(
-                    doctor.name!,
-                    doctor.jobName!,
-                    "",
-                  ),
-                );
-              },
-              child: DoctorsItem(
-                gender: "male",
-                isInnerPageUsed: true,
-                imagePath: doctor.image ?? icons.nonUser,
-                onTap: () {},
-                name: doctor.name ?? '',
-                profession: doctor.jobName ?? "No profession",
-                experience: "${doctor.experienceYears ?? "No experience"}",
+        return DoctorsItem(
+          gender: "male",
+          isInnerPageUsed: true,
+          imagePath: doctor.image ?? icons.nonUser,
+          onTap: () {
+            Navigator.push(
+              context,
+              AppRoutes.getAboutDoctorPage(
+                doctor.name!,
+                doctor.jobName!,
+                "",
               ),
             );
           },
+          name: doctor.name ?? '',
+          profession: doctor.jobName ?? "No profession",
+          experience: "${doctor.experienceYears ?? "No experience"}",
         );
       },
     );
