@@ -9,10 +9,12 @@ import 'package:medion/application/profile/profile_bloc.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/profile/widget/user_info_input.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/file_handler.dart';
 
 class UserDetailsPage extends StatefulWidget {
   const UserDetailsPage({super.key});
@@ -83,13 +85,22 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                             ),
                             Positioned(
                               bottom: -20,
-                              left: 10,
-                              right: 0,
-                              child: GestureDetector(
-                                onTap: () {
-                                  context
-                                      .read<ProfileBloc>()
-                                      .add(ProfileEvent.pickImage(context));
+                              left: 200,
+                              right: null,
+                              child: AnimationButtonEffect(
+                                onTap: () async {
+                                  try {
+                                    if (!mounted) return;
+
+                                    Future.microtask(() {
+                                      if (mounted) {
+                                        context.read<ProfileBloc>().add(
+                                            ProfileEvent.pickImage(context));
+                                      }
+                                    });
+                                  } catch (e) {
+                                    print("Error picking image: $e");
+                                  }
                                 },
                                 child: CircleAvatar(
                                   radius: 20.r,

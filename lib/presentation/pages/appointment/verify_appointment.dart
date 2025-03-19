@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/payment_provider.dart';
 import 'package:medion/application/visit/visit_bloc.dart';
@@ -18,7 +19,7 @@ import 'package:medion/presentation/pages/appointment/component/verify_appointme
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:provider/provider.dart';
 
-class VerifyAppointment extends StatelessWidget {
+class VerifyAppointment extends StatefulWidget {
   final VoidCallback onTap;
 
   const VerifyAppointment({
@@ -26,6 +27,12 @@ class VerifyAppointment extends StatelessWidget {
     required this.onTap,
   });
 
+  @override
+  State<VerifyAppointment> createState() => _VerifyAppointmentState();
+}
+
+class _VerifyAppointmentState extends State<VerifyAppointment> {
+ 
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -81,7 +88,7 @@ class VerifyAppointment extends StatelessWidget {
                         final appointment = selectedList.first;
                         final success = await sendVisitRequest(appointment, context );
                         if (success) {
-                          onTap();
+                          widget.onTap();
                         }
                       }
                     },
