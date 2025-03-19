@@ -13,6 +13,7 @@ import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/service_widget.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -234,14 +235,30 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
       itemCount: state.medicalModel!.doctors.length,
       itemBuilder: (_, index) {
         final doctor = state.medicalModel!.doctors[index];
-        return DoctorsItem(
-          gender: "male",
-          isInnerPageUsed: true,
-          imagePath: doctor.image ?? icons.nonUser,
-          onTap: () {},
-          name: doctor.name ?? '',
-          profession: doctor.jobName ?? "No profession",
-          experience: "${doctor.experienceYears ?? "No experience"}",
+        return Builder(
+          builder: (innerContext) {
+            return AnimationButtonEffect(
+              onTap: () {
+                Navigator.push(
+                  innerContext,
+                  AppRoutes.getAboutDoctorPage(
+                    doctor.name!,
+                    doctor.jobName!,
+                    "",
+                  ),
+                );
+              },
+              child: DoctorsItem(
+                gender: "male",
+                isInnerPageUsed: true,
+                imagePath: doctor.image ?? icons.nonUser,
+                onTap: () {},
+                name: doctor.name ?? '',
+                profession: doctor.jobName ?? "No profession",
+                experience: "${doctor.experienceYears ?? "No experience"}",
+              ),
+            );
+          },
         );
       },
     );
