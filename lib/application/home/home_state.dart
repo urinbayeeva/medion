@@ -10,7 +10,7 @@ class HomeState with _$HomeState {
     @Default(false) bool success,
     @Default([]) List<News> news,
     @Default([]) List<DiseaseModle> diseases,
-        @Default([]) List<AdModel> ads,
-
+    @Default([]) List<AdModel> ads,
+    @Default([]) List<DiagnosticsModel> medicalServices,
   }) = _HomeState;
 }

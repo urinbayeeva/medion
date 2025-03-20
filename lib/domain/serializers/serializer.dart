@@ -28,7 +28,7 @@ part 'serializer.g.dart';
   CreateInfoReq,
   DoctorCategory,
   DoctorData,
-  MedicalServices,
+DiagnosticsModel,
   DiseaseModle,
   AdModel,
   PatientInfo,

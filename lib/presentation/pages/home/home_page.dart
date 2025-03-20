@@ -8,6 +8,7 @@ import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/sources/med_service.dart';
+import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -50,6 +51,7 @@ class _HomePageState extends State<HomePage> {
     context
         .read<BookingBloc>()
         .add(const BookingEvent.fetchHomePageServicesBooking());
+    context.read<HomeBloc>().add(const HomeEvent.fetchMedicalServices());
     context
         .read<ContentBloc>()
         .add(const ContentEvent.fetchContent(type: "news"));
@@ -106,7 +108,74 @@ class _HomePageState extends State<HomePage> {
                         ProblemSlidebaleCard(isChildren: isChildren),
                         Text("med_services".tr(), style: fonts.regularSemLink),
                         12.h.verticalSpace,
-                        const MedService(),
+                        BlocBuilder<HomeBloc, HomeState>(
+                          builder: (context, state) {
+                            print(
+                                "Medical services: ${state.medicalServices}"); // Debugging line
+                            if (state.medicalServices.isEmpty) {
+                              return const Center(
+                                  child: Text("No medical services available"));
+                            }
+                            return SizedBox(
+                              height: 140.h, // Ensure uniform height
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: state.medicalServices.length,
+                                itemBuilder: (context, index) {
+                                  final medicalService =
+                                      state.medicalServices[index];
+                                  return Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.w),
+                                    child: AnimationButtonEffect(
+                                      onTap: () {},
+                                      child: SizedBox(
+                                        width: 135.w, // Consistent width
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: 100
+                                                  .h, // Fixed height for image
+                                              child: CachedImageComponent(
+                                                borderRadius: 8.r,
+                                                fit: BoxFit.cover,
+                                                width: 135.w,
+                                                height: 100.h,
+                                                imageUrl:
+                                                    medicalService.image ?? '',
+                                              ),
+                                            ),
+                                            5.h.verticalSpace,
+                                            Container(
+                                              width: 135.w,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                medicalService.title ?? '',
+                                                style:
+                                                    fonts.xSmallLink.copyWith(
+                                                  fontSize: 13.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: colors.primary900,
+                                                ),
+                                                textAlign: TextAlign
+                                                    .center, // Ensure uniform text alignment
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
                         _buildVerticalSpacingAndHeader(
                             "directions_of_medion_clinic", fonts, "all", () {
                           Navigator.push(

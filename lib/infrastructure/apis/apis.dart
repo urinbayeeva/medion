@@ -107,7 +107,7 @@ abstract class HomePageService extends ChopperService {
   Future<Response<BuiltList<News>>> getNews();
 
   @Get(path: "medical_services")
-  Future<Response<BuiltList<MedicalServices>>> getMedicalServices();
+  Future<Response<BuiltList<DiagnosticsModel>>> getMedicalServices();
 
   @Get(path: "diseases")
   Future<Response<BuiltList<DiseaseModle>>> getDisease();

@@ -215,14 +215,14 @@ final class _$HomePageService extends HomePageService {
   }
 
   @override
-  Future<Response<BuiltList<MedicalServices>>> getMedicalServices() {
+  Future<Response<BuiltList<DiagnosticsModel>>> getMedicalServices() {
     final Uri $url = Uri.parse('/home/medical_services');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<BuiltList<MedicalServices>, MedicalServices>($request);
+    return client.send<BuiltList<DiagnosticsModel>, DiagnosticsModel>($request);
   }
 
   @override

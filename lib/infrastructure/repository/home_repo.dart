@@ -76,4 +76,25 @@ class HomeRepository implements INewsFacade {
       return left(handleError(e));
     }
   }
+
+  @override
+  Future<Either<ResponseFailure, List<DiagnosticsModel>>> getDiagnosis() async {
+    try {
+      final response = await _homePageService.getMedicalServices();
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
+      LogService.d('Response Error: ${response.error}');
+
+      if (response.isSuccessful && response.body != null) {
+        final medicalServices = response.body!.toList();
+        return right(medicalServices);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e, stackTrace) {
+      LogService.e(" ----> error on repo : ${e.toString()}");
+      LogService.e(" ----> Stack Trace: ${stackTrace.toString()}");
+      return left(handleError(e));
+    }
+  }
 }
