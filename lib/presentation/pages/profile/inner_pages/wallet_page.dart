@@ -96,11 +96,16 @@ class _WalletPageState extends State<WalletPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("cache".tr(), style: fonts.smallLink),
+                              Text("Debit", style: fonts.smallLink),
                               12.h.verticalSpace,
                               Row(
                                 children: [
-                                  Text("sum".tr(namedArgs: {"amount": "0"}),
+                                  Text(
+                                      "sum".tr(namedArgs: {
+                                        "amount": state
+                                            .patientInfo!.patientDebit
+                                            .toString()
+                                      }),
                                       style: fonts.regularMain),
                                   8.w.horizontalSpace,
                                   icons.question.svg(

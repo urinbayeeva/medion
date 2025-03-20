@@ -74,14 +74,16 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.isNewPatient == false) {
-            Navigator.pushReplacement(
+            Navigator.pushAndRemoveUntil(
               context,
               AppRoutes.getMainPage(0),
+              (route) => false,
             );
           } else {
-            Navigator.pushReplacement(
+            Navigator.pushAndRemoveUntil(
               context,
               AppRoutes.getDataEntryPage(widget.phoneNumber),
+              (route) => false,
             );
           }
         },
