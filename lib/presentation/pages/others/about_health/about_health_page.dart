@@ -61,9 +61,10 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
                 builder: (context, state) {
                   if (state.loading) {
                     return const Center(
-                        child: CircularProgressIndicator(
-                      color: Style.error500,
-                    ));
+                      child: CircularProgressIndicator(
+                        color: Style.error500,
+                      ),
+                    );
                   }
 
                   if (state.error) {
@@ -75,15 +76,20 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
                     );
                   }
 
-                  if (state.content.isEmpty) {
+                  // Use contentByType["blog_health"] instead of state.content
+                  final blogHealthContent = state.contentByType["blog_health"] ?? [];
+
+                  if (blogHealthContent.isEmpty) {
                     return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           icons.emojiSad.svg(width: 80.w, height: 80.h),
                           4.h.verticalSpace,
-                          Text('no_result_found'.tr(),
-                              style: fonts.regularSemLink),
+                          Text(
+                            'no_result_found'.tr(),
+                            style: fonts.regularSemLink,
+                          ),
                         ],
                       ),
                     );
@@ -94,7 +100,7 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
                     refreshController: _refreshController,
                     onRefresh: _onRefresh,
                     itemBuilder: (int index, item) {
-                      final data = state.content[index];
+                      final data = blogHealthContent[index];
                       return ItemAboutHealth(
                         onTap: () {
                           Navigator.push(
@@ -112,7 +118,7 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
                         desc: data.description,
                       );
                     },
-                    data: state.content,
+                    data: blogHealthContent, // Pass the filtered content
                     emptyWidgetModel: ErrorWidgetModel(
                       title: "No Data",
                       subtitle: "Try refreshing the page.",
@@ -121,7 +127,7 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
                   );
                 },
               ),
-            )
+            ),
           ],
         ),
       );

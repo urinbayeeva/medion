@@ -6,7 +6,9 @@ import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
 import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DiscountPage extends StatefulWidget {
   const DiscountPage({super.key});
@@ -16,12 +18,27 @@ class DiscountPage extends StatefulWidget {
 }
 
 class _DiscountPageState extends State<DiscountPage> {
+  final RefreshController _refreshController = RefreshController();
+
   @override
   void initState() {
+    super.initState();
     context
         .read<ContentBloc>()
         .add(const ContentEvent.fetchContent(type: "discount"));
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
+
+  void _onRefresh() {
+    context
+        .read<ContentBloc>()
+        .add(const ContentEvent.fetchContent(type: "discount"));
+    _refreshController.refreshCompleted();
   }
 
   @override
@@ -39,61 +56,101 @@ class _DiscountPageState extends State<DiscountPage> {
             ),
             Expanded(
               child: BlocBuilder<ContentBloc, ContentState>(
-                  builder: (context, state) {
-                if (state.error) {
-                  return Center(
-                      child: Text('something_went_wrong'.tr(),
-                          style: fonts.regularSemLink));
-                }
+                builder: (context, state) {
+                  if (state.loading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-                return Column(
-                  children: [
-                    12.h.verticalSpace,
-                    SizedBox(
-                      height: 300.h,
-                      child: GridView.builder(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                          childAspectRatio: 0.6,
-                        ),
-                        itemCount: state.content.length,
-                        itemBuilder: (context, index) {
-                          final discount = state.content[index];
-                          return ArticleCardWidget(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  AppRoutes.getInfoViewAboutHealth(
-                                    imagePath: discount.primaryImage,
-                                    title: discount.decodedTitle,
-                                    desc: discount.decodedDescription,
-                                    date: discount.createDate,
-                                    isDiscount: true,
-                                    discountAddress: "",
-                                    discountDuration:
-                                        "${discount.discountStartDate.toString()} - ${discount.discountEndDate.toString()}",
-                                    phoneShortNumber:
-                                        discount.phoneNumberShort.toString(),
-                                    phoneNumber:
-                                        discount.phoneNumber.toString(),
-                                  ));
-                            },
-                            title: discount.title,
-                            description: discount.description,
-                            image: discount.primaryImage,
-                          );
-                        },
+                  if (state.error) {
+                    return Center(
+                      child: Text(
+                        'something_went_wrong'.tr(),
+                        style: fonts.regularSemLink,
+                      ),
+                    );
+                  }
+
+                  final discountContent = state.contentByType["discount"] ?? [];
+
+                  if (discountContent.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          icons.emojiSad.svg(width: 80.w, height: 80.h),
+                          4.h.verticalSpace,
+                          Text(
+                            'no_result_found'.tr(),
+                            style: fonts.regularSemLink,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  return SmartRefresher(
+                    controller: _refreshController,
+                    onRefresh: _onRefresh,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          12.h.verticalSpace,
+                          SizedBox(
+                            height: 300.h,
+                            child: GridView.builder(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 8,
+                                mainAxisSpacing: 8,
+                                childAspectRatio: 0.6,
+                              ),
+                              itemCount: discountContent.length,
+                              itemBuilder: (context, index) {
+                                final discount = discountContent[index];
+                                return ArticleCardWidget(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      AppRoutes.getInfoViewAboutHealth(
+                                        imagePath: discount.primaryImage,
+                                        title: discount.decodedTitle,
+                                        desc: discount.decodedDescription,
+                                        date: discount.createDate,
+                                        isDiscount: true,
+                                        discountAddress: discount
+                                            .discountLocation
+                                            .toString(),
+                                        discountDuration:
+                                            "${discount.discountStartDate?.toString() ?? ''} - ${discount.discountEndDate?.toString() ?? ''}",
+                                        phoneShortNumber: discount
+                                                .phoneNumberShort
+                                                ?.toString() ??
+                                            '',
+                                        phoneNumber:
+                                            discount.phoneNumber?.toString() ??
+                                                '',
+                                      ),
+                                    );
+                                  },
+                                  title: discount.title,
+                                  description: discount.description,
+                                  image: discount.primaryImage,
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                );
-              }),
+                  );
+                },
+              ),
             ),
           ],
         ),

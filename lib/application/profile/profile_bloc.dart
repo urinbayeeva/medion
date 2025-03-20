@@ -58,6 +58,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Future<void> _uploadImage(
       _UploadImage event, Emitter<ProfileState> emit) async {
+    EasyLoading.show(status: "Loading..".tr());
     if (state.pickedImagePath == null) return;
 
     EasyLoading.show(status: "Uploading...".tr());

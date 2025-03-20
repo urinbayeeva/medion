@@ -57,57 +57,48 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                       String? pickedImagePath =
                                           profileState.pickedImagePath;
 
-                                      return CircleAvatar(
-                                        radius: 70.r,
-                                        backgroundColor: colors.neutral200,
-                                        backgroundImage: backendImageUrl !=
-                                                    null &&
-                                                backendImageUrl.isNotEmpty
-                                            ? NetworkImage(backendImageUrl)
-                                            : pickedImagePath != null
-                                                ? FileImage(
-                                                        File(pickedImagePath))
-                                                    as ImageProvider
-                                                : null,
-                                        child: (backendImageUrl == null ||
-                                                    backendImageUrl.isEmpty) &&
-                                                pickedImagePath == null
-                                            ? icons.nonUser.svg(
-                                                height: 110.h,
-                                                color: colors.neutral500,
-                                              )
-                                            : null,
+                                      return AnimationButtonEffect(
+                                        onTap: () async {
+                                          try {
+                                            if (!mounted) return;
+
+                                            Future.microtask(() {
+                                              if (mounted) {
+                                                context.read<ProfileBloc>().add(
+                                                    ProfileEvent.pickImage(
+                                                        context));
+                                              }
+                                            });
+                                          } catch (e) {
+                                            print("Error picking image: $e");
+                                          }
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 70.r,
+                                          backgroundColor: colors.neutral200,
+                                          backgroundImage: backendImageUrl !=
+                                                      null &&
+                                                  backendImageUrl.isNotEmpty
+                                              ? NetworkImage(backendImageUrl)
+                                              : pickedImagePath != null
+                                                  ? FileImage(
+                                                          File(pickedImagePath))
+                                                      as ImageProvider
+                                                  : null,
+                                          child: (backendImageUrl == null ||
+                                                      backendImageUrl
+                                                          .isEmpty) &&
+                                                  pickedImagePath == null
+                                              ? icons.nonUser.svg(
+                                                  height: 110.h,
+                                                  color: colors.neutral500,
+                                                )
+                                              : null,
+                                        ),
                                       );
                                     },
                                   );
                                 },
-                              ),
-                            ),
-                            Positioned(
-                              bottom: -20,
-                              left: 200,
-                              right: null,
-                              child: AnimationButtonEffect(
-                                onTap: () async {
-                                  try {
-                                    if (!mounted) return;
-
-                                    Future.microtask(() {
-                                      if (mounted) {
-                                        context.read<ProfileBloc>().add(
-                                            ProfileEvent.pickImage(context));
-                                      }
-                                    });
-                                  } catch (e) {
-                                    print("Error picking image: $e");
-                                  }
-                                },
-                                child: CircleAvatar(
-                                  radius: 20.r,
-                                  backgroundColor: colors.error500,
-                                  child:
-                                      icons.edit.svg(width: 16.w, height: 16.h),
-                                ),
                               ),
                             ),
                           ],

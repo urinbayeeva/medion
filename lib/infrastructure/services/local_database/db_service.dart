@@ -10,7 +10,8 @@ class DBService {
   static const _refreshToken = 'refresh_token';
   static const _themeMode = 'theme_mode';
   static const _language = 'language';
-  static const _currencyPreference = 'currency_preference'; // New key for currency
+  static const _currencyPreference =
+      'currency_preference'; // New key for currency
   static const intro = 'intro';
   static const prediction = 'prediction';
   static const auction = 'auction';
@@ -28,7 +29,19 @@ class DBService {
 
   static Future<DBService> get create async {
     _box ??= await Hive.openBox(_dbName);
+
+    bool? isFirstLaunch = _box?.get('first_launch', defaultValue: true);
+
+    if (isFirstLaunch == true) {
+      await _box?.clear();
+      await _box?.put('first_launch', false);
+    }
+
     return DBService._();
+  }
+
+  Future<void> clearAllData() async {
+    await _box?.clear();
   }
 
   /// Token
@@ -78,7 +91,7 @@ class DBService {
 
   Future<void> signOut() async {
     bool? langSaved = getLang;
-    await _box?.clear();
+    await clearAllData();
     setLang(isSaved: langSaved ?? false);
   }
 

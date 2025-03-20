@@ -40,54 +40,62 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
+    final authBloc = context.read<AuthBloc>();
+    if (authBloc.state.patientInfo == null) {
+      authBloc.add(const AuthEvent.fetchPatientInfo());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-      print("🟢 Debug: PatientInfo Data -> ${state.patientInfo}");
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        print("🟢  -> ${state.patientInfo}");
 
-      if (state.patientInfo == null) {
-        return const Center(
+        if (state.patientInfo == null) {
+          return const Center(
             child: CircularProgressIndicator(
-          color: Style.error500,
-        ));
-      }
+              color: Style.error500,
+            ),
+          );
+        }
 
-      final patientInfo = state.patientInfo;
-      return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-        return Expanded(
-            child: SingleChildScrollView(
+        final patientInfo = state.patientInfo;
+
+        return SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(16.0.w),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              UserInfoWidget(title: "your_info".tr(), children: [
-                CustomTextField(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  hintText: patientInfo?.firstName ?? "Not available",
-                  title: "name".tr(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                UserInfoWidget(
+                  title: "your_info".tr(),
+                  children: [
+                    CustomTextField(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      hintText: patientInfo?.firstName ?? "Not available",
+                      title: "name".tr(),
+                    ),
+                    CustomTextField(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      hintText: patientInfo?.lastName ?? "Not available",
+                      title: "second_name".tr(),
+                    ),
+                    CustomTextField(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      hintText:
+                          patientInfo?.patientId?.toString() ?? "Not available",
+                      title: "ID",
+                    ),
+                    CustomTextField(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      hintText: patientInfo?.phoneNumber ?? "Not available",
+                      title: "contact_phone_number".tr(),
+                    ),
+                  ],
                 ),
-                CustomTextField(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  hintText: patientInfo?.lastName ?? "Not available",
-                  title: "second_name".tr(),
-                ),
-                CustomTextField(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  hintText:
-                      patientInfo?.patientId?.toString() ?? "Not available",
-                  title: "ID",
-                ),
-                CustomTextField(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  hintText: patientInfo?.phoneNumber ?? "Not available",
-                  title: "contact_phone_number".tr(),
-                )
-              ]),
-              12.h.verticalSpace,
-              ValueListenableBuilder<List<Map<String, String>>>(
+                12.h.verticalSpace,
+                ValueListenableBuilder<List<Map<String, String>>>(
                   valueListenable: AppointmentState.selectedAppointments,
                   builder: (context, selectedList, _) {
                     print("🟡 Debug: Selected Appointments -> $selectedList");
@@ -95,65 +103,89 @@ class _PaymentPageState extends State<PaymentPage> {
                     return Column(
                       children: selectedList
                           .map((appointment) => _buildAppointmentItem(
-                              appointment, colors, fonts, context))
+                              appointment,
+                              // colors,
+                              // fonts,
+                              context))
                           .toList(),
                     );
-                  }),
-              12.h.verticalSpace,
-              UserInfoWidget(title: "who_pays".tr(), children: [
-                CustomRadioTile<String>(
-                  value: "myself".tr(),
-                  groupValue: _selectedOption,
-                  title: Text("myself".tr()),
-                  onChanged: (value) {
-                    setState(() {
-                      // _selectedOption = value;
-                    });
                   },
                 ),
-                CustomRadioTile<String>(
-                  value: "employer".tr(),
-                  groupValue: _selectedOption,
-                  title: Text(
-                    "employer".tr(),
-                    style: fonts.headlineMain
-                        .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      // _selectedOption = value;
-                    });
+                12.h.verticalSpace,
+                UserInfoWidget(
+                  title: "who_pays".tr(),
+                  children: [
+                    CustomRadioTile<String>(
+                      value: "myself".tr(),
+                      groupValue: _selectedOption,
+                      title: Text("myself".tr()),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedOption = value!;
+                        });
+                      },
+                    ),
+                    CustomRadioTile<String>(
+                      value: "employer".tr(),
+                      groupValue: _selectedOption,
+                      title: Text(
+                        "employer".tr(),
+                        // style: Style.headlineMain.copyWith(
+                        //   fontSize: 14.sp,
+                        //   fontWeight: FontWeight.w500,
+                        // ),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedOption = value!;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                40.h.verticalSpace,
+                CButton(
+                  backgroundColor: Style.neutral200,
+                  textColor: Style.primary900,
+                  title: "pay_not_right_now".tr(),
+                  onTap: () async {
+                    context.read<BottomNavBarController>().changeNavBar(false);
+                    Navigator.pushReplacement(
+                        context, AppRoutes.getMainPage(3));
                   },
                 ),
-              ]),
-              40.h.verticalSpace,
-              CButton(
-                title: "pay_right_now".tr(),
-                onTap: () async {
-                  final paymentProvider =
-                      Provider.of<PaymentProvider>(context, listen: false);
-                  if (paymentProvider.multiUrl != null &&
-                      paymentProvider.multiUrl!.isNotEmpty) {
-                    await _launchPaymentUrl(paymentProvider.multiUrl!);
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("No payment URL available")),
+                8.h.verticalSpace,
+                CButton(
+                  title: "pay_right_now".tr(),
+                  onTap: () async {
+                    final paymentProvider = Provider.of<PaymentProvider>(
+                      context,
+                      listen: false,
                     );
-                  }
-                },
-              ),
-            ]),
+                    if (paymentProvider.multiUrl != null &&
+                        paymentProvider.multiUrl!.isNotEmpty) {
+                      await _launchPaymentUrl(paymentProvider.multiUrl!);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text("No payment URL available")),
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
-        ));
-      });
-    });
+        );
+      },
+    );
   }
 }
 
 Widget _buildAppointmentItem(
-    Map<String, String> appointment, colors, fonts, BuildContext context) {
-  print("🔵 Debug: Appointment Data -> $appointment");
-
+  Map<String, String> appointment,
+  BuildContext context,
+) {
   String appointmentDate = appointment['date'] ?? '';
   String appointmentTime = appointment['time'] ?? '';
 
@@ -165,17 +197,18 @@ Widget _buildAppointmentItem(
 
   return VerifyAppointmentItem(
     hasImage: false,
-    diagnosis: appointment['serviceName'] ?? '',
-    procedure: appointment['specialty'] ?? '',
+    diagnosis: appointment['serviceName'] ?? 'Unknown',
+    procedure: appointment['specialty'] ?? 'Unknown',
     doctorName: 'Dr. ${appointment['doctorName'] ?? "Unknown"}',
-    price: appointment['price'] ?? '',
+    price: appointment['price'] ?? '0',
     appointmentTime:
         "$formattedDate ${appointmentTime.isNotEmpty ? appointmentTime : "Not available"}",
-    location: appointment['location'] ?? '',
+    location: appointment['location'] ?? 'Unknown',
     imagePath: '',
     onCancel: () {
-      if (appointment['serviceId'] != null) {
-        AppointmentState.removeAppointment(appointment['serviceId']!);
+      final serviceId = appointment['serviceId'];
+      if (serviceId != null) {
+        AppointmentState.removeAppointment(serviceId);
       }
     },
   );

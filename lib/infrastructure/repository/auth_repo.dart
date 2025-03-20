@@ -19,6 +19,7 @@ import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/utils/constants.dart';
 
 class AuthRepository implements IAuthFacade {
@@ -223,19 +224,24 @@ class AuthRepository implements IAuthFacade {
   Future<Either<ResponseFailure, BuiltList<PatientAnalysis>>>
       getPatientAnalyze() async {
     try {
+      EasyLoading.show(status: 'Loading...'.tr());
+
       final res = await _patientService.getPatientAnalyze();
 
       if (res.isSuccessful && res.body != null) {
         LogService.d('Response Status: ${res.statusCode}');
         LogService.d('Response Body: ${res.body}');
+        EasyLoading.dismiss();
         return right(res.body!);
       } else {
+        EasyLoading.dismiss();
         return left(InvalidCredentials(
           message:
-              'Failed to fetch patient anaylze: ${res.statusCode}, ${res.body.toString()}',
+              'Failed to fetch patient analyze: ${res.statusCode}, ${res.body.toString()}',
         ));
       }
     } catch (e) {
+      EasyLoading.dismiss();
       LogService.e(" ----> error fetching patient analyze: ${e.toString()}");
       return left(handleError(e));
     }

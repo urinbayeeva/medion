@@ -32,7 +32,6 @@ class VerifyAppointment extends StatefulWidget {
 }
 
 class _VerifyAppointmentState extends State<VerifyAppointment> {
- 
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -86,7 +85,8 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                     onTap: () async {
                       if (selectedList.isNotEmpty) {
                         final appointment = selectedList.first;
-                        final success = await sendVisitRequest(appointment, context );
+                        final success =
+                            await sendVisitRequest(appointment, context);
                         if (success) {
                           widget.onTap();
                         }
@@ -189,7 +189,19 @@ Future<bool> sendVisitRequest(
       return true; // Success
     } else {
       print("Error: ${response.statusCode}, ${response.body}");
-      EasyLoading.showError("Failed to create visit");
+      try {
+        final errorResponse = jsonDecode(response.body);
+        if (errorResponse is Map<String, dynamic> &&
+            errorResponse.containsKey("detail") &&
+            errorResponse["detail"] is Map<String, dynamic> &&
+            errorResponse["detail"].containsKey("error")) {
+          EasyLoading.showError(errorResponse["detail"]["error"]);
+        } else {
+          EasyLoading.showError("Failed to create visit");
+        }
+      } catch (_) {
+        EasyLoading.showError("Failed to create visit");
+      }
       return false; // Failure
     }
   } catch (e) {

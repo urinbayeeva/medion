@@ -6,6 +6,7 @@ class ContentState with _$ContentState {
   const ContentState._();
 
   const factory ContentState({
+    @Default(<String, List<BranchModel>>{}) Map<String, List<ContentModel>> contentByType,
     @Default(false) bool loading,
     @Default(false) bool error,
     @Default(false) bool success,

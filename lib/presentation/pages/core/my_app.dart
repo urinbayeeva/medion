@@ -63,6 +63,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => TimeSelectionProvider()),
           ChangeNotifierProvider(create: (_) => CurrencyChangeProvider()),
                   ChangeNotifierProvider(create: (_) => PaymentProvider()),
+                  
 
           BlocProvider(
             child: const PaymentPage(),

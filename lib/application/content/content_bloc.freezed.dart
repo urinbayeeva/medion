@@ -233,6 +233,8 @@ abstract class _FetchContent implements ContentEvent {
 
 /// @nodoc
 mixin _$ContentState {
+  Map<String, List<ContentModel>> get contentByType =>
+      throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
   bool get success => throw _privateConstructorUsedError;
@@ -252,7 +254,11 @@ abstract class $ContentStateCopyWith<$Res> {
       _$ContentStateCopyWithImpl<$Res, ContentState>;
   @useResult
   $Res call(
-      {bool loading, bool error, bool success, List<ContentModel> content});
+      {Map<String, List<ContentModel>> contentByType,
+      bool loading,
+      bool error,
+      bool success,
+      List<ContentModel> content});
 }
 
 /// @nodoc
@@ -270,12 +276,17 @@ class _$ContentStateCopyWithImpl<$Res, $Val extends ContentState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? contentByType = null,
     Object? loading = null,
     Object? error = null,
     Object? success = null,
     Object? content = null,
   }) {
     return _then(_value.copyWith(
+      contentByType: null == contentByType
+          ? _value.contentByType
+          : contentByType // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<ContentModel>>,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -305,7 +316,11 @@ abstract class _$$ContentStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool loading, bool error, bool success, List<ContentModel> content});
+      {Map<String, List<ContentModel>> contentByType,
+      bool loading,
+      bool error,
+      bool success,
+      List<ContentModel> content});
 }
 
 /// @nodoc
@@ -321,12 +336,17 @@ class __$$ContentStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? contentByType = null,
     Object? loading = null,
     Object? error = null,
     Object? success = null,
     Object? content = null,
   }) {
     return _then(_$ContentStateImpl(
+      contentByType: null == contentByType
+          ? _value._contentByType
+          : contentByType // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<ContentModel>>,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -351,12 +371,24 @@ class __$$ContentStateImplCopyWithImpl<$Res>
 
 class _$ContentStateImpl extends _ContentState {
   const _$ContentStateImpl(
-      {this.loading = false,
+      {final Map<String, List<ContentModel>> contentByType =
+          const <String, List<ContentModel>>{},
+      this.loading = false,
       this.error = false,
       this.success = false,
       final List<ContentModel> content = const []})
-      : _content = content,
+      : _contentByType = contentByType,
+        _content = content,
         super._();
+
+  final Map<String, List<ContentModel>> _contentByType;
+  @override
+  @JsonKey()
+  Map<String, List<ContentModel>> get contentByType {
+    if (_contentByType is EqualUnmodifiableMapView) return _contentByType;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_contentByType);
+  }
 
   @override
   @JsonKey()
@@ -378,7 +410,7 @@ class _$ContentStateImpl extends _ContentState {
 
   @override
   String toString() {
-    return 'ContentState(loading: $loading, error: $error, success: $success, content: $content)';
+    return 'ContentState(contentByType: $contentByType, loading: $loading, error: $error, success: $success, content: $content)';
   }
 
   @override
@@ -386,6 +418,8 @@ class _$ContentStateImpl extends _ContentState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ContentStateImpl &&
+            const DeepCollectionEquality()
+                .equals(other._contentByType, _contentByType) &&
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.success, success) || other.success == success) &&
@@ -393,7 +427,12 @@ class _$ContentStateImpl extends _ContentState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, loading, error, success,
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_contentByType),
+      loading,
+      error,
+      success,
       const DeepCollectionEquality().hash(_content));
 
   /// Create a copy of ContentState
@@ -407,12 +446,15 @@ class _$ContentStateImpl extends _ContentState {
 
 abstract class _ContentState extends ContentState {
   const factory _ContentState(
-      {final bool loading,
+      {final Map<String, List<ContentModel>> contentByType,
+      final bool loading,
       final bool error,
       final bool success,
       final List<ContentModel> content}) = _$ContentStateImpl;
   const _ContentState._() : super._();
 
+  @override
+  Map<String, List<ContentModel>> get contentByType;
   @override
   bool get loading;
   @override

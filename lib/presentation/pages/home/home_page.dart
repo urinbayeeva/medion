@@ -12,7 +12,6 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../application/home/home_bloc.dart';
-
 import '../../../presentation/component/animation_effect.dart';
 import '../../../presentation/component/c_appbar.dart';
 import '../../../presentation/component/custom_pagination.dart';
@@ -68,6 +67,8 @@ class _HomePageState extends State<HomePage> {
             context
                 .read<BookingBloc>()
                 .add(const BookingEvent.fetchHomePageServicesBooking());
+            context.read<ContentBloc>().add(const ContentEvent.fetchContent(
+                type: "news")); // Add this to refresh news
             setState(() {});
 
             _refreshController.refreshCompleted();
@@ -133,7 +134,6 @@ class _HomePageState extends State<HomePage> {
                                     AppRoutes.getDirectionInfoPage(
                                         id: item.id!, name: item.name!),
                                   ).then((_) {
-                                    // ignore: use_build_context_synchronously
                                     context
                                         .read<BottomNavBarController>()
                                         .changeNavBar(false);
@@ -192,45 +192,52 @@ class _HomePageState extends State<HomePage> {
                           });
                         }),
                         BlocBuilder<ContentBloc, ContentState>(
-                            builder: (context, state) {
-                          if (state.error) {
-                            return Center(
+                          builder: (context, state) {
+                            if (state.error) {
+                              return Center(
                                 child: Text('something_went_wrong'.tr(),
-                                    style: fonts.regularSemLink));
-                          }
+                                    style: fonts.regularSemLink),
+                              );
+                            }
 
-                          return SizedBox(
-                            height: 220.h,
-                            child: ListView.builder(
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: state.content.length,
-                              itemBuilder: (context, index) {
-                                final news = state.content[index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: NewsItem(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        AppRoutes.getInfoViewAboutHealth(
+                            // Use contentByType["news"] instead of state.content
+                            final newsContent =
+                                state.contentByType["news"] ?? [];
+                            return SizedBox(
+                              height: 220.h,
+                              child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: newsContent.length,
+                                itemBuilder: (context, index) {
+                                  final news = newsContent[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 8.0), // Fixed 'custom' typo
+                                    child: NewsItem(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          AppRoutes.getInfoViewAboutHealth(
                                             imagePath: news.primaryImage,
                                             title: news.decodedTitle,
                                             desc: news.decodedDescription,
-                                            date: news.createDate),
-                                      );
-                                    },
-                                    crop: true,
-                                    imagePath: news.primaryImage,
-                                    title: news.decodedTitle,
-                                    subtitle: news.decodedDescription,
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        }),
+                                            date: news.createDate,
+                                          ),
+                                        );
+                                      },
+                                      crop: true,
+                                      imagePath: news.primaryImage,
+                                      title: news.decodedTitle,
+                                      subtitle: news.decodedDescription,
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
                         _buildVerticalSpacingAndHeader(
                             "address_of_clinic", fonts, "all", () {
                           context
@@ -277,9 +284,12 @@ class _HomePageState extends State<HomePage> {
           color: active ? colors.error500 : const Color(0xFFEBEBEB),
           borderRadius: BorderRadius.circular(100),
         ),
-        child: Text(text.tr(),
-            style: fonts.xSmallText
-                .copyWith(color: active ? colors.shade0 : colors.primary900)),
+        child: Text(
+          text.tr(),
+          style: fonts.xSmallText.copyWith(
+            color: active ? colors.shade0 : colors.primary900,
+          ),
+        ),
       ),
     );
   }
@@ -302,14 +312,18 @@ class _HomePageState extends State<HomePage> {
             onPressed: onTap,
             child: Row(
               children: [
-                Text(title.tr(),
-                    style: fonts.smallLink.copyWith(
-                        fontSize: 14.sp, fontWeight: FontWeight.w500)),
+                Text(
+                  title.tr(),
+                  style: fonts.smallLink.copyWith(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 3.w.horizontalSpace,
-                icons.right.svg()
+                icons.right.svg(),
               ],
             ),
-          )
+          ),
         ],
       );
     });
@@ -353,11 +367,13 @@ Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
             return DoctorsItem(
               onTap: () {
                 Navigator.push(
-                    context,
-                    AppRoutes.getAboutDoctorPage(
-                        doctor['name'].toString(),
-                        doctor['profession'].toString(),
-                        doctor['status'].toString()));
+                  context,
+                  AppRoutes.getAboutDoctorPage(
+                    doctor['name'].toString(),
+                    doctor['profession'].toString(),
+                    doctor['status'].toString(),
+                  ),
+                );
               },
               imagePath: doctor['image'].toString(),
               name: doctor['name'].toString(),

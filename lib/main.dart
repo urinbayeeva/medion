@@ -17,8 +17,7 @@ import 'package:medion/utils/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
- Future<void> main() async {
-
+Future<void> main() async {
   if (kDebugMode) {
     Bloc.observer = LogBlocObserver();
   }

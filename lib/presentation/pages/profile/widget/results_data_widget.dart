@@ -76,7 +76,7 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
                       child: ListTile(
                         title: Text(state.patientAnalyze[item]!.documentName,
                             style: fonts.smallSemLink),
-                        subtitle: Text(data['date']!,
+                        subtitle: Text(state.patientAnalyze[item]!.date,
                             style: fonts.xSmallText
                                 .copyWith(color: colors.neutral600)),
                         trailing: Row(
