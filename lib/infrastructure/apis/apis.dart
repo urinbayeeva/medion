@@ -61,22 +61,17 @@ abstract class RefreshService extends ChopperService {
       _$RefreshService(_Client(Constants.baseUrlP, true, dbService));
 }
 
-
 @ChopperApi(baseUrl: "")
-
 abstract class VisitCreateService extends ChopperService {
   @Post(path: "create_visit")
   Future<Response<BuiltList<VisitResponse>>> visitCreate({
-  @Body() required VisitRequest request,  
+    @Body() required VisitRequest request,
     @Header('requires-token') String requiresToken = "true",
-
   });
 
   static VisitCreateService create(DBService dbService) =>
       _$VisitCreateService(_Client(Constants.baseUrlP, true, dbService));
 }
-
-
 
 //Booking
 @ChopperApi(baseUrl: "/booking/")
@@ -167,7 +162,7 @@ abstract class PatientService extends ChopperService {
     @Header('requires-token') String requiresToken = "true",
   });
 
-  @Get(path: "patient_analysis")
+  @Get(path: "patient_analysis_mobile")
   Future<Response<BuiltList<PatientAnalysis>>> getPatientAnalyze({
     @Header('requires-token') String requiresToken = "true",
   });

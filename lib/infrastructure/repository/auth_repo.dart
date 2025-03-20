@@ -79,8 +79,8 @@ class AuthRepository implements IAuthFacade {
             res.body!.accessToken!.isNotEmpty &&
             res.body!.refreshToken!.isNotEmpty) {
           _dbService.setToken(Token(
-            accessToken: res.body!.accessToken!.first, 
-            refreshToken: res.body!.refreshToken!.first, 
+            accessToken: res.body!.accessToken!.first,
+            refreshToken: res.body!.refreshToken!.first,
             tokenType: 'Bearer',
           ));
           // print("TOKEN: ${res.body}")
@@ -232,11 +232,11 @@ class AuthRepository implements IAuthFacade {
       } else {
         return left(InvalidCredentials(
           message:
-              'Failed to fetch patient visits: ${res.statusCode}, ${res.body.toString()}',
+              'Failed to fetch patient anaylze: ${res.statusCode}, ${res.body.toString()}',
         ));
       }
     } catch (e) {
-      LogService.e(" ----> error fetching patient visits: ${e.toString()}");
+      LogService.e(" ----> error fetching patient analyze: ${e.toString()}");
       return left(handleError(e));
     }
   }

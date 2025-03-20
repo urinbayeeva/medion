@@ -94,3 +94,5 @@ abstract class PatientAnalysis implements Built<PatientAnalysis, PatientAnalysis
 
   static Serializer<PatientAnalysis> get serializer => _$patientAnalysisSerializer;
 }
+
+

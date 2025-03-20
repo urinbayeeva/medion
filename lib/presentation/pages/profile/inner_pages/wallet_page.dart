@@ -1,12 +1,26 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
-class WalletPage extends StatelessWidget {
+class WalletPage extends StatefulWidget {
   const WalletPage({super.key});
+
+  @override
+  State<WalletPage> createState() => _WalletPageState();
+}
+
+class _WalletPageState extends State<WalletPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,70 +37,86 @@ class WalletPage extends StatelessWidget {
               trailing: 26.w.horizontalSpace,
             ),
             24.h.verticalSpace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 82.h,
-                      padding: EdgeInsets.all(12.w),
-                      margin: EdgeInsets.only(right: 8.w),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: colors.shade0,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("balance".tr(), style: fonts.smallLink),
-                          12.h.verticalSpace,
-                          Row(
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                if (state.patientInfo == null) {
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    color: Style.error500,
+                  ));
+                }
+
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 82.h,
+                          padding: EdgeInsets.all(12.w),
+                          margin: EdgeInsets.only(right: 8.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: colors.shade0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("sum".tr(args: ["50 000"]),
-                                  style: fonts.regularMain),
-                              8.w.horizontalSpace,
-                              icons.question.svg(
-                                width: 20.w,
-                                height: 20.h,
+                              Text("balance".tr(), style: fonts.smallLink),
+                              12.h.verticalSpace,
+                              Row(
+                                children: [
+                                  Text(
+                                    "sum".tr(namedArgs: {
+                                      "amount":
+                                          "${state.patientInfo?.patientBalance ?? 0}"
+                                    }),
+                                    style: fonts.regularMain,
+                                  ),
+                                  8.w.horizontalSpace,
+                                  icons.question.svg(
+                                    width: 20.w,
+                                    height: 20.h,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 82.h,
-                      padding: EdgeInsets.all(12.w),
-                      margin: EdgeInsets.only(left: 8.w),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: colors.shade0,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("cache".tr(), style: fonts.smallLink),
-                          12.h.verticalSpace,
-                          Row(
+                      Expanded(
+                        child: Container(
+                          height: 82.h,
+                          padding: EdgeInsets.all(12.w),
+                          margin: EdgeInsets.only(left: 8.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: colors.shade0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("sum".tr(args: ["1000"]),
-                                  style: fonts.regularMain),
-                              8.w.horizontalSpace,
-                              icons.question.svg(
-                                width: 20.w,
-                                height: 20.h,
+                              Text("cache".tr(), style: fonts.smallLink),
+                              12.h.verticalSpace,
+                              Row(
+                                children: [
+                                  Text("sum".tr(namedArgs: {"amount": "0"}),
+                                      style: fonts.regularMain),
+                                  8.w.horizontalSpace,
+                                  icons.question.svg(
+                                    width: 20.w,
+                                    height: 20.h,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              },
             ),
           ],
         ),

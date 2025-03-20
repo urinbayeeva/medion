@@ -265,7 +265,19 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getWalletPage() {
-    return MaterialPageRoute(builder: (_) => const WalletPage());
+    return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+            create: (context) {
+              DBService dbService = context.read<DBService>();
+              return AuthBloc(
+                  AuthRepository(
+                      dbService,
+                      AuthService.create(dbService),
+                      PatientService.create(dbService),
+                      RefreshService.create(dbService)),
+                  dbService);
+            },
+            child: const WalletPage()));
   }
 
   static MaterialPageRoute getRecipesPage() {
@@ -273,7 +285,19 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getResultsPage() {
-    return MaterialPageRoute(builder: (_) => const ResultsPage());
+    return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+            create: (context) {
+              DBService dbService = context.read<DBService>();
+              return AuthBloc(
+                  AuthRepository(
+                      dbService,
+                      AuthService.create(dbService),
+                      PatientService.create(dbService),
+                      RefreshService.create(dbService)),
+                  dbService);
+            },
+            child: const ResultsPage()));
   }
 
   static MaterialPageRoute getUserDetailsPage() {

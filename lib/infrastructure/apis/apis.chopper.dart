@@ -372,7 +372,7 @@ final class _$PatientService extends PatientService {
   @override
   Future<Response<BuiltList<PatientAnalysis>>> getPatientAnalyze(
       {String requiresToken = "true"}) {
-    final Uri $url = Uri.parse('/profile/patient_analysis');
+    final Uri $url = Uri.parse('/profile/patient_analysis_mobile');
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
     };
