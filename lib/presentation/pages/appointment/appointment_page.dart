@@ -57,6 +57,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
   @override
   void initState() {
     super.initState();
+    print("Received index: ${widget.index}");
     screenIndex = widget.index ?? 0;
     selectedServiceIds = widget.selectedServiceIds ?? {};
     _pageController = PageController(initialPage: screenIndex);

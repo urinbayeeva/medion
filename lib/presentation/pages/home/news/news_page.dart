@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/content/content_bloc.dart';
-import 'package:medion/application/home/home_bloc.dart';
-import 'package:medion/domain/models/news_model/news_model.dart';
-import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/home/news/widgets/news_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -20,7 +18,15 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
-  RefreshController _refreshController = RefreshController();
+  final RefreshController _refreshController = RefreshController();
+
+  @override
+  void initState() {
+    super.initState();
+    context
+        .read<ContentBloc>()
+        .add(const ContentEvent.fetchContent(type: "news"));
+  }
 
   @override
   void dispose() {
@@ -28,62 +34,103 @@ class _NewsPageState extends State<NewsPage> {
     super.dispose();
   }
 
-  @override
-  void initState() {
-    context.read<ContentBloc>().add(ContentEvent.fetchContent(type: "news"));
-    super.initState();
+  void _onRefresh() {
+    context
+        .read<ContentBloc>()
+        .add(const ContentEvent.fetchContent(type: "news"));
+    _refreshController.refreshCompleted();
   }
 
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return BlocBuilder<ContentBloc, ContentState>(builder: (context, state) {
-        return Scaffold(
-          backgroundColor: colors.backgroundColor,
-          body: Column(
-            children: [
-              CAppBar(
-                bordered: true,
-                title: "news".tr(),
-                centerTitle: true,
-                trailing: 24.w.horizontalSpace,
-              ),
-              Expanded(
-                child: GridView.builder(
-                  padding: EdgeInsets.all(8.w),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 4.w,
-                    mainAxisSpacing: 8.h,
-                    childAspectRatio: 2.3 / 3,
-                  ),
-                  itemBuilder: (context, index) {
-                    final item = state.content[index];
-                    return NewsItem(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          AppRoutes.getInfoViewAboutHealth(
-                            date: item.createDate,
-                            imagePath: item.primaryImage,
-                            title: item.decodedTitle,
-                            desc: item.decodedDescription,
+      return Scaffold(
+        backgroundColor: colors.backgroundColor,
+        body: Column(
+          children: [
+            CAppBar(
+              bordered: true,
+              title: "news".tr(),
+              centerTitle: true,
+              trailing: 24.w.horizontalSpace,
+            ),
+            Expanded(
+              child: BlocBuilder<ContentBloc, ContentState>(
+                builder: (context, state) {
+                  if (state.loading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (state.error) {
+                    return Center(
+                      child: Text(
+                        'something_went_wrong'.tr(),
+                        style: fonts.regularSemLink,
+                      ),
+                    );
+                  }
+
+                  final newsContent = state.contentByType["news"] ?? [];
+
+                  if (newsContent.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          icons.emojiSad.svg(width: 80.w, height: 80.h),
+                          4.h.verticalSpace,
+                          Text(
+                            'no_result_found'.tr(),
+                            style: fonts.regularSemLink,
                           ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  return SmartRefresher(
+                    controller: _refreshController,
+                    onRefresh: _onRefresh,
+                    child: GridView.builder(
+                      padding: EdgeInsets.all(8.w),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 4,
+                        mainAxisSpacing: 8,
+                        childAspectRatio: 2.3 / 3,
+                      ),
+                      itemBuilder: (context, index) {
+                        final item = newsContent[index];
+                        return NewsItem(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              AppRoutes.getInfoViewAboutHealth(
+                                date: item.createDate,
+                                imagePath: item.primaryImage,
+                                title: item.decodedTitle,
+                                desc: item.decodedDescription,
+                              ),
+                            );
+                          },
+                          crop: true,
+                          imagePath: item.primaryImage,
+                          title: item.decodedTitle,
+                          subtitle: item.decodedDescription,
                         );
                       },
-                      crop: true,
-                      imagePath: item.primaryImage,
-                      title: item.decodedTitle,
-                      subtitle: item.decodedDescription,
-                    );
-                  },
-                  itemCount: state.content.length,
-                ),
+                      itemCount: newsContent.length,
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
-        );
-      });
+            ),
+          ],
+        ),
+      );
     });
   }
 }

@@ -347,9 +347,9 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const NewsPage());
   }
 
-  static MaterialPageRoute getNewsViewPage() {
-    return MaterialPageRoute(builder: (_) => const NewsView());
-  }
+  // static MaterialPageRoute getNewsViewPage() {
+  //   return MaterialPageRoute(builder: (_) => const NewsView());
+  // }
 
   static MaterialPageRoute getNotificationPage() {
     return MaterialPageRoute(builder: (_) => const NotificationPage());

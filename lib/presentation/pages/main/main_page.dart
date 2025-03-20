@@ -56,7 +56,7 @@ class _MainPageState extends State<MainPage> {
 
     pageList = [
       const HomePage(),
-      const AppointmentPage(),
+      const AppointmentPage(index: 0),
       const MyVisitsPage(),
       BlocProvider(
           create: (context) {
@@ -127,14 +127,14 @@ class _MainPageState extends State<MainPage> {
             backgroundColor: colors.shade0,
             body: Consumer<BottomNavBarController>(
               builder: (context, theme, _) {
-                _controller.index = theme.currentIndex; 
+                _controller.index = theme.currentIndex;
                 return PersistentTabView(
                   context,
                   onItemSelected: (int index) {
                     context.read<BottomNavBarController>().setIndex(index);
                     onDebounce(() {
                       setState(() {
-                        _controller.index = index; 
+                        _controller.index = index;
                       });
                     });
 

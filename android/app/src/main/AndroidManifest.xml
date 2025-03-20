@@ -13,27 +13,22 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <!-- Queries for intent support -->
     <queries>
-        <!-- If your app checks for SMS handling -->
         <intent>
             <action android:name="android.intent.action.VIEW"/>
             <data android:scheme="sms"/>
         </intent>
-        
-        <!-- If your app checks for call support -->
+
         <intent>
             <action android:name="android.intent.action.VIEW"/>
             <data android:scheme="tel"/>
         </intent>
-        
-        <!-- If your application checks for Custom Tabs support -->
+
         <intent>
             <action android:name="android.support.customtabs.action.CustomTabsService"/>
         </intent>
 
-        <!-- Required to query activities that can process text -->
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
@@ -60,7 +55,6 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
 
-            <!-- Specifies an Android theme to apply to this Activity -->
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme"/>
@@ -70,6 +64,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- UCrop Activity (Declared Separately) -->
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Ucrop.CropTheme"/>
 
         <!-- Flutter Generated Plugin Registrant -->
         <meta-data
