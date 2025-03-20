@@ -135,7 +135,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          service.name,
+                                          service.name!,
                                           style: fonts.smallSemLink.copyWith(
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -175,12 +175,12 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           _servicesProvider
                                               .removeService(service);
                                           _serviceIdsProvider
-                                              .removeServiceId(service.id);
+                                              .removeServiceId(service.id!);
                                           chose--;
                                         } else {
                                           _servicesProvider.addService(service);
                                           _serviceIdsProvider
-                                              .addServiceId(service.id);
+                                              .addServiceId(service.id!);
                                           chose++;
                                         }
                                         // Sync selectedServiceIDCatch after selection changes

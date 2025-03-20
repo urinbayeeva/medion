@@ -105,25 +105,46 @@ class _$ServiceSerializer implements StructuredSerializer<Service> {
   @override
   Iterable<Object?> serialize(Serializers serializers, Service object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'name',
-      serializers.serialize(object.name, specifiedType: const FullType(String)),
-      'doctor_price_start_uzs',
-      serializers.serialize(object.priceUzs,
-          specifiedType: const FullType(double)),
-      'doctor_price_start_usd',
-      serializers.serialize(object.priceUsd,
-          specifiedType: const FullType(double)),
-      'age',
-      serializers.serialize(object.age, specifiedType: const FullType(String)),
-    ];
+    final result = <Object?>[];
     Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.name;
+    if (value != null) {
+      result
+        ..add('name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.description;
     if (value != null) {
       result
         ..add('description')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.priceUzs;
+    if (value != null) {
+      result
+        ..add('doctor_price_start_uzs')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
+    value = object.priceUsd;
+    if (value != null) {
+      result
+        ..add('doctor_price_start_usd')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
+    value = object.age;
+    if (value != null) {
+      result
+        ..add('age')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -143,11 +164,11 @@ class _$ServiceSerializer implements StructuredSerializer<Service> {
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'name':
           result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'description':
           result.description = serializers.deserialize(value,
@@ -155,15 +176,15 @@ class _$ServiceSerializer implements StructuredSerializer<Service> {
           break;
         case 'doctor_price_start_uzs':
           result.priceUzs = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'doctor_price_start_usd':
           result.priceUsd = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'age':
           result.age = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -1494,35 +1515,29 @@ class BookingTypeModelBuilder
 
 class _$Service extends Service {
   @override
-  final int id;
+  final int? id;
   @override
-  final String name;
+  final String? name;
   @override
   final String? description;
   @override
-  final double priceUzs;
+  final double? priceUzs;
   @override
-  final double priceUsd;
+  final double? priceUsd;
   @override
-  final String age;
+  final String? age;
 
   factory _$Service([void Function(ServiceBuilder)? updates]) =>
       (new ServiceBuilder()..update(updates))._build();
 
   _$Service._(
-      {required this.id,
-      required this.name,
+      {this.id,
+      this.name,
       this.description,
-      required this.priceUzs,
-      required this.priceUsd,
-      required this.age})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'Service', 'id');
-    BuiltValueNullFieldError.checkNotNull(name, r'Service', 'name');
-    BuiltValueNullFieldError.checkNotNull(priceUzs, r'Service', 'priceUzs');
-    BuiltValueNullFieldError.checkNotNull(priceUsd, r'Service', 'priceUsd');
-    BuiltValueNullFieldError.checkNotNull(age, r'Service', 'age');
-  }
+      this.priceUzs,
+      this.priceUsd,
+      this.age})
+      : super._();
 
   @override
   Service rebuild(void Function(ServiceBuilder) updates) =>
@@ -1629,14 +1644,12 @@ class ServiceBuilder implements Builder<Service, ServiceBuilder> {
   _$Service _build() {
     final _$result = _$v ??
         new _$Service._(
-          id: BuiltValueNullFieldError.checkNotNull(id, r'Service', 'id'),
-          name: BuiltValueNullFieldError.checkNotNull(name, r'Service', 'name'),
+          id: id,
+          name: name,
           description: description,
-          priceUzs: BuiltValueNullFieldError.checkNotNull(
-              priceUzs, r'Service', 'priceUzs'),
-          priceUsd: BuiltValueNullFieldError.checkNotNull(
-              priceUsd, r'Service', 'priceUsd'),
-          age: BuiltValueNullFieldError.checkNotNull(age, r'Service', 'age'),
+          priceUzs: priceUzs,
+          priceUsd: priceUsd,
+          age: age,
         );
     replace(_$result);
     return _$result;

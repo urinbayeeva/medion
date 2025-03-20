@@ -28,22 +28,22 @@ abstract class Service implements Built<Service, ServiceBuilder> {
   factory Service([Function(ServiceBuilder b) updates]) = _$Service;
 
   @BuiltValueField(wireName: 'id')
-  int get id;
+  int? get id;
 
   @BuiltValueField(wireName: 'name')
-  String get name;
+  String? get name;
 
   @BuiltValueField(wireName: 'description')
   String? get description;
 
   @BuiltValueField(wireName: 'doctor_price_start_uzs')
-  double get priceUzs;
+  double? get priceUzs;
 
   @BuiltValueField(wireName: 'doctor_price_start_usd')
-  double get priceUsd;
+  double? get priceUsd;
 
   @BuiltValueField(wireName: 'age')
-  String get age;
+  String? get age;
 
   String toJson() {
     return json.encode(serializers.serializeWith(Service.serializer, this));
