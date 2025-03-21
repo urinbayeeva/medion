@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:built_collection/built_collection.dart';
-import 'package:dio/dio.dart'; 
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
@@ -69,7 +69,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             LogService.e(
                 "Error refreshing category services: ${error.message}");
             emit(state.copyWith(loading: false, error: true));
-            EasyLoading.showError(error.message);
+            // EasyLoading.showError(error.message);
           },
           (data) {
             emit(state.copyWith(

@@ -84,12 +84,16 @@ class _SecondServicePageState extends State<SecondServicePage> {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return BlocBuilder<BookingBloc, BookingState>(
+      return BlocConsumer<BookingBloc, BookingState>(
+        listener: (context, state) {
+          if (state.categoryServices.isNotEmpty) {
+            setState(() {});
+          }
+        },
         builder: (context, state) {
           if (state.categoryServices.isEmpty) {
             return Center(
               child: Text(
-                semanticsLabel: "no_result_found".tr(),
                 "no_result_found".tr(),
                 style: Style.headlineMain(),
               ),
@@ -183,7 +187,6 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                               .addServiceId(service.id!);
                                           chose++;
                                         }
-                                        // Sync selectedServiceIDCatch after selection changes
                                         selectedServiceIDCatch.clear();
                                         selectedServiceIDCatch.addAll(
                                             _serviceIdsProvider
@@ -305,9 +308,9 @@ class _SecondServicePageState extends State<SecondServicePage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => AppointmentPage(
-                              index: 2, // Move to "Doctors Time" step
-                              selectedServiceIds: selectedServiceIDCatch
-                                  .toSet(), // Pass selected IDs
+                              index: 2,
+                              selectedServiceIds:
+                                  selectedServiceIDCatch.toSet(),
                             ),
                           ),
                         );
