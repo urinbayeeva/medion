@@ -9,10 +9,12 @@ import 'package:medion/application/profile/profile_bloc.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/profile/widget/user_info_input.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/file_handler.dart';
 
 class UserDetailsPage extends StatefulWidget {
   const UserDetailsPage({super.key});
@@ -47,43 +49,56 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           children: [
                             Center(
                               child: BlocBuilder<ProfileBloc, ProfileState>(
-                                builder: (context, state) {
-                                  return state.pickedImagePath != null
-                                      ? CircleAvatar(
-                                          radius: 70.r,
-                                          backgroundImage: FileImage(
-                                              File(state.pickedImagePath!)),
-                                        )
-                                      : CircleAvatar(
-                                          radius: 70.r,
-                                          backgroundColor:
-                                              colors.neutral500,
-                                          child: icons.nonUser.svg(
-                                            height: 110.h,
-                                            color: colors.neutral500,
-                                          ),
-                                        );
-                                },
-                              ),
-                            ),
-                            Positioned(
-                              bottom: -20,
-                              left: 10,
-                              right: 0,
-                              child: GestureDetector(
-                                onTap: () {
-                                  context
-                                      .read<ProfileBloc>()
-                                      .add(ProfileEvent.pickImage(context));
+                                builder: (context, profileState) {
+                                  return BlocBuilder<AuthBloc, AuthState>(
+                                    builder: (context, authState) {
+                                      String? backendImageUrl =
+                                          authState.patientInfo?.image;
+                                      String? pickedImagePath =
+                                          profileState.pickedImagePath;
 
-                                  // ImageService.showPicker(context);
+                                      return AnimationButtonEffect(
+                                        onTap: () async {
+                                          try {
+                                            if (!mounted) return;
+
+                                            Future.microtask(() {
+                                              if (mounted) {
+                                                context.read<ProfileBloc>().add(
+                                                    ProfileEvent.pickImage(
+                                                        context));
+                                              }
+                                            });
+                                          } catch (e) {
+                                            print("Error picking image: $e");
+                                          }
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 70.r,
+                                          backgroundColor: colors.neutral200,
+                                          backgroundImage: backendImageUrl !=
+                                                      null &&
+                                                  backendImageUrl.isNotEmpty
+                                              ? NetworkImage(backendImageUrl)
+                                              : pickedImagePath != null
+                                                  ? FileImage(
+                                                          File(pickedImagePath))
+                                                      as ImageProvider
+                                                  : null,
+                                          child: (backendImageUrl == null ||
+                                                      backendImageUrl
+                                                          .isEmpty) &&
+                                                  pickedImagePath == null
+                                              ? icons.nonUser.svg(
+                                                  height: 110.h,
+                                                  color: colors.neutral500,
+                                                )
+                                              : null,
+                                        ),
+                                      );
+                                    },
+                                  );
                                 },
-                                child: CircleAvatar(
-                                  radius: 20.r,
-                                  backgroundColor: colors.error500,
-                                  child:
-                                      icons.edit.svg(width: 16.w, height: 16.h),
-                                ),
                               ),
                             ),
                           ],

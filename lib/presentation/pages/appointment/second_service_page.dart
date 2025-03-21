@@ -8,6 +8,7 @@ import 'package:medion/application/selected_provider.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
@@ -74,7 +75,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
           .where((service) =>
               _serviceIdsProvider.selectedServiceIds.contains(service.id))
           .toList();
-      chose = selectedServices.length;
+      chose = selectedServices.length - 1;
       selectedServiceIDCatch.clear();
       selectedServiceIDCatch.addAll(_serviceIdsProvider.selectedServiceIds);
     });
@@ -83,12 +84,16 @@ class _SecondServicePageState extends State<SecondServicePage> {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return BlocBuilder<BookingBloc, BookingState>(
+      return BlocConsumer<BookingBloc, BookingState>(
+        listener: (context, state) {
+          if (state.categoryServices.isNotEmpty) {
+            setState(() {});
+          }
+        },
         builder: (context, state) {
           if (state.categoryServices.isEmpty) {
             return Center(
               child: Text(
-                semanticsLabel: "no_result_found".tr(),
                 "no_result_found".tr(),
                 style: Style.headlineMain(),
               ),
@@ -134,14 +139,13 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          service.name,
+                                          service.name!,
                                           style: fonts.smallSemLink.copyWith(
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         Text(
-                                          service.description ??
-                                              'no_description',
+                                          service.description ?? '',
                                           style: fonts.smallLink.copyWith(
                                             color: colors.neutral600,
                                             fontSize: 11.sp,
@@ -159,6 +163,10 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                               fontWeight: FontWeight.w600,
                                               fontSize: 12.sp),
                                         ),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: CDivider(),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -171,15 +179,14 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           _servicesProvider
                                               .removeService(service);
                                           _serviceIdsProvider
-                                              .removeServiceId(service.id);
+                                              .removeServiceId(service.id!);
                                           chose--;
                                         } else {
                                           _servicesProvider.addService(service);
                                           _serviceIdsProvider
-                                              .addServiceId(service.id);
+                                              .addServiceId(service.id!);
                                           chose++;
                                         }
-                                        // Sync selectedServiceIDCatch after selection changes
                                         selectedServiceIDCatch.clear();
                                         selectedServiceIDCatch.addAll(
                                             _serviceIdsProvider
@@ -301,9 +308,9 @@ class _SecondServicePageState extends State<SecondServicePage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => AppointmentPage(
-                              index: 2, // Move to "Doctors Time" step
-                              selectedServiceIds: selectedServiceIDCatch
-                                  .toSet(), // Pass selected IDs
+                              index: 2,
+                              selectedServiceIds:
+                                  selectedServiceIDCatch.toSet(),
                             ),
                           ),
                         );

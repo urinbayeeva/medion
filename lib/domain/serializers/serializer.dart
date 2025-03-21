@@ -8,6 +8,7 @@ import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
+import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/success_model/response_model.dart';
 
 import 'package:medion/domain/success_model/success_model.dart';
@@ -27,7 +28,7 @@ part 'serializer.g.dart';
   CreateInfoReq,
   DoctorCategory,
   DoctorData,
-  MedicalServices,
+DiagnosticsModel,
   DiseaseModle,
   AdModel,
   PatientInfo,
@@ -57,6 +58,15 @@ part 'serializer.g.dart';
   CreatePatientBookingReq,
   PatientInfo,
 
+  //Payment Booking
+
+  CreatePatientRequest,
+  CreatePatientResponse,
+  CreatePatientBookingReq,
+  CreatePatientServiceResponse,
+
+
+
   //Branches
 
   BranchModel,
@@ -75,7 +85,14 @@ part 'serializer.g.dart';
   VisitModel,
 
   //Analyse
-  PatientAnalysis
+  PatientAnalysis,
+
+  //Create A Visit
+
+  VisitRequest, 
+  VisitResponse,
+  VisitService,
+
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

@@ -89,6 +89,38 @@ final class _$RefreshService extends RefreshService {
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
+final class _$VisitCreateService extends VisitCreateService {
+  _$VisitCreateService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = VisitCreateService;
+
+  @override
+  Future<Response<BuiltList<VisitResponse>>> visitCreate({
+    required VisitRequest request,
+    String requiresToken = "true",
+  }) {
+    final Uri $url = Uri.parse('create_visit');
+    final Map<String, String> $headers = {
+      'requires-token': requiresToken,
+    };
+    final $body = request;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      headers: $headers,
+    );
+    return client.send<BuiltList<VisitResponse>, VisitResponse>($request);
+  }
+}
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _$BookingService extends BookingService {
   _$BookingService([ChopperClient? client]) {
     if (client == null) return;
@@ -183,14 +215,14 @@ final class _$HomePageService extends HomePageService {
   }
 
   @override
-  Future<Response<BuiltList<MedicalServices>>> getMedicalServices() {
+  Future<Response<BuiltList<DiagnosticsModel>>> getMedicalServices() {
     final Uri $url = Uri.parse('/home/medical_services');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<BuiltList<MedicalServices>, MedicalServices>($request);
+    return client.send<BuiltList<DiagnosticsModel>, DiagnosticsModel>($request);
   }
 
   @override
@@ -340,7 +372,7 @@ final class _$PatientService extends PatientService {
   @override
   Future<Response<BuiltList<PatientAnalysis>>> getPatientAnalyze(
       {String requiresToken = "true"}) {
-    final Uri $url = Uri.parse('/profile/patient_analysis');
+    final Uri $url = Uri.parse('/profile/patient_analysis_mobile');
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
     };

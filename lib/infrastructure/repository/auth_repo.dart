@@ -19,6 +19,7 @@ import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/utils/constants.dart';
 
 class AuthRepository implements IAuthFacade {
@@ -79,8 +80,8 @@ class AuthRepository implements IAuthFacade {
             res.body!.accessToken!.isNotEmpty &&
             res.body!.refreshToken!.isNotEmpty) {
           _dbService.setToken(Token(
-            accessToken: res.body!.accessToken!.first, // Extract from array
-            refreshToken: res.body!.refreshToken!.first, // Extract from array
+            accessToken: res.body!.accessToken!.first,
+            refreshToken: res.body!.refreshToken!.first,
             tokenType: 'Bearer',
           ));
           // print("TOKEN: ${res.body}")
@@ -223,20 +224,25 @@ class AuthRepository implements IAuthFacade {
   Future<Either<ResponseFailure, BuiltList<PatientAnalysis>>>
       getPatientAnalyze() async {
     try {
+      EasyLoading.show(status: 'Loading...'.tr());
+
       final res = await _patientService.getPatientAnalyze();
 
       if (res.isSuccessful && res.body != null) {
         LogService.d('Response Status: ${res.statusCode}');
         LogService.d('Response Body: ${res.body}');
+        EasyLoading.dismiss();
         return right(res.body!);
       } else {
+        EasyLoading.dismiss();
         return left(InvalidCredentials(
           message:
-              'Failed to fetch patient visits: ${res.statusCode}, ${res.body.toString()}',
+              'Failed to fetch patient analyze: ${res.statusCode}, ${res.body.toString()}',
         ));
       }
     } catch (e) {
-      LogService.e(" ----> error fetching patient visits: ${e.toString()}");
+      EasyLoading.dismiss();
+      LogService.e(" ----> error fetching patient analyze: ${e.toString()}");
       return left(handleError(e));
     }
   }

@@ -56,22 +56,23 @@ class _MainPageState extends State<MainPage> {
 
     pageList = [
       const HomePage(),
-      const AppointmentPage(),
+      const AppointmentPage(index: 0),
       const MyVisitsPage(),
       BlocProvider(
           create: (context) {
             DBService dbService = context.read<DBService>();
             return AuthBloc(
-              AuthRepository(dbService, AuthService.create(dbService),
-                  PatientService.create(dbService),RefreshService.create(dbService) ),
+              AuthRepository(
+                  dbService,
+                  AuthService.create(dbService),
+                  PatientService.create(dbService),
+                  RefreshService.create(dbService)),
               dbService,
             );
           },
           child: const ProfilePage()),
       const OthersPage(),
     ];
-
- 
   }
 
   Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
@@ -126,22 +127,24 @@ class _MainPageState extends State<MainPage> {
             backgroundColor: colors.shade0,
             body: Consumer<BottomNavBarController>(
               builder: (context, theme, _) {
+                _controller.index = theme.currentIndex;
                 return PersistentTabView(
                   context,
                   onItemSelected: (int index) {
+                    context.read<BottomNavBarController>().setIndex(index);
                     onDebounce(() {
-                      if (index == 0) {}
-                      setState(() {});
+                      setState(() {
+                        _controller.index = index;
+                      });
                     });
 
-                    if (currentIndex == 0) {
+                    if (index == 0) {
                       scrollController.animateTo(
                         0,
                         duration: const Duration(milliseconds: 700),
                         curve: Curves.easeInOutCubic,
                       );
                     }
-                    currentIndex = index;
                   },
                   resizeToAvoidBottomInset: false,
                   backgroundColor: colors.transparent,

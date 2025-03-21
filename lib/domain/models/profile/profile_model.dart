@@ -35,6 +35,9 @@ abstract class PatientInfo implements Built<PatientInfo, PatientInfoBuilder> {
   @BuiltValueField(wireName: "patient_balance")
   double? get patientBalance;
 
+  @BuiltValueField(wireName: "patient_debit")
+  double? get patientDebit;
+
   static Serializer<PatientInfo> get serializer => _$patientInfoSerializer;
 }
 
@@ -66,12 +69,11 @@ abstract class VisitModel implements Built<VisitModel, VisitModelBuilder> {
   @BuiltValueField(wireName: 'week_index')
   int? get weekIndex;
 
-   @BuiltValueField(wireName: 'address')
+  @BuiltValueField(wireName: 'address')
   String? get address;
 
   @BuiltValueField(wireName: 'payment_method')
   String? get paymentMethod;
-
 
   VisitModel._();
   factory VisitModel([void Function(VisitModelBuilder) updates]) = _$VisitModel;
@@ -79,7 +81,8 @@ abstract class VisitModel implements Built<VisitModel, VisitModelBuilder> {
   static Serializer<VisitModel> get serializer => _$visitModelSerializer;
 }
 
-abstract class PatientAnalysis implements Built<PatientAnalysis, PatientAnalysisBuilder> {
+abstract class PatientAnalysis
+    implements Built<PatientAnalysis, PatientAnalysisBuilder> {
   @BuiltValueField(wireName: 'document_name')
   String get documentName;
 
@@ -90,7 +93,9 @@ abstract class PatientAnalysis implements Built<PatientAnalysis, PatientAnalysis
   String get documentUrl;
 
   PatientAnalysis._();
-  factory PatientAnalysis([void Function(PatientAnalysisBuilder) updates]) = _$PatientAnalysis;
+  factory PatientAnalysis([void Function(PatientAnalysisBuilder) updates]) =
+      _$PatientAnalysis;
 
-  static Serializer<PatientAnalysis> get serializer => _$patientAnalysisSerializer;
+  static Serializer<PatientAnalysis> get serializer =>
+      _$patientAnalysisSerializer;
 }

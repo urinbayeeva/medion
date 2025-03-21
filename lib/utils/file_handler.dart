@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class FileHandler {
   static Future<Directory> getMedionDirectory() async {
@@ -19,5 +20,21 @@ class FileHandler {
 
     final file = File(filePath);
     return await file.writeAsBytes(bytes);
+  }
+
+}
+
+
+
+
+
+Future<void> requestStoragePermission() async {
+  if (Platform.isAndroid) {
+    if (await Permission.photos.isDenied) {
+      await Permission.photos.request();
+    }
+    if (await Permission.storage.isDenied) {
+      await Permission.storage.request();
+    }
   }
 }

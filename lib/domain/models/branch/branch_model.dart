@@ -2,6 +2,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
+import 'package:medion/utils/helpers/decode_html.dart';
 
 part 'branch_model.g.dart';
 
@@ -45,7 +46,6 @@ abstract class BranchModel implements Built<BranchModel, BranchModelBuilder> {
 }
 
 abstract class AwardsModel implements Built<AwardsModel, AwardsModelBuilder> {
-  // Serializers for JSON serialization/deserialization
   static Serializer<AwardsModel> get serializer => _$awardsModelSerializer;
 
   @BuiltValueField(wireName: 'branch_id')
@@ -62,6 +62,9 @@ abstract class AwardsModel implements Built<AwardsModel, AwardsModelBuilder> {
 
   @BuiltValueField(wireName: 'image')
   String? get image;
+
+  String get decodedTitle => decodeHtml(title);
+  String get decodedDescription => decodeHtml(description);
 
   AwardsModel._();
 
@@ -134,7 +137,6 @@ abstract class ContentModel
   factory ContentModel([void Function(ContentModelBuilder) updates]) =
       _$ContentModel;
 
-  // Fields with explicit wireName mappings
   @BuiltValueField(wireName: 'type')
   String get type;
 
@@ -180,7 +182,9 @@ abstract class ContentModel
   @BuiltValueField(wireName: 'phone_number_short')
   JsonObject? get phoneNumberShort;
 
-  // Serialization
+  String get decodedTitle => decodeHtml(title);
+  String get decodedDescription => decodeHtml(description);
+
   static Serializer<ContentModel> get serializer => _$contentModelSerializer;
 }
 
@@ -200,6 +204,10 @@ abstract class ChildContentModel
 
   @BuiltValueField(wireName: 'create_date')
   String get createDate;
+
+  // Add decoded getters
+  String get decodedTitle => decodeHtml(title);
+  String get decodedDescription => decodeHtml(description);
 
   ChildContentModel._();
   factory ChildContentModel([void Function(ChildContentModelBuilder) updates]) =

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
-import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:http/http.dart' show Client, MultipartFile;
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
@@ -13,6 +12,7 @@ import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
+import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
 import 'package:medion/domain/success_model/response_model.dart';
 import 'package:medion/domain/success_model/success_model.dart';
@@ -61,6 +61,18 @@ abstract class RefreshService extends ChopperService {
       _$RefreshService(_Client(Constants.baseUrlP, true, dbService));
 }
 
+@ChopperApi(baseUrl: "")
+abstract class VisitCreateService extends ChopperService {
+  @Post(path: "create_visit")
+  Future<Response<BuiltList<VisitResponse>>> visitCreate({
+    @Body() required VisitRequest request,
+    @Header('requires-token') String requiresToken = "true",
+  });
+
+  static VisitCreateService create(DBService dbService) =>
+      _$VisitCreateService(_Client(Constants.baseUrlP, true, dbService));
+}
+
 //Booking
 @ChopperApi(baseUrl: "/booking/")
 abstract class BookingService extends ChopperService {
@@ -95,7 +107,7 @@ abstract class HomePageService extends ChopperService {
   Future<Response<BuiltList<News>>> getNews();
 
   @Get(path: "medical_services")
-  Future<Response<BuiltList<MedicalServices>>> getMedicalServices();
+  Future<Response<BuiltList<DiagnosticsModel>>> getMedicalServices();
 
   @Get(path: "diseases")
   Future<Response<BuiltList<DiseaseModle>>> getDisease();
@@ -150,12 +162,10 @@ abstract class PatientService extends ChopperService {
     @Header('requires-token') String requiresToken = "true",
   });
 
-
-  @Get(path: "patient_analysis")
+  @Get(path: "patient_analysis_mobile")
   Future<Response<BuiltList<PatientAnalysis>>> getPatientAnalyze({
     @Header('requires-token') String requiresToken = "true",
   });
-
 
   static PatientService create(DBService dbService) =>
       _$PatientService(_Client(Constants.baseUrlP, true, dbService));
@@ -202,11 +212,9 @@ base class _Client extends ChopperClient {
             interceptors: useInterceptors
                 ? [
                     CoreInterceptor(dbService),
-                    if (AppConfig.shared.flavor == Flavor.dev) ...[
-                      ChuckerChopperInterceptor(),
-                      ChuckerHttpLoggingInterceptor(),
-                    ],
+                    if (AppConfig.shared.flavor == Flavor.dev) ...[],
                     HttpLoggingInterceptor(),
+                    HtmlDecodeInterceptor(),
                     CurlInterceptor(),
                     NetworkInterceptor(),
                     RetryInterceptor(

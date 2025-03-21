@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:medion/application/content/content_bloc.dart';
-import 'package:medion/domain/sources/partners_info.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/pages/others/partners/component/partners_card.dart';
 import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -31,6 +31,19 @@ class _PartnersPageState extends State<PartnersPage> {
   }
 
   @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
+
+  void _onRefresh() {
+    context
+        .read<ContentBloc>()
+        .add(const ContentEvent.fetchContent(type: "partner"));
+    _refreshController.refreshCompleted();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Scaffold(
@@ -45,48 +58,78 @@ class _PartnersPageState extends State<PartnersPage> {
             ),
             Expanded(
               child: BlocBuilder<ContentBloc, ContentState>(
-                  builder: (context, state) {
-                return CustomListView(
-                  refreshController: _refreshController,
-                  onRefresh: () {
-                    context
-                        .read<ContentBloc>()
-                        .add(const ContentEvent.fetchContent(type: "partner"));
-                    setState(() {});
-                    _refreshController.refreshCompleted();
-                  },
-                  padding: EdgeInsets.only(top: 16.h, bottom: 24.h),
-                  itemBuilder: (index, _) {
-                    final partner = partnersData[index];
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: PartnersCard(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              AppRoutes.getPartnersInnerPage(
-                                partnerName: state.content[index].title,
-                                partnerImage: state.content[index].primaryImage,
-                                partnerUrl: state.content[index].link as String,
-                                partnerPhoneNumber:
-                                    state.content[index].phoneNumber as String,
-                              ));
-                        },
-                        partnerImage: state.content[index].primaryImage,
-                        parnterName: state.content[index].title,
-                        partnerSubtitle: state.content[index].description,
+                builder: (context, state) {
+                  if (state.loading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (state.error) {
+                    return Center(
+                      child: Text(
+                        'something_went_wrong'.tr(),
+                        style: fonts.regularSemLink,
                       ),
                     );
-                  },
-                  data: state.content,
-                  emptyWidgetModel: ErrorWidgetModel(
-                    title: "title",
-                    subtitle: "subtitle",
-                  ),
-                  status: FormzSubmissionStatus.success,
-                );
-              }),
-            )
+                  }
+
+                  final partnerContent = state.contentByType["partner"] ?? [];
+
+                  if (partnerContent.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          icons.emojiSad.svg(width: 80.w, height: 80.h),
+                          4.h.verticalSpace,
+                          Text(
+                            'no_result_found'.tr(),
+                            style: fonts.regularSemLink,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  return CustomListView(
+                    refreshController: _refreshController,
+                    onRefresh: _onRefresh,
+                    padding: EdgeInsets.only(top: 16.h, bottom: 24.h),
+                    itemBuilder: (index, _) {
+                      final partner = partnerContent[index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: PartnersCard(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              AppRoutes.getPartnersInnerPage(
+                                partnerName: partner.title,
+                                partnerImage: partner.primaryImage,
+                                partnerUrl: "", // Add actual URL if available
+                                partnerPhoneNumber:
+                                    "", // Add actual phone if available
+                              ),
+                            );
+                          },
+                          partnerImage: partner.primaryImage,
+                          parnterName:
+                              partner.title, // Typo corrected to partnerName
+                          partnerSubtitle: "", // Add subtitle if available
+                        ),
+                      );
+                    },
+                    data: partnerContent,
+                    emptyWidgetModel: ErrorWidgetModel(
+                      title: "no_partners".tr(),
+                      subtitle: "no_partners_subtitle".tr(),
+                    ),
+                    status: FormzSubmissionStatus.success,
+                  );
+                },
+              ),
+            ),
           ],
         ),
       );

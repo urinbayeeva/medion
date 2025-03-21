@@ -61,7 +61,7 @@ class _PartnersInnerPageState extends State<PartnersInnerPage> {
                       12.h.verticalSpace,
                       Text(
                           textAlign: TextAlign.center,
-                          "Ushbu klinika haqida hech\nqanday ma'lumot topilmadi",
+                          "Ushbu hamkor haqida hech\nqanday ma'lumot topilmadi",
                           style: fonts.smallSemLink.copyWith()),
                       50.h.verticalSpace,
                     ],

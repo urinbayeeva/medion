@@ -96,7 +96,8 @@ class BookingRepository implements IBookingFacade {
       return left(handleError(e));
     }
   }
-   @override
+
+  @override
   Future<Either<ResponseFailure, BuiltList<ThirdBookingService>>> getDoctors({
     required List<int> serviceIds,
   }) async {

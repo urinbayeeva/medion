@@ -11,7 +11,7 @@ import 'package:medion/utils/constants.dart';
 
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-Future<void> main() async {
+  Future<void> main() async {
   runZonedGuarded(() async {
     await SentryFlutter.init(
       (options) {

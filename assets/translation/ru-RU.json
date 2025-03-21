@@ -305,5 +305,18 @@
 "times_a_day" : "{count} раза в день ({times})",
 "infusion_rate" : "Скорость инфузии: ",
 "comments" : "Комментарии: ",
+"pay_right_now" : "Оплатить прямо сейчас",
+"pay_not_right_now" : "Оплатить позже",
+"Uploading...": "Загрузка...",
+"Upload Successful": "Загрузка успешно завершена",
+"Upload Failed": "Ошибка загрузки",
+"Select Image": "Выберите изображение",
+"Crop Image": "Обрезать изображение",
+"Save Changes": "Сохранить изменения",
+"Try Again": "Попробуйте снова",
+"Cancel": "Отмена",
+"Error": "Ошибка",
+"Loading...": "Загрузка...",
+"open_location_clinic": "Открыть геопозицию клиники",
 " " : ""
 }

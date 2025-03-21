@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_lang_check_box.dart';
@@ -186,7 +187,9 @@ class _SettingPageState extends State<SettingPage> {
             Navigator.pop(context);
             setNavBarState(false);
           },
-          onTapLogOut: () {},
+          onTapLogOut: ()  {
+            
+          },
         ),
       ).then((_) {});
     }

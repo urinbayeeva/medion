@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
+import 'package:medion/presentation/component/c_filter.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
@@ -25,7 +27,9 @@ class _DirectionsPageState extends State<DirectionsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<BookingBloc>().add(const BookingEvent.fetchHomePageServicesBooking());
+    context
+        .read<BookingBloc>()
+        .add(const BookingEvent.fetchHomePageServicesBooking());
   }
 
   @override
@@ -54,12 +58,27 @@ class _DirectionsPageState extends State<DirectionsPage> {
                 title: "Направления",
                 centerTitle: true,
                 isBack: true,
-                trailing: icons.filter.svg(width: 24.w, height: 24.h),
+                trailing: AnimationButtonEffect(
+                    onTap: () {
+                      context.read<BottomNavBarController>().changeNavBar(true);
+
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const CFilter();
+                          }).then((_) {
+                        context
+                            .read<BottomNavBarController>()
+                            .changeNavBar(false);
+                      });
+                    },
+                    child: icons.filter.svg(width: 20.w, height: 20.h)),
                 onSearchChanged: _onSearchChanged,
               ),
               Expanded(
                 child: ListView(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                   children: [
                     BlocBuilder<BookingBloc, BookingState>(
                       builder: (context, state) {
@@ -70,8 +89,7 @@ class _DirectionsPageState extends State<DirectionsPage> {
                         }
 
                         final filteredItems = state.homePageBookingCategory
-                            .where((item) => 
-                              (item.name?.toLowerCase() ?? '')
+                            .where((item) => (item.name?.toLowerCase() ?? '')
                                 .contains(_searchQuery))
                             .toList();
 
@@ -109,7 +127,8 @@ class _DirectionsPageState extends State<DirectionsPage> {
                                     .changeNavBar(true);
                                 Navigator.push(
                                   context,
-                                  AppRoutes.getDirectionInfoPage(id: item.id!, name: item.name!),
+                                  AppRoutes.getDirectionInfoPage(
+                                      id: item.id!, name: item.name!),
                                 ).then((_) {
                                   context
                                       .read<BottomNavBarController>()

@@ -21,6 +21,7 @@ mixin _$HomeEvent {
     required TResult Function() fetchNews,
     required TResult Function() fetchDiseases,
     required TResult Function() fetchAds,
+    required TResult Function() fetchMedicalServices,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$HomeEvent {
     TResult? Function()? fetchNews,
     TResult? Function()? fetchDiseases,
     TResult? Function()? fetchAds,
+    TResult? Function()? fetchMedicalServices,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$HomeEvent {
     TResult Function()? fetchNews,
     TResult Function()? fetchDiseases,
     TResult Function()? fetchAds,
+    TResult Function()? fetchMedicalServices,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,7 @@ mixin _$HomeEvent {
     required TResult Function(_FetchNew value) fetchNews,
     required TResult Function(_FetchDiseases value) fetchDiseases,
     required TResult Function(_FetchAds value) fetchAds,
+    required TResult Function(_FetchMedicalServices value) fetchMedicalServices,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +54,7 @@ mixin _$HomeEvent {
     TResult? Function(_FetchNew value)? fetchNews,
     TResult? Function(_FetchDiseases value)? fetchDiseases,
     TResult? Function(_FetchAds value)? fetchAds,
+    TResult? Function(_FetchMedicalServices value)? fetchMedicalServices,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +62,7 @@ mixin _$HomeEvent {
     TResult Function(_FetchNew value)? fetchNews,
     TResult Function(_FetchDiseases value)? fetchDiseases,
     TResult Function(_FetchAds value)? fetchAds,
+    TResult Function(_FetchMedicalServices value)? fetchMedicalServices,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -126,6 +132,7 @@ class _$FetchNewImpl implements _FetchNew {
     required TResult Function() fetchNews,
     required TResult Function() fetchDiseases,
     required TResult Function() fetchAds,
+    required TResult Function() fetchMedicalServices,
   }) {
     return fetchNews();
   }
@@ -136,6 +143,7 @@ class _$FetchNewImpl implements _FetchNew {
     TResult? Function()? fetchNews,
     TResult? Function()? fetchDiseases,
     TResult? Function()? fetchAds,
+    TResult? Function()? fetchMedicalServices,
   }) {
     return fetchNews?.call();
   }
@@ -146,6 +154,7 @@ class _$FetchNewImpl implements _FetchNew {
     TResult Function()? fetchNews,
     TResult Function()? fetchDiseases,
     TResult Function()? fetchAds,
+    TResult Function()? fetchMedicalServices,
     required TResult orElse(),
   }) {
     if (fetchNews != null) {
@@ -160,6 +169,7 @@ class _$FetchNewImpl implements _FetchNew {
     required TResult Function(_FetchNew value) fetchNews,
     required TResult Function(_FetchDiseases value) fetchDiseases,
     required TResult Function(_FetchAds value) fetchAds,
+    required TResult Function(_FetchMedicalServices value) fetchMedicalServices,
   }) {
     return fetchNews(this);
   }
@@ -170,6 +180,7 @@ class _$FetchNewImpl implements _FetchNew {
     TResult? Function(_FetchNew value)? fetchNews,
     TResult? Function(_FetchDiseases value)? fetchDiseases,
     TResult? Function(_FetchAds value)? fetchAds,
+    TResult? Function(_FetchMedicalServices value)? fetchMedicalServices,
   }) {
     return fetchNews?.call(this);
   }
@@ -180,6 +191,7 @@ class _$FetchNewImpl implements _FetchNew {
     TResult Function(_FetchNew value)? fetchNews,
     TResult Function(_FetchDiseases value)? fetchDiseases,
     TResult Function(_FetchAds value)? fetchAds,
+    TResult Function(_FetchMedicalServices value)? fetchMedicalServices,
     required TResult orElse(),
   }) {
     if (fetchNews != null) {
@@ -237,6 +249,7 @@ class _$FetchDiseasesImpl implements _FetchDiseases {
     required TResult Function() fetchNews,
     required TResult Function() fetchDiseases,
     required TResult Function() fetchAds,
+    required TResult Function() fetchMedicalServices,
   }) {
     return fetchDiseases();
   }
@@ -247,6 +260,7 @@ class _$FetchDiseasesImpl implements _FetchDiseases {
     TResult? Function()? fetchNews,
     TResult? Function()? fetchDiseases,
     TResult? Function()? fetchAds,
+    TResult? Function()? fetchMedicalServices,
   }) {
     return fetchDiseases?.call();
   }
@@ -257,6 +271,7 @@ class _$FetchDiseasesImpl implements _FetchDiseases {
     TResult Function()? fetchNews,
     TResult Function()? fetchDiseases,
     TResult Function()? fetchAds,
+    TResult Function()? fetchMedicalServices,
     required TResult orElse(),
   }) {
     if (fetchDiseases != null) {
@@ -271,6 +286,7 @@ class _$FetchDiseasesImpl implements _FetchDiseases {
     required TResult Function(_FetchNew value) fetchNews,
     required TResult Function(_FetchDiseases value) fetchDiseases,
     required TResult Function(_FetchAds value) fetchAds,
+    required TResult Function(_FetchMedicalServices value) fetchMedicalServices,
   }) {
     return fetchDiseases(this);
   }
@@ -281,6 +297,7 @@ class _$FetchDiseasesImpl implements _FetchDiseases {
     TResult? Function(_FetchNew value)? fetchNews,
     TResult? Function(_FetchDiseases value)? fetchDiseases,
     TResult? Function(_FetchAds value)? fetchAds,
+    TResult? Function(_FetchMedicalServices value)? fetchMedicalServices,
   }) {
     return fetchDiseases?.call(this);
   }
@@ -291,6 +308,7 @@ class _$FetchDiseasesImpl implements _FetchDiseases {
     TResult Function(_FetchNew value)? fetchNews,
     TResult Function(_FetchDiseases value)? fetchDiseases,
     TResult Function(_FetchAds value)? fetchAds,
+    TResult Function(_FetchMedicalServices value)? fetchMedicalServices,
     required TResult orElse(),
   }) {
     if (fetchDiseases != null) {
@@ -348,6 +366,7 @@ class _$FetchAdsImpl implements _FetchAds {
     required TResult Function() fetchNews,
     required TResult Function() fetchDiseases,
     required TResult Function() fetchAds,
+    required TResult Function() fetchMedicalServices,
   }) {
     return fetchAds();
   }
@@ -358,6 +377,7 @@ class _$FetchAdsImpl implements _FetchAds {
     TResult? Function()? fetchNews,
     TResult? Function()? fetchDiseases,
     TResult? Function()? fetchAds,
+    TResult? Function()? fetchMedicalServices,
   }) {
     return fetchAds?.call();
   }
@@ -368,6 +388,7 @@ class _$FetchAdsImpl implements _FetchAds {
     TResult Function()? fetchNews,
     TResult Function()? fetchDiseases,
     TResult Function()? fetchAds,
+    TResult Function()? fetchMedicalServices,
     required TResult orElse(),
   }) {
     if (fetchAds != null) {
@@ -382,6 +403,7 @@ class _$FetchAdsImpl implements _FetchAds {
     required TResult Function(_FetchNew value) fetchNews,
     required TResult Function(_FetchDiseases value) fetchDiseases,
     required TResult Function(_FetchAds value) fetchAds,
+    required TResult Function(_FetchMedicalServices value) fetchMedicalServices,
   }) {
     return fetchAds(this);
   }
@@ -392,6 +414,7 @@ class _$FetchAdsImpl implements _FetchAds {
     TResult? Function(_FetchNew value)? fetchNews,
     TResult? Function(_FetchDiseases value)? fetchDiseases,
     TResult? Function(_FetchAds value)? fetchAds,
+    TResult? Function(_FetchMedicalServices value)? fetchMedicalServices,
   }) {
     return fetchAds?.call(this);
   }
@@ -402,6 +425,7 @@ class _$FetchAdsImpl implements _FetchAds {
     TResult Function(_FetchNew value)? fetchNews,
     TResult Function(_FetchDiseases value)? fetchDiseases,
     TResult Function(_FetchAds value)? fetchAds,
+    TResult Function(_FetchMedicalServices value)? fetchMedicalServices,
     required TResult orElse(),
   }) {
     if (fetchAds != null) {
@@ -416,6 +440,124 @@ abstract class _FetchAds implements HomeEvent {
 }
 
 /// @nodoc
+abstract class _$$FetchMedicalServicesImplCopyWith<$Res> {
+  factory _$$FetchMedicalServicesImplCopyWith(_$FetchMedicalServicesImpl value,
+          $Res Function(_$FetchMedicalServicesImpl) then) =
+      __$$FetchMedicalServicesImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FetchMedicalServicesImplCopyWithImpl<$Res>
+    extends _$HomeEventCopyWithImpl<$Res, _$FetchMedicalServicesImpl>
+    implements _$$FetchMedicalServicesImplCopyWith<$Res> {
+  __$$FetchMedicalServicesImplCopyWithImpl(_$FetchMedicalServicesImpl _value,
+      $Res Function(_$FetchMedicalServicesImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$FetchMedicalServicesImpl implements _FetchMedicalServices {
+  const _$FetchMedicalServicesImpl();
+
+  @override
+  String toString() {
+    return 'HomeEvent.fetchMedicalServices()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FetchMedicalServicesImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchNews,
+    required TResult Function() fetchDiseases,
+    required TResult Function() fetchAds,
+    required TResult Function() fetchMedicalServices,
+  }) {
+    return fetchMedicalServices();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchNews,
+    TResult? Function()? fetchDiseases,
+    TResult? Function()? fetchAds,
+    TResult? Function()? fetchMedicalServices,
+  }) {
+    return fetchMedicalServices?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchNews,
+    TResult Function()? fetchDiseases,
+    TResult Function()? fetchAds,
+    TResult Function()? fetchMedicalServices,
+    required TResult orElse(),
+  }) {
+    if (fetchMedicalServices != null) {
+      return fetchMedicalServices();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchNew value) fetchNews,
+    required TResult Function(_FetchDiseases value) fetchDiseases,
+    required TResult Function(_FetchAds value) fetchAds,
+    required TResult Function(_FetchMedicalServices value) fetchMedicalServices,
+  }) {
+    return fetchMedicalServices(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchNew value)? fetchNews,
+    TResult? Function(_FetchDiseases value)? fetchDiseases,
+    TResult? Function(_FetchAds value)? fetchAds,
+    TResult? Function(_FetchMedicalServices value)? fetchMedicalServices,
+  }) {
+    return fetchMedicalServices?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchNew value)? fetchNews,
+    TResult Function(_FetchDiseases value)? fetchDiseases,
+    TResult Function(_FetchAds value)? fetchAds,
+    TResult Function(_FetchMedicalServices value)? fetchMedicalServices,
+    required TResult orElse(),
+  }) {
+    if (fetchMedicalServices != null) {
+      return fetchMedicalServices(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchMedicalServices implements HomeEvent {
+  const factory _FetchMedicalServices() = _$FetchMedicalServicesImpl;
+}
+
+/// @nodoc
 mixin _$HomeState {
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
@@ -423,6 +565,8 @@ mixin _$HomeState {
   List<News> get news => throw _privateConstructorUsedError;
   List<DiseaseModle> get diseases => throw _privateConstructorUsedError;
   List<AdModel> get ads => throw _privateConstructorUsedError;
+  List<DiagnosticsModel> get medicalServices =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -442,7 +586,8 @@ abstract class $HomeStateCopyWith<$Res> {
       bool success,
       List<News> news,
       List<DiseaseModle> diseases,
-      List<AdModel> ads});
+      List<AdModel> ads,
+      List<DiagnosticsModel> medicalServices});
 }
 
 /// @nodoc
@@ -466,6 +611,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? news = null,
     Object? diseases = null,
     Object? ads = null,
+    Object? medicalServices = null,
   }) {
     return _then(_value.copyWith(
       loading: null == loading
@@ -492,6 +638,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.ads
           : ads // ignore: cast_nullable_to_non_nullable
               as List<AdModel>,
+      medicalServices: null == medicalServices
+          ? _value.medicalServices
+          : medicalServices // ignore: cast_nullable_to_non_nullable
+              as List<DiagnosticsModel>,
     ) as $Val);
   }
 }
@@ -510,7 +660,8 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       bool success,
       List<News> news,
       List<DiseaseModle> diseases,
-      List<AdModel> ads});
+      List<AdModel> ads,
+      List<DiagnosticsModel> medicalServices});
 }
 
 /// @nodoc
@@ -532,6 +683,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? news = null,
     Object? diseases = null,
     Object? ads = null,
+    Object? medicalServices = null,
   }) {
     return _then(_$HomeStateImpl(
       loading: null == loading
@@ -558,6 +710,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value._ads
           : ads // ignore: cast_nullable_to_non_nullable
               as List<AdModel>,
+      medicalServices: null == medicalServices
+          ? _value._medicalServices
+          : medicalServices // ignore: cast_nullable_to_non_nullable
+              as List<DiagnosticsModel>,
     ));
   }
 }
@@ -571,10 +727,12 @@ class _$HomeStateImpl extends _HomeState {
       this.success = false,
       final List<News> news = const [],
       final List<DiseaseModle> diseases = const [],
-      final List<AdModel> ads = const []})
+      final List<AdModel> ads = const [],
+      final List<DiagnosticsModel> medicalServices = const []})
       : _news = news,
         _diseases = diseases,
         _ads = ads,
+        _medicalServices = medicalServices,
         super._();
 
   @override
@@ -613,9 +771,18 @@ class _$HomeStateImpl extends _HomeState {
     return EqualUnmodifiableListView(_ads);
   }
 
+  final List<DiagnosticsModel> _medicalServices;
+  @override
+  @JsonKey()
+  List<DiagnosticsModel> get medicalServices {
+    if (_medicalServices is EqualUnmodifiableListView) return _medicalServices;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_medicalServices);
+  }
+
   @override
   String toString() {
-    return 'HomeState(loading: $loading, error: $error, success: $success, news: $news, diseases: $diseases, ads: $ads)';
+    return 'HomeState(loading: $loading, error: $error, success: $success, news: $news, diseases: $diseases, ads: $ads, medicalServices: $medicalServices)';
   }
 
   @override
@@ -628,7 +795,9 @@ class _$HomeStateImpl extends _HomeState {
             (identical(other.success, success) || other.success == success) &&
             const DeepCollectionEquality().equals(other._news, _news) &&
             const DeepCollectionEquality().equals(other._diseases, _diseases) &&
-            const DeepCollectionEquality().equals(other._ads, _ads));
+            const DeepCollectionEquality().equals(other._ads, _ads) &&
+            const DeepCollectionEquality()
+                .equals(other._medicalServices, _medicalServices));
   }
 
   @override
@@ -639,7 +808,8 @@ class _$HomeStateImpl extends _HomeState {
       success,
       const DeepCollectionEquality().hash(_news),
       const DeepCollectionEquality().hash(_diseases),
-      const DeepCollectionEquality().hash(_ads));
+      const DeepCollectionEquality().hash(_ads),
+      const DeepCollectionEquality().hash(_medicalServices));
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -657,7 +827,8 @@ abstract class _HomeState extends HomeState {
       final bool success,
       final List<News> news,
       final List<DiseaseModle> diseases,
-      final List<AdModel> ads}) = _$HomeStateImpl;
+      final List<AdModel> ads,
+      final List<DiagnosticsModel> medicalServices}) = _$HomeStateImpl;
   const _HomeState._() : super._();
 
   @override
@@ -672,6 +843,8 @@ abstract class _HomeState extends HomeState {
   List<DiseaseModle> get diseases;
   @override
   List<AdModel> get ads;
+  @override
+  List<DiagnosticsModel> get medicalServices;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

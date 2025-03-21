@@ -8,11 +8,11 @@ import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/sources/med_service.dart';
+import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../application/home/home_bloc.dart';
-
 import '../../../presentation/component/animation_effect.dart';
 import '../../../presentation/component/c_appbar.dart';
 import '../../../presentation/component/custom_pagination.dart';
@@ -47,11 +47,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeBloc>().add(const HomeEvent.fetchNews());
     context.read<DoctorBloc>().add(const DoctorEvent.fetchDoctors());
     context
         .read<BookingBloc>()
         .add(const BookingEvent.fetchHomePageServicesBooking());
+    context.read<HomeBloc>().add(const HomeEvent.fetchMedicalServices());
     context
         .read<ContentBloc>()
         .add(const ContentEvent.fetchContent(type: "news"));
@@ -69,6 +69,8 @@ class _HomePageState extends State<HomePage> {
             context
                 .read<BookingBloc>()
                 .add(const BookingEvent.fetchHomePageServicesBooking());
+            context.read<ContentBloc>().add(const ContentEvent.fetchContent(
+                type: "news")); // Add this to refresh news
             setState(() {});
 
             _refreshController.refreshCompleted();
@@ -106,7 +108,74 @@ class _HomePageState extends State<HomePage> {
                         ProblemSlidebaleCard(isChildren: isChildren),
                         Text("med_services".tr(), style: fonts.regularSemLink),
                         12.h.verticalSpace,
-                        const MedService(),
+                        BlocBuilder<HomeBloc, HomeState>(
+                          builder: (context, state) {
+                            print(
+                                "Medical services: ${state.medicalServices}"); // Debugging line
+                            if (state.medicalServices.isEmpty) {
+                              return const Center(
+                                  child: Text("No medical services available"));
+                            }
+                            return SizedBox(
+                              height: 140.h, // Ensure uniform height
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: state.medicalServices.length,
+                                itemBuilder: (context, index) {
+                                  final medicalService =
+                                      state.medicalServices[index];
+                                  return Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.w),
+                                    child: AnimationButtonEffect(
+                                      onTap: () {},
+                                      child: SizedBox(
+                                        width: 135.w, // Consistent width
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: 100
+                                                  .h, // Fixed height for image
+                                              child: CachedImageComponent(
+                                                borderRadius: 8.r,
+                                                fit: BoxFit.cover,
+                                                width: 135.w,
+                                                height: 100.h,
+                                                imageUrl:
+                                                    medicalService.image ?? '',
+                                              ),
+                                            ),
+                                            5.h.verticalSpace,
+                                            Container(
+                                              width: 135.w,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                medicalService.title ?? '',
+                                                style:
+                                                    fonts.xSmallLink.copyWith(
+                                                  fontSize: 13.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: colors.primary900,
+                                                ),
+                                                textAlign: TextAlign
+                                                    .center, // Ensure uniform text alignment
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
                         _buildVerticalSpacingAndHeader(
                             "directions_of_medion_clinic", fonts, "all", () {
                           Navigator.push(
@@ -134,14 +203,13 @@ class _HomePageState extends State<HomePage> {
                                     AppRoutes.getDirectionInfoPage(
                                         id: item.id!, name: item.name!),
                                   ).then((_) {
-                                    // ignore: use_build_context_synchronously
                                     context
                                         .read<BottomNavBarController>()
                                         .changeNavBar(false);
                                   });
                                 },
                                 title: item.name ?? "",
-                                subtitle: "null",
+                                subtitle: "",
                                 iconPath: item.icon ?? "",
                               );
                             },
@@ -193,46 +261,52 @@ class _HomePageState extends State<HomePage> {
                           });
                         }),
                         BlocBuilder<ContentBloc, ContentState>(
-                            builder: (context, state) {
-                          if (state.error) {
-                            return Center(
+                          builder: (context, state) {
+                            if (state.error) {
+                              return Center(
                                 child: Text('something_went_wrong'.tr(),
-                                    style: fonts.regularSemLink));
-                          }
+                                    style: fonts.regularSemLink),
+                              );
+                            }
 
-                         return SizedBox(
-  height: 320.h,
-  child: ListView.builder(
-    padding: EdgeInsets.zero,
-    shrinkWrap: true,
-    scrollDirection: Axis.horizontal,
-    itemCount: state.content.length,
-    itemBuilder: (context, index) {
-      final news = state.content[index];
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 8.0), 
-        child: NewsItem(
-          onTap: (){
-              Navigator.push(
-                                  context,
-                                  AppRoutes.getInfoViewAboutHealth(
-                                    imagePath: news.primaryImage,
-                                    title: news.title,
-                                    desc: news.description,
-                                  ),
-                                );
-          },
-          crop: true,
-          imagePath: news.primaryImage,
-          title: news.title,
-          subtitle: news.description,
-        ),
-      );
-    },
-  ),
-);
-
-                        }),
+                            // Use contentByType["news"] instead of state.content
+                            final newsContent =
+                                state.contentByType["news"] ?? [];
+                            return SizedBox(
+                              height: 220.h,
+                              child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: newsContent.length,
+                                itemBuilder: (context, index) {
+                                  final news = newsContent[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 8.0), // Fixed 'custom' typo
+                                    child: NewsItem(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          AppRoutes.getInfoViewAboutHealth(
+                                            imagePath: news.primaryImage,
+                                            title: news.decodedTitle,
+                                            desc: news.decodedDescription,
+                                            date: news.createDate,
+                                          ),
+                                        );
+                                      },
+                                      crop: true,
+                                      imagePath: news.primaryImage,
+                                      title: news.decodedTitle,
+                                      subtitle: news.decodedDescription,
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
                         _buildVerticalSpacingAndHeader(
                             "address_of_clinic", fonts, "all", () {
                           context
@@ -279,9 +353,12 @@ class _HomePageState extends State<HomePage> {
           color: active ? colors.error500 : const Color(0xFFEBEBEB),
           borderRadius: BorderRadius.circular(100),
         ),
-        child: Text(text.tr(),
-            style: fonts.xSmallText
-                .copyWith(color: active ? colors.shade0 : colors.primary900)),
+        child: Text(
+          text.tr(),
+          style: fonts.xSmallText.copyWith(
+            color: active ? colors.shade0 : colors.primary900,
+          ),
+        ),
       ),
     );
   }
@@ -304,14 +381,18 @@ class _HomePageState extends State<HomePage> {
             onPressed: onTap,
             child: Row(
               children: [
-                Text(title.tr(),
-                    style: fonts.smallLink.copyWith(
-                        fontSize: 14.sp, fontWeight: FontWeight.w500)),
+                Text(
+                  title.tr(),
+                  style: fonts.smallLink.copyWith(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 3.w.horizontalSpace,
-                icons.right.svg()
+                icons.right.svg(),
               ],
             ),
-          )
+          ),
         ],
       );
     });
@@ -343,9 +424,7 @@ class _HomePageState extends State<HomePage> {
 Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
   return ThemeWrapper(
     builder: (context, colors, fonts, icons, controller) {
-      // Limit the number of doctors to 10
       final limitedDoctors = doctors.take(10).toList();
-
       return SizedBox(
         height: 300.h,
         child: ListView.builder(
@@ -357,15 +436,20 @@ Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
             return DoctorsItem(
               onTap: () {
                 Navigator.push(
-                    context,
-                    AppRoutes.getAboutDoctorPage(
-                        doctor['name'].toString(), doctor['profession'].toString(), doctor['name'].toString()));
+                  context,
+                  AppRoutes.getAboutDoctorPage(
+                    doctor['name'].toString(),
+                    doctor['profession'].toString(),
+                    doctor['status'].toString(),
+                  ),
+                );
               },
               imagePath: doctor['image'].toString(),
               name: doctor['name'].toString(),
               profession: doctor['profession'].toString(),
               status: doctor['status'].toString(),
-              candidateScience: true,
+              gender: doctor['gender'].toString(),
+              candidateScience: false,
             );
           },
         ),

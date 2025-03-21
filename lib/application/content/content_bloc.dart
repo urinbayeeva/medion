@@ -33,10 +33,13 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       },
       (data) {
         EasyLoading.dismiss();
+        // Create a new map with the existing content
+        final updatedContent = Map<String, List<ContentModel>>.from(state.contentByType);
+        updatedContent[event.type] = data;
         emit(state.copyWith(
           loading: false,
           success: true,
-          content: data,
+          contentByType: updatedContent,
         ));
       },
     );

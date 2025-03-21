@@ -2366,9 +2366,7 @@ mixin _$BookingState {
   String get errorMessage => throw _privateConstructorUsedError;
   List<ThirdBookingService> get thirdBookingServices =>
       throw _privateConstructorUsedError;
-  bool get hasFetchedThirdServices =>
-      throw _privateConstructorUsedError; // Add this flag
-//Home Page
+  bool get hasFetchedThirdServices => throw _privateConstructorUsedError;
   List<HomepageBookingCategory> get homePageBookingCategory =>
       throw _privateConstructorUsedError;
   MedicalModel? get medicalModel => throw _privateConstructorUsedError;
@@ -2605,7 +2603,7 @@ class _$BookingStateImpl extends _BookingState {
       this.success = false,
       final List<BookingTypeModel> bookingTypes = const [],
       final List<Category> categoryServices = const [],
-      this.selectedServiceId = null,
+      this.selectedServiceId,
       final List<int> selectedInnerServiceIds = const [],
       this.selectedSpecialty = '',
       this.errorMessage = '',
@@ -2649,7 +2647,6 @@ class _$BookingStateImpl extends _BookingState {
   }
 
   @override
-  @JsonKey()
   final int? selectedServiceId;
   final List<int> _selectedInnerServiceIds;
   @override
@@ -2680,11 +2677,7 @@ class _$BookingStateImpl extends _BookingState {
   @override
   @JsonKey()
   final bool hasFetchedThirdServices;
-// Add this flag
-//Home Page
   final List<HomepageBookingCategory> _homePageBookingCategory;
-// Add this flag
-//Home Page
   @override
   @JsonKey()
   List<HomepageBookingCategory> get homePageBookingCategory {
@@ -2797,8 +2790,7 @@ abstract class _BookingState extends BookingState {
   @override
   List<ThirdBookingService> get thirdBookingServices;
   @override
-  bool get hasFetchedThirdServices; // Add this flag
-//Home Page
+  bool get hasFetchedThirdServices;
   @override
   List<HomepageBookingCategory> get homePageBookingCategory;
   @override

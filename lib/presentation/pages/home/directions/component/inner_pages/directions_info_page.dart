@@ -9,10 +9,12 @@ import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_container.dart';
+import 'package:medion/presentation/component/c_filter.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/service_widget.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -87,7 +89,15 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                             child: icons.valyutaChange
                                 .svg(width: 20.w, height: 20.h))),
                     6.w.horizontalSpace,
-                    icons.filter.svg(width: 20.w, height: 20.h)
+                    AnimationButtonEffect(
+                        onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return CFilter();
+                              });
+                        },
+                        child: icons.filter.svg(width: 20.w, height: 20.h))
                   ],
                 ),
               ),
@@ -117,6 +127,10 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
 
   Widget _buildContent(BuildContext context, BookingState state, dynamic colors,
       dynamic fonts, dynamic icons) {
+    final hasDoctors = state.medicalModel!.doctors.isNotEmpty;
+    final hasDescription = state.medicalModel!.description?.isNotEmpty ?? false;
+    final hasServices = state.medicalModel!.services.isNotEmpty;
+
     return SingleChildScrollView(
       padding: EdgeInsets.all(12.0.w),
       child: Column(
@@ -151,22 +165,49 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
             ),
           ),
           if (selectedIndex == 0) ...[
-            _buildSectionTitle('all_informations'.tr(), fonts),
-            CContainer(
-                text: state.medicalModel!.description ?? "No description"),
+            if (hasDescription) ...[
+              _buildSectionTitle('all_informations'.tr(), fonts),
+              CContainer(
+                text: state.medicalModel!.description ?? "No description",
+              ),
+            ],
+            if (hasDoctors) ...[
+              _buildSectionTitle('doctors'.tr(), fonts),
+              _buildDoctorsGrid(state, icons),
+            ],
+            if (hasServices) ...[
+              _buildSectionTitle('services'.tr(), fonts),
+              _buildServicesList(state),
+            ],
+            if (!hasDescription && !hasDoctors && !hasServices)
+              Center(
+                child: Text(
+                  "no_result_found".tr(),
+                  style: Style.headlineMain(),
+                ),
+              ),
+          ],
+          if (selectedIndex == 1 && hasDoctors) ...[
             _buildSectionTitle('doctors'.tr(), fonts),
             _buildDoctorsGrid(state, icons),
+          ] else if (selectedIndex == 1 && !hasDoctors)
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                "no_result_found".tr(),
+                style: Style.regularMain(),
+              ),
+            ),
+          if (selectedIndex == 2 && hasServices) ...[
             _buildSectionTitle('services'.tr(), fonts),
             _buildServicesList(state),
-          ],
-          if (selectedIndex == 1) ...[
-            _buildSectionTitle('doctors'.tr(), fonts),
-            _buildDoctorsGrid(state, icons),
-          ],
-          if (selectedIndex == 2) ...[
-            _buildSectionTitle('services'.tr(), fonts),
-            _buildServicesList(state),
-          ],
+          ] else if (selectedIndex == 2 && !hasServices)
+            Center(
+              child: Text(
+                "no_result_found".tr(),
+                style: Style.regularMain(),
+              ),
+            ),
           SizedBox(height: selectedServiceIds.isNotEmpty ? 60.h : 0),
         ],
       ),
@@ -207,7 +248,16 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
           gender: "male",
           isInnerPageUsed: true,
           imagePath: doctor.image ?? icons.nonUser,
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              AppRoutes.getAboutDoctorPage(
+                doctor.name!,
+                doctor.jobName!,
+                "",
+              ),
+            );
+          },
           name: doctor.name ?? '',
           profession: doctor.jobName ?? "No profession",
           experience: "${doctor.experienceYears ?? "No experience"}",
@@ -226,7 +276,6 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
       );
     }
 
-   
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
@@ -256,59 +305,61 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   }
 
   Widget _buildSelectedServicesContainer(
-    BuildContext context, BookingState state, dynamic colors, dynamic fonts) {
-  return Container(
-    decoration: BoxDecoration(
-        color: colors.shade0,
-        boxShadow: Style.shadowMMMM,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(8.r), topRight: Radius.circular(8.r))),
-    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-    child: GestureDetector(
-      onTap: () =>
-          _showSelectedServicesBottomSheet(context, state, colors, fonts),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "selected_services".tr(args: [selectedServiceIds.length.toString()]),
-                style: fonts.regularSemLink.copyWith(fontSize: 14.sp),
-              ),
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 16.sp,
-                color: colors.primary900,
-              ),
-            ],
-          ),
-          12.h.verticalSpace,
-          CButton(
-            title: "next".tr(),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AppointmentPage(
-                    index: 2,
-                    selectedServiceIds: selectedServiceIds, // Pass Set<int>
-                  ),
+      BuildContext context, BookingState state, dynamic colors, dynamic fonts) {
+    return Container(
+      decoration: BoxDecoration(
+          color: colors.shade0,
+          boxShadow: Style.shadowMMMM,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8.r), topRight: Radius.circular(8.r))),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      child: GestureDetector(
+        onTap: () =>
+            _showSelectedServicesBottomSheet(context, state, colors, fonts),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "selected_services"
+                      .tr(args: [selectedServiceIds.length.toString()]),
+                  style: fonts.regularSemLink.copyWith(fontSize: 14.sp),
                 ),
-              ).then((value) {
-                if (value != null && value is Set<int>) {
-                  setState(() {
-                    selectedServiceIds = value;
-                  });
-                }
-              });
-            },
-          ),
-        ],
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16.sp,
+                  color: colors.primary900,
+                ),
+              ],
+            ),
+            12.h.verticalSpace,
+            CButton(
+              title: "next".tr(),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AppointmentPage(
+                      index: 2,
+                      selectedServiceIds: selectedServiceIds, // Pass Set<int>
+                    ),
+                  ),
+                ).then((value) {
+                  if (value != null && value is Set<int>) {
+                    setState(() {
+                      selectedServiceIds = value;
+                    });
+                  }
+                });
+              },
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
+
   void _showSelectedServicesBottomSheet(
       BuildContext context, BookingState state, dynamic colors, dynamic fonts) {
     final selectedServices = state.medicalModel!.services

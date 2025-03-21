@@ -79,9 +79,9 @@ class GlobalController with ChangeNotifier {
     await _themePreference.setMode(mode);
   }
 }
-
 class BottomNavBarController with ChangeNotifier {
   bool hiddenNavBar = false;
+  int _currentIndex = 0;
 
   BottomNavBarController._();
 
@@ -89,13 +89,18 @@ class BottomNavBarController with ChangeNotifier {
     return BottomNavBarController._();
   }
 
-  void notifyListener() {
-    notifyListeners();
-  }
+  int get currentIndex => _currentIndex;
 
   void changeNavBar(bool enabled) {
     if (enabled != hiddenNavBar) {
       hiddenNavBar = enabled;
+      notifyListeners();
+    }
+  }
+
+  void setIndex(int index) {
+    if (_currentIndex != index) {
+      _currentIndex = index;
       notifyListeners();
     }
   }

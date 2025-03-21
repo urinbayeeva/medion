@@ -4,33 +4,39 @@ import 'package:built_value/serializer.dart';
 
 part 'medical_services.g.dart';
 
-abstract class MedicalServices
-    implements Built<MedicalServices, MedicalServicesBuilder> {
-  MedicalServices._();
-
-  factory MedicalServices([void Function(MedicalServicesBuilder) updates]) =
-      _$MedicalServices;
-
+abstract class DiagnosticsModel
+    implements Built<DiagnosticsModel, DiagnosticsModelBuilder> {
   @BuiltValueField(wireName: 'title')
-  String? get title;
+  String get title;
 
   @BuiltValueField(wireName: 'info')
-  String? get info;
+  String get info;
 
   @BuiltValueField(wireName: 'for_children')
-  bool? get forChildren;
+  bool get forChildren;
 
   @BuiltValueField(wireName: 'link')
-  JsonObject? get link;
+  JsonObject get link;
 
   @BuiltValueField(wireName: 'background_color')
-  String? get backgroundColor;
+  JsonObject get backgroundColor;
 
   @BuiltValueField(wireName: 'image')
-  String? get image;
+  String get image;
 
-  static Serializer<MedicalServices> get serializer =>
-      _$medicalServicesSerializer;
+  @BuiltValueField(wireName: 'category_id')
+  JsonObject get categoryId;
+
+  @BuiltValueField(wireName: 'is_main')
+  bool get isMain;
+
+  DiagnosticsModel._();
+
+  factory DiagnosticsModel([void Function(DiagnosticsModelBuilder) updates]) =
+      _$DiagnosticsModel;
+
+  static Serializer<DiagnosticsModel> get serializer =>
+      _$diagnosticsModelSerializer;
 }
 
 abstract class DiseaseModle

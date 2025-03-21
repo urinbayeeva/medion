@@ -97,7 +97,7 @@ class _BranchesPageState extends State<BranchesPage> {
                             Navigator.push(
                               context,
                               AppRoutes.getSingleBranchInfoPage(
-                                branchPhotos: [],
+                                branchPhotos: branch.image ?? "",
                                 branchName: branch.name ?? "No Name",
                                 branchAdress: branch.address ?? "",
                                 branchWorkingHours: branch.workTime,
@@ -114,7 +114,7 @@ class _BranchesPageState extends State<BranchesPage> {
                                   .changeNavBar(true);
                             });
                           },
-                          branchPhotos: [],
+                          branchPhotos: branch.image ?? "",
                           branchName: branch.name ?? "No Name",
                           branchAdress: branch.address ?? "",
                           branchPhoneNumber: branch.phone ?? "",

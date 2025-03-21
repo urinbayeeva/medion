@@ -6,74 +6,55 @@ part of 'medical_services.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<MedicalServices> _$medicalServicesSerializer =
-    new _$MedicalServicesSerializer();
+Serializer<DiagnosticsModel> _$diagnosticsModelSerializer =
+    new _$DiagnosticsModelSerializer();
 Serializer<DiseaseModle> _$diseaseModleSerializer =
     new _$DiseaseModleSerializer();
 Serializer<AdModel> _$adModelSerializer = new _$AdModelSerializer();
 
-class _$MedicalServicesSerializer
-    implements StructuredSerializer<MedicalServices> {
+class _$DiagnosticsModelSerializer
+    implements StructuredSerializer<DiagnosticsModel> {
   @override
-  final Iterable<Type> types = const [MedicalServices, _$MedicalServices];
+  final Iterable<Type> types = const [DiagnosticsModel, _$DiagnosticsModel];
   @override
-  final String wireName = 'MedicalServices';
+  final String wireName = 'DiagnosticsModel';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, MedicalServices object,
+  Iterable<Object?> serialize(Serializers serializers, DiagnosticsModel object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[];
-    Object? value;
-    value = object.title;
-    if (value != null) {
-      result
-        ..add('title')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.info;
-    if (value != null) {
-      result
-        ..add('info')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.forChildren;
-    if (value != null) {
-      result
-        ..add('for_children')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
-    }
-    value = object.link;
-    if (value != null) {
-      result
-        ..add('link')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(JsonObject)));
-    }
-    value = object.backgroundColor;
-    if (value != null) {
-      result
-        ..add('background_color')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.image;
-    if (value != null) {
-      result
-        ..add('image')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
+    final result = <Object?>[
+      'title',
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
+      'info',
+      serializers.serialize(object.info, specifiedType: const FullType(String)),
+      'for_children',
+      serializers.serialize(object.forChildren,
+          specifiedType: const FullType(bool)),
+      'link',
+      serializers.serialize(object.link,
+          specifiedType: const FullType(JsonObject)),
+      'background_color',
+      serializers.serialize(object.backgroundColor,
+          specifiedType: const FullType(JsonObject)),
+      'image',
+      serializers.serialize(object.image,
+          specifiedType: const FullType(String)),
+      'category_id',
+      serializers.serialize(object.categoryId,
+          specifiedType: const FullType(JsonObject)),
+      'is_main',
+      serializers.serialize(object.isMain, specifiedType: const FullType(bool)),
+    ];
+
     return result;
   }
 
   @override
-  MedicalServices deserialize(
+  DiagnosticsModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new MedicalServicesBuilder();
+    final result = new DiagnosticsModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -83,27 +64,35 @@ class _$MedicalServicesSerializer
       switch (key) {
         case 'title':
           result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'info':
           result.info = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'for_children':
           result.forChildren = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
+              specifiedType: const FullType(bool))! as bool;
           break;
         case 'link':
           result.link = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject)) as JsonObject?;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'background_color':
           result.backgroundColor = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'image':
           result.image = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'category_id':
+          result.categoryId = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject))! as JsonObject;
+          break;
+        case 'is_main':
+          result.isMain = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -286,50 +275,72 @@ class _$AdModelSerializer implements StructuredSerializer<AdModel> {
   }
 }
 
-class _$MedicalServices extends MedicalServices {
+class _$DiagnosticsModel extends DiagnosticsModel {
   @override
-  final String? title;
+  final String title;
   @override
-  final String? info;
+  final String info;
   @override
-  final bool? forChildren;
+  final bool forChildren;
   @override
-  final JsonObject? link;
+  final JsonObject link;
   @override
-  final String? backgroundColor;
+  final JsonObject backgroundColor;
   @override
-  final String? image;
+  final String image;
+  @override
+  final JsonObject categoryId;
+  @override
+  final bool isMain;
 
-  factory _$MedicalServices([void Function(MedicalServicesBuilder)? updates]) =>
-      (new MedicalServicesBuilder()..update(updates))._build();
+  factory _$DiagnosticsModel(
+          [void Function(DiagnosticsModelBuilder)? updates]) =>
+      (new DiagnosticsModelBuilder()..update(updates))._build();
 
-  _$MedicalServices._(
-      {this.title,
-      this.info,
-      this.forChildren,
-      this.link,
-      this.backgroundColor,
-      this.image})
-      : super._();
+  _$DiagnosticsModel._(
+      {required this.title,
+      required this.info,
+      required this.forChildren,
+      required this.link,
+      required this.backgroundColor,
+      required this.image,
+      required this.categoryId,
+      required this.isMain})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(title, r'DiagnosticsModel', 'title');
+    BuiltValueNullFieldError.checkNotNull(info, r'DiagnosticsModel', 'info');
+    BuiltValueNullFieldError.checkNotNull(
+        forChildren, r'DiagnosticsModel', 'forChildren');
+    BuiltValueNullFieldError.checkNotNull(link, r'DiagnosticsModel', 'link');
+    BuiltValueNullFieldError.checkNotNull(
+        backgroundColor, r'DiagnosticsModel', 'backgroundColor');
+    BuiltValueNullFieldError.checkNotNull(image, r'DiagnosticsModel', 'image');
+    BuiltValueNullFieldError.checkNotNull(
+        categoryId, r'DiagnosticsModel', 'categoryId');
+    BuiltValueNullFieldError.checkNotNull(
+        isMain, r'DiagnosticsModel', 'isMain');
+  }
 
   @override
-  MedicalServices rebuild(void Function(MedicalServicesBuilder) updates) =>
+  DiagnosticsModel rebuild(void Function(DiagnosticsModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  MedicalServicesBuilder toBuilder() =>
-      new MedicalServicesBuilder()..replace(this);
+  DiagnosticsModelBuilder toBuilder() =>
+      new DiagnosticsModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is MedicalServices &&
+    return other is DiagnosticsModel &&
         title == other.title &&
         info == other.info &&
         forChildren == other.forChildren &&
         link == other.link &&
         backgroundColor == other.backgroundColor &&
-        image == other.image;
+        image == other.image &&
+        categoryId == other.categoryId &&
+        isMain == other.isMain;
   }
 
   @override
@@ -341,26 +352,30 @@ class _$MedicalServices extends MedicalServices {
     _$hash = $jc(_$hash, link.hashCode);
     _$hash = $jc(_$hash, backgroundColor.hashCode);
     _$hash = $jc(_$hash, image.hashCode);
+    _$hash = $jc(_$hash, categoryId.hashCode);
+    _$hash = $jc(_$hash, isMain.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'MedicalServices')
+    return (newBuiltValueToStringHelper(r'DiagnosticsModel')
           ..add('title', title)
           ..add('info', info)
           ..add('forChildren', forChildren)
           ..add('link', link)
           ..add('backgroundColor', backgroundColor)
-          ..add('image', image))
+          ..add('image', image)
+          ..add('categoryId', categoryId)
+          ..add('isMain', isMain))
         .toString();
   }
 }
 
-class MedicalServicesBuilder
-    implements Builder<MedicalServices, MedicalServicesBuilder> {
-  _$MedicalServices? _$v;
+class DiagnosticsModelBuilder
+    implements Builder<DiagnosticsModel, DiagnosticsModelBuilder> {
+  _$DiagnosticsModel? _$v;
 
   String? _title;
   String? get title => _$this._title;
@@ -378,18 +393,26 @@ class MedicalServicesBuilder
   JsonObject? get link => _$this._link;
   set link(JsonObject? link) => _$this._link = link;
 
-  String? _backgroundColor;
-  String? get backgroundColor => _$this._backgroundColor;
-  set backgroundColor(String? backgroundColor) =>
+  JsonObject? _backgroundColor;
+  JsonObject? get backgroundColor => _$this._backgroundColor;
+  set backgroundColor(JsonObject? backgroundColor) =>
       _$this._backgroundColor = backgroundColor;
 
   String? _image;
   String? get image => _$this._image;
   set image(String? image) => _$this._image = image;
 
-  MedicalServicesBuilder();
+  JsonObject? _categoryId;
+  JsonObject? get categoryId => _$this._categoryId;
+  set categoryId(JsonObject? categoryId) => _$this._categoryId = categoryId;
 
-  MedicalServicesBuilder get _$this {
+  bool? _isMain;
+  bool? get isMain => _$this._isMain;
+  set isMain(bool? isMain) => _$this._isMain = isMain;
+
+  DiagnosticsModelBuilder();
+
+  DiagnosticsModelBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _title = $v.title;
@@ -398,34 +421,46 @@ class MedicalServicesBuilder
       _link = $v.link;
       _backgroundColor = $v.backgroundColor;
       _image = $v.image;
+      _categoryId = $v.categoryId;
+      _isMain = $v.isMain;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(MedicalServices other) {
+  void replace(DiagnosticsModel other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$MedicalServices;
+    _$v = other as _$DiagnosticsModel;
   }
 
   @override
-  void update(void Function(MedicalServicesBuilder)? updates) {
+  void update(void Function(DiagnosticsModelBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  MedicalServices build() => _build();
+  DiagnosticsModel build() => _build();
 
-  _$MedicalServices _build() {
+  _$DiagnosticsModel _build() {
     final _$result = _$v ??
-        new _$MedicalServices._(
-          title: title,
-          info: info,
-          forChildren: forChildren,
-          link: link,
-          backgroundColor: backgroundColor,
-          image: image,
+        new _$DiagnosticsModel._(
+          title: BuiltValueNullFieldError.checkNotNull(
+              title, r'DiagnosticsModel', 'title'),
+          info: BuiltValueNullFieldError.checkNotNull(
+              info, r'DiagnosticsModel', 'info'),
+          forChildren: BuiltValueNullFieldError.checkNotNull(
+              forChildren, r'DiagnosticsModel', 'forChildren'),
+          link: BuiltValueNullFieldError.checkNotNull(
+              link, r'DiagnosticsModel', 'link'),
+          backgroundColor: BuiltValueNullFieldError.checkNotNull(
+              backgroundColor, r'DiagnosticsModel', 'backgroundColor'),
+          image: BuiltValueNullFieldError.checkNotNull(
+              image, r'DiagnosticsModel', 'image'),
+          categoryId: BuiltValueNullFieldError.checkNotNull(
+              categoryId, r'DiagnosticsModel', 'categoryId'),
+          isMain: BuiltValueNullFieldError.checkNotNull(
+              isMain, r'DiagnosticsModel', 'isMain'),
         );
     replace(_$result);
     return _$result;

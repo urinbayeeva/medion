@@ -12,7 +12,7 @@ import 'package:medion/utils/phone_utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SingleBranchPage extends StatefulWidget {
-  final List<String> branchPhotos;
+  final String branchPhotos;
   final String branchName;
   final String branchAdress;
   final String branchWorkingHours;

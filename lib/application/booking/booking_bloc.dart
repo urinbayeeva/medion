@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:built_collection/built_collection.dart';
-import 'package:dio/dio.dart'; // For CancelToken
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
@@ -16,7 +16,7 @@ part 'booking_state.dart';
 
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
   final BookingRepository _repository;
-  final CancelToken _cancelToken = CancelToken(); // For cancelling requests
+  final CancelToken _cancelToken = CancelToken();
 
   BookingBloc(this._repository) : super(const BookingState()) {
     on<_FetchBookingTypes>(_fetchBookingTypesHandler);
@@ -31,7 +31,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
 
   @override
   Future<void> close() {
-    _cancelToken.cancel(); // Cancel all pending requests
+    _cancelToken.cancel();
     return super.close();
   }
 
@@ -69,7 +69,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             LogService.e(
                 "Error refreshing category services: ${error.message}");
             emit(state.copyWith(loading: false, error: true));
-            EasyLoading.showError(error.message);
+            // EasyLoading.showError(error.message);
           },
           (data) {
             emit(state.copyWith(
@@ -140,7 +140,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
 
       final res = await _repository.fetchHomePageBookingCategories();
 
-      if (isClosed) return; // Early exit if bloc is closed
+      if (isClosed) return;
 
       res.fold(
         (error) {
@@ -220,7 +220,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         event.id,
       );
 
-      if (isClosed) return; // Early exit if bloc is closed
+      if (isClosed) return;
 
       res.fold(
         (error) {

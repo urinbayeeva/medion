@@ -24,6 +24,7 @@ class PartnersCard extends StatelessWidget {
       return AnimationButtonEffect(
         onTap: onTap,
         child: Container(
+          width: double.infinity,
           padding: EdgeInsets.all(12.w),
           margin: EdgeInsets.only(bottom: 16.h),
           decoration: BoxDecoration(

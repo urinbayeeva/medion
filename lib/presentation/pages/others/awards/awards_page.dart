@@ -22,6 +22,12 @@ class AwardsPage extends StatefulWidget {
 
 class _AwardsPageState extends State<AwardsPage> {
   @override
+  void initState() {
+    super.initState();
+    context.read<BranchBloc>().add(const BranchEvent.fetchAwards());
+  }
+
+  @override
   Widget build(BuildContext context) {
     RefreshController refreshController = RefreshController();
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -35,14 +41,6 @@ class _AwardsPageState extends State<AwardsPage> {
               trailing: 24.w.horizontalSpace,
             ),
             BlocBuilder<BranchBloc, BranchState>(builder: (context, state) {
-              if (state.awards.isEmpty) {
-                return Center(
-                  child: Text(
-                    "no_result_found".tr(),
-                    style: fonts.regularMain,
-                  ),
-                );
-              }
               return Expanded(
                 child: CustomListView(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -52,25 +50,27 @@ class _AwardsPageState extends State<AwardsPage> {
                     refreshController.refreshCompleted();
                   },
                   itemBuilder: (int index, item) {
-                    final data = item;
+                    final data = state.awards[index];
                     return ItemAboutHealth(
                       imageSize: 279.h,
                       onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     AppRoutes.getInfoViewAboutHealth(
-                        //         imagePath: data['image'],
-                        //         title: data["title"],
-                        //         desc: data['decs']));
+                        Navigator.push(
+                          context,
+                          AppRoutes.getInfoViewAboutHealth(
+                            imagePath: data.image!,
+                            title: data.decodedTitle!,
+                            desc: data.decodedDescription,
+                            date: "2025-02-24",
+                          ),
+                        );
                       },
-                      title: state.awards[index].title,
-                      desc: state.awards[index].description,
+                      title: state.awards[index].decodedTitle,
+                      desc: state.awards[index].decodedDescription,
                       imagePath: state.awards[index].image,
                     );
                   },
-                  data: dataAwards,
-                  emptyWidgetModel:
-                      ErrorWidgetModel(title: "title", subtitle: 'subtitle'),
+                  data: state.awards,
+                  emptyWidgetModel: ErrorWidgetModel(title: "", subtitle: ''),
                   status: FormzSubmissionStatus.success,
                 ),
               );

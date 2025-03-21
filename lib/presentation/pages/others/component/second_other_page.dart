@@ -45,7 +45,7 @@ class SecondOthersPage extends StatelessWidget {
                     }
 
                     switch (index) {
-                      case 1:
+                      case 0:
                         navigateTo(AppRoutes.getDiscountPage());
                         break;
 

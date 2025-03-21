@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
@@ -64,9 +65,14 @@ class _CBottomsheetProfileState extends State<CBottomsheetProfile> {
                     Expanded(
                         child: CButton(
                             borderRadius: 22,
-                            onTap: () {
-                              Navigator.push(
-                                  context, AppRoutes.getSignUpPage());
+                            onTap: () async {
+                              final db = await DBService.create;
+                              await db.clearAllData();
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                AppRoutes.getSignUpPage(),
+                                (route) => false, // Removes all previous routes
+                              );
                             },
                             title: "Выйти")),
                   ],

@@ -40,6 +40,7 @@ import 'package:medion/presentation/pages/others/awards/awards_page.dart';
 import 'package:medion/presentation/pages/others/branches/branches_page.dart';
 import 'package:medion/presentation/pages/others/branches/component/single_branch_info.dart';
 import 'package:medion/presentation/pages/others/branches/single_branch_page.dart';
+import 'package:medion/presentation/pages/others/career/career_page.dart';
 import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
 import 'package:medion/presentation/pages/others/dicsount/widgets/discount_page_view.dart';
 import 'package:medion/presentation/pages/others/education/education_page.dart';
@@ -129,8 +130,12 @@ class AppRoutes {
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
-                AuthRepository(dbService, AuthService.create(dbService),
-                    PatientService.create(dbService), RefreshService.create(dbService),),
+                AuthRepository(
+                  dbService,
+                  AuthService.create(dbService),
+                  PatientService.create(dbService),
+                  RefreshService.create(dbService),
+                ),
                 dbService,
               );
             },
@@ -157,11 +162,10 @@ class AppRoutes {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
                 AuthRepository(
-                  dbService,
-                  AuthService.create(dbService),
-                  PatientService.create(dbService),
-                  RefreshService.create(dbService)
-                ),
+                    dbService,
+                    AuthService.create(dbService),
+                    PatientService.create(dbService),
+                    RefreshService.create(dbService)),
                 dbService,
               );
             },
@@ -179,8 +183,11 @@ class AppRoutes {
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
-                AuthRepository(dbService, AuthService.create(dbService),
-                    PatientService.create(dbService), RefreshService.create(dbService)),
+                AuthRepository(
+                    dbService,
+                    AuthService.create(dbService),
+                    PatientService.create(dbService),
+                    RefreshService.create(dbService)),
                 dbService,
               );
             },
@@ -258,7 +265,19 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getWalletPage() {
-    return MaterialPageRoute(builder: (_) => const WalletPage());
+    return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+            create: (context) {
+              DBService dbService = context.read<DBService>();
+              return AuthBloc(
+                  AuthRepository(
+                      dbService,
+                      AuthService.create(dbService),
+                      PatientService.create(dbService),
+                      RefreshService.create(dbService)),
+                  dbService);
+            },
+            child: const WalletPage()));
   }
 
   static MaterialPageRoute getRecipesPage() {
@@ -266,7 +285,19 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getResultsPage() {
-    return MaterialPageRoute(builder: (_) => const ResultsPage());
+    return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+            create: (context) {
+              DBService dbService = context.read<DBService>();
+              return AuthBloc(
+                  AuthRepository(
+                      dbService,
+                      AuthService.create(dbService),
+                      PatientService.create(dbService),
+                      RefreshService.create(dbService)),
+                  dbService);
+            },
+            child: const ResultsPage()));
   }
 
   static MaterialPageRoute getUserDetailsPage() {
@@ -275,8 +306,11 @@ class AppRoutes {
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
-                AuthRepository(dbService, AuthService.create(dbService),
-                    PatientService.create(dbService), RefreshService.create(dbService)),
+                AuthRepository(
+                    dbService,
+                    AuthService.create(dbService),
+                    PatientService.create(dbService),
+                    RefreshService.create(dbService)),
                 dbService,
               );
             },
@@ -294,8 +328,11 @@ class AppRoutes {
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
-                AuthRepository(dbService, AuthService.create(dbService),
-                    PatientService.create(dbService), RefreshService.create(dbService)),
+                AuthRepository(
+                    dbService,
+                    AuthService.create(dbService),
+                    PatientService.create(dbService),
+                    RefreshService.create(dbService)),
                 dbService,
               );
             },
@@ -310,9 +347,9 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const NewsPage());
   }
 
-  static MaterialPageRoute getNewsViewPage() {
-    return MaterialPageRoute(builder: (_) => const NewsView());
-  }
+  // static MaterialPageRoute getNewsViewPage() {
+  //   return MaterialPageRoute(builder: (_) => const NewsView());
+  // }
 
   static MaterialPageRoute getNotificationPage() {
     return MaterialPageRoute(builder: (_) => const NotificationPage());
@@ -320,6 +357,10 @@ class AppRoutes {
 
   static MaterialPageRoute getAppointmentPage() {
     return MaterialPageRoute(builder: (_) => const AppointmentPage());
+  }
+
+  static MaterialPageRoute getCareerPage() {
+    return MaterialPageRoute(builder: (_) => const CareerPage());
   }
 
   // static MaterialPageRoute getSecondServicePage(onTap, id) {
@@ -351,7 +392,7 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getSingleBranchPage({
-    required List<String> branchPhotos,
+    required String branchPhotos,
     required String branchName,
     required String branchAdress,
     required String branchWorkingHours,
@@ -374,7 +415,7 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getSingleBranchInfoPage({
-    required List<String> branchPhotos,
+    required String branchPhotos,
     required String branchName,
     required String branchAdress,
     required String branchWorkingHours,
@@ -458,26 +499,40 @@ class AppRoutes {
             ));
   }
 
-  static MaterialPageRoute getInfoViewAboutHealth(
-      {required String imagePath,
-      required String? title,
-      required String? desc}) {
+  static MaterialPageRoute getInfoViewAboutHealth({
+    required String imagePath,
+    required String? title,
+    required String? desc,
+    required String? date,
+    bool? isDiscount,
+    String? discountAddress,
+    String? discountDuration,
+    String? phoneNumber,
+    String? phoneShortNumber,
+  }) {
     return MaterialPageRoute(
-        builder: (_) => CInfoView(
-              imagePath: imagePath,
-              title: title,
-              desc: desc,
-            ));
+      builder: (_) => CInfoView(
+        imagePath: imagePath,
+        title: title,
+        desc: desc,
+        date: date,
+        isDiscount: isDiscount,
+        discountAddress: discountAddress,
+        discountDuration: discountDuration,
+        phoneNumber: phoneNumber,
+        phoneShortNumber: phoneShortNumber,
+      ),
+    );
   }
 
   static MaterialPageRoute getDiscountPageView({
     required String imagePath,
     required String? title,
     required String? desc,
-      required String? discountAddress,
-  required String? discountDuration,
-  required String? phoneShortNumber,
-  required String? phoneNumber,
+    required String? discountAddress,
+    required String? discountDuration,
+    required String? phoneShortNumber,
+    required String? phoneNumber,
   }) {
     return MaterialPageRoute(
         builder: (_) => DiscountPageView(
@@ -543,64 +598,62 @@ class AppRoutes {
             ));
   }
 
- static MaterialPageRoute getVisitDetailPage({
-  required String? categoryName,
-  required String? serviceName,
-  required String? doctorName,
-  required double? servicePrice,
-  required String? visitDate,
-  required String? visitLocation,
-  required String? visitStatus,
-  required String? visitPaymentByWhom,
-  required String? paymentMethod,
-  required dynamic data,
-  required String? image,
-}) {
-  return MaterialPageRoute(
-    builder: (_) => VisitDetailPage(
-      categoryName: categoryName,
-      serviceName: serviceName,
-      doctorName: doctorName,
-      servicePrice: servicePrice,
-      visitDate: visitDate,
-      visitLocation: visitLocation,
-      visitStatus: visitStatus,
-      visitPaymentByWhom: visitPaymentByWhom,
-      paymentMethod: paymentMethod,
-      data: data,
-    ),
-  );
-}
+  static MaterialPageRoute getVisitDetailPage({
+    required String? categoryName,
+    required String? serviceName,
+    required String? doctorName,
+    required double? servicePrice,
+    required String? visitDate,
+    required String? visitLocation,
+    required String? visitStatus,
+    required String? visitPaymentByWhom,
+    required String? paymentMethod,
+    required dynamic data,
+    required String? image,
+  }) {
+    return MaterialPageRoute(
+      builder: (_) => VisitDetailPage(
+        categoryName: categoryName,
+        serviceName: serviceName,
+        doctorName: doctorName,
+        servicePrice: servicePrice,
+        visitDate: visitDate,
+        visitLocation: visitLocation,
+        visitStatus: visitStatus,
+        visitPaymentByWhom: visitPaymentByWhom,
+        paymentMethod: paymentMethod,
+        data: data,
+      ),
+    );
+  }
 
-
- static MaterialPageRoute getVisitDetailCard({
-  required String? categoryName,
-  required String? serviceName,
-  required String? doctorName,
-  required double? servicePrice,
-  required String? visitDate,
-  required String? visitLocation,
-  required String? visitStatus,
-  required String? visitPaymentByWhom,
-  required String? paymentMethod,
-  required dynamic data,
-  required String? image,
-}) {
-  return MaterialPageRoute(
-    builder: (_) => VisitInfoDetailCard(
-      categoryName: categoryName,
-      serviceName: serviceName,
-      doctorName: doctorName,
-      servicePrice: servicePrice,
-      visitDate: visitDate,
-      visitLocation: visitLocation,
-      visitStatus: visitStatus,
-      visitPaymentByWhom: visitPaymentByWhom,
-      paymentMethod: paymentMethod,
-      data: data,
-      image: image,
-    ),
-  );
-}
-
+  static MaterialPageRoute getVisitDetailCard({
+    required String? categoryName,
+    required String? serviceName,
+    required String? doctorName,
+    required double? servicePrice,
+    required String? visitDate,
+    required String? visitLocation,
+    required String? visitStatus,
+    required String? visitPaymentByWhom,
+    required String? paymentMethod,
+    required dynamic data,
+    required String? image,
+  }) {
+    return MaterialPageRoute(
+      builder: (_) => VisitInfoDetailCard(
+        categoryName: categoryName,
+        serviceName: serviceName,
+        doctorName: doctorName,
+        servicePrice: servicePrice,
+        visitDate: visitDate,
+        visitLocation: visitLocation,
+        visitStatus: visitStatus,
+        visitPaymentByWhom: visitPaymentByWhom,
+        paymentMethod: paymentMethod,
+        data: data,
+        image: image,
+      ),
+    );
+  }
 }

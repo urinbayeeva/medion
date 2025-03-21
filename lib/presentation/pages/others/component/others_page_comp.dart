@@ -46,29 +46,28 @@ class OthersPageComp extends StatelessWidget {
 
                     switch (index) {
                       case 0:
-                        navigateTo(AppRoutes.getActivityPage());
-                        break;
-                      case 3:
-                        navigateTo(AppRoutes.getEducationPage());
-                        break;
-                      case 4:
                         navigateTo(AppRoutes.getArticlePage());
                         break;
-                      case 5:
+                      case 1:
                         navigateTo(AppRoutes.getBranchesPage());
                         break;
-                      case 6:
+                      case 2:
                         navigateTo(AppRoutes.getEquipmentPage());
                         break;
-                      case 7:
+                      case 3:
                         navigateTo(AppRoutes.getAboutHealthPage());
                         break;
-                      case 9:
+                      case 4:
                         navigateTo(AppRoutes.getPartnersPage());
                         break;
-                      case 10:
+                      case 5:
                         navigateTo(AppRoutes.getAwardsPage());
                         break;
+                      case 6:
+                        navigateTo(AppRoutes.getCareerPage());
+                      case 7:
+                        navigateTo(AppRoutes.getDiscountPage());
+
                       default:
                         navigateTo(AppRoutes.getUnderDevPage(
                             appBarTitle: item["title"]));

@@ -18,9 +18,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeBloc(this._repository) : super(const HomeState()) {
     on<_FetchNew>(_fetchNews);
-
     on<_FetchDiseases>(_fetchDiseases);
     on<_FetchAds>(_fetchAds);
+    on<_FetchMedicalServices>(_fetchMedicalServices);
   }
 
   FutureOr<void> _fetchNews(
@@ -35,9 +35,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     res.fold(
       (error) {
-        LogService.e("Error in fetching booking types: $error");
-        EasyLoading.showError(error.message); // Show error message
-        emit(state.copyWith(loading: false, error: true)); // Update state
+        LogService.e("Error in fetching news: $error");
+        EasyLoading.showError(error.message);
+        emit(state.copyWith(loading: false, error: true));
       },
       (data) {
         EasyLoading.dismiss();
@@ -56,19 +56,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
-    // EasyLoading.show(); // Show loading indicator
-
     final res = await _repository.getDiseases();
 
     res.fold(
       (error) {
         LogService.e("Error in fetching diseases: $error");
-        // EasyLoading.dismiss();
         EasyLoading.showError(error.message);
         emit(state.copyWith(loading: false, error: true));
       },
       (data) {
-        // EasyLoading.dismiss(); // ✅ Ensure loading is dismissed on success
         emit(state.copyWith(
           loading: false,
           success: true,
@@ -90,7 +86,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     res.fold(
       (error) {
-        LogService.e("Error in fetching diseases: $error");
+        LogService.e("Error in fetching ads: $error");
         EasyLoading.showError(error.message);
         emit(state.copyWith(loading: false, error: true));
       },
@@ -100,6 +96,33 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           loading: false,
           success: true,
           ads: data,
+        ));
+      },
+    );
+  }
+
+  FutureOr<void> _fetchMedicalServices(
+    _FetchMedicalServices event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(state.copyWith(loading: true, error: false, success: false));
+
+    EasyLoading.show();
+
+    final res = await _repository.getDiagnosis();
+
+    res.fold(
+      (error) {
+        LogService.e("Error in fetching medical services: $error");
+        EasyLoading.showError(error.message);
+        emit(state.copyWith(loading: false, error: true));
+      },
+      (data) {
+        EasyLoading.dismiss();
+        emit(state.copyWith(
+          loading: false,
+          success: true,
+          medicalServices: data,
         ));
       },
     );

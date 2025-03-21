@@ -67,7 +67,8 @@ class _AdsState extends State<Ads> {
                 List<String> bottomText = sentences.skip(4).toList();
 
                 return AnimationButtonEffect(
-                  onTap: () => _launchUrl(ad.link.toString()), // Launching specific ad URL
+                  onTap: () => _launchUrl(
+                      ad.link.toString()), // Launching specific ad URL
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.r),
                     child: Stack(
@@ -80,37 +81,37 @@ class _AdsState extends State<Ads> {
                         ),
 
                         // Top text (first 4 sentences)
-                        Positioned(
-                          child: IntrinsicWidth(
-                            child: Container(
-                              height: 250,
-                              decoration: BoxDecoration(
-                                color: colors.shade0.withOpacity(0.7),
-                              ),
-                              padding: const EdgeInsets.all(8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  20.h.verticalSpace,
-                                  Text(ad.title ?? "",
-                                      style: fonts.regularMain.copyWith(
-                                          color: colors.primary900,
-                                          fontSize: 17.sp,
-                                          fontWeight: FontWeight.w600)),
-                                  Text(
-                                    topText.join('. ') + (topText.isNotEmpty ? '.' : ''),
-                                    style: fonts.xSmallText.copyWith(
-                                      color: colors.primary900,
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Positioned(
+                        //   child: IntrinsicWidth(
+                        //     child: Container(
+                        //       height: 250,
+                        //       decoration: BoxDecoration(
+                        //         color: colors.shade0.withOpacity(0.7),
+                        //       ),
+                        //       padding: const EdgeInsets.all(8),
+                        //       child: Column(
+                        //         crossAxisAlignment: CrossAxisAlignment.start,
+                        //         mainAxisSize: MainAxisSize.min,
+                        //         children: [
+                        //           20.h.verticalSpace,
+                        //           Text(ad.title ?? "",
+                        //               style: fonts.regularMain.copyWith(
+                        //                   color: colors.primary900,
+                        //                   fontSize: 17.sp,
+                        //                   fontWeight: FontWeight.w600)),
+                        //           Text(
+                        //             topText.join('. ') + (topText.isNotEmpty ? '.' : ''),
+                        //             style: fonts.xSmallText.copyWith(
+                        //               color: colors.primary900,
+                        //               fontSize: 13.sp,
+                        //               fontWeight: FontWeight.w400,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
 
                         // Bottom text (remaining sentences)
                         if (bottomText.isNotEmpty)

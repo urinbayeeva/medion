@@ -18,7 +18,8 @@ class NewsItem extends StatelessWidget {
     required this.imagePath,
     required this.title,
     required this.subtitle,
-    required this.crop, required this.onTap,
+    required this.crop,
+    required this.onTap,
   });
 
   @override
@@ -30,7 +31,9 @@ class NewsItem extends StatelessWidget {
             margin: EdgeInsets.only(right: 15.5.w),
             width: 164.w,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r), color: colors.shade0),
+                boxShadow: colors.shadowMM,
+                borderRadius: BorderRadius.circular(8.r),
+                color: colors.shade0),
             child: Column(
               children: [
                 ClipRRect(
@@ -39,11 +42,16 @@ class NewsItem extends StatelessWidget {
                         topRight: Radius.circular(8.r)),
                     child: CachedNetworkImage(
                       imageUrl: imagePath,
+                      fit: BoxFit.cover,
+                      height: 100.h,
+                      width: double.infinity,
                     )),
                 8.h.verticalSpace,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: fonts.xSmallLink.copyWith(
                           fontSize: 13.sp, fontWeight: FontWeight.w500)),
                 ),

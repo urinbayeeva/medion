@@ -1,15 +1,14 @@
+import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
+import 'package:medion/application/payment_provider.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
-import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
-import 'package:medion/presentation/component/c_not_available.dart';
 import 'package:medion/presentation/component/c_radio_tile.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
-import 'package:medion/presentation/component/c_zigzag_container.dart';
 import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
 import 'package:medion/presentation/pages/appointment/component/user_info_widget.dart';
 import 'package:medion/presentation/pages/appointment/component/verify_appointment_item.dart';
@@ -17,12 +16,8 @@ import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:chucker_flutter/chucker_flutter.dart';
-
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -45,364 +40,176 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
+    final authBloc = context.read<AuthBloc>();
+    if (authBloc.state.patientInfo == null) {
+      authBloc.add(const AuthEvent.fetchPatientInfo());
+    }
   }
-
-  final VisitService _visitService = VisitService();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-      if (state.patientInfo == null) {
-        return const Center(
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        print("🟢  -> ${state.patientInfo}");
+
+        if (state.patientInfo == null) {
+          return const Center(
             child: CircularProgressIndicator(
-          color: Style.error500,
-        ));
-      }
-      return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-        return Expanded(
-            child: SingleChildScrollView(
+              color: Style.error500,
+            ),
+          );
+        }
+
+        final patientInfo = state.patientInfo;
+
+        return SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(16.0.w),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              UserInfoWidget(title: "your_info".tr(), children: [
-                CustomTextField(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  hintText: state.patientInfo?.firstName ?? "Not available",
-                  title: "name".tr(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                UserInfoWidget(
+                  title: "your_info".tr(),
+                  children: [
+                    CustomTextField(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      hintText: patientInfo?.firstName ?? "Not available",
+                      title: "name".tr(),
+                    ),
+                    CustomTextField(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      hintText: patientInfo?.lastName ?? "Not available",
+                      title: "second_name".tr(),
+                    ),
+                    CustomTextField(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      hintText:
+                          patientInfo?.patientId?.toString() ?? "Not available",
+                      title: "ID",
+                    ),
+                    CustomTextField(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      hintText: patientInfo?.phoneNumber ?? "Not available",
+                      title: "contact_phone_number".tr(),
+                    ),
+                  ],
                 ),
-                CustomTextField(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  hintText: state.patientInfo?.lastName ?? "Not available",
-                  title: "second_name".tr(),
-                ),
-                CustomTextField(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  hintText: state.patientInfo?.patientId?.toString() ??
-                      "Not available",
-                  title: "ID",
-                ),
-                CustomTextField(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  hintText: state.patientInfo?.phoneNumber ?? "Not available",
-                  title: "contact_phone_number".tr(),
-                )
-              ]),
-              12.h.verticalSpace,
-              ValueListenableBuilder<List<Map<String, String>>>(
+                12.h.verticalSpace,
+                ValueListenableBuilder<List<Map<String, String>>>(
                   valueListenable: AppointmentState.selectedAppointments,
                   builder: (context, selectedList, _) {
+                    print("🟡 Debug: Selected Appointments -> $selectedList");
+
                     return Column(
                       children: selectedList
                           .map((appointment) => _buildAppointmentItem(
-                              appointment, colors, fonts, context))
+                              appointment,
+                              // colors,
+                              // fonts,
+                              context))
                           .toList(),
                     );
-                  }),
-              12.h.verticalSpace,
-              UserInfoWidget(title: "who_pays".tr(), children: [
-                CustomRadioTile<String>(
-                  value: "myself".tr(),
-                  groupValue: _selectedOption,
-                  title: Text("myself".tr()),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedOption = value!;
-                    });
                   },
                 ),
-                CustomRadioTile<String>(
-                  value: "employer".tr(),
-                  groupValue: _selectedOption,
-                  title: Text(
-                    "employer".tr(),
-                    style: fonts.headlineMain
-                        .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedOption = value!;
-                    });
-                  },
-                ),
-                CustomRadioTile<String>(
-                  value: "insurance_company".tr(),
-                  groupValue: _selectedOption,
-                  title: Text(
-                    "insurance_company".tr(),
-                    style: fonts.headlineMain
-                        .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedOption = value!;
-                    });
-                  },
-                ),
-              ]),
-              12.h.verticalSpace,
-              UserInfoWidget(title: "payment_methods".tr(), children: [
-                Row(
+                12.h.verticalSpace,
+                UserInfoWidget(
+                  title: "who_pays".tr(),
                   children: [
-                    Expanded(
-                      child: CustomRadioTile<String>(
-                        value: "Payme",
-                        groupValue: _selectedPayment,
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            icons.payme.asset(width: 24.w, height: 24.h),
-                            4.w.horizontalSpace,
-                            Text(
-                              "Payme",
-                              style: fonts.headlineMain.copyWith(
-                                  fontSize: 14.sp, fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                        onChanged: (value) async {
-                          setState(() {
-                            _selectedPayment = value!;
-                          });
-                        },
-                      ),
+                    CustomRadioTile<String>(
+                      value: "myself".tr(),
+                      groupValue: _selectedOption,
+                      title: Text("myself".tr()),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedOption = value!;
+                        });
+                      },
                     ),
-                    8.w.horizontalSpace,
-                    Expanded(
-                      child: CustomRadioTile<String>(
-                        value: "Click",
-                        groupValue: _selectedPayment,
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            icons.click.svg(width: 24.w, height: 24.h),
-                            4.w.horizontalSpace,
-                            Text(
-                              "Click",
-                              style: fonts.headlineMain.copyWith(
-                                  fontSize: 14.sp, fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                        onChanged: (value) {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  backgroundColor: colors.shade0,
-                                  content: const CNotAvailable(),
-                                );
-                              });
-                        },
+                    CustomRadioTile<String>(
+                      value: "employer".tr(),
+                      groupValue: _selectedOption,
+                      title: Text(
+                        "employer".tr(),
+                        // style: Style.headlineMain.copyWith(
+                        //   fontSize: 14.sp,
+                        //   fontWeight: FontWeight.w500,
+                        // ),
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedOption = value!;
+                        });
+                      },
                     ),
                   ],
-                )
-              ]),
-              12.h.verticalSpace,
-              ValueListenableBuilder<List<Map<String, String>>>(
-                  valueListenable: AppointmentState.selectedAppointments,
-                  builder: (context, selectedList, _) {
-                    return Column(
-                      children: selectedList
-                          .map((appointment) => _buildPaymentInfo(
-                              appointment, colors, fonts, context))
-                          .toList(),
+                ),
+                40.h.verticalSpace,
+                CButton(
+                  backgroundColor: Style.neutral200,
+                  textColor: Style.primary900,
+                  title: "pay_not_right_now".tr(),
+                  onTap: () async {
+                    context.read<BottomNavBarController>().changeNavBar(false);
+                    Navigator.pushReplacement(
+                        context, AppRoutes.getMainPage(3));
+                  },
+                ),
+                8.h.verticalSpace,
+                CButton(
+                  title: "pay_right_now".tr(),
+                  onTap: () async {
+                    final paymentProvider = Provider.of<PaymentProvider>(
+                      context,
+                      listen: false,
                     );
-                  }),
-
-              40.h.verticalSpace,
-              Container(
-                color: colors.shade0,
-                child: Column(
-                  children: [
-                    // CButton(
-                    //     title: "Внести предоплату (15%) - 69 000 сум",
-                    //     onTap: () {},
-                    //     backgroundColor: colors.neutral200,
-                    //     textColor: colors.secondary900),
-                    // 8.h.verticalSpace,
-                    CButton(
-                        title: "pay_the_full_amount".tr(),
-                        onTap: () async {
-                          final appointments =
-                              AppointmentState.selectedAppointments.value;
-
-                          final result =
-                              await _visitService.createVisit(appointments);
-
-                          if (result) {
-                            // Show success message and navigate
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      'appointment_created_successfully'.tr())),
-                            );
-                            Navigator.push(context, AppRoutes.getMainPage(2));
-                          } else {
-                            // Show error message
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content:
-                                      Text('error_creating_appointment'.tr())),
-                            );
-                          }
-                        }),
-                  ],
+                    if (paymentProvider.multiUrl != null &&
+                        paymentProvider.multiUrl!.isNotEmpty) {
+                      await _launchPaymentUrl(paymentProvider.multiUrl!);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text("No payment URL available")),
+                      );
+                    }
+                  },
                 ),
-              ),
-              // 12.h.verticalSpace,
-            ]),
+              ],
+            ),
           ),
-        ));
-      });
-    });
+        );
+      },
+    );
   }
 }
 
 Widget _buildAppointmentItem(
-    Map<String, String> appointment, colors, fonts, BuildContext context) {
+  Map<String, String> appointment,
+  BuildContext context,
+) {
+  String appointmentDate = appointment['date'] ?? '';
+  String appointmentTime = appointment['time'] ?? '';
+
+  String formattedDate = appointmentDate.isNotEmpty
+      ? DateFormat('EEE, dd MMMM', context.locale.toString()).format(
+          DateTime.tryParse(appointmentDate) ?? DateTime.now(),
+        )
+      : "Not available";
+
   return VerifyAppointmentItem(
     hasImage: false,
-    diagnosis: appointment['serviceName'] ?? '',
-    procedure: appointment['specialty'] ?? '',
-    doctorName: 'Dr. ${appointment['doctorName']}',
-    price: appointment['price'] ?? '',
+    diagnosis: appointment['serviceName'] ?? 'Unknown',
+    procedure: appointment['specialty'] ?? 'Unknown',
+    doctorName: 'Dr. ${appointment['doctorName'] ?? "Unknown"}',
+    price: appointment['price'] ?? '0',
     appointmentTime:
-        '${DateFormat('EEE, dd MMMM', context.locale.toString()).format(DateTime.parse(appointment['date']!))} ${appointment['time']}',
-    location: appointment['location'] ?? '',
+        "$formattedDate ${appointmentTime.isNotEmpty ? appointmentTime : "Not available"}",
+    location: appointment['location'] ?? 'Unknown',
     imagePath: '',
     onCancel: () {
-      AppointmentState.removeAppointment(appointment['serviceId']!);
+      final serviceId = appointment['serviceId'];
+      if (serviceId != null) {
+        AppointmentState.removeAppointment(serviceId);
+      }
     },
   );
-}
-
-Widget _buildPaymentInfo(Map appointment, colors, fonts, BuildContext context) {
-  double totalPrice = 0;
-
-  if (appointment.containsKey('services') && appointment['services'] is List) {
-    for (var service in appointment['services']) {
-      totalPrice += double.tryParse(service['price']?.toString() ?? '0') ?? 0;
-    }
-  } else {
-    totalPrice = double.tryParse(appointment['price']?.toString() ?? '0') ?? 0;
-  }
-
-  String formattedTotalPrice = totalPrice.toStringAsFixed(0);
-
-  return CZigZagContainer(
-      child: Container(
-    width: double.infinity,
-    padding: EdgeInsets.symmetric(vertical: 22.h),
-    decoration:
-        BoxDecoration(color: colors.shade0, boxShadow: colors.shadowMMMM),
-    child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "your_check".tr(),
-            style: fonts.regularSemLink.copyWith(
-                color: colors.primary900,
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w600),
-          ),
-          12.h.verticalSpace,
-          Text(
-            appointment['serviceName'] ?? '',
-            style: fonts.smallMain.copyWith(
-                color: colors.neutral600,
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w600),
-          ),
-          8.h.verticalSpace,
-          Text(
-            "1x${appointment['price'] ?? ''}_ _ _ _ _ _ _ _ _ _ _ _ ${"sum".tr(namedArgs: {
-                  "amount": "${appointment['price'] ?? ''}"
-                })}",
-            style: fonts.xSmallMain.copyWith(
-                color: colors.neutral600,
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w400),
-          ),
-          8.h.verticalSpace,
-          Text(
-              "${"total".tr()} _ _ _ _ _ _ _ _ _ _ _ _ _ _${"sum".tr(namedArgs: {
-                    "amount": formattedTotalPrice
-                  })}",
-              style: fonts.xSmallMain.copyWith(
-                  color: colors.neutral600,
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w400)),
-        ],
-      ),
-    ),
-  ));
-}
-
-
-
-class VisitService {
-  static const String baseUrl = 'https://his.uicgroup.tech/apiweb';
-
-  final _chuckerHttpClient = ChuckerHttpClient(http.Client());
-
-  Future<bool> createVisit(List<Map<String, dynamic>> appointments) async {
-    try {
-      final dbService = await DBService.create;
-      final accessToken = dbService.token.accessToken;
-      final refreshToken = dbService.token.refreshToken;
-
-      final token = accessToken!.isEmpty ? refreshToken! : accessToken;
-
-      final formattedAppointments = appointments.map((appointment) {
-        String startTime = appointment['time'];
-        DateTime parsedStartTime = DateTime(
-          2024,
-          1,
-          1,
-          int.parse(startTime.split(':')[0]),
-          int.parse(startTime.split(':')[1]),
-        );
-        DateTime endTime = parsedStartTime.add(const Duration(minutes: 30));
-
-        String formattedStartTime =
-            '${parsedStartTime.hour.toString().padLeft(2, '0')}:${parsedStartTime.minute.toString().padLeft(2, '0')}';
-        String formattedEndTime =
-            '${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}';
-
-        return {
-          'service_id': int.parse(appointment['serviceId']),
-          'company_id': int.parse(appointment['companyID']),
-          'doctor_id': int.parse(appointment['doctorID']),
-          'start_time': formattedStartTime,
-          'end_time': formattedEndTime,
-          'date': appointment['date'],
-        };
-      }).toList();
-
-      final response = await _chuckerHttpClient.post(
-        Uri.parse('$baseUrl/create_visit'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode(formattedAppointments),
-      );
-
-      print('API Response: ${response.body}');
-      print('API Status Code: ${response.statusCode}');
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return true;
-      }
-      return false;
-    } catch (e) {
-      print('Error creating visit: $e');
-      return false;
-    }
-  }
 }

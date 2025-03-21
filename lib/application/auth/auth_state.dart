@@ -23,5 +23,11 @@ class AuthState with _$AuthState {
     @Default(false) bool errorFetchingVisits, 
     @Default([]) List<VisitModel?> patientVisits, 
     @Default([]) List<PatientAnalysis?> patientAnalyze, 
+    @Default(null) bool? isNewPatient,  
+
+    @Default(null) String? paymeUrl,
+    @Default(null) String? clickUrl,
+    @Default(false) bool isFetchingPaymentUrls, // Loading state for payments
+    @Default(false) bool errorFetchingPaymentUrls, 
   }) = _AuthState;
 }

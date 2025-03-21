@@ -8,7 +8,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/upload_image/upload_image.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
-
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 
@@ -27,70 +26,44 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     this._repository,
     this._dbService,
   ) : super(const _AuthState()) {
-    on<_CheckAuth>(_checkAuth);
     on<_VerificationSend>(_verificationSendHandler);
     on<_SendPhoneNumber>(_sendPhoneNumberHandler);
     on<_SendUserInfo>(_sendUserInfoHandler);
     on<_FetchPatientInfo>(_fetchPatientInfoHandler);
     on<_FetchPatientVisits>(_fetchPatientVisitsHandler);
     on<_FetchPatientAnalyze>(_fetchPatientAnalyze);
+
   }
 
-  Future<void> _checkAuth(_CheckAuth event, Emitter<AuthState> emit) async {
-    final res = _repository.checkUser();
-
-    res.fold(
-      () {
-        return emit(state.copyWith(proceedToHome: true));
-      },
-      (error) {
-        return emit(state.copyWith(proceedToHome: false));
-      },
-    );
-  }
-
-  FutureOr<void> _fetchPatientVisitsHandler(
-    _FetchPatientVisits event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(state.copyWith(isLoadingVisits: true, errorFetchingVisits: false));
-
-    // Fetch the patient visits
-    final result = await _repository.getPatientVisits();
-
-    result.fold(
-      (failure) {
-        LogService.e(" ----> error fetching patient visits: $failure");
-        emit(state.copyWith(isLoadingVisits: false, errorFetchingVisits: true));
-      },
-      (visits) {
-        emit(state.copyWith(
-          isLoadingVisits: false,
-          errorFetchingVisits: false,
-          patientVisits: visits.toList(),
-        ));
-      },
-    );
-  }
-
-  /// Handle verification send request
   FutureOr<void> _verificationSendHandler(
     _VerificationSend event,
     Emitter<AuthState> emit,
   ) async {
     emit(state.copyWith(
-        successSendCode: false, phoneNumber: null, successVerifyCode: false));
+      successSendCode: false,
+      phoneNumber: null,
+      successVerifyCode: false,
+      isNewPatient: null,
+    ));
     EasyLoading.show();
     final res = await _repository.registerUser(request: event.request);
 
     res.fold((error) async {
       LogService.e(" ----> error on bloc  : $error");
-      // EasyLoading.showError(error.message);
-      emit(state.copyWith(successSendCode: false));
+      EasyLoading.showError(error.message);
+      emit(state.copyWith(
+        successSendCode: false,
+        errorSendCode: true,
+      ));
     }, (data) async {
       EasyLoading.dismiss();
+
       emit(state.copyWith(
-          successSendCode: true, phoneNumber: event.request.phoneNumber));
+        successSendCode: true,
+        successVerifyCode: true,
+        phoneNumber: event.request.phoneNumber,
+        isNewPatient: data.isNewPatient,
+      ));
     });
   }
 
@@ -99,19 +72,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(state.copyWith(
-        successSendCode: false, phoneNumber: null, successVerifyCode: false));
+      successSendCode: false,
+      phoneNumber: null,
+      successVerifyCode: false,
+    ));
     EasyLoading.show();
 
     final res = await _repository.sendPhoneNumber(request: event.request);
 
     res.fold((error) async {
       LogService.e(" ----> error on phone number bloc: $error");
-      EasyLoading.showError(error.message); // Show error message
-      emit(state.copyWith(successSendCode: false)); // Update state
+      EasyLoading.showError(error.message);
+      emit(state.copyWith(successSendCode: false));
     }, (data) async {
-      EasyLoading.dismiss(); // Dismiss loading indicator
+      EasyLoading.dismiss();
       emit(state.copyWith(
-          successSendCode: true, phoneNumber: event.request.phoneNumber));
+        successSendCode: true,
+        phoneNumber: event.request.phoneNumber,
+      ));
     });
   }
 
@@ -130,7 +108,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(state.copyWith(successSendCode: false));
     }, (data) async {
       EasyLoading.dismiss();
-      emit(state.copyWith(successSendCode: true));
+      emit(state.copyWith(successSendUserInfo: true));
     });
   }
 
@@ -163,6 +141,43 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
+  // FutureOr<void> _pickImageHandler(
+  //   _PickImage event,
+  //   Emitter<AuthState> emit,
+  // ) async {
+  //   final image = await UploadImageUtil.pickImage(event.context);
+  //   if (image != null) {
+  //     final croppedImage = await UploadImageUtil.cropImage(image.path);
+  //     emit(state.copyWith(pickedImagePath: croppedImage?.path));
+  //   }
+  // }
+
+  FutureOr<void> _fetchPatientVisitsHandler(
+    _FetchPatientVisits event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(isLoadingVisits: true, errorFetchingVisits: false));
+
+    final result = await _repository.getPatientVisits();
+
+    result.fold(
+      (failure) {
+        LogService.e(" ----> error fetching patient visits: $failure");
+        emit(state.copyWith(
+          isLoadingVisits: false,
+          errorFetchingVisits: true,
+        ));
+      },
+      (visits) {
+        emit(state.copyWith(
+          isLoadingVisits: false,
+          errorFetchingVisits: false,
+          patientVisits: visits.toList(),
+        ));
+      },
+    );
+  }
+
   FutureOr<void> _fetchPatientAnalyze(
     _FetchPatientAnalyze event,
     Emitter<AuthState> emit,
@@ -185,4 +200,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
   }
+
+  
 }
