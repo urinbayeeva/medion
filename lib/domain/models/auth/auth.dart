@@ -13,13 +13,12 @@ abstract class PhoneNumberSendReq
       _$PhoneNumberSendReq;
 
   @BuiltValueField(wireName: 'phone_number')
-  String get phoneNumber;
+  String? get phoneNumber;
 
   static Serializer<PhoneNumberSendReq> get serializer =>
       _$phoneNumberSendReqSerializer;
 }
 
-/// Verification Send Request
 
 abstract class RegisterReq implements Built<RegisterReq, RegisterReqBuilder> {
   RegisterReq._();

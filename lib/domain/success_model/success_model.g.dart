@@ -20,10 +20,17 @@ class _$SuccessModelSerializer implements StructuredSerializer<SuccessModel> {
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[];
     Object? value;
-    value = object.detail;
+    value = object.status;
     if (value != null) {
       result
-        ..add('detail')
+        ..add('status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.message;
+    if (value != null) {
+      result
+        ..add('message')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -42,8 +49,12 @@ class _$SuccessModelSerializer implements StructuredSerializer<SuccessModel> {
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
-        case 'detail':
-          result.detail = serializers.deserialize(value,
+        case 'status':
+          result.status = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'message':
+          result.message = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -55,12 +66,14 @@ class _$SuccessModelSerializer implements StructuredSerializer<SuccessModel> {
 
 class _$SuccessModel extends SuccessModel {
   @override
-  final String? detail;
+  final String? status;
+  @override
+  final String? message;
 
   factory _$SuccessModel([void Function(SuccessModelBuilder)? updates]) =>
       (new SuccessModelBuilder()..update(updates))._build();
 
-  _$SuccessModel._({this.detail}) : super._();
+  _$SuccessModel._({this.status, this.message}) : super._();
 
   @override
   SuccessModel rebuild(void Function(SuccessModelBuilder) updates) =>
@@ -72,20 +85,25 @@ class _$SuccessModel extends SuccessModel {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is SuccessModel && detail == other.detail;
+    return other is SuccessModel &&
+        status == other.status &&
+        message == other.message;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, detail.hashCode);
+    _$hash = $jc(_$hash, status.hashCode);
+    _$hash = $jc(_$hash, message.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'SuccessModel')..add('detail', detail))
+    return (newBuiltValueToStringHelper(r'SuccessModel')
+          ..add('status', status)
+          ..add('message', message))
         .toString();
   }
 }
@@ -94,16 +112,21 @@ class SuccessModelBuilder
     implements Builder<SuccessModel, SuccessModelBuilder> {
   _$SuccessModel? _$v;
 
-  String? _detail;
-  String? get detail => _$this._detail;
-  set detail(String? detail) => _$this._detail = detail;
+  String? _status;
+  String? get status => _$this._status;
+  set status(String? status) => _$this._status = status;
+
+  String? _message;
+  String? get message => _$this._message;
+  set message(String? message) => _$this._message = message;
 
   SuccessModelBuilder();
 
   SuccessModelBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _detail = $v.detail;
+      _status = $v.status;
+      _message = $v.message;
       _$v = null;
     }
     return this;
@@ -126,7 +149,8 @@ class SuccessModelBuilder
   _$SuccessModel _build() {
     final _$result = _$v ??
         new _$SuccessModel._(
-          detail: detail,
+          status: status,
+          message: message,
         );
     replace(_$result);
     return _$result;

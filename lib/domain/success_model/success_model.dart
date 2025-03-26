@@ -10,8 +10,11 @@ abstract class SuccessModel
   factory SuccessModel([Function(SuccessModelBuilder b) updates]) =
       _$SuccessModel;
 
-  @BuiltValueField(wireName: 'detail')
-  String? get detail;
+  @BuiltValueField(wireName: 'status')
+  String? get status;
+
+    @BuiltValueField(wireName: 'message')
+  String? get message;
 
   static Serializer<SuccessModel> get serializer => _$successModelSerializer;
 }

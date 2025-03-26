@@ -63,7 +63,8 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                 AppRoutes.getVerifyCodePage(
                     additionalPhone: widget.additionalPhone,
                     autofill: value,
-                    phoneNumber: formatPhoneNumber(_phoneNumberController.text),
+                    phoneNumber: formatPhoneNumberForBackend(
+                        _phoneNumberController.text),
                     password: null));
           });
         },
@@ -119,7 +120,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                   widget.phoneNumbers!.isNotEmpty) {
                                 for (var phone in widget.phoneNumbers!) {
                                   if (phone ==
-                                      formatPhoneNumber(
+                                      formatPhoneNumberForUI(
                                           _phoneNumberController.text)) {
                                     return "phone_number_already_exists";
                                   }
@@ -142,8 +143,10 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                               context.read<AuthBloc>().add(
                                   AuthEvent.sendPhoneNumber(
                                       request: PhoneNumberSendReq((p0) => p0
-                                        ..phoneNumber = formatPhoneNumber(
-                                            _phoneNumberController.text))));
+                                        ..phoneNumber =
+                                            formatPhoneNumberForBackend(
+                                                _phoneNumberController.text))));
+
                               // ignore: use_build_context_synchronously
 
                               SmsAutoFill().getAppSignature.then((value) {
@@ -152,8 +155,9 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                     AppRoutes.getVerifyCodePage(
                                         additionalPhone: widget.additionalPhone,
                                         autofill: value,
-                                        phoneNumber: formatPhoneNumber(
-                                            _phoneNumberController.text),
+                                        phoneNumber:
+                                            formatPhoneNumberForBackend(
+                                                _phoneNumberController.text),
                                         password: null));
                               });
                             });

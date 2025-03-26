@@ -84,10 +84,10 @@ class AuthRepository implements IAuthFacade {
             refreshToken: res.body!.refreshToken!.first,
             tokenType: 'Bearer',
           ));
-          // print("TOKEN: ${res.body}")
+
           return right(res.body!);
         } else {
-          return right(res.body!); // For new users, no tokens yet
+          return right(res.body!); 
         }
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
@@ -98,60 +98,34 @@ class AuthRepository implements IAuthFacade {
     }
   }
 
-  /// Send phone number
-  @override
-  Future<Either<ResponseFailure, SuccessModel>> sendPhoneNumber({
-    required PhoneNumberSendReq request,
-  }) async {
-    try {
-      const String url =
-          'https://his.uicgroup.tech/apiweb/patient/phone-number';
+@override
+Future<Either<ResponseFailure, SuccessModel>> sendPhoneNumber({
+  required PhoneNumberSendReq request,
+}) async {
+  try {
+    final response = await _authService.phoneNumberSend(request: request);
 
-      // Request Headers
-      final headers = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      };
+    LogService.d('Response Status: ${response.statusCode}');
+    LogService.d('Response Body: ${response.body}');
 
-      // Request Body
-      final body = jsonEncode({
-        'phone_number': request.phoneNumber,
-      });
-
-      // Make POST request
-      LogService.d('Sending request to $url with body: $body');
-      final response = await http.post(
-        Uri.parse(url),
-        headers: headers,
-        body: body,
-      );
-
-      // Debug Logs
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
-
-      // Handle HTTP response
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final Map<String, dynamic> responseData = jsonDecode(response.body);
-
-        if (responseData['status'] == 'success') {
-          final successModel = SuccessModel(
-              (b) => b..detail = responseData['message'] ?? 'Success');
-          return right(successModel);
-        } else {
-          final errorMsg = responseData['message'] ?? 'Unknown error';
-          return left(InvalidCredentials(message: errorMsg));
-        }
+    if (response.isSuccessful) {
+      final body = response.body;
+      if (body != null) {
+        return right(body);
       } else {
-        return left(InvalidCredentials(
-            message: 'Server Error: ${response.statusCode}'.tr()));
+        return left(InvalidCredentials(message: 'Empty response from server'));
       }
-    } catch (e) {
-      // Handle unexpected exceptions
-      LogService.e(" ----> error on phone number repo: ${e.toString()}");
-      return left(InvalidCredentials(message: 'Unknown Error'.tr()));
+    } else {
+      final errorMessage = response.error?.toString() ?? 'Unknown Error';
+      return left(InvalidCredentials(message: errorMessage));
     }
+  } catch (e, stackTrace) {
+    LogService.e("Error in sendPhoneNumber: ${e.toString()} \nStackTrace: $stackTrace");
+    return left(const InvalidCredentials(message: 'An unexpected error occurred'));
   }
+}
+
+
 
   @override
   Future<Either<ResponseFailure, CreatePatientInfoResponse>> sendUserInfo(

@@ -38,12 +38,22 @@ extension StringCasingExtension on String {
   }
 }
 
-//remove spaces
-String formatPhoneNumber(String phoneNumber) {
-  return phoneNumber.replaceAll(" ", '');
+String formatPhoneNumberForBackend(String phoneNumber) {
+  final cleaned = phoneNumber.replaceAll(' ', '');
+  if (cleaned.startsWith('+998') && cleaned.length >= 12) {
+    return '+${cleaned.substring(1, 6)} ${cleaned.substring(6)}';
+  }
+  return phoneNumber;
 }
 
-// add spaces
+String formatPhoneNumberForUI(String phoneNumber) {
+  final cleaned = phoneNumber.replaceAll(' ', '');
+  if (cleaned.length == 12) {
+    return '+${cleaned.substring(0, 3)} ${cleaned.substring(3, 5)} ${cleaned.substring(5, 8)} ${cleaned.substring(8, 10)} ${cleaned.substring(10, 12)}';
+  }
+  return phoneNumber;
+}
+
 String? formatPhoneNumberAddSpaces(String? phoneNumber) {
   if (phoneNumber == null) {
     return null;
@@ -55,22 +65,17 @@ String? formatPhoneNumberAddSpaces(String? phoneNumber) {
   return separatedNumber;
 }
 
-// Format passport serial number
-// Format passport serial number
 String? formatPassportSerialNumber(String? serialNumber) {
   if (serialNumber == null) {
     return null;
   }
 
-  // Remove any extra spaces or invalid characters
   String cleanedSerial = serialNumber.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '');
 
-  // Validate the input to ensure it matches the expected pattern
   if (!RegExp(r'^[a-zA-Z]{2}\d{7}\$').hasMatch(cleanedSerial)) {
-    return null; // Return null for invalid input
+    return null;
   }
 
-  // Format the serial number
   String formattedSerial = cleanedSerial.replaceFirstMapped(
       RegExp(r'^([a-zA-Z]{2})(\d{7})\$'),
       (match) => '${match.group(1)!.toUpperCase()} ${match.group(2)}');
@@ -241,5 +246,3 @@ DateTime? parseDateString(String dateString) {
 
   return parsedDate;
 }
-
-

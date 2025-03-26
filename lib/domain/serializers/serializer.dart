@@ -22,6 +22,7 @@ part 'serializer.g.dart';
   SuccessModel,
   ResponseModel,
   BookingTypeModel,
+  PhoneNumberSendReq,
   News,
   Service,
   Category,
