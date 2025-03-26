@@ -78,6 +78,15 @@ abstract class VisitModel implements Built<VisitModel, VisitModelBuilder> {
   @BuiltValueField(wireName: 'payment_method')
   String? get paymentMethod;
 
+  @BuiltValueField(wireName: 'payment_status')
+  String? get paymentStatus;
+
+  @BuiltValueField(wireName: 'longitude')
+  double? get longitude;
+
+  @BuiltValueField(wireName: 'latitude')
+  double? get latitude;
+
   VisitModel._();
   factory VisitModel([void Function(VisitModelBuilder) updates]) = _$VisitModel;
 

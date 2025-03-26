@@ -22,7 +22,8 @@ class VisitInfoCard extends StatefulWidget {
       this.serviceName,
       this.visitDate,
       this.visitTime,
-      this.visitStatus, required this.onTap});
+      this.visitStatus,
+      required this.onTap});
 
   @override
   State<VisitInfoCard> createState() => _VisitInfoCardState();
@@ -49,7 +50,9 @@ class _VisitInfoCardState extends State<VisitInfoCard> {
                     height: 70.h,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12.r),
-                        color: const Color(0xFFFFA41B)),
+                        color: widget.visitStatus! == "paid"
+                            ? const Color(0xFF0E73F6).withOpacity(0.3)
+                            : const Color(0xFFFFA41B).withOpacity(0.3)),
                   ),
                   8.w.horizontalSpace,
                   Column(
@@ -57,10 +60,21 @@ class _VisitInfoCardState extends State<VisitInfoCard> {
                     spacing: 4.h,
                     children: [
                       Text(widget.doctorName!, style: fonts.smallSemLink),
-                      Text(
-                        widget.visitStatus!,
-                        style: fonts.xSmallMain
-                            .copyWith(color: const Color(0xFFFFA41B)),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.w, vertical: 4.h),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(60.r),
+                            color: widget.visitStatus! == "paid"
+                                ? const Color(0xFF0E73F6).withOpacity(0.3)
+                                : const Color(0xFFFFA41B).withOpacity(0.3)),
+                        child: Text(
+                          widget.visitStatus!,
+                          style: fonts.xSmallMain.copyWith(
+                              color: widget.visitStatus! == "paid"
+                                  ? const Color(0xFF0E73F6)
+                                  : const Color(0xFFFFA41B)),
+                        ),
                       ),
                       Text(widget.doctorJob!,
                           style: fonts.xSmallMain

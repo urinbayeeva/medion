@@ -250,6 +250,27 @@ class _$VisitModelSerializer implements StructuredSerializer<VisitModel> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.paymentStatus;
+    if (value != null) {
+      result
+        ..add('payment_status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.longitude;
+    if (value != null) {
+      result
+        ..add('longitude')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
+    value = object.latitude;
+    if (value != null) {
+      result
+        ..add('latitude')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
     return result;
   }
 
@@ -307,6 +328,18 @@ class _$VisitModelSerializer implements StructuredSerializer<VisitModel> {
         case 'payment_method':
           result.paymentMethod = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'payment_status':
+          result.paymentStatus = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'longitude':
+          result.longitude = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
+          break;
+        case 'latitude':
+          result.latitude = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
       }
     }
@@ -598,6 +631,12 @@ class _$VisitModel extends VisitModel {
   final String? address;
   @override
   final String? paymentMethod;
+  @override
+  final String? paymentStatus;
+  @override
+  final double? longitude;
+  @override
+  final double? latitude;
 
   factory _$VisitModel([void Function(VisitModelBuilder)? updates]) =>
       (new VisitModelBuilder()..update(updates))._build();
@@ -613,7 +652,10 @@ class _$VisitModel extends VisitModel {
       this.visitStatus,
       this.weekIndex,
       this.address,
-      this.paymentMethod})
+      this.paymentMethod,
+      this.paymentStatus,
+      this.longitude,
+      this.latitude})
       : super._();
 
   @override
@@ -637,7 +679,10 @@ class _$VisitModel extends VisitModel {
         visitStatus == other.visitStatus &&
         weekIndex == other.weekIndex &&
         address == other.address &&
-        paymentMethod == other.paymentMethod;
+        paymentMethod == other.paymentMethod &&
+        paymentStatus == other.paymentStatus &&
+        longitude == other.longitude &&
+        latitude == other.latitude;
   }
 
   @override
@@ -654,6 +699,9 @@ class _$VisitModel extends VisitModel {
     _$hash = $jc(_$hash, weekIndex.hashCode);
     _$hash = $jc(_$hash, address.hashCode);
     _$hash = $jc(_$hash, paymentMethod.hashCode);
+    _$hash = $jc(_$hash, paymentStatus.hashCode);
+    _$hash = $jc(_$hash, longitude.hashCode);
+    _$hash = $jc(_$hash, latitude.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -671,7 +719,10 @@ class _$VisitModel extends VisitModel {
           ..add('visitStatus', visitStatus)
           ..add('weekIndex', weekIndex)
           ..add('address', address)
-          ..add('paymentMethod', paymentMethod))
+          ..add('paymentMethod', paymentMethod)
+          ..add('paymentStatus', paymentStatus)
+          ..add('longitude', longitude)
+          ..add('latitude', latitude))
         .toString();
   }
 }
@@ -726,6 +777,19 @@ class VisitModelBuilder implements Builder<VisitModel, VisitModelBuilder> {
   set paymentMethod(String? paymentMethod) =>
       _$this._paymentMethod = paymentMethod;
 
+  String? _paymentStatus;
+  String? get paymentStatus => _$this._paymentStatus;
+  set paymentStatus(String? paymentStatus) =>
+      _$this._paymentStatus = paymentStatus;
+
+  double? _longitude;
+  double? get longitude => _$this._longitude;
+  set longitude(double? longitude) => _$this._longitude = longitude;
+
+  double? _latitude;
+  double? get latitude => _$this._latitude;
+  set latitude(double? latitude) => _$this._latitude = latitude;
+
   VisitModelBuilder();
 
   VisitModelBuilder get _$this {
@@ -742,6 +806,9 @@ class VisitModelBuilder implements Builder<VisitModel, VisitModelBuilder> {
       _weekIndex = $v.weekIndex;
       _address = $v.address;
       _paymentMethod = $v.paymentMethod;
+      _paymentStatus = $v.paymentStatus;
+      _longitude = $v.longitude;
+      _latitude = $v.latitude;
       _$v = null;
     }
     return this;
@@ -775,6 +842,9 @@ class VisitModelBuilder implements Builder<VisitModel, VisitModelBuilder> {
           weekIndex: weekIndex,
           address: address,
           paymentMethod: paymentMethod,
+          paymentStatus: paymentStatus,
+          longitude: longitude,
+          latitude: latitude,
         );
     replace(_$result);
     return _$result;

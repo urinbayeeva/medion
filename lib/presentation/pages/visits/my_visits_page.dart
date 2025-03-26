@@ -167,13 +167,13 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
             Navigator.push(
               context,
               AppRoutes.getVisitDetailPage(
-                categoryName: visit!.categoryName,
+                categoryName: visit.categoryName,
                 serviceName: visit.serviceName,
                 doctorName: visit.doctorFullName,
                 servicePrice: 10,
                 visitDate: "${visit.visitDate}, ${visit.visitTime}",
                 visitLocation: visit.address,
-                visitStatus: visit.visitStatus,
+                visitStatus: visit.paymentStatus,
                 visitPaymentByWhom: "",
                 paymentMethod: visit.paymentMethod,
                 data: [visit],
@@ -185,7 +185,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
           },
           doctorName: visit!.doctorFullName!,
           doctorJob: visit.doctorJobName!,
-          visitStatus: visit.visitStatus!,
+          visitStatus: visit.paymentStatus!,
           visitTime: visit.visitTime!,
         );
       },

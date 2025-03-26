@@ -126,15 +126,20 @@ class VisitInfoDetailCard extends StatelessWidget {
                           fontWeight: FontWeight.w500)),
                   4.w.horizontalSpace,
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
                     decoration: BoxDecoration(
-                        color: const Color(0xFFA41B12).withOpacity(0.07),
-                        borderRadius: BorderRadius.circular(30.r)),
-                    child: Text(visitStatus!,
-                        style: fonts.smallLink.copyWith(
-                            color: colors.primary900,
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w600)),
+                        borderRadius: BorderRadius.circular(60.r),
+                        color: visitStatus! == "paid"
+                            ? const Color(0xFF0E73F6).withOpacity(0.3)
+                            : const Color(0xFFFFA41B).withOpacity(0.3)),
+                    child: Text(
+                      visitStatus!,
+                      style: fonts.xSmallMain.copyWith(
+                          color: visitStatus! == "paid"
+                              ? const Color(0xFF0E73F6)
+                              : const Color(0xFFFFA41B)),
+                    ),
                   ),
                 ],
               ),
