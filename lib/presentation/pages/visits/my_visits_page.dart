@@ -167,6 +167,8 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
             Navigator.push(
               context,
               AppRoutes.getVisitDetailPage(
+                longitude: visit.longitude,
+                latitude: visit.latitude,
                 categoryName: visit.categoryName,
                 serviceName: visit.serviceName,
                 doctorName: visit.doctorFullName,

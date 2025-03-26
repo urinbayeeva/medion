@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,8 +13,14 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MapViewPage extends StatefulWidget {
-  
-  const MapViewPage({super.key});
+  final double latitude; // Added latitude parameter
+  final double longitude; // Added longitude parameter
+
+  const MapViewPage({
+    super.key,
+    required this.latitude,
+    required this.longitude,
+  });
 
   @override
   State<MapViewPage> createState() => _MapViewPageState();
@@ -28,10 +33,11 @@ class _MapViewPageState extends State<MapViewPage> {
   int? selectedIndex;
   GoogleMapController? controller;
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(41.327405, 69.184021),
-    zoom: 12,
-  );
+  // Modified to use widget parameters
+  CameraPosition get _initialPosition => CameraPosition(
+        target: LatLng(widget.latitude, widget.longitude),
+        zoom: 16,
+      );
 
   void moveToLocation(int index) async {
     if (!_controller.isCompleted) return;
@@ -69,7 +75,13 @@ class _MapViewPageState extends State<MapViewPage> {
       'assets/images/location.png',
     );
 
-    markers = {};
+    markers = {
+      Marker(
+        markerId: const MarkerId('initial_position'),
+        position: LatLng(widget.latitude, widget.longitude),
+        icon: redMarkerIcon,
+      )
+    };
 
     setState(() {});
   }
@@ -89,7 +101,8 @@ class _MapViewPageState extends State<MapViewPage> {
             GoogleMap(
               markers: markers ?? {},
               mapType: MapType.normal,
-              initialCameraPosition: _kGooglePlex,
+              initialCameraPosition:
+                  _initialPosition, // Updated to use dynamic position
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
               },

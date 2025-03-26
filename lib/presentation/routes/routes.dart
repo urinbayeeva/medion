@@ -610,6 +610,8 @@ class AppRoutes {
     required String? paymentMethod,
     required dynamic data,
     required String? image,
+    required double? longitude,
+    required double? latitude,
   }) {
     return MaterialPageRoute(
       builder: (_) => VisitDetailPage(
@@ -623,6 +625,8 @@ class AppRoutes {
         visitPaymentByWhom: visitPaymentByWhom,
         paymentMethod: paymentMethod,
         data: data,
+        longitude: longitude!,
+        latitude: latitude!,
       ),
     );
   }

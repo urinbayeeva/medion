@@ -26,6 +26,8 @@ class VisitDetailPage extends StatefulWidget {
   final String? visitPaymentByWhom;
   final String? paymentMethod;
   final dynamic data;
+  final double longitude;
+  final double latitude;
   const VisitDetailPage(
       {super.key,
       this.categoryName,
@@ -37,7 +39,9 @@ class VisitDetailPage extends StatefulWidget {
       this.visitStatus,
       this.visitPaymentByWhom,
       this.paymentMethod,
-      this.data});
+      this.data,
+      required this.longitude,
+      required this.latitude});
 
   @override
   State<VisitDetailPage> createState() => _VisitDetailPageState();
@@ -91,7 +95,10 @@ class _VisitDetailPageState extends State<VisitDetailPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MapViewPage())).then((_) {
+                            builder: (context) => MapViewPage(
+                                  latitude: widget.latitude,
+                                  longitude: widget.longitude,
+                                ))).then((_) {
                       context.read<BottomNavBarController>().changeNavBar(true);
                     });
                   },
