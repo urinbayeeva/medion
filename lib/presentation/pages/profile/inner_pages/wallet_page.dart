@@ -28,7 +28,6 @@ class _WalletPageState extends State<WalletPage> {
       return Scaffold(
         backgroundColor: colors.backgroundColor,
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             CAppBar(
               title: "wallet".tr(),
@@ -40,82 +39,122 @@ class _WalletPageState extends State<WalletPage> {
             BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
                 if (state.patientInfo == null) {
-                  return const Center(
+                  return const Expanded(
+                    child: Center(
                       child: CircularProgressIndicator(
-                    color: Style.error500,
-                  ));
+                        color: Style.error500,
+                      ),
+                    ),
+                  );
                 }
 
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Row(
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: Container(
-                          height: 82.h,
-                          padding: EdgeInsets.all(12.w),
-                          margin: EdgeInsets.only(right: 8.w),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: colors.shade0,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("balance".tr(), style: fonts.smallLink),
-                              12.h.verticalSpace,
-                              Row(
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 82.h,
+                              padding: EdgeInsets.all(12.w),
+                              margin: EdgeInsets.only(right: 8.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.r),
+                                color: colors.shade0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "sum".tr(namedArgs: {
-                                      "amount":
-                                          "${state.patientInfo?.patientBalance ?? 0}"
-                                    }),
-                                    style: fonts.regularMain,
-                                  ),
-                                  8.w.horizontalSpace,
-                                  icons.question.svg(
-                                    width: 20.w,
-                                    height: 20.h,
+                                  Text("balance".tr(), style: fonts.smallLink),
+                                  12.h.verticalSpace,
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "sum".tr(namedArgs: {
+                                          "amount":
+                                              "${state.patientInfo?.patientBalance ?? 0}"
+                                        }),
+                                        style: fonts.regularMain,
+                                      ),
+                                      8.w.horizontalSpace,
+                                      icons.question.svg(
+                                        width: 20.w,
+                                        height: 20.h,
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                          Expanded(
+                            child: Container(
+                              height: 82.h,
+                              padding: EdgeInsets.all(12.w),
+                              margin: EdgeInsets.only(left: 8.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.r),
+                                color: colors.shade0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("debit".tr(), style: fonts.smallLink),
+                                  12.h.verticalSpace,
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "sum".tr(namedArgs: {
+                                          "amount":
+                                              "${state.patientInfo?.patientDebit ?? 0}"
+                                        }),
+                                        style: fonts.regularMain,
+                                      ),
+                                      8.w.horizontalSpace,
+                                      icons.question.svg(
+                                        width: 20.w,
+                                        height: 20.h,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: Container(
-                          height: 82.h,
-                          padding: EdgeInsets.all(12.w),
-                          margin: EdgeInsets.only(left: 8.w),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: colors.shade0,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Debit", style: fonts.smallLink),
-                              12.h.verticalSpace,
-                              Row(
-                                children: [
-                                  Text(
-                                      "sum".tr(namedArgs: {
-                                        "amount": state
-                                            .patientInfo!.patientDebit
-                                            .toString()
-                                      }),
-                                      style: fonts.regularMain),
-                                  8.w.horizontalSpace,
-                                  icons.question.svg(
-                                    width: 20.w,
-                                    height: 20.h,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                      8.h.verticalSpace,
+                      Container(
+                        height: 82.h,
+                        padding: EdgeInsets.all(12.w),
+                        margin: EdgeInsets.only(right: 8.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          color: colors.shade0,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("deposit".tr(), style: fonts.smallLink),
+                            12.h.verticalSpace,
+                            Row(
+                              children: [
+                                Text(
+                                  "sum".tr(namedArgs: {
+                                    "amount":
+                                        "${state.patientInfo?.patientDeposit ?? 0}"
+                                  }),
+                                  style: fonts.regularMain,
+                                ),
+                                8.w.horizontalSpace,
+                                icons.question.svg(
+                                  width: 20.w,
+                                  height: 20.h,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ],

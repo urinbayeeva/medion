@@ -145,7 +145,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           ),
                                         ),
                                         Text(
-                                          service.description ?? '',
+                                          service.decodedDescription ?? '',
                                           style: fonts.smallLink.copyWith(
                                             color: colors.neutral600,
                                             fontSize: 11.sp,

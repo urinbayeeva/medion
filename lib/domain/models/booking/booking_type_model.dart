@@ -5,6 +5,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:medion/domain/serializers/serializer.dart';
+import 'package:medion/utils/helpers/decode_html.dart';
 
 part 'booking_type_model.g.dart';
 
@@ -44,6 +45,8 @@ abstract class Service implements Built<Service, ServiceBuilder> {
 
   @BuiltValueField(wireName: 'age')
   String? get age;
+
+  String get decodedDescription => decodeHtml(description);
 
   String toJson() {
     return json.encode(serializers.serializeWith(Service.serializer, this));
@@ -328,7 +331,6 @@ abstract class CreatePatientBookingReq
       _$CreatePatientBookingReq;
 }
 
-
 abstract class CreatePatientResponse
     implements Built<CreatePatientResponse, CreatePatientResponseBuilder> {
   @BuiltValueField(wireName: 'services')
@@ -344,12 +346,18 @@ abstract class CreatePatientResponse
   String? get multicardUrl;
 
   CreatePatientResponse._();
-  factory CreatePatientResponse([void Function(CreatePatientResponseBuilder) updates]) = _$CreatePatientResponse;
+  factory CreatePatientResponse(
+          [void Function(CreatePatientResponseBuilder) updates]) =
+      _$CreatePatientResponse;
 
-  static Serializer<CreatePatientResponse> get serializer => _$createPatientResponseSerializer;
+  static Serializer<CreatePatientResponse> get serializer =>
+      _$createPatientResponseSerializer;
 }
 
-abstract class CreatePatientServiceResponse implements Built<CreatePatientServiceResponse, CreatePatientServiceResponseBuilder> {
+abstract class CreatePatientServiceResponse
+    implements
+        Built<CreatePatientServiceResponse,
+            CreatePatientServiceResponseBuilder> {
   @BuiltValueField(wireName: 'id')
   int? get id;
 
@@ -387,11 +395,13 @@ abstract class CreatePatientServiceResponse implements Built<CreatePatientServic
   String? get startTime;
 
   CreatePatientServiceResponse._();
-  factory CreatePatientServiceResponse([void Function(CreatePatientServiceResponseBuilder) updates]) = _$CreatePatientServiceResponse;
+  factory CreatePatientServiceResponse(
+          [void Function(CreatePatientServiceResponseBuilder) updates]) =
+      _$CreatePatientServiceResponse;
 
-  static Serializer<CreatePatientServiceResponse> get serializer => _$createPatientServiceResponseSerializer;
+  static Serializer<CreatePatientServiceResponse> get serializer =>
+      _$createPatientServiceResponseSerializer;
 }
-
 
 abstract class CreatePatientRequest
     implements Built<CreatePatientRequest, CreatePatientRequestBuilder> {
@@ -414,7 +424,10 @@ abstract class CreatePatientRequest
   String get date;
 
   CreatePatientRequest._();
-  factory CreatePatientRequest([void Function(CreatePatientRequestBuilder) updates]) = _$CreatePatientRequest;
+  factory CreatePatientRequest(
+          [void Function(CreatePatientRequestBuilder) updates]) =
+      _$CreatePatientRequest;
 
-  static Serializer<CreatePatientRequest> get serializer => _$createPatientRequestSerializer;
+  static Serializer<CreatePatientRequest> get serializer =>
+      _$createPatientRequestSerializer;
 }

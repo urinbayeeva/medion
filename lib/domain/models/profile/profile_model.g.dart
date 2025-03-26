@@ -91,6 +91,13 @@ class _$PatientInfoSerializer implements StructuredSerializer<PatientInfo> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(double)));
     }
+    value = object.patientDeposit;
+    if (value != null) {
+      result
+        ..add('patient_deposit')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
     return result;
   }
 
@@ -143,6 +150,10 @@ class _$PatientInfoSerializer implements StructuredSerializer<PatientInfo> {
           break;
         case 'patient_debit':
           result.patientDebit = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
+          break;
+        case 'patient_deposit':
+          result.patientDeposit = serializers.deserialize(value,
               specifiedType: const FullType(double)) as double?;
           break;
       }
@@ -380,6 +391,8 @@ class _$PatientInfo extends PatientInfo {
   final double? patientBalance;
   @override
   final double? patientDebit;
+  @override
+  final double? patientDeposit;
 
   factory _$PatientInfo([void Function(PatientInfoBuilder)? updates]) =>
       (new PatientInfoBuilder()..update(updates))._build();
@@ -394,7 +407,8 @@ class _$PatientInfo extends PatientInfo {
       this.dateOfBirth,
       this.phoneNumber,
       this.patientBalance,
-      this.patientDebit})
+      this.patientDebit,
+      this.patientDeposit})
       : super._();
 
   @override
@@ -417,7 +431,8 @@ class _$PatientInfo extends PatientInfo {
         dateOfBirth == other.dateOfBirth &&
         phoneNumber == other.phoneNumber &&
         patientBalance == other.patientBalance &&
-        patientDebit == other.patientDebit;
+        patientDebit == other.patientDebit &&
+        patientDeposit == other.patientDeposit;
   }
 
   @override
@@ -433,6 +448,7 @@ class _$PatientInfo extends PatientInfo {
     _$hash = $jc(_$hash, phoneNumber.hashCode);
     _$hash = $jc(_$hash, patientBalance.hashCode);
     _$hash = $jc(_$hash, patientDebit.hashCode);
+    _$hash = $jc(_$hash, patientDeposit.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -449,7 +465,8 @@ class _$PatientInfo extends PatientInfo {
           ..add('dateOfBirth', dateOfBirth)
           ..add('phoneNumber', phoneNumber)
           ..add('patientBalance', patientBalance)
-          ..add('patientDebit', patientDebit))
+          ..add('patientDebit', patientDebit)
+          ..add('patientDeposit', patientDeposit))
         .toString();
   }
 }
@@ -498,6 +515,11 @@ class PatientInfoBuilder implements Builder<PatientInfo, PatientInfoBuilder> {
   double? get patientDebit => _$this._patientDebit;
   set patientDebit(double? patientDebit) => _$this._patientDebit = patientDebit;
 
+  double? _patientDeposit;
+  double? get patientDeposit => _$this._patientDeposit;
+  set patientDeposit(double? patientDeposit) =>
+      _$this._patientDeposit = patientDeposit;
+
   PatientInfoBuilder();
 
   PatientInfoBuilder get _$this {
@@ -513,6 +535,7 @@ class PatientInfoBuilder implements Builder<PatientInfo, PatientInfoBuilder> {
       _phoneNumber = $v.phoneNumber;
       _patientBalance = $v.patientBalance;
       _patientDebit = $v.patientDebit;
+      _patientDeposit = $v.patientDeposit;
       _$v = null;
     }
     return this;
@@ -545,6 +568,7 @@ class PatientInfoBuilder implements Builder<PatientInfo, PatientInfoBuilder> {
           phoneNumber: phoneNumber,
           patientBalance: patientBalance,
           patientDebit: patientDebit,
+          patientDeposit: patientDeposit,
         );
     replace(_$result);
     return _$result;

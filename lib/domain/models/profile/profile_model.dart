@@ -38,6 +38,9 @@ abstract class PatientInfo implements Built<PatientInfo, PatientInfoBuilder> {
   @BuiltValueField(wireName: "patient_debit")
   double? get patientDebit;
 
+  @BuiltValueField(wireName: "patient_deposit")
+  double? get patientDeposit;
+
   static Serializer<PatientInfo> get serializer => _$patientInfoSerializer;
 }
 
