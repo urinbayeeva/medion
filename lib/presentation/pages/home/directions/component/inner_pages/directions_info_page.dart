@@ -134,7 +134,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
     return SingleChildScrollView(
       padding: EdgeInsets.all(12.0.w),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start, // Ensure left alignment
         children: [
           SizedBox(
             width: double.infinity,
@@ -165,49 +165,58 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
             ),
           ),
           if (selectedIndex == 0) ...[
-            if (hasDescription) ...[
-              _buildSectionTitle('all_informations'.tr(), fonts),
-              CContainer(
-                text: state.medicalModel!.description ?? "No description",
+            if (!hasDoctors ||
+                !hasServices ||
+                state.medicalModel!.description == "false") ...[
+              250.h.verticalSpace,
+              Center(
+                child: Text(
+                  "no_general_information_found".tr(),
+                  style: fonts.regularMain.copyWith(
+                    color: colors.primary900,
+                    fontSize: 16.sp,
+                  ),
+                ),
               ),
-            ],
-            if (hasDoctors) ...[
+            ] else ...[
+              if (hasDescription) ...[
+                _buildSectionTitle('all_informations'.tr(), fonts),
+                CContainer(
+                  text: state.medicalModel!.description ?? "No description",
+                ),
+              ],
               _buildSectionTitle('doctors'.tr(), fonts),
               _buildDoctorsGrid(state, icons),
-            ],
-            if (hasServices) ...[
               _buildSectionTitle('services'.tr(), fonts),
               _buildServicesList(state),
             ],
-            if (!hasDescription && !hasDoctors && !hasServices)
-              Center(
+          ],
+          if (selectedIndex == 1) ...[
+            if (hasDoctors) ...[
+              _buildSectionTitle('doctors'.tr(), fonts),
+              _buildDoctorsGrid(state, icons),
+            ] else
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.h),
                 child: Text(
                   "no_result_found".tr(),
-                  style: Style.headlineMain(),
+                  style: Style.regularMain(),
                 ),
               ),
           ],
-          if (selectedIndex == 1 && hasDoctors) ...[
-            _buildSectionTitle('doctors'.tr(), fonts),
-            _buildDoctorsGrid(state, icons),
-          ] else if (selectedIndex == 1 && !hasDoctors)
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                "no_result_found".tr(),
-                style: Style.regularMain(),
+          if (selectedIndex == 2) ...[
+            if (hasServices) ...[
+              _buildSectionTitle('services'.tr(), fonts),
+              _buildServicesList(state),
+            ] else
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.h),
+                child: Text(
+                  "no_result_found".tr(),
+                  style: Style.regularMain(),
+                ),
               ),
-            ),
-          if (selectedIndex == 2 && hasServices) ...[
-            _buildSectionTitle('services'.tr(), fonts),
-            _buildServicesList(state),
-          ] else if (selectedIndex == 2 && !hasServices)
-            Center(
-              child: Text(
-                "no_result_found".tr(),
-                style: Style.regularMain(),
-              ),
-            ),
+          ],
           SizedBox(height: selectedServiceIds.isNotEmpty ? 60.h : 0),
         ],
       ),
@@ -342,7 +351,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                   MaterialPageRoute(
                     builder: (context) => AppointmentPage(
                       index: 2,
-                      selectedServiceIds: selectedServiceIds, // Pass Set<int>
+                      selectedServiceIds: selectedServiceIds,
                     ),
                   ),
                 ).then((value) {
@@ -376,8 +385,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
         return Container(
           padding: EdgeInsets.all(16.w),
           child: Column(
-            mainAxisSize:
-                MainAxisSize.min, // Allows the column to grow as needed
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -391,12 +399,10 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                 children: List.generate(selectedServices.length, (index) {
                   final service = selectedServices[index];
                   return Padding(
-                    padding:
-                        EdgeInsets.only(bottom: 10.h), // Assuming bottom: 10.h
+                    padding: EdgeInsets.only(bottom: 10.h),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment
-                          .start, // Align text and icon at top
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Flexible(
                           child: Text(
@@ -408,7 +414,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                             softWrap: true,
                           ),
                         ),
-                        SizedBox(width: 10.w), // Space between text and icon
+                        SizedBox(width: 10.w),
                         GestureDetector(
                           onTap: () {
                             setState(() {

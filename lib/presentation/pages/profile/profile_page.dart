@@ -21,7 +21,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String aboutApp = "";
+  String aboutApp = "Version loading...";
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -29,14 +30,15 @@ class _ProfilePageState extends State<ProfilePage> {
     init();
   }
 
-  void init() async {
+  Future<void> init() async {
     context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
 
     final result = await PackageInfo.fromPlatform();
-    aboutApp = "Version ${result.version.toString()}";
-
     if (mounted) {
-      setState(() {});
+      setState(() {
+        aboutApp = "Version ${result.version}";
+        isLoading = false;
+      });
     }
   }
 
@@ -44,85 +46,90 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
-        return BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, state) {
-            return Scaffold(
-              backgroundColor: colors.backgroundColor,
-              body: Center(
-                child: Column(
-                  children: [
-                    const Spacer(),
-                    Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Center(
-                          child: BlocBuilder<ProfileBloc, ProfileState>(
-                            builder: (context, profileState) {
-                              return BlocBuilder<AuthBloc, AuthState>(
-                                builder: (context, authState) {
-                                  String? backendImageUrl =
-                                      authState.patientInfo?.image;
-                                  String? pickedImagePath =
-                                      profileState.pickedImagePath;
+        return Scaffold(
+          backgroundColor: colors.backgroundColor,
+          body: BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) {
+              if (state.patientInfo == null && isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
 
-                                  return CircleAvatar(
-                                    radius: 70.r,
-                                    backgroundColor: colors.neutral200,
-                                    backgroundImage: backendImageUrl != null &&
-                                            backendImageUrl.isNotEmpty
-                                        ? NetworkImage(backendImageUrl)
-                                        : pickedImagePath != null
-                                            ? FileImage(File(pickedImagePath))
-                                                as ImageProvider
-                                            : null,
-                                    child: (backendImageUrl == null ||
-                                                backendImageUrl.isEmpty) &&
-                                            pickedImagePath == null
-                                        ? icons.nonUser.svg(
-                                            height: 110.h,
-                                            color: colors.neutral500,
-                                          )
-                                        : null,
-                                  );
-                                },
-                              );
-                            },
-                          ),
+              return Column(
+                children: [
+                  const Spacer(),
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Center(
+                        child: BlocBuilder<ProfileBloc, ProfileState>(
+                          builder: (context, profileState) {
+                            String? backendImageUrl = state.patientInfo?.image;
+                            String? pickedImagePath =
+                                profileState.pickedImagePath;
+
+                            return CircleAvatar(
+                              radius: 70.r,
+                              backgroundColor: colors.neutral200,
+                              backgroundImage: backendImageUrl != null &&
+                                      backendImageUrl.isNotEmpty
+                                  ? NetworkImage(backendImageUrl)
+                                  : pickedImagePath != null
+                                      ? FileImage(File(pickedImagePath))
+                                          as ImageProvider
+                                      : null,
+                              child: (backendImageUrl == null ||
+                                          backendImageUrl.isEmpty) &&
+                                      pickedImagePath == null
+                                  ? icons.nonUser.svg(
+                                      height: 110.h,
+                                      color: colors.neutral500,
+                                    )
+                                  : null,
+                            );
+                          },
                         ),
-                        Positioned(
-                          bottom: -20,
-                          left: 0,
-                          right: 0,
-                          child: CircleAvatar(
-                            radius: 20.r,
-                            backgroundColor: colors.error500,
-                            child: icons.edit.svg(width: 16.w, height: 16.h),
-                          ),
+                      ),
+                      Positioned(
+                        bottom: -20,
+                        left: 0,
+                        right: 0,
+                        child: CircleAvatar(
+                          radius: 20.r,
+                          backgroundColor: colors.error500,
+                          child: icons.edit.svg(width: 16.w, height: 16.h),
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                  24.h.verticalSpace,
+                  Text(
+                    state.patientInfo?.firstName ?? 'No name available',
+                    style: fonts.regularLink.copyWith(
+                      fontSize: 16.sp,
+                      color: colors.neutral900,
                     ),
-                    24.h.verticalSpace,
-                    Text(state.patientInfo?.firstName ?? 'Loading...'),
-                    24.h.verticalSpace,
-                    const NavListWidget(),
-                    Expanded(
-                      flex: 3,
-                      child: Center(
-                        child: Text(
-                          aboutApp,
-                          style: fonts.regularLink.copyWith(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                            color: colors.primary900,
-                          ),
+                  ),
+                  24.h.verticalSpace,
+                  const NavListWidget(),
+                  Expanded(
+                    flex: 3,
+                    child: Center(
+                      child: Text(
+                        aboutApp,
+                        style: fonts.regularLink.copyWith(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                          color: colors.primary900,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            );
-          },
+                  ),
+                ],
+              );
+            },
+          ),
         );
       },
     );

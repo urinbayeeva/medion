@@ -211,21 +211,29 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     _FetchHomePageServiceDoctors event,
     Emitter<BookingState> emit,
   ) async {
-    emit(state.copyWith(loading: true, error: false, success: false));
+    // Step 1: Emit a loading state with medicalModel cleared
+    emit(state.copyWith(
+      loading: true,
+      error: false,
+      success: false,
+      medicalModel: null, // Explicitly clear previous data
+    ));
 
     try {
       EasyLoading.show();
 
-      final res = await _repository.fetchHomePageBookingDoctors(
-        event.id,
-      );
+      final res = await _repository.fetchHomePageBookingDoctors(event.id);
 
       if (isClosed) return;
 
       res.fold(
         (error) {
           LogService.e("Error fetching home page doctors: ${error.message}");
-          emit(state.copyWith(loading: false, error: true));
+          emit(state.copyWith(
+            loading: false,
+            error: true,
+            medicalModel: null, // Ensure no stale data remains
+          ));
           EasyLoading.showError(error.message);
         },
         (data) {
@@ -239,7 +247,11 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     } catch (e) {
       LogService.e("Unexpected error in _onFetchHomePageServiceDoctors: $e");
       if (!isClosed) {
-        emit(state.copyWith(loading: false, error: true));
+        emit(state.copyWith(
+          loading: false,
+          error: true,
+          medicalModel: null, // Clear data on error
+        ));
         EasyLoading.showError('Unexpected error occurred');
       }
     } finally {

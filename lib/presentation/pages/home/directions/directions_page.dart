@@ -59,92 +59,82 @@ class _DirectionsPageState extends State<DirectionsPage> {
                 centerTitle: true,
                 isBack: true,
                 trailing: AnimationButtonEffect(
-                    onTap: () {
-                      context.read<BottomNavBarController>().changeNavBar(true);
-
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const CFilter();
-                          }).then((_) {
-                        context
-                            .read<BottomNavBarController>()
-                            .changeNavBar(false);
-                      });
-                    },
-                    child: icons.filter.svg(width: 20.w, height: 20.h)),
+                  onTap: () {
+                    context.read<BottomNavBarController>().changeNavBar(true);
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const CFilter();
+                      },
+                    ).then((_) {
+                      context
+                          .read<BottomNavBarController>()
+                          .changeNavBar(false);
+                    });
+                  },
+                  child: icons.filter.svg(width: 20.w, height: 20.h),
+                ),
                 onSearchChanged: _onSearchChanged,
               ),
               Expanded(
-                child: ListView(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                  children: [
-                    BlocBuilder<BookingBloc, BookingState>(
-                      builder: (context, state) {
-                        if (state.homePageBookingCategory.isEmpty) {
-                          return Center(
-                            child: Lottie.asset("assets/anim/404.json"),
-                          );
+                child: BlocBuilder<BookingBloc, BookingState>(
+                  builder: (context, state) {
+                    // Filter out items with null required fields
+                    final validItems = state.homePageBookingCategory
+                        .where((item) => item.name != null && item.id != null)
+                        .toList();
+
+                    if (validItems.isEmpty) {
+                      return Center(
+                        child: Lottie.asset("assets/anim/404.json"),
+                      );
+                    }
+
+                    final filteredItems = validItems
+                        .where((item) =>
+                            item.name!.toLowerCase().contains(_searchQuery))
+                        .toList();
+
+                    if (filteredItems.isEmpty) {
+                      return const SizedBox
+                          .shrink(); // Show nothing when no matches
+                    }
+
+                    return ListView.builder(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemCount: filteredItems.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == filteredItems.length) {
+                          return SizedBox(height: 60.h);
                         }
 
-                        final filteredItems = state.homePageBookingCategory
-                            .where((item) => (item.name?.toLowerCase() ?? '')
-                                .contains(_searchQuery))
-                            .toList();
-
-                        if (filteredItems.isEmpty && _searchQuery.isNotEmpty) {
-                          return Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                20.h.verticalSpace,
-                                Lottie.asset("assets/anim/404.json"),
-                                Text(
-                                  "Направления не найдены",
-                                  style: fonts.regularMain.copyWith(
-                                    color: colors.primary900,
-                                    fontSize: 16.sp,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-
-                        return ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: filteredItems.length,
-                          itemBuilder: (context, index) {
-                            final item = filteredItems[index];
-
-                            return MedicalDirectionItem(
-                              onTap: () {
-                                context
-                                    .read<BottomNavBarController>()
-                                    .changeNavBar(true);
-                                Navigator.push(
-                                  context,
-                                  AppRoutes.getDirectionInfoPage(
-                                      id: item.id!, name: item.name!),
-                                ).then((_) {
-                                  context
-                                      .read<BottomNavBarController>()
-                                      .changeNavBar(false);
-                                });
-                              },
-                              title: item.name ?? "",
-                              subtitle: "null",
-                              iconPath: item.icon ?? "",
-                            );
+                        final item = filteredItems[index];
+                        return MedicalDirectionItem(
+                          onTap: () {
+                            context
+                                .read<BottomNavBarController>()
+                                .changeNavBar(true);
+                            Navigator.push(
+                              context,
+                              AppRoutes.getDirectionInfoPage(
+                                id: item.id!,
+                                name: item.name!,
+                              ),
+                            ).then((_) {
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(false);
+                            });
                           },
+                          title: item.name!,
+                          subtitle: '',
+                          iconPath: item.icon ?? '',
                         );
                       },
-                    ),
-                    60.h.verticalSpace,
-                  ],
+                    );
+                  },
                 ),
               ),
             ],
