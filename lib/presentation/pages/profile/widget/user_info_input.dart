@@ -30,18 +30,15 @@ class _UserInfoInputState extends State<UserInfoInput> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        // Show loading only if fetching AND no data exists yet
         if (state.isFetchingPatientInfo && state.patientInfo == null) {
           return const Center(
               child: CircularProgressIndicator(color: Style.error500));
         }
 
-        // Show error if fetch failed and no previous data exists
         if (state.errorFetchingPatientInfo && state.patientInfo == null) {
           return Center(child: Text('something_went_wrong'.tr()));
         }
 
-        // If patientInfo exists (even with an error), show the form
         return ThemeWrapper(
           builder: (context, colors, fonts, icons, controller) {
             return Container(

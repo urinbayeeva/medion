@@ -126,18 +126,14 @@ class _MainPageState extends State<MainPage> {
           return Scaffold(
             backgroundColor: colors.shade0,
             body: Consumer<BottomNavBarController>(
-              builder: (context, theme, _) {
-                _controller.index = theme.currentIndex;
+              builder: (context, navController, _) {
+                _controller.index =
+                    navController.currentIndex; // Sync with controller
                 return PersistentTabView(
                   context,
                   onItemSelected: (int index) {
-                    context.read<BottomNavBarController>().setIndex(index);
-                    onDebounce(() {
-                      setState(() {
-                        _controller.index = index;
-                      });
-                    });
-
+                    navController
+                        .setIndex(index); // Update BottomNavBarController
                     if (index == 0) {
                       scrollController.animateTo(
                         0,
@@ -150,10 +146,10 @@ class _MainPageState extends State<MainPage> {
                   backgroundColor: colors.transparent,
                   navBarHeight: 60.h,
                   controller: _controller,
-                  screens: pageList,
+                  screens: pageList, // Your list of screens
                   confineInSafeArea: false,
                   hideNavigationBarWhenKeyboardShows: true,
-                  hideNavigationBar: theme.hiddenNavBar,
+                  hideNavigationBar: navController.hiddenNavBar,
                   navBarStyle: NavBarStyle.simple,
                   popAllScreensOnTapAnyTabs: true,
                   popAllScreensOnTapOfSelectedTab: false,

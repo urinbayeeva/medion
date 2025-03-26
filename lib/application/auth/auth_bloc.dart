@@ -32,7 +32,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_FetchPatientInfo>(_fetchPatientInfoHandler);
     on<_FetchPatientVisits>(_fetchPatientVisitsHandler);
     on<_FetchPatientAnalyze>(_fetchPatientAnalyze);
-
   }
 
   FutureOr<void> _verificationSendHandler(
@@ -116,11 +115,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _FetchPatientInfo event,
     Emitter<AuthState> emit,
   ) async {
+    // Skip fetching if patientInfo is already available
+    if (state.patientInfo != null) {
+      return; // No need to emit a new state; existing data is sufficient
+    }
+
+    // Indicate that fetching is in progress
     emit(state.copyWith(
       isFetchingPatientInfo: true,
       errorFetchingPatientInfo: false,
     ));
 
+    // Fetch patient info from the repository
     final res = await _repository.getPatientInfo();
 
     res.fold(
@@ -200,6 +206,4 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
   }
-
-  
 }

@@ -9,7 +9,9 @@ import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/sources/med_service.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
+import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/styles/theme.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../application/home/home_bloc.dart';
@@ -69,8 +71,9 @@ class _HomePageState extends State<HomePage> {
             context
                 .read<BookingBloc>()
                 .add(const BookingEvent.fetchHomePageServicesBooking());
-            context.read<ContentBloc>().add(const ContentEvent.fetchContent(
-                type: "news")); // Add this to refresh news
+            context
+                .read<ContentBloc>()
+                .add(const ContentEvent.fetchContent(type: "news"));
             setState(() {});
 
             _refreshController.refreshCompleted();
@@ -117,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                                   child: Text("No medical services available"));
                             }
                             return SizedBox(
-                              height: 140.h, // Ensure uniform height
+                              height: 140.h,
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
@@ -129,16 +132,25 @@ class _HomePageState extends State<HomePage> {
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 8.w),
                                     child: AnimationButtonEffect(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            AppRoutes.getAppointmentPage(1, [
+                                              medicalService.categoryId != null
+                                                  ? int.parse(medicalService
+                                                      .categoryId
+                                                      .toString())
+                                                  : 0
+                                            ]));
+                                      },
                                       child: SizedBox(
-                                        width: 135.w, // Consistent width
+                                        width: 135.w,
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
                                             SizedBox(
-                                              height: 100
-                                                  .h, // Fixed height for image
+                                              height: 100.h,
                                               child: CachedImageComponent(
                                                 borderRadius: 8.r,
                                                 fit: BoxFit.cover,

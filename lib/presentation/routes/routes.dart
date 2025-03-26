@@ -355,8 +355,12 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const NotificationPage());
   }
 
-  static MaterialPageRoute getAppointmentPage() {
-    return MaterialPageRoute(builder: (_) => const AppointmentPage());
+  static MaterialPageRoute getAppointmentPage(int index, List<int> services) {
+    return MaterialPageRoute(
+        builder: (_) => AppointmentPage(
+              index: index,
+              services: services,
+            ));
   }
 
   static MaterialPageRoute getCareerPage() {

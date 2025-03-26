@@ -25,8 +25,10 @@ import 'package:provider/provider.dart';
 
 class AppointmentPage extends StatefulWidget {
   final int? index;
-  final Set<int>? selectedServiceIds; // Add this to receive IDs
-  const AppointmentPage({super.key, this.index, this.selectedServiceIds});
+  final Set<int>? selectedServiceIds;
+  final List<int>? services;
+  const AppointmentPage(
+      {super.key, this.index, this.selectedServiceIds, this.services});
 
   @override
   State<AppointmentPage> createState() => _AppointmentPageState();
@@ -40,7 +42,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
       AddAppointmentScreenType.allServices;
   int screenIndex = 0;
   int id = 0;
-  Set<int> selectedServiceIds = {}; // Store selected IDs
+  Set<int> selectedServiceIds = {};
 
   List<String> listof = [
     'selecting_service_type'.tr(),
@@ -52,7 +54,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
 
   late PageController _pageController;
   double turns = 0.0;
-  bool changeSum = false; // Default to false (USD) until DB loads
+  bool changeSum = false;
 
   @override
   void initState() {
@@ -64,6 +66,12 @@ class _AppointmentPageState extends State<AppointmentPage> {
     _initializeDBService();
     _setupUseCases();
     canPop = false;
+
+    // Sync BottomNavBarController with initial index
+    final navController = context.read<BottomNavBarController>();
+    navController.setIndex(1,
+        pageIndex:
+            screenIndex); // Assuming AppointmentPage is index 1 in navbar
   }
 
   Future<void> _initializeDBService() async {
@@ -133,6 +141,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
+      // Update page index in BottomNavBarController
+      context.read<BottomNavBarController>().setPageIndex(screenIndex);
     }
   }
 
@@ -153,6 +163,10 @@ class _AppointmentPageState extends State<AppointmentPage> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
+      context.read<BottomNavBarController>().setPageIndex(screenIndex);
+    } else {
+      // Pop with a result (e.g., the final screenIndex or other data)
+      Navigator.pop(context, {'screenIndex': screenIndex});
     }
   }
 

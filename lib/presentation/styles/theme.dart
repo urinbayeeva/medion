@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/styles/style.dart';
 
-
 import './custom_theme_mode.dart';
 import './custom_theme_mode_ext.dart';
 import '../../infrastructure/services/local_database/db_service.dart';
@@ -79,9 +78,11 @@ class GlobalController with ChangeNotifier {
     await _themePreference.setMode(mode);
   }
 }
+
 class BottomNavBarController with ChangeNotifier {
   bool hiddenNavBar = false;
-  int _currentIndex = 0;
+  int _currentIndex = 0; // Navbar tab index
+  int _pageIndex = 0; // PageView index within a tab
 
   BottomNavBarController._();
 
@@ -90,6 +91,7 @@ class BottomNavBarController with ChangeNotifier {
   }
 
   int get currentIndex => _currentIndex;
+  int get pageIndex => _pageIndex;
 
   void changeNavBar(bool enabled) {
     if (enabled != hiddenNavBar) {
@@ -98,9 +100,47 @@ class BottomNavBarController with ChangeNotifier {
     }
   }
 
-  void setIndex(int index) {
-    if (_currentIndex != index) {
+  // Set navbar index with optional page index
+  void setIndex(int index, {int? pageIndex}) {
+    bool indexChanged = _currentIndex != index;
+    bool pageChanged = pageIndex != null && _pageIndex != pageIndex;
+
+    if (indexChanged || pageChanged) {
       _currentIndex = index;
+
+      if (pageIndex != null) {
+        _pageIndex = pageIndex;
+      } else if (indexChanged && index != 2) {
+        _pageIndex = 0; // Reset page index only if tab changes and not index 2
+      }
+
+      notifyListeners();
+    }
+  }
+
+  // Set page index while keeping current navbar index
+  void setPageIndex(int pageIndex) {
+    if (_pageIndex != pageIndex) {
+      _pageIndex = pageIndex;
+      notifyListeners();
+    }
+  }
+
+  // New method to set both indices at once
+  void setIndices({required int navIndex, required int pageIndex}) {
+    bool changed = false;
+
+    if (_currentIndex != navIndex) {
+      _currentIndex = navIndex;
+      changed = true;
+    }
+
+    if (_pageIndex != pageIndex) {
+      _pageIndex = pageIndex;
+      changed = true;
+    }
+
+    if (changed) {
       notifyListeners();
     }
   }
