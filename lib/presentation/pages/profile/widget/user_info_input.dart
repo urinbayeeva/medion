@@ -19,90 +19,73 @@ class _UserInfoInputState extends State<UserInfoInput> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
+    // Only fetch if patientInfo is null
+    final authState = context.read<AuthBloc>().state;
+    if (authState.patientInfo == null) {
+      context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        if (state.isFetchingPatientInfo) {
+        // Show loading only if fetching AND no data exists yet
+        if (state.isFetchingPatientInfo && state.patientInfo == null) {
           return const Center(
               child: CircularProgressIndicator(color: Style.error500));
         }
 
-        if (state.errorFetchingPatientInfo) {
+        // Show error if fetch failed and no previous data exists
+        if (state.errorFetchingPatientInfo && state.patientInfo == null) {
           return Center(child: Text('something_went_wrong'.tr()));
         }
 
+        // If patientInfo exists (even with an error), show the form
         return ThemeWrapper(
-            builder: (context, colors, fonts, icons, controller) {
-          return Container(
-            margin: EdgeInsets.symmetric(horizontal: 16.w),
-            padding: EdgeInsets.all(12.w),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.r),
-              color: colors.shade0,
-            ),
-            child: Column(
-              spacing: 16.h,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                4.h.verticalSpace,
-                CustomTextField(
-                  hintText: state.patientInfo?.patientId.toString() ?? '',
-                  title: "ID клиента",
-                  readOnly: true,
-                ),
-                CustomTextField(
-                  hintText: state.patientInfo?.firstName ?? '',
-                  title: "name".tr(),
-                  readOnly: true,
-                ),
-                CustomTextField(
-                  hintText: state.patientInfo?.lastName ?? '',
-                  title: "second_name".tr(),
-                  readOnly: true,
-                ),
-                // CustomTextField(
-                //   hintText: state.patientInfo?.dateOfBirth ?? '',
-                //   title: "Дата рождения",
-                //   readOnly: true,
-                // ),
-                CustomTextField(
-                  hintText: state.patientInfo?.phoneNumber ?? '',
-                  title: "phone".tr(),
-                  readOnly: true,
-                ),
-                // CustomTextField(
-                //   hintText: state.patientInfo?.phone ?? '',
-                //   title: "Дополнительный номер телефона",
-                //   readOnly: true,
-                // ),
-                // CustomTextField(
-                //   hintText: state.patientInfo?.passport ?? '',
-                //   title: "Тип документа",
-                //   readOnly: true,
-                // ),
-                CustomTextField(
-                  hintText: state.patientInfo?.passport ?? '',
-                  title: "number_series".tr(),
-                  readOnly: true,
-                ),
-                // CustomTextField(
-                //   hintText: state.patientInfo?.passport ?? '',
-                //   title: "Дата выдачи",
-                //   readOnly: true,
-                // ),
-                // CustomTextField(
-                //   hintText: state.patientInfo?.passport ?? '',
-                //   title: "Орган выдачион",
-                //   readOnly: true,
-                // ),
-              ],
-            ),
-          );
-        });
+          builder: (context, colors, fonts, icons, controller) {
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.all(12.w),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.r),
+                color: colors.shade0,
+              ),
+              child: Column(
+                spacing: 16.h,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  4.h.verticalSpace,
+                  CustomTextField(
+                    hintText: state.patientInfo?.patientId.toString() ?? '',
+                    title: "ID клиента",
+                    readOnly: true,
+                  ),
+                  CustomTextField(
+                    hintText: state.patientInfo?.firstName ?? '',
+                    title: "name".tr(),
+                    readOnly: true,
+                  ),
+                  CustomTextField(
+                    hintText: state.patientInfo?.lastName ?? '',
+                    title: "second_name".tr(),
+                    readOnly: true,
+                  ),
+                  CustomTextField(
+                    hintText: state.patientInfo?.phoneNumber ?? '',
+                    title: "phone".tr(),
+                    readOnly: true,
+                  ),
+                  CustomTextField(
+                    hintText: state.patientInfo?.passport ?? '',
+                    title: "number_series".tr(),
+                    readOnly: true,
+                  ),
+                ],
+              ),
+            );
+          },
+        );
       },
     );
   }

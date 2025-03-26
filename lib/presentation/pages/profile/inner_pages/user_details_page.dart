@@ -73,27 +73,48 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                             print("Error picking image: $e");
                                           }
                                         },
-                                        child: CircleAvatar(
-                                          radius: 70.r,
-                                          backgroundColor: colors.neutral200,
-                                          backgroundImage: backendImageUrl !=
-                                                      null &&
-                                                  backendImageUrl.isNotEmpty
-                                              ? NetworkImage(backendImageUrl)
-                                              : pickedImagePath != null
-                                                  ? FileImage(
-                                                          File(pickedImagePath))
-                                                      as ImageProvider
+                                        child: Stack(
+                                          alignment: Alignment
+                                              .bottomRight, // Positions the icon at bottom-right
+                                          children: [
+                                            CircleAvatar(
+                                              radius: 70.r,
+                                              backgroundColor:
+                                                  colors.neutral200,
+                                              backgroundImage: backendImageUrl !=
+                                                          null &&
+                                                      backendImageUrl.isNotEmpty
+                                                  ? NetworkImage(
+                                                      backendImageUrl)
+                                                  : pickedImagePath != null
+                                                      ? FileImage(File(
+                                                              pickedImagePath))
+                                                          as ImageProvider
+                                                      : null,
+                                              child: (backendImageUrl == null ||
+                                                          backendImageUrl
+                                                              .isEmpty) &&
+                                                      pickedImagePath == null
+                                                  ? icons.nonUser.svg(
+                                                      height: 110.h,
+                                                      color: colors.neutral500,
+                                                    )
                                                   : null,
-                                          child: (backendImageUrl == null ||
-                                                      backendImageUrl
-                                                          .isEmpty) &&
-                                                  pickedImagePath == null
-                                              ? icons.nonUser.svg(
-                                                  height: 110.h,
-                                                  color: colors.neutral500,
-                                                )
-                                              : null,
+                                            ),
+                                            // Photo icon overlay
+                                            Container(
+                                              padding: EdgeInsets.all(4.w),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: colors.neutral500,
+                                              ),
+                                              child: Icon(
+                                                Icons.camera_alt,
+                                                size: 24.r,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       );
                                     },
