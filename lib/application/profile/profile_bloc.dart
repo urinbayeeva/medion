@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 
 part 'profile_bloc.freezed.dart';
@@ -64,6 +65,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     EasyLoading.show(status: "Uploading...".tr());
 
     try {
+      final dbService = await DBService.create;
+      final token = dbService.token;
+
       File imageFile = File(state.pickedImagePath!);
       List<int> imageBytes = await imageFile.readAsBytes();
       String base64Image = base64Encode(imageBytes);
@@ -73,8 +77,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         options: Options(
           headers: {
             'accept': 'application/json',
-            'Authorization':
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNTIwNSIsImV4cCI6MTc0MjU1ODk4Mn0.hRFSKs8Db6sjv1hxJV25FnDSRjTYGMlW1mqWsP9XjSQ',
+            'Authorization': 'Bearer ${token.accessToken}',
             'Content-Type': 'application/json',
           },
         ),
@@ -92,7 +95,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       print('Error uploading image: $e');
       EasyLoading.showError('Error uploading image');
     } finally {
-      EasyLoading.dismiss(); // Hide loading indicator
+      EasyLoading.dismiss();
     }
   }
 }
