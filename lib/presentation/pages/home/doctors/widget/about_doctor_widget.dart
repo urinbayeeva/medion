@@ -36,7 +36,7 @@ class AboutDoctorWidget extends StatelessWidget {
                 4.h.verticalSpace,
                 Text(profession!, style: fonts.smallLink),
                 4.h.verticalSpace,
-                Text(specialty!,
+                Text(specialty == "null" ? "" : specialty!,
                     style: fonts.mediumMain.copyWith(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w400,

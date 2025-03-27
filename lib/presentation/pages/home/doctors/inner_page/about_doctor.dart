@@ -81,18 +81,35 @@ Widget _buildContentSection(
   content,
 ) {
   return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          24.h.verticalSpace,
-          Text(title, style: fonts.regularSemLink),
-          8.h.verticalSpace,
-          CContainer(text: content),
-          24.h.verticalSpace,
-        ],
-      ),
-    );
+    return content == null || content == false || content == ""
+        ? SizedBox(
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                icons.emojiSad.svg(width: 80.w, height: 80.h),
+                Center(
+                  child: Text(
+                    "no_result_found".tr(),
+                    style:
+                        fonts.mediumMain.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ],
+            ),
+          )
+        : Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                24.h.verticalSpace,
+                Text(title, style: fonts.regularSemLink),
+                8.h.verticalSpace,
+                CContainer(text: content),
+                24.h.verticalSpace,
+              ],
+            ),
+          );
   });
 }

@@ -50,6 +50,7 @@ import 'package:medion/presentation/pages/others/our_activity/our_activity_page.
 import 'package:medion/presentation/pages/others/partners/partners_inner_page.dart';
 import 'package:medion/presentation/pages/others/partners/partners_page.dart';
 import 'package:medion/presentation/pages/others/policy_treatment/policy_treatment.dart';
+import 'package:medion/presentation/pages/others/services/services_page.dart';
 import 'package:medion/presentation/pages/others/under_dev_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/recipes_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/results_page.dart';
@@ -226,6 +227,12 @@ class AppRoutes {
       {required int id, required String name}) {
     return MaterialPageRoute(
       builder: (_) => DirectionInfoPage(id: id, name: name),
+    );
+  }
+
+  static MaterialPageRoute getServicesPage() {
+    return MaterialPageRoute(
+      builder: (_) => const ServicesPage(),
     );
   }
 
