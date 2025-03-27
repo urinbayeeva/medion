@@ -41,7 +41,8 @@ extension StringCasingExtension on String {
 String formatPhoneNumberForBackend(String phoneNumber) {
   final cleaned = phoneNumber.replaceAll(' ', '');
   if (cleaned.startsWith('+998') && cleaned.length >= 12) {
-    return '+${cleaned.substring(1, 6)} ${cleaned.substring(6)}';
+    return '+${cleaned.substring(1, 4)} ${cleaned.substring(4)}';
+    // Changed from substring(1, 6) to substring(1, 4) to get +998 instead of +99894
   }
   return phoneNumber;
 }
@@ -50,6 +51,7 @@ String formatPhoneNumberForUI(String phoneNumber) {
   final cleaned = phoneNumber.replaceAll(' ', '');
   if (cleaned.length == 12) {
     return '+${cleaned.substring(0, 3)} ${cleaned.substring(3, 5)} ${cleaned.substring(5, 8)} ${cleaned.substring(8, 10)} ${cleaned.substring(10, 12)}';
+    // This one is fine as is, will format as +998 94 809 86 61
   }
   return phoneNumber;
 }
