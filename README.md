@@ -37,3 +37,6 @@ show bottomnavbar
 hide bottomnavbar
    context.read<BottomNavBarController>().changeNavBar(true);
 
+
+testflight
+  flutter build ipa --build-name=1.0.1 --build-number=2 --release
