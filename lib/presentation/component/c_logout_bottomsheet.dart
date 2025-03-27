@@ -62,21 +62,21 @@ class _CBottomsheetProfileState extends State<CBottomsheetProfile> {
                             textAlign: TextAlign.center),
                       ),
                     ),
-                 Expanded(
-  child: CButton(
-    borderRadius: 22,
-    onTap: () async {
-      final db = await DBService.create;
-      await db.clearAllData();
+                    Expanded(
+                      child: CButton(
+                        borderRadius: 22,
+                        onTap: () async {
+                          // final db = await DBService.create;
+                          // await db.clearAllData();
 
-      if (context.mounted) {
-        Navigator.of(context).pushReplacement(AppRoutes.getSignUpPage());
-      }
-    },
-    title: "Выйти",
-  ),
-),
-
+                          // if (context.mounted) {
+                          //   Navigator.of(context)
+                          //       .pushReplacement(AppRoutes.getSignUpPage());
+                          // }
+                        },
+                        title: "Выйти",
+                      ),
+                    ),
                   ],
                 ),
               ),

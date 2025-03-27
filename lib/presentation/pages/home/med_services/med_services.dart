@@ -10,6 +10,7 @@ import 'package:medion/presentation/component/animation_effect.dart'
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
+import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -23,6 +24,7 @@ class MedServicesPage extends StatefulWidget {
 }
 
 class _MedServicesPageState extends State<MedServicesPage> {
+  Set<int>? selectedServiceIds;
   @override
   void initState() {
     context.read<HomeBloc>().add(const HomeEvent.fetchMedicalServices());
@@ -61,7 +63,32 @@ class _MedServicesPageState extends State<MedServicesPage> {
                           title: state.medicalServices[index].title,
                           subtitle: state.medicalServices[index].info,
                           iconPath: "",
-                          onTap: () {},
+                          onTap: () {
+                            final categoryId =
+                                state.medicalServices[index].categoryId;
+                            final intId = categoryId is int
+                                ? categoryId
+                                : int.parse(categoryId.toString());
+                            print(
+                                " MEDICAL SERVICE ID ${int.parse(intId.toString())}");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AppointmentPage(
+                                  index: 1,
+                                  selectedServiceIds: {
+                                    int.parse(intId.toString())
+                                  },
+                                ),
+                              ),
+                            ).then((value) {
+                              if (value != null && value is Set<int>) {
+                                setState(() {
+                                  selectedServiceIds = value;
+                                });
+                              }
+                            });
+                          },
                         );
                       },
                     ),

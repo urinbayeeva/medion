@@ -133,8 +133,16 @@ class _HomePageState extends State<HomePage> {
                                         EdgeInsets.symmetric(horizontal: 8.w),
                                     child: AnimationButtonEffect(
                                       onTap: () {
+                                        context
+                                            .read<BottomNavBarController>()
+                                            .changeNavBar(true);
                                         Navigator.push(context,
-                                            AppRoutes.getMedServicesPage());
+                                                AppRoutes.getMedServicesPage())
+                                            .then((_) {
+                                          context
+                                              .read<BottomNavBarController>()
+                                              .changeNavBar(false);
+                                        });
                                       },
                                       child: SizedBox(
                                         width: 135.w,

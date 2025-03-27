@@ -187,11 +187,11 @@ class _SettingPageState extends State<SettingPage> {
             Navigator.pop(context);
             setNavBarState(false);
           },
-          onTapLogOut: ()  {
-            
-          },
+          onTapLogOut: () {},
         ),
-      ).then((_) {});
+      ).then((_) {
+        context.read<BottomNavBarController>().changeNavBar(false);
+      });
     }
   }
 }

@@ -157,7 +157,10 @@ class _AppointmentPageState extends State<AppointmentPage> {
   }
 
   void navigateBack() {
-    if (screenIndex > 0) {
+    if (screenIndex == 1) {
+      // Force pop back to MedServicesPage when on index 1
+      Navigator.of(context).pop(selectedServiceIds);
+    } else if (screenIndex > 0) {
       setState(() {
         screenIndex--;
         _updateUseCaseForCurrency();
@@ -169,8 +172,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
       );
       context.read<BottomNavBarController>().setPageIndex(screenIndex);
     } else {
-      // Pop with a result (e.g., the final screenIndex or other data)
-      Navigator.pop(context, {'screenIndex': screenIndex});
+      // Pop when at index 0
+      Navigator.of(context).pop(selectedServiceIds);
     }
   }
 
