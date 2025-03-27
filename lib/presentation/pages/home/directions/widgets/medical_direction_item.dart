@@ -44,7 +44,11 @@ class MedicalDirectionItem extends StatelessWidget {
                     child: iconPath == "" || iconPath == null
                         ? icons.stethoscope.svg()
                         : CachedNetworkImage(
-                            imageUrl: iconPath!, width: 32.w, height: 32.h)),
+                            imageUrl: iconPath!,
+                            width: 32.w,
+                            height: 32.h,
+                            fit: BoxFit.cover,
+                          )),
                 title: Text(title ?? "Unknown Service",
                     style: fonts.smallSemLink.copyWith(
                         fontSize: 15.sp, fontWeight: FontWeight.w600)),

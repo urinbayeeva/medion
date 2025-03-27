@@ -25,6 +25,12 @@ class UserDetailsPage extends StatefulWidget {
 
 class _UserDetailsPageState extends State<UserDetailsPage> {
   @override
+  void initState() {
+    super.initState();
+    context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return BlocConsumer<ProfileBloc, ProfileState>(
@@ -48,60 +54,60 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           clipBehavior: Clip.none,
                           children: [
                             Center(
-                              child: BlocBuilder<ProfileBloc, ProfileState>(
-                                builder: (context, profileState) {
-                                  return BlocBuilder<AuthBloc, AuthState>(
-                                    builder: (context, authState) {
+                              child: BlocBuilder<AuthBloc, AuthState>(
+                                buildWhen: (previous, current) =>
+                                    previous.patientInfo?.image !=
+                                        current.patientInfo?.image ||
+                                    previous.isFetchingPatientInfo !=
+                                        current.isFetchingPatientInfo,
+                                builder: (context, authState) {
+                                  return BlocBuilder<ProfileBloc, ProfileState>(
+                                    buildWhen: (previous, current) =>
+                                        previous.pickedImagePath !=
+                                        current.pickedImagePath,
+                                    builder: (context, profileState) {
                                       String? backendImageUrl =
                                           authState.patientInfo?.image;
                                       String? pickedImagePath =
                                           profileState.pickedImagePath;
 
+                                      // Use a cached ImageProvider to avoid reloading
+                                      ImageProvider? imageProvider;
+                                      if (pickedImagePath != null) {
+                                        imageProvider =
+                                            FileImage(File(pickedImagePath));
+                                      } else if (backendImageUrl != null &&
+                                          backendImageUrl.isNotEmpty) {
+                                        imageProvider =
+                                            NetworkImage(backendImageUrl);
+                                      }
+
                                       return AnimationButtonEffect(
                                         onTap: () async {
                                           try {
                                             if (!mounted) return;
-
-                                            Future.microtask(() {
-                                              if (mounted) {
-                                                context.read<ProfileBloc>().add(
-                                                    ProfileEvent.pickImage(
-                                                        context));
-                                              }
-                                            });
+                                            context.read<ProfileBloc>().add(
+                                                ProfileEvent.pickImage(
+                                                    context));
                                           } catch (e) {
                                             print("Error picking image: $e");
                                           }
                                         },
                                         child: Stack(
-                                          alignment: Alignment
-                                              .bottomRight, // Positions the icon at bottom-right
+                                          alignment: Alignment.bottomRight,
                                           children: [
                                             CircleAvatar(
                                               radius: 70.r,
                                               backgroundColor:
                                                   colors.neutral200,
-                                              backgroundImage: backendImageUrl !=
-                                                          null &&
-                                                      backendImageUrl.isNotEmpty
-                                                  ? NetworkImage(
-                                                      backendImageUrl)
-                                                  : pickedImagePath != null
-                                                      ? FileImage(File(
-                                                              pickedImagePath))
-                                                          as ImageProvider
-                                                      : null,
-                                              child: (backendImageUrl == null ||
-                                                          backendImageUrl
-                                                              .isEmpty) &&
-                                                      pickedImagePath == null
+                                              backgroundImage: imageProvider,
+                                              child: imageProvider == null
                                                   ? icons.nonUser.svg(
                                                       height: 110.h,
                                                       color: colors.neutral500,
                                                     )
                                                   : null,
                                             ),
-                                            // Photo icon overlay
                                             Container(
                                               padding: EdgeInsets.all(4.w),
                                               decoration: BoxDecoration(

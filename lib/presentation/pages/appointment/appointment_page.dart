@@ -21,14 +21,18 @@ import 'package:medion/presentation/pages/appointment/verify_appointment.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:provider/provider.dart';
 
 class AppointmentPage extends StatefulWidget {
   final int? index;
   final Set<int>? selectedServiceIds;
   final List<int>? services;
+  final int? initialIndex;
   const AppointmentPage(
-      {super.key, this.index, this.selectedServiceIds, this.services});
+      {super.key,
+      this.index,
+      this.selectedServiceIds,
+      this.services,
+      this.initialIndex});
 
   @override
   State<AppointmentPage> createState() => _AppointmentPageState();

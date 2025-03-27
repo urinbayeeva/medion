@@ -11,7 +11,7 @@ List<Map<String, dynamic>> navListData = [
     "icon": IconSet.create.notepad,
   },
   {
-    "title": "recipe".tr(),
+    "title": "recommendations".tr(),
     "icon": IconSet.create.invoice,
   },
   {

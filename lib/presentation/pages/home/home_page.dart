@@ -133,15 +133,8 @@ class _HomePageState extends State<HomePage> {
                                         EdgeInsets.symmetric(horizontal: 8.w),
                                     child: AnimationButtonEffect(
                                       onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            AppRoutes.getAppointmentPage(1, [
-                                              medicalService.categoryId != null
-                                                  ? int.parse(medicalService
-                                                      .categoryId
-                                                      .toString())
-                                                  : 0
-                                            ]));
+                                        Navigator.push(context,
+                                            AppRoutes.getMedServicesPage());
                                       },
                                       child: SizedBox(
                                         width: 135.w,
@@ -281,7 +274,6 @@ class _HomePageState extends State<HomePage> {
                               );
                             }
 
-                            // Use contentByType["news"] instead of state.content
                             final newsContent =
                                 state.contentByType["news"] ?? [];
                             return SizedBox(
@@ -294,10 +286,13 @@ class _HomePageState extends State<HomePage> {
                                 itemBuilder: (context, index) {
                                   final news = newsContent[index];
                                   return Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 8.0), // Fixed 'custom' typo
+                                    padding: const EdgeInsets.only(right: 8.0),
                                     child: NewsItem(
                                       onTap: () {
+                                        context
+                                            .read<BottomNavBarController>()
+                                            .changeNavBar(true);
+
                                         Navigator.push(
                                           context,
                                           AppRoutes.getInfoViewAboutHealth(
@@ -306,7 +301,11 @@ class _HomePageState extends State<HomePage> {
                                             desc: news.decodedDescription,
                                             date: news.createDate,
                                           ),
-                                        );
+                                        ).then((_) {
+                                          context
+                                              .read<BottomNavBarController>()
+                                              .changeNavBar(false);
+                                        });
                                       },
                                       crop: true,
                                       imagePath: news.primaryImage,

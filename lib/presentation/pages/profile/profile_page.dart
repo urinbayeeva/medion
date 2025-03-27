@@ -105,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   24.h.verticalSpace,
                   Text(
-                    state.patientInfo?.firstName ?? 'No name available',
+                    state.patientInfo?.firstName ?? '',
                     style: fonts.regularLink.copyWith(
                       fontSize: 16.sp,
                       color: colors.neutral900,

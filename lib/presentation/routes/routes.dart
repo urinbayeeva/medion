@@ -22,6 +22,7 @@ import 'package:medion/presentation/pages/home/directions/directions_page.dart';
 import 'package:medion/presentation/pages/home/doctors/all_doctors_page.dart';
 import 'package:medion/presentation/pages/home/doctors/inner_page/about_doctor.dart';
 import 'package:medion/presentation/pages/home/home_page.dart';
+import 'package:medion/presentation/pages/home/med_services/med_services.dart';
 import 'package:medion/presentation/pages/home/news/news_page.dart';
 import 'package:medion/presentation/pages/home/news/news_view.dart';
 import 'package:medion/presentation/pages/home/notifications/notification_page.dart';
@@ -663,5 +664,9 @@ class AppRoutes {
         image: image,
       ),
     );
+  }
+
+  static MaterialPageRoute getMedServicesPage() {
+    return MaterialPageRoute(builder: (_) => const MedServicesPage());
   }
 }
