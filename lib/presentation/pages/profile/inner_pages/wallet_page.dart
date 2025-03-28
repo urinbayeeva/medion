@@ -51,6 +51,7 @@ class _WalletPageState extends State<WalletPage> {
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -68,21 +69,12 @@ class _WalletPageState extends State<WalletPage> {
                                 children: [
                                   Text("balance".tr(), style: fonts.smallLink),
                                   12.h.verticalSpace,
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "sum".tr(namedArgs: {
-                                          "amount":
-                                              "${state.patientInfo?.patientBalance ?? 0}"
-                                        }),
-                                        style: fonts.regularMain,
-                                      ),
-                                      8.w.horizontalSpace,
-                                      icons.question.svg(
-                                        width: 20.w,
-                                        height: 20.h,
-                                      ),
-                                    ],
+                                  Text(
+                                    "sum".tr(namedArgs: {
+                                      "amount":
+                                          "${state.patientInfo?.patientBalance ?? 0}"
+                                    }),
+                                    style: fonts.regularMain,
                                   ),
                                 ],
                               ),
@@ -102,21 +94,12 @@ class _WalletPageState extends State<WalletPage> {
                                 children: [
                                   Text("debit".tr(), style: fonts.smallLink),
                                   12.h.verticalSpace,
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "sum".tr(namedArgs: {
-                                          "amount":
-                                              "${state.patientInfo?.patientDebit ?? 0}"
-                                        }),
-                                        style: fonts.regularMain,
-                                      ),
-                                      8.w.horizontalSpace,
-                                      icons.question.svg(
-                                        width: 20.w,
-                                        height: 20.h,
-                                      ),
-                                    ],
+                                  Text(
+                                    "sum".tr(namedArgs: {
+                                      "amount":
+                                          "${state.patientInfo?.patientDebit ?? 0}"
+                                    }),
+                                    style: fonts.regularMain,
                                   ),
                                 ],
                               ),
@@ -138,21 +121,12 @@ class _WalletPageState extends State<WalletPage> {
                           children: [
                             Text("deposit".tr(), style: fonts.smallLink),
                             12.h.verticalSpace,
-                            Row(
-                              children: [
-                                Text(
-                                  "sum".tr(namedArgs: {
-                                    "amount":
-                                        "${state.patientInfo?.patientDeposit ?? 0}"
-                                  }),
-                                  style: fonts.regularMain,
-                                ),
-                                8.w.horizontalSpace,
-                                icons.question.svg(
-                                  width: 20.w,
-                                  height: 20.h,
-                                ),
-                              ],
+                            Text(
+                              "sum".tr(namedArgs: {
+                                "amount":
+                                    "${state.patientInfo?.patientDeposit ?? 0}"
+                              }),
+                              style: fonts.regularMain,
                             ),
                           ],
                         ),

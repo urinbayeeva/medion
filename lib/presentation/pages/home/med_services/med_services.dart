@@ -73,13 +73,9 @@ class _MedServicesPageState extends State<MedServicesPage> {
                                 " MEDICAL SERVICE ID ${int.parse(intId.toString())}");
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => AppointmentPage(
-                                  index: 1,
-                                  selectedServiceIds: {
-                                    int.parse(intId.toString())
-                                  },
-                                ),
+                              AppRoutes.getAppointmentPage(
+                                1,
+                                [int.parse(intId.toString())],
                               ),
                             ).then((value) {
                               if (value != null && value is Set<int>) {

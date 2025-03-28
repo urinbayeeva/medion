@@ -109,6 +109,7 @@ class _HomePageState extends State<HomePage> {
                         _buildOptionsRow(colors, fonts),
                         12.h.verticalSpace,
                         ProblemSlidebaleCard(isChildren: isChildren),
+                        12.h.verticalSpace,
                         Text("med_services".tr(), style: fonts.regularSemLink),
                         12.h.verticalSpace,
                         BlocBuilder<HomeBloc, HomeState>(
@@ -189,75 +190,87 @@ class _HomePageState extends State<HomePage> {
                             );
                           },
                         ),
-                        _buildVerticalSpacingAndHeader(
-                            "directions_of_medion_clinic", fonts, "all", () {
-                          Navigator.push(
-                              context, AppRoutes.getDiresctionPage());
-                        }),
+                        12.h.verticalSpace,
                         BlocBuilder<BookingBloc, BookingState>(
                             builder: (context, state) {
+                          if (state.homePageBookingCategory.isEmpty) {
+                            return SizedBox.shrink();
+                          }
                           final limitedItems =
                               state.homePageBookingCategory.take(10).toList();
 
-                          return ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: limitedItems.length,
-                            itemBuilder: (context, index) {
-                              final item = limitedItems[index];
-                              return MedicalDirectionItem(
-                                onTap: () {
+                          return Column(
+                            children: [
+                              _buildVerticalSpacingAndHeader(
+                                  "directions_of_medion_clinic", fonts, "all",
+                                  () {
+                                Navigator.push(
+                                    context, AppRoutes.getDiresctionPage());
+                              }),
+                              ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: limitedItems.length,
+                                itemBuilder: (context, index) {
+                                  final item = limitedItems[index];
+                                  return MedicalDirectionItem(
+                                    onTap: () {
+                                      context
+                                          .read<BottomNavBarController>()
+                                          .changeNavBar(true);
+                                      Navigator.push(
+                                        context,
+                                        AppRoutes.getDirectionInfoPage(
+                                            id: item.id!, name: item.name!),
+                                      ).then((_) {
+                                        context
+                                            .read<BottomNavBarController>()
+                                            .changeNavBar(false);
+                                      });
+                                    },
+                                    title: item.name ?? "",
+                                    subtitle: "",
+                                    iconPath: item.icon ?? "",
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        }),
+                        12.h.verticalSpace,
+                        BlocBuilder<DoctorBloc, DoctorState>(
+                          builder: (context, state) {
+                            if (state.error) {
+                              return SizedBox.shrink();
+                            }
+
+                            return Column(
+                              children: [
+                                _buildVerticalSpacingAndHeader(
+                                    "doctors", fonts, "all", () {
                                   context
                                       .read<BottomNavBarController>()
                                       .changeNavBar(true);
-                                  Navigator.push(
-                                    context,
-                                    AppRoutes.getDirectionInfoPage(
-                                        id: item.id!, name: item.name!),
-                                  ).then((_) {
+
+                                  Navigator.push(context,
+                                          AppRoutes.getAllDoctorsPage())
+                                      .then((_) {
                                     context
                                         .read<BottomNavBarController>()
                                         .changeNavBar(false);
                                   });
-                                },
-                                title: item.name ?? "",
-                                subtitle: "",
-                                iconPath: item.icon ?? "",
-                              );
-                            },
-                          );
-                        }),
-                        12.h.verticalSpace,
-                        _buildVerticalSpacingAndHeader("doctors", fonts, "all",
-                            () {
-                          context
-                              .read<BottomNavBarController>()
-                              .changeNavBar(true);
-
-                          Navigator.push(context, AppRoutes.getAllDoctorsPage())
-                              .then((_) {
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(false);
-                          });
-                        }),
-                        BlocBuilder<DoctorBloc, DoctorState>(
-                          builder: (context, state) {
-                            if (state.error) {
-                              return Center(
-                                  child: Text('something_went_wrong'.tr(),
-                                      style: fonts.regularSemLink));
-                            }
-
-                            return _buildDoctorCategoryList(state.doctors
-                                .expand((category) =>
-                                    category.doctorData.map((doctor) => {
-                                          'name': doctor.name,
-                                          'profession': doctor.specialty,
-                                          'image': doctor.image,
-                                        }))
-                                .toList());
+                                }),
+                                _buildDoctorCategoryList(state.doctors
+                                    .expand((category) =>
+                                        category.doctorData.map((doctor) => {
+                                              'name': doctor.name,
+                                              'profession': doctor.specialty,
+                                              'image': doctor.image,
+                                            }))
+                                    .toList()),
+                              ],
+                            );
                           },
                         ),
                         _buildVerticalSpacingAndHeader("news", fonts, "all",
