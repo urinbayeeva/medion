@@ -11,6 +11,7 @@ import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/pages/home/directions/component/home_list_tile.dart';
 import 'package:medion/presentation/pages/profile/widget/nav_list_widget.dart';
 import 'package:medion/presentation/pages/profile/widget/settings_data.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/phone_utils.dart';
@@ -172,11 +173,6 @@ class _SettingPageState extends State<SettingPage> {
     }
 
     if (index == 0) {
-      // showModalBottomSheet(
-      //   context: context,
-      //   builder: (item) => const CLangRadio(),
-      // ).then((_) => setNavBarState(false));
-    } else if (index == 0) {
       makePhoneCall("+998958098661");
     } else {
       setNavBarState(true);
@@ -184,10 +180,17 @@ class _SettingPageState extends State<SettingPage> {
         context: context,
         builder: (item) => CBottomsheetProfile(
           onTapBack: () {
-            Navigator.pop(context);
-            setNavBarState(false);
+            context.read<BottomNavBarController>().changeNavBar(false);
           },
-          onTapLogOut: () {},
+          onTapLogOut: () async {
+            final db = await DBService.create;
+            await db.clearAllData();
+            context.read<BottomNavBarController>().changeNavBar(true);
+            Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+              AppRoutes.getSignUpPage(),
+              (Route<dynamic> route) => false,
+            );
+          },
         ),
       ).then((_) {
         context.read<BottomNavBarController>().changeNavBar(false);

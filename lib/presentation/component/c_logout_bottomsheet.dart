@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class CBottomsheetProfile extends StatefulWidget {
@@ -65,15 +67,7 @@ class _CBottomsheetProfileState extends State<CBottomsheetProfile> {
                     Expanded(
                       child: CButton(
                         borderRadius: 22,
-                        onTap: () async {
-                          // final db = await DBService.create;
-                          // await db.clearAllData();
-
-                          // if (context.mounted) {
-                          //   Navigator.of(context)
-                          //       .pushReplacement(AppRoutes.getSignUpPage());
-                          // }
-                        },
+                        onTap: widget.onTapLogOut,
                         title: "Выйти",
                       ),
                     ),

@@ -10,6 +10,7 @@ import 'package:medion/presentation/pages/others/about_health/component/item_abo
 import 'package:medion/presentation/pages/others/about_health/sources/about_healt_data.dart';
 import 'package:medion/presentation/pages/others/awards/sources/data_awards.dart';
 import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -40,9 +41,24 @@ class _AwardsPageState extends State<AwardsPage> {
               centerTitle: true,
               trailing: 24.w.horizontalSpace,
             ),
-            BlocBuilder<BranchBloc, BranchState>(builder: (context, state) {
-              return Expanded(
-                child: CustomListView(
+            Expanded(
+              // Wrap the BlocBuilder in Expanded to take full height
+              child: BlocBuilder<BranchBloc, BranchState>(
+                  builder: (context, state) {
+                if (state.awards.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        icons.emojiSad.svg(width: 80.w, height: 80.h),
+                        4.h.verticalSpace,
+                        Text('no_result_found'.tr(),
+                            style: fonts.regularSemLink),
+                      ],
+                    ),
+                  );
+                }
+                return CustomListView(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   refreshController: refreshController,
                   onRefresh: () {
@@ -72,9 +88,9 @@ class _AwardsPageState extends State<AwardsPage> {
                   data: state.awards,
                   emptyWidgetModel: ErrorWidgetModel(title: "", subtitle: ''),
                   status: FormzSubmissionStatus.success,
-                ),
-              );
-            })
+                );
+              }),
+            ),
           ],
         ),
       );

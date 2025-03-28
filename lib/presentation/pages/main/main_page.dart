@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
@@ -121,32 +122,46 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (!didPop && mounted) {
+          _handleBackPress(context);
+        }
+      },
       child: ThemeWrapper(
         builder: (ctx, colors, fonts, icons, global) {
           return Scaffold(
             backgroundColor: colors.shade0,
             body: Consumer<BottomNavBarController>(
               builder: (context, navController, _) {
-                _controller.index =
-                    navController.currentIndex; // Sync with controller
+                if (mounted &&
+                    _controller.index != navController.currentIndex) {
+                  _controller.index = navController.currentIndex;
+                }
+
                 return PersistentTabView(
                   context,
+                  controller: _controller,
+                  screens: pageList,
+                  items: navBarsItems(icons),
                   onItemSelected: (int index) {
-                    navController
-                        .setIndex(index); // Update BottomNavBarController
-                    if (index == 0) {
-                      scrollController.animateTo(
-                        0,
-                        duration: const Duration(milliseconds: 700),
-                        curve: Curves.easeInOutCubic,
+                    if (mounted) {
+                      navController.setIndices(
+                        navIndex: index,
+                        pageIndex: index == 2 ? navController.pageIndex : 0,
                       );
+                      if (index == 0 && scrollController.hasClients) {
+                        scrollController.animateTo(
+                          0,
+                          duration: const Duration(milliseconds: 700),
+                          curve: Curves.easeInOutCubic,
+                        );
+                      }
                     }
                   },
                   resizeToAvoidBottomInset: false,
                   backgroundColor: colors.transparent,
                   navBarHeight: 60.h,
-                  controller: _controller,
-                  screens: pageList, // Your list of screens
                   confineInSafeArea: false,
                   hideNavigationBarWhenKeyboardShows: true,
                   hideNavigationBar: navController.hiddenNavBar,
@@ -155,7 +170,6 @@ class _MainPageState extends State<MainPage> {
                   popAllScreensOnTapOfSelectedTab: false,
                   popActionScreens: PopActionScreensType.all,
                   stateManagement: false,
-                  items: navBarsItems(icons),
                   handleAndroidBackButtonPress: true,
                 );
               },
@@ -164,5 +178,14 @@ class _MainPageState extends State<MainPage> {
         },
       ),
     );
+  }
+
+  void _handleBackPress(BuildContext context) {
+    final navController = context.read<BottomNavBarController>();
+    if (navController.currentIndex != 0) {
+      navController.setIndices(navIndex: 0, pageIndex: 0);
+    } else {
+      SystemNavigator.pop();
+    }
   }
 }

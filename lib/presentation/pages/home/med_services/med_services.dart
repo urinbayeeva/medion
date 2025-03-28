@@ -83,6 +83,10 @@ class _MedServicesPageState extends State<MedServicesPage> {
                                   selectedServiceIds = value;
                                 });
                               }
+                            }).then((_) {
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(false);
                             });
                           },
                         );

@@ -110,7 +110,19 @@ class _HomePageState extends State<HomePage> {
                         12.h.verticalSpace,
                         ProblemSlidebaleCard(isChildren: isChildren),
                         12.h.verticalSpace,
-                        Text("med_services".tr(), style: fonts.regularSemLink),
+                        _buildVerticalSpacingAndHeader(
+                            "med_services", fonts, "all", () {
+                          context
+                              .read<BottomNavBarController>()
+                              .changeNavBar(true);
+                          Navigator.push(
+                                  context, AppRoutes.getMedServicesPage())
+                              .then((_) {
+                            context
+                                .read<BottomNavBarController>()
+                                .changeNavBar(false);
+                          });
+                        }),
                         12.h.verticalSpace,
                         BlocBuilder<HomeBloc, HomeState>(
                           builder: (context, state) {

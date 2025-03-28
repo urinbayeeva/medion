@@ -19,12 +19,12 @@ class AboutDoctor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DoctorBloc, DoctorState>(builder: (context, state) {
-      if (state.error) {
-        return Center(
-            child: Text(
-          'something_went_wrong'.tr(),
-        ));
-      }
+      // if (state.error) {
+      //   return Center(
+      //       child: Text(
+      //     'something_went_wrong'.tr(),
+      //   ));
+      // }
 
       return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
         return DefaultTabController(
