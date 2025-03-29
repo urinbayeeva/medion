@@ -30,15 +30,26 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
+          if (state.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
           final filteredDiseases = state.diseases
               .where((disease) => disease.forChildren == widget.isChildren)
               .toList();
+          print(
+              "Filtered diseases: ${filteredDiseases.length} items for isChildren: ${widget.isChildren}");
 
           if (filteredDiseases.isEmpty) {
             return Center(
-                child: Text('no_result_found'.tr(),
-                    style: fonts.xSmallLink.copyWith(
-                        fontSize: 12.sp, fontWeight: FontWeight.w500)));
+              child: Text(
+                "",
+                style: fonts.xSmallLink.copyWith(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            );
           }
 
           return SingleChildScrollView(
@@ -79,7 +90,7 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
                               imageUrl: disease.icon!),
                           8.h.verticalSpace,
                           Text(
-                            disease.title ?? 'unknown_disease'.tr(),
+                            disease.title ?? ''.tr(),
                             style: fonts.xSmallText.copyWith(
                               color: colors.primary900,
                               fontWeight: FontWeight.w400,

@@ -58,6 +58,9 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BookingBloc, BookingState>(builder: (context, state) {
+      if (state.medicalModel == null) {
+        return _buildEmptyState();
+      }
       return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
         return Scaffold(
           backgroundColor: colors.backgroundColor,
@@ -66,7 +69,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
             children: [
               CAppBar(
                 bordered: true,
-                title: widget.name ?? "Loading...",
+                title: widget.name ?? "",
                 centerTitle: true,
                 onTap: () {
                   Navigator.pop(context);
@@ -94,7 +97,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                           showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
-                                return CFilter();
+                                return const CFilter();
                               });
                         },
                         child: icons.filter.svg(width: 20.w, height: 20.h))
@@ -261,10 +264,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
             Navigator.push(
               context,
               AppRoutes.getAboutDoctorPage(
-                doctor.name!,
-                doctor.jobName!,
-                "",
-              ),
+                  doctor.name!, doctor.jobName!, doctor.image!, ""),
             );
           },
           name: doctor.name ?? '',

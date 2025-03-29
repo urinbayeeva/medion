@@ -14,7 +14,9 @@ class AboutDoctor extends StatelessWidget {
   final String? name;
   final String? profession;
   final String? status;
-  const AboutDoctor({super.key, this.name, this.profession, this.status});
+  final String? image;
+  const AboutDoctor(
+      {super.key, this.name, this.profession, this.status, this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class AboutDoctor extends StatelessWidget {
                         name: name,
                         profession: profession,
                         specialty: status,
-                        image: icons.nonUser,
+                        image: image,
                       ),
                       16.h.verticalSpace,
                       CustomTabbarBlack(

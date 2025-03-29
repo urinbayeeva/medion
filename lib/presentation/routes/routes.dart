@@ -21,6 +21,7 @@ import 'package:medion/presentation/pages/home/directions/component/inner_pages/
 import 'package:medion/presentation/pages/home/directions/directions_page.dart';
 import 'package:medion/presentation/pages/home/doctors/all_doctors_page.dart';
 import 'package:medion/presentation/pages/home/doctors/inner_page/about_doctor.dart';
+import 'package:medion/presentation/pages/home/doctors/inner_page/doctor_appointment.dart';
 import 'package:medion/presentation/pages/home/home_page.dart';
 import 'package:medion/presentation/pages/home/med_services/med_services.dart';
 import 'package:medion/presentation/pages/home/news/news_page.dart';
@@ -330,7 +331,7 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getAboutDoctorPage(
-      String name, String profession, String status) {
+      String name, String profession, String status, String image) {
     return MaterialPageRoute(
         builder: (_) => BlocProvider(
             create: (context) {
@@ -348,6 +349,7 @@ class AppRoutes {
               name: name,
               profession: profession,
               status: status,
+              image: image,
             )));
   }
 
@@ -361,6 +363,18 @@ class AppRoutes {
 
   static MaterialPageRoute getNotificationPage() {
     return MaterialPageRoute(builder: (_) => const NotificationPage());
+  }
+
+  static MaterialPageRoute getDoctorsAppointmentPage(
+      String? name, String? profession, String? image, String? specialty) {
+    return MaterialPageRoute(
+        builder: (_) => DoctorsAppointment(
+              profession: profession,
+              image: image,
+              specialty: specialty,
+              name: name,
+              onTap: () {},
+            ));
   }
 
   static MaterialPageRoute getAppointmentPage(int index, List<int> services) {

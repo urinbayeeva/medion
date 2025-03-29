@@ -11,6 +11,7 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/open_pdf_files.dart';
 import 'package:path/path.dart' as path;
+import 'package:url_launcher/url_launcher.dart';
 
 class ResultsDataWidget extends StatefulWidget {
   const ResultsDataWidget({super.key});
@@ -50,28 +51,7 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
                     ),
                     child: AnimationButtonEffect(
                       onTap: () async {
-                        context
-                            .read<BottomNavBarController>()
-                            .changeNavBar(true);
-
-                        String url =
-                            "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
-                        var file = await OpenPdfUtil().loadPdfFromNetwork(url);
-                        final extension = path.extension(file.path);
-
-                        Future.delayed(Duration(milliseconds: 0), () {
-                          extension != ".pdf"
-                              ? const Text("Not Available")
-                              // ignore: use_build_context_synchronously
-                              : Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => OpenPDF(
-                                      file: file,
-                                      url: url,
-                                    ),
-                                  ),
-                                );
-                        });
+                        launchURL(state.patientAnalyze[item]!.documentUrl);
                       },
                       child: ListTile(
                         title: Text(state.patientAnalyze[item]!.documentName,
@@ -113,5 +93,17 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
               );
       });
     });
+  }
+}
+
+Future<void> launchURL(String url) async {
+  final Uri uri = Uri.parse(url);
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication, // Forces external browser
+    );
+  } else {
+    throw 'Could not launch $url';
   }
 }

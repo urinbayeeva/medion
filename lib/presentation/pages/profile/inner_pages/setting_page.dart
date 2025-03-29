@@ -183,8 +183,6 @@ class _SettingPageState extends State<SettingPage> {
             context.read<BottomNavBarController>().changeNavBar(false);
           },
           onTapLogOut: () async {
-            final db = await DBService.create;
-            await db.clearAllData();
             context.read<BottomNavBarController>().changeNavBar(true);
             Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
               AppRoutes.getSignUpPage(),

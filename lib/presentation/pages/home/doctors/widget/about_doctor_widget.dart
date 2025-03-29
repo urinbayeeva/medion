@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:medion/presentation/component/cached_image_component.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class AboutDoctorWidget extends StatelessWidget {
@@ -18,15 +21,22 @@ class AboutDoctorWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-              width: 112.w,
-              height: 124.h,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.r),
-                  color: colors.neutral200),
-              child: SvgPicture.asset(
-                image!,
-                fit: BoxFit.contain,
-              )),
+            margin: EdgeInsets.only(right: 12.w),
+            width: 112.w,
+            height: 124.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.r),
+              color: colors.shade0,
+            ),
+            child: image != "" && image!.startsWith("http")
+                ? CachedNetworkImage(
+                    imageUrl: image!,
+                    placeholder: (context, url) => CircularProgressIndicator(
+                      color: colors.error500,
+                    ),
+                  )
+                : icons.nonUser.svg(color: colors.neutral500),
+          ),
           12.w.horizontalSpace,
           Expanded(
             child: Column(

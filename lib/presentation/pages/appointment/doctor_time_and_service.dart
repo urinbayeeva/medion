@@ -137,6 +137,7 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                                     return company.doctors.map(
                                       (doctor) {
                                         return DoctorAppointmentWidget(
+                                          isDoctorAppointment: false,
                                           serviceName: service.serviceName,
                                           doctor: doctor,
                                           schedules: doctor.schedules ?? [],

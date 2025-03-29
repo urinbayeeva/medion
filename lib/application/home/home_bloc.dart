@@ -65,6 +65,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(state.copyWith(loading: false, error: true));
       },
       (data) {
+        LogService.i("Fetched diseases: ${data.length} items"); // Log the data
         emit(state.copyWith(
           loading: false,
           success: true,

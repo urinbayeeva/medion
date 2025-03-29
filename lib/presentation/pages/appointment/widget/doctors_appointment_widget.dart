@@ -14,6 +14,7 @@ class DoctorAppointmentWidget extends StatefulWidget {
   final int? serviceId;
   final String? serviceName;
   final String? companyID;
+  final bool? isDoctorAppointment;
   final Function(Map<String, String>? appointment)? onAppointmentSelected;
 
   const DoctorAppointmentWidget({
@@ -24,6 +25,7 @@ class DoctorAppointmentWidget extends StatefulWidget {
     this.serviceName,
     this.onAppointmentSelected,
     this.companyID,
+    this.isDoctorAppointment,
   });
 
   @override
@@ -104,7 +106,9 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildDoctorHeader(colors, fonts, icons),
+                if (widget.isDoctorAppointment == false) ...[
+                  _buildDoctorHeader(colors, fonts, icons),
+                ],
                 12.h.verticalSpace,
                 if (widget.schedules.isNotEmpty) ...[
                   _buildDateSelector(context, colors, fonts),
@@ -280,5 +284,3 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
     );
   }
 }
-
-

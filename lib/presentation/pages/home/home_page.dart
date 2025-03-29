@@ -470,7 +470,7 @@ Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
     builder: (context, colors, fonts, icons, controller) {
       final limitedDoctors = doctors.take(10).toList();
       return SizedBox(
-        height: 300.h,
+        height: 320.h,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.zero,
@@ -479,14 +479,18 @@ Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
             final doctor = limitedDoctors[index];
             return DoctorsItem(
               onTap: () {
+                context.read<BottomNavBarController>().changeNavBar(true);
+
                 Navigator.push(
                   context,
                   AppRoutes.getAboutDoctorPage(
-                    doctor['name'].toString(),
-                    doctor['profession'].toString(),
-                    doctor['status'].toString(),
-                  ),
-                );
+                      doctor['name'].toString(),
+                      doctor['profession'].toString(),
+                      doctor['status'].toString(),
+                      doctor['image'].toString()),
+                ).then((_) {
+                  context.read<BottomNavBarController>().changeNavBar(false);
+                });
               },
               imagePath: doctor['image'].toString(),
               name: doctor['name'].toString(),
@@ -494,6 +498,7 @@ Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
               status: doctor['status'].toString(),
               gender: doctor['gender'].toString(),
               candidateScience: false,
+              isInnerPageUsed: true,
             );
           },
         ),
