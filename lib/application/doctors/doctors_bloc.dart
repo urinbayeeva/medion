@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';
@@ -15,13 +16,19 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
 
   DoctorBloc(this._repository) : super(const DoctorState()) {
     on<_FetchDoctors>(_fetchDoctors);
+    on<_FetchDoctorDetails>(_fetchDoctorDetails);
   }
 
   FutureOr<void> _fetchDoctors(
     _FetchDoctors event,
     Emitter<DoctorState> emit,
   ) async {
-    emit(state.copyWith(loading: true, error: false, success: false));
+    emit(state.copyWith(
+      loading: true,
+      error: false,
+      success: false,
+      doctorDetailsLoading: false,
+    ));
     EasyLoading.show();
 
     final res = await _repository.fetchDoctors();
@@ -37,6 +44,35 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
           loading: false,
           success: true,
           doctors: data,
+        ));
+      },
+    );
+  }
+
+  FutureOr<void> _fetchDoctorDetails(
+    _FetchDoctorDetails event,
+    Emitter<DoctorState> emit,
+  ) async {
+    emit(state.copyWith(
+      doctorDetailsLoading: true,
+      doctorDetailsError: false,
+      doctorDetailsSuccess: false,
+    ));
+
+    final res = await _repository.getDoctorDetailInfo(event.doctorId);
+
+    res.fold(
+      (error) {
+        emit(state.copyWith(
+          doctorDetailsLoading: false,
+          doctorDetailsError: true,
+        ));
+      },
+      (doctor) {
+        emit(state.copyWith(
+          doctorDetailsLoading: false,
+          doctorDetailsSuccess: true,
+          doctorDetails: doctor,
         ));
       },
     );

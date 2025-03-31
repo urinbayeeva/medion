@@ -9,5 +9,11 @@ class DoctorState with _$DoctorState {
     @Default(false) bool error,
     @Default(false) bool success,
     @Default([]) List<DoctorCategory> doctors,
+
+    // Doctor details specific state
+    @Default(false) bool doctorDetailsLoading,
+    @Default(false) bool doctorDetailsError,
+    @Default(false) bool doctorDetailsSuccess,
+    @Default(null) ModelDoctor? doctorDetails,
   }) = _DoctorState;
 }

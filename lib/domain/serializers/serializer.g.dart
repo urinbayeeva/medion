@@ -8,6 +8,7 @@ part of 'serializer.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AdModel.serializer)
+      ..add(Award.serializer)
       ..add(AwardsModel.serializer)
       ..add(BookingTypeModel.serializer)
       ..add(BranchModel.serializer)
@@ -28,25 +29,30 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(DoctorCategory.serializer)
       ..add(DoctorData.serializer)
       ..add(DoctorsRequest.serializer)
+      ..add(Education.serializer)
       ..add(EducationModel.serializer)
       ..add(ErrorDetail.serializer)
       ..add(ErrorResponse.serializer)
+      ..add(Experience.serializer)
       ..add(GiveSelectedId.serializer)
       ..add(HomeMedicalDoctor.serializer)
       ..add(HomeServiceBooking.serializer)
       ..add(HomepageBookingCategory.serializer)
       ..add(ImageModel.serializer)
       ..add(MedicalModel.serializer)
+      ..add(ModelDoctor.serializer)
       ..add(News.serializer)
       ..add(PatientAnalysis.serializer)
       ..add(PatientInfo.serializer)
       ..add(PhoneNumberSendReq.serializer)
+      ..add(PriceItem.serializer)
       ..add(RefreshTokenModel.serializer)
       ..add(RefreshTokenResponseModel.serializer)
       ..add(RegisterReq.serializer)
       ..add(RegistrationResponse.serializer)
       ..add(ResponseModel.serializer)
       ..add(Schedule.serializer)
+      ..add(ScheduleItem.serializer)
       ..add(ScheduleTime.serializer)
       ..add(Service.serializer)
       ..add(SuccessModel.serializer)
@@ -58,6 +64,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(VisitRequest.serializer)
       ..add(VisitResponse.serializer)
       ..add(VisitService.serializer)
+      ..add(WorkSchedule.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Course)]),
           () => new ListBuilder<Course>())
@@ -68,6 +75,18 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(DoctorData)]),
           () => new ListBuilder<DoctorData>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Experience)]),
+          () => new ListBuilder<Experience>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Education)]),
+          () => new ListBuilder<Education>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Award)]),
+          () => new ListBuilder<Award>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PriceItem)]),
+          () => new ListBuilder<PriceItem>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(HomeMedicalDoctor)]),
           () => new ListBuilder<HomeMedicalDoctor>())
       ..addBuilderFactory(
@@ -76,6 +95,24 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Schedule)]),
           () => new ListBuilder<Schedule>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ScheduleItem)]),
+          () => new ListBuilder<ScheduleItem>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ScheduleItem)]),
+          () => new ListBuilder<ScheduleItem>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ScheduleItem)]),
+          () => new ListBuilder<ScheduleItem>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ScheduleItem)]),
+          () => new ListBuilder<ScheduleItem>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ScheduleItem)]),
+          () => new ListBuilder<ScheduleItem>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ScheduleItem)]),
+          () => new ListBuilder<ScheduleItem>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ScheduleTime)]),
           () => new ListBuilder<ScheduleTime>())

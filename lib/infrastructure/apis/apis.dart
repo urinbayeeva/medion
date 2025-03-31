@@ -126,6 +126,9 @@ abstract class DoctorService extends ChopperService {
   @Get(path: 'doctors_info')
   Future<Response<BuiltList<DoctorCategory>>> getDoctorsInfo();
 
+  @Get(path: 'detail-info/{doctor_id}')
+  Future<Response<ModelDoctor>> getDoctorDetailInfo(@Path('doctor_id') int id);
+
   static DoctorService create(DBService dbService) =>
       _$DoctorService(_Client(Constants.baseUrlP, true, dbService));
 }

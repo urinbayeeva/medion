@@ -29,7 +29,7 @@ part 'serializer.g.dart';
   CreateInfoReq,
   DoctorCategory,
   DoctorData,
-DiagnosticsModel,
+  DiagnosticsModel,
   DiseaseModle,
   AdModel,
   PatientInfo,
@@ -48,6 +48,13 @@ DiagnosticsModel,
   Doctor,
   Schedule,
   ScheduleTime,
+  ModelDoctor,
+  WorkSchedule,
+  ScheduleItem,
+  Experience,
+  Education,
+  Award,
+  PriceItem,
 
   //Third Service Models
 
@@ -65,8 +72,6 @@ DiagnosticsModel,
   CreatePatientResponse,
   CreatePatientBookingReq,
   CreatePatientServiceResponse,
-
-
 
   //Branches
 
@@ -90,10 +95,9 @@ DiagnosticsModel,
 
   //Create A Visit
 
-  VisitRequest, 
+  VisitRequest,
   VisitResponse,
   VisitService,
-
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

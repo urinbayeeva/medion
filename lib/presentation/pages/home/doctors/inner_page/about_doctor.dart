@@ -1,8 +1,11 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
+import 'package:medion/domain/models/doctors/doctor_model.dart';
+import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_container.dart';
 import 'package:medion/presentation/component/custom_tabbar.dart';
@@ -10,23 +13,42 @@ import 'package:medion/presentation/pages/home/doctors/widget/about_doctor_widge
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
-class AboutDoctor extends StatelessWidget {
+class AboutDoctor extends StatefulWidget {
   final String? name;
   final String? profession;
   final String? status;
   final String? image;
-  const AboutDoctor(
-      {super.key, this.name, this.profession, this.status, this.image});
+  final int id;
+
+  const AboutDoctor({
+    super.key,
+    this.name,
+    this.profession,
+    this.status,
+    this.image,
+    required this.id,
+  });
+
+  @override
+  State<AboutDoctor> createState() => _AboutDoctorState();
+}
+
+class _AboutDoctorState extends State<AboutDoctor> {
+  @override
+  void initState() {
+    super.initState();
+    LogService.d("Fetching details for doctor ID: ${widget.id}");
+    context.read<DoctorBloc>().add(DoctorEvent.fetchDoctorDetails(widget.id));
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DoctorBloc, DoctorState>(builder: (context, state) {
-      // if (state.error) {
-      //   return Center(
-      //       child: Text(
-      //     'something_went_wrong'.tr(),
-      //   ));
-      // }
+      if (state.doctorDetails == null) {
+        return Center(child: CircularProgressIndicator());
+      }
+
+      final doctor = state.doctorDetails!;
 
       return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
         return DefaultTabController(
@@ -39,14 +61,14 @@ class AboutDoctor extends StatelessWidget {
                   title: "doctors".tr(),
                   isBack: true,
                   centerTitle: true,
-                  trailing: icons.filter.svg(width: 24.w, height: 24.h),
+                  trailing: 24.w.horizontalSpace,
                   bottom: Column(
                     children: [
                       AboutDoctorWidget(
-                        name: name,
-                        profession: profession,
-                        specialty: status,
-                        image: image,
+                        name: widget.name,
+                        profession: widget.profession,
+                        specialty: widget.status,
+                        image: widget.image,
                       ),
                       16.h.verticalSpace,
                       CustomTabbarBlack(
@@ -61,11 +83,17 @@ class AboutDoctor extends StatelessWidget {
                 Expanded(
                   child: TabBarView(
                     children: [
-                      _buildContentSection("about_the_doctor".tr(), ""),
-                      _buildContentSection("working_experience".tr(), ""),
-                      _buildContentSection("education".tr(), ""),
-                      _buildContentSection(
-                          "working_hours".tr(), "Пн-Пт: 09:00-18:00"),
+                      // About the Doctor tab
+                      _buildAboutDoctorTab(doctor, colors, fonts),
+
+                      // Working Experience tab
+                      _buildExperienceTab(doctor, colors, fonts, icons),
+
+                      // Education tab
+                      _buildEducationTab(doctor, colors, fonts, icons),
+
+                      // Working Hours tab
+                      _buildWorkingHoursTab(doctor, colors, fonts),
                     ],
                   ),
                 ),
@@ -76,42 +104,256 @@ class AboutDoctor extends StatelessWidget {
       });
     });
   }
-}
 
-Widget _buildContentSection(
-  title,
-  content,
-) {
-  return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-    return content == null || content == false || content == ""
-        ? SizedBox(
-            height: MediaQuery.of(context).size.height * 0.7,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                icons.emojiSad.svg(width: 80.w, height: 80.h),
-                Center(
-                  child: Text(
-                    "no_result_found".tr(),
-                    style:
-                        fonts.mediumMain.copyWith(fontWeight: FontWeight.w600),
-                  ),
+  Widget _buildAboutDoctorTab(ModelDoctor doctor, colors, fonts) {
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("about_the_doctor".tr(), style: fonts.regularSemLink),
+          8.h.verticalSpace,
+          CContainer(text: doctor.shortDesc.replaceAll('\n', '').trim()),
+          24.h.verticalSpace,
+          // Text("services_and_prices".tr(), style: fonts.regularSemLink),
+          8.h.verticalSpace,
+          // _buildPriceList(doctor.priceList, colors, fonts),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildExperienceTab(ModelDoctor doctor, colors, fonts, icons) {
+    if (doctor.experience.isEmpty) {
+      // return _buildEmptyState(colors, fonts, icons);
+    }
+
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("working_experience".tr(), style: fonts.regularSemLink),
+          8.h.verticalSpace,
+          Column(
+            children: doctor.experience
+                .map((exp) => Padding(
+                      padding: EdgeInsets.only(bottom: 16.h),
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(16.w),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: colors.shade0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(exp.title,
+                                style: fonts.mediumMain
+                                    .copyWith(fontWeight: FontWeight.bold)),
+                            Text(exp.date, style: fonts.smallMain),
+                            8.h.verticalSpace,
+                            Text(exp.description, style: fonts.regularMain),
+                          ],
+                        ),
+                      ),
+                    ))
+                .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEducationTab(ModelDoctor doctor, colors, fonts, icons) {
+    if (doctor.education.isEmpty) {
+      // return _buildEmptyState(colors, fonts, icons);
+    }
+
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("education".tr(), style: fonts.regularSemLink),
+          8.h.verticalSpace,
+          Column(
+            children: doctor.education
+                .map((edu) => Padding(
+                      padding: EdgeInsets.only(bottom: 16.h),
+                      child: Container(
+                        padding: EdgeInsets.all(8.w),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: colors.shade0,
+                            borderRadius: BorderRadius.circular(8.r)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(edu.title,
+                                style: fonts.mediumMain
+                                    .copyWith(fontWeight: FontWeight.bold)),
+                            Text(edu.date, style: fonts.smallMain),
+                            8.h.verticalSpace,
+                            Text(edu.description, style: fonts.regularMain),
+                          ],
+                        ),
+                      ),
+                    ))
+                .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWorkingHoursTab(ModelDoctor doctor, colors, fonts) {
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("working_hours".tr(), style: fonts.regularSemLink),
+          8.h.verticalSpace,
+          _buildSchedule(doctor.workSchedule, colors, fonts),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSchedule(WorkSchedule schedule, colors, fonts) {
+    final days = [
+      {'day': 'Monday', 'schedules': schedule.monday},
+      {'day': 'Tuesday', 'schedules': schedule.tuesday},
+      {'day': 'Wednesday', 'schedules': schedule.wednesday},
+      {'day': 'Thursday', 'schedules': schedule.thursday},
+      {'day': 'Friday', 'schedules': schedule.friday},
+      {'day': 'Saturday', 'schedules': schedule.saturday},
+    ];
+
+    return Container(
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.r),
+        color: colors.shade0,
+      ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: days.map((day) {
+            final dayName = day['day'] as String;
+            final schedules = day['schedules'] as BuiltList<ScheduleItem>;
+
+            if (schedules.isEmpty) return SizedBox.shrink();
+
+            return Container(
+              margin: EdgeInsets.only(right: 10.w),
+              padding: EdgeInsets.all(8.w),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.r),
+                color: colors.neutral200,
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 16.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      // ignore: unnecessary_string_interpolations
+                      '${dayName.tr()}',
+                      style: fonts.mediumMain.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.sp,
+                        color: colors.primary900,
+                      ),
+                    ),
+
+                    // Schedule times
+                    ...schedules
+                        .map((item) => Text(
+                              item.time,
+                              style: fonts.regularMain.copyWith(
+                                color: colors.neutral600,
+                                fontSize: 13.sp,
+                              ),
+                            ))
+                        .toList(),
+                  ],
                 ),
-              ],
-            ),
-          )
-        : Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                24.h.verticalSpace,
-                Text(title, style: fonts.regularSemLink),
-                8.h.verticalSpace,
-                CContainer(text: content),
-                24.h.verticalSpace,
-              ],
-            ),
-          );
-  });
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+//   Widget _buildPriceList(BuiltList<PriceItem> priceList, colors, fonts) {
+//     // Filter out prices that are 0 or not relevant
+//     final filteredPrices = priceList
+//         .where((item) =>
+//             item.firstVisitPrice > 0 &&
+//             item.productType.isNotEmpty &&
+//             item.categId.isNotEmpty)
+//         .toList();
+
+//     if (filteredPrices.isEmpty) {
+//       return CContainer(text: "no_prices_available".tr());
+//     }
+
+//     return Column(
+//       children: filteredPrices
+//           .map((item) => Padding(
+//                 padding: EdgeInsets.only(bottom: 8.h),
+//                 child: Container(
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       Text(item.productType,
+//                           style: fonts.mediumMain
+//                               .copyWith(fontWeight: FontWeight.bold)),
+//                       Text(item.categId, style: fonts.smallMain),
+//                       4.h.verticalSpace,
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                         children: [
+//                           Text("first_visit".tr(), style: fonts.regularMain),
+//                           Text("${item.firstVisitPrice}",
+//                               style: fonts.regularMain),
+//                         ],
+//                       ),
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                         children: [
+//                           Text("revisit".tr(), style: fonts.regularMain),
+//                           Text("${item.revisitPrice}",
+//                               style: fonts.regularMain),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ))
+//           .toList(),
+//     );
+//   }
+
+//   Widget _buildEmptyState(colors, fonts, icons) {
+//     return SizedBox(
+//       height: MediaQuery.of(context).size.height * 0.7,
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           // icons.emojiSad.svg(width: 80.w, height: 80.h),
+//           Center(
+//             child: Text(
+//               "no_result_found".tr(),
+//               style: fonts.mediumMain.copyWith(fontWeight: FontWeight.w600),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 }

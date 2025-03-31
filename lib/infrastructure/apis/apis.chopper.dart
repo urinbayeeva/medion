@@ -269,6 +269,17 @@ final class _$DoctorService extends DoctorService {
     );
     return client.send<BuiltList<DoctorCategory>, DoctorCategory>($request);
   }
+
+  @override
+  Future<Response<ModelDoctor>> getDoctorDetailInfo(int id) {
+    final Uri $url = Uri.parse('/doctor/detail-info/${id}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<ModelDoctor, ModelDoctor>($request);
+  }
 }
 
 // coverage:ignore-file

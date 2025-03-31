@@ -98,130 +98,136 @@ class _DoctorsAppointmentState extends State<DoctorsAppointment> {
 
         return ThemeWrapper(
           builder: (context, colors, fonts, icons, controller) {
-            return Column(
-              children: [
-                CAppBar(
-                  bordered: true,
-                  title: "doctors".tr(),
-                  centerTitle: true,
-                  isBack: true,
-                  trailing: 24.w.horizontalSpace,
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Container(
-                        color: colors.shade0,
-                        width: double.infinity,
-                        padding: EdgeInsets.all(8.w),
-                        child: AboutDoctorWidget(
-                          name: widget.name,
-                          profession: widget.profession,
-                          image: widget.image,
-                          specialty: widget.specialty,
-                        ),
-                      ),
-                      24.h.verticalSpace,
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "choose_doctor_time".tr(),
-                              style: fonts.smallLink.copyWith(
-                                  fontSize: 15.sp, fontWeight: FontWeight.w400),
-                            ),
-                            Container(
-                              height: 400.h,
-                              padding: EdgeInsets.all(8.w),
-                              decoration: BoxDecoration(
-                                  color: colors.shade0,
-                                  borderRadius: BorderRadius.circular(8.r)),
-                              child: Expanded(
-                                child: CustomListView(
-                                  enablePullDown: false,
-                                  enablePullUp: false,
-                                  padding: EdgeInsets.zero,
-                                  data: snapshot.data!,
-                                  itemBuilder: (index, _) {
-                                    final service = snapshot.data![index];
-
-                                    // Filter out doctors who have no schedules
-                                    final availableDoctors = service
-                                        .companiesDoctors
-                                        .expand((company) => company.doctors)
-                                        .where((doctor) =>
-                                            doctor.schedules != null &&
-                                            doctor.schedules!.isNotEmpty)
-                                        .toList();
-
-                                    // Skip rendering if no doctors are available
-                                    if (availableDoctors.isEmpty) {
-                                      return const SizedBox.shrink();
-                                    }
-
-                                    return Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.w),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Column(
-                                            children: service.companiesDoctors
-                                                .expand((company) {
-                                              return company.doctors.map(
-                                                (doctor) {
-                                                  return DoctorAppointmentWidget(
-                                                    isDoctorAppointment: true,
-                                                    serviceName:
-                                                        service.serviceName,
-                                                    doctor: doctor,
-                                                    schedules:
-                                                        doctor.schedules ?? [],
-                                                    serviceId:
-                                                        service.serviceId,
-                                                    companyID: service
-                                                            .companiesDoctors
-                                                            .isNotEmpty
-                                                        ? service
-                                                            .companiesDoctors
-                                                            .first
-                                                            .companyId
-                                                            .toString()
-                                                        : 'Unknown',
-                                                    onAppointmentSelected:
-                                                        (appointment) {
-                                                      if (appointment != null) {
-                                                        addAppointment(
-                                                            appointment);
-                                                      } else {
-                                                        print(
-                                                            "⚠️ Received null appointment");
-                                                      }
-                                                    },
-                                                  );
-                                                },
-                                              ).toList();
-                                            }).toList(),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                  emptyWidgetModel: null,
-                                  status: FormzSubmissionStatus.success,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
+            return Scaffold(
+              backgroundColor: colors.backgroundColor,
+              body: Column(
+                children: [
+                  CAppBar(
+                    bordered: true,
+                    title: "doctors".tr(),
+                    centerTitle: true,
+                    isBack: true,
+                    trailing: 24.w.horizontalSpace,
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Container(
+                          color: colors.shade0,
+                          width: double.infinity,
+                          padding: EdgeInsets.all(8.w),
+                          child: AboutDoctorWidget(
+                            name: widget.name,
+                            profession: widget.profession,
+                            image: widget.image,
+                            specialty: widget.specialty,
+                          ),
+                        ),
+                        24.h.verticalSpace,
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "choose_doctor_time".tr(),
+                                style: fonts.smallLink.copyWith(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                              Container(
+                                height: 400.h,
+                                padding: EdgeInsets.all(8.w),
+                                decoration: BoxDecoration(
+                                    color: colors.shade0,
+                                    borderRadius: BorderRadius.circular(8.r)),
+                                child: Expanded(
+                                  child: CustomListView(
+                                    enablePullDown: false,
+                                    enablePullUp: false,
+                                    padding: EdgeInsets.zero,
+                                    data: snapshot.data!,
+                                    itemBuilder: (index, _) {
+                                      final service = snapshot.data![index];
+
+                                      // Filter out doctors who have no schedules
+                                      final availableDoctors = service
+                                          .companiesDoctors
+                                          .expand((company) => company.doctors)
+                                          .where((doctor) =>
+                                              doctor.schedules != null &&
+                                              doctor.schedules!.isNotEmpty)
+                                          .toList();
+
+                                      // Skip rendering if no doctors are available
+                                      if (availableDoctors.isEmpty) {
+                                        return const SizedBox.shrink();
+                                      }
+
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16.w),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Column(
+                                              children: service.companiesDoctors
+                                                  .expand((company) {
+                                                return company.doctors.map(
+                                                  (doctor) {
+                                                    return DoctorAppointmentWidget(
+                                                      isDoctorAppointment: true,
+                                                      serviceName:
+                                                          service.serviceName,
+                                                      doctor: doctor,
+                                                      schedules:
+                                                          doctor.schedules ??
+                                                              [],
+                                                      serviceId:
+                                                          service.serviceId,
+                                                      companyID: service
+                                                              .companiesDoctors
+                                                              .isNotEmpty
+                                                          ? service
+                                                              .companiesDoctors
+                                                              .first
+                                                              .companyId
+                                                              .toString()
+                                                          : 'Unknown',
+                                                      onAppointmentSelected:
+                                                          (appointment) {
+                                                        if (appointment !=
+                                                            null) {
+                                                          addAppointment(
+                                                              appointment);
+                                                        } else {
+                                                          print(
+                                                              "⚠️ Received null appointment");
+                                                        }
+                                                      },
+                                                    );
+                                                  },
+                                                ).toList();
+                                              }).toList(),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    emptyWidgetModel: null,
+                                    status: FormzSubmissionStatus.success,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         );

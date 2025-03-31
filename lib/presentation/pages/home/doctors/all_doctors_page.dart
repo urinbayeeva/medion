@@ -311,7 +311,8 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                             doctor['name'].toString(),
                             doctor['profession'],
                             doctor['name'].toString(),
-                            doctor['image'].toString()));
+                            doctor['image'].toString(),
+                            doctor['id']));
                   },
                   categoryType: doctor['category'].toString(),
                   imagePath: doctor['image'].toString(),

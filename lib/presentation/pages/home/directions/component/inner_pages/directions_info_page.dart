@@ -264,7 +264,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
             Navigator.push(
               context,
               AppRoutes.getAboutDoctorPage(
-                  doctor.name!, doctor.jobName!, doctor.image!, ""),
+                  doctor.name!, doctor.jobName!, doctor.image!, "", doctor.id!),
             );
           },
           name: doctor.name ?? '',

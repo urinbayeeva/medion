@@ -279,6 +279,7 @@ class _HomePageState extends State<HomePage> {
                                               'name': doctor.name,
                                               'profession': doctor.specialty,
                                               'image': doctor.image,
+                                              'id': doctor.id
                                             }))
                                     .toList()),
                               ],
@@ -487,7 +488,8 @@ Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
                       doctor['name'].toString(),
                       doctor['profession'].toString(),
                       doctor['status'].toString(),
-                      doctor['image'].toString()),
+                      doctor['image'].toString(),
+                      doctor['id']),
                 ).then((_) {
                   context.read<BottomNavBarController>().changeNavBar(false);
                 });

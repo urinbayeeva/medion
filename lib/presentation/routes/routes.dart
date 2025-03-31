@@ -331,7 +331,7 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getAboutDoctorPage(
-      String name, String profession, String status, String image) {
+      String name, String profession, String status, String image, int id) {
     return MaterialPageRoute(
         builder: (_) => BlocProvider(
             create: (context) {
@@ -346,6 +346,7 @@ class AppRoutes {
               );
             },
             child: AboutDoctor(
+              id: id,
               name: name,
               profession: profession,
               status: status,
