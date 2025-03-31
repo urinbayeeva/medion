@@ -98,6 +98,12 @@ abstract class BookingService extends ChopperService {
   @Post(path: "doctor/day")
   static BookingService create(DBService dbService) =>
       _$BookingService(_Client(Constants.baseUrlP, true, dbService));
+
+  @Get(path: 'services_by_doctor/{doctor_id }')
+  Future<Response<MedicalServiceCategory>> getHomePageBookingDoctorsByID(
+      @Path('doctor_id ') int id);
+
+  //MedicalServiceCategory
 }
 
 //Home Page

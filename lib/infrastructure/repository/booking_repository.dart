@@ -1,5 +1,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/failurs/booking/i_booking_facade.dart';
@@ -121,6 +122,42 @@ class BookingRepository implements IBookingFacade {
       }
     } catch (e) {
       LogService.e(" ----> Error on repo: ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, BuiltList<MedicalServiceCategory>>>
+      getServicesByDoctorId(int doctorId) async {
+    try {
+      // Remove any potential whitespace from the doctor_id parameter
+      final cleanedDoctorId = doctorId.toString().trim();
+      final numericDoctorId = int.parse(cleanedDoctorId);
+
+      final response =
+          await _bookingService.getHomePageBookingDoctorsByID(numericDoctorId);
+
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
+
+      if (response.isSuccessful) {
+        if (response.body != null) {
+          // If the response is a single item, convert it to a BuiltList
+          final categories =
+              BuiltList<MedicalServiceCategory>([response.body!]);
+          return right(categories);
+        } else {
+          return left(InvalidCredentials(message: 'empty_response'.tr()));
+        }
+      } else {
+        return left(InvalidCredentials(
+          message: 'failed_to_fetch_services'.tr(),
+        ));
+      }
+    } on FormatException {
+      return left(InvalidCredentials(message: 'invalid_doctor_id_format'.tr()));
+    } catch (e) {
+      LogService.e("Error fetching services by doctor ID: ${e.toString()}");
       return left(handleError(e));
     }
   }

@@ -19,4 +19,8 @@ abstract class IBookingFacade {
     required List<int> serviceIds,
   });
 
+  Future<Either<ResponseFailure, BuiltList<MedicalServiceCategory>>>
+      getServicesByDoctorId(
+    int doctorId,
+  );
 }

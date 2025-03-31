@@ -113,7 +113,8 @@ class _AboutDoctorState extends State<AboutDoctor> {
         children: [
           Text("about_the_doctor".tr(), style: fonts.regularSemLink),
           8.h.verticalSpace,
-          CContainer(text: doctor.shortDesc.replaceAll('\n', '').trim()),
+          CContainer(
+              text: doctor.decodedDescription.replaceAll('\n', '').trim()),
           24.h.verticalSpace,
           // Text("services_and_prices".tr(), style: fonts.regularSemLink),
           8.h.verticalSpace,

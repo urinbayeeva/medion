@@ -431,3 +431,40 @@ abstract class CreatePatientRequest
   static Serializer<CreatePatientRequest> get serializer =>
       _$createPatientRequestSerializer;
 }
+
+abstract class MedicalServiceCategory
+    implements Built<MedicalServiceCategory, MedicalServiceCategoryBuilder> {
+  @BuiltValueField(wireName: 'category_name')
+  String get categoryName;
+  BuiltList<MedicalService> get services;
+
+  MedicalServiceCategory._();
+  factory MedicalServiceCategory(
+          [void Function(MedicalServiceCategoryBuilder) updates]) =
+      _$MedicalServiceCategory;
+}
+
+abstract class MedicalService
+    implements Built<MedicalService, MedicalServiceBuilder> {
+  @BuiltValueField(wireName: 'id')
+  int get id;
+
+  @BuiltValueField(wireName: 'name')
+  String get name;
+
+  @BuiltValueField(wireName: 'description')
+  bool get description;
+
+  @BuiltValueField(wireName: 'doctor_price_start_uzs')
+  int get doctorPriceStartUzs;
+
+  @BuiltValueField(wireName: 'doctor_price_start_usd')
+  int get doctorPriceStartUsd;
+
+  @BuiltValueField(wireName: 'is_child')
+  bool get isChild;
+
+  MedicalService._();
+  factory MedicalService([void Function(MedicalServiceBuilder) updates]) =
+      _$MedicalService;
+}

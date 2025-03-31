@@ -27,6 +27,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<_FetchHomePageServicesBooking>(_onFetchHomePageServicesBooking);
     on<_FetchHomePageServiceDoctors>(_onFetchHomePageServiceDoctors);
     on<_FetchThirdBookingServices>(_onFetchThirdBookingServices);
+    on<_FetchServicesByDoctorId>(_fetchServicesByDoctorIdHandler);
   }
 
   @override
@@ -301,6 +302,59 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           thirdBookingServices: [],
         ));
       }
+    }
+  }
+
+  FutureOr<void> _fetchServicesByDoctorIdHandler(
+    _FetchServicesByDoctorId event,
+    Emitter<BookingState> emit,
+  ) async {
+    emit(state.copyWith(
+      loading: true,
+      error: false,
+      success: false,
+      doctorServices: [], // Clear previous data
+      selectedDoctorId: event.doctorId,
+    ));
+
+    try {
+      EasyLoading.show();
+
+      final result = await _repository.getServicesByDoctorId(event.doctorId);
+
+      if (isClosed) return;
+
+      result.fold(
+        (failure) {
+          emit(state.copyWith(
+            loading: false,
+            error: true,
+            errorMessage: failure.message,
+            doctorServices: [],
+          ));
+          EasyLoading.showError(failure.message);
+        },
+        (services) {
+          emit(state.copyWith(
+            loading: false,
+            success: true,
+            doctorServices: services.toList(),
+          ));
+        },
+      );
+    } catch (e) {
+      LogService.e("Error fetching doctor services: ${e.toString()}");
+      if (!isClosed) {
+        emit(state.copyWith(
+          loading: false,
+          error: true,
+          errorMessage: 'Failed to load doctor services',
+          doctorServices: [],
+        ));
+        EasyLoading.showError('Failed to load doctor services');
+      }
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 }

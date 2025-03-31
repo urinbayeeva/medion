@@ -3727,4 +3727,287 @@ class CreatePatientRequestBuilder
   }
 }
 
+class _$MedicalServiceCategory extends MedicalServiceCategory {
+  @override
+  final String categoryName;
+  @override
+  final BuiltList<MedicalService> services;
+
+  factory _$MedicalServiceCategory(
+          [void Function(MedicalServiceCategoryBuilder)? updates]) =>
+      (new MedicalServiceCategoryBuilder()..update(updates))._build();
+
+  _$MedicalServiceCategory._(
+      {required this.categoryName, required this.services})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        categoryName, r'MedicalServiceCategory', 'categoryName');
+    BuiltValueNullFieldError.checkNotNull(
+        services, r'MedicalServiceCategory', 'services');
+  }
+
+  @override
+  MedicalServiceCategory rebuild(
+          void Function(MedicalServiceCategoryBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  MedicalServiceCategoryBuilder toBuilder() =>
+      new MedicalServiceCategoryBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is MedicalServiceCategory &&
+        categoryName == other.categoryName &&
+        services == other.services;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, categoryName.hashCode);
+    _$hash = $jc(_$hash, services.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'MedicalServiceCategory')
+          ..add('categoryName', categoryName)
+          ..add('services', services))
+        .toString();
+  }
+}
+
+class MedicalServiceCategoryBuilder
+    implements Builder<MedicalServiceCategory, MedicalServiceCategoryBuilder> {
+  _$MedicalServiceCategory? _$v;
+
+  String? _categoryName;
+  String? get categoryName => _$this._categoryName;
+  set categoryName(String? categoryName) => _$this._categoryName = categoryName;
+
+  ListBuilder<MedicalService>? _services;
+  ListBuilder<MedicalService> get services =>
+      _$this._services ??= new ListBuilder<MedicalService>();
+  set services(ListBuilder<MedicalService>? services) =>
+      _$this._services = services;
+
+  MedicalServiceCategoryBuilder();
+
+  MedicalServiceCategoryBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _categoryName = $v.categoryName;
+      _services = $v.services.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(MedicalServiceCategory other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$MedicalServiceCategory;
+  }
+
+  @override
+  void update(void Function(MedicalServiceCategoryBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  MedicalServiceCategory build() => _build();
+
+  _$MedicalServiceCategory _build() {
+    _$MedicalServiceCategory _$result;
+    try {
+      _$result = _$v ??
+          new _$MedicalServiceCategory._(
+            categoryName: BuiltValueNullFieldError.checkNotNull(
+                categoryName, r'MedicalServiceCategory', 'categoryName'),
+            services: services.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'services';
+        services.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'MedicalServiceCategory', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$MedicalService extends MedicalService {
+  @override
+  final int id;
+  @override
+  final String name;
+  @override
+  final bool description;
+  @override
+  final int doctorPriceStartUzs;
+  @override
+  final int doctorPriceStartUsd;
+  @override
+  final bool isChild;
+
+  factory _$MedicalService([void Function(MedicalServiceBuilder)? updates]) =>
+      (new MedicalServiceBuilder()..update(updates))._build();
+
+  _$MedicalService._(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.doctorPriceStartUzs,
+      required this.doctorPriceStartUsd,
+      required this.isChild})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(id, r'MedicalService', 'id');
+    BuiltValueNullFieldError.checkNotNull(name, r'MedicalService', 'name');
+    BuiltValueNullFieldError.checkNotNull(
+        description, r'MedicalService', 'description');
+    BuiltValueNullFieldError.checkNotNull(
+        doctorPriceStartUzs, r'MedicalService', 'doctorPriceStartUzs');
+    BuiltValueNullFieldError.checkNotNull(
+        doctorPriceStartUsd, r'MedicalService', 'doctorPriceStartUsd');
+    BuiltValueNullFieldError.checkNotNull(
+        isChild, r'MedicalService', 'isChild');
+  }
+
+  @override
+  MedicalService rebuild(void Function(MedicalServiceBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  MedicalServiceBuilder toBuilder() =>
+      new MedicalServiceBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is MedicalService &&
+        id == other.id &&
+        name == other.name &&
+        description == other.description &&
+        doctorPriceStartUzs == other.doctorPriceStartUzs &&
+        doctorPriceStartUsd == other.doctorPriceStartUsd &&
+        isChild == other.isChild;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jc(_$hash, doctorPriceStartUzs.hashCode);
+    _$hash = $jc(_$hash, doctorPriceStartUsd.hashCode);
+    _$hash = $jc(_$hash, isChild.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'MedicalService')
+          ..add('id', id)
+          ..add('name', name)
+          ..add('description', description)
+          ..add('doctorPriceStartUzs', doctorPriceStartUzs)
+          ..add('doctorPriceStartUsd', doctorPriceStartUsd)
+          ..add('isChild', isChild))
+        .toString();
+  }
+}
+
+class MedicalServiceBuilder
+    implements Builder<MedicalService, MedicalServiceBuilder> {
+  _$MedicalService? _$v;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
+  bool? _description;
+  bool? get description => _$this._description;
+  set description(bool? description) => _$this._description = description;
+
+  int? _doctorPriceStartUzs;
+  int? get doctorPriceStartUzs => _$this._doctorPriceStartUzs;
+  set doctorPriceStartUzs(int? doctorPriceStartUzs) =>
+      _$this._doctorPriceStartUzs = doctorPriceStartUzs;
+
+  int? _doctorPriceStartUsd;
+  int? get doctorPriceStartUsd => _$this._doctorPriceStartUsd;
+  set doctorPriceStartUsd(int? doctorPriceStartUsd) =>
+      _$this._doctorPriceStartUsd = doctorPriceStartUsd;
+
+  bool? _isChild;
+  bool? get isChild => _$this._isChild;
+  set isChild(bool? isChild) => _$this._isChild = isChild;
+
+  MedicalServiceBuilder();
+
+  MedicalServiceBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _name = $v.name;
+      _description = $v.description;
+      _doctorPriceStartUzs = $v.doctorPriceStartUzs;
+      _doctorPriceStartUsd = $v.doctorPriceStartUsd;
+      _isChild = $v.isChild;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(MedicalService other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$MedicalService;
+  }
+
+  @override
+  void update(void Function(MedicalServiceBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  MedicalService build() => _build();
+
+  _$MedicalService _build() {
+    final _$result = _$v ??
+        new _$MedicalService._(
+          id: BuiltValueNullFieldError.checkNotNull(
+              id, r'MedicalService', 'id'),
+          name: BuiltValueNullFieldError.checkNotNull(
+              name, r'MedicalService', 'name'),
+          description: BuiltValueNullFieldError.checkNotNull(
+              description, r'MedicalService', 'description'),
+          doctorPriceStartUzs: BuiltValueNullFieldError.checkNotNull(
+              doctorPriceStartUzs, r'MedicalService', 'doctorPriceStartUzs'),
+          doctorPriceStartUsd: BuiltValueNullFieldError.checkNotNull(
+              doctorPriceStartUsd, r'MedicalService', 'doctorPriceStartUsd'),
+          isChild: BuiltValueNullFieldError.checkNotNull(
+              isChild, r'MedicalService', 'isChild'),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint
