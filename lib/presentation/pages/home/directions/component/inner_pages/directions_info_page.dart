@@ -57,65 +57,75 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BookingBloc, BookingState>(builder: (context, state) {
-      if (state.medicalModel == null) {
-        return _buildEmptyState();
-      }
-      return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-        return Scaffold(
-          backgroundColor: colors.backgroundColor,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CAppBar(
-                bordered: true,
-                title: widget.name ?? "",
-                centerTitle: true,
-                onTap: () {
-                  Navigator.pop(context);
-                  context.read<BottomNavBarController>().changeNavBar(false);
-                },
-                isBack: true,
-                trailing: Row(
-                  children: [
-                    AnimatedRotation(
-                        turns: turns,
-                        duration: const Duration(seconds: 1),
-                        child: AnimationButtonEffect(
-                            onTap: () {
-                              setState(() {
-                                turns += 2 / 4;
-                                changeSum = !changeSum;
-                                dbService.setCurrencyPreference(changeSum);
-                              });
-                            },
-                            child: icons.valyutaChange
-                                .svg(width: 20.w, height: 20.h))),
-                    6.w.horizontalSpace,
-                    AnimationButtonEffect(
-                        onTap: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const CFilter();
-                              });
+    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+      return Scaffold(
+        backgroundColor: colors.backgroundColor,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CAppBar(
+              bordered: true,
+              title: widget.name ?? "",
+              centerTitle: true,
+              onTap: () {
+                Navigator.pop(context);
+                context.read<BottomNavBarController>().changeNavBar(false);
+              },
+              isBack: true,
+              trailing: Row(
+                children: [
+                  AnimatedRotation(
+                    turns: turns,
+                    duration: const Duration(seconds: 1),
+                    child: AnimationButtonEffect(
+                      onTap: () {
+                        setState(() {
+                          turns += 2 / 4;
+                          changeSum = !changeSum;
+                          dbService.setCurrencyPreference(changeSum);
+                        });
+                      },
+                      child: icons.valyutaChange.svg(width: 20.w, height: 20.h),
+                    ),
+                  ),
+                  6.w.horizontalSpace,
+                  AnimationButtonEffect(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const CFilter();
                         },
-                        child: icons.filter.svg(width: 20.w, height: 20.h))
-                  ],
-                ),
+                      );
+                    },
+                    child: icons.filter.svg(width: 20.w, height: 20.h),
+                  ),
+                ],
               ),
-              Expanded(
-                child: state.medicalModel == null
-                    ? _buildEmptyState()
-                    : _buildContent(context, state, colors, fonts, icons),
-              ),
-              if (selectedServiceIds.isNotEmpty)
-                _buildSelectedServicesContainer(context, state, colors, fonts),
-              24.h.verticalSpace,
-            ],
-          ),
-        );
-      });
+            ),
+            BlocBuilder<BookingBloc, BookingState>(
+              builder: (context, state) {
+                if (state.medicalModel == null) {
+                  return _buildEmptyState();
+                }
+                return Expanded(
+                  child: _buildContent(context, state, colors, fonts, icons),
+                );
+              },
+            ),
+            BlocBuilder<BookingBloc, BookingState>(
+              builder: (context, state) {
+                if (selectedServiceIds.isEmpty || state.medicalModel == null) {
+                  return const SizedBox.shrink();
+                }
+                return _buildSelectedServicesContainer(
+                    context, state, colors, fonts);
+              },
+            ),
+            24.h.verticalSpace,
+          ],
+        ),
+      );
     });
   }
 
@@ -128,8 +138,13 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
     );
   }
 
-  Widget _buildContent(BuildContext context, BookingState state, dynamic colors,
-      dynamic fonts, dynamic icons) {
+  Widget _buildContent(
+    BuildContext context,
+    BookingState state,
+    dynamic colors,
+    dynamic fonts,
+    dynamic icons,
+  ) {
     final hasDoctors = state.medicalModel!.doctors.isNotEmpty;
     final hasDescription = state.medicalModel!.description?.isNotEmpty ?? false;
     final hasServices = state.medicalModel!.services.isNotEmpty;
@@ -137,7 +152,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
     return SingleChildScrollView(
       padding: EdgeInsets.all(12.0.w),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start, // Ensure left alignment
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: double.infinity,
@@ -168,9 +183,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
             ),
           ),
           if (selectedIndex == 0) ...[
-            if (!hasDoctors ||
-                !hasServices ||
-                state.medicalModel!.description == "false") ...[
+            if (!hasDoctors && !hasServices && !hasDescription) ...[
               250.h.verticalSpace,
               Center(
                 child: Text(
@@ -185,20 +198,24 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
               if (hasDescription) ...[
                 _buildSectionTitle('all_informations'.tr(), fonts),
                 CContainer(
-                  text: state.medicalModel!.description ?? "No description",
+                  text: state.medicalModel!.decodedTitle ?? "No description",
                 ),
               ],
-              _buildSectionTitle('doctors'.tr(), fonts),
-              _buildDoctorsGrid(state, icons),
-              _buildSectionTitle('services'.tr(), fonts),
-              _buildServicesList(state),
+              if (hasDoctors) ...[
+                _buildSectionTitle('doctors'.tr(), fonts),
+                _buildDoctorsGrid(state, icons),
+              ],
+              if (hasServices) ...[
+                _buildSectionTitle('services'.tr(), fonts),
+                _buildServicesList(state),
+              ],
             ],
           ],
           if (selectedIndex == 1) ...[
             if (hasDoctors) ...[
               _buildSectionTitle('doctors'.tr(), fonts),
               _buildDoctorsGrid(state, icons),
-            ] else
+            ] else ...[
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 12.h),
                 child: Text(
@@ -206,12 +223,13 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                   style: Style.regularMain(),
                 ),
               ),
+            ],
           ],
           if (selectedIndex == 2) ...[
             if (hasServices) ...[
               _buildSectionTitle('services'.tr(), fonts),
               _buildServicesList(state),
-            ] else
+            ] else ...[
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 12.h),
                 child: Text(
@@ -219,6 +237,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                   style: Style.regularMain(),
                 ),
               ),
+            ],
           ],
           SizedBox(height: selectedServiceIds.isNotEmpty ? 60.h : 0),
         ],
@@ -234,15 +253,6 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   }
 
   Widget _buildDoctorsGrid(BookingState state, dynamic icons) {
-    if (state.medicalModel!.doctors.isEmpty) {
-      return Center(
-        child: Text(
-          "no_doctors_found".tr(),
-          style: Style.headlineMain(),
-        ),
-      );
-    }
-
     return GridView.builder(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
@@ -251,20 +261,25 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
         crossAxisCount: 2,
         crossAxisSpacing: 12.w,
         mainAxisSpacing: 12.h,
-        childAspectRatio: 0.54,
+        childAspectRatio: 0.68,
       ),
       itemCount: state.medicalModel!.doctors.length,
       itemBuilder: (_, index) {
         final doctor = state.medicalModel!.doctors[index];
         return DoctorsItem(
           gender: "male",
-          isInnerPageUsed: true,
+          isInnerPageUsed: false,
           imagePath: doctor.image ?? icons.nonUser,
           onTap: () {
             Navigator.push(
               context,
               AppRoutes.getAboutDoctorPage(
-                  doctor.name!, doctor.jobName!, doctor.image!, "", doctor.id!),
+                doctor.name!,
+                doctor.jobName!,
+                doctor.image!,
+                "",
+                doctor.id!,
+              ),
             );
           },
           name: doctor.name ?? '',
@@ -276,15 +291,6 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   }
 
   Widget _buildServicesList(BookingState state) {
-    if (state.medicalModel!.services.isEmpty) {
-      return Center(
-        child: Text(
-          "no_services_found".tr(),
-          style: Style.headlineMain(),
-        ),
-      );
-    }
-
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
@@ -314,13 +320,20 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   }
 
   Widget _buildSelectedServicesContainer(
-      BuildContext context, BookingState state, dynamic colors, dynamic fonts) {
+    BuildContext context,
+    BookingState state,
+    dynamic colors,
+    dynamic fonts,
+  ) {
     return Container(
       decoration: BoxDecoration(
-          color: colors.shade0,
-          boxShadow: Style.shadowMMMM,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8.r), topRight: Radius.circular(8.r))),
+        color: colors.shade0,
+        boxShadow: Style.shadowMMMM,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(8.r),
+          topRight: Radius.circular(8.r),
+        ),
+      ),
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: GestureDetector(
         onTap: () =>
@@ -370,7 +383,11 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   }
 
   void _showSelectedServicesBottomSheet(
-      BuildContext context, BookingState state, dynamic colors, dynamic fonts) {
+    BuildContext context,
+    BookingState state,
+    dynamic colors,
+    dynamic fonts,
+  ) {
     final selectedServices = state.medicalModel!.services
         .where((service) => selectedServiceIds.contains(service.id ?? -1))
         .toList();

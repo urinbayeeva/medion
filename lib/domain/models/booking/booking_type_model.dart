@@ -246,6 +246,8 @@ abstract class MedicalModel
   @BuiltValueField(wireName: 'services')
   BuiltList<HomeServiceBooking> get services;
 
+  String get decodedTitle => decodeHtml(description);
+
   MedicalModel._();
   factory MedicalModel([void Function(MedicalModelBuilder) updates]) =
       _$MedicalModel;
