@@ -21,12 +21,6 @@ class MedServiceDoctorChose extends StatefulWidget {
 }
 
 class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
-  int? selectedDateIndex;
-  String? selectedTime;
-  Map<String, dynamic>? doctorData;
-  bool isLoading = true;
-  String errorMessage = '';
-
   ValueNotifier<List<Map<String, String>>> selectedAppointments =
       ValueNotifier([]);
 
@@ -38,55 +32,63 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
 
   void addAppointment(Map<String, String> appointment) {
     if (!mounted) return;
+
+    final serviceId = appointment['serviceId'];
+
+    // Remove any existing appointment with the same serviceId
+    selectedAppointments.value = selectedAppointments.value
+        .where((a) => a['serviceId'] != serviceId)
+        .toList();
+
+    // Add the new appointment
     selectedAppointments.value = [...selectedAppointments.value, appointment];
-    print("Added Appointment: $appointment");
   }
 
   void removeAppointment(Map<String, String> appointment) {
     if (!mounted) return;
-    selectedAppointments.value =
+    final updatedList =
         selectedAppointments.value.where((a) => a != appointment).toList();
-    print("Removed Appointment: $appointment");
+    if (updatedList.length != selectedAppointments.value.length) {
+      selectedAppointments.value = updatedList;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    List<int> serviceIds =
-        widget.servicesID != null ? widget.servicesID!.toList() : [];
-
-    if (serviceIds.isEmpty) {
-      return Center(child: Text(serviceIds.toString()));
+    if (widget.servicesID.isEmpty) {
+      return Center(child: Text("No services selected"));
     }
 
-    return FutureBuilder<List<Service>>(
-      future: ApiService.fetchServices(serviceIds),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-              child: CircularProgressIndicator(color: Style.error500));
-        }
-        if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('No services available'));
-        }
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return Scaffold(
+          backgroundColor: colors.backgroundColor,
+          body: Column(
+            children: [
+              CAppBar(
+                title: "selecting_the_time_the_date".tr(),
+                centerTitle: true,
+                isBack: true,
+                trailing: 24.w.horizontalSpace,
+              ),
+              12.h.verticalSpace,
+              Expanded(
+                child: FutureBuilder<List<Service>>(
+                  future: ApiService.fetchServices(widget.servicesID),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                          child:
+                              CircularProgressIndicator(color: Style.error500));
+                    }
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(child: Text('No services available'));
+                    }
 
-        return ThemeWrapper(
-          builder: (context, colors, fonts, icons, controller) {
-            return Scaffold(
-              backgroundColor: colors.backgroundColor,
-              body: Column(
-                children: [
-                  CAppBar(
-                    title: "selecting_the_time_the_date".tr(),
-                    centerTitle: true,
-                    isBack: true,
-                    trailing: 24.w.horizontalSpace,
-                  ),
-                  12.h.verticalSpace,
-                  Expanded(
-                    child: CustomListView(
+                    return CustomListView(
                       enablePullDown: false,
                       enablePullUp: false,
                       padding: EdgeInsets.zero,
@@ -94,7 +96,6 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                       itemBuilder: (index, _) {
                         final service = snapshot.data![index];
 
-                        // Filter out doctors who have no schedules
                         final availableDoctors = service.companiesDoctors
                             .expand((company) => company.doctors)
                             .where((doctor) =>
@@ -102,63 +103,44 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                 doctor.schedules!.isNotEmpty)
                             .toList();
 
-                        // Skip rendering if no doctors are available
-                        if (availableDoctors.isEmpty) {
+                        if (availableDoctors.isEmpty)
                           return const SizedBox.shrink();
-                        }
 
                         return Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                (service.companiesDoctors.isNotEmpty &&
-                                        service.companiesDoctors.first
-                                                .companyName !=
-                                            null)
-                                    ? service
-                                        .companiesDoctors.first.companyName!
-                                    : '',
-                                style: fonts.regularMain,
-                              ),
+                              if (service.companiesDoctors.isNotEmpty &&
+                                  service.companiesDoctors.first.companyName !=
+                                      null)
+                                Text(
+                                    service.companiesDoctors.first.companyName!,
+                                    style: fonts.regularMain),
                               8.h.verticalSpace,
                               CustomExpansionListTile(
                                 title: service.serviceName,
                                 description: "${service.serviceId}",
-                                children: [
-                                  Column(
-                                    children: service.companiesDoctors
-                                        .expand((company) {
-                                      return company.doctors.map(
-                                        (doctor) {
-                                          return DoctorAppointmentWidget(
-                                            isDoctorAppointment: false,
-                                            serviceName: service.serviceName,
-                                            doctor: doctor,
-                                            schedules: doctor.schedules ?? [],
-                                            serviceId: service.serviceId,
-                                            companyID: service
-                                                    .companiesDoctors.isNotEmpty
-                                                ? service.companiesDoctors.first
-                                                    .companyId
-                                                    .toString()
-                                                : 'Unknown',
-                                            onAppointmentSelected:
-                                                (appointment) {
-                                              if (appointment != null) {
-                                                addAppointment(appointment);
-                                              } else {
-                                                print(
-                                                    "⚠️ Received null appointment");
-                                              }
-                                            },
-                                          );
+                                children:
+                                    service.companiesDoctors.expand((company) {
+                                  return company.doctors.map(
+                                    (doctor) {
+                                      return DoctorAppointmentWidget(
+                                        isDoctorAppointment: false,
+                                        serviceName: service.serviceName,
+                                        doctor: doctor,
+                                        schedules: doctor.schedules ?? [],
+                                        serviceId: service.serviceId,
+                                        companyID: company.companyId.toString(),
+                                        onAppointmentSelected: (appointment) {
+                                          if (appointment != null) {
+                                            addAppointment(appointment);
+                                          }
                                         },
-                                      ).toList();
-                                    }).toList(),
-                                  ),
-                                ],
+                                      );
+                                    },
+                                  ).toList();
+                                }).toList(),
                               ),
                             ],
                           ),
@@ -166,64 +148,56 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                       },
                       emptyWidgetModel: null,
                       status: FormzSubmissionStatus.success,
+                    );
+                  },
+                ),
+              ),
+              ValueListenableBuilder<List<Map<String, String>>>(
+                valueListenable: selectedAppointments,
+                builder: (context, selectedList, _) {
+                  if (selectedList.isEmpty) return const SizedBox.shrink();
+
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: colors.shade0,
+                      boxShadow: Style.shadowMMMM,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8.r),
+                        topRight: Radius.circular(8.r),
+                      ),
                     ),
-                  ),
-                  ValueListenableBuilder<List<Map<String, String>>>(
-                    valueListenable: selectedAppointments,
-                    builder: (context, selectedList, _) {
-                      if (selectedList.isEmpty) {
-                        return const SizedBox.shrink();
-                      }
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: colors.shade0,
-                          boxShadow: Style.shadowMMMM,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8.r),
-                            topRight: Radius.circular(8.r),
-                          ),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 16.w, vertical: 8.h),
-                        child: GestureDetector(
-                          onTap: () => _showAppointmentsBottomSheet(
-                              context, selectedList, colors, fonts),
-                          child: Column(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    child: GestureDetector(
+                      onTap: () => _showAppointmentsBottomSheet(
+                          context, selectedList, colors, fonts),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "count_session_selected".tr(namedArgs: {
-                                      "count": selectedList.length.toString()
-                                    }),
-                                    style: fonts.headlineMain
-                                        .copyWith(fontSize: 14.sp),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 16.sp,
-                                    color: colors.primary900,
-                                  ),
-                                ],
+                              Text(
+                                "count_session_selected".tr(namedArgs: {
+                                  "count": selectedList.length.toString()
+                                }),
+                                style: fonts.headlineMain
+                                    .copyWith(fontSize: 14.sp),
                               ),
-                              12.h.verticalSpace,
-                              CButton(
-                                title: 'next'.tr(),
-                                onTap: () {},
-                              ),
-                              12.h.verticalSpace,
+                              Icon(Icons.arrow_forward_ios,
+                                  size: 16.sp, color: colors.primary900),
                             ],
                           ),
-                        ),
-                      );
-                    },
-                  )
-                ],
+                          12.h.verticalSpace,
+                          CButton(title: 'next'.tr(), onTap: () {}),
+                          12.h.verticalSpace,
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
+            ],
+          ),
         );
       },
     );
@@ -235,8 +209,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
       backgroundColor: colors.shade0,
       context: context,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
-      ),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16.r))),
       builder: (context) {
         return Container(
           padding: EdgeInsets.all(16.w),
@@ -245,56 +218,42 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "count_session_selected"
-                    .tr(namedArgs: {"count": selectedList.length.toString()}),
-                style: fonts.headlineMain.copyWith(fontSize: 16.sp),
-              ),
+                  "count_session_selected"
+                      .tr(namedArgs: {"count": selectedList.length.toString()}),
+                  style: fonts.headlineMain.copyWith(fontSize: 16.sp)),
               SizedBox(height: 10.h),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: List.generate(selectedList.length, (index) {
                   final appointment = selectedList[index];
                   return Padding(
                     padding: EdgeInsets.only(bottom: 10.h),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Flexible(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Doctor: ${appointment['doctorName'] ?? 'Unknown'}",
-                                style: fonts.xSmallLink.copyWith(
-                                  color: colors.primary900,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
+                                  "Doctor: ${appointment['doctorName'] ?? 'Unknown'}",
+                                  style: fonts.xSmallLink.copyWith(
+                                      color: colors.primary900,
+                                      fontSize: 14.sp)),
                               Text(
-                                "Time: ${appointment['time'] ?? 'Not specified'}",
-                                style: fonts.xSmallLink.copyWith(
-                                  color: colors.neutral500,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
+                                  "Time: ${appointment['time'] ?? 'Not specified'}",
+                                  style: fonts.xSmallLink.copyWith(
+                                      color: colors.neutral500,
+                                      fontSize: 14.sp)),
                             ],
                           ),
                         ),
-                        SizedBox(width: 10.w),
                         GestureDetector(
                           onTap: () {
-                            // Assuming selectedAppointments is a ValueNotifier
-                            selectedAppointments.value =
-                                List.from(selectedAppointments.value)
-                                  ..removeAt(index);
+                            removeAppointment(appointment);
                             Navigator.pop(context);
                           },
-                          child: Image.asset(
-                            "assets/images/trash.png",
-                            width: 40,
-                            height: 40,
-                          ),
+                          child: Image.asset("assets/images/trash.png",
+                              width: 40, height: 40),
                         ),
                       ],
                     ),
@@ -309,23 +268,3 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
     );
   }
 }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-//       return Scaffold(
-//         backgroundColor: colors.backgroundColor,
-//         body: Column(
-//           children: [
-//             CAppBar(
-//               title: "selecting_the_time_the_date".tr(),
-//               centerTitle: true,
-//               isBack: true,
-//               trailing: 24.w.horizontalSpace,
-//             ),
-//           ],
-//         ),
-//       );
-//     });
-//   }
-// }

@@ -52,8 +52,16 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
 
   void addAppointment(Map<String, String> appointment) {
     if (!mounted) return;
+
+    final serviceId = appointment['serviceId'];
+
+    // Remove any existing appointment with the same serviceId
+    selectedAppointments.value = selectedAppointments.value
+        .where((a) => a['serviceId'] != serviceId)
+        .toList();
+
+    // Add the new appointment
     selectedAppointments.value = [...selectedAppointments.value, appointment];
-    print("Added Appointment: $appointment");
   }
 
   void removeAppointment(Map<String, String> appointment) {
@@ -197,9 +205,10 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "selected_appointments".tr(
-                                      args: [selectedList.length.toString()]),
-                                  style: fonts.regularSemLink
+                                  "count_session_selected".tr(namedArgs: {
+                                    "count": selectedList.length.toString()
+                                  }),
+                                  style: fonts.headlineMain
                                       .copyWith(fontSize: 14.sp),
                                 ),
                                 Icon(
@@ -244,9 +253,9 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "selected_appointments"
-                    .tr(args: [selectedList.length.toString()]),
-                style: fonts.headlineMain.copyWith(fontSize: 16.sp),
+                "count_session_selected"
+                    .tr(namedArgs: {"count": selectedList.length.toString()}),
+                style: fonts.headlineMain.copyWith(fontSize: 14.sp),
               ),
               SizedBox(height: 10.h),
               Column(

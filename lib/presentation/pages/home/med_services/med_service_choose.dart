@@ -226,7 +226,10 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
 
   Widget _buildContent(colors, fonts, icons) {
     if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(
+          child: CircularProgressIndicator(
+        color: colors.error500,
+      ));
     }
 
     if (_error != null) {
