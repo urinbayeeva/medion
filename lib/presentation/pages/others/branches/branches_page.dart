@@ -109,6 +109,7 @@ class _BranchesPageState extends State<BranchesPage> {
                                 },
                               ),
                             ).then((_) {
+                              // ignore: use_build_context_synchronously
                               context
                                   .read<BottomNavBarController>()
                                   .changeNavBar(true);

@@ -19,7 +19,8 @@ class CustomExpansionListTile extends StatefulWidget {
     required this.description,
     this.price,
     required this.children,
-    this.onExpansionChanged, this.hasIcon,
+    this.onExpansionChanged,
+    this.hasIcon,
   });
 
   @override
@@ -53,27 +54,30 @@ class _CustomExpansionListTileState extends State<CustomExpansionListTile> {
             collapsedBackgroundColor: Colors.transparent,
             backgroundColor: Colors.transparent,
             controlAffinity: ListTileControlAffinity.trailing,
-            title: widget.hasIcon!= null? Row(
-              children: [
-           SvgPicture.asset(  widget.hasIcon!),
-           6.w.horizontalSpace,
-            Text(
-              widget.title,
-              style: fonts.smallSemLink.copyWith(
-                color: colors.primary900,
-                fontWeight: FontWeight.bold,
-                fontSize: 13.sp,
-              ),
-            ),
-        ],
-            ) : Text(
-              widget.title,
-              style: fonts.smallSemLink.copyWith(
-                color: colors.primary900,
-                fontWeight: FontWeight.bold,
-                fontSize: 13.sp,
-              ),
-            ),
+            title: widget.hasIcon != null
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SvgPicture.asset(widget.hasIcon!),
+                      6.w.horizontalSpace,
+                      Text(
+                        widget.title,
+                        style: fonts.smallSemLink.copyWith(
+                          color: colors.primary900,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                    ],
+                  )
+                : Text(
+                    widget.title,
+                    style: fonts.smallSemLink.copyWith(
+                      color: colors.primary900,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13.sp,
+                    ),
+                  ),
             subtitle: widget.subtitle != null ? Text(widget.subtitle!) : null,
             children: widget.children, // Correctly passing the list of widgets
           ),

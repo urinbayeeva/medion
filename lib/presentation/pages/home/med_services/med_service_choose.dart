@@ -2,10 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
+import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -26,11 +30,22 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
   int chose = 0;
   List<Map<String, dynamic>> selectedServices = [];
   Set<int> selectedServiceIDCatch = {};
+  double turns = 0.0;
+  bool changeSum = false;
+  DBService? dbService;
 
   @override
   void initState() {
     super.initState();
+    _initializeDBService();
     _fetchServices();
+  }
+
+  Future<void> _initializeDBService() async {
+    dbService = await DBService.create;
+    setState(() {
+      changeSum = dbService?.getCurrencyPreference ?? false;
+    });
   }
 
   Future<void> _fetchServices() async {
@@ -76,6 +91,52 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
     });
   }
 
+  String formatNumber(dynamic number, {bool isDecimal = false}) {
+    if (number == null) return isDecimal ? "0.00" : "0";
+
+    // Convert to double first to handle both int and string inputs
+    double doubleValue;
+    if (number is String) {
+      doubleValue = double.tryParse(number) ?? 0;
+    } else if (number is int) {
+      doubleValue = number.toDouble();
+    } else {
+      doubleValue = number;
+    }
+
+    if (isDecimal) {
+      // Format with 2 decimal places
+      String formatted = doubleValue.toStringAsFixed(2);
+      List<String> parts = formatted.split('.');
+      String integerPart = parts[0];
+      String decimalPart = parts.length > 1 ? parts[1] : "00";
+
+      // Add thousand separators
+      final buffer = StringBuffer();
+      for (int i = 0; i < integerPart.length; i++) {
+        if (i > 0 && (integerPart.length - i) % 3 == 0) {
+          buffer.write(' ');
+        }
+        buffer.write(integerPart[i]);
+      }
+      buffer.write('.');
+      buffer.write(decimalPart);
+      return buffer.toString();
+    } else {
+      // Format without decimal places
+      int intValue = doubleValue.toInt();
+      String numberStr = intValue.toString();
+      final buffer = StringBuffer();
+      for (int i = 0; i < numberStr.length; i++) {
+        if (i > 0 && (numberStr.length - i) % 3 == 0) {
+          buffer.write(' ');
+        }
+        buffer.write(numberStr[i]);
+      }
+      return buffer.toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -84,11 +145,28 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
         body: Column(
           children: [
             CAppBar(
-              title: "selecting_service".tr(),
-              centerTitle: true,
-              isBack: true,
-              trailing: 24.w.horizontalSpace,
-            ),
+                title: "selecting_service".tr(),
+                centerTitle: true,
+                isBack: true,
+                trailing: Row(
+                  children: [
+                    AnimatedRotation(
+                        turns: turns,
+                        duration: const Duration(seconds: 1),
+                        child: AnimationButtonEffect(
+                            onTap: () {
+                              setState(() {
+                                turns += 2 / 4;
+                                changeSum = !changeSum;
+                                dbService?.setCurrencyPreference(changeSum);
+                              });
+                            },
+                            child: icons.valyutaChange
+                                .svg(width: 20.w, height: 20.h))),
+                    6.w.horizontalSpace,
+                    icons.filter.svg(width: 20.w, height: 20.h),
+                  ],
+                )),
             Expanded(
               child: _buildContent(colors, fonts, icons),
             ),
@@ -128,6 +206,7 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                 icons: icons,
                 onServiceSelected: _handleServiceSelection,
                 selectedServiceIds: selectedServiceIDCatch,
+                changeSum: changeSum,
               );
             },
           ),
@@ -181,6 +260,7 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                                     chose--;
                                   });
                                 },
+                                changeSum: changeSum,
                               );
                             },
                           );
@@ -199,15 +279,11 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                 CButton(
                   onTap: () {
                     if (chose >= 1) {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => AppointmentPage(
-                      //       index: 2,
-                      //       selectedServiceIds: selectedServiceIDCatch.toSet(),
-                      //     ),
-                      //   ),
-                      // );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const MedServiceDoctorChose()));
                     }
                   },
                   title: 'next'.tr(),
@@ -229,6 +305,7 @@ class _ServiceCategoryTile extends StatefulWidget {
   final dynamic icons;
   final Function(Map<String, dynamic>) onServiceSelected;
   final Set<int> selectedServiceIds;
+  final bool changeSum;
 
   const _ServiceCategoryTile({
     required this.categoryName,
@@ -238,6 +315,7 @@ class _ServiceCategoryTile extends StatefulWidget {
     required this.icons,
     required this.onServiceSelected,
     required this.selectedServiceIds,
+    required this.changeSum,
   });
 
   @override
@@ -260,6 +338,7 @@ class _ServiceCategoryTileState extends State<_ServiceCategoryTile> {
           icons: widget.icons,
           isSelected: widget.selectedServiceIds.contains(service['id']),
           onTap: () => widget.onServiceSelected(service),
+          changeSum: widget.changeSum,
         );
       }).toList(),
     );
@@ -273,6 +352,7 @@ class _ServiceItem extends StatelessWidget {
   final dynamic icons;
   final bool isSelected;
   final VoidCallback onTap;
+  final bool changeSum;
 
   const _ServiceItem({
     required this.service,
@@ -281,15 +361,59 @@ class _ServiceItem extends StatelessWidget {
     required this.icons,
     required this.isSelected,
     required this.onTap,
+    required this.changeSum,
   });
+
+  String formatNumber(dynamic number, {bool isDecimal = false}) {
+    if (number == null) return isDecimal ? "0.00" : "0";
+
+    double doubleValue;
+    if (number is String) {
+      doubleValue = double.tryParse(number) ?? 0;
+    } else if (number is int) {
+      doubleValue = number.toDouble();
+    } else {
+      doubleValue = number;
+    }
+
+    if (isDecimal) {
+      String formatted = doubleValue.toStringAsFixed(2);
+      List<String> parts = formatted.split('.');
+      String integerPart = parts[0];
+      String decimalPart = parts.length > 1 ? parts[1] : "00";
+
+      final buffer = StringBuffer();
+      for (int i = 0; i < integerPart.length; i++) {
+        if (i > 0 && (integerPart.length - i) % 3 == 0) {
+          buffer.write(' ');
+        }
+        buffer.write(integerPart[i]);
+      }
+      buffer.write('.');
+      buffer.write(decimalPart);
+      return buffer.toString();
+    } else {
+      int intValue = doubleValue.toInt();
+      String numberStr = intValue.toString();
+      final buffer = StringBuffer();
+      for (int i = 0; i < numberStr.length; i++) {
+        if (i > 0 && (numberStr.length - i) % 3 == 0) {
+          buffer.write(' ');
+        }
+        buffer.write(numberStr[i]);
+      }
+      return buffer.toString();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+        padding: EdgeInsets.symmetric(vertical: 12.h),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               child: Column(
@@ -314,17 +438,22 @@ class _ServiceItem extends StatelessWidget {
                       ),
                     ),
                   Text(
-                    "${service['doctor_price_start_uzs'] ?? 0} UZS",
+                    changeSum
+                        ? "${formatNumber(service['doctor_price_start_uzs'])} UZS"
+                        : "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)} USD",
                     style: fonts.smallLink.copyWith(
                       color: colors.primary900,
                       fontWeight: FontWeight.w600,
                       fontSize: 12.sp,
                     ),
                   ),
+                  4.h.verticalSpace,
+                  CDivider()
                 ],
               ),
             ),
             Container(
+              margin: EdgeInsets.only(bottom: 20.h),
               padding: EdgeInsets.all(12.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.r),
@@ -346,11 +475,14 @@ class ServiceSelectionModal extends StatefulWidget {
   final List<Map<String, dynamic>> selectedServices;
   final int chose;
   final Function(Map<String, dynamic>) onRemoveService;
+  final bool changeSum;
 
   const ServiceSelectionModal({
+    super.key,
     required this.selectedServices,
     required this.chose,
     required this.onRemoveService,
+    required this.changeSum,
   });
 
   @override
@@ -360,6 +492,48 @@ class ServiceSelectionModal extends StatefulWidget {
 class _ServiceSelectionModalState extends State<ServiceSelectionModal> {
   late List<Map<String, dynamic>> _currentServices;
   late int _currentChose;
+
+  String formatNumber(dynamic number, {bool isDecimal = false}) {
+    if (number == null) return isDecimal ? "0.00" : "0";
+
+    double doubleValue;
+    if (number is String) {
+      doubleValue = double.tryParse(number) ?? 0;
+    } else if (number is int) {
+      doubleValue = number.toDouble();
+    } else {
+      doubleValue = number;
+    }
+
+    if (isDecimal) {
+      String formatted = doubleValue.toStringAsFixed(2);
+      List<String> parts = formatted.split('.');
+      String integerPart = parts[0];
+      String decimalPart = parts.length > 1 ? parts[1] : "00";
+
+      final buffer = StringBuffer();
+      for (int i = 0; i < integerPart.length; i++) {
+        if (i > 0 && (integerPart.length - i) % 3 == 0) {
+          buffer.write(' ');
+        }
+        buffer.write(integerPart[i]);
+      }
+      buffer.write('.');
+      buffer.write(decimalPart);
+      return buffer.toString();
+    } else {
+      int intValue = doubleValue.toInt();
+      String numberStr = intValue.toString();
+      final buffer = StringBuffer();
+      for (int i = 0; i < numberStr.length; i++) {
+        if (i > 0 && (numberStr.length - i) % 3 == 0) {
+          buffer.write(' ');
+        }
+        buffer.write(numberStr[i]);
+      }
+      return buffer.toString();
+    }
+  }
 
   @override
   void initState() {
@@ -409,10 +583,8 @@ class _ServiceSelectionModalState extends State<ServiceSelectionModal> {
                 width: double.infinity,
                 child: Text(
                   "Выбраны ${_currentChose} услуги",
-                  style: fonts.smallSemLink.copyWith(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: fonts.smallSemLink
+                      .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500),
                 ),
               ),
             ),
@@ -420,50 +592,60 @@ class _ServiceSelectionModalState extends State<ServiceSelectionModal> {
             ..._currentServices.map((service) => Column(
                   children: [
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "${service['name']}",
-                          style: fonts.smallSemLink.copyWith(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          "${service['doctor_price_start_uzs'] ?? 0} сум",
-                          style: fonts.smallSemLink.copyWith(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
+                        Flexible(
+                          child: Container(
+                            width: double.infinity,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "${service['name']}",
+                                    style: fonts.smallSemLink.copyWith(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    service['description'] ??
+                                        'Test Description',
+                                    style: fonts.smallLink.copyWith(
+                                      fontSize: 12.sp,
+                                      color: colors.neutral600,
+                                    ),
+                                  ),
+                                  Text(
+                                    widget.changeSum
+                                        ? "${formatNumber(service['doctor_price_start_uzs'])} UZS"
+                                        : "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)} USD",
+                                    style: fonts.smallSemLink.copyWith(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ]),
                           ),
                         ),
                         IconButton(
-                          icon: Icon(Icons.close, size: 20.w),
+                          icon: Image.asset(
+                            "assets/images/trash.png",
+                            width: 28.w,
+                            height: 28.h,
+                          ),
                           onPressed: () => _removeService(service),
                         ),
                       ],
                     ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      service['name'] ?? '',
-                      style: fonts.smallLink.copyWith(
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                    if (service['description'] != null) ...[
-                      SizedBox(height: 4.h),
-                      Text(
-                        service['description'] ?? '',
-                        style: fonts.smallLink.copyWith(
-                          fontSize: 12.sp,
-                          color: colors.neutral600,
-                        ),
-                      ),
-                    ],
                     SizedBox(height: 16.h),
                   ],
                 )),
             SizedBox(height: 16.h),
+            CButton(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              title: 'Готово',
+            ),
           ],
         ),
       );
