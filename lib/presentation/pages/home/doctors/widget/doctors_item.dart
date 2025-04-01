@@ -98,6 +98,8 @@ class DoctorsItem extends StatelessWidget {
               ),
               child: imagePath != "" && imagePath!.startsWith("http")
                   ? CachedNetworkImage(
+                      width: 175.w,
+                      height: 165.h,
                       imageUrl: imagePath!,
                     )
                   : gender == "female"

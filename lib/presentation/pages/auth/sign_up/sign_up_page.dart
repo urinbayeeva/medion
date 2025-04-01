@@ -56,28 +56,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 iconPath: icons.phoneTwo,
                 title: "continue_with_phone_number".tr(),
                 onTap: () {
-                   Navigator.push(
-                                  context,
-                                  AppRoutes.getSignUpWithPhone(), 
-                                );
-                },
-              ),
-              12.h.verticalSpace,
-              CButton(
-                backgroundColor: colors.neutral200,
-                textColor: colors.primary900,
-                // hasBorderRadius: true,
-                iconPath: icons.mail,
-                title: "continue_with_email".tr(),
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          backgroundColor: colors.shade0,
-                          content: const CNotAvailable(),
-                        );
-                      });
+                  Navigator.push(
+                    context,
+                    AppRoutes.getSignUpWithPhone(),
+                  );
                 },
               ),
               27.h.verticalSpace,

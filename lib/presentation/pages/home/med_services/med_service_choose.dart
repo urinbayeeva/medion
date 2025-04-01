@@ -115,6 +115,7 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
       children: [
         Expanded(
           child: ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             itemCount: _categories.length,
             itemBuilder: (context, index) {
               final category = _categories[index];
@@ -131,93 +132,90 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
             },
           ),
         ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-          width: double.infinity,
-          color: chose >= 1 ? null : colors.shade0,
-          decoration: chose >= 1
-              ? BoxDecoration(
-                  color: colors.shade0,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24.r),
-                    topRight: Radius.circular(24.r),
-                  ),
-                )
-              : null,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (chose >= 1) ...[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "count_services_selected"
-                          .tr(namedArgs: {"count": "$chose"}),
-                      style: fonts.xSmallLink.copyWith(
-                          fontSize: 13.sp, fontWeight: FontWeight.bold),
+        if (chose >= 1) ...[
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            width: double.infinity,
+            color: chose >= 1 ? null : colors.shade0,
+            decoration: chose >= 1
+                ? BoxDecoration(
+                    boxShadow: colors.shadowMMMM,
+                    color: colors.shade0,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24.r),
+                      topRight: Radius.circular(24.r),
                     ),
-                    AnimationButtonEffect(
-                      disabled: chose == 0 ? true : false,
-                      onTap: () {
-                        showModalBottomSheet(
-                          backgroundColor: colors.shade0,
-                          context: context,
-                          isDismissible: true,
-                          isScrollControlled: true,
-                          enableDrag: true,
-                          builder: (context) {
-                            return DraggableScrollableSheet(
-                              expand: false,
-                              builder: (BuildContext context,
-                                  ScrollController scrollController) {
-                                return ServiceSelectionModal(
-                                  selectedServices: selectedServices,
-                                  chose: chose,
-                                  onRemoveService: (serviceToRemove) {
-                                    setState(() {
-                                      selectedServices.remove(serviceToRemove);
-                                      selectedServiceIDCatch
-                                          .remove(serviceToRemove['id']);
-                                      chose--;
-                                    });
-                                  },
-                                );
-                              },
-                            );
-                          },
-                        );
-                      },
-                      child: SvgPicture.asset(
-                        "assets/icons/right.svg",
-                        width: 20.w,
-                        height: 20.h,
-                        color: colors.iconGreyColor,
+                  )
+                : null,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (chose >= 1) ...[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "count_services_selected"
+                            .tr(namedArgs: {"count": "$chose"}),
+                        style: fonts.xSmallLink.copyWith(
+                            fontSize: 13.sp, fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
-                ),
-                12.h.verticalSpace,
+                      AnimationButtonEffect(
+                        disabled: chose == 0 ? true : false,
+                        onTap: () {
+                          showModalBottomSheet(
+                            backgroundColor: colors.shade0,
+                            context: context,
+                            isDismissible: true,
+                            isScrollControlled: true,
+                            enableDrag: true,
+                            builder: (context) {
+                              return ServiceSelectionModal(
+                                selectedServices: selectedServices,
+                                chose: chose,
+                                onRemoveService: (serviceToRemove) {
+                                  setState(() {
+                                    selectedServices.remove(serviceToRemove);
+                                    selectedServiceIDCatch
+                                        .remove(serviceToRemove['id']);
+                                    chose--;
+                                  });
+                                },
+                              );
+                            },
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          "assets/icons/right.svg",
+                          width: 20.w,
+                          height: 20.h,
+                          color: colors.iconGreyColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  12.h.verticalSpace,
+                ],
+                CButton(
+                  onTap: () {
+                    if (chose >= 1) {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => AppointmentPage(
+                      //       index: 2,
+                      //       selectedServiceIds: selectedServiceIDCatch.toSet(),
+                      //     ),
+                      //   ),
+                      // );
+                    }
+                  },
+                  title: 'next'.tr(),
+                )
               ],
-              CButton(
-                onTap: () {
-                  if (chose >= 1) {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => AppointmentPage(
-                    //       index: 2,
-                    //       selectedServiceIds: selectedServiceIDCatch.toSet(),
-                    //     ),
-                    //   ),
-                    // );
-                  }
-                },
-                title: 'next'.tr(),
-              )
-            ],
+            ),
           ),
-        ),
+        ]
       ],
     );
   }
@@ -377,7 +375,6 @@ class _ServiceSelectionModalState extends State<ServiceSelectionModal> {
     });
     widget.onRemoveService(service);
 
-    // Close bottom sheet if no services left
     if (_currentServices.isEmpty) {
       Navigator.of(context).pop();
     }
@@ -385,26 +382,91 @@ class _ServiceSelectionModalState extends State<ServiceSelectionModal> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "selected_services".tr(namedArgs: {"count": "$_currentChose"}),
-            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 16.h),
-          ..._currentServices.map((service) => ListTile(
-                title: Text(service['name'] ?? ''),
-                subtitle: Text("${service['doctor_price_start_uzs'] ?? 0} UZS"),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
-                  onPressed: () => _removeService(service),
+    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+      return Container(
+        padding: EdgeInsets.all(16.w),
+        decoration: BoxDecoration(
+          color: colors.shade0,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40.w,
+                height: 4.h,
+                decoration: BoxDecoration(
+                  color: colors.neutral400,
+                  borderRadius: BorderRadius.circular(2.r),
                 ),
-              )),
-        ],
-      ),
-    );
+              ),
+            ),
+            SizedBox(height: 16.h),
+            Flexible(
+              child: SizedBox(
+                width: double.infinity,
+                child: Text(
+                  "Выбраны ${_currentChose} услуги",
+                  style: fonts.smallSemLink.copyWith(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 16.h),
+            ..._currentServices.map((service) => Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${service['name']}",
+                          style: fonts.smallSemLink.copyWith(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          "${service['doctor_price_start_uzs'] ?? 0} сум",
+                          style: fonts.smallSemLink.copyWith(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.close, size: 20.w),
+                          onPressed: () => _removeService(service),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      service['name'] ?? '',
+                      style: fonts.smallLink.copyWith(
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                    if (service['description'] != null) ...[
+                      SizedBox(height: 4.h),
+                      Text(
+                        service['description'] ?? '',
+                        style: fonts.smallLink.copyWith(
+                          fontSize: 12.sp,
+                          color: colors.neutral600,
+                        ),
+                      ),
+                    ],
+                    SizedBox(height: 16.h),
+                  ],
+                )),
+            SizedBox(height: 16.h),
+          ],
+        ),
+      );
+    });
   }
 }
