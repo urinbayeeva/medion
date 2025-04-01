@@ -61,7 +61,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             "serviceId": widget.serviceId.toString(),
             "serviceName": widget.serviceName!,
             "doctorName": widget.doctor.name,
-            "doctorPhoto": widget.doctor.name ?? "",
+            "doctorPhoto": widget.doctor.image ?? "",
             "price": widget.doctor.price.toString(),
             "location": widget.doctor.location,
             "specialty": widget.doctor.specialty,
@@ -134,12 +134,12 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
     return Row(
       children: [
         CircleAvatar(
-            radius: 30,
-            backgroundColor: colors.neutral400,
-            // backgroundImage: widget.doctor.name != null
-            //     ? NetworkImage(widget.doctor.name!)
-            //     : null,
-            child: SvgPicture.asset("assets/icons/non_user.svg")),
+          radius: 30,
+          backgroundColor: colors.neutral400,
+          backgroundImage: widget.doctor.image != null
+              ? NetworkImage(widget.doctor.image!)
+              : null,
+        ),
         12.w.horizontalSpace,
         Flexible(
           child: Column(

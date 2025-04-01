@@ -9,6 +9,7 @@ import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:http/http.dart' as http;
@@ -33,6 +34,51 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
   double turns = 0.0;
   bool changeSum = false;
   DBService? dbService;
+  String _currentFilter = 'all';
+
+  List<dynamic> get _filteredCategories {
+    if (_currentFilter == 'all') return _categories;
+
+    final filtered = _categories
+        .map((category) {
+          final filteredServices =
+              (category['services'] as List).where((service) {
+            if (_currentFilter == 'adult') return service['is_child'] == false;
+            if (_currentFilter == 'child') return service['is_child'] == true;
+            return true;
+          }).toList();
+
+          return {
+            'category_name': category['category_name'],
+            'services': filteredServices,
+          };
+        })
+        .where((category) => (category['services'] as List).isNotEmpty)
+        .toList();
+
+    print('Filtered Categories: $filtered'); // Add this for debugging
+    return filtered;
+  }
+
+  void _showFilterDialog() {
+    showModalBottomSheet(
+      backgroundColor: Style.shade0,
+      context: context,
+      isDismissible: true,
+      isScrollControlled: true,
+      enableDrag: true,
+      builder: (context) {
+        return FilterDialog(
+          onFilterApplied: (filter) {
+            setState(() {
+              _currentFilter = filter;
+            });
+          },
+          currentFilter: _currentFilter,
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -164,7 +210,9 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                             child: icons.valyutaChange
                                 .svg(width: 20.w, height: 20.h))),
                     6.w.horizontalSpace,
-                    icons.filter.svg(width: 20.w, height: 20.h),
+                    AnimationButtonEffect(
+                        onTap: _showFilterDialog,
+                        child: icons.filter.svg(width: 20.w, height: 20.h)),
                   ],
                 )),
             Expanded(
@@ -185,7 +233,8 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
       return Center(child: Text(_error!));
     }
 
-    if (_categories.isEmpty) {
+    if (_filteredCategories.isEmpty) {
+      // Changed from _categories to _filteredCategories
       return Center(child: Text('no_services_available'.tr()));
     }
 
@@ -194,9 +243,11 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
         Expanded(
           child: ListView.builder(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-            itemCount: _categories.length,
+            itemCount: _filteredCategories
+                .length, // Changed from _categories to _filteredCategories
             itemBuilder: (context, index) {
-              final category = _categories[index];
+              final category = _filteredCategories[
+                  index]; // Changed from _categories to _filteredCategories
               return _ServiceCategoryTile(
                 categoryName: category['category_name'] ?? 'Unnamed Category',
                 services:
@@ -282,8 +333,11 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  const MedServiceDoctorChose()));
+                              builder: (context) => MedServiceDoctorChose(
+                                    servicesID: selectedServices
+                                        .map((s) => s['id'] as int)
+                                        .toList(),
+                                  )));
                     }
                   },
                   title: 'next'.tr(),
@@ -325,6 +379,8 @@ class _ServiceCategoryTile extends StatefulWidget {
 class _ServiceCategoryTileState extends State<_ServiceCategoryTile> {
   @override
   Widget build(BuildContext context) {
+    if (widget.services.isEmpty) return const SizedBox.shrink();
+
     return CustomExpansionListTile(
       description: widget.services.isEmpty
           ? 'no_services_available'.tr()
@@ -408,28 +464,34 @@ class _ServiceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 12.h),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    service['name'] ?? '',
-                    style: fonts.smallSemLink.copyWith(
-                      fontWeight: FontWeight.bold,
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          top: BorderSide(width: 1, color: Color(0xFFF2F2F3)),
+          bottom: BorderSide(width: 1, color: Color(0xFFF2F2F3)),
+        ),
+      ),
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 12.h),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      service['name'] ?? '',
+                      style: fonts.smallSemLink.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  if (service['description'] != null)
                     Padding(
                       padding: EdgeInsets.only(top: 4.h),
                       child: Text(
-                        service['description'] ?? '',
+                        service['description'] ?? 'Test description',
                         style: fonts.smallLink.copyWith(
                           color: colors.neutral600,
                           fontSize: 11.sp,
@@ -437,34 +499,36 @@ class _ServiceItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                  Text(
-                    changeSum
-                        ? "${formatNumber(service['doctor_price_start_uzs'])} UZS"
-                        : "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)} USD",
-                    style: fonts.smallLink.copyWith(
-                      color: colors.primary900,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12.sp,
+                    Text(
+                      changeSum
+                          ? "${formatNumber(service['doctor_price_start_uzs'])} UZS"
+                          : "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)} USD",
+                      style: fonts.smallLink.copyWith(
+                        color: colors.primary900,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12.sp,
+                      ),
                     ),
-                  ),
-                  4.h.verticalSpace,
-                  CDivider()
-                ],
+                    4.h.verticalSpace,
+                  ],
+                ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 20.h),
-              padding: EdgeInsets.all(12.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                color: isSelected ? colors.primary500 : colors.neutral200,
+              Container(
+                margin: EdgeInsets.only(bottom: 20.h),
+                padding: EdgeInsets.all(12.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.r),
+                  color: isSelected ? colors.primary500 : colors.neutral200,
+                ),
+                child: SvgPicture.asset(
+                  isSelected
+                      ? "assets/icons/check.svg"
+                      : "assets/icons/plus.svg",
+                  color: isSelected ? Colors.white : null,
+                ),
               ),
-              child: SvgPicture.asset(
-                isSelected ? "assets/icons/check.svg" : "assets/icons/plus.svg",
-                color: isSelected ? Colors.white : null,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -645,6 +709,135 @@ class _ServiceSelectionModalState extends State<ServiceSelectionModal> {
                 Navigator.of(context).pop();
               },
               title: 'Готово',
+            ),
+          ],
+        ),
+      );
+    });
+  }
+}
+
+class FilterDialog extends StatefulWidget {
+  final Function(String) onFilterApplied;
+  final String currentFilter;
+
+  const FilterDialog({
+    super.key,
+    required this.onFilterApplied,
+    required this.currentFilter,
+  });
+
+  @override
+  State<FilterDialog> createState() => _FilterDialogState();
+}
+
+class _FilterDialogState extends State<FilterDialog> {
+  late String _selectedFilter;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedFilter = widget.currentFilter;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+      return Container(
+
+          // ignore: sort_child_properties_last
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: Container(
+                  width: 40.w,
+                  height: 4.h,
+                  decoration: BoxDecoration(
+                    color: colors.neutral400,
+                    borderRadius: BorderRadius.circular(2.r),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                "filter".tr(),
+                style: fonts.smallSemLink.copyWith(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 24.h),
+              _buildFilterOption("Все", "all"),
+              CDivider(),
+              SizedBox(height: 16.h),
+              _buildFilterOption("Взрослые", "adult"),
+              CDivider(),
+              SizedBox(height: 16.h),
+              _buildFilterOption("Дети", "child"),
+              CDivider(),
+              SizedBox(height: 24.h),
+              CButton(
+                onTap: () {
+                  widget.onFilterApplied(_selectedFilter);
+                  Navigator.of(context).pop();
+                },
+                title: 'Применить',
+              ),
+            ],
+          ),
+          padding: EdgeInsets.all(16.w),
+          decoration: BoxDecoration(
+            color: colors.shade0,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+          ));
+    });
+  }
+
+  Widget _buildFilterOption(String title, String value) {
+    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+      return InkWell(
+        onTap: () {
+          setState(() {
+            _selectedFilter = value;
+          });
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: fonts.smallSemLink.copyWith(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w400,
+                color: colors.neutral900,
+              ),
+            ),
+            Container(
+              width: 20.w,
+              height: 20.h,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: _selectedFilter == value
+                      ? colors.primary500
+                      : colors.neutral400,
+                  width: 2.w,
+                ),
+              ),
+              child: Center(
+                child: _selectedFilter == value
+                    ? Container(
+                        width: 10.w,
+                        height: 10.h,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: colors.primary500,
+                        ),
+                      )
+                    : null,
+              ),
             ),
           ],
         ),

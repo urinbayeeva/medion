@@ -227,7 +227,7 @@ base class _Client extends ChopperClient {
                     CurlInterceptor(),
                     NetworkInterceptor(),
                     RetryInterceptor(
-                        maxRetries: 3, retryDelay: const Duration(seconds: 2)),
+                        maxRetries: 5, retryDelay: const Duration(seconds: 1)),
                     BackendInterceptor(),
                   ]
                 : const [],

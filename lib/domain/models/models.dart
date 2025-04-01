@@ -50,6 +50,7 @@ class Doctor {
   final double price;
   final String location;
   final int workExperience;
+  final String image;
   final List<Map<String, dynamic>> schedules;
 
   Doctor({
@@ -61,6 +62,7 @@ class Doctor {
     required this.location,
     required this.workExperience,
     required this.schedules,
+    required this.image,
   });
 
   factory Doctor.fromJson(Map<String, dynamic> json) {
@@ -69,6 +71,7 @@ class Doctor {
       name: json['name'],
       gender: json['gender'].toString(),
       specialty: json['specialty'],
+      image: json['image'],
       price: json['price'],
       location: json['location'],
       workExperience: json['work_experience'],
