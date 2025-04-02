@@ -126,99 +126,111 @@ class _SecondServicePageState extends State<SecondServicePage> {
                             ? 'no_services_available'.tr()
                             : 'services_list'.tr(),
                         children: item.services.map((service) {
-                          return Column(
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          service.name!,
-                                          style: fonts.smallSemLink.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          service.decodedDescription ?? '',
-                                          style: fonts.smallLink.copyWith(
-                                            color: colors.neutral600,
-                                            fontSize: 11.sp,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                          softWrap: true,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        Text(
-                                          widget.isUSD
-                                              ? "${formatNumber(service.priceUzs)} UZS"
-                                              : "${formatNumber(service.priceUsd, isDecimal: true)} USD",
-                                          style: fonts.smallLink.copyWith(
-                                              color: colors.primary900,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 12.sp),
-                                        ),
-                                        SizedBox(
-                                          width: double.infinity,
-                                          child: CDivider(),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  AnimationButtonEffect(
-                                    onTap: () {
-                                      setState(() {
-                                        if (_servicesProvider.selectedServices
-                                            .contains(service)) {
-                                          _servicesProvider
-                                              .removeService(service);
-                                          _serviceIdsProvider
-                                              .removeServiceId(service.id!);
-                                          chose--;
-                                        } else {
-                                          _servicesProvider.addService(service);
-                                          _serviceIdsProvider
-                                              .addServiceId(service.id!);
-                                          chose++;
-                                        }
-                                        selectedServiceIDCatch.clear();
-                                        selectedServiceIDCatch.addAll(
-                                            _serviceIdsProvider
-                                                .selectedServiceIds);
-                                        print(
-                                            "Updated : $selectedServiceIDCatch");
-                                      });
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.all(12.w),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.r),
-                                        color: _servicesProvider
-                                                .selectedServices
-                                                .contains(service)
-                                            ? colors.error500
-                                            : colors.neutral200,
-                                      ),
-                                      child: _servicesProvider.selectedServices
-                                              .contains(service)
-                                          ? icons.check
-                                              .svg(color: colors.shade0)
-                                          : icons.plus
-                                              .svg(color: colors.primary900),
-                                    ),
-                                  ),
-                                  8.h.verticalSpace,
-                                ],
+                          return Container(
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                top: BorderSide(
+                                    width: 1, color: Color(0xFFF2F2F3)),
+                                bottom: BorderSide(
+                                    width: 1, color: Color(0xFFF2F2F3)),
                               ),
-                              18.h.verticalSpace,
-                            ],
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              service.name!,
+                                              style:
+                                                  fonts.smallSemLink.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Test description',
+                                              style: fonts.smallLink.copyWith(
+                                                color: colors.neutral600,
+                                                fontSize: 11.sp,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              softWrap: true,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              widget.isUSD
+                                                  ? "${formatNumber(service.priceUzs)} UZS"
+                                                  : "${formatNumber(service.priceUsd, isDecimal: true)} USD",
+                                              style: fonts.smallLink.copyWith(
+                                                  color: colors.primary900,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 13.sp),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      AnimationButtonEffect(
+                                        onTap: () {
+                                          setState(() {
+                                            if (_servicesProvider
+                                                .selectedServices
+                                                .contains(service)) {
+                                              _servicesProvider
+                                                  .removeService(service);
+                                              _serviceIdsProvider
+                                                  .removeServiceId(service.id!);
+                                              chose--;
+                                            } else {
+                                              _servicesProvider
+                                                  .addService(service);
+                                              _serviceIdsProvider
+                                                  .addServiceId(service.id!);
+                                              chose++;
+                                            }
+                                            selectedServiceIDCatch.clear();
+                                            selectedServiceIDCatch.addAll(
+                                                _serviceIdsProvider
+                                                    .selectedServiceIds);
+                                            print(
+                                                "Updated : $selectedServiceIDCatch");
+                                          });
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(12.w),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8.r),
+                                            color: _servicesProvider
+                                                    .selectedServices
+                                                    .contains(service)
+                                                ? colors.error500
+                                                : colors.neutral200,
+                                          ),
+                                          child: _servicesProvider
+                                                  .selectedServices
+                                                  .contains(service)
+                                              ? icons.check
+                                                  .svg(color: colors.shade0)
+                                              : icons.plus.svg(
+                                                  color: colors.primary900),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           );
                         }).toList(),
                       );
@@ -230,11 +242,12 @@ class _SecondServicePageState extends State<SecondServicePage> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                 width: double.infinity,
                 color: chose >= 1 ? null : colors.shade0,
                 decoration: chose >= 1
                     ? BoxDecoration(
+                        boxShadow: colors.shadowMMMM,
                         color: colors.shade0,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(24.r),

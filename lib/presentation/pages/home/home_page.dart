@@ -10,6 +10,7 @@ import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/sources/med_service.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
+import 'package:medion/presentation/pages/home/med_services/med_service_choose.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -149,9 +150,16 @@ class _HomePageState extends State<HomePage> {
                                         context
                                             .read<BottomNavBarController>()
                                             .changeNavBar(true);
-                                        Navigator.push(context,
-                                                AppRoutes.getMedServicesPage())
-                                            .then((_) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MedServiceChoose(
+                                                        serviceTypeId: int.parse(
+                                                            medicalService
+                                                                .categoryId
+                                                                .toString())))).then(
+                                            (_) {
                                           context
                                               .read<BottomNavBarController>()
                                               .changeNavBar(false);

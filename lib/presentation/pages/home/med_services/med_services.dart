@@ -67,9 +67,6 @@ class _MedServicesPageState extends State<MedServicesPage> {
                           subtitle: state.medicalServices[index].info,
                           iconPath: "",
                           onTap: () {
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(true);
                             final categoryId =
                                 state.medicalServices[index].categoryId;
                             final intId = categoryId is int
@@ -80,7 +77,8 @@ class _MedServicesPageState extends State<MedServicesPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MedServiceChoose(
+                                    builder: (context) =>
+                                        const MedServiceChoose(
                                           serviceTypeId: 19,
                                         ))).then((value) {
                               if (value != null && value is Set<int>) {
@@ -93,6 +91,10 @@ class _MedServicesPageState extends State<MedServicesPage> {
                                   .read<BottomNavBarController>()
                                   .changeNavBar(false);
                             });
+
+                            context
+                                .read<BottomNavBarController>()
+                                .changeNavBar(true);
                           },
                         );
                       },

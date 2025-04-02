@@ -773,13 +773,13 @@ class _FilterDialogState extends State<FilterDialog> {
               ),
               SizedBox(height: 24.h),
               _buildFilterOption("Все", "all"),
-              CDivider(),
+              const CDivider(),
               SizedBox(height: 16.h),
               _buildFilterOption("Взрослые", "adult"),
-              CDivider(),
+              const CDivider(),
               SizedBox(height: 16.h),
               _buildFilterOption("Дети", "child"),
-              CDivider(),
+              const CDivider(),
               SizedBox(height: 24.h),
               CButton(
                 onTap: () {
