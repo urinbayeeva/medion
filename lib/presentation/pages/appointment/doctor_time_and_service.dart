@@ -54,21 +54,42 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
     if (!mounted) return;
 
     final serviceId = appointment['serviceId'];
+    final imageUrl = appointment['image'];
 
-    // Remove any existing appointment with the same serviceId
+    // Validate and clean the image URL if needed
+    if (imageUrl != null && imageUrl.isNotEmpty) {
+      appointment['image'] = _cleanImageUrl(imageUrl);
+    }
+
+    // Update existing appointment or add new one
+    final index = selectedAppointments.value
+        .indexWhere((a) => a['serviceId'] == serviceId);
+
+    if (index != -1) {
+      final updatedList =
+          List<Map<String, String>>.from(selectedAppointments.value);
+      updatedList[index] = appointment;
+      selectedAppointments.value = updatedList;
+    } else {
+      selectedAppointments.value = [...selectedAppointments.value, appointment];
+    }
+
+    debugPrint('Added Appointment with image: ${appointment['image']}');
+  }
+
+  void removeAppointment(String serviceId) {
+    if (!mounted) return;
+
     selectedAppointments.value = selectedAppointments.value
         .where((a) => a['serviceId'] != serviceId)
         .toList();
 
-    // Add the new appointment
-    selectedAppointments.value = [...selectedAppointments.value, appointment];
+    debugPrint('Removed Appointment with serviceId: $serviceId');
   }
 
-  void removeAppointment(Map<String, String> appointment) {
-    if (!mounted) return;
-    selectedAppointments.value =
-        selectedAppointments.value.where((a) => a != appointment).toList();
-    print("Removed Appointment: $appointment");
+  String _cleanImageUrl(String url) {
+    // Remove any trailing slashes or spaces
+    return url.trim().replaceAll(RegExp(r'/+$'), '');
   }
 
   @override

@@ -135,9 +135,18 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
       children: [
         CircleAvatar(
           radius: 30,
-          backgroundColor: colors.neutral400,
+          backgroundColor:
+              Colors.grey, // Replace with your actual color variable
           backgroundImage: widget.doctor.image != null
               ? NetworkImage(widget.doctor.image!)
+              : null,
+          child: widget.doctor.image == null
+              ? SvgPicture.asset(
+                  "assets/icons/non_user.svg",
+                  fit: BoxFit.cover,
+                  width: 30,
+                  height: 30,
+                )
               : null,
         ),
         12.w.horizontalSpace,

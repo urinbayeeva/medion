@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_divider.dart';
+import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -24,7 +26,8 @@ class VerifyAppointmentItem extends StatelessWidget {
     required this.appointmentTime,
     required this.location,
     required this.imagePath,
-    required this.onCancel, this.hasImage,
+    required this.onCancel,
+    this.hasImage,
   }) : super(key: key);
 
   @override
@@ -32,7 +35,9 @@ class VerifyAppointmentItem extends StatelessWidget {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Container(
         padding: EdgeInsets.all(8.w),
-        margin: EdgeInsets.only(bottom: 8.h,),
+        margin: EdgeInsets.only(
+          bottom: 8.h,
+        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.r),
           color: colors.shade0,
@@ -40,25 +45,24 @@ class VerifyAppointmentItem extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          if (hasImage ?? false) ...[
-  SizedBox(
-    width: 80.w, 
-    height: 80.w, 
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.r),
-        color: colors.neutral200,
-      ),
-      child: imagePath.isEmpty
-          ? icons.nonUser.svg()
-          : Image.asset(
-              imagePath,
-              fit: BoxFit.cover,
-            ),
-    ),
-  ),
-],
-
+            if (hasImage ?? false) ...[
+              SizedBox(
+                width: 80.w,
+                height: 80.w,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: colors.neutral200,
+                  ),
+                  child: imagePath.isEmpty
+                      ? icons.nonUser.svg()
+                      : CachedNetworkImage(
+                          imageUrl: imagePath,
+                          fit: BoxFit.cover,
+                        ),
+                ),
+              ),
+            ],
             12.w.horizontalSpace,
             Expanded(
               flex: 6,

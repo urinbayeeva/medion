@@ -113,7 +113,7 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
       appointmentTime:
           '${DateFormat('EEE, dd MMMM', context.locale.toString()).format(DateTime.parse(appointment['date']!))} ${appointment['time']}',
       location: appointment['location'] ?? '',
-      imagePath: '',
+      imagePath: appointment['doctorPhoto'] ?? "",
       onCancel: () {
         AppointmentState.removeAppointment(appointment['serviceId']!);
       },
