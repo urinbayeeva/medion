@@ -53,6 +53,10 @@ class _$BookingTypeModelSerializer
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
+      'categories',
+      serializers.serialize(object.categories,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
     ];
     Object? value;
     value = object.icon;
@@ -88,6 +92,12 @@ class _$BookingTypeModelSerializer
         case 'icon':
           result.icon = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'categories':
+          result.categories.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -1408,15 +1418,23 @@ class _$BookingTypeModel extends BookingTypeModel {
   final String name;
   @override
   final String? icon;
+  @override
+  final BuiltList<String> categories;
 
   factory _$BookingTypeModel(
           [void Function(BookingTypeModelBuilder)? updates]) =>
       (new BookingTypeModelBuilder()..update(updates))._build();
 
-  _$BookingTypeModel._({required this.id, required this.name, this.icon})
+  _$BookingTypeModel._(
+      {required this.id,
+      required this.name,
+      this.icon,
+      required this.categories})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'BookingTypeModel', 'id');
     BuiltValueNullFieldError.checkNotNull(name, r'BookingTypeModel', 'name');
+    BuiltValueNullFieldError.checkNotNull(
+        categories, r'BookingTypeModel', 'categories');
   }
 
   @override
@@ -1433,7 +1451,8 @@ class _$BookingTypeModel extends BookingTypeModel {
     return other is BookingTypeModel &&
         id == other.id &&
         name == other.name &&
-        icon == other.icon;
+        icon == other.icon &&
+        categories == other.categories;
   }
 
   @override
@@ -1442,6 +1461,7 @@ class _$BookingTypeModel extends BookingTypeModel {
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
+    _$hash = $jc(_$hash, categories.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -1451,7 +1471,8 @@ class _$BookingTypeModel extends BookingTypeModel {
     return (newBuiltValueToStringHelper(r'BookingTypeModel')
           ..add('id', id)
           ..add('name', name)
-          ..add('icon', icon))
+          ..add('icon', icon)
+          ..add('categories', categories))
         .toString();
   }
 }
@@ -1472,6 +1493,12 @@ class BookingTypeModelBuilder
   String? get icon => _$this._icon;
   set icon(String? icon) => _$this._icon = icon;
 
+  ListBuilder<String>? _categories;
+  ListBuilder<String> get categories =>
+      _$this._categories ??= new ListBuilder<String>();
+  set categories(ListBuilder<String>? categories) =>
+      _$this._categories = categories;
+
   BookingTypeModelBuilder();
 
   BookingTypeModelBuilder get _$this {
@@ -1480,6 +1507,7 @@ class BookingTypeModelBuilder
       _id = $v.id;
       _name = $v.name;
       _icon = $v.icon;
+      _categories = $v.categories.toBuilder();
       _$v = null;
     }
     return this;
@@ -1500,14 +1528,28 @@ class BookingTypeModelBuilder
   BookingTypeModel build() => _build();
 
   _$BookingTypeModel _build() {
-    final _$result = _$v ??
-        new _$BookingTypeModel._(
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'BookingTypeModel', 'id'),
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'BookingTypeModel', 'name'),
-          icon: icon,
-        );
+    _$BookingTypeModel _$result;
+    try {
+      _$result = _$v ??
+          new _$BookingTypeModel._(
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'BookingTypeModel', 'id'),
+            name: BuiltValueNullFieldError.checkNotNull(
+                name, r'BookingTypeModel', 'name'),
+            icon: icon,
+            categories: categories.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'categories';
+        categories.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'BookingTypeModel', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

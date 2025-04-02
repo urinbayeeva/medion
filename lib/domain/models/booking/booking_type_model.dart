@@ -14,6 +14,7 @@ abstract class BookingTypeModel
   int get id;
   String get name;
   String? get icon;
+  BuiltList<String> get categories;
 
   BookingTypeModel._();
   factory BookingTypeModel([void Function(BookingTypeModelBuilder) updates]) =
