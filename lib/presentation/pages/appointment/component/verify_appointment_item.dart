@@ -64,8 +64,7 @@ class VerifyAppointmentItem extends StatelessWidget {
               ),
             ],
             12.w.horizontalSpace,
-            Expanded(
-              flex: 6,
+            Flexible(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -75,7 +74,6 @@ class VerifyAppointmentItem extends StatelessWidget {
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w600,
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 4.h),
                   Text(
@@ -85,7 +83,6 @@ class VerifyAppointmentItem extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       color: colors.neutral600,
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
                   const CDivider(),
                   Text(
@@ -94,7 +91,6 @@ class VerifyAppointmentItem extends StatelessWidget {
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w600,
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 4.h),
                   Text(
@@ -104,7 +100,6 @@ class VerifyAppointmentItem extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       color: colors.neutral600,
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
                   const CDivider(),
                   Row(
@@ -118,7 +113,6 @@ class VerifyAppointmentItem extends StatelessWidget {
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w400,
                           ),
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -135,7 +129,6 @@ class VerifyAppointmentItem extends StatelessWidget {
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w400,
                           ),
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
