@@ -9,9 +9,11 @@ import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_radio_tile.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
+import 'package:medion/presentation/component/c_zigzag_container.dart';
 import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
 import 'package:medion/presentation/pages/appointment/component/user_info_widget.dart';
 import 'package:medion/presentation/pages/appointment/component/verify_appointment_item.dart';
+import 'package:medion/presentation/pages/appointment/widget/zigzag.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -46,6 +48,17 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
+  // Helper function to format numbers with spaces
+  String _formatNumber(double number) {
+    return number
+        .toStringAsFixed(0)
+        .replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (Match m) => '${m[1]} ',
+        )
+        .trim();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
@@ -72,22 +85,26 @@ class _PaymentPageState extends State<PaymentPage> {
                   title: "your_info".tr(),
                   children: [
                     CustomTextField(
+                      readOnly: true,
                       padding: const EdgeInsets.only(bottom: 12),
                       hintText: patientInfo?.firstName ?? "Not available",
                       title: "name".tr(),
                     ),
                     CustomTextField(
+                      readOnly: true,
                       padding: const EdgeInsets.only(bottom: 12),
                       hintText: patientInfo?.lastName ?? "Not available",
                       title: "second_name".tr(),
                     ),
                     CustomTextField(
+                      readOnly: true,
                       padding: const EdgeInsets.only(bottom: 12),
                       hintText:
                           patientInfo?.patientId?.toString() ?? "Not available",
                       title: "ID",
                     ),
                     CustomTextField(
+                      readOnly: true,
                       padding: const EdgeInsets.only(bottom: 12),
                       hintText: patientInfo?.phoneNumber ?? "Not available",
                       title: "contact_phone_number".tr(),
@@ -143,6 +160,175 @@ class _PaymentPageState extends State<PaymentPage> {
                     ),
                   ],
                 ),
+                12.h.verticalSpace,
+                ZigZagContainer(
+                  color: Colors.white,
+                  zigZagHeight: 15, // Reduced from 60 for better proportions
+                  padding: EdgeInsets.all(20),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Receipt header
+                        Text(
+                          "your_check".tr(),
+                          style: TextStyle(
+                            fontSize: 18.sp, // Slightly larger
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        12.h.verticalSpace, // Increased spacing
+
+                        // Services list
+                        ValueListenableBuilder<List<Map<String, String>>>(
+                          valueListenable:
+                              AppointmentState.selectedAppointments,
+                          builder: (context, selectedList, _) {
+                            double total = 0;
+                            double vatRate = 0.15; // 15% VAT
+                            double subtotal = 0;
+
+                            return Column(
+                              children: [
+                                // Services list
+                                ...selectedList.map((appointment) {
+                                  final price = double.tryParse(
+                                          appointment['price'] ?? '0') ??
+                                      0;
+                                  subtotal += price;
+
+                                  return Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 6.h), // Increased spacing
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                appointment['serviceName'] ??
+                                                    'Service',
+                                                style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 8.w),
+                                            Text(
+                                              '${_formatNumber(price)} UZS',
+                                              style: TextStyle(
+                                                fontSize: 14.sp,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      if (selectedList.indexOf(appointment) !=
+                                          selectedList.length - 1)
+                                        Divider(
+                                            height: 1.h,
+                                            color: Colors.grey[300]),
+                                    ],
+                                  );
+                                }).toList(),
+
+                                // Subtotal line
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 8.h, bottom: 4.h),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "subtotal".tr(),
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: Colors.grey[600],
+                                        ),
+                                      ),
+                                      Text(
+                                        '${_formatNumber(subtotal)} UZS',
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                // VAT line
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 4.h),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "vat_included".tr() +
+                                            " (15%)", // "VAT included (15%)"
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: Colors.grey[600],
+                                        ),
+                                      ),
+                                      Text(
+                                        '${_formatNumber(subtotal * vatRate)} UZS',
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: Colors.grey[600],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                Divider(
+                                    color: Colors.grey[300],
+                                    thickness: 1,
+                                    height: 16.h),
+
+                                // Total row
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8.h),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "total".tr(),
+                                        style: TextStyle(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${_formatNumber(subtotal * (1 + vatRate))} UZS',
+                                        style: TextStyle(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                12.h.verticalSpace,
+                Text("if_you_make_an_advance_payment".tr(),
+                    style: Style.smallLink()),
                 40.h.verticalSpace,
                 CButton(
                   backgroundColor: Style.neutral200,
