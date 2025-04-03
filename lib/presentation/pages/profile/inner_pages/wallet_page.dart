@@ -22,6 +22,17 @@ class _WalletPageState extends State<WalletPage> {
     context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
   }
 
+  String _formatNumber(String numberString) {
+    final number = double.tryParse(numberString) ?? 0;
+    return number
+        .toStringAsFixed(0)
+        .replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (Match m) => '${m[1]} ',
+        )
+        .trim();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
@@ -71,8 +82,10 @@ class _WalletPageState extends State<WalletPage> {
                                   12.h.verticalSpace,
                                   Text(
                                     "sum".tr(namedArgs: {
-                                      "amount":
-                                          "${state.patientInfo?.patientBalance ?? 0}"
+                                      "amount": _formatNumber(
+                                          (state.patientInfo?.patientBalance ??
+                                                  0)
+                                              .toString())
                                     }),
                                     style: fonts.regularMain,
                                   ),
@@ -95,12 +108,13 @@ class _WalletPageState extends State<WalletPage> {
                                   Text("debit".tr(), style: fonts.smallLink),
                                   12.h.verticalSpace,
                                   Text(
-                                    "sum".tr(namedArgs: {
-                                      "amount":
-                                          "${state.patientInfo?.patientDebit ?? 0}"
-                                    }),
-                                    style: fonts.regularMain,
-                                  ),
+                                      style: fonts.regularMain,
+                                      "sum".tr(namedArgs: {
+                                        "amount": _formatNumber(
+                                            (state.patientInfo?.patientDebit ??
+                                                    0)
+                                                .toString()),
+                                      })),
                                 ],
                               ),
                             ),
@@ -122,12 +136,12 @@ class _WalletPageState extends State<WalletPage> {
                             Text("deposit".tr(), style: fonts.smallLink),
                             12.h.verticalSpace,
                             Text(
-                              "sum".tr(namedArgs: {
-                                "amount":
-                                    "${state.patientInfo?.patientDeposit ?? 0}"
-                              }),
-                              style: fonts.regularMain,
-                            ),
+                                style: fonts.regularMain,
+                                "sum".tr(namedArgs: {
+                                  "amount": _formatNumber(
+                                      (state.patientInfo?.patientDeposit ?? 0)
+                                          .toString()),
+                                })),
                           ],
                         ),
                       ),

@@ -21,6 +21,16 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+String _formatNumber(double number) {
+  return number
+      .toStringAsFixed(0)
+      .replaceAllMapped(
+        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+        (Match m) => '${m[1]} ',
+      )
+      .trim();
+}
+
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
 
@@ -49,15 +59,6 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   // Helper function to format numbers with spaces
-  String _formatNumber(double number) {
-    return number
-        .toStringAsFixed(0)
-        .replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]} ',
-        )
-        .trim();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -192,6 +193,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             double subtotal = 0;
 
                             return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 // Services list
                                 ...selectedList.map((appointment) {
@@ -201,32 +203,31 @@ class _PaymentPageState extends State<PaymentPage> {
                                   subtotal += price;
 
                                   return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 6.h), // Increased spacing
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                appointment['serviceName'] ??
-                                                    'Service',
-                                                style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 6.h),
+                                        child: Expanded(
+                                          child: Text(
+                                            appointment['serviceName'] ??
+                                                'Service',
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              color: Style.neutral600,
+                                              fontWeight: FontWeight.w500,
                                             ),
-                                            SizedBox(width: 8.w),
-                                            Text(
-                                              '${_formatNumber(price)} UZS',
-                                              style: TextStyle(
-                                                fontSize: 14.sp,
-                                              ),
-                                            ),
-                                          ],
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        "${"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ "} ${"sum".tr(namedArgs: {
+                                              "amount": _formatNumber(price)
+                                            })}",
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: Style.neutral500,
                                         ),
                                       ),
                                       if (selectedList.indexOf(appointment) !=
@@ -238,56 +239,56 @@ class _PaymentPageState extends State<PaymentPage> {
                                   );
                                 }).toList(),
 
-                                // Subtotal line
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 8.h, bottom: 4.h),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "subtotal".tr(),
-                                        style: TextStyle(
-                                          fontSize: 14.sp,
-                                          color: Colors.grey[600],
-                                        ),
-                                      ),
-                                      Text(
-                                        '${_formatNumber(subtotal)} UZS',
-                                        style: TextStyle(
-                                          fontSize: 14.sp,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                // // Subtotal line
+                                // Padding(
+                                //   padding:
+                                //       EdgeInsets.only(top: 8.h, bottom: 4.h),
+                                //   child: Row(
+                                //     mainAxisAlignment:
+                                //         MainAxisAlignment.spaceBetween,
+                                //     children: [
+                                //       Text(
+                                //         "subtotal".tr(),
+                                //         style: TextStyle(
+                                //           fontSize: 14.sp,
+                                //           color: Colors.grey[600],
+                                //         ),
+                                //       ),
+                                //       Text(
+                                //         '${_formatNumber(subtotal)} UZS',
+                                //         style: TextStyle(
+                                //           fontSize: 14.sp,
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
 
                                 // VAT line
-                                Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 4.h),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "vat_included".tr() +
-                                            " (15%)", // "VAT included (15%)"
-                                        style: TextStyle(
-                                          fontSize: 14.sp,
-                                          color: Colors.grey[600],
-                                        ),
-                                      ),
-                                      Text(
-                                        '${_formatNumber(subtotal * vatRate)} UZS',
-                                        style: TextStyle(
-                                          fontSize: 14.sp,
-                                          color: Colors.grey[600],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                // Padding(
+                                //   padding: EdgeInsets.symmetric(vertical: 4.h),
+                                //   child: Row(
+                                //     mainAxisAlignment:
+                                //         MainAxisAlignment.spaceBetween,
+                                //     children: [
+                                //       Text(
+                                //         "vat_included".tr() +
+                                //             " (15%)", // "VAT included (15%)"
+                                //         style: TextStyle(
+                                //           fontSize: 14.sp,
+                                //           color: Colors.grey[600],
+                                //         ),
+                                //       ),
+                                //       Text(
+                                //         '${_formatNumber(subtotal * vatRate)} UZS',
+                                //         style: TextStyle(
+                                //           fontSize: 14.sp,
+                                //           color: Colors.grey[600],
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
 
                                 Divider(
                                     color: Colors.grey[300],
@@ -297,25 +298,15 @@ class _PaymentPageState extends State<PaymentPage> {
                                 // Total row
                                 Padding(
                                   padding: EdgeInsets.symmetric(vertical: 8.h),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "total".tr(),
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${_formatNumber(subtotal * (1 + vatRate))} UZS',
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
+                                  child: Text(
+                                    "${"total".tr()}_ _ _ _ _ _ _ _ _ _ _ _ _ ${"sum".tr(namedArgs: {
+                                          "amount": _formatNumber(subtotal)
+                                        })}",
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      color: Style.neutral600,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -386,7 +377,7 @@ Widget _buildAppointmentItem(
     diagnosis: appointment['serviceName'] ?? 'Unknown',
     procedure: appointment['specialty'] ?? 'Unknown',
     doctorName: 'Dr. ${appointment['doctorName'] ?? "Unknown"}',
-    price: appointment['price'] ?? '0',
+    price: "${appointment['price']}" ?? '0',
     appointmentTime:
         "$formattedDate ${appointmentTime.isNotEmpty ? appointmentTime : "Not available"}",
     location: appointment['location'] ?? 'Unknown',
