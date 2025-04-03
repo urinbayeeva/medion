@@ -259,6 +259,17 @@ final class _$HomePageService extends HomePageService {
     );
     return client.send<BuiltList<AdModel>, AdModel>($request);
   }
+
+  @override
+  Future<Response<BuiltList<LocationModel>>> getCompanyLocatiom() {
+    final Uri $url = Uri.parse('/home/company_location');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<BuiltList<LocationModel>, LocationModel>($request);
+  }
 }
 
 // coverage:ignore-file

@@ -1,12 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:medion/domain/sources/locations_data.dart';
+import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/domain/models/location_model.dart';
-import 'package:medion/domain/sources/upcoming_reception_data.dart';
+import 'package:medion/domain/models/map/map_model.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/pages/map/widgets/location_list.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -21,137 +19,173 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
-  Set<Marker>? markers = {};
+  final Completer<GoogleMapController> _controller = Completer();
+  Set<Marker> markers = {};
   int? selectedIndex;
-  GoogleMapController? controller;
+  GoogleMapController? mapController;
+  CameraPosition? _currentCameraPosition;
 
   static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(41.327405, 69.184021),
-    zoom: 12,
+    target: LatLng(37.42796133580664, -122.085749655962),
+    zoom: 14.4746,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<HomeBloc>().add(const HomeEvent.fetchCompanyLocation());
+  }
+
+  void _initializeMarkers(List<LocationModel> locations) async {
+    if (locations.isEmpty || markers.isNotEmpty) return;
+
+    final BitmapDescriptor markerIcon = await BitmapDescriptor.fromAssetImage(
+      const ImageConfiguration(size: Size(48, 48)),
+      'assets/images/location.png',
+    );
+
+    markers = locations.asMap().entries.map((entry) {
+      final index = entry.key;
+      final location = entry.value;
+
+      return Marker(
+        markerId: MarkerId('location_$index'),
+        position:
+            LatLng(location.position.latitude, location.position.longitude),
+        infoWindow: InfoWindow(
+          title: location.fullName.toString() ?? 'Medion Location',
+        ),
+        icon: markerIcon,
+        onTap: () => moveToLocation(index),
+      );
+    }).toSet();
+
+    if (mounted) setState(() {});
+  }
 
   void moveToLocation(int index) async {
     if (!_controller.isCompleted) return;
+    final controller = await _controller.future;
+    final locations = context.read<HomeBloc>().state.companyLocations;
+    if (index >= locations.length) return;
 
-    final GoogleMapController controller = await _controller.future;
-
-    final Location location = locations[index];
+    final location = locations[index];
     await controller.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          target: LatLng(location.latitude, location.longitude),
+          target:
+              LatLng(location.position.latitude, location.position.longitude),
           zoom: 15,
         ),
       ),
     );
 
-    setState(() {
-      selectedIndex = index;
-    });
+    if (mounted) setState(() => selectedIndex = index);
   }
 
-  Future<void> getUrl(
-      double startLat, double startLon, double endLat, double endLon) async {
-    final String url =
-        "https://3.redirect.appmetrica.yandex.com/route?start-lat=$startLat&start-lon=$startLon&end-lat=$endLat&end-lon=$endLon";
-    final Uri uri = Uri.parse(url);
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      throw Exception('Could not launch $url');
+  Future<void> openYandexTaxi(double endLat, double endLon) async {
+    // Get current camera position which should be near user's location
+    final startLat = _currentCameraPosition?.target.latitude;
+    final startLon = _currentCameraPosition?.target.longitude;
+
+    if (startLat == null || startLon == null) {
+      // Fallback to a default location if current position isn't available
+      final defaultLat = 41.2995; // Example default latitude (Tashkent)
+      final defaultLon = 69.2401; // Example default longitude (Tashkent)
+
+      // Construct Yandex Taxi URL
+      final url = Uri.parse(
+        'https://3.redirect.appmetrica.yandex.com/route?'
+        'start-lat=$defaultLat&start-lon=$defaultLon&'
+        'end-lat=$endLat&end-lon=$endLon&'
+        'appmetrica_tracking_id=1178268795219780156', // Your tracking ID if needed
+      );
+
+      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not launch Yandex Taxi')),
+        );
+      }
+      return;
     }
-  }
 
-  void _initializeMarkers() async {
-    BitmapDescriptor redMarkerIcon = await BitmapDescriptor.asset(
-      const ImageConfiguration(size: Size(48, 48)),
-      'assets/images/location.png',
+    // Construct Yandex Taxi URL with current location
+    final url = Uri.parse(
+      'https://3.redirect.appmetrica.yandex.com/route?'
+      'start-lat=$startLat&start-lon=$startLon&'
+      'end-lat=$endLat&end-lon=$endLon&'
+      'appmetrica_tracking_id=1178268795219780156', // Your tracking ID if needed
     );
 
-    markers = {
-      Marker(
-        markerId: const MarkerId('Medion Clinics'),
-        position: const LatLng(41.329388, 69.258434),
-        infoWindow: const InfoWindow(
-          title: 'Medion Clinics, Aesthetic & SPA',
-        ),
-        icon: redMarkerIcon,
-      ),
-      Marker(
-        markerId: const MarkerId('Medion Family Hospital'),
-        position: const LatLng(41.327405, 69.184021),
-        infoWindow: const InfoWindow(
-          title: 'Medion Family Hospital',
-        ),
-        icon: redMarkerIcon,
-      ),
-      Marker(
-        markerId: const MarkerId('Medion Innovation'),
-        position: const LatLng(41.326456, 69.249044),
-        infoWindow: const InfoWindow(
-          title: 'Medion Innovation',
-        ),
-        icon: redMarkerIcon,
-      ),
-    };
-
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    _initializeMarkers();
-    super.initState();
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not launch Yandex Taxi')),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Scaffold(
-        body: Stack(
-          children: [
-            GoogleMap(
-              markers: markers ?? {},
-              mapType: MapType.normal,
-              initialCameraPosition: _kGooglePlex,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
-              myLocationButtonEnabled: false,
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: LocationList(
-                locations: locations,
-                selectedIndex: selectedIndex,
-                onTap: moveToLocation,
-                // Pass the getUrl callback here
-                openYandexTaxi: (startLat, startLon, endLat, endLon) {
-                  getUrl(startLat, startLon, endLat, endLon);
+      return BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          _initializeMarkers(state.companyLocations);
+        },
+        child: Scaffold(
+          body: Stack(
+            children: [
+              GoogleMap(
+                markers: markers,
+                mapType: MapType.normal,
+                initialCameraPosition: _kGooglePlex,
+                onMapCreated: (controller) {
+                  _controller.complete(controller);
+                  mapController = controller;
+                },
+                onCameraMove: (position) {
+                  _currentCameraPosition = position;
+                },
+                myLocationButtonEnabled: false,
+              ),
+              BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state.companyLocations.isEmpty) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  return Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      color: colors.shade0,
+                      child: LocationList(
+                        locations: state.companyLocations,
+                        selectedIndex: selectedIndex,
+                        onTap: moveToLocation,
+                        openYandexTaxi: openYandexTaxi,
+                      ),
+                    ),
+                  );
                 },
               ),
-            ),
-            Positioned(
+              Positioned(
                 top: 65,
                 right: 16,
                 child: CircleAvatar(
                   backgroundColor: colors.shade0,
-                  radius: 18.r,
+                  radius: 18,
                   child: AnimationButtonEffect(
-                      onTap: () {
-                        context
-                            .read<BottomNavBarController>()
-                            .changeNavBar(false);
-                        Navigator.pop(context);
-                        // getUrl(
-                        //     41.327405,  // Example starting coordinates
-                        //     69.184021,  // Example starting coordinates
-                        //     69.184021,  // Example ending coordinates
-                        //     69.184021); // Example ending coordinates
-                      },
-                      child: icons.cancel.svg(width: 20.w, height: 20.h)),
-                )),
-          ],
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: icons.cancel.svg(width: 20, height: 20),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       );
     });

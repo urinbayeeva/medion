@@ -7,11 +7,12 @@ class AdressItem extends StatelessWidget {
   final VoidCallback onTap;
   final String address;
   final String url;
-  const AdressItem(
-      {super.key,
-      required this.address,
-      required this.url,
-      required this.onTap});
+  const AdressItem({
+    super.key,
+    required this.address,
+    required this.url,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,21 +24,44 @@ class AdressItem extends StatelessWidget {
           width: double.infinity,
           height: 64.h,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.r), color: colors.shade0),
+            borderRadius: BorderRadius.circular(8.r),
+            color: colors.shade0,
+          ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ClipRRect(
+              Container(
+                height: 64.h,
+                width: 64.h,
+                decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.r),
-                      topRight: Radius.circular(8.r)),
-                  child: Image.asset(icons.medionIcon)),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
-                child: Text(address,
-                    overflow: TextOverflow.ellipsis,
-                    style: fonts.smallLink.copyWith(
-                        fontSize: 13.sp, fontWeight: FontWeight.w400)),
-              )
+                    topLeft: Radius.circular(8.r),
+                    bottomLeft: Radius.circular(8.r),
+                  ),
+                  color: colors.shade0,
+                ),
+                child: Center(
+                  child: Image.network(
+                    url,
+                    width: 40.w,
+                    height: 40.h,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) =>
+                        Image.asset(icons.medionIcon),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  address,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: fonts.smallLink.copyWith(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

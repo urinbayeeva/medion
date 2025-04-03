@@ -1,3 +1,5 @@
+import 'dart:math' as Style;
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,8 +61,10 @@ class _DiscountPageState extends State<DiscountPage> {
               child: BlocBuilder<ContentBloc, ContentState>(
                 builder: (context, state) {
                   if (state.loading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: colors.error500,
+                      ),
                     );
                   }
 
@@ -108,7 +112,7 @@ class _DiscountPageState extends State<DiscountPage> {
                               crossAxisCount: 2,
                               crossAxisSpacing: 8,
                               mainAxisSpacing: 8,
-                              childAspectRatio: 0.7,
+                              childAspectRatio: 0.68,
                             ),
                             itemCount: discountContent.length,
                             itemBuilder: (context, index) {

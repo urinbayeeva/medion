@@ -39,12 +39,14 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(HomeServiceBooking.serializer)
       ..add(HomepageBookingCategory.serializer)
       ..add(ImageModel.serializer)
+      ..add(LocationModel.serializer)
       ..add(MedicalModel.serializer)
       ..add(ModelDoctor.serializer)
       ..add(News.serializer)
       ..add(PatientAnalysis.serializer)
       ..add(PatientInfo.serializer)
       ..add(PhoneNumberSendReq.serializer)
+      ..add(Position.serializer)
       ..add(PriceItem.serializer)
       ..add(RefreshTokenModel.serializer)
       ..add(RefreshTokenResponseModel.serializer)
@@ -122,6 +124,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Service)]),
           () => new ListBuilder<Service>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

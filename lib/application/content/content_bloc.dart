@@ -22,7 +22,7 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     Emitter<ContentState> emit,
   ) async {
     emit(state.copyWith(loading: true, error: false, success: false));
-    EasyLoading.show();
+    // EasyLoading.show();
 
     final res = await _repository.fetchContents(type: event.type);
     res.fold(
@@ -34,7 +34,8 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       (data) {
         EasyLoading.dismiss();
         // Create a new map with the existing content
-        final updatedContent = Map<String, List<ContentModel>>.from(state.contentByType);
+        final updatedContent =
+            Map<String, List<ContentModel>>.from(state.contentByType);
         updatedContent[event.type] = data;
         emit(state.copyWith(
           loading: false,

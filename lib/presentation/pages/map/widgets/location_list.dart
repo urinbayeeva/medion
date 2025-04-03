@@ -1,16 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medion/domain/models/location_model.dart';
-import 'package:medion/presentation/component/c_divider.dart';
+import 'package:medion/domain/models/map/map_model.dart';
 import 'package:medion/presentation/component/c_icon_button.dart';
+import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class LocationList extends StatelessWidget {
-  final List<Location> locations;
+  final List<LocationModel> locations;
   final int? selectedIndex;
   final Function(int) onTap;
-  final void Function(double, double, double, double) openYandexTaxi;
+  final void Function(double, double) openYandexTaxi;
 
   const LocationList({
     super.key,
@@ -24,70 +26,75 @@ class LocationList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         color: colors.shade0,
-        height: 322.h,
+        height: 322,
         child: Column(
           children: [
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              itemCount: locations.length,
-              itemBuilder: (context, index) {
-                final location = locations[index];
-                return GestureDetector(
-                  onTap: () {
-                    onTap(index); // Move to location
-                    // Trigger openYandexTaxi callback with location's lat/lon
-                    final selectedLocation = locations[index];
-                    openYandexTaxi(
-                      41.327405, // Example starting lat/lon
-                      69.184021, // Example starting lat/lon
-                      selectedLocation.latitude,
-                      selectedLocation.longitude,
-                    );
-                  },
-                  child: Container(
-                    height: 64.h,
-                    margin: EdgeInsets.symmetric(vertical: 8.h),
-                    decoration: BoxDecoration(
-                      color: selectedIndex != index
-                          ? const Color(0xFFF2F2F3)
-                          : const Color(0xFFF5F5F6),
-                      borderRadius: BorderRadius.circular(8.r),
-                      border: selectedIndex == index
-                          ? Border.all(color: const Color(0xFFE6E6E6), width: 1)
-                          : null,
+            Expanded(
+              child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+                itemCount: locations.length,
+                itemBuilder: (context, index) {
+                  final location = locations[index];
+                  return GestureDetector(
+                    onTap: () {
+                      onTap(index); // Only select the location on tap
+                    },
+                    child: Container(
+                      height: 64,
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      decoration: BoxDecoration(
+                        color: selectedIndex == index
+                            ? const Color(0xFFF5F5F6)
+                            : const Color(0xFFF2F2F3),
+                        borderRadius: BorderRadius.circular(8),
+                        border: selectedIndex == index
+                            ? Border.all(
+                                color: const Color(0xFFE6E6E6), width: 1)
+                            : null,
+                      ),
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 10),
+                          CachedNetworkImage(
+                            imageUrl: location.icon,
+                            width: 60.w,
+                            height: 64.h,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                              child: Text(location.address,
+                                  style: fonts.smallLink)),
+                        ],
+                      ),
                     ),
-                    child: Row(
-                      children: [
-                        10.w.horizontalSpace,
-                        SvgPicture.asset(location.image),
-                        8.w.horizontalSpace,
-                        Divider(),
-                        SizedBox(width: 12.w),
-                        Text(location.name, style: fonts.smallLink),
-                      ],
-                    ),
-                  ),
-                );
+                  );
+                },
+              ),
+            ),
+            CIconButton(
+              title: 'Заказать такси',
+              iconPath: "assets/images/yandex_png.png",
+              onTap: () {
+                if (locations.isNotEmpty && selectedIndex != null) {
+                  final location = locations[selectedIndex!];
+                  openYandexTaxi(
+                    location.position.latitude,
+                    location.position.longitude,
+                  );
+                } else if (locations.isNotEmpty && selectedIndex == null) {
+                  // If nothing is selected but we have locations, use the first one
+                  final location = locations.first;
+                  openYandexTaxi(
+                    location.position.latitude,
+                    location.position.longitude,
+                  );
+                }
               },
             ),
-            8.h.verticalSpace,
-            CIconButton(
-                title: 'Заказать такси',
-                iconPath: "assets/images/yandex_png.png",
-                onTap: () {
-                  // Trigger taxi ordering with hardcoded coordinates for demonstration
-                  openYandexTaxi(
-                    41.327405, // Example starting coordinates
-                    69.184021, // Example starting coordinates
-                    41.326456, // Example ending coordinates
-                    69.249044, // Example ending coordinates
-                  );
-                }),
-            20.h.verticalSpace,
+            const SizedBox(height: 20),
           ],
         ),
       );

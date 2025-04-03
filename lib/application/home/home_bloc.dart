@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:medion/domain/models/map/map_model.dart';
 import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
@@ -17,14 +18,42 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeRepository _repository;
 
   HomeBloc(this._repository) : super(const HomeState()) {
-    on<_FetchNew>(_fetchNews);
+    on<_FetchNews>(_fetchNews);
     on<_FetchDiseases>(_fetchDiseases);
     on<_FetchAds>(_fetchAds);
     on<_FetchMedicalServices>(_fetchMedicalServices);
+    on<_FetchCompanyLocation>(_fetchCompanyLocation);
+  }
+
+  FutureOr<void> _fetchCompanyLocation(
+    _FetchCompanyLocation event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(state.copyWith(loading: true, error: false, success: false));
+
+    EasyLoading.show();
+
+    final res = await _repository.getCompanyLocation();
+
+    res.fold(
+      (error) {
+        LogService.e("Error in fetching company locations: $error");
+        EasyLoading.showError(error.message);
+        emit(state.copyWith(loading: false, error: true));
+      },
+      (data) {
+        EasyLoading.dismiss();
+        emit(state.copyWith(
+          loading: false,
+          success: true,
+          companyLocations: data,
+        ));
+      },
+    );
   }
 
   FutureOr<void> _fetchNews(
-    _FetchNew event,
+    _FetchNews event,
     Emitter<HomeState> emit,
   ) async {
     emit(state.copyWith(loading: true, error: false, success: false));

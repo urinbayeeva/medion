@@ -1,10 +1,12 @@
 import 'package:dartz/dartz.dart';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:geolocator_platform_interface/src/models/position.dart';
 
 import 'package:medion/domain/common/failure.dart';
 
 import 'package:medion/domain/failurs/news/i_news_facade.dart';
+import 'package:medion/domain/models/map/map_model.dart';
 import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
@@ -88,6 +90,28 @@ class HomeRepository implements INewsFacade {
       if (response.isSuccessful && response.body != null) {
         final medicalServices = response.body!.toList();
         return right(medicalServices);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e, stackTrace) {
+      LogService.e(" ----> error on repo : ${e.toString()}");
+      LogService.e(" ----> Stack Trace: ${stackTrace.toString()}");
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, List<LocationModel>>>
+      getCompanyLocation() async {
+    try {
+      final response = await _homePageService.getCompanyLocatiom();
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
+      LogService.d('Response Error: ${response.error}');
+
+      if (response.isSuccessful && response.body != null) {
+        final companyLocation = response.body;
+        return right(companyLocation!.toList());
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }

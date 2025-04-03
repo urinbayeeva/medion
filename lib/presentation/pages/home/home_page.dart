@@ -58,6 +58,7 @@ class _HomePageState extends State<HomePage> {
     context
         .read<ContentBloc>()
         .add(const ContentEvent.fetchContent(type: "news"));
+    context.read<HomeBloc>().add(const HomeEvent.fetchCompanyLocation());
   }
 
   @override
@@ -450,67 +451,65 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildAddressSection(BuildContext context, colors, fonts, icons) {
-    return Column(
-      children: [
-        AdressItem(
-          address: "street_abdulla".tr(),
-          onTap: () {},
-          url: '',
-        ),
-        AdressItem(
-          address: "street_zulfiya".tr(),
-          onTap: () {},
-          url: '',
-        ),
-        AdressItem(
-          address: "street_istiroxat".tr(),
-          onTap: () {},
-          url: '',
-        ),
-      ],
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        if (state.companyLocations.isEmpty) {
+          return const CircularProgressIndicator();
+        }
+
+        return Column(
+          children: state.companyLocations
+              .map((location) => AdressItem(
+                    address: location.address,
+                    onTap: () {},
+                    url: location.icon,
+                  ))
+              .toList(),
+        );
+      },
     );
   }
-}
 
-Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
-  return ThemeWrapper(
-    builder: (context, colors, fonts, icons, controller) {
-      final limitedDoctors = doctors.take(10).toList();
-      return SizedBox(
-        height: 325.h,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.zero,
-          itemCount: limitedDoctors.length,
-          itemBuilder: (context, index) {
-            final doctor = limitedDoctors[index];
-            return DoctorsItem(
-              onTap: () {
-                context.read<BottomNavBarController>().changeNavBar(true);
+  Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        final limitedDoctors = doctors.take(10).toList();
+        return SizedBox(
+          height: 325.h,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.zero,
+            itemCount: limitedDoctors.length,
+            itemBuilder: (context, index) {
+              final doctor = limitedDoctors[index];
+              return DoctorsItem(
+                onTap: () {
+                  context.read<BottomNavBarController>().changeNavBar(true);
 
-                Navigator.push(
-                  context,
-                  AppRoutes.getAboutDoctorPage(
-                      doctor['name'].toString(),
-                      doctor['profession'].toString(),
-                      doctor['status'].toString(),
-                      doctor['image'].toString(),
-                      doctor['id']),
-                ).then((_) {
-                  context.read<BottomNavBarController>().changeNavBar(false);
-                });
-              },
-              imagePath: doctor['image'].toString(),
-              name: doctor['name'].toString(),
-              profession: doctor['profession'].toString(),
-              status: doctor['status'].toString(),
-              gender: doctor['gender'].toString(),
-              candidateScience: false,
-              isInnerPageUsed: true,
-            );
-          },
-        ),
-      );
-    },
-  );
+                  Navigator.push(
+                    context,
+                    AppRoutes.getAboutDoctorPage(
+                        doctor['name'].toString(),
+                        doctor['profession'].toString(),
+                        doctor['status'].toString(),
+                        doctor['image'].toString(),
+                        doctor['id']),
+                  ).then((_) {
+                    context.read<BottomNavBarController>().changeNavBar(false);
+                  });
+                },
+                imagePath: doctor['image'].toString(),
+                name: doctor['name'].toString(),
+                profession: doctor['profession'].toString(),
+                status: doctor['status'].toString(),
+                gender: doctor['gender'].toString(),
+                candidateScience: false,
+                isInnerPageUsed: true,
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
 }

@@ -12,5 +12,8 @@ class HomeState with _$HomeState {
     @Default([]) List<DiseaseModle> diseases,
     @Default([]) List<AdModel> ads,
     @Default([]) List<DiagnosticsModel> medicalServices,
+    @Default([])
+    List<LocationModel>
+        companyLocations, // Changed from mapPosition to companyLocations
   }) = _HomeState;
 }

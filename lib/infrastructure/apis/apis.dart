@@ -8,6 +8,7 @@ import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';
+import 'package:medion/domain/models/map/map_model.dart';
 import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
@@ -120,6 +121,9 @@ abstract class HomePageService extends ChopperService {
 
   @Get(path: "advertisements")
   Future<Response<BuiltList<AdModel>>> getAds();
+
+  @Get(path: "company_location")
+  Future<Response<BuiltList<LocationModel>>> getCompanyLocatiom();
 
   static HomePageService create(DBService dbService) =>
       _$HomePageService(_Client(Constants.baseUrlP, true, dbService));
