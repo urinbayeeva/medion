@@ -160,18 +160,18 @@ class DoctorsItem extends StatelessWidget {
                   .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w400)),
         );
       }),
-      // 4.h.verticalSpace,
-      // ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      //   return SizedBox(
-      //     width: 164.w,
-      //     child: Text("",
-      //         overflow: TextOverflow.ellipsis,
-      //         style: fonts.headlineMain.copyWith(
-      //             fontSize: 11.sp,
-      //             fontWeight: FontWeight.w400,
-      //             color: colors.neutral600)),
-      //   );
-      // }),
+      4.h.verticalSpace,
+      ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+        return SizedBox(
+          width: 164.w,
+          child: Text("Test Description",
+              overflow: TextOverflow.ellipsis,
+              style: fonts.headlineMain.copyWith(
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w400,
+                  color: colors.neutral600)),
+        );
+      }),
       if (experience != null) ...[
         ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
           return SizedBox(
@@ -183,7 +183,6 @@ class DoctorsItem extends StatelessWidget {
           );
         }),
       ],
-
       if (isInnerPageUsed == true) ...[
         8.h.verticalSpace,
         ThemeWrapper(builder: (context, colors, fonts, icons, controller) {

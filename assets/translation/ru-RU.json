@@ -322,5 +322,7 @@
     "deposit": "Депозит",
     "no_general_information_found": "Общей информации не найдено.",
     "recommendations": "Рекомендации",
+    "search_for_doctors": "Поиск врачей",
+    "search_by_name_or_specialty": "Поиск по имени или специальности",
     " ": ""
 }

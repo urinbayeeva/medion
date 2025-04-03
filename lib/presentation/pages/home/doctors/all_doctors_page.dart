@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,7 @@ import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_filter_bottomsheet.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
+import 'package:medion/presentation/pages/home/doctors/widget/doctor_search_page.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -24,11 +26,45 @@ class AllDoctorsPage extends StatefulWidget {
 class _AllDoctorsPageState extends State<AllDoctorsPage> {
   bool isMedionDoctor = true;
   Category selectedCategory = Category.all;
+  bool isSearch = false;
+  String searchQuery = '';
+  final TextEditingController _searchController = TextEditingController();
+  List<Map<String, dynamic>> recentSearches = [];
 
   @override
   void initState() {
     super.initState();
     context.read<DoctorBloc>().add(const DoctorEvent.fetchDoctors());
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _clearSearch() {
+    setState(() {
+      searchQuery = '';
+      _searchController.clear();
+    });
+  }
+
+  void _addToRecentSearches(String query) {
+    if (query.trim().isNotEmpty &&
+        !recentSearches.any((item) => item['query'] == query)) {
+      setState(() {
+        recentSearches.insert(0, {
+          'query': query,
+          'time': DateTime.now(),
+        });
+
+        // Keep only the last 5 searches
+        if (recentSearches.length > 5) {
+          recentSearches = recentSearches.sublist(0, 5);
+        }
+      });
+    }
   }
 
   @override
@@ -41,58 +77,116 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CAppBar(
-                title: "\t\t\t\t\t\t\t\t\t ${"doctors".tr()}",
-                isBack: true,
-                hasToggle: true,
-                centerTitle: true,
-                toggleFirstText: "doctors_of_medion".tr(),
-                toggleSecondText: "foreign_doctors".tr(),
-                trailing: Row(
-                  children: [
-                    icons.search.svg(width: 24.w, height: 24.h),
-                    20.w.horizontalSpace,
-                    AnimationButtonEffect(
-                      onTap: () async {
-                        final result = await showModalBottomSheet<Category>(
-                          isDismissible: true,
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: colors.shade0,
-                          builder: (context) => const CFilterBottomsheet(),
-                        );
-                        if (result != null) {
-                          setState(() {
-                            selectedCategory = result;
-                          });
-                        }
-                      },
-                      child: icons.filter.svg(width: 24.w, height: 24.h),
+              if (isSearch) ...[
+                SafeArea(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Row(
+                      children: [
+                        AnimationButtonEffect(
+                          onTap: () {
+                            setState(() {
+                              isSearch = false;
+                              searchQuery = '';
+                              _searchController.clear();
+                            });
+                          },
+                          child: icons.left.svg(width: 24.w, height: 24.h),
+                        ),
+                        8.w.horizontalSpace,
+                        Expanded(
+                          child: CupertinoSearchTextField(
+                            controller: _searchController,
+                            onChanged: (value) {
+                              setState(() {
+                                searchQuery = value.toLowerCase();
+                              });
+                            },
+                            onSubmitted: (value) {
+                              _addToRecentSearches(value);
+                            },
+                            placeholder: 'search_doctors'.tr(),
+                            style: fonts.regularMain.copyWith(fontSize: 16.sp),
+                          ),
+                        ),
+                        if (searchQuery.isNotEmpty) ...[
+                          8.w.horizontalSpace,
+                          AnimationButtonEffect(
+                            onTap: _clearSearch,
+                            child: Icon(
+                              Icons.close,
+                              size: 24.w,
+                              color: colors.neutral600,
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-                bottom: CustomToggle(
-                  iconList: [
-                    Text(
-                      'doctors_of_medion'.tr(),
-                      style: fonts.xSmallLink.copyWith(
-                        color:
-                            isMedionDoctor ? colors.shade0 : colors.primary900,
+              ] else ...[
+                CAppBar(
+                  title: "\t\t\t\t\t\t\t\t\t ${"doctors".tr()}",
+                  isBack: true,
+                  hasToggle: true,
+                  centerTitle: true,
+                  toggleFirstText: "doctors_of_medion".tr(),
+                  toggleSecondText: "foreign_doctors".tr(),
+                  trailing: Row(
+                    children: [
+                      AnimationButtonEffect(
+                          onTap: () {
+                            setState(() {
+                              isSearch = true;
+                            });
+                          },
+                          child: icons.search.svg(width: 24.w, height: 24.h)),
+                      20.w.horizontalSpace,
+                      AnimationButtonEffect(
+                        onTap: () async {
+                          final result = await showModalBottomSheet<Category>(
+                            isDismissible: true,
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: colors.shade0,
+                            builder: (context) => const CFilterBottomsheet(),
+                          );
+                          if (result != null) {
+                            setState(() {
+                              selectedCategory = result;
+                            });
+                          }
+                        },
+                        child: icons.filter.svg(width: 24.w, height: 24.h),
                       ),
-                    ),
-                    Text(
-                      'foreign_doctors'.tr(),
-                      style: fonts.xSmallLink.copyWith(
-                        color:
-                            !isMedionDoctor ? colors.shade0 : colors.primary900,
+                    ],
+                  ),
+                  bottom: CustomToggle(
+                    iconList: [
+                      Text(
+                        'doctors_of_medion'.tr(),
+                        style: fonts.xSmallLink.copyWith(
+                          color: isMedionDoctor
+                              ? colors.shade0
+                              : colors.primary900,
+                        ),
                       ),
-                    ),
-                  ],
-                  onChanged: (value) => setState(() => isMedionDoctor = value),
-                  current: isMedionDoctor,
-                  values: const [true, false],
+                      Text(
+                        'foreign_doctors'.tr(),
+                        style: fonts.xSmallLink.copyWith(
+                          color: !isMedionDoctor
+                              ? colors.shade0
+                              : colors.primary900,
+                        ),
+                      ),
+                    ],
+                    onChanged: (value) =>
+                        setState(() => isMedionDoctor = value),
+                    current: isMedionDoctor,
+                    values: const [true, false],
+                  ),
                 ),
-              ),
+              ],
               8.h.verticalSpace,
               Expanded(
                 child: BlocBuilder<DoctorBloc, DoctorState>(
@@ -101,6 +195,228 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                       return Center(
                           child: Text('something_went_wrong'.tr(),
                               style: fonts.regularSemLink));
+                    }
+
+                    if (isSearch) {
+                      // Get all doctors flattened
+                      final allDoctors = state.doctors.expand((category) {
+                        return category.doctorData.map((doctor) {
+                          return {
+                            'name': doctor.name.toString(),
+                            'profession':
+                                doctor.specialty?.value.toString() ?? 'N/A',
+                            'image': doctor.image?.value.toString() ?? '',
+                            'category': category.categoryName.toString(),
+                            'id': doctor.id.toString(),
+                            'status': doctor.academicRank?.toString() ?? 'N/A',
+                            'candidateScience': false,
+                          };
+                        });
+                      }).toList();
+
+                      // Filter doctors based on search query
+                      final searchResults = searchQuery.isEmpty
+                          ? []
+                          : allDoctors.where((doctor) {
+                              final name =
+                                  doctor['name']?.toString().toLowerCase() ??
+                                      '';
+                              final profession = doctor['profession']
+                                      ?.toString()
+                                      .toLowerCase() ??
+                                  '';
+                              final category = doctor['category']
+                                      ?.toString()
+                                      .toLowerCase() ??
+                                  '';
+
+                              return name.contains(searchQuery) ||
+                                  profession.contains(searchQuery) ||
+                                  category.contains(searchQuery);
+                            }).toList();
+
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Column(
+                          children: [
+                            if (searchQuery.isEmpty &&
+                                recentSearches.isNotEmpty) ...[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "recently_searchs".tr(),
+                                    style: fonts.regularMain.copyWith(
+                                        fontSize: 17.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  AnimationButtonEffect(
+                                    onTap: () {
+                                      setState(() {
+                                        recentSearches = [];
+                                      });
+                                    },
+                                    child: Text(
+                                      "clear".tr(),
+                                      style: fonts.regularMain.copyWith(
+                                          fontSize: 14.sp,
+                                          color: colors.neutral600,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              12.h.verticalSpace,
+                              SizedBox(
+                                height: 60.h,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: recentSearches.length,
+                                  itemBuilder: (context, index) {
+                                    final search = recentSearches[index];
+                                    return Padding(
+                                      padding: EdgeInsets.only(right: 8.w),
+                                      child: AnimationButtonEffect(
+                                        onTap: () {
+                                          setState(() {
+                                            searchQuery = search['query'];
+                                            _searchController.text =
+                                                search['query'];
+                                          });
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 16.w,
+                                            vertical: 8.h,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: colors.shade100,
+                                            borderRadius:
+                                                BorderRadius.circular(16.r),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              icons.clock.svg(
+                                                width: 16.w,
+                                                height: 16.h,
+                                                color: colors.neutral600,
+                                              ),
+                                              8.w.horizontalSpace,
+                                              Text(
+                                                search['query'],
+                                                style:
+                                                    fonts.regularMain.copyWith(
+                                                  fontSize: 14.sp,
+                                                  color: colors.neutral600,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              16.h.verticalSpace,
+                            ],
+                            if (searchQuery.isNotEmpty &&
+                                searchResults.isEmpty) ...[
+                              Expanded(
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      icons.emojiSad
+                                          .svg(width: 80.w, height: 80.h),
+                                      16.h.verticalSpace,
+                                      Text(
+                                        "no_results_found".tr(),
+                                        style: fonts.mediumMain.copyWith(
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      8.h.verticalSpace,
+                                      Text(
+                                        "try_different_search".tr(),
+                                        style: fonts.regularMain
+                                            .copyWith(color: colors.neutral600),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ] else if (searchQuery.isNotEmpty) ...[
+                              Expanded(
+                                child: GridView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: searchResults.length,
+                                  padding: EdgeInsets.zero,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 12.0,
+                                    mainAxisSpacing: 12.0,
+                                    childAspectRatio: 0.53,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    final doctor = searchResults[index];
+                                    return DoctorsItem(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          AppRoutes.getAboutDoctorPage(
+                                            doctor['name'].toString(),
+                                            doctor['profession'],
+                                            doctor['name'].toString(),
+                                            doctor['image'].toString(),
+                                            doctor['id'],
+                                          ),
+                                        );
+                                      },
+                                      categoryType: doctor['category'],
+                                      imagePath: doctor['image'].toString(),
+                                      name: doctor['name'].toString(),
+                                      profession:
+                                          doctor['profession'].toString(),
+                                      status:
+                                          doctor['status']?.toString() ?? 'N/A',
+                                      candidateScience: false,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ] else ...[
+                              Expanded(
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      icons.search.svg(
+                                        width: 80.w,
+                                        height: 80.h,
+                                        color: colors.neutral400,
+                                      ),
+                                      16.h.verticalSpace,
+                                      Text(
+                                        "search_for_doctors".tr(),
+                                        style: fonts.mediumMain.copyWith(
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      8.h.verticalSpace,
+                                      Text(
+                                        "search_by_name_or_specialty".tr(),
+                                        style: fonts.regularMain
+                                            .copyWith(color: colors.neutral600),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      );
                     }
 
                     return SingleChildScrollView(
@@ -124,6 +440,11 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                                                 '',
                                         'category':
                                             category.categoryName.toString(),
+                                        'id': doctor.id.toString(),
+                                        'status':
+                                            doctor.academicRank?.toString() ??
+                                                'N/A',
+                                        'candidateScience': false
                                       })
                                   .toList();
 
@@ -205,79 +526,10 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
         return specialty.contains('невролог');
       case Category.pediatric:
         return specialty.contains('педиатр') || specialty.contains('детский');
-      // case Category.allergology:
-      //   return specialty.contains('аллерголог');
-      // case Category.allergologyAndImmunology:
-      //   return specialty.contains('аллерголог') ||
-      //       specialty.contains('иммунолог');
-      // case Category.analgesicsNonNarcotic:
-      //   return specialty.contains('анальгезирующие');
-      // case Category.andrology:
-      //   return specialty.contains('андролог');
-      // case Category.anesthesiology:
-      //   return specialty.contains('анестезиолог');
-      // case Category.anesthesiologyAndPerfusion:
-      //   return specialty.contains('анестезиолог') ||
-      //       specialty.contains('перфузиолог');
-      // case Category.autoimmunePathology:
-      //   return specialty.contains('аутоиммунная');
-      // case Category.gastroenterology:
-      //   return specialty.contains('гастроэнтеролог');
-      // case Category.pediatricDentistry:
-      //   return specialty.contains('детский') &&
-      //       specialty.contains('стоматолог');
-      // case Category.implantation:
-      //   return specialty.contains('имплантация') ||
-      //       specialty.contains('стоматолог');
-      // case Category.injectionCosmetology:
-      //   return specialty.contains('косметолог');
-      // case Category.canalTreatment:
-      //   return specialty.contains('канал') && specialty.contains('стоматолог');
-      // case Category.mrt:
-      //   return specialty.contains('мрт');
-      // case Category.uncategorized:
-      //   return specialty == '' || specialty == 'doctor' || specialty == 'false';
-      // case Category.oncology:
-      //   return specialty.contains('онколог') ||
-      //       specialty.contains('онкохирург');
-      // case Category.orthopedicDentistry:
-      //   return specialty.contains('ортопед') &&
-      //       specialty.contains('стоматолог');
-      // case Category.periodontology:
-      //   return specialty.contains('пародонтолог');
-      // case Category.sealingTeeth:
-      //   return specialty.contains('пломбирование') &&
-      //       specialty.contains('стоматолог');
-      // case Category.proceduralRoom:
-      //   return specialty.contains('процедурный');
-      // case Category.unsealingAndTreatment:
-      //   return specialty.contains('распломбировка') &&
-      //       specialty.contains('стоматолог');
-      // case Category.rheumatology:
-      //   return specialty.contains('ревматолог');
-      // case Category.sedation:
-      //   return specialty.contains('седация');
-      // case Category.serologicalStudies:
-      //   return specialty.contains('серолог');
-      // case Category.dentalSurgery:
-      //   return specialty.contains('хирург') && specialty.contains('стоматолог');
-      // case Category.therapeuticDentistry:
-      //   return specialty.contains('терапевт') &&
-      //       specialty.contains('стоматолог');
-      // case Category.therapy:
-      //   return specialty.contains('терапевт');
-      // case Category.ultrasound:
-      //   return specialty.contains('узи');
-      // case Category.physiotherapy:
-      //   return specialty.contains('физиотерапия');
-      // case Category.surgery:
-      //   return specialty.contains('хирург');
-      // case Category.endocrinology:
-      //   return specialty.contains('эндокринолог');
-      // case Category.endoscopy:
-      //   return specialty.contains('эндоскоп');
       case Category.all:
         return true;
+      default:
+        return false;
     }
   }
 
@@ -299,7 +551,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 12.0,
                 mainAxisSpacing: 12.0,
-                childAspectRatio: 0.53,
+                childAspectRatio: 0.63,
               ),
               itemBuilder: (context, index) {
                 final doctor = doctors[index];
@@ -319,10 +571,11 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                   name: doctor['name'].toString(),
                   profession: doctor['profession'].toString(),
                   status: doctor['status']?.toString() ?? 'N/A',
-                  candidateScience: doctor['candidateScience'],
+                  candidateScience: false,
                 );
               },
             ),
+            16.h.verticalSpace,
           ],
         );
       },
