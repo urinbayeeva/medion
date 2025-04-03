@@ -15,6 +15,8 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:medion/utils/helpers/decode_html.dart';
+
 class MedServiceChoose extends StatefulWidget {
   final int serviceTypeId;
 
@@ -494,7 +496,8 @@ class _ServiceItem extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: 4.h),
                       child: Text(
-                        service['description'] ?? 'Test description',
+                        decodeHtml(
+                            service['description'] ?? 'Test description'),
                         style: fonts.smallLink.copyWith(
                           color: colors.neutral600,
                           fontSize: 11.sp,

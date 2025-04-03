@@ -1,15 +1,13 @@
-import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/payment_provider.dart';
-import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_radio_tile.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
-import 'package:medion/presentation/component/c_zigzag_container.dart';
 import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
 import 'package:medion/presentation/pages/appointment/component/user_info_widget.dart';
 import 'package:medion/presentation/pages/appointment/component/verify_appointment_item.dart';
@@ -21,24 +19,34 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-String _formatNumber(double number) {
-  return number
-      .toStringAsFixed(0)
-      .replaceAllMapped(
-        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-        (Match m) => '${m[1]} ',
-      )
-      .trim();
-}
+class MedServicePayment extends StatefulWidget {
+  const MedServicePayment({
+    super.key,
+    required this.diagnosis,
+    required this.procedure,
+    required this.doctorName,
+    required this.price,
+    required this.appointmentTime,
+    required this.location,
+    required this.imagePath,
+  });
 
-class PaymentPage extends StatefulWidget {
-  const PaymentPage({super.key});
+  final String diagnosis;
+  final String procedure;
+  final String doctorName;
+  final String price;
+  final String appointmentTime;
+  final String location;
+  final String imagePath;
 
   @override
-  State<PaymentPage> createState() => _PaymentPageState();
+  State<MedServicePayment> createState() => _MedServicePaymentState();
 }
 
-class _PaymentPageState extends State<PaymentPage> {
+class _MedServicePaymentState extends State<MedServicePayment> {
+  String _selectedOption = "";
+  String _selectedPayment = "Payme";
+
   Future<void> _launchPaymentUrl(String url) async {
     final Uri uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
@@ -46,8 +54,15 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
-  String _selectedOption = "";
-  String _selectedPayment = "Payme";
+  String _formatNumber(double number) {
+    return number
+        .toStringAsFixed(0)
+        .replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (Match m) => '${m[1]} ',
+        )
+        .trim();
+  }
 
   @override
   void initState() {
@@ -56,99 +71,88 @@ class _PaymentPageState extends State<PaymentPage> {
     if (authBloc.state.patientInfo == null) {
       authBloc.add(const AuthEvent.fetchPatientInfo());
     }
-    _initializePaymentUrl();
-  }
-
-  Future<void> _initializePaymentUrl() async {
-    final paymentProvider = Provider.of<PaymentProvider>(
-      context,
-      listen: false,
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(
-      builder: (context, colors, fonts, icons, controller) {
-        return Scaffold(
-          backgroundColor: colors.backgroundColor,
-          body: BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
-              if (state.patientInfo == null) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Style.error500,
-                  ),
-                );
-              }
+    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+      return Scaffold(
+        backgroundColor: colors.backgroundColor,
+        body: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: CAppBar(
+                title: "payment".tr(),
+                isBack: true,
+                centerTitle: true,
+                trailing: 24.w.horizontalSpace,
+              ),
+            ),
+            SliverFillRemaining(
+              child: BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  if (state.patientInfo == null) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-              final patientInfo = state.patientInfo;
+                  final patientInfo = state.patientInfo;
 
-              return CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    title: Text("payment".tr()),
-                    leading: IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    pinned: true,
-                    elevation: 0,
-                  ),
-                  SliverToBoxAdapter(
+                  return SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.all(16.0.w),
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // User Information Section
                           UserInfoWidget(
                             title: "your_info".tr(),
                             children: [
                               CustomTextField(
                                 readOnly: true,
-                                padding: const EdgeInsets.only(bottom: 12),
+                                padding: EdgeInsets.only(bottom: 12.h),
                                 hintText:
                                     patientInfo?.firstName ?? "Not available",
                                 title: "name".tr(),
                               ),
                               CustomTextField(
                                 readOnly: true,
-                                padding: const EdgeInsets.only(bottom: 12),
+                                padding: EdgeInsets.only(bottom: 12.h),
                                 hintText:
                                     patientInfo?.lastName ?? "Not available",
                                 title: "second_name".tr(),
                               ),
                               CustomTextField(
                                 readOnly: true,
-                                padding: const EdgeInsets.only(bottom: 12),
+                                padding: EdgeInsets.only(bottom: 12.h),
                                 hintText: patientInfo?.patientId?.toString() ??
                                     "Not available",
                                 title: "ID",
                               ),
                               CustomTextField(
                                 readOnly: true,
-                                padding: const EdgeInsets.only(bottom: 12),
+                                padding: EdgeInsets.only(bottom: 12.h),
                                 hintText:
                                     patientInfo?.phoneNumber ?? "Not available",
                                 title: "contact_phone_number".tr(),
                               ),
                             ],
                           ),
-                          12.h.verticalSpace,
-                          ValueListenableBuilder<List<Map<String, String>>>(
-                            valueListenable:
-                                AppointmentState.selectedAppointments,
-                            builder: (context, selectedList, _) {
-                              return Column(
-                                children: selectedList
-                                    .map((appointment) => _buildAppointmentItem(
-                                          appointment,
-                                          context,
-                                        ))
-                                    .toList(),
-                              );
-                            },
+
+                          24.h.verticalSpace,
+                          VerifyAppointmentItem(
+                            hasImage: false,
+                            diagnosis: widget.diagnosis,
+                            procedure: widget.procedure,
+                            doctorName: widget.doctorName,
+                            price: widget.price,
+                            appointmentTime: widget.appointmentTime,
+                            location: widget.location,
+                            imagePath: widget.imagePath,
+                            onCancel: () {},
                           ),
+
                           12.h.verticalSpace,
                           UserInfoWidget(
                             title: "who_pays".tr(),
@@ -177,10 +181,12 @@ class _PaymentPageState extends State<PaymentPage> {
                               ),
                             ],
                           ),
-                          12.h.verticalSpace,
+                          // Add some bottom padding to ensure all content is scrollable
+                          24.h.verticalSpace,
                           ZigZagContainer(
                             color: Colors.white,
-                            zigZagHeight: 15,
+                            zigZagHeight:
+                                15, // Reduced from 60 for better proportions
                             padding: EdgeInsets.all(20),
                             child: Padding(
                               padding: EdgeInsets.symmetric(
@@ -188,27 +194,32 @@ class _PaymentPageState extends State<PaymentPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  // Receipt header
                                   Text(
                                     "your_check".tr(),
                                     style: TextStyle(
-                                      fontSize: 18.sp,
+                                      fontSize: 18.sp, // Slightly larger
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  12.h.verticalSpace,
+
+                                  12.h.verticalSpace, // Increased spacing
+
+                                  // Services list
                                   ValueListenableBuilder<
                                       List<Map<String, String>>>(
                                     valueListenable:
                                         AppointmentState.selectedAppointments,
                                     builder: (context, selectedList, _) {
                                       double total = 0;
-                                      double vatRate = 0.15;
+                                      double vatRate = 0.15; // 15% VAT
                                       double subtotal = 0;
 
                                       return Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+                                          // Services list
                                           ...selectedList.map((appointment) {
                                             final price = double.tryParse(
                                                     appointment['price'] ??
@@ -223,15 +234,17 @@ class _PaymentPageState extends State<PaymentPage> {
                                                 Padding(
                                                   padding: EdgeInsets.symmetric(
                                                       vertical: 6.h),
-                                                  child: Text(
-                                                    appointment[
-                                                            'serviceName'] ??
-                                                        'Service',
-                                                    style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      color: Style.neutral600,
-                                                      fontWeight:
-                                                          FontWeight.w500,
+                                                  child: Expanded(
+                                                    child: Text(
+                                                      appointment[
+                                                              'serviceName'] ??
+                                                          'Service',
+                                                      style: TextStyle(
+                                                        fontSize: 14.sp,
+                                                        color: Style.neutral600,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -254,10 +267,64 @@ class _PaymentPageState extends State<PaymentPage> {
                                               ],
                                             );
                                           }).toList(),
+
+                                          // // Subtotal line
+                                          // Padding(
+                                          //   padding:
+                                          //       EdgeInsets.only(top: 8.h, bottom: 4.h),
+                                          //   child: Row(
+                                          //     mainAxisAlignment:
+                                          //         MainAxisAlignment.spaceBetween,
+                                          //     children: [
+                                          //       Text(
+                                          //         "subtotal".tr(),
+                                          //         style: TextStyle(
+                                          //           fontSize: 14.sp,
+                                          //           color: Colors.grey[600],
+                                          //         ),
+                                          //       ),
+                                          //       Text(
+                                          //         '${_formatNumber(subtotal)} UZS',
+                                          //         style: TextStyle(
+                                          //           fontSize: 14.sp,
+                                          //         ),
+                                          //       ),
+                                          //     ],
+                                          //   ),
+                                          // ),
+
+                                          // VAT line
+                                          // Padding(
+                                          //   padding: EdgeInsets.symmetric(vertical: 4.h),
+                                          //   child: Row(
+                                          //     mainAxisAlignment:
+                                          //         MainAxisAlignment.spaceBetween,
+                                          //     children: [
+                                          //       Text(
+                                          //         "vat_included".tr() +
+                                          //             " (15%)", // "VAT included (15%)"
+                                          //         style: TextStyle(
+                                          //           fontSize: 14.sp,
+                                          //           color: Colors.grey[600],
+                                          //         ),
+                                          //       ),
+                                          //       Text(
+                                          //         '${_formatNumber(subtotal * vatRate)} UZS',
+                                          //         style: TextStyle(
+                                          //           fontSize: 14.sp,
+                                          //           color: Colors.grey[600],
+                                          //         ),
+                                          //       ),
+                                          //     ],
+                                          //   ),
+                                          // ),
+
                                           Divider(
                                               color: Colors.grey[300],
                                               thickness: 1,
                                               height: 16.h),
+
+                                          // Total row
                                           Padding(
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 8.h),
@@ -290,82 +357,46 @@ class _PaymentPageState extends State<PaymentPage> {
                             textColor: Style.primary900,
                             title: "pay_not_right_now".tr(),
                             onTap: () async {
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(false);
                               Navigator.pushReplacement(
                                   context, AppRoutes.getMainPage(3));
                             },
                           ),
                           8.h.verticalSpace,
-                          Consumer<PaymentProvider>(
-                            builder: (context, paymentProvider, _) {
-                              return CButton(
-                                title: "pay_right_now".tr(),
-                                onTap: () async {
-                                  if (paymentProvider.multiUrl?.isNotEmpty ??
-                                      false) {
-                                    await _launchPaymentUrl(
-                                        paymentProvider.multiUrl!);
-                                  } else {
-                                    await _initializePaymentUrl();
-                                    if (paymentProvider.multiUrl?.isNotEmpty ??
-                                        false) {
-                                      await _launchPaymentUrl(
-                                          paymentProvider.multiUrl!);
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                              "payment_url_not_available".tr()),
-                                        ),
-                                      );
-                                    }
-                                  }
-                                },
+                          CButton(
+                            title: "pay_right_now".tr(),
+                            onTap: () async {
+                              final paymentProvider =
+                                  Provider.of<PaymentProvider>(
+                                context,
+                                listen: false,
                               );
+                              if (paymentProvider.multiUrl != null &&
+                                  paymentProvider.multiUrl!.isNotEmpty) {
+                                await _launchPaymentUrl(
+                                    paymentProvider.multiUrl!);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          Text("No payment URL available")),
+                                );
+                              }
                             },
                           ),
+                          24.h.verticalSpace,
                         ],
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildAppointmentItem(
-    Map<String, String> appointment,
-    BuildContext context,
-  ) {
-    String appointmentDate = appointment['date'] ?? '';
-    String appointmentTime = appointment['time'] ?? '';
-
-    String formattedDate = appointmentDate.isNotEmpty
-        ? DateFormat('EEE, dd MMMM', context.locale.toString()).format(
-            DateTime.tryParse(appointmentDate) ?? DateTime.now(),
-          )
-        : "Not available";
-
-    return VerifyAppointmentItem(
-      hasImage: false,
-      diagnosis: appointment['serviceName'] ?? 'Unknown',
-      procedure: appointment['specialty'] ?? 'Unknown',
-      doctorName: 'Dr. ${appointment['doctorName'] ?? "Unknown"}',
-      price: "${appointment['price']}" ?? '0',
-      appointmentTime:
-          "$formattedDate ${appointmentTime.isNotEmpty ? appointmentTime : "Not available"}",
-      location: appointment['location'] ?? 'Unknown',
-      imagePath: '',
-      onCancel: () {
-        final serviceId = appointment['serviceId'];
-        if (serviceId != null) {
-          AppointmentState.removeAppointment(serviceId);
-        }
-      },
-    );
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
