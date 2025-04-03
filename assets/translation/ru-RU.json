@@ -324,5 +324,6 @@
     "recommendations": "Рекомендации",
     "search_for_doctors": "Поиск врачей",
     "search_by_name_or_specialty": "Поиск по имени или специальности",
+    "discount_to_this_date": "Акция до {date}",
     " ": ""
 }

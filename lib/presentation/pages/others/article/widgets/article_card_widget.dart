@@ -18,7 +18,8 @@ class ArticleCardWidget extends StatelessWidget {
       this.title,
       this.description,
       this.link,
-      this.date, required this.onTap});
+      this.date,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class ArticleCardWidget extends StatelessWidget {
           decoration: BoxDecoration(
               color: colors.shade0, borderRadius: BorderRadius.circular(8.r)),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
                   borderRadius: BorderRadius.only(
@@ -37,7 +39,16 @@ class ArticleCardWidget extends StatelessWidget {
                       topRight: Radius.circular(8.r)),
                   child: _buildImageSection(colors, fonts)),
               4.h.verticalSpace,
-              Text(title!, style: fonts.xSmallLink),
+              Text(title!,
+                  style: fonts.xSmallLink
+                      .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w600)),
+              4.h.verticalSpace,
+              Text(description!,
+                  style: fonts.xSmallLink.copyWith(
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w500,
+                    color: colors.neutral600,
+                  )),
             ],
           ),
         ),

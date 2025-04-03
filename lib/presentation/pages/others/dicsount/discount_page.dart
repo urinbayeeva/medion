@@ -8,6 +8,7 @@ import 'package:medion/presentation/pages/others/article/widgets/article_card_wi
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/extensions.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DiscountPage extends StatefulWidget {
@@ -52,7 +53,7 @@ class _DiscountPageState extends State<DiscountPage> {
               title: "discounts".tr(),
               centerTitle: true,
               isBack: true,
-              trailing: 24.w.horizontalSpace,
+              trailing: 28.w.horizontalSpace,
             ),
             Expanded(
               child: BlocBuilder<ContentBloc, ContentState>(
@@ -77,7 +78,7 @@ class _DiscountPageState extends State<DiscountPage> {
                   if (discountContent.isEmpty) {
                     return Center(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           icons.emojiSad.svg(width: 80.w, height: 80.h),
                           4.h.verticalSpace,
@@ -95,55 +96,61 @@ class _DiscountPageState extends State<DiscountPage> {
                     onRefresh: _onRefresh,
                     child: SingleChildScrollView(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           12.h.verticalSpace,
-                          SizedBox(
-                            height: 300.h,
-                            child: GridView.builder(
-                              padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 8,
-                                childAspectRatio: 0.6,
-                              ),
-                              itemCount: discountContent.length,
-                              itemBuilder: (context, index) {
-                                final discount = discountContent[index];
-                                return ArticleCardWidget(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      AppRoutes.getInfoViewAboutHealth(
-                                        imagePath: discount.primaryImage,
-                                        title: discount.decodedTitle,
-                                        desc: discount.decodedDescription,
-                                        date: discount.createDate,
-                                        isDiscount: true,
-                                        discountAddress: discount
-                                            .discountLocation
-                                            .toString(),
-                                        discountDuration:
-                                            "${discount.discountStartDate?.toString() ?? ''} - ${discount.discountEndDate?.toString() ?? ''}",
-                                        phoneShortNumber: discount
-                                                .phoneNumberShort
-                                                ?.toString() ??
-                                            '',
-                                        phoneNumber:
-                                            discount.phoneNumber?.toString() ??
-                                                '',
-                                      ),
-                                    );
-                                  },
-                                  title: discount.title,
-                                  description: discount.description,
-                                  image: discount.primaryImage,
-                                );
-                              },
+                          GridView.builder(
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                              childAspectRatio: 0.7,
                             ),
+                            itemCount: discountContent.length,
+                            itemBuilder: (context, index) {
+                              final discount = discountContent[index];
+                              return ArticleCardWidget(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    AppRoutes.getInfoViewAboutHealth(
+                                      imagePath: discount.primaryImage,
+                                      title:
+                                          discount.decodedTitle.toCapitalized(),
+                                      desc: discount.decodedDescription
+                                          .toCapitalized(),
+                                      date: discount.createDate,
+                                      isDiscount: true,
+                                      discountAddress:
+                                          discount.discountLocation.toString(),
+                                      discountDuration:
+                                          "${DateFormat('dd.MM.yyyy').format(DateTime.parse(discount.discountStartDate.toString()))} - ${DateFormat('dd.MM.yyyy').format(DateTime.parse(discount.discountEndDate.toString()))}",
+                                      phoneShortNumber: discount
+                                              .phoneNumberShort
+                                              ?.toString() ??
+                                          '',
+                                      phoneNumber:
+                                          discount.phoneNumber?.toString() ??
+                                              '',
+                                    ),
+                                  );
+                                },
+                                title: discount.title.toCapitalized(),
+                                description: "Акция до {date}".tr(namedArgs: {
+                                  "date": discount.discountEndDate != null
+                                      ? DateFormat('dd.MM.yyyy').format(
+                                          DateTime.parse(discount
+                                              .discountEndDate
+                                              .toString()))
+                                      : "дата не указана" // Fallback if null
+                                }),
+                                image: discount.primaryImage,
+                              );
+                            },
                           ),
                         ],
                       ),

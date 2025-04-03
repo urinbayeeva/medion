@@ -22,7 +22,7 @@ class ServiceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Container(
-        padding: EdgeInsets.all(12.w),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.r),
           color: colors.shade0,
