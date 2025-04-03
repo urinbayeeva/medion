@@ -84,251 +84,223 @@ class _PaymentPageState extends State<PaymentPage> {
 
               final patientInfo = state.patientInfo;
 
-              return CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    title: Text("payment".tr()),
-                    leading: IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () => Navigator.pop(context),
+              return Expanded(
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    UserInfoWidget(
+                      title: "your_info".tr(),
+                      children: [
+                        CustomTextField(
+                          readOnly: true,
+                          padding: const EdgeInsets.only(bottom: 12),
+                          hintText: patientInfo?.firstName ?? "Not available",
+                          title: "name".tr(),
+                        ),
+                        CustomTextField(
+                          readOnly: true,
+                          padding: const EdgeInsets.only(bottom: 12),
+                          hintText: patientInfo?.lastName ?? "Not available",
+                          title: "second_name".tr(),
+                        ),
+                        CustomTextField(
+                          readOnly: true,
+                          padding: const EdgeInsets.only(bottom: 12),
+                          hintText: patientInfo?.patientId?.toString() ??
+                              "Not available",
+                          title: "ID",
+                        ),
+                        CustomTextField(
+                          readOnly: true,
+                          padding: const EdgeInsets.only(bottom: 12),
+                          hintText: patientInfo?.phoneNumber ?? "Not available",
+                          title: "contact_phone_number".tr(),
+                        ),
+                      ],
                     ),
-                    pinned: true,
-                    elevation: 0,
-                  ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          UserInfoWidget(
-                            title: "your_info".tr(),
-                            children: [
-                              CustomTextField(
-                                readOnly: true,
-                                padding: const EdgeInsets.only(bottom: 12),
-                                hintText:
-                                    patientInfo?.firstName ?? "Not available",
-                                title: "name".tr(),
-                              ),
-                              CustomTextField(
-                                readOnly: true,
-                                padding: const EdgeInsets.only(bottom: 12),
-                                hintText:
-                                    patientInfo?.lastName ?? "Not available",
-                                title: "second_name".tr(),
-                              ),
-                              CustomTextField(
-                                readOnly: true,
-                                padding: const EdgeInsets.only(bottom: 12),
-                                hintText: patientInfo?.patientId?.toString() ??
-                                    "Not available",
-                                title: "ID",
-                              ),
-                              CustomTextField(
-                                readOnly: true,
-                                padding: const EdgeInsets.only(bottom: 12),
-                                hintText:
-                                    patientInfo?.phoneNumber ?? "Not available",
-                                title: "contact_phone_number".tr(),
-                              ),
-                            ],
+                    12.h.verticalSpace,
+                    ValueListenableBuilder<List<Map<String, String>>>(
+                      valueListenable: AppointmentState.selectedAppointments,
+                      builder: (context, selectedList, _) {
+                        return Column(
+                          children: selectedList
+                              .map((appointment) => _buildAppointmentItem(
+                                    appointment,
+                                    context,
+                                  ))
+                              .toList(),
+                        );
+                      },
+                    ),
+                    12.h.verticalSpace,
+                    UserInfoWidget(
+                      title: "who_pays".tr(),
+                      children: [
+                        CustomRadioTile<String>(
+                          value: "myself".tr(),
+                          groupValue: _selectedOption,
+                          title: Text("myself".tr()),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedOption = value!;
+                            });
+                          },
+                        ),
+                        CustomRadioTile<String>(
+                          value: "employer".tr(),
+                          groupValue: _selectedOption,
+                          title: Text(
+                            "employer".tr(),
                           ),
-                          12.h.verticalSpace,
-                          ValueListenableBuilder<List<Map<String, String>>>(
-                            valueListenable:
-                                AppointmentState.selectedAppointments,
-                            builder: (context, selectedList, _) {
-                              return Column(
-                                children: selectedList
-                                    .map((appointment) => _buildAppointmentItem(
-                                          appointment,
-                                          context,
-                                        ))
-                                    .toList(),
-                              );
-                            },
-                          ),
-                          12.h.verticalSpace,
-                          UserInfoWidget(
-                            title: "who_pays".tr(),
-                            children: [
-                              CustomRadioTile<String>(
-                                value: "myself".tr(),
-                                groupValue: _selectedOption,
-                                title: Text("myself".tr()),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _selectedOption = value!;
-                                  });
-                                },
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedOption = value!;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    12.h.verticalSpace,
+                    ZigZagContainer(
+                      color: Colors.white,
+                      zigZagHeight: 15,
+                      padding: EdgeInsets.all(20),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.w, vertical: 8.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "your_check".tr(),
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold,
                               ),
-                              CustomRadioTile<String>(
-                                value: "employer".tr(),
-                                groupValue: _selectedOption,
-                                title: Text(
-                                  "employer".tr(),
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _selectedOption = value!;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                          12.h.verticalSpace,
-                          ZigZagContainer(
-                            color: Colors.white,
-                            zigZagHeight: 15,
-                            padding: EdgeInsets.all(20),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16.w, vertical: 8.h),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "your_check".tr(),
-                                    style: TextStyle(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  12.h.verticalSpace,
-                                  ValueListenableBuilder<
-                                      List<Map<String, String>>>(
-                                    valueListenable:
-                                        AppointmentState.selectedAppointments,
-                                    builder: (context, selectedList, _) {
-                                      double total = 0;
-                                      double vatRate = 0.15;
-                                      double subtotal = 0;
+                            ),
+                            12.h.verticalSpace,
+                            ValueListenableBuilder<List<Map<String, String>>>(
+                              valueListenable:
+                                  AppointmentState.selectedAppointments,
+                              builder: (context, selectedList, _) {
+                                double total = 0;
+                                double vatRate = 0.15;
+                                double subtotal = 0;
+
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ...selectedList.map((appointment) {
+                                      final price = double.tryParse(
+                                              appointment['price'] ?? '0') ??
+                                          0;
+                                      subtotal += price;
 
                                       return Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          ...selectedList.map((appointment) {
-                                            final price = double.tryParse(
-                                                    appointment['price'] ??
-                                                        '0') ??
-                                                0;
-                                            subtotal += price;
-
-                                            return Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 6.h),
-                                                  child: Text(
-                                                    appointment[
-                                                            'serviceName'] ??
-                                                        'Service',
-                                                    style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      color: Style.neutral600,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "${"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ "} ${"sum".tr(namedArgs: {
-                                                        "amount":
-                                                            _formatNumber(price)
-                                                      })}",
-                                                  style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                    color: Style.neutral500,
-                                                  ),
-                                                ),
-                                                if (selectedList
-                                                        .indexOf(appointment) !=
-                                                    selectedList.length - 1)
-                                                  Divider(
-                                                      height: 1.h,
-                                                      color: Colors.grey[300]),
-                                              ],
-                                            );
-                                          }).toList(),
-                                          Divider(
-                                              color: Colors.grey[300],
-                                              thickness: 1,
-                                              height: 16.h),
                                           Padding(
                                             padding: EdgeInsets.symmetric(
-                                                vertical: 8.h),
+                                                vertical: 6.h),
                                             child: Text(
-                                              "${"total".tr()}_ _ _ _ _ _ _ _ _ _ _ _ _ ${"sum".tr(namedArgs: {
-                                                    "amount":
-                                                        _formatNumber(subtotal)
-                                                  })}",
+                                              appointment['serviceName'] ??
+                                                  'Service',
                                               style: TextStyle(
-                                                fontSize: 16.sp,
+                                                fontSize: 14.sp,
                                                 color: Style.neutral600,
-                                                fontWeight: FontWeight.bold,
+                                                fontWeight: FontWeight.w500,
                                               ),
                                             ),
                                           ),
+                                          Text(
+                                            "${"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ "} ${"sum".tr(namedArgs: {
+                                                  "amount": _formatNumber(price)
+                                                })}",
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              color: Style.neutral500,
+                                            ),
+                                          ),
+                                          if (selectedList
+                                                  .indexOf(appointment) !=
+                                              selectedList.length - 1)
+                                            Divider(
+                                                height: 1.h,
+                                                color: Colors.grey[300]),
                                         ],
                                       );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          12.h.verticalSpace,
-                          Text("if_you_make_an_advance_payment".tr(),
-                              style: Style.smallLink()),
-                          40.h.verticalSpace,
-                          CButton(
-                            backgroundColor: Style.neutral200,
-                            textColor: Style.primary900,
-                            title: "pay_not_right_now".tr(),
-                            onTap: () async {
-                              Navigator.pushReplacement(
-                                  context, AppRoutes.getMainPage(3));
-                            },
-                          ),
-                          8.h.verticalSpace,
-                          Consumer<PaymentProvider>(
-                            builder: (context, paymentProvider, _) {
-                              return CButton(
-                                title: "pay_right_now".tr(),
-                                onTap: () async {
-                                  if (paymentProvider.multiUrl?.isNotEmpty ??
-                                      false) {
-                                    await _launchPaymentUrl(
-                                        paymentProvider.multiUrl!);
-                                  } else {
-                                    await _initializePaymentUrl();
-                                    if (paymentProvider.multiUrl?.isNotEmpty ??
-                                        false) {
-                                      await _launchPaymentUrl(
-                                          paymentProvider.multiUrl!);
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                              "payment_url_not_available".tr()),
+                                    }).toList(),
+                                    Divider(
+                                        color: Colors.grey[300],
+                                        thickness: 1,
+                                        height: 16.h),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 8.h),
+                                      child: Text(
+                                        "${"total".tr()}_ _ _ _ _ _ _ _ _ _ _ _ _ ${"sum".tr(namedArgs: {
+                                              "amount": _formatNumber(subtotal)
+                                            })}",
+                                        style: TextStyle(
+                                          fontSize: 16.sp,
+                                          color: Style.neutral600,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                      );
-                                    }
-                                  }
-                                },
-                              );
-                            },
-                          ),
-                        ],
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    12.h.verticalSpace,
+                    Text("if_you_make_an_advance_payment".tr(),
+                        style: Style.smallLink()),
+                    40.h.verticalSpace,
+                    CButton(
+                      backgroundColor: Style.neutral200,
+                      textColor: Style.primary900,
+                      title: "pay_not_right_now".tr(),
+                      onTap: () async {
+                        Navigator.pushReplacement(
+                            context, AppRoutes.getMainPage(3));
+                      },
+                    ),
+                    8.h.verticalSpace,
+                    Consumer<PaymentProvider>(
+                      builder: (context, paymentProvider, _) {
+                        return CButton(
+                          title: "pay_right_now".tr(),
+                          onTap: () async {
+                            if (paymentProvider.multiUrl?.isNotEmpty ?? false) {
+                              await _launchPaymentUrl(
+                                  paymentProvider.multiUrl!);
+                            } else {
+                              await _initializePaymentUrl();
+                              if (paymentProvider.multiUrl?.isNotEmpty ??
+                                  false) {
+                                await _launchPaymentUrl(
+                                    paymentProvider.multiUrl!);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        Text("payment_url_not_available".tr()),
+                                  ),
+                                );
+                              }
+                            }
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
               );
             },
           ),
