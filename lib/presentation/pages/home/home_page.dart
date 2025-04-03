@@ -291,6 +291,7 @@ class _HomePageState extends State<HomePage> {
                             );
                           },
                         ),
+                        12.h.verticalSpace,
                         _buildVerticalSpacingAndHeader("news", fonts, "all",
                             () {
                           context
@@ -476,7 +477,7 @@ Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
     builder: (context, colors, fonts, icons, controller) {
       final limitedDoctors = doctors.take(10).toList();
       return SizedBox(
-        height: 320.h,
+        height: 325.h,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.zero,
