@@ -261,14 +261,14 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
         crossAxisCount: 2,
         crossAxisSpacing: 12.w,
         mainAxisSpacing: 12.h,
-        childAspectRatio: 0.68,
+        childAspectRatio: 0.48,
       ),
       itemCount: state.medicalModel!.doctors.length,
       itemBuilder: (_, index) {
         final doctor = state.medicalModel!.doctors[index];
         return DoctorsItem(
           gender: "male",
-          isInnerPageUsed: false,
+          isInnerPageUsed: true,
           imagePath: doctor.image ?? icons.nonUser,
           onTap: () {
             Navigator.push(
@@ -284,7 +284,8 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
           },
           name: doctor.name ?? '',
           profession: doctor.jobName ?? "No profession",
-          experience: "${doctor.experienceYears ?? "No experience"}",
+          experience: "experience"
+              .tr(namedArgs: {"count": doctor.experienceYears.toString()}),
         );
       },
     );
