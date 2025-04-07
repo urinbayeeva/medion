@@ -13,13 +13,14 @@ import 'package:medion/presentation/component/c_zigzag_container.dart';
 import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
 import 'package:medion/presentation/pages/appointment/component/user_info_widget.dart';
 import 'package:medion/presentation/pages/appointment/component/verify_appointment_item.dart';
+import 'package:medion/presentation/pages/appointment/payment_web_view.dart';
 import 'package:medion/presentation/pages/appointment/widget/zigzag.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
-import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:intl/intl.dart';
 
 String _formatNumber(double number) {
   return number
@@ -39,15 +40,10 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  Future<void> _launchPaymentUrl(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      throw Exception('Could not launch $url');
-    }
-  }
-
   String _selectedOption = "";
-  String _selectedPayment = "Payme";
+  bool _showWebView = false;
+  String? _paymentUrl;
+  late WebViewController _webViewController;
 
   @override
   void initState() {
@@ -66,10 +62,58 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
+  void _openPaymentWebView(String url) {
+    setState(() {
+      _paymentUrl = url;
+      _showWebView = true;
+      _webViewController = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..setBackgroundColor(Colors.white)
+        ..setNavigationDelegate(
+          NavigationDelegate(
+            onProgress: (int progress) {},
+            onPageStarted: (String url) {},
+            onPageFinished: (String url) {},
+            onWebResourceError: (WebResourceError error) {},
+            onNavigationRequest: (NavigationRequest request) {
+              return NavigationDecision.navigate;
+            },
+          ),
+        )
+        ..loadRequest(Uri.parse(url));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
+        if (_showWebView && _paymentUrl != null) {
+          return Scaffold(
+            body: Stack(
+              children: [
+                WebViewWidget(controller: _webViewController),
+                Positioned(
+                  top: 40.h,
+                  right: 16.w,
+                  child: CircleAvatar(
+                    radius: 20.r,
+                    backgroundColor: Colors.white.withOpacity(0.8),
+                    child: IconButton(
+                      icon: Icon(Icons.close, size: 20.w),
+                      onPressed: () {
+                        setState(() {
+                          _showWebView = false;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
         return Scaffold(
           backgroundColor: colors.backgroundColor,
           body: BlocBuilder<AuthBloc, AuthState>(
@@ -87,7 +131,6 @@ class _PaymentPageState extends State<PaymentPage> {
               return Expanded(
                 child: ListView(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     UserInfoWidget(
                       title: "your_info".tr(),
@@ -184,8 +227,6 @@ class _PaymentPageState extends State<PaymentPage> {
                               valueListenable:
                                   AppointmentState.selectedAppointments,
                               builder: (context, selectedList, _) {
-                                double total = 0;
-                                double vatRate = 0.15;
                                 double subtotal = 0;
 
                                 return Column(
@@ -278,14 +319,16 @@ class _PaymentPageState extends State<PaymentPage> {
                           title: "pay_right_now".tr(),
                           onTap: () async {
                             if (paymentProvider.multiUrl?.isNotEmpty ?? false) {
-                              await _launchPaymentUrl(
-                                  paymentProvider.multiUrl!);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PaymentWebView(
+                                          url: paymentProvider.multiUrl!)));
                             } else {
                               await _initializePaymentUrl();
                               if (paymentProvider.multiUrl?.isNotEmpty ??
                                   false) {
-                                await _launchPaymentUrl(
-                                    paymentProvider.multiUrl!);
+                                _openPaymentWebView(paymentProvider.multiUrl!);
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
