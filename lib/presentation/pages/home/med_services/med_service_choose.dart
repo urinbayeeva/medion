@@ -115,7 +115,7 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
         );
       } else {
         uri = Uri.parse(
-          'https://his.uicgroup.tech/apiweb/booking/services_by_doctor/${widget.doctorId}',
+          'https://his.uicgroup.tech/apiweb/booking/category_services/${widget.serviceTypeId}',
         );
       }
 

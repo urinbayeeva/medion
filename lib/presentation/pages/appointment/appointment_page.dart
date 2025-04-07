@@ -65,7 +65,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
     super.initState();
     print("Received index: ${widget.index}");
     screenIndex = widget.index ?? 0;
-
     selectedServiceIds = widget.selectedServiceIds ?? {};
     _pageController = PageController(initialPage: screenIndex);
     _initializeDBService();
@@ -73,7 +72,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
     canPop = false;
 
     final navController = context.read<BottomNavBarController>();
-    navController.setIndex(0, pageIndex: screenIndex);
+    navController.setIndex(1, pageIndex: screenIndex);
   }
 
   Future<void> _initializeDBService() async {

@@ -58,8 +58,8 @@ class _MainPageState extends State<MainPage> {
     pageList = [
       const HomePage(),
       const AppointmentPage(
-        index: 1,
-        initialIndex: 1,
+        index: 0,
+        initialIndex: 0,
       ),
       const MyVisitsPage(),
       BlocProvider(

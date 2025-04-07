@@ -152,12 +152,13 @@ class _HomePageState extends State<HomePage> {
                                             .read<BottomNavBarController>()
                                             .changeNavBar(true);
                                         Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        MedServiceChoose(
-                                                            serviceTypeId: 19)))
-                                            .then((_) {
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const MedServiceChoose(
+                                                        isDoctorService: false,
+                                                        serviceTypeId:
+                                                            19))).then((_) {
                                           context
                                               .read<BottomNavBarController>()
                                               .changeNavBar(false);

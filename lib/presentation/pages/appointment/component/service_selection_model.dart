@@ -29,6 +29,7 @@ class ServiceSelectionModal extends StatelessWidget {
       return Container(
         decoration: BoxDecoration(
             color: Colors.white,
+            boxShadow: colors.shadowMMMM,
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(8.r), topLeft: Radius.circular(8.r))),
         padding: EdgeInsets.all(16.w),
