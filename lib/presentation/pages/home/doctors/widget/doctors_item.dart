@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/pages/home/med_services/med_service_choose.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -21,6 +22,7 @@ class DoctorsItem extends StatelessWidget {
   final String? categoryType;
   final VoidCallback onTap;
   final String? gender;
+  final int doctorID;
 
   const DoctorsItem({
     super.key,
@@ -35,6 +37,7 @@ class DoctorsItem extends StatelessWidget {
     this.categoryType,
     required this.onTap,
     this.gender,
+    required this.doctorID,
   });
 
   @override
@@ -207,10 +210,14 @@ class DoctorsItem extends StatelessWidget {
               onTap: () {
                 context.read<BottomNavBarController>().changeNavBar(true);
                 Navigator.push(
-                        context,
-                        AppRoutes.getDoctorsAppointmentPage(
-                            name!, profession!, imagePath!, status))
-                    .then((_) {
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MedServiceChoose(
+                              serviceTypeId: 0,
+                              isDoctorService: true,
+                              doctorId: doctorID,
+                            ))).then((value) {}).then((_) {
+                  // ignore: use_build_context_synchronously
                   context.read<BottomNavBarController>().changeNavBar(false);
                 });
               },

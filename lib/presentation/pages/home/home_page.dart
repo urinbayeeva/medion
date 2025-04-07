@@ -505,6 +505,7 @@ class _HomePageState extends State<HomePage> {
                 gender: doctor['gender'].toString(),
                 candidateScience: false,
                 isInnerPageUsed: true,
+                doctorID: doctor['id'],
               );
             },
           ),

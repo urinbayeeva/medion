@@ -86,7 +86,8 @@ class ServiceSelectionModal extends StatelessWidget {
                             color: colors.primary900,
                           ),
                         ),
-                        if (index < selectedServices.length - 1) CDivider(),
+                        if (index < selectedServices.length - 1)
+                          const CDivider(),
                       ],
                     ),
                     AnimationButtonEffect(

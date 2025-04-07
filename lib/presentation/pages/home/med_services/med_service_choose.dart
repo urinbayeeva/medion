@@ -19,8 +19,15 @@ import 'package:medion/utils/helpers/decode_html.dart';
 
 class MedServiceChoose extends StatefulWidget {
   final int serviceTypeId;
+  final bool isDoctorService;
+  final int? doctorId; // Only required when isDoctorService is true
 
-  const MedServiceChoose({super.key, required this.serviceTypeId});
+  const MedServiceChoose({
+    super.key,
+    required this.serviceTypeId,
+    this.isDoctorService = false,
+    this.doctorId,
+  });
 
   @override
   State<MedServiceChoose> createState() => _MedServiceChooseState();
@@ -58,7 +65,6 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
         .where((category) => (category['services'] as List).isNotEmpty)
         .toList();
 
-    print('Filtered Categories: $filtered'); // Add this for debugging
     return filtered;
   }
 
@@ -98,10 +104,22 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
 
   Future<void> _fetchServices() async {
     try {
-      final response = await http.get(
-        Uri.parse(
-            'https://his.uicgroup.tech/apiweb/booking/category_services/${widget.serviceTypeId}'),
-      );
+      final Uri uri;
+
+      if (widget.isDoctorService) {
+        if (widget.doctorId == null) {
+          throw Exception('Doctor ID is required for doctor services');
+        }
+        uri = Uri.parse(
+          'https://his.uicgroup.tech/apiweb/booking/services_by_doctor/${widget.doctorId}',
+        );
+      } else {
+        uri = Uri.parse(
+          'https://his.uicgroup.tech/apiweb/booking/services_by_doctor/${widget.doctorId}',
+        );
+      }
+
+      final response = await http.get(uri);
 
       if (response.statusCode == 200) {
         final responseBody = utf8.decode(response.bodyBytes);
@@ -239,8 +257,21 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
     }
 
     if (_filteredCategories.isEmpty) {
-      // Changed from _categories to _filteredCategories
-      return Center(child: Text('no_services_available'.tr()));
+      return Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            "assets/icons/emoji-sad_d.svg",
+            width: 74.w,
+            height: 78.h,
+          ),
+          Text(
+            'no_result_found'.tr(),
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+          ),
+        ],
+      ));
     }
 
     return Column(
@@ -248,11 +279,9 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
         Expanded(
           child: ListView.builder(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-            itemCount: _filteredCategories
-                .length, // Changed from _categories to _filteredCategories
+            itemCount: _filteredCategories.length,
             itemBuilder: (context, index) {
-              final category = _filteredCategories[
-                  index]; // Changed from _categories to _filteredCategories
+              final category = _filteredCategories[index];
               return _ServiceCategoryTile(
                 categoryName: category['category_name'] ?? 'Unnamed Category',
                 services:

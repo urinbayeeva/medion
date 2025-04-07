@@ -286,6 +286,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
           profession: doctor.jobName ?? "No profession",
           experience: "experience"
               .tr(namedArgs: {"count": doctor.experienceYears.toString()}),
+          doctorID: doctor.id!,
         );
       },
     );

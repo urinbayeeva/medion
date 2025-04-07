@@ -382,6 +382,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                                       status:
                                           doctor['status']?.toString() ?? 'N/A',
                                       candidateScience: false,
+                                      doctorID: doctor['id'],
                                     );
                                   },
                                 ),
@@ -572,6 +573,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                   profession: doctor['profession'].toString(),
                   status: doctor['status']?.toString() ?? 'N/A',
                   candidateScience: false,
+                  doctorID: doctor['id'],
                 );
               },
             ),
