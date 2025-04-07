@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -161,7 +164,6 @@ Future<bool> sendVisitRequest(
     if (response.statusCode == 200) {
       final List<dynamic> responseBody = jsonDecode(response.body);
 
-      // Extract payment URLs from the list
       String paymeUrl = "";
       String clickUrl = "";
       String multicardUrl = "";
@@ -184,7 +186,10 @@ Future<bool> sendVisitRequest(
       Provider.of<PaymentProvider>(context, listen: false)
           .setPaymentUrls(paymeUrl, clickUrl, multicardUrl);
 
-      EasyLoading.showSuccess("Visit Created Successfully!");
+      Future.delayed(Duration.zero, () {
+        showAppointmentConfirmedDialog(context);
+      });
+
       print("Visit created successfully: $responseBody");
       return true; // Success
     } else {
@@ -211,4 +216,47 @@ Future<bool> sendVisitRequest(
   } finally {
     EasyLoading.dismiss();
   }
+}
+
+void showAppointmentConfirmedDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext dialogContext) {
+      Future.delayed(const Duration(seconds: 2), () {
+        if (Navigator.canPop(dialogContext)) {
+          Navigator.of(dialogContext).pop();
+        }
+      });
+
+      return AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        contentPadding: const EdgeInsets.all(24),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.red.shade400,
+              radius: 28,
+              child: SvgPicture.asset("assets/icons/done.svg"),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'your_appointment_has_been_confirmed'.tr(),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'you_can_keep_track_your_appoinment'.tr(),
+              style: TextStyle(fontSize: 14, color: Colors.black54),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+          ],
+        ),
+      );
+    },
+  );
 }
