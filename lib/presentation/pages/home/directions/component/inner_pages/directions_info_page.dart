@@ -132,7 +132,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   Widget _buildEmptyState() {
     return Center(
       child: Text(
-        "no_result_found".tr(),
+        "",
         style: Style.headlineMain(),
       ),
     );

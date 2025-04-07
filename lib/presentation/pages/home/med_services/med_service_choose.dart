@@ -526,7 +526,10 @@ class _ServiceItem extends StatelessWidget {
                       padding: EdgeInsets.only(top: 4.h),
                       child: Text(
                         decodeHtml(
-                            service['description'] ?? 'Test description'),
+                          service['description'] is String
+                              ? service['description']
+                              : 'Test description',
+                        ),
                         style: fonts.smallLink.copyWith(
                           color: colors.neutral600,
                           fontSize: 11.sp,
@@ -707,11 +710,15 @@ class _ServiceSelectionModalState extends State<ServiceSelectionModal> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   Text(
-                                    service['description'] ??
-                                        'Test Description',
+                                    decodeHtml(
+                                      service['description'] is String
+                                          ? service['description']
+                                          : 'Test description',
+                                    ),
                                     style: fonts.smallLink.copyWith(
-                                      fontSize: 12.sp,
                                       color: colors.neutral600,
+                                      fontSize: 11.sp,
+                                      fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                   Text(

@@ -382,7 +382,9 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                                       status:
                                           doctor['status']?.toString() ?? 'N/A',
                                       candidateScience: false,
-                                      doctorID: doctor['id'],
+                                      doctorID: int.parse(
+                                        doctor['id'],
+                                      ),
                                     );
                                   },
                                 ),
@@ -557,24 +559,25 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               itemBuilder: (context, index) {
                 final doctor = doctors[index];
                 return DoctorsItem(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        AppRoutes.getAboutDoctorPage(
-                            doctor['name'].toString(),
-                            doctor['profession'],
-                            doctor['name'].toString(),
-                            doctor['image'].toString(),
-                            doctor['id']));
-                  },
-                  categoryType: doctor['category'].toString(),
-                  imagePath: doctor['image'].toString(),
-                  name: doctor['name'].toString(),
-                  profession: doctor['profession'].toString(),
-                  status: doctor['status']?.toString() ?? 'N/A',
-                  candidateScience: false,
-                  doctorID: doctor['id'],
-                );
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          AppRoutes.getAboutDoctorPage(
+                              doctor['name'].toString(),
+                              doctor['profession'],
+                              doctor['name'].toString(),
+                              doctor['image'].toString(),
+                              doctor['id']));
+                    },
+                    categoryType: doctor['category'].toString(),
+                    imagePath: doctor['image'].toString(),
+                    name: doctor['name'].toString(),
+                    profession: doctor['profession'].toString(),
+                    status: doctor['status']?.toString() ?? 'N/A',
+                    candidateScience: false,
+                    doctorID: int.parse(
+                      doctor['id'],
+                    ));
               },
             ),
             16.h.verticalSpace,
