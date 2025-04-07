@@ -277,29 +277,21 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                 isScrollControlled: true,
                                 enableDrag: true,
                                 builder: (context) {
-                                  return DraggableScrollableSheet(
-                                    expand: false,
-                                    builder: (BuildContext context,
-                                        ScrollController scrollController) {
-                                      return SingleChildScrollView(
-                                        controller: scrollController,
-                                        child: ServiceSelectionModal(
-                                          selectedServices: selectedServices,
-                                          chose: chose,
-                                          onRemoveService: () {
-                                            if (!mounted) return;
-                                            setState(() {
-                                              _servicesProvider.clearServices();
-                                              _serviceIdsProvider
-                                                  .clearServiceIds();
-                                              selectedServices.clear();
-                                              selectedServiceIDCatch.clear();
-                                              chose = 0;
-                                            });
-                                          },
-                                        ),
-                                      );
-                                    },
+                                  return SingleChildScrollView(
+                                    child: ServiceSelectionModal(
+                                      selectedServices: selectedServices,
+                                      chose: chose,
+                                      onRemoveService: () {
+                                        if (!mounted) return;
+                                        setState(() {
+                                          _servicesProvider.clearServices();
+                                          _serviceIdsProvider.clearServiceIds();
+                                          selectedServices.clear();
+                                          selectedServiceIDCatch.clear();
+                                          chose = 0;
+                                        });
+                                      },
+                                    ),
                                   );
                                 },
                               );

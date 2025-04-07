@@ -5,13 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
-import 'package:medion/application/service_page_provider.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
+import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ServicesChosePage extends StatefulWidget {
@@ -35,9 +34,18 @@ class _ServicesChosePageState extends State<ServicesChosePage> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
 
+  // Service selection state
+  int chose = 0;
+  final Set<int> selectedServiceIDCatch = {};
+  final List<Map<String, dynamic>> selectedServices = [];
+
   @override
   void initState() {
     super.initState();
+    _loadServices();
+  }
+
+  void _loadServices() {
     context.read<BookingBloc>().add(
           BookingEvent.fetchCategoryServices(id: widget.id),
         );
@@ -52,26 +60,21 @@ class _ServicesChosePageState extends State<ServicesChosePage> {
   }
 
   void _onRefresh() async {
-    context.read<BookingBloc>().add(
-          BookingEvent.fetchCategoryServices(id: widget.id),
-        );
+    _loadServices();
     _refreshController.refreshCompleted();
   }
 
-  void _startSearch() {
+  void _toggleSearch() {
     setState(() {
-      _isSearching = true;
-    });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _searchFocusNode.requestFocus();
-    });
-  }
-
-  void _stopSearch() {
-    setState(() {
-      _isSearching = false;
-      _searchQuery = '';
-      _searchController.clear();
+      _isSearching = !_isSearching;
+      if (!_isSearching) {
+        _searchQuery = '';
+        _searchController.clear();
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _searchFocusNode.requestFocus();
+        });
+      }
     });
   }
 
@@ -96,88 +99,39 @@ class _ServicesChosePageState extends State<ServicesChosePage> {
     }).toList();
   }
 
+  void _handleServiceSelection(Map<String, dynamic> service) {
+    setState(() {
+      final serviceId = service['id'] as int;
+      if (selectedServiceIDCatch.contains(serviceId)) {
+        selectedServiceIDCatch.remove(serviceId);
+        selectedServices.removeWhere((s) => s['id'] == serviceId);
+        chose--;
+      } else {
+        selectedServiceIDCatch.add(serviceId);
+        selectedServices.add(service);
+        chose++;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return ChangeNotifierProvider(
-        create: (_) => ServicesPageProvider(),
-        child: Scaffold(
-          backgroundColor: colors.backgroundColor,
-          body: Column(
-            children: [
-              if (_isSearching)
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).padding.top,
-                      right: 16.w,
-                      left: 16.w),
-                  child: Row(
-                    children: [
-                      AnimationButtonEffect(
-                        onTap: () {
-                          setState(() {
-                            _isSearching = !_isSearching;
-                          });
-                        },
-                        child: icons.left.svg(
-                          height: 28.r,
-                          width: 28.r,
-                          color: colors.shade100,
-                        ),
-                      ),
-                      8.w.horizontalSpace,
-                      Expanded(
-                        child: CupertinoSearchTextField(
-                          controller: _searchController,
-                          focusNode: _searchFocusNode,
-                          placeholder: 'search_services'.tr(),
-                          onChanged: _onSearchChanged,
-                          onSubmitted: (_) => _stopSearch(),
-                          prefixIcon: Icon(
-                            CupertinoIcons.search,
-                            color: colors.neutral600,
-                          ),
-                          suffixIcon: Icon(
-                            CupertinoIcons.xmark_circle_fill,
-                            color: colors.neutral600,
-                          ),
-                          style: fonts.smallLink
-                              .copyWith(color: colors.primary900),
-                          decoration: BoxDecoration(
-                            color: colors.shade0,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              else
-                CAppBar(
-                  title: "      ${widget.serviceName}",
-                  isBack: true,
-                  centerTitle: true,
-                  trailing: Row(
-                    children: [
-                      AnimationButtonEffect(
-                        onTap: _startSearch,
-                        child: icons.search.svg(width: 20.w, height: 20.h),
-                      ),
-                      12.w.horizontalSpace,
-                      AnimationButtonEffect(
-                        onTap: () {},
-                        child:
-                            icons.valyutaChange.svg(width: 20.w, height: 20.h),
-                      ),
-                    ],
-                  ),
-                ),
-              BlocBuilder<BookingBloc, BookingState>(
+      return Scaffold(
+        backgroundColor: colors.backgroundColor,
+        body: Column(
+          children: [
+            // Search or AppBar
+            _isSearching
+                ? _buildSearchBar(colors, fonts, icons)
+                : _buildAppBar(colors, fonts, icons),
+
+            // Services List
+            Expanded(
+              child: BlocBuilder<BookingBloc, BookingState>(
                 builder: (context, state) {
                   if (state.categoryServices.isEmpty) {
-                    return const Expanded(
-                      child: Center(child: CircularProgressIndicator()),
-                    );
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   final filteredCategories = _filterServices(
@@ -185,55 +139,169 @@ class _ServicesChosePageState extends State<ServicesChosePage> {
                     _searchQuery,
                   );
 
-                  return Expanded(
-                    child: Consumer<ServicesPageProvider>(
-                      builder: (context, provider, _) {
-                        return ListView.builder(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16.w, vertical: 8.h),
-                          itemCount: filteredCategories.length,
-                          itemBuilder: (context, categoryIndex) {
-                            final category = filteredCategories[categoryIndex];
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: colors.shade0,
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                  return SmartRefresher(
+                    controller: _refreshController,
+                    onRefresh: _onRefresh,
+                    child: ListView.builder(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                      itemCount: filteredCategories.length,
+                      itemBuilder: (context, categoryIndex) {
+                        final category = filteredCategories[categoryIndex];
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: colors.shade0,
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
                                 children: [
-                                  Column(
-                                    children: [
-                                      ...category.services.map((service) {
-                                        return _ServiceItem(
-                                          service: service,
-                                          colors: colors,
-                                          fonts: fonts,
-                                          icons: icons,
-                                          isSelected:
-                                              provider.isSelected(service),
-                                          onTap: () {
-                                            provider.toggleService(service);
-                                          },
-                                        );
-                                      }).toList(),
-                                    ],
-                                  ),
+                                  ...category.services.map((service) {
+                                    return _ServiceItem(
+                                      service: service,
+                                      colors: colors,
+                                      fonts: fonts,
+                                      icons: icons,
+                                      isSelected: selectedServiceIDCatch
+                                          .contains(service['id']),
+                                      onTap: () =>
+                                          _handleServiceSelection(service),
+                                    );
+                                  }).toList(),
                                 ],
                               ),
-                            );
-                          },
+                            ],
+                          ),
                         );
                       },
                     ),
                   );
                 },
               ),
-            ],
-          ),
+            ),
+
+            // Bottom action bar
+            if (chose > 0) _buildBottomActionBar(colors, fonts),
+          ],
         ),
       );
     });
+  }
+
+  Widget _buildSearchBar(dynamic colors, dynamic fonts, dynamic icons) {
+    return Padding(
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top,
+        right: 16.w,
+        left: 16.w,
+      ),
+      child: Row(
+        children: [
+          AnimationButtonEffect(
+            onTap: _toggleSearch,
+            child: icons.left
+                .svg(height: 28.r, width: 28.r, color: colors.shade100),
+          ),
+          8.w.horizontalSpace,
+          Expanded(
+            child: CupertinoSearchTextField(
+              controller: _searchController,
+              focusNode: _searchFocusNode,
+              placeholder: 'search_services'.tr(),
+              onChanged: _onSearchChanged,
+              prefixIcon: Icon(CupertinoIcons.search, color: colors.neutral600),
+              suffixIcon: Icon(CupertinoIcons.xmark_circle_fill,
+                  color: colors.neutral600),
+              style: fonts.smallLink.copyWith(color: colors.primary900),
+              decoration: BoxDecoration(
+                color: colors.shade0,
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAppBar(dynamic colors, dynamic fonts, dynamic icons) {
+    return CAppBar(
+      title: widget.serviceName,
+      isBack: true,
+      centerTitle: true,
+      trailing: Row(
+        children: [
+          AnimationButtonEffect(
+            onTap: _toggleSearch,
+            child: SvgPicture.asset("assets/icons/search.svg",
+                width: 20.w, height: 20.h),
+          ),
+          12.w.horizontalSpace,
+          AnimationButtonEffect(
+            onTap: () {},
+            child: SvgPicture.asset("assets/icons/valyuta_change.svg",
+                width: 20.w, height: 20.h),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomActionBar(dynamic colors, dynamic fonts) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      decoration: BoxDecoration(
+        color: colors.shade0,
+        boxShadow: colors.shadowMMMM,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24.r),
+          topRight: Radius.circular(24.r),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "count_services_selected".tr(namedArgs: {"count": "$chose"}),
+                style: fonts.xSmallLink
+                    .copyWith(fontSize: 13.sp, fontWeight: FontWeight.bold),
+              ),
+              AnimationButtonEffect(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) => _SelectedServicesModal(
+                      selectedServices: selectedServices,
+                      onRemoveService: (service) {
+                        _handleServiceSelection(service);
+                      },
+                    ),
+                  );
+                },
+                child: SvgPicture.asset(
+                  "assets/icons/right.svg",
+                  width: 20.w,
+                  height: 20.h,
+                  color: colors.iconGreyColor,
+                ),
+              ),
+            ],
+          ),
+          12.h.verticalSpace,
+          CButton(
+            onTap: () {
+              if (chose >= 1) {}
+            },
+            title: 'next'.tr(),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -258,9 +326,7 @@ class _ServiceItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(width: 1, color: colors.neutral200),
-        ),
+        border: Border(top: BorderSide(width: 1, color: colors.neutral200)),
       ),
       child: InkWell(
         onTap: onTap,
@@ -274,7 +340,7 @@ class _ServiceItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      service.name ?? '',
+                      service['name'] ?? '',
                       style: fonts.smallSemLink.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -282,7 +348,7 @@ class _ServiceItem extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: 4.h),
                       child: Text(
-                        service.description ?? 'Test description',
+                        service['description'] ?? 'Test description',
                         style: fonts.smallLink.copyWith(
                           color: colors.neutral600,
                           fontSize: 11.sp,
@@ -291,7 +357,7 @@ class _ServiceItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      service.priceUzs.toString(),
+                      service['priceUzs'].toString(),
                       style: fonts.smallLink.copyWith(
                         color: colors.primary900,
                         fontWeight: FontWeight.w600,
@@ -320,5 +386,103 @@ class _ServiceItem extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _SelectedServicesModal extends StatelessWidget {
+  final List<Map<String, dynamic>> selectedServices;
+  final Function(Map<String, dynamic>) onRemoveService;
+
+  const _SelectedServicesModal({
+    required this.selectedServices,
+    required this.onRemoveService,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+      return Container(
+        padding: EdgeInsets.all(16.w),
+        decoration: BoxDecoration(
+          color: colors.shade0,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40.w,
+                height: 4.h,
+                decoration: BoxDecoration(
+                  color: colors.neutral400,
+                  borderRadius: BorderRadius.circular(2.r),
+                ),
+              ),
+            ),
+            SizedBox(height: 16.h),
+            Text(
+              "Выбраны ${selectedServices.length} услуги",
+              style: fonts.smallSemLink.copyWith(
+                fontSize: 17.sp,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(height: 16.h),
+            ...selectedServices.map((service) => Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                service['name'],
+                                style: fonts.smallSemLink.copyWith(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                service['description'],
+                                style: fonts.smallLink.copyWith(
+                                  fontSize: 12.sp,
+                                  color: colors.neutral600,
+                                ),
+                              ),
+                              Text(
+                                "${service['priceUzs']} UZS",
+                                style: fonts.smallSemLink.copyWith(
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                          icon: Image.asset(
+                            "assets/images/trash.png",
+                            width: 28.w,
+                            height: 28.h,
+                          ),
+                          onPressed: () => onRemoveService(service),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16.h),
+                  ],
+                )),
+            SizedBox(height: 16.h),
+            CButton(
+              onTap: () => Navigator.pop(context),
+              title: 'Готово',
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

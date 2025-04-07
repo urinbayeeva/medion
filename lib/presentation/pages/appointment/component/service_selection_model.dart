@@ -31,7 +31,6 @@ class ServiceSelectionModal extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               "count_services_selected".tr(
@@ -60,12 +59,14 @@ class ServiceSelectionModal extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            service.description ?? 'no_description',
+                            service.description ?? 'test description',
                             style: fonts.smallLink.copyWith(
                                 fontSize: 12.sp, color: colors.neutral600),
                           ),
                           Text(
-                            "${service.priceUzs} UZS",
+                            "sum".tr(namedArgs: {
+                              "amount": service.priceUzs.toString()
+                            }),
                             style: fonts.smallLink.copyWith(
                                 color: colors.primary900,
                                 fontWeight: FontWeight.bold),

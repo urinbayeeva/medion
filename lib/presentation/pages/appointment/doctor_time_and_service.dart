@@ -10,6 +10,7 @@ import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
+import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/pages/appointment/component/doctors_date_item.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -283,46 +284,61 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: List.generate(selectedList.length, (index) {
                   final appointment = selectedList[index];
+                  String timeString = appointment['time']!;
+                  List<String> parts = timeString.split(':');
+                  int hour = int.parse(parts[0]);
+                  int minute = int.parse(parts[1]);
+
+                  DateTime startTime = DateTime(0, 1, 1, hour, minute);
+                  DateTime endTime = startTime.add(Duration(minutes: 30));
                   return Padding(
                     padding: EdgeInsets.only(bottom: 10.h),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        CircleAvatar(
+                          backgroundColor: colors.neutral500,
+                          radius: 34.r,
+                          child: ClipOval(
+                            child: CachedImageComponent(
+                              height: 68.h, // slightly smaller than the avatar
+                              width: 68.w,
+                              imageUrl: appointment['doctorPhoto']!,
+                            ),
+                          ),
+                        ),
                         Flexible(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Doctor: ${appointment['doctorName'] ?? 'Unknown'}",
+                                appointment['doctorName'] ?? 'Unknown',
                                 style: fonts.xSmallLink.copyWith(
-                                  color: colors.primary900,
-                                  fontSize: 14.sp,
-                                ),
+                                    color: colors.primary900,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600),
                               ),
+                              Container(
+                                  padding: EdgeInsets.all(4.w),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30.r),
+                                      color:
+                                          Color(0xff0E73F6).withOpacity(0.3)),
+                                  child: Text(
+                                    "${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} - "
+                                    "${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}",
+                                    style: fonts.xSmallLink.copyWith(
+                                        fontSize: 12.sp,
+                                        color: Color(0xFF0E73F6)),
+                                  )),
                               Text(
-                                "Time: ${appointment['time'] ?? 'Not specified'}",
+                                "Test Description",
                                 style: fonts.xSmallLink.copyWith(
                                   color: colors.neutral500,
                                   fontSize: 14.sp,
                                 ),
                               ),
                             ],
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        GestureDetector(
-                          onTap: () {
-                            // Assuming selectedAppointments is a ValueNotifier
-                            selectedAppointments.value =
-                                List.from(selectedAppointments.value)
-                                  ..removeAt(index);
-                            Navigator.pop(context);
-                          },
-                          child: Image.asset(
-                            "assets/images/trash.png",
-                            width: 40,
-                            height: 40,
                           ),
                         ),
                       ],
