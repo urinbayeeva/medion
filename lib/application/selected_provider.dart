@@ -2,12 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 
-
-
-import 'package:flutter/material.dart';
-import 'package:medion/domain/models/booking/booking_type_model.dart';
-import 'package:medion/domain/models/third_service_model/third_service_model.dart';
-
 class SelectedServicesProvider extends ChangeNotifier {
   final List<Service> _selectedServices = [];
 

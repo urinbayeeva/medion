@@ -11,6 +11,7 @@ import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/application/payment_provider.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
 import 'package:medion/application/selected_provider.dart';
+import 'package:medion/application/service_page_provider.dart';
 import 'package:medion/application/services/time_select_provider.dart';
 import 'package:medion/application/visit/visit_bloc.dart';
 import 'package:medion/domain/models/currency_change.dart';
@@ -62,9 +63,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => SelectedServiceIdsProvider()),
           ChangeNotifierProvider(create: (_) => TimeSelectionProvider()),
           ChangeNotifierProvider(create: (_) => CurrencyChangeProvider()),
-                  ChangeNotifierProvider(create: (_) => PaymentProvider()),
-                  
-
+          ChangeNotifierProvider(create: (_) => ServicesPageProvider()),
+          ChangeNotifierProvider(create: (_) => PaymentProvider()),
           BlocProvider(
             child: const PaymentPage(),
             create: (context) {

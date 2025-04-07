@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
-import 'package:medion/application/selected_provider.dart';
+import 'package:medion/application/service_page_provider.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -30,11 +30,10 @@ class ServicesChosePage extends StatefulWidget {
 class _ServicesChosePageState extends State<ServicesChosePage> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-  late final SelectedServiceIdsProvider _serviceIdsProvider;
-  late final SelectedServicesProvider _servicesProvider;
-  int selectedCount = 0;
-  List<dynamic> selectedServices = [];
-  final List<int> selectedServiceIDCatch = [];
+  bool _isSearching = false;
+  String _searchQuery = '';
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -42,34 +41,14 @@ class _ServicesChosePageState extends State<ServicesChosePage> {
     context.read<BookingBloc>().add(
           BookingEvent.fetchCategoryServices(id: widget.id),
         );
-    _serviceIdsProvider =
-        Provider.of<SelectedServiceIdsProvider>(context, listen: false);
-    _servicesProvider =
-        Provider.of<SelectedServicesProvider>(context, listen: false);
-    _serviceIdsProvider.addListener(_updateSelectedServices);
-    _updateSelectedServices();
   }
 
   @override
   void dispose() {
-    _serviceIdsProvider.removeListener(_updateSelectedServices);
     _refreshController.dispose();
+    _searchController.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
-  }
-
-  void _updateSelectedServices() {
-    if (!mounted) return;
-    final bookingState = context.read<BookingBloc>().state;
-    setState(() {
-      selectedServices = bookingState.categoryServices
-          .expand((category) => category.services)
-          .where((service) =>
-              _serviceIdsProvider.selectedServiceIds.contains(service.id))
-          .toList();
-      selectedCount = selectedServices.length;
-      selectedServiceIDCatch.clear();
-      selectedServiceIDCatch.addAll(_serviceIdsProvider.selectedServiceIds);
-    });
   }
 
   void _onRefresh() async {
@@ -79,88 +58,179 @@ class _ServicesChosePageState extends State<ServicesChosePage> {
     _refreshController.refreshCompleted();
   }
 
+  void _startSearch() {
+    setState(() {
+      _isSearching = true;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _searchFocusNode.requestFocus();
+    });
+  }
+
+  void _stopSearch() {
+    setState(() {
+      _isSearching = false;
+      _searchQuery = '';
+      _searchController.clear();
+    });
+  }
+
+  void _onSearchChanged(String query) {
+    setState(() {
+      _searchQuery = query;
+    });
+  }
+
+  List<dynamic> _filterServices(List<dynamic> categories, String query) {
+    if (query.isEmpty) return categories;
+
+    return categories.where((category) {
+      return category.services.any((service) {
+        final nameMatch =
+            service.name?.toLowerCase().contains(query.toLowerCase()) ?? false;
+        final descMatch =
+            service.description?.toLowerCase().contains(query.toLowerCase()) ??
+                false;
+        return nameMatch || descMatch;
+      });
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Scaffold(
-        backgroundColor: colors.backgroundColor,
-        body: Column(
-          children: [
-            CAppBar(
-              title: "      ${widget.serviceName}",
-              isBack: true,
-              centerTitle: true,
-              trailing: Row(
-                children: [
-                  AnimationButtonEffect(
-                    onTap: () {},
-                    child: icons.search.svg(width: 20.w, height: 20.h),
+      return ChangeNotifierProvider(
+        create: (_) => ServicesPageProvider(),
+        child: Scaffold(
+          backgroundColor: colors.backgroundColor,
+          body: Column(
+            children: [
+              if (_isSearching)
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).padding.top,
+                      right: 16.w,
+                      left: 16.w),
+                  child: Row(
+                    children: [
+                      AnimationButtonEffect(
+                        onTap: () {
+                          setState(() {
+                            _isSearching = !_isSearching;
+                          });
+                        },
+                        child: icons.left.svg(
+                          height: 28.r,
+                          width: 28.r,
+                          color: colors.shade100,
+                        ),
+                      ),
+                      8.w.horizontalSpace,
+                      Expanded(
+                        child: CupertinoSearchTextField(
+                          controller: _searchController,
+                          focusNode: _searchFocusNode,
+                          placeholder: 'search_services'.tr(),
+                          onChanged: _onSearchChanged,
+                          onSubmitted: (_) => _stopSearch(),
+                          prefixIcon: Icon(
+                            CupertinoIcons.search,
+                            color: colors.neutral600,
+                          ),
+                          suffixIcon: Icon(
+                            CupertinoIcons.xmark_circle_fill,
+                            color: colors.neutral600,
+                          ),
+                          style: fonts.smallLink
+                              .copyWith(color: colors.primary900),
+                          decoration: BoxDecoration(
+                            color: colors.shade0,
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  12.w.horizontalSpace,
-                  AnimationButtonEffect(
-                    onTap: () {},
-                    child: icons.valyutaChange.svg(width: 20.w, height: 20.h),
+                )
+              else
+                CAppBar(
+                  title: "      ${widget.serviceName}",
+                  isBack: true,
+                  centerTitle: true,
+                  trailing: Row(
+                    children: [
+                      AnimationButtonEffect(
+                        onTap: _startSearch,
+                        child: icons.search.svg(width: 20.w, height: 20.h),
+                      ),
+                      12.w.horizontalSpace,
+                      AnimationButtonEffect(
+                        onTap: () {},
+                        child:
+                            icons.valyutaChange.svg(width: 20.w, height: 20.h),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            BlocConsumer<BookingBloc, BookingState>(
-              listener: (context, state) {
-                if (state.categoryServices.isNotEmpty) {
-                  _updateSelectedServices();
-                }
-              },
-              builder: (context, state) {
-                if (state.categoryServices.isEmpty) {
-                  return const Expanded(
-                    child: Center(child: CircularProgressIndicator()),
+                ),
+              BlocBuilder<BookingBloc, BookingState>(
+                builder: (context, state) {
+                  if (state.categoryServices.isEmpty) {
+                    return const Expanded(
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+
+                  final filteredCategories = _filterServices(
+                    state.categoryServices,
+                    _searchQuery,
                   );
-                }
-                return Expanded(
-                  child: ListView.builder(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                    itemCount: state.categoryServices.length,
-                    itemBuilder: (context, categoryIndex) {
-                      final category = state.categoryServices[categoryIndex];
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: colors.shade0,
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
-                              children: [
-                                ...category.services.map((service) {
-                                  return _ServiceItem(
-                                    service: service,
-                                    colors: colors,
-                                    fonts: fonts,
-                                    icons: icons,
-                                    isSelected: _serviceIdsProvider
-                                        .selectedServiceIds
-                                        .contains(service.id),
-                                    onTap: () {
-                                      // _serviceIdsProvider
-                                      //     .toggleServiceId(service.id);
-                                      // _servicesProvider
-                                      //     .toggleService(service);
-                                    },
-                                  );
-                                }).toList(),
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-          ],
+
+                  return Expanded(
+                    child: Consumer<ServicesPageProvider>(
+                      builder: (context, provider, _) {
+                        return ListView.builder(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16.w, vertical: 8.h),
+                          itemCount: filteredCategories.length,
+                          itemBuilder: (context, categoryIndex) {
+                            final category = filteredCategories[categoryIndex];
+                            return Container(
+                              decoration: BoxDecoration(
+                                color: colors.shade0,
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    children: [
+                                      ...category.services.map((service) {
+                                        return _ServiceItem(
+                                          service: service,
+                                          colors: colors,
+                                          fonts: fonts,
+                                          icons: icons,
+                                          isSelected:
+                                              provider.isSelected(service),
+                                          onTap: () {
+                                            provider.toggleService(service);
+                                          },
+                                        );
+                                      }).toList(),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       );
     });
@@ -183,8 +253,6 @@ class _ServiceItem extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
   });
-
-  // ... (keep the existing formatNumber method)
 
   @override
   Widget build(BuildContext context) {
