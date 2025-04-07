@@ -281,14 +281,17 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                     child: ServiceSelectionModal(
                                       selectedServices: selectedServices,
                                       chose: chose,
-                                      onRemoveService: () {
+                                      onRemoveService: (service) {
                                         if (!mounted) return;
                                         setState(() {
-                                          _servicesProvider.clearServices();
-                                          _serviceIdsProvider.clearServiceIds();
-                                          selectedServices.clear();
-                                          selectedServiceIDCatch.clear();
-                                          chose = 0;
+                                          _servicesProvider
+                                              .removeService(service);
+                                          _serviceIdsProvider
+                                              .removeServiceId(service.id!);
+                                          selectedServices.remove(service);
+                                          selectedServiceIDCatch
+                                              .remove(service.id!);
+                                          chose--;
                                         });
                                       },
                                     ),

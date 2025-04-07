@@ -71,17 +71,14 @@ class _AppointmentPageState extends State<AppointmentPage> {
     _setupUseCases();
     canPop = false;
 
-    // Sync BottomNavBarController with initial index
     final navController = context.read<BottomNavBarController>();
-    navController.setIndex(1,
-        pageIndex:
-            screenIndex); // Assuming AppointmentPage is index 1 in navbar
+    navController.setIndex(1, pageIndex: screenIndex);
   }
 
   Future<void> _initializeDBService() async {
     dbService = await DBService.create;
     setState(() {
-      changeSum = dbService.getCurrencyPreference; // Update after loading
+      changeSum = dbService.getCurrencyPreference;
     });
   }
 
