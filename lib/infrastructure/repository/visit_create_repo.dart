@@ -11,7 +11,7 @@ class VisitRepository implements IVisitFacade {
   VisitRepository(this._visitCreateService);
 
   @override
-  Future<Either<ResponseFailure, List<VisitResponse>>> createVisit(
+  Future<Either<ResponseFailure, List<VisitOrder>>> createVisit(
       VisitRequest request) async {
     try {
       final response = await _visitCreateService.visitCreate(request: request);

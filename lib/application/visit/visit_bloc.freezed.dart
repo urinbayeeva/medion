@@ -236,7 +236,7 @@ mixin _$VisitState {
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
   bool get success => throw _privateConstructorUsedError;
-  List<VisitResponse> get visits => throw _privateConstructorUsedError;
+  List<VisitOrder> get visits => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
 
   /// Create a copy of VisitState
@@ -256,7 +256,7 @@ abstract class $VisitStateCopyWith<$Res> {
       {bool loading,
       bool error,
       bool success,
-      List<VisitResponse> visits,
+      List<VisitOrder> visits,
       String errorMessage});
 }
 
@@ -297,7 +297,7 @@ class _$VisitStateCopyWithImpl<$Res, $Val extends VisitState>
       visits: null == visits
           ? _value.visits
           : visits // ignore: cast_nullable_to_non_nullable
-              as List<VisitResponse>,
+              as List<VisitOrder>,
       errorMessage: null == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -318,7 +318,7 @@ abstract class _$$VisitStateImplCopyWith<$Res>
       {bool loading,
       bool error,
       bool success,
-      List<VisitResponse> visits,
+      List<VisitOrder> visits,
       String errorMessage});
 }
 
@@ -357,7 +357,7 @@ class __$$VisitStateImplCopyWithImpl<$Res>
       visits: null == visits
           ? _value._visits
           : visits // ignore: cast_nullable_to_non_nullable
-              as List<VisitResponse>,
+              as List<VisitOrder>,
       errorMessage: null == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -373,7 +373,7 @@ class _$VisitStateImpl extends _VisitState {
       {this.loading = false,
       this.error = false,
       this.success = false,
-      final List<VisitResponse> visits = const [],
+      final List<VisitOrder> visits = const [],
       this.errorMessage = ''})
       : _visits = visits,
         super._();
@@ -387,10 +387,10 @@ class _$VisitStateImpl extends _VisitState {
   @override
   @JsonKey()
   final bool success;
-  final List<VisitResponse> _visits;
+  final List<VisitOrder> _visits;
   @override
   @JsonKey()
-  List<VisitResponse> get visits {
+  List<VisitOrder> get visits {
     if (_visits is EqualUnmodifiableListView) return _visits;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_visits);
@@ -436,7 +436,7 @@ abstract class _VisitState extends VisitState {
       {final bool loading,
       final bool error,
       final bool success,
-      final List<VisitResponse> visits,
+      final List<VisitOrder> visits,
       final String errorMessage}) = _$VisitStateImpl;
   const _VisitState._() : super._();
 
@@ -447,7 +447,7 @@ abstract class _VisitState extends VisitState {
   @override
   bool get success;
   @override
-  List<VisitResponse> get visits;
+  List<VisitOrder> get visits;
   @override
   String get errorMessage;
 

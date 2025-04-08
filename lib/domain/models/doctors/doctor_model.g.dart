@@ -228,9 +228,6 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
-      'short_desc',
-      serializers.serialize(object.shortDesc,
-          specifiedType: const FullType(String)),
       'work_schedule',
       serializers.serialize(object.workSchedule,
           specifiedType: const FullType(WorkSchedule)),
@@ -261,6 +258,13 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
           specifiedType: const FullType(String)),
     ];
     Object? value;
+    value = object.shortDesc;
+    if (value != null) {
+      result
+        ..add('short_desc')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
+    }
     value = object.gender;
     if (value != null) {
       result
@@ -292,7 +296,7 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
           break;
         case 'short_desc':
           result.shortDesc = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'work_schedule':
           result.workSchedule.replace(serializers.deserialize(value,
@@ -1055,7 +1059,7 @@ class _$ModelDoctor extends ModelDoctor {
   @override
   final String name;
   @override
-  final String shortDesc;
+  final JsonObject? shortDesc;
   @override
   final WorkSchedule workSchedule;
   @override
@@ -1081,7 +1085,7 @@ class _$ModelDoctor extends ModelDoctor {
   _$ModelDoctor._(
       {required this.id,
       required this.name,
-      required this.shortDesc,
+      this.shortDesc,
       required this.workSchedule,
       required this.experience,
       required this.education,
@@ -1094,8 +1098,6 @@ class _$ModelDoctor extends ModelDoctor {
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'ModelDoctor', 'id');
     BuiltValueNullFieldError.checkNotNull(name, r'ModelDoctor', 'name');
-    BuiltValueNullFieldError.checkNotNull(
-        shortDesc, r'ModelDoctor', 'shortDesc');
     BuiltValueNullFieldError.checkNotNull(
         workSchedule, r'ModelDoctor', 'workSchedule');
     BuiltValueNullFieldError.checkNotNull(
@@ -1185,9 +1187,9 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
 
-  String? _shortDesc;
-  String? get shortDesc => _$this._shortDesc;
-  set shortDesc(String? shortDesc) => _$this._shortDesc = shortDesc;
+  JsonObject? _shortDesc;
+  JsonObject? get shortDesc => _$this._shortDesc;
+  set shortDesc(JsonObject? shortDesc) => _$this._shortDesc = shortDesc;
 
   WorkScheduleBuilder? _workSchedule;
   WorkScheduleBuilder get workSchedule =>
@@ -1278,8 +1280,7 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
             id: BuiltValueNullFieldError.checkNotNull(id, r'ModelDoctor', 'id'),
             name: BuiltValueNullFieldError.checkNotNull(
                 name, r'ModelDoctor', 'name'),
-            shortDesc: BuiltValueNullFieldError.checkNotNull(
-                shortDesc, r'ModelDoctor', 'shortDesc'),
+            shortDesc: shortDesc,
             workSchedule: workSchedule.build(),
             experience: experience.build(),
             education: education.build(),

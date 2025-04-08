@@ -27,7 +27,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
 
     try {
       EasyLoading.show();
-      final Either<ResponseFailure, List<VisitResponse>> result =
+      final Either<ResponseFailure, List<VisitOrder>> result =
           await _repository.createVisit(event.request);
 
       if (isClosed) return;
@@ -35,7 +35,8 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       result.fold(
         (failure) {
           LogService.e("Error creating visit: ${failure.message}");
-          emit(state.copyWith(loading: false, error: true, errorMessage: failure.message));
+          emit(state.copyWith(
+              loading: false, error: true, errorMessage: failure.message));
           EasyLoading.showError(failure.message);
         },
         (data) {
@@ -49,7 +50,10 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     } catch (e) {
       LogService.e("Unexpected error in _createVisitHandler: $e");
       if (!isClosed) {
-        emit(state.copyWith(loading: false, error: true, errorMessage: 'Unexpected error occurred'));
+        emit(state.copyWith(
+            loading: false,
+            error: true,
+            errorMessage: 'Unexpected error occurred'));
         EasyLoading.showError('Unexpected error occurred');
       }
     } finally {

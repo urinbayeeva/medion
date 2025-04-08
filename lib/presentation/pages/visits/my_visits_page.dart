@@ -3,12 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
+import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/component/table_calendar/src/customization/calendar_style.dart';
 import 'package:medion/presentation/component/table_calendar/src/customization/header_style.dart';
 import 'package:medion/presentation/component/table_calendar/src/shared/utils.dart';
 import 'package:medion/presentation/component/table_calendar/src/table_calendar.dart';
+import 'package:medion/presentation/pages/appointment/payment_web_view.dart';
 import 'package:medion/presentation/pages/visits/widgets/visit_info_card.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -117,15 +120,28 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
   }
 
   Widget _buildVisitsList(AuthState state, colors, fonts) {
-    final filteredVisits = selectedDate == null
-        ? state.patientVisits
-        : state.patientVisits
-            .where((visit) =>
-                visit!.visitDate! ==
-                DateFormat('yyyy-MM-dd').format(selectedDate!))
-            .toList();
+    // Group visits by date
+    final Map<String, List<dynamic>> groupedVisits = {};
 
-    if (filteredVisits.isEmpty) {
+    for (final visit in state.patientVisits) {
+      if (visit != null) {
+        final visitDate = visit.visits.first.visitDate!;
+        groupedVisits.putIfAbsent(visitDate, () => []);
+        groupedVisits[visitDate]!.add(visit);
+      }
+    }
+
+    // Filter by selected date if one is selected
+    final filteredVisits = selectedDate == null
+        ? groupedVisits
+        : {
+            DateFormat('yyyy-MM-dd').format(selectedDate!):
+                groupedVisits[DateFormat('yyyy-MM-dd').format(selectedDate!)] ??
+                    []
+          };
+
+    if (filteredVisits.isEmpty ||
+        filteredVisits.values.every((list) => list.isEmpty)) {
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -155,40 +171,215 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
       );
     }
 
+    // Sort dates in chronological order
+    final sortedDates = filteredVisits.keys.toList()
+      ..sort((a, b) => a.compareTo(b));
+
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
-      itemCount: filteredVisits.length,
+      itemCount: sortedDates.length,
       itemBuilder: (context, index) {
-        final visit = filteredVisits[index];
+        final date = sortedDates[index];
+        final visitsForDate = filteredVisits[date]!;
+        final formattedDate =
+            DateFormat('dd MMMM yyyy').format(DateTime.parse(date));
 
-        return VisitInfoCard(
-          onTap: () {
-            context.read<BottomNavBarController>().changeNavBar(true);
-            Navigator.push(
-              context,
-              AppRoutes.getVisitDetailPage(
-                longitude: visit.longitude,
-                latitude: visit.latitude,
-                categoryName: visit.categoryName,
-                serviceName: visit.serviceName,
-                doctorName: visit.doctorFullName,
-                servicePrice: 10,
-                visitDate: "${visit.visitDate}, ${visit.visitTime}",
-                visitLocation: visit.address,
-                visitStatus: visit.paymentStatus,
-                visitPaymentByWhom: "",
-                paymentMethod: visit.paymentMethod,
-                data: [visit],
-                image: "",
-              ),
-            ).then((_) {
-              context.read<BottomNavBarController>().changeNavBar(false);
-            });
-          },
-          doctorName: visit!.doctorFullName!,
-          doctorJob: visit.doctorJobName!,
-          visitStatus: visit.paymentStatus!,
-          visitTime: visit.visitTime!,
+        return CustomExpansionListTile(
+          title: formattedDate,
+          description:
+              "${visitsForDate.length} ${visitsForDate.length == 1 ? 'visit' : 'visits'} - ${visitsForDate.map((v) => v.visits.first.serviceName).join(', ')}",
+          children: visitsForDate.map((visit) {
+            final visitData = visit.visits.first;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 8.h),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        visitData.visitTime,
+                        style: fonts.smallLink.copyWith(
+                          color: colors.primary900,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                      SizedBox(width: 8.w),
+                      Expanded(
+                        child: Text(
+                          visitData.serviceName,
+                          style: fonts.smallLink.copyWith(
+                            color: colors.neutral600,
+                            fontSize: 13.sp,
+                          ),
+                          textAlign: TextAlign.end,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Doctor information
+                Padding(
+                  padding: EdgeInsets.only(bottom: 8.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Doctor:",
+                        style: fonts.smallLink.copyWith(
+                          color: colors.neutral600,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                      Text(
+                        visitData.doctorFullName ?? "N/A",
+                        style: fonts.smallLink.copyWith(
+                          color: colors.primary900,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Doctor specialty
+                Padding(
+                  padding: EdgeInsets.only(bottom: 8.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Specialty:",
+                        style: fonts.smallLink.copyWith(
+                          color: colors.neutral600,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                      Text(
+                        visitData.doctorSpecialization,
+                        style: fonts.smallLink.copyWith(
+                          color: colors.primary900,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Payment status
+                Padding(
+                  padding: EdgeInsets.only(bottom: 8.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Status:",
+                        style: fonts.smallLink.copyWith(
+                          color: colors.neutral600,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                      Text(
+                        visitData.paymentStatus == "paid" ? "Paid" : "Not Paid",
+                        style: fonts.smallLink.copyWith(
+                          color: visitData.paymentStatus == "paid"
+                              ? colors.success500
+                              : colors.error500,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          context
+                              .read<BottomNavBarController>()
+                              .changeNavBar(true);
+                          Navigator.push(
+                            context,
+                            AppRoutes.getVisitDetailPage(
+                              longitude: visitData.longitude,
+                              latitude: visitData.latitude,
+                              categoryName: visitData.categoryName,
+                              serviceName: visitData.serviceName,
+                              doctorName: visitData.doctorFullName,
+                              servicePrice: 10,
+                              visitDate:
+                                  "${visitData.visitDate}, ${visitData.visitTime}",
+                              visitLocation: visitData.address,
+                              visitStatus: visitData.paymentStatus,
+                              visitPaymentByWhom: "",
+                              paymentMethod: visitData.paymentMethod,
+                              data: [visit],
+                              image: visitData.imageUrl,
+                            ),
+                          ).then((_) {
+                            context
+                                .read<BottomNavBarController>()
+                                .changeNavBar(false);
+                          });
+                        },
+                        child: Text(
+                          "View Details",
+                          style: fonts.smallLink.copyWith(
+                            color: colors.error500,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      AnimationButtonEffect(
+                        onTap: () {
+                          context
+                              .read<BottomNavBarController>()
+                              .changeNavBar(true);
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PaymentWebView(
+                                        isInvoice: true,
+                                        url: visit.orderCheckPdfUrl,
+                                      ))).then((_) {
+                            context
+                                .read<BottomNavBarController>()
+                                .changeNavBar(false);
+                          });
+                        },
+                        child: Text(
+                          "Open Invoice",
+                          style: fonts.smallLink.copyWith(
+                            color: colors.error500,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                if (visit != visitsForDate.last)
+                  Divider(
+                    color: colors.neutral300,
+                    height: 16.h,
+                  ),
+              ],
+            );
+          }).toList(),
         );
       },
     );

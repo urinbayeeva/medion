@@ -109,6 +109,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^29.1.33
   flutter_custom_tabs: ^2.2.1
   easy_date_timeline: ^2.0.9
+  webview_flutter: ^4.10.0
 
 
 

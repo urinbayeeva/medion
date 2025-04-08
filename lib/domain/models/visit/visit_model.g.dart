@@ -6,58 +6,40 @@ part of 'visit_model.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<VisitResponse> _$visitResponseSerializer =
-    new _$VisitResponseSerializer();
-Serializer<VisitService> _$visitServiceSerializer =
-    new _$VisitServiceSerializer();
+Serializer<VisitOrder> _$visitOrderSerializer = new _$VisitOrderSerializer();
+Serializer<OrderVisit> _$orderVisitSerializer = new _$OrderVisitSerializer();
 Serializer<VisitRequest> _$visitRequestSerializer =
     new _$VisitRequestSerializer();
 
-class _$VisitResponseSerializer implements StructuredSerializer<VisitResponse> {
+class _$VisitOrderSerializer implements StructuredSerializer<VisitOrder> {
   @override
-  final Iterable<Type> types = const [VisitResponse, _$VisitResponse];
+  final Iterable<Type> types = const [VisitOrder, _$VisitOrder];
   @override
-  final String wireName = 'VisitResponse';
+  final String wireName = 'VisitOrder';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, VisitResponse object,
+  Iterable<Object?> serialize(Serializers serializers, VisitOrder object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
-      'services',
-      serializers.serialize(object.services,
+      'order',
+      serializers.serialize(object.orderNumber,
+          specifiedType: const FullType(String)),
+      'order_check_pdf_url',
+      serializers.serialize(object.orderCheckPdfUrl,
+          specifiedType: const FullType(String)),
+      'order_visits',
+      serializers.serialize(object.visits,
           specifiedType:
-              const FullType(BuiltList, const [const FullType(VisitService)])),
+              const FullType(BuiltList, const [const FullType(OrderVisit)])),
     ];
-    Object? value;
-    value = object.paymeUrl;
-    if (value != null) {
-      result
-        ..add('payme_url')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.clickUrl;
-    if (value != null) {
-      result
-        ..add('click_url')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.multicardUrl;
-    if (value != null) {
-      result
-        ..add('multicard_url')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
+
     return result;
   }
 
   @override
-  VisitResponse deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
+  VisitOrder deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new VisitResponseBuilder();
+    final result = new VisitOrderBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -65,23 +47,19 @@ class _$VisitResponseSerializer implements StructuredSerializer<VisitResponse> {
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
-        case 'services':
-          result.services.replace(serializers.deserialize(value,
+        case 'order':
+          result.orderNumber = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'order_check_pdf_url':
+          result.orderCheckPdfUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'order_visits':
+          result.visits.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(VisitService)]))!
+                      BuiltList, const [const FullType(OrderVisit)]))!
               as BuiltList<Object?>);
-          break;
-        case 'payme_url':
-          result.paymeUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'click_url':
-          result.clickUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'multicard_url':
-          result.multicardUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -90,49 +68,60 @@ class _$VisitResponseSerializer implements StructuredSerializer<VisitResponse> {
   }
 }
 
-class _$VisitServiceSerializer implements StructuredSerializer<VisitService> {
+class _$OrderVisitSerializer implements StructuredSerializer<OrderVisit> {
   @override
-  final Iterable<Type> types = const [VisitService, _$VisitService];
+  final Iterable<Type> types = const [OrderVisit, _$OrderVisit];
   @override
-  final String wireName = 'VisitService';
+  final String wireName = 'OrderVisit';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, VisitService object,
+  Iterable<Object?> serialize(Serializers serializers, OrderVisit object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'doctor_id',
-      serializers.serialize(object.doctorId,
-          specifiedType: const FullType(String)),
       'image',
-      serializers.serialize(object.image,
+      serializers.serialize(object.imageUrl,
           specifiedType: const FullType(String)),
-      'company_id',
-      serializers.serialize(object.companyId,
+      'doctor_full_name',
+      serializers.serialize(object.doctorFullName,
           specifiedType: const FullType(String)),
-      'main_service_id',
-      serializers.serialize(object.mainServiceId,
+      'doctor_job_name',
+      serializers.serialize(object.doctorSpecialization,
           specifiedType: const FullType(String)),
-      'product_type',
-      serializers.serialize(object.productType,
+      'category_name',
+      serializers.serialize(object.categoryName,
           specifiedType: const FullType(String)),
-      'doctor_first_visit_price_uzs',
-      serializers.serialize(object.doctorFirstVisitPriceUzs,
+      'service_name',
+      serializers.serialize(object.serviceName,
+          specifiedType: const FullType(String)),
+      'visit_date',
+      serializers.serialize(object.visitDate,
+          specifiedType: const FullType(String)),
+      'visit_time',
+      serializers.serialize(object.visitTime,
+          specifiedType: const FullType(String)),
+      'visit_status',
+      serializers.serialize(object.visitStatus,
+          specifiedType: const FullType(String)),
+      'week_index',
+      serializers.serialize(object.weekIndex,
           specifiedType: const FullType(int)),
-      'doctor_first_visit_price_uzd',
-      serializers.serialize(object.doctorFirstVisitPriceUzd,
-          specifiedType: const FullType(int)),
-      'doctor_revisit_price_uzs',
-      serializers.serialize(object.doctorRevisitPriceUzs,
-          specifiedType: const FullType(int)),
-      'doctor_revisit_price_uzd',
-      serializers.serialize(object.doctorRevisitPriceUzd,
-          specifiedType: const FullType(int)),
-      'date',
-      serializers.serialize(object.date, specifiedType: const FullType(String)),
-      'start_time',
-      serializers.serialize(object.startTime,
+      'address',
+      serializers.serialize(object.address,
+          specifiedType: const FullType(String)),
+      'payment_method',
+      serializers.serialize(object.paymentMethod,
+          specifiedType: const FullType(String)),
+      'payment_status',
+      serializers.serialize(object.paymentStatus,
+          specifiedType: const FullType(String)),
+      'longitude',
+      serializers.serialize(object.longitude,
+          specifiedType: const FullType(double)),
+      'latitude',
+      serializers.serialize(object.latitude,
+          specifiedType: const FullType(double)),
+      'company_name',
+      serializers.serialize(object.companyName,
           specifiedType: const FullType(String)),
     ];
 
@@ -140,10 +129,9 @@ class _$VisitServiceSerializer implements StructuredSerializer<VisitService> {
   }
 
   @override
-  VisitService deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
+  OrderVisit deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new VisitServiceBuilder();
+    final result = new OrderVisitBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -151,52 +139,64 @@ class _$VisitServiceSerializer implements StructuredSerializer<VisitService> {
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
-        case 'id':
-          result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
-          break;
-        case 'doctor_id':
-          result.doctorId = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
-          break;
         case 'image':
-          result.image = serializers.deserialize(value,
+          result.imageUrl = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
-        case 'company_id':
-          result.companyId = serializers.deserialize(value,
+        case 'doctor_full_name':
+          result.doctorFullName = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
-        case 'main_service_id':
-          result.mainServiceId = serializers.deserialize(value,
+        case 'doctor_job_name':
+          result.doctorSpecialization = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
-        case 'product_type':
-          result.productType = serializers.deserialize(value,
+        case 'category_name':
+          result.categoryName = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
-        case 'doctor_first_visit_price_uzs':
-          result.doctorFirstVisitPriceUzs = serializers.deserialize(value,
+        case 'service_name':
+          result.serviceName = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'visit_date':
+          result.visitDate = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'visit_time':
+          result.visitTime = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'visit_status':
+          result.visitStatus = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'week_index':
+          result.weekIndex = serializers.deserialize(value,
               specifiedType: const FullType(int))! as int;
           break;
-        case 'doctor_first_visit_price_uzd':
-          result.doctorFirstVisitPriceUzd = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
-          break;
-        case 'doctor_revisit_price_uzs':
-          result.doctorRevisitPriceUzs = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
-          break;
-        case 'doctor_revisit_price_uzd':
-          result.doctorRevisitPriceUzd = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
-          break;
-        case 'date':
-          result.date = serializers.deserialize(value,
+        case 'address':
+          result.address = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
-        case 'start_time':
-          result.startTime = serializers.deserialize(value,
+        case 'payment_method':
+          result.paymentMethod = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'payment_status':
+          result.paymentStatus = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'longitude':
+          result.longitude = serializers.deserialize(value,
+              specifiedType: const FullType(double))! as double;
+          break;
+        case 'latitude':
+          result.latitude = serializers.deserialize(value,
+              specifiedType: const FullType(double))! as double;
+          break;
+        case 'company_name':
+          result.companyName = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
       }
@@ -281,133 +281,128 @@ class _$VisitRequestSerializer implements StructuredSerializer<VisitRequest> {
   }
 }
 
-class _$VisitResponse extends VisitResponse {
+class _$VisitOrder extends VisitOrder {
   @override
-  final BuiltList<VisitService> services;
+  final String orderNumber;
   @override
-  final String? paymeUrl;
+  final String orderCheckPdfUrl;
   @override
-  final String? clickUrl;
-  @override
-  final String? multicardUrl;
+  final BuiltList<OrderVisit> visits;
 
-  factory _$VisitResponse([void Function(VisitResponseBuilder)? updates]) =>
-      (new VisitResponseBuilder()..update(updates))._build();
+  factory _$VisitOrder([void Function(VisitOrderBuilder)? updates]) =>
+      (new VisitOrderBuilder()..update(updates))._build();
 
-  _$VisitResponse._(
-      {required this.services, this.paymeUrl, this.clickUrl, this.multicardUrl})
+  _$VisitOrder._(
+      {required this.orderNumber,
+      required this.orderCheckPdfUrl,
+      required this.visits})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
-        services, r'VisitResponse', 'services');
+        orderNumber, r'VisitOrder', 'orderNumber');
+    BuiltValueNullFieldError.checkNotNull(
+        orderCheckPdfUrl, r'VisitOrder', 'orderCheckPdfUrl');
+    BuiltValueNullFieldError.checkNotNull(visits, r'VisitOrder', 'visits');
   }
 
   @override
-  VisitResponse rebuild(void Function(VisitResponseBuilder) updates) =>
+  VisitOrder rebuild(void Function(VisitOrderBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  VisitResponseBuilder toBuilder() => new VisitResponseBuilder()..replace(this);
+  VisitOrderBuilder toBuilder() => new VisitOrderBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is VisitResponse &&
-        services == other.services &&
-        paymeUrl == other.paymeUrl &&
-        clickUrl == other.clickUrl &&
-        multicardUrl == other.multicardUrl;
+    return other is VisitOrder &&
+        orderNumber == other.orderNumber &&
+        orderCheckPdfUrl == other.orderCheckPdfUrl &&
+        visits == other.visits;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, services.hashCode);
-    _$hash = $jc(_$hash, paymeUrl.hashCode);
-    _$hash = $jc(_$hash, clickUrl.hashCode);
-    _$hash = $jc(_$hash, multicardUrl.hashCode);
+    _$hash = $jc(_$hash, orderNumber.hashCode);
+    _$hash = $jc(_$hash, orderCheckPdfUrl.hashCode);
+    _$hash = $jc(_$hash, visits.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'VisitResponse')
-          ..add('services', services)
-          ..add('paymeUrl', paymeUrl)
-          ..add('clickUrl', clickUrl)
-          ..add('multicardUrl', multicardUrl))
+    return (newBuiltValueToStringHelper(r'VisitOrder')
+          ..add('orderNumber', orderNumber)
+          ..add('orderCheckPdfUrl', orderCheckPdfUrl)
+          ..add('visits', visits))
         .toString();
   }
 }
 
-class VisitResponseBuilder
-    implements Builder<VisitResponse, VisitResponseBuilder> {
-  _$VisitResponse? _$v;
+class VisitOrderBuilder implements Builder<VisitOrder, VisitOrderBuilder> {
+  _$VisitOrder? _$v;
 
-  ListBuilder<VisitService>? _services;
-  ListBuilder<VisitService> get services =>
-      _$this._services ??= new ListBuilder<VisitService>();
-  set services(ListBuilder<VisitService>? services) =>
-      _$this._services = services;
+  String? _orderNumber;
+  String? get orderNumber => _$this._orderNumber;
+  set orderNumber(String? orderNumber) => _$this._orderNumber = orderNumber;
 
-  String? _paymeUrl;
-  String? get paymeUrl => _$this._paymeUrl;
-  set paymeUrl(String? paymeUrl) => _$this._paymeUrl = paymeUrl;
+  String? _orderCheckPdfUrl;
+  String? get orderCheckPdfUrl => _$this._orderCheckPdfUrl;
+  set orderCheckPdfUrl(String? orderCheckPdfUrl) =>
+      _$this._orderCheckPdfUrl = orderCheckPdfUrl;
 
-  String? _clickUrl;
-  String? get clickUrl => _$this._clickUrl;
-  set clickUrl(String? clickUrl) => _$this._clickUrl = clickUrl;
+  ListBuilder<OrderVisit>? _visits;
+  ListBuilder<OrderVisit> get visits =>
+      _$this._visits ??= new ListBuilder<OrderVisit>();
+  set visits(ListBuilder<OrderVisit>? visits) => _$this._visits = visits;
 
-  String? _multicardUrl;
-  String? get multicardUrl => _$this._multicardUrl;
-  set multicardUrl(String? multicardUrl) => _$this._multicardUrl = multicardUrl;
+  VisitOrderBuilder();
 
-  VisitResponseBuilder();
-
-  VisitResponseBuilder get _$this {
+  VisitOrderBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _services = $v.services.toBuilder();
-      _paymeUrl = $v.paymeUrl;
-      _clickUrl = $v.clickUrl;
-      _multicardUrl = $v.multicardUrl;
+      _orderNumber = $v.orderNumber;
+      _orderCheckPdfUrl = $v.orderCheckPdfUrl;
+      _visits = $v.visits.toBuilder();
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(VisitResponse other) {
+  void replace(VisitOrder other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$VisitResponse;
+    _$v = other as _$VisitOrder;
   }
 
   @override
-  void update(void Function(VisitResponseBuilder)? updates) {
+  void update(void Function(VisitOrderBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  VisitResponse build() => _build();
+  VisitOrder build() => _build();
 
-  _$VisitResponse _build() {
-    _$VisitResponse _$result;
+  _$VisitOrder _build() {
+    _$VisitOrder _$result;
     try {
       _$result = _$v ??
-          new _$VisitResponse._(
-            services: services.build(),
-            paymeUrl: paymeUrl,
-            clickUrl: clickUrl,
-            multicardUrl: multicardUrl,
+          new _$VisitOrder._(
+            orderNumber: BuiltValueNullFieldError.checkNotNull(
+                orderNumber, r'VisitOrder', 'orderNumber'),
+            orderCheckPdfUrl: BuiltValueNullFieldError.checkNotNull(
+                orderCheckPdfUrl, r'VisitOrder', 'orderCheckPdfUrl'),
+            visits: visits.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
-        _$failedField = 'services';
-        services.build();
+        _$failedField = 'visits';
+        visits.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            r'VisitResponse', _$failedField, e.toString());
+            r'VisitOrder', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -416,258 +411,298 @@ class VisitResponseBuilder
   }
 }
 
-class _$VisitService extends VisitService {
+class _$OrderVisit extends OrderVisit {
   @override
-  final int id;
+  final String imageUrl;
   @override
-  final String doctorId;
+  final String doctorFullName;
   @override
-  final String image;
+  final String doctorSpecialization;
   @override
-  final String companyId;
+  final String categoryName;
   @override
-  final String mainServiceId;
+  final String serviceName;
   @override
-  final String productType;
+  final String visitDate;
   @override
-  final int doctorFirstVisitPriceUzs;
+  final String visitTime;
   @override
-  final int doctorFirstVisitPriceUzd;
+  final String visitStatus;
   @override
-  final int doctorRevisitPriceUzs;
+  final int weekIndex;
   @override
-  final int doctorRevisitPriceUzd;
+  final String address;
   @override
-  final String date;
+  final String paymentMethod;
   @override
-  final String startTime;
+  final String paymentStatus;
+  @override
+  final double longitude;
+  @override
+  final double latitude;
+  @override
+  final String companyName;
 
-  factory _$VisitService([void Function(VisitServiceBuilder)? updates]) =>
-      (new VisitServiceBuilder()..update(updates))._build();
+  factory _$OrderVisit([void Function(OrderVisitBuilder)? updates]) =>
+      (new OrderVisitBuilder()..update(updates))._build();
 
-  _$VisitService._(
-      {required this.id,
-      required this.doctorId,
-      required this.image,
-      required this.companyId,
-      required this.mainServiceId,
-      required this.productType,
-      required this.doctorFirstVisitPriceUzs,
-      required this.doctorFirstVisitPriceUzd,
-      required this.doctorRevisitPriceUzs,
-      required this.doctorRevisitPriceUzd,
-      required this.date,
-      required this.startTime})
+  _$OrderVisit._(
+      {required this.imageUrl,
+      required this.doctorFullName,
+      required this.doctorSpecialization,
+      required this.categoryName,
+      required this.serviceName,
+      required this.visitDate,
+      required this.visitTime,
+      required this.visitStatus,
+      required this.weekIndex,
+      required this.address,
+      required this.paymentMethod,
+      required this.paymentStatus,
+      required this.longitude,
+      required this.latitude,
+      required this.companyName})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'VisitService', 'id');
+    BuiltValueNullFieldError.checkNotNull(imageUrl, r'OrderVisit', 'imageUrl');
     BuiltValueNullFieldError.checkNotNull(
-        doctorId, r'VisitService', 'doctorId');
-    BuiltValueNullFieldError.checkNotNull(image, r'VisitService', 'image');
+        doctorFullName, r'OrderVisit', 'doctorFullName');
     BuiltValueNullFieldError.checkNotNull(
-        companyId, r'VisitService', 'companyId');
+        doctorSpecialization, r'OrderVisit', 'doctorSpecialization');
     BuiltValueNullFieldError.checkNotNull(
-        mainServiceId, r'VisitService', 'mainServiceId');
+        categoryName, r'OrderVisit', 'categoryName');
     BuiltValueNullFieldError.checkNotNull(
-        productType, r'VisitService', 'productType');
+        serviceName, r'OrderVisit', 'serviceName');
     BuiltValueNullFieldError.checkNotNull(
-        doctorFirstVisitPriceUzs, r'VisitService', 'doctorFirstVisitPriceUzs');
+        visitDate, r'OrderVisit', 'visitDate');
     BuiltValueNullFieldError.checkNotNull(
-        doctorFirstVisitPriceUzd, r'VisitService', 'doctorFirstVisitPriceUzd');
+        visitTime, r'OrderVisit', 'visitTime');
     BuiltValueNullFieldError.checkNotNull(
-        doctorRevisitPriceUzs, r'VisitService', 'doctorRevisitPriceUzs');
+        visitStatus, r'OrderVisit', 'visitStatus');
     BuiltValueNullFieldError.checkNotNull(
-        doctorRevisitPriceUzd, r'VisitService', 'doctorRevisitPriceUzd');
-    BuiltValueNullFieldError.checkNotNull(date, r'VisitService', 'date');
+        weekIndex, r'OrderVisit', 'weekIndex');
+    BuiltValueNullFieldError.checkNotNull(address, r'OrderVisit', 'address');
     BuiltValueNullFieldError.checkNotNull(
-        startTime, r'VisitService', 'startTime');
+        paymentMethod, r'OrderVisit', 'paymentMethod');
+    BuiltValueNullFieldError.checkNotNull(
+        paymentStatus, r'OrderVisit', 'paymentStatus');
+    BuiltValueNullFieldError.checkNotNull(
+        longitude, r'OrderVisit', 'longitude');
+    BuiltValueNullFieldError.checkNotNull(latitude, r'OrderVisit', 'latitude');
+    BuiltValueNullFieldError.checkNotNull(
+        companyName, r'OrderVisit', 'companyName');
   }
 
   @override
-  VisitService rebuild(void Function(VisitServiceBuilder) updates) =>
+  OrderVisit rebuild(void Function(OrderVisitBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  VisitServiceBuilder toBuilder() => new VisitServiceBuilder()..replace(this);
+  OrderVisitBuilder toBuilder() => new OrderVisitBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is VisitService &&
-        id == other.id &&
-        doctorId == other.doctorId &&
-        image == other.image &&
-        companyId == other.companyId &&
-        mainServiceId == other.mainServiceId &&
-        productType == other.productType &&
-        doctorFirstVisitPriceUzs == other.doctorFirstVisitPriceUzs &&
-        doctorFirstVisitPriceUzd == other.doctorFirstVisitPriceUzd &&
-        doctorRevisitPriceUzs == other.doctorRevisitPriceUzs &&
-        doctorRevisitPriceUzd == other.doctorRevisitPriceUzd &&
-        date == other.date &&
-        startTime == other.startTime;
+    return other is OrderVisit &&
+        imageUrl == other.imageUrl &&
+        doctorFullName == other.doctorFullName &&
+        doctorSpecialization == other.doctorSpecialization &&
+        categoryName == other.categoryName &&
+        serviceName == other.serviceName &&
+        visitDate == other.visitDate &&
+        visitTime == other.visitTime &&
+        visitStatus == other.visitStatus &&
+        weekIndex == other.weekIndex &&
+        address == other.address &&
+        paymentMethod == other.paymentMethod &&
+        paymentStatus == other.paymentStatus &&
+        longitude == other.longitude &&
+        latitude == other.latitude &&
+        companyName == other.companyName;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, id.hashCode);
-    _$hash = $jc(_$hash, doctorId.hashCode);
-    _$hash = $jc(_$hash, image.hashCode);
-    _$hash = $jc(_$hash, companyId.hashCode);
-    _$hash = $jc(_$hash, mainServiceId.hashCode);
-    _$hash = $jc(_$hash, productType.hashCode);
-    _$hash = $jc(_$hash, doctorFirstVisitPriceUzs.hashCode);
-    _$hash = $jc(_$hash, doctorFirstVisitPriceUzd.hashCode);
-    _$hash = $jc(_$hash, doctorRevisitPriceUzs.hashCode);
-    _$hash = $jc(_$hash, doctorRevisitPriceUzd.hashCode);
-    _$hash = $jc(_$hash, date.hashCode);
-    _$hash = $jc(_$hash, startTime.hashCode);
+    _$hash = $jc(_$hash, imageUrl.hashCode);
+    _$hash = $jc(_$hash, doctorFullName.hashCode);
+    _$hash = $jc(_$hash, doctorSpecialization.hashCode);
+    _$hash = $jc(_$hash, categoryName.hashCode);
+    _$hash = $jc(_$hash, serviceName.hashCode);
+    _$hash = $jc(_$hash, visitDate.hashCode);
+    _$hash = $jc(_$hash, visitTime.hashCode);
+    _$hash = $jc(_$hash, visitStatus.hashCode);
+    _$hash = $jc(_$hash, weekIndex.hashCode);
+    _$hash = $jc(_$hash, address.hashCode);
+    _$hash = $jc(_$hash, paymentMethod.hashCode);
+    _$hash = $jc(_$hash, paymentStatus.hashCode);
+    _$hash = $jc(_$hash, longitude.hashCode);
+    _$hash = $jc(_$hash, latitude.hashCode);
+    _$hash = $jc(_$hash, companyName.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'VisitService')
-          ..add('id', id)
-          ..add('doctorId', doctorId)
-          ..add('image', image)
-          ..add('companyId', companyId)
-          ..add('mainServiceId', mainServiceId)
-          ..add('productType', productType)
-          ..add('doctorFirstVisitPriceUzs', doctorFirstVisitPriceUzs)
-          ..add('doctorFirstVisitPriceUzd', doctorFirstVisitPriceUzd)
-          ..add('doctorRevisitPriceUzs', doctorRevisitPriceUzs)
-          ..add('doctorRevisitPriceUzd', doctorRevisitPriceUzd)
-          ..add('date', date)
-          ..add('startTime', startTime))
+    return (newBuiltValueToStringHelper(r'OrderVisit')
+          ..add('imageUrl', imageUrl)
+          ..add('doctorFullName', doctorFullName)
+          ..add('doctorSpecialization', doctorSpecialization)
+          ..add('categoryName', categoryName)
+          ..add('serviceName', serviceName)
+          ..add('visitDate', visitDate)
+          ..add('visitTime', visitTime)
+          ..add('visitStatus', visitStatus)
+          ..add('weekIndex', weekIndex)
+          ..add('address', address)
+          ..add('paymentMethod', paymentMethod)
+          ..add('paymentStatus', paymentStatus)
+          ..add('longitude', longitude)
+          ..add('latitude', latitude)
+          ..add('companyName', companyName))
         .toString();
   }
 }
 
-class VisitServiceBuilder
-    implements Builder<VisitService, VisitServiceBuilder> {
-  _$VisitService? _$v;
+class OrderVisitBuilder implements Builder<OrderVisit, OrderVisitBuilder> {
+  _$OrderVisit? _$v;
 
-  int? _id;
-  int? get id => _$this._id;
-  set id(int? id) => _$this._id = id;
+  String? _imageUrl;
+  String? get imageUrl => _$this._imageUrl;
+  set imageUrl(String? imageUrl) => _$this._imageUrl = imageUrl;
 
-  String? _doctorId;
-  String? get doctorId => _$this._doctorId;
-  set doctorId(String? doctorId) => _$this._doctorId = doctorId;
+  String? _doctorFullName;
+  String? get doctorFullName => _$this._doctorFullName;
+  set doctorFullName(String? doctorFullName) =>
+      _$this._doctorFullName = doctorFullName;
 
-  String? _image;
-  String? get image => _$this._image;
-  set image(String? image) => _$this._image = image;
+  String? _doctorSpecialization;
+  String? get doctorSpecialization => _$this._doctorSpecialization;
+  set doctorSpecialization(String? doctorSpecialization) =>
+      _$this._doctorSpecialization = doctorSpecialization;
 
-  String? _companyId;
-  String? get companyId => _$this._companyId;
-  set companyId(String? companyId) => _$this._companyId = companyId;
+  String? _categoryName;
+  String? get categoryName => _$this._categoryName;
+  set categoryName(String? categoryName) => _$this._categoryName = categoryName;
 
-  String? _mainServiceId;
-  String? get mainServiceId => _$this._mainServiceId;
-  set mainServiceId(String? mainServiceId) =>
-      _$this._mainServiceId = mainServiceId;
+  String? _serviceName;
+  String? get serviceName => _$this._serviceName;
+  set serviceName(String? serviceName) => _$this._serviceName = serviceName;
 
-  String? _productType;
-  String? get productType => _$this._productType;
-  set productType(String? productType) => _$this._productType = productType;
+  String? _visitDate;
+  String? get visitDate => _$this._visitDate;
+  set visitDate(String? visitDate) => _$this._visitDate = visitDate;
 
-  int? _doctorFirstVisitPriceUzs;
-  int? get doctorFirstVisitPriceUzs => _$this._doctorFirstVisitPriceUzs;
-  set doctorFirstVisitPriceUzs(int? doctorFirstVisitPriceUzs) =>
-      _$this._doctorFirstVisitPriceUzs = doctorFirstVisitPriceUzs;
+  String? _visitTime;
+  String? get visitTime => _$this._visitTime;
+  set visitTime(String? visitTime) => _$this._visitTime = visitTime;
 
-  int? _doctorFirstVisitPriceUzd;
-  int? get doctorFirstVisitPriceUzd => _$this._doctorFirstVisitPriceUzd;
-  set doctorFirstVisitPriceUzd(int? doctorFirstVisitPriceUzd) =>
-      _$this._doctorFirstVisitPriceUzd = doctorFirstVisitPriceUzd;
+  String? _visitStatus;
+  String? get visitStatus => _$this._visitStatus;
+  set visitStatus(String? visitStatus) => _$this._visitStatus = visitStatus;
 
-  int? _doctorRevisitPriceUzs;
-  int? get doctorRevisitPriceUzs => _$this._doctorRevisitPriceUzs;
-  set doctorRevisitPriceUzs(int? doctorRevisitPriceUzs) =>
-      _$this._doctorRevisitPriceUzs = doctorRevisitPriceUzs;
+  int? _weekIndex;
+  int? get weekIndex => _$this._weekIndex;
+  set weekIndex(int? weekIndex) => _$this._weekIndex = weekIndex;
 
-  int? _doctorRevisitPriceUzd;
-  int? get doctorRevisitPriceUzd => _$this._doctorRevisitPriceUzd;
-  set doctorRevisitPriceUzd(int? doctorRevisitPriceUzd) =>
-      _$this._doctorRevisitPriceUzd = doctorRevisitPriceUzd;
+  String? _address;
+  String? get address => _$this._address;
+  set address(String? address) => _$this._address = address;
 
-  String? _date;
-  String? get date => _$this._date;
-  set date(String? date) => _$this._date = date;
+  String? _paymentMethod;
+  String? get paymentMethod => _$this._paymentMethod;
+  set paymentMethod(String? paymentMethod) =>
+      _$this._paymentMethod = paymentMethod;
 
-  String? _startTime;
-  String? get startTime => _$this._startTime;
-  set startTime(String? startTime) => _$this._startTime = startTime;
+  String? _paymentStatus;
+  String? get paymentStatus => _$this._paymentStatus;
+  set paymentStatus(String? paymentStatus) =>
+      _$this._paymentStatus = paymentStatus;
 
-  VisitServiceBuilder();
+  double? _longitude;
+  double? get longitude => _$this._longitude;
+  set longitude(double? longitude) => _$this._longitude = longitude;
 
-  VisitServiceBuilder get _$this {
+  double? _latitude;
+  double? get latitude => _$this._latitude;
+  set latitude(double? latitude) => _$this._latitude = latitude;
+
+  String? _companyName;
+  String? get companyName => _$this._companyName;
+  set companyName(String? companyName) => _$this._companyName = companyName;
+
+  OrderVisitBuilder();
+
+  OrderVisitBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _id = $v.id;
-      _doctorId = $v.doctorId;
-      _image = $v.image;
-      _companyId = $v.companyId;
-      _mainServiceId = $v.mainServiceId;
-      _productType = $v.productType;
-      _doctorFirstVisitPriceUzs = $v.doctorFirstVisitPriceUzs;
-      _doctorFirstVisitPriceUzd = $v.doctorFirstVisitPriceUzd;
-      _doctorRevisitPriceUzs = $v.doctorRevisitPriceUzs;
-      _doctorRevisitPriceUzd = $v.doctorRevisitPriceUzd;
-      _date = $v.date;
-      _startTime = $v.startTime;
+      _imageUrl = $v.imageUrl;
+      _doctorFullName = $v.doctorFullName;
+      _doctorSpecialization = $v.doctorSpecialization;
+      _categoryName = $v.categoryName;
+      _serviceName = $v.serviceName;
+      _visitDate = $v.visitDate;
+      _visitTime = $v.visitTime;
+      _visitStatus = $v.visitStatus;
+      _weekIndex = $v.weekIndex;
+      _address = $v.address;
+      _paymentMethod = $v.paymentMethod;
+      _paymentStatus = $v.paymentStatus;
+      _longitude = $v.longitude;
+      _latitude = $v.latitude;
+      _companyName = $v.companyName;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(VisitService other) {
+  void replace(OrderVisit other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$VisitService;
+    _$v = other as _$OrderVisit;
   }
 
   @override
-  void update(void Function(VisitServiceBuilder)? updates) {
+  void update(void Function(OrderVisitBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  VisitService build() => _build();
+  OrderVisit build() => _build();
 
-  _$VisitService _build() {
+  _$OrderVisit _build() {
     final _$result = _$v ??
-        new _$VisitService._(
-          id: BuiltValueNullFieldError.checkNotNull(id, r'VisitService', 'id'),
-          doctorId: BuiltValueNullFieldError.checkNotNull(
-              doctorId, r'VisitService', 'doctorId'),
-          image: BuiltValueNullFieldError.checkNotNull(
-              image, r'VisitService', 'image'),
-          companyId: BuiltValueNullFieldError.checkNotNull(
-              companyId, r'VisitService', 'companyId'),
-          mainServiceId: BuiltValueNullFieldError.checkNotNull(
-              mainServiceId, r'VisitService', 'mainServiceId'),
-          productType: BuiltValueNullFieldError.checkNotNull(
-              productType, r'VisitService', 'productType'),
-          doctorFirstVisitPriceUzs: BuiltValueNullFieldError.checkNotNull(
-              doctorFirstVisitPriceUzs,
-              r'VisitService',
-              'doctorFirstVisitPriceUzs'),
-          doctorFirstVisitPriceUzd: BuiltValueNullFieldError.checkNotNull(
-              doctorFirstVisitPriceUzd,
-              r'VisitService',
-              'doctorFirstVisitPriceUzd'),
-          doctorRevisitPriceUzs: BuiltValueNullFieldError.checkNotNull(
-              doctorRevisitPriceUzs, r'VisitService', 'doctorRevisitPriceUzs'),
-          doctorRevisitPriceUzd: BuiltValueNullFieldError.checkNotNull(
-              doctorRevisitPriceUzd, r'VisitService', 'doctorRevisitPriceUzd'),
-          date: BuiltValueNullFieldError.checkNotNull(
-              date, r'VisitService', 'date'),
-          startTime: BuiltValueNullFieldError.checkNotNull(
-              startTime, r'VisitService', 'startTime'),
+        new _$OrderVisit._(
+          imageUrl: BuiltValueNullFieldError.checkNotNull(
+              imageUrl, r'OrderVisit', 'imageUrl'),
+          doctorFullName: BuiltValueNullFieldError.checkNotNull(
+              doctorFullName, r'OrderVisit', 'doctorFullName'),
+          doctorSpecialization: BuiltValueNullFieldError.checkNotNull(
+              doctorSpecialization, r'OrderVisit', 'doctorSpecialization'),
+          categoryName: BuiltValueNullFieldError.checkNotNull(
+              categoryName, r'OrderVisit', 'categoryName'),
+          serviceName: BuiltValueNullFieldError.checkNotNull(
+              serviceName, r'OrderVisit', 'serviceName'),
+          visitDate: BuiltValueNullFieldError.checkNotNull(
+              visitDate, r'OrderVisit', 'visitDate'),
+          visitTime: BuiltValueNullFieldError.checkNotNull(
+              visitTime, r'OrderVisit', 'visitTime'),
+          visitStatus: BuiltValueNullFieldError.checkNotNull(
+              visitStatus, r'OrderVisit', 'visitStatus'),
+          weekIndex: BuiltValueNullFieldError.checkNotNull(
+              weekIndex, r'OrderVisit', 'weekIndex'),
+          address: BuiltValueNullFieldError.checkNotNull(
+              address, r'OrderVisit', 'address'),
+          paymentMethod: BuiltValueNullFieldError.checkNotNull(
+              paymentMethod, r'OrderVisit', 'paymentMethod'),
+          paymentStatus: BuiltValueNullFieldError.checkNotNull(
+              paymentStatus, r'OrderVisit', 'paymentStatus'),
+          longitude: BuiltValueNullFieldError.checkNotNull(
+              longitude, r'OrderVisit', 'longitude'),
+          latitude: BuiltValueNullFieldError.checkNotNull(
+              latitude, r'OrderVisit', 'latitude'),
+          companyName: BuiltValueNullFieldError.checkNotNull(
+              companyName, r'OrderVisit', 'companyName'),
         );
     replace(_$result);
     return _$result;

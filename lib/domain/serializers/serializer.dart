@@ -97,8 +97,8 @@ part 'serializer.g.dart';
   //Create A Visit
 
   VisitRequest,
-  VisitResponse,
-  VisitService,
+  VisitOrder,
+  OrderVisit,
 
   //Map
   Position,

@@ -103,7 +103,7 @@
     "myself": "Сам",
     "employer": "Работадатель",
     "insurance_company": "Страховая компания",
-    "": "Способ оплаты",
+    "payment_method": "Способ оплаты",
     "your_check": "Ваш чек",
     "total": "Итого",
     "if_you_make_an_advance_payment": "Если вы вносите предоплату 15% онлайн, оставшуюся сумму оплачиваете перед посещением врача в клинике",
@@ -325,5 +325,6 @@
     "search_for_doctors": "Поиск врачей",
     "search_by_name_or_specialty": "Поиск по имени или специальности",
     "discount_to_this_date": "Акция до {date}",
-    " ": ""
+    "download_pdf": "Скачать PDF",
+    "": ""
 }

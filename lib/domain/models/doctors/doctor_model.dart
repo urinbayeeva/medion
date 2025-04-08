@@ -72,9 +72,9 @@ abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
   String get name;
 
   @BuiltValueField(wireName: 'short_desc')
-  String get shortDesc;
+  JsonObject? get shortDesc;
 
-  String get decodedDescription => decodeHtml(shortDesc);
+  String get decodedDescription => decodeHtml(shortDesc.toString());
 
   @BuiltValueField(wireName: 'work_schedule')
   WorkSchedule get workSchedule;

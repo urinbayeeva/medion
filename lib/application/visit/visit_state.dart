@@ -8,7 +8,7 @@ class VisitState with _$VisitState {
     @Default(false) bool loading,
     @Default(false) bool error,
     @Default(false) bool success,
-    @Default([]) List<VisitResponse> visits,
+    @Default([]) List<VisitOrder> visits,
     @Default('') String errorMessage,
   }) = _VisitState;
 

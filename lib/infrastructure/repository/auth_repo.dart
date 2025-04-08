@@ -12,6 +12,7 @@ import 'package:medion/domain/failurs/auth/auth_failure.dart';
 import 'package:medion/domain/failurs/auth/i_auth_facade.dart';
 import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
+import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/success_model/response_model.dart';
 import 'package:medion/domain/success_model/success_model.dart';
 import 'package:medion/domain/upload_image/upload_image.dart';
@@ -174,15 +175,14 @@ class AuthRepository implements IAuthFacade {
   }
 
   @override
-  Future<Either<ResponseFailure, BuiltList<VisitModel>>>
-      getPatientVisits() async {
+  Future<Either<ResponseFailure, List<VisitOrder>>> getPatientVisits() async {
     try {
       final res = await _patientService.getPatientVisitsMobile();
 
       if (res.isSuccessful && res.body != null) {
         LogService.d('Response Status: ${res.statusCode}');
         LogService.d('Response Body: ${res.body}');
-        return right(res.body!);
+        return right(res.body!.toList());
       } else {
         return left(InvalidCredentials(
           message:

@@ -65,7 +65,7 @@ abstract class RefreshService extends ChopperService {
 @ChopperApi(baseUrl: "")
 abstract class VisitCreateService extends ChopperService {
   @Post(path: "create_visit")
-  Future<Response<BuiltList<VisitResponse>>> visitCreate({
+  Future<Response<BuiltList<VisitOrder>>> visitCreate({
     @Body() required VisitRequest request,
     @Header('requires-token') String requiresToken = "true",
   });
@@ -171,7 +171,7 @@ abstract class PatientService extends ChopperService {
   });
 
   @Get(path: "patient_visits_mobile")
-  Future<Response<BuiltList<VisitModel>>> getPatientVisitsMobile({
+  Future<Response<BuiltList<VisitOrder>>> getPatientVisitsMobile({
     @Header('requires-token') String requiresToken = "true",
   });
 

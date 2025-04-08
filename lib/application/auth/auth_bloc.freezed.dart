@@ -1603,7 +1603,7 @@ mixin _$AuthState {
   String? get pickedImagePath => throw _privateConstructorUsedError;
   bool get isLoadingVisits => throw _privateConstructorUsedError;
   bool get errorFetchingVisits => throw _privateConstructorUsedError;
-  List<VisitModel?> get patientVisits => throw _privateConstructorUsedError;
+  List<VisitOrder?> get patientVisits => throw _privateConstructorUsedError;
   List<PatientAnalysis?> get patientAnalyze =>
       throw _privateConstructorUsedError;
   bool? get isNewPatient => throw _privateConstructorUsedError;
@@ -1640,7 +1640,7 @@ abstract class $AuthStateCopyWith<$Res> {
       String? pickedImagePath,
       bool isLoadingVisits,
       bool errorFetchingVisits,
-      List<VisitModel?> patientVisits,
+      List<VisitOrder?> patientVisits,
       List<PatientAnalysis?> patientAnalyze,
       bool? isNewPatient,
       String? paymeUrl,
@@ -1746,7 +1746,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
       patientVisits: null == patientVisits
           ? _value.patientVisits
           : patientVisits // ignore: cast_nullable_to_non_nullable
-              as List<VisitModel?>,
+              as List<VisitOrder?>,
       patientAnalyze: null == patientAnalyze
           ? _value.patientAnalyze
           : patientAnalyze // ignore: cast_nullable_to_non_nullable
@@ -1798,7 +1798,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       String? pickedImagePath,
       bool isLoadingVisits,
       bool errorFetchingVisits,
-      List<VisitModel?> patientVisits,
+      List<VisitOrder?> patientVisits,
       List<PatientAnalysis?> patientAnalyze,
       bool? isNewPatient,
       String? paymeUrl,
@@ -1902,7 +1902,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
       patientVisits: null == patientVisits
           ? _value._patientVisits
           : patientVisits // ignore: cast_nullable_to_non_nullable
-              as List<VisitModel?>,
+              as List<VisitOrder?>,
       patientAnalyze: null == patientAnalyze
           ? _value._patientAnalyze
           : patientAnalyze // ignore: cast_nullable_to_non_nullable
@@ -1949,7 +1949,7 @@ class _$AuthStateImpl extends _AuthState {
       this.pickedImagePath = null,
       this.isLoadingVisits = false,
       this.errorFetchingVisits = false,
-      final List<VisitModel?> patientVisits = const [],
+      final List<VisitOrder?> patientVisits = const [],
       final List<PatientAnalysis?> patientAnalyze = const [],
       this.isNewPatient = null,
       this.paymeUrl = null,
@@ -2003,10 +2003,10 @@ class _$AuthStateImpl extends _AuthState {
   @override
   @JsonKey()
   final bool errorFetchingVisits;
-  final List<VisitModel?> _patientVisits;
+  final List<VisitOrder?> _patientVisits;
   @override
   @JsonKey()
-  List<VisitModel?> get patientVisits {
+  List<VisitOrder?> get patientVisits {
     if (_patientVisits is EqualUnmodifiableListView) return _patientVisits;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_patientVisits);
@@ -2145,7 +2145,7 @@ abstract class _AuthState extends AuthState {
       final String? pickedImagePath,
       final bool isLoadingVisits,
       final bool errorFetchingVisits,
-      final List<VisitModel?> patientVisits,
+      final List<VisitOrder?> patientVisits,
       final List<PatientAnalysis?> patientAnalyze,
       final bool? isNewPatient,
       final String? paymeUrl,
@@ -2183,7 +2183,7 @@ abstract class _AuthState extends AuthState {
   @override
   bool get errorFetchingVisits;
   @override
-  List<VisitModel?> get patientVisits;
+  List<VisitOrder?> get patientVisits;
   @override
   List<PatientAnalysis?> get patientAnalyze;
   @override

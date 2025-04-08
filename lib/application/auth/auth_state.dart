@@ -19,15 +19,14 @@ class AuthState with _$AuthState {
     @Default(false) bool isFetchingPatientInfo,
     @Default(false) bool errorFetchingPatientInfo,
     @Default(null) String? pickedImagePath,
-    @Default(false) bool isLoadingVisits, 
-    @Default(false) bool errorFetchingVisits, 
-    @Default([]) List<VisitModel?> patientVisits, 
-    @Default([]) List<PatientAnalysis?> patientAnalyze, 
-    @Default(null) bool? isNewPatient,  
-
+    @Default(false) bool isLoadingVisits,
+    @Default(false) bool errorFetchingVisits,
+    @Default([]) List<VisitOrder?> patientVisits,
+    @Default([]) List<PatientAnalysis?> patientAnalyze,
+    @Default(null) bool? isNewPatient,
     @Default(null) String? paymeUrl,
     @Default(null) String? clickUrl,
     @Default(false) bool isFetchingPaymentUrls, // Loading state for payments
-    @Default(false) bool errorFetchingPaymentUrls, 
+    @Default(false) bool errorFetchingPaymentUrls,
   }) = _AuthState;
 }

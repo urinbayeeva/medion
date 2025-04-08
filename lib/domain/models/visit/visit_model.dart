@@ -4,67 +4,75 @@ import 'package:built_collection/built_collection.dart';
 
 part 'visit_model.g.dart';
 
-abstract class VisitResponse implements Built<VisitResponse, VisitResponseBuilder> {
-  @BuiltValueField(wireName: 'services')
-  BuiltList<VisitService> get services;
+abstract class VisitOrder implements Built<VisitOrder, VisitOrderBuilder> {
+  @BuiltValueField(wireName: 'order')
+  String get orderNumber;
 
-  @BuiltValueField(wireName: 'payme_url')
-  String? get paymeUrl;
+  @BuiltValueField(wireName: 'order_check_pdf_url')
+  String get orderCheckPdfUrl;
 
-  @BuiltValueField(wireName: 'click_url')
-  String? get clickUrl;
+  @BuiltValueField(wireName: 'order_visits')
+  BuiltList<OrderVisit> get visits;
 
-  @BuiltValueField(wireName: 'multicard_url')
-  String? get multicardUrl;
-
-  VisitResponse._();
-  factory VisitResponse([void Function(VisitResponseBuilder) updates]) = _$VisitResponse;
-  static Serializer<VisitResponse> get serializer => _$visitResponseSerializer;
+  VisitOrder._();
+  factory VisitOrder([void Function(VisitOrderBuilder) updates]) = _$VisitOrder;
+  static Serializer<VisitOrder> get serializer => _$visitOrderSerializer;
 }
 
-abstract class VisitService implements Built<VisitService, VisitServiceBuilder> {
-  @BuiltValueField(wireName: 'id')
-  int get id;
-
-  @BuiltValueField(wireName: 'doctor_id')
-  String get doctorId;
-
+abstract class OrderVisit implements Built<OrderVisit, OrderVisitBuilder> {
   @BuiltValueField(wireName: 'image')
-  String get image;
+  String get imageUrl;
 
-  @BuiltValueField(wireName: 'company_id')
-  String get companyId;
+  @BuiltValueField(wireName: 'doctor_full_name')
+  String get doctorFullName;
 
-  @BuiltValueField(wireName: 'main_service_id')
-  String get mainServiceId;
+  @BuiltValueField(wireName: 'doctor_job_name')
+  String get doctorSpecialization;
 
-  @BuiltValueField(wireName: 'product_type')
-  String get productType;
+  @BuiltValueField(wireName: 'category_name')
+  String get categoryName;
 
-  @BuiltValueField(wireName: 'doctor_first_visit_price_uzs')
-  int get doctorFirstVisitPriceUzs;
+  @BuiltValueField(wireName: 'service_name')
+  String get serviceName;
 
-  @BuiltValueField(wireName: 'doctor_first_visit_price_uzd')
-  int get doctorFirstVisitPriceUzd;
+  @BuiltValueField(wireName: 'visit_date')
+  String get visitDate;
 
-  @BuiltValueField(wireName: 'doctor_revisit_price_uzs')
-  int get doctorRevisitPriceUzs;
+  @BuiltValueField(wireName: 'visit_time')
+  String get visitTime;
 
-  @BuiltValueField(wireName: 'doctor_revisit_price_uzd')
-  int get doctorRevisitPriceUzd;
+  @BuiltValueField(wireName: 'visit_status')
+  String get visitStatus;
 
-  @BuiltValueField(wireName: 'date')
-  String get date;
+  @BuiltValueField(wireName: 'week_index')
+  int get weekIndex;
 
-  @BuiltValueField(wireName: 'start_time')
-  String get startTime;
+  @BuiltValueField(wireName: 'address')
+  String get address;
 
-  VisitService._();
-  factory VisitService([void Function(VisitServiceBuilder) updates]) = _$VisitService;
-  static Serializer<VisitService> get serializer => _$visitServiceSerializer;
+  @BuiltValueField(wireName: 'payment_method')
+  String get paymentMethod;
+
+  @BuiltValueField(wireName: 'payment_status')
+  String get paymentStatus;
+
+  @BuiltValueField(wireName: 'longitude')
+  double get longitude;
+
+  @BuiltValueField(wireName: 'latitude')
+  double get latitude;
+
+  @BuiltValueField(wireName: 'company_name')
+  String get companyName;
+
+  OrderVisit._();
+  factory OrderVisit([void Function(OrderVisitBuilder) updates]) = _$OrderVisit;
+  static Serializer<OrderVisit> get serializer => _$orderVisitSerializer;
 }
 
-abstract class VisitRequest implements Built<VisitRequest, VisitRequestBuilder> {
+// If you still need the request models, you can keep them as is:
+abstract class VisitRequest
+    implements Built<VisitRequest, VisitRequestBuilder> {
   @BuiltValueField(wireName: 'service_id')
   int get serviceId;
 
@@ -84,6 +92,7 @@ abstract class VisitRequest implements Built<VisitRequest, VisitRequestBuilder> 
   String get date;
 
   VisitRequest._();
-  factory VisitRequest([void Function(VisitRequestBuilder) updates]) = _$VisitRequest;
+  factory VisitRequest([void Function(VisitRequestBuilder) updates]) =
+      _$VisitRequest;
   static Serializer<VisitRequest> get serializer => _$visitRequestSerializer;
 }
