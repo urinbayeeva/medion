@@ -476,14 +476,14 @@ class _HomePageState extends State<HomePage> {
       builder: (context, colors, fonts, icons, controller) {
         final limitedDoctors = doctors.take(10).toList();
         return SizedBox(
-          height: 325.h,
+          height: 300.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.zero,
             itemCount: limitedDoctors.length,
             itemBuilder: (context, index) {
               final doctor = limitedDoctors[index];
-              return DoctorsItem(
+              return AnimationButtonEffect(
                 onTap: () {
                   context.read<BottomNavBarController>().changeNavBar(true);
 
@@ -499,14 +499,17 @@ class _HomePageState extends State<HomePage> {
                     context.read<BottomNavBarController>().changeNavBar(false);
                   });
                 },
-                imagePath: doctor['image'].toString(),
-                name: doctor['name'].toString(),
-                profession: doctor['profession'].toString(),
-                status: doctor['status'].toString(),
-                gender: doctor['gender'].toString(),
-                candidateScience: false,
-                isInnerPageUsed: true,
-                doctorID: doctor['id'],
+                child: DoctorsItem(
+                  onTap: () {},
+                  imagePath: doctor['image'].toString(),
+                  name: doctor['name'].toString(),
+                  profession: doctor['profession'].toString(),
+                  status: doctor['status'].toString(),
+                  gender: doctor['gender'].toString(),
+                  candidateScience: false,
+                  isInnerPageUsed: true,
+                  doctorID: doctor['id'],
+                ),
               );
             },
           ),

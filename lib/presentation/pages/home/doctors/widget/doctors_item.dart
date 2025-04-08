@@ -192,20 +192,6 @@ class DoctorsItem extends StatelessWidget {
           return Center(
             child: CButton(
               width: 164,
-              title: "more".tr(),
-              textColor: colors.primary900,
-              backgroundColor: colors.neutral400,
-              onTap: onTap,
-              // width: double.infinity,
-              height: 32.h,
-            ),
-          );
-        }),
-        8.h.verticalSpace,
-        ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-          return Center(
-            child: CButton(
-              width: 164,
               title: "appointment_nav_bar".tr(),
               onTap: () {
                 context.read<BottomNavBarController>().changeNavBar(true);

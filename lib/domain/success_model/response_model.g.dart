@@ -35,16 +35,14 @@ class _$ResponseModelSerializer implements StructuredSerializer<ResponseModel> {
       result
         ..add('access_token')
         ..add(serializers.serialize(value,
-            specifiedType:
-                const FullType(BuiltList, const [const FullType(String)])));
+            specifiedType: const FullType(String)));
     }
     value = object.refreshToken;
     if (value != null) {
       result
         ..add('refresh_token')
         ..add(serializers.serialize(value,
-            specifiedType:
-                const FullType(BuiltList, const [const FullType(String)])));
+            specifiedType: const FullType(String)));
     }
     value = object.tokenType;
     if (value != null) {
@@ -81,16 +79,12 @@ class _$ResponseModelSerializer implements StructuredSerializer<ResponseModel> {
               specifiedType: const FullType(bool))! as bool;
           break;
         case 'access_token':
-          result.accessToken.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
-              as BuiltList<Object?>);
+          result.accessToken = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'refresh_token':
-          result.refreshToken.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
-              as BuiltList<Object?>);
+          result.refreshToken = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'token_type':
           result.tokenType = serializers.deserialize(value,
@@ -111,9 +105,9 @@ class _$ResponseModel extends ResponseModel {
   @override
   final bool isNewPatient;
   @override
-  final BuiltList<String>? accessToken;
+  final String? accessToken;
   @override
-  final BuiltList<String>? refreshToken;
+  final String? refreshToken;
   @override
   final String? tokenType;
 
@@ -195,17 +189,13 @@ class ResponseModelBuilder
   bool? get isNewPatient => _$this._isNewPatient;
   set isNewPatient(bool? isNewPatient) => _$this._isNewPatient = isNewPatient;
 
-  ListBuilder<String>? _accessToken;
-  ListBuilder<String> get accessToken =>
-      _$this._accessToken ??= new ListBuilder<String>();
-  set accessToken(ListBuilder<String>? accessToken) =>
-      _$this._accessToken = accessToken;
+  String? _accessToken;
+  String? get accessToken => _$this._accessToken;
+  set accessToken(String? accessToken) => _$this._accessToken = accessToken;
 
-  ListBuilder<String>? _refreshToken;
-  ListBuilder<String> get refreshToken =>
-      _$this._refreshToken ??= new ListBuilder<String>();
-  set refreshToken(ListBuilder<String>? refreshToken) =>
-      _$this._refreshToken = refreshToken;
+  String? _refreshToken;
+  String? get refreshToken => _$this._refreshToken;
+  set refreshToken(String? refreshToken) => _$this._refreshToken = refreshToken;
 
   String? _tokenType;
   String? get tokenType => _$this._tokenType;
@@ -219,8 +209,8 @@ class ResponseModelBuilder
       _status = $v.status;
       _message = $v.message;
       _isNewPatient = $v.isNewPatient;
-      _accessToken = $v.accessToken?.toBuilder();
-      _refreshToken = $v.refreshToken?.toBuilder();
+      _accessToken = $v.accessToken;
+      _refreshToken = $v.refreshToken;
       _tokenType = $v.tokenType;
       _$v = null;
     }
@@ -242,33 +232,18 @@ class ResponseModelBuilder
   ResponseModel build() => _build();
 
   _$ResponseModel _build() {
-    _$ResponseModel _$result;
-    try {
-      _$result = _$v ??
-          new _$ResponseModel._(
-            status: BuiltValueNullFieldError.checkNotNull(
-                status, r'ResponseModel', 'status'),
-            message: BuiltValueNullFieldError.checkNotNull(
-                message, r'ResponseModel', 'message'),
-            isNewPatient: BuiltValueNullFieldError.checkNotNull(
-                isNewPatient, r'ResponseModel', 'isNewPatient'),
-            accessToken: _accessToken?.build(),
-            refreshToken: _refreshToken?.build(),
-            tokenType: tokenType,
-          );
-    } catch (_) {
-      late String _$failedField;
-      try {
-        _$failedField = 'accessToken';
-        _accessToken?.build();
-        _$failedField = 'refreshToken';
-        _refreshToken?.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'ResponseModel', _$failedField, e.toString());
-      }
-      rethrow;
-    }
+    final _$result = _$v ??
+        new _$ResponseModel._(
+          status: BuiltValueNullFieldError.checkNotNull(
+              status, r'ResponseModel', 'status'),
+          message: BuiltValueNullFieldError.checkNotNull(
+              message, r'ResponseModel', 'message'),
+          isNewPatient: BuiltValueNullFieldError.checkNotNull(
+              isNewPatient, r'ResponseModel', 'isNewPatient'),
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          tokenType: tokenType,
+        );
     replace(_$result);
     return _$result;
   }

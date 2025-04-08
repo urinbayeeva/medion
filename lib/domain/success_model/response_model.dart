@@ -21,10 +21,10 @@ abstract class ResponseModel
   bool get isNewPatient;
 
   @BuiltValueField(wireName: 'access_token')
-  BuiltList<String>? get accessToken;
+  String? get accessToken;
 
   @BuiltValueField(wireName: 'refresh_token')
-  BuiltList<String>? get refreshToken;
+  String? get refreshToken;
 
   @BuiltValueField(wireName: 'token_type')
   String? get tokenType;

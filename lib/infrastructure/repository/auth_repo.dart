@@ -80,14 +80,14 @@ class AuthRepository implements IAuthFacade {
             res.body!.accessToken!.isNotEmpty &&
             res.body!.refreshToken!.isNotEmpty) {
           _dbService.setToken(Token(
-            accessToken: res.body!.accessToken!.first,
-            refreshToken: res.body!.refreshToken!.first,
+            accessToken: res.body!.accessToken!,
+            refreshToken: res.body!.refreshToken!,
             tokenType: 'Bearer',
           ));
 
           return right(res.body!);
         } else {
-          return right(res.body!); 
+          return right(res.body!);
         }
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
@@ -98,34 +98,35 @@ class AuthRepository implements IAuthFacade {
     }
   }
 
-@override
-Future<Either<ResponseFailure, SuccessModel>> sendPhoneNumber({
-  required PhoneNumberSendReq request,
-}) async {
-  try {
-    final response = await _authService.phoneNumberSend(request: request);
+  @override
+  Future<Either<ResponseFailure, SuccessModel>> sendPhoneNumber({
+    required PhoneNumberSendReq request,
+  }) async {
+    try {
+      final response = await _authService.phoneNumberSend(request: request);
 
-    LogService.d('Response Status: ${response.statusCode}');
-    LogService.d('Response Body: ${response.body}');
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
 
-    if (response.isSuccessful) {
-      final body = response.body;
-      if (body != null) {
-        return right(body);
+      if (response.isSuccessful) {
+        final body = response.body;
+        if (body != null) {
+          return right(body);
+        } else {
+          return left(
+              InvalidCredentials(message: 'Empty response from server'));
+        }
       } else {
-        return left(InvalidCredentials(message: 'Empty response from server'));
+        final errorMessage = response.error?.toString() ?? 'Unknown Error';
+        return left(InvalidCredentials(message: errorMessage));
       }
-    } else {
-      final errorMessage = response.error?.toString() ?? 'Unknown Error';
-      return left(InvalidCredentials(message: errorMessage));
+    } catch (e, stackTrace) {
+      LogService.e(
+          "Error in sendPhoneNumber: ${e.toString()} \nStackTrace: $stackTrace");
+      return left(
+          const InvalidCredentials(message: 'An unexpected error occurred'));
     }
-  } catch (e, stackTrace) {
-    LogService.e("Error in sendPhoneNumber: ${e.toString()} \nStackTrace: $stackTrace");
-    return left(const InvalidCredentials(message: 'An unexpected error occurred'));
   }
-}
-
-
 
   @override
   Future<Either<ResponseFailure, CreatePatientInfoResponse>> sendUserInfo(
