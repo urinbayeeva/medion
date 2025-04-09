@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
+import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/component/table_calendar/src/customization/calendar_style.dart';
@@ -14,6 +15,7 @@ import 'package:medion/presentation/component/table_calendar/src/table_calendar.
 import 'package:medion/presentation/pages/appointment/payment_web_view.dart';
 import 'package:medion/presentation/pages/visits/widgets/visit_info_card.dart';
 import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
@@ -101,7 +103,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                       child: icons.calendar.svg(width: 20.w, height: 20.h),
                     ),
                   ),
-                  8.h.verticalSpace,
+                  SizedBox(height: 8.h),
                   Expanded(
                     child: state.isLoadingVisits
                         ? Center(
@@ -109,7 +111,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                                 color: colors.error500))
                         : _buildVisitsList(state, colors, fonts),
                   ),
-                  80.h.verticalSpace,
+                  SizedBox(height: 80.h),
                 ],
               ),
             );
@@ -151,7 +153,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
               width: 73.w,
               height: 75.h,
             ),
-            12.h.verticalSpace,
+            SizedBox(height: 12.h),
             Text(
               selectedDate == null
                   ? "you_have_no_visits".tr()
@@ -184,126 +186,32 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
         final formattedDate =
             DateFormat('dd MMMM yyyy').format(DateTime.parse(date));
 
-        return CustomExpansionListTile(
-          title: formattedDate,
-          description:
-              "${visitsForDate.length} ${visitsForDate.length == 1 ? 'visit' : 'visits'} - ${visitsForDate.map((v) => v.visits.first.serviceName).join(', ')}",
-          children: visitsForDate.map((visit) {
-            final visitData = visit.visits.first;
-
-            return Column(
+        return AnimationButtonEffect(
+          onTap: () {},
+          child: Container(
+            margin: EdgeInsets.only(bottom: 8.h),
+            decoration: BoxDecoration(
+              color: colors.shade0,
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            padding: EdgeInsets.all(12.h),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 8.h),
-                  child: Row(
+                Text(
+                  "${"order".tr()}: ${state.patientVisits[index]!.orderNumber}",
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                12.h.verticalSpace,
+                ...visitsForDate.map((visit) {
+                  final visitData = visit.visits.first;
+                  return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        visitData.visitTime,
-                        style: fonts.smallLink.copyWith(
-                          color: colors.primary900,
-                          fontSize: 13.sp,
-                        ),
-                      ),
-                      SizedBox(width: 8.w),
-                      Expanded(
-                        child: Text(
-                          visitData.serviceName,
-                          style: fonts.smallLink.copyWith(
-                            color: colors.neutral600,
-                            fontSize: 13.sp,
-                          ),
-                          textAlign: TextAlign.end,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Doctor information
-                Padding(
-                  padding: EdgeInsets.only(bottom: 8.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Doctor:",
-                        style: fonts.smallLink.copyWith(
-                          color: colors.neutral600,
-                          fontSize: 13.sp,
-                        ),
-                      ),
-                      Text(
-                        visitData.doctorFullName ?? "N/A",
-                        style: fonts.smallLink.copyWith(
-                          color: colors.primary900,
-                          fontSize: 13.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Doctor specialty
-                Padding(
-                  padding: EdgeInsets.only(bottom: 8.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Specialty:",
-                        style: fonts.smallLink.copyWith(
-                          color: colors.neutral600,
-                          fontSize: 13.sp,
-                        ),
-                      ),
-                      Text(
-                        visitData.doctorSpecialization,
-                        style: fonts.smallLink.copyWith(
-                          color: colors.primary900,
-                          fontSize: 13.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Payment status
-                Padding(
-                  padding: EdgeInsets.only(bottom: 8.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Status:",
-                        style: fonts.smallLink.copyWith(
-                          color: colors.neutral600,
-                          fontSize: 13.sp,
-                        ),
-                      ),
-                      Text(
-                        visitData.paymentStatus == "paid" ? "Paid" : "Not Paid",
-                        style: fonts.smallLink.copyWith(
-                          color: visitData.paymentStatus == "paid"
-                              ? colors.success500
-                              : colors.error500,
-                          fontSize: 13.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
+                      VisitInfoCard(
                         onTap: () {
                           context
                               .read<BottomNavBarController>()
@@ -332,54 +240,70 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                                 .changeNavBar(false);
                           });
                         },
-                        child: Text(
-                          "View Details",
-                          style: fonts.smallLink.copyWith(
-                            color: colors.error500,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        doctorJob: visitData.doctorSpecialization ?? "N/A",
+                        doctorName: visitData.doctorFullName ?? "N/A",
+                        visitDate: visitData.visitDate,
+                        serviceName: visitData.serviceName,
+                        visitTime: visitData.visitTime,
+                        visitStatus: visitData.paymentStatus == "paid"
+                            ? "Paid"
+                            : "Not Paid",
+                        image: visitData.imageUrl,
+                        categoryName: visitData.categoryName,
                       ),
-                      AnimationButtonEffect(
-                        onTap: () {
-                          context
-                              .read<BottomNavBarController>()
-                              .changeNavBar(true);
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
+                      12.h.verticalSpace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            formattedDate,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(true);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
                                   builder: (context) => PaymentWebView(
-                                        isInvoice: true,
-                                        url: visit.orderCheckPdfUrl,
-                                      ))).then((_) {
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(false);
-                          });
-                        },
-                        child: Text(
-                          "Open Invoice",
-                          style: fonts.smallLink.copyWith(
-                            color: colors.error500,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
+                                    isInvoice: true,
+                                    url: visit.orderCheckPdfUrl,
+                                  ),
+                                ),
+                              ).then((_) {
+                                context
+                                    .read<BottomNavBarController>()
+                                    .changeNavBar(false);
+                              });
+                            },
+                            child: Text(
+                              "open_invoice".tr(),
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Style.error500,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
+                      4.h.verticalSpace,
+                      if (visit != visitsForDate.last)
+                        Divider(
+                          color: colors.neutral300,
+                          height: 16.h,
+                        ),
                     ],
-                  ),
-                ),
-
-                if (visit != visitsForDate.last)
-                  Divider(
-                    color: colors.neutral300,
-                    height: 16.h,
-                  ),
+                  );
+                }).toList(),
               ],
-            );
-          }).toList(),
+            ),
+          ),
         );
       },
     );

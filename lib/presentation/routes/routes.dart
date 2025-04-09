@@ -654,6 +654,7 @@ class AppRoutes {
         data: data,
         longitude: longitude!,
         latitude: latitude!,
+        image: image!,
       ),
     );
   }

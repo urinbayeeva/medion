@@ -131,7 +131,17 @@ class _ServicesChosePageState extends State<ServicesChosePage> {
               child: BlocBuilder<BookingBloc, BookingState>(
                 builder: (context, state) {
                   if (state.categoryServices.isEmpty) {
-                    return const Center(child: CircularProgressIndicator());
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height *
+                          0.8, // Adjust as needed
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "no_result_found".tr(),
+                          style: Style.headlineMain(),
+                        ),
+                      ),
+                    );
                   }
 
                   final filteredCategories = _filterServices(

@@ -28,6 +28,7 @@ class VisitDetailPage extends StatefulWidget {
   final dynamic data;
   final double longitude;
   final double latitude;
+  final String image;
   const VisitDetailPage(
       {super.key,
       this.categoryName,
@@ -41,7 +42,8 @@ class VisitDetailPage extends StatefulWidget {
       this.paymentMethod,
       this.data,
       required this.longitude,
-      required this.latitude});
+      required this.latitude,
+      required this.image});
 
   @override
   State<VisitDetailPage> createState() => _VisitDetailPageState();
@@ -75,6 +77,7 @@ class _VisitDetailPageState extends State<VisitDetailPage> {
                 paymentMethod: widget.paymentMethod,
                 data: widget.data,
                 visitLocation: widget.visitLocation,
+                image: widget.image,
               ),
               const Spacer(),
               Padding(

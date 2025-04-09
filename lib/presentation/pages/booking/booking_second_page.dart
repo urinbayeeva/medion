@@ -170,10 +170,15 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                 }
               }, builder: (context, state) {
                 if (state.categoryServices.isEmpty) {
-                  return Center(
-                    child: Text(
-                      "no_result_found".tr(),
-                      style: Style.headlineMain(),
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height *
+                        0.8, // Adjust as needed
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "no_result_found".tr(),
+                        style: Style.headlineMain(),
+                      ),
                     ),
                   );
                 }

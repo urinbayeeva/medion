@@ -109,7 +109,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         (error) {
           LogService.e("Error fetching booking types: ${error.message}");
           emit(state.copyWith(loading: false, error: true));
-          EasyLoading.showError(error.message);
         },
         (data) {
           emit(state.copyWith(
@@ -147,7 +146,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         (error) {
           LogService.e("Error fetching home page services: ${error.message}");
           emit(state.copyWith(loading: false, error: true));
-          EasyLoading.showError(error.message);
         },
         (data) {
           emit(state.copyWith(
@@ -187,7 +185,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         (error) {
           LogService.e("Error fetching category services: ${error.message}");
           emit(state.copyWith(loading: false, error: true));
-          EasyLoading.showError(error.message);
         },
         (data) {
           emit(state.copyWith(
@@ -235,7 +232,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             error: true,
             medicalModel: null, // Ensure no stale data remains
           ));
-          EasyLoading.showError(error.message);
         },
         (data) {
           emit(state.copyWith(

@@ -129,14 +129,13 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
         });
       } else {
         setState(() {
-          _error =
-              'Failed to load services. Status code: ${response.statusCode}';
+          _error = 'no_result_found'.tr();
           _isLoading = false;
         });
       }
     } catch (e) {
       setState(() {
-        _error = 'Failed to load services: ${e.toString()}';
+        _error = 'no_result_found'.tr();
         _isLoading = false;
       });
     }
