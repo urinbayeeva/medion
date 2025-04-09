@@ -87,12 +87,12 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                     previous.bookingTypes != current.bookingTypes;
               },
               builder: (context, state) {
-                if (state.bookingTypes.isEmpty) {
+                if (state.loading) {
+                  return CircularProgressIndicator(color: colors.error50);
+                }
+                if (state.error) {
                   return Center(
-                    child: Text(
-                      "no_result_found".tr(),
-                      style: Style.headlineMain(),
-                    ),
+                    child: Text("no_result_found".tr()),
                   );
                 }
 

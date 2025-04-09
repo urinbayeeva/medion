@@ -14,6 +14,7 @@ import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/presentation/component/nav_bar/lib/persistent_tab_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
+import 'package:medion/presentation/pages/booking/booking_first_page.dart';
 import 'package:medion/presentation/pages/home/home_page.dart';
 import 'package:medion/presentation/pages/main/component/bottom_navigation_components.dart';
 import 'package:medion/presentation/pages/others/others_page.dart';
@@ -57,10 +58,7 @@ class _MainPageState extends State<MainPage> {
 
     pageList = [
       const HomePage(),
-      const AppointmentPage(
-        index: 0,
-        initialIndex: 0,
-      ),
+      const BookingFirstPage(),
       const MyVisitsPage(),
       BlocProvider(
           create: (context) {
