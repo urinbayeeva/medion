@@ -325,6 +325,12 @@
     "search_for_doctors": "Поиск врачей",
     "search_by_name_or_specialty": "Поиск по имени или специальности",
     "discount_to_this_date": "Акция до {date}",
+    "downloading_pdf": "Скачивание PDF",
+    "please_wait": "Пожалуйста, подождите",
+    "download_failed": "Скачивание не удалось",
+    "opening_pdf": "Открытие PDF",
+    "failed_to_open_file": "Не удалось открыть файл",
     "download_pdf": "Скачать PDF",
+    "cancel": "Отмена",
     "": ""
 }

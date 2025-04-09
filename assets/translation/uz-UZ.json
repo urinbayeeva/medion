@@ -326,6 +326,12 @@
   "search_for_doctors": "Shifokorlarni qidirish",
   "search_by_name_or_specialty": "Ism yoki mutaxassislik bo'yicha qidiruv",
   "discount_to_this_date": "Aksiya {date} sanagacha",
-  "download_pdf": "PDF ni yuklab olish",
+  "downloading_pdf": "PDF yuklab olinmoqda",
+  "please_wait": "Iltimos, kuting",
+  "download_failed": "Yuklab olish amalga oshmadi",
+  "opening_pdf": "PDF ochilmoqda",
+  "failed_to_open_file": "Faylni ochish amalga oshmadi",
+  "download_pdf": "PDF yuklab olish",
+  "cancel": "Bekor qilish",
   "": ""
 }

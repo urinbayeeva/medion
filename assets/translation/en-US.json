@@ -33,5 +33,12 @@
   "leave_feedback": "Оставить отзыв",
   "search_for_doctors": "",
   "search_by_name_or_specialty": "",
+  "downloading_pdf": "Downloading PDF",
+  "please_wait": "Please wait",
+  "download_failed": "Download failed",
+  "opening_pdf": "Opening PDF",
+  "failed_to_open_file": "Failed to open file",
+  "download_pdf": "Download PDF",
+  "cancel": "Cancel",
   "": ""
 }

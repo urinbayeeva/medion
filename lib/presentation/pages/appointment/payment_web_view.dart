@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/payment_provider.dart';
 import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -32,6 +33,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
   bool _isDownloading = false;
   double _downloadProgress = 0;
   bool _showDownloadDialog = false;
+  bool _isOpeningPdf = false;
 
   @override
   void initState() {
@@ -66,6 +68,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
 
   Future<void> _downloadPdf(String url) async {
     try {
+      print("Starting PDF download...");
       setState(() {
         _isDownloading = true;
         _downloadProgress = 0;
@@ -74,11 +77,19 @@ class _PaymentWebViewState extends State<PaymentWebView> {
 
       final status = await Permission.storage.request();
       if (!status.isGranted) {
-        throw Exception('Storage permission denied');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Storage permission required'.tr())),
+        );
+        setState(() {
+          _isDownloading = false;
+          _showDownloadDialog = false;
+        });
+        return;
       }
 
       final directory = await getApplicationDocumentsDirectory();
-      final fileName = 'Invoice_${DateTime.now().millisecondsSinceEpoch}.pdf';
+      final fileName =
+          'Invoice_${DateFormat('yyyyMMdd_HHmmss').format(DateTime.now())}.pdf';
       final filePath = '${directory.path}/$fileName';
 
       final dio = Dio();
@@ -89,24 +100,34 @@ class _PaymentWebViewState extends State<PaymentWebView> {
           if (total != -1) {
             setState(() {
               _downloadProgress = received / total;
+              print("Download progress: ${_downloadProgress * 100}%");
             });
           }
         },
       );
 
+      print("Download completed, opening file...");
       setState(() {
         _showDownloadDialog = false;
+        _isOpeningPdf = true;
       });
 
       final result = await OpenFile.open(filePath);
+
+      setState(() {
+        _isOpeningPdf = false;
+      });
+
       if (result.type != ResultType.done) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('failed_to_open_file'.tr())),
         );
       }
     } catch (e) {
+      print("Error during download: $e");
       setState(() {
         _showDownloadDialog = false;
+        _isOpeningPdf = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('download_failed'.tr())),
@@ -119,48 +140,99 @@ class _PaymentWebViewState extends State<PaymentWebView> {
   }
 
   Widget _buildDownloadDialog() {
-    return CupertinoAlertDialog(
-      title: Text('downloading_pdf'.tr()),
-      content: Padding(
-        padding: EdgeInsets.symmetric(vertical: 16.h),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CupertinoActivityIndicator(
-              radius: 16.r,
-            ),
-            SizedBox(height: 24.h),
-            Text(
-              '${(_downloadProgress * 100).toStringAsFixed(1)}%',
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            SizedBox(
-              height: 4.h,
-              child: LinearProgressIndicator(
-                value: _downloadProgress,
-                backgroundColor: Colors.grey[300],
-                valueColor: const AlwaysStoppedAnimation<Color>(
-                  CupertinoColors.activeBlue,
-                ),
-              ),
-            ),
-          ],
-        ),
+    return AlertDialog(
+      backgroundColor: Colors.white,
+      contentPadding: EdgeInsets.all(24.w),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.r),
       ),
-      actions: <Widget>[
-        CupertinoDialogAction(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'downloading_pdf'.tr(),
+            style: TextStyle(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 24.h),
+          CircularProgressIndicator(
+            value: _downloadProgress,
+            backgroundColor: Colors.grey[300],
+            valueColor: const AlwaysStoppedAnimation<Color>(
+              Style.error500, // Fallback color
+            ),
+            strokeWidth: 6.w,
+          ),
+          SizedBox(height: 16.h),
+          Text(
+            '${(_downloadProgress * 100).toStringAsFixed(1)}%',
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: 8.h),
+          Text(
+            'please_wait'.tr(),
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: Colors.grey,
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
           onPressed: _isDownloading
               ? null
               : () {
                   Navigator.of(context).pop();
+                  setState(() {
+                    _showDownloadDialog = false;
+                  });
                 },
           child: Text('cancel'.tr()),
         ),
       ],
+    );
+  }
+
+  Widget _buildOpeningDialog() {
+    return AlertDialog(
+      backgroundColor: Colors.white,
+      contentPadding: EdgeInsets.all(24.w),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'opening_pdf'.tr(),
+            style: TextStyle(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 24.h),
+          CircularProgressIndicator(
+            strokeWidth: 6.w,
+            valueColor: const AlwaysStoppedAnimation<Color>(
+              Style.error500, // Fallback color
+            ),
+          ),
+          SizedBox(height: 16.h),
+          Text(
+            'please_wait'.tr(),
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: Colors.grey,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -219,7 +291,14 @@ class _PaymentWebViewState extends State<PaymentWebView> {
                     color: colors.primary500,
                   ),
                 ),
-              if (_showDownloadDialog) _buildDownloadDialog(),
+              if (_showDownloadDialog)
+                Center(
+                  child: _buildDownloadDialog(),
+                ),
+              if (_isOpeningPdf)
+                Center(
+                  child: _buildOpeningDialog(),
+                ),
             ],
           ),
         ),
