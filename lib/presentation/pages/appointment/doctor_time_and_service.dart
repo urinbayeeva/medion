@@ -12,6 +12,7 @@ import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/pages/appointment/component/doctors_date_item.dart';
+import 'package:medion/presentation/pages/appointment/verify_appointment.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -29,12 +30,14 @@ import 'package:medion/presentation/styles/style.dart';
 
 class DoctorTimeAndService extends StatefulWidget {
   final VoidCallback onTap;
+  final bool isHome;
   final Set<int>? selectedServiceIds;
 
   const DoctorTimeAndService({
     super.key,
     required this.onTap,
     this.selectedServiceIds,
+    this.isHome = false,
   });
 
   @override
@@ -119,139 +122,168 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
 
         return ThemeWrapper(
           builder: (context, colors, fonts, icons, controller) {
-            return Column(
-              children: [
-                Expanded(
-                  child: CustomListView(
-                    enablePullDown: false,
-                    enablePullUp: false,
-                    padding: EdgeInsets.zero,
-                    data: snapshot.data!,
-                    itemBuilder: (index, _) {
-                      final service = snapshot.data![index];
+            return Scaffold(
+              backgroundColor: colors.backgroundColor,
+              body: Column(
+                children: [
+                  if (widget.isHome) ...[
+                    CAppBar(
+                      title: "selecting_the_time_the_date".tr(),
+                      centerTitle: true,
+                      isBack: true,
+                      trailing: AnimationButtonEffect(
+                          onTap: () {},
+                          child: icons.filter.svg(width: 20.w, height: 20.h)),
+                    ),
+                  ],
+                  Expanded(
+                    child: CustomListView(
+                      enablePullDown: false,
+                      enablePullUp: false,
+                      padding: EdgeInsets.zero,
+                      data: snapshot.data!,
+                      itemBuilder: (index, _) {
+                        final service = snapshot.data![index];
 
-                      // Filter out doctors who have no schedules
-                      final availableDoctors = service.companiesDoctors
-                          .expand((company) => company.doctors)
-                          .where((doctor) =>
-                              doctor.schedules != null &&
-                              doctor.schedules!.isNotEmpty)
-                          .toList();
+                        // Filter out doctors who have no schedules
+                        final availableDoctors = service.companiesDoctors
+                            .expand((company) => company.doctors)
+                            .where((doctor) =>
+                                doctor.schedules != null &&
+                                doctor.schedules!.isNotEmpty)
+                            .toList();
 
-                      // Skip rendering if no doctors are available
-                      if (availableDoctors.isEmpty) {
+                        // Skip rendering if no doctors are available
+                        if (availableDoctors.isEmpty) {
+                          return const SizedBox.shrink();
+                        }
+
+                        return Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              12.h.verticalSpace,
+                              Text(
+                                (service.companiesDoctors.isNotEmpty &&
+                                        service.companiesDoctors.first
+                                                .companyName !=
+                                            null)
+                                    ? service
+                                        .companiesDoctors.first.companyName!
+                                    : '',
+                                style: fonts.regularMain,
+                              ),
+                              8.h.verticalSpace,
+                              CustomExpansionListTile(
+                                title: service.serviceName,
+                                description: "${service.serviceId}",
+                                children: [
+                                  Column(
+                                    children: service.companiesDoctors
+                                        .expand((company) {
+                                      return company.doctors.map(
+                                        (doctor) {
+                                          return DoctorAppointmentWidget(
+                                            isDoctorAppointment: false,
+                                            serviceName: service.serviceName,
+                                            doctor: doctor,
+                                            schedules: doctor.schedules ?? [],
+                                            serviceId: service.serviceId,
+                                            companyID: service
+                                                    .companiesDoctors.isNotEmpty
+                                                ? service.companiesDoctors.first
+                                                    .companyId
+                                                    .toString()
+                                                : 'Unknown',
+                                            onAppointmentSelected:
+                                                (appointment) {
+                                              if (appointment != null) {
+                                                addAppointment(appointment);
+                                              } else {
+                                                print(
+                                                    "⚠️ Received null appointment");
+                                              }
+                                            },
+                                          );
+                                        },
+                                      ).toList();
+                                    }).toList(),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      emptyWidgetModel: null,
+                      status: FormzSubmissionStatus.success,
+                    ),
+                  ),
+                  ValueListenableBuilder<List<Map<String, String>>>(
+                    valueListenable: selectedAppointments,
+                    builder: (context, selectedList, _) {
+                      if (selectedList.isEmpty) {
                         return const SizedBox.shrink();
                       }
-
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              (service.companiesDoctors.isNotEmpty &&
-                                      service.companiesDoctors.first
-                                              .companyName !=
-                                          null)
-                                  ? service.companiesDoctors.first.companyName!
-                                  : '',
-                              style: fonts.regularMain,
-                            ),
-                            CustomExpansionListTile(
-                              title: service.serviceName,
-                              description: "${service.serviceId}",
-                              children: [
-                                Column(
-                                  children: service.companiesDoctors
-                                      .expand((company) {
-                                    return company.doctors.map(
-                                      (doctor) {
-                                        return DoctorAppointmentWidget(
-                                          isDoctorAppointment: false,
-                                          serviceName: service.serviceName,
-                                          doctor: doctor,
-                                          schedules: doctor.schedules ?? [],
-                                          serviceId: service.serviceId,
-                                          companyID: service
-                                                  .companiesDoctors.isNotEmpty
-                                              ? service.companiesDoctors.first
-                                                  .companyId
-                                                  .toString()
-                                              : 'Unknown',
-                                          onAppointmentSelected: (appointment) {
-                                            if (appointment != null) {
-                                              addAppointment(appointment);
-                                            } else {
-                                              print(
-                                                  "⚠️ Received null appointment");
-                                            }
-                                          },
-                                        );
-                                      },
-                                    ).toList();
-                                  }).toList(),
-                                ),
-                              ],
-                            ),
-                          ],
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: colors.shade0,
+                          boxShadow: Style.shadowMMMM,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(8.r),
+                            topRight: Radius.circular(8.r),
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.w, vertical: 8.h),
+                        child: GestureDetector(
+                          onTap: () => _showAppointmentsBottomSheet(
+                              context, selectedList, colors, fonts),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "count_session_selected".tr(namedArgs: {
+                                      "count": selectedList.length.toString()
+                                    }),
+                                    style: fonts.headlineMain
+                                        .copyWith(fontSize: 14.sp),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 16.sp,
+                                    color: colors.primary900,
+                                  ),
+                                ],
+                              ),
+                              12.h.verticalSpace,
+                              CButton(
+                                title: 'next'.tr(),
+                                onTap: widget.isHome
+                                    ? () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    VerifyAppointment(
+                                                        isHome: true,
+                                                        onTap: () {})));
+                                      }
+                                    : widget.onTap,
+                              ),
+                              12.h.verticalSpace,
+                            ],
+                          ),
                         ),
                       );
                     },
-                    emptyWidgetModel: null,
-                    status: FormzSubmissionStatus.success,
-                  ),
-                ),
-                ValueListenableBuilder<List<Map<String, String>>>(
-                  valueListenable: selectedAppointments,
-                  builder: (context, selectedList, _) {
-                    if (selectedList.isEmpty) {
-                      return const SizedBox.shrink();
-                    }
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: colors.shade0,
-                        boxShadow: Style.shadowMMMM,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8.r),
-                          topRight: Radius.circular(8.r),
-                        ),
-                      ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                      child: GestureDetector(
-                        onTap: () => _showAppointmentsBottomSheet(
-                            context, selectedList, colors, fonts),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "count_session_selected".tr(namedArgs: {
-                                    "count": selectedList.length.toString()
-                                  }),
-                                  style: fonts.headlineMain
-                                      .copyWith(fontSize: 14.sp),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 16.sp,
-                                  color: colors.primary900,
-                                ),
-                              ],
-                            ),
-                            12.h.verticalSpace,
-                            CButton(
-                              title: 'next'.tr(),
-                              onTap: widget.onTap,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                )
-              ],
+                  )
+                ],
+              ),
             );
           },
         );

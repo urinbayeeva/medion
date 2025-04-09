@@ -14,20 +14,26 @@ import 'package:medion/application/visit/visit_bloc.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
+import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
 import 'package:medion/presentation/pages/appointment/component/verify_appointment_item.dart';
+import 'package:medion/presentation/pages/appointment/payment_page.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:provider/provider.dart';
 
 class VerifyAppointment extends StatefulWidget {
+  final bool isHome;
   final VoidCallback onTap;
 
   const VerifyAppointment({
     super.key,
     required this.onTap,
+    this.isHome = false,
   });
 
   @override
@@ -56,6 +62,14 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
           return BlocBuilder<VisitBloc, VisitState>(builder: (context, state) {
             return Column(
               children: [
+                if (widget.isHome) ...[
+                  CAppBar(
+                    title: "verify_selected".tr(),
+                    centerTitle: true,
+                    isBack: true,
+                    trailing: 24.w.horizontalSpace,
+                  ),
+                ],
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
@@ -91,12 +105,22 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                         final success =
                             await sendVisitRequest(appointment, context);
                         if (success) {
-                          widget.onTap();
+                          if (widget.isHome) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const PaymentPage(
+                                          isHome: true,
+                                        )));
+                          } else {
+                            widget.onTap();
+                          }
                         }
                       }
                     },
                   ),
                 ),
+                12.h.verticalSpace,
               ],
             );
           });

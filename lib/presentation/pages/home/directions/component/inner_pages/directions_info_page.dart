@@ -12,6 +12,7 @@ import 'package:medion/presentation/component/c_container.dart';
 import 'package:medion/presentation/component/c_filter.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
+import 'package:medion/presentation/pages/appointment/doctor_time_and_service.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/service_widget.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
@@ -364,8 +365,9 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AppointmentPage(
-                      index: 2,
+                    builder: (context) => DoctorTimeAndService(
+                      isHome: true,
+                      onTap: () {},
                       selectedServiceIds: selectedServiceIds,
                     ),
                   ),
