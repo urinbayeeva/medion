@@ -85,8 +85,10 @@ abstract class BookingService extends ChopperService {
       @Path('service_type_id') int id);
 
   @Post(path: 'doctors')
-  Future<Response<BuiltList<ThirdBookingService>>> fetchDoctors(
-      @Body() DoctorsRequest request);
+  Future<Response<BuiltList<ThirdBookingService>>> fetchDoctors({
+    @Header('requires-token') String requiresToken = 'true',
+    @Body() required DoctorsRequest request,
+  });
 
   @Get(path: "categories")
   Future<Response<BuiltList<HomepageBookingCategory>>>

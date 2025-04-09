@@ -153,15 +153,21 @@ final class _$BookingService extends BookingService {
   }
 
   @override
-  Future<Response<BuiltList<ThirdBookingService>>> fetchDoctors(
-      DoctorsRequest request) {
+  Future<Response<BuiltList<ThirdBookingService>>> fetchDoctors({
+    String requiresToken = 'true',
+    required DoctorsRequest request,
+  }) {
     final Uri $url = Uri.parse('/booking/doctors');
+    final Map<String, String> $headers = {
+      'requires-token': requiresToken,
+    };
     final $body = request;
     final Request $request = Request(
       'POST',
       $url,
       client.baseUrl,
       body: $body,
+      headers: $headers,
     );
     return client
         .send<BuiltList<ThirdBookingService>, ThirdBookingService>($request);

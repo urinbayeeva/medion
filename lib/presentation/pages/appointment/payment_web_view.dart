@@ -143,7 +143,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
               child: LinearProgressIndicator(
                 value: _downloadProgress,
                 backgroundColor: Colors.grey[300],
-                valueColor: AlwaysStoppedAnimation<Color>(
+                valueColor: const AlwaysStoppedAnimation<Color>(
                   CupertinoColors.activeBlue,
                 ),
               ),
@@ -153,12 +153,12 @@ class _PaymentWebViewState extends State<PaymentWebView> {
       ),
       actions: <Widget>[
         CupertinoDialogAction(
-          child: Text('cancel'.tr()),
           onPressed: _isDownloading
               ? null
               : () {
                   Navigator.of(context).pop();
                 },
+          child: Text('cancel'.tr()),
         ),
       ],
     );
