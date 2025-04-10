@@ -9,6 +9,9 @@ import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_divider.dart';
+import 'package:medion/presentation/pages/appointment/second_service_page.dart';
+import 'package:medion/presentation/pages/booking/booking_second_page.dart';
+import 'package:medion/presentation/pages/home/med_services/med_service_choose.dart';
 import 'package:medion/presentation/pages/others/services/services_chose_page.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -91,14 +94,20 @@ class _ServicesPageState extends State<ServicesPage> {
                               final bottomNavBarController =
                                   context.read<BottomNavBarController>();
                               bottomNavBarController.changeNavBar(true);
-
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ServicesChosePage(
-                                            serviceName: item.name,
-                                            id: item.id,
-                                          )));
+                                      builder: (context) => MedServiceChoose(
+                                            serviceTypeId: item.id,
+                                          ))).then((value) {}).then((_) {
+                                context
+                                    .read<BottomNavBarController>()
+                                    .changeNavBar(false);
+                              });
+
+                              context
+                                  .read<BottomNavBarController>()
+                                  .changeNavBar(true);
                             },
                             child: ListTile(
                               leading: item.icon == null

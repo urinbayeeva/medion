@@ -37,7 +37,8 @@ class _ServicesChosePageState extends State<ServicesChosePage> {
   // Service selection state
   int chose = 0;
   final Set<int> selectedServiceIDCatch = {};
-  final List<Map<String, dynamic>> selectedServices = [];
+  final List<dynamic> selectedServices =
+      []; // Changed to dynamic to hold Service objects
 
   @override
   void initState() {
@@ -99,12 +100,13 @@ class _ServicesChosePageState extends State<ServicesChosePage> {
     }).toList();
   }
 
-  void _handleServiceSelection(Map<String, dynamic> service) {
+  void _handleServiceSelection(dynamic service) {
     setState(() {
-      final serviceId = service['id'] as int;
+      final serviceId = service.id; // Changed from service['id']
       if (selectedServiceIDCatch.contains(serviceId)) {
         selectedServiceIDCatch.remove(serviceId);
-        selectedServices.removeWhere((s) => s['id'] == serviceId);
+        selectedServices
+            .removeWhere((s) => s.id == serviceId); // Changed from s['id']
         chose--;
       } else {
         selectedServiceIDCatch.add(serviceId);
@@ -126,14 +128,12 @@ class _ServicesChosePageState extends State<ServicesChosePage> {
                 ? _buildSearchBar(colors, fonts, icons)
                 : _buildAppBar(colors, fonts, icons),
 
-            // Services List
             Expanded(
               child: BlocBuilder<BookingBloc, BookingState>(
                 builder: (context, state) {
                   if (state.categoryServices.isEmpty) {
                     return SizedBox(
-                      height: MediaQuery.of(context).size.height *
-                          0.8, // Adjust as needed
+                      height: MediaQuery.of(context).size.height * 0.8,
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
@@ -175,7 +175,8 @@ class _ServicesChosePageState extends State<ServicesChosePage> {
                                       fonts: fonts,
                                       icons: icons,
                                       isSelected: selectedServiceIDCatch
-                                          .contains(service['id']),
+                                          .contains(service
+                                              .id), // Changed from service['id']
                                       onTap: () =>
                                           _handleServiceSelection(service),
                                     );
@@ -210,10 +211,8 @@ class _ServicesChosePageState extends State<ServicesChosePage> {
       child: Row(
         children: [
           AnimationButtonEffect(
-            onTap: _toggleSearch,
-            child: icons.left
-                .svg(height: 28.r, width: 28.r, color: colors.shade100),
-          ),
+              onTap: _toggleSearch,
+              child: SvgPicture.asset("assets/icons/left.svg")),
           8.w.horizontalSpace,
           Expanded(
             child: CupertinoSearchTextField(
@@ -305,7 +304,9 @@ class _ServicesChosePageState extends State<ServicesChosePage> {
           12.h.verticalSpace,
           CButton(
             onTap: () {
-              if (chose >= 1) {}
+              if (chose >= 1) {
+                // Handle next action
+              }
             },
             title: 'next'.tr(),
           ),
@@ -350,7 +351,7 @@ class _ServiceItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      service['name'] ?? '',
+                      service.name ?? '',
                       style: fonts.smallSemLink.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -358,7 +359,7 @@ class _ServiceItem extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: 4.h),
                       child: Text(
-                        service['description'] ?? 'Test description',
+                        service.description ?? 'Test description',
                         style: fonts.smallLink.copyWith(
                           color: colors.neutral600,
                           fontSize: 11.sp,
@@ -367,7 +368,7 @@ class _ServiceItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      service['priceUzs'].toString(),
+                      service.priceUzs.toString(),
                       style: fonts.smallLink.copyWith(
                         color: colors.primary900,
                         fontWeight: FontWeight.w600,
@@ -400,8 +401,8 @@ class _ServiceItem extends StatelessWidget {
 }
 
 class _SelectedServicesModal extends StatelessWidget {
-  final List<Map<String, dynamic>> selectedServices;
-  final Function(Map<String, dynamic>) onRemoveService;
+  final List<dynamic> selectedServices;
+  final Function(dynamic) onRemoveService;
 
   const _SelectedServicesModal({
     required this.selectedServices,
@@ -449,21 +450,21 @@ class _SelectedServicesModal extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                service['name'],
+                                service.name,
                                 style: fonts.smallSemLink.copyWith(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               Text(
-                                service['description'],
+                                service.description,
                                 style: fonts.smallLink.copyWith(
                                   fontSize: 12.sp,
                                   color: colors.neutral600,
                                 ),
                               ),
                               Text(
-                                "${service['priceUzs']} UZS",
+                                "${service.priceUzs} UZS",
                                 style: fonts.smallSemLink.copyWith(
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.w500,
