@@ -27,7 +27,7 @@ abstract class DoctorData implements Built<DoctorData, DoctorDataBuilder> {
   int get id;
 
   @BuiltValueField(wireName: "name")
-  String get name;
+  JsonObject get name;
 
   @BuiltValueField(wireName: "info_description")
   JsonObject? get infoDescription;
@@ -69,7 +69,7 @@ abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
   int get id;
 
   @BuiltValueField(wireName: 'name')
-  String get name;
+  JsonObject get name;
 
   @BuiltValueField(wireName: 'short_desc')
   JsonObject? get shortDesc;
@@ -95,13 +95,13 @@ abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
   String get jobId;
 
   @BuiltValueField(wireName: 'image')
-  String get image;
+  JsonObject get image;
 
   @BuiltValueField(wireName: 'price_list')
   BuiltList<PriceItem> get priceList;
 
   @BuiltValueField(wireName: 'service_price_list')
-  String get servicePriceList;
+  JsonObject get servicePriceList;
 
   ModelDoctor._();
   factory ModelDoctor([void Function(ModelDoctorBuilder) updates]) =
@@ -140,10 +140,10 @@ abstract class ScheduleItem
   static Serializer<ScheduleItem> get serializer => _$scheduleItemSerializer;
 
   @BuiltValueField(wireName: 'company')
-  String get company;
+  JsonObject get company;
 
   @BuiltValueField(wireName: 'time')
-  String get time;
+  JsonObject get time;
 
   ScheduleItem._();
   factory ScheduleItem([void Function(ScheduleItemBuilder) updates]) =
@@ -154,13 +154,13 @@ abstract class Experience implements Built<Experience, ExperienceBuilder> {
   static Serializer<Experience> get serializer => _$experienceSerializer;
 
   @BuiltValueField(wireName: 'title')
-  String get title;
+  JsonObject get title;
 
   @BuiltValueField(wireName: 'date')
-  String get date;
+  JsonObject get date;
 
   @BuiltValueField(wireName: 'description')
-  String get description;
+  JsonObject get description;
 
   Experience._();
   factory Experience([void Function(ExperienceBuilder) updates]) = _$Experience;
@@ -170,13 +170,13 @@ abstract class Education implements Built<Education, EducationBuilder> {
   static Serializer<Education> get serializer => _$educationSerializer;
 
   @BuiltValueField(wireName: 'title')
-  String get title;
+  JsonObject get title;
 
   @BuiltValueField(wireName: 'date')
-  String get date;
+  JsonObject get date;
 
   @BuiltValueField(wireName: 'description')
-  String get description;
+  JsonObject get description;
 
   Education._();
   factory Education([void Function(EducationBuilder) updates]) = _$Education;
@@ -193,13 +193,13 @@ abstract class PriceItem implements Built<PriceItem, PriceItemBuilder> {
   static Serializer<PriceItem> get serializer => _$priceItemSerializer;
 
   @BuiltValueField(wireName: 'product_type')
-  String get productType;
+  JsonObject get productType;
 
   @BuiltValueField(wireName: 'categ_id')
   String get categId;
 
   @BuiltValueField(wireName: 'service_id')
-  double get serviceId;
+  int get serviceId;
 
   @BuiltValueField(wireName: 'first_visit_price')
   double get firstVisitPrice;
@@ -217,7 +217,7 @@ abstract class PriceItem implements Built<PriceItem, PriceItemBuilder> {
   double get serviceDuration;
 
   @BuiltValueField(wireName: 'age')
-  String get age;
+  JsonObject get age;
 
   PriceItem._();
   factory PriceItem([void Function(PriceItemBuilder) updates]) = _$PriceItem;

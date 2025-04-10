@@ -118,10 +118,12 @@ class _AboutDoctorState extends State<AboutDoctor> {
           ),
           8.h.verticalSpace,
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: CContainer(
-                text: doctor.decodedDescription.replaceAll('\n', '').trim()),
-          ),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: CContainer(
+                text: doctor.decodedDescription is String
+                    ? doctor.decodedDescription.replaceAll('\n', '').trim()
+                    : '', // or some default text when false
+              )),
           _buildExperienceTab(doctor, colors, fonts, icons),
           _buildEducationTab(doctor, colors, fonts, icons),
           _buildWorkingHoursTab(doctor, colors, fonts),
@@ -146,7 +148,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
           Column(
             children: doctor.experience.map((exp) {
               // Format the date
-              final dateParts = exp.date.split(" - ");
+              final dateParts = exp.date.toString().split(" - ");
               final startDate = DateTime.parse(dateParts[0]);
               final formattedStartDate =
                   DateFormat('d MMM yyyy').format(startDate);
@@ -168,13 +170,18 @@ class _AboutDoctorState extends State<AboutDoctor> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(exp.title,
+                      Text(exp.title.toString(),
                           style: fonts.xSmallText
                               .copyWith(fontWeight: FontWeight.bold)),
                       Text('$formattedStartDate - $endDate',
                           style: fonts.xSmallText),
                       8.h.verticalSpace,
-                      Text(exp.description, style: fonts.xSmallText),
+                      // In _buildExperienceTab and _buildEducationTab, handle the case where description is boolean:
+                      Text(
+                          exp.description is String
+                              ? exp.description.toString()
+                              : 'No description available',
+                          style: fonts.xSmallText),
                     ],
                   ),
                 ),
@@ -202,7 +209,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
           Column(
             children: doctor.education.map((edu) {
               // Format the date
-              final dateParts = edu.date.split(" - ");
+              final dateParts = edu.date.toString().split(" - ");
               final startDate = DateTime.parse(dateParts[0]);
               final formattedStartDate =
                   DateFormat('d MMM yyyy').format(startDate);
@@ -224,13 +231,13 @@ class _AboutDoctorState extends State<AboutDoctor> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(edu.title,
+                      Text(edu.title.toString(),
                           style: fonts.xSmallLink
                               .copyWith(fontWeight: FontWeight.bold)),
                       Text('$formattedStartDate - $endDate',
                           style: fonts.xSmallLink),
                       8.h.verticalSpace,
-                      Text(edu.description, style: fonts.xSmallLink),
+                      Text(edu.description.toString(), style: fonts.xSmallLink),
                     ],
                   ),
                 ),
@@ -242,6 +249,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
     );
   }
 
+// In _buildWorkingHoursTab, modify to handle empty schedule:
   Widget _buildWorkingHoursTab(
       ModelDoctor doctor, dynamic colors, dynamic fonts) {
     return SingleChildScrollView(
@@ -251,7 +259,13 @@ class _AboutDoctorState extends State<AboutDoctor> {
         children: [
           Text("working_hours".tr(), style: fonts.regularSemLink),
           8.h.verticalSpace,
-          _buildSchedule(doctor.workSchedule, colors, fonts),
+          doctor.workSchedule != null &&
+                  (doctor.workSchedule.monday.isNotEmpty ||
+                      doctor.workSchedule.tuesday.isNotEmpty ||
+                      // check other days...
+                      doctor.workSchedule.saturday.isNotEmpty)
+              ? _buildSchedule(doctor.workSchedule, colors, fonts)
+              : Text("No working hours available", style: fonts.xSmallText),
         ],
       ),
     );
@@ -304,7 +318,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
                     ),
                     ...schedules
                         .map((item) => Text(
-                              item.time,
+                              item.time.toString(),
                               style: fonts.regularMain.copyWith(
                                 color: colors.neutral600,
                                 fontSize: 13.sp,

@@ -84,7 +84,8 @@ class _$DoctorDataSerializer implements StructuredSerializer<DoctorData> {
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'name',
-      serializers.serialize(object.name, specifiedType: const FullType(String)),
+      serializers.serialize(object.name,
+          specifiedType: const FullType(JsonObject)),
       'category_ids',
       serializers.serialize(object.categoryIds,
           specifiedType:
@@ -167,7 +168,7 @@ class _$DoctorDataSerializer implements StructuredSerializer<DoctorData> {
           break;
         case 'name':
           result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'info_description':
           result.infoDescription = serializers.deserialize(value,
@@ -227,7 +228,8 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'name',
-      serializers.serialize(object.name, specifiedType: const FullType(String)),
+      serializers.serialize(object.name,
+          specifiedType: const FullType(JsonObject)),
       'work_schedule',
       serializers.serialize(object.workSchedule,
           specifiedType: const FullType(WorkSchedule)),
@@ -248,14 +250,14 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
           specifiedType: const FullType(String)),
       'image',
       serializers.serialize(object.image,
-          specifiedType: const FullType(String)),
+          specifiedType: const FullType(JsonObject)),
       'price_list',
       serializers.serialize(object.priceList,
           specifiedType:
               const FullType(BuiltList, const [const FullType(PriceItem)])),
       'service_price_list',
       serializers.serialize(object.servicePriceList,
-          specifiedType: const FullType(String)),
+          specifiedType: const FullType(JsonObject)),
     ];
     Object? value;
     value = object.shortDesc;
@@ -292,7 +294,7 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
           break;
         case 'name':
           result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'short_desc':
           result.shortDesc = serializers.deserialize(value,
@@ -330,7 +332,7 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
           break;
         case 'image':
           result.image = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'price_list':
           result.priceList.replace(serializers.deserialize(value,
@@ -340,7 +342,7 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
           break;
         case 'service_price_list':
           result.servicePriceList = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
       }
     }
@@ -455,9 +457,10 @@ class _$ScheduleItemSerializer implements StructuredSerializer<ScheduleItem> {
     final result = <Object?>[
       'company',
       serializers.serialize(object.company,
-          specifiedType: const FullType(String)),
+          specifiedType: const FullType(JsonObject)),
       'time',
-      serializers.serialize(object.time, specifiedType: const FullType(String)),
+      serializers.serialize(object.time,
+          specifiedType: const FullType(JsonObject)),
     ];
 
     return result;
@@ -477,11 +480,11 @@ class _$ScheduleItemSerializer implements StructuredSerializer<ScheduleItem> {
       switch (key) {
         case 'company':
           result.company = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'time':
           result.time = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
       }
     }
@@ -502,12 +505,13 @@ class _$ExperienceSerializer implements StructuredSerializer<Experience> {
     final result = <Object?>[
       'title',
       serializers.serialize(object.title,
-          specifiedType: const FullType(String)),
+          specifiedType: const FullType(JsonObject)),
       'date',
-      serializers.serialize(object.date, specifiedType: const FullType(String)),
+      serializers.serialize(object.date,
+          specifiedType: const FullType(JsonObject)),
       'description',
       serializers.serialize(object.description,
-          specifiedType: const FullType(String)),
+          specifiedType: const FullType(JsonObject)),
     ];
 
     return result;
@@ -526,15 +530,15 @@ class _$ExperienceSerializer implements StructuredSerializer<Experience> {
       switch (key) {
         case 'title':
           result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'date':
           result.date = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'description':
           result.description = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
       }
     }
@@ -555,12 +559,13 @@ class _$EducationSerializer implements StructuredSerializer<Education> {
     final result = <Object?>[
       'title',
       serializers.serialize(object.title,
-          specifiedType: const FullType(String)),
+          specifiedType: const FullType(JsonObject)),
       'date',
-      serializers.serialize(object.date, specifiedType: const FullType(String)),
+      serializers.serialize(object.date,
+          specifiedType: const FullType(JsonObject)),
       'description',
       serializers.serialize(object.description,
-          specifiedType: const FullType(String)),
+          specifiedType: const FullType(JsonObject)),
     ];
 
     return result;
@@ -579,15 +584,15 @@ class _$EducationSerializer implements StructuredSerializer<Education> {
       switch (key) {
         case 'title':
           result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'date':
           result.date = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'description':
           result.description = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
       }
     }
@@ -627,13 +632,13 @@ class _$PriceItemSerializer implements StructuredSerializer<PriceItem> {
     final result = <Object?>[
       'product_type',
       serializers.serialize(object.productType,
-          specifiedType: const FullType(String)),
+          specifiedType: const FullType(JsonObject)),
       'categ_id',
       serializers.serialize(object.categId,
           specifiedType: const FullType(String)),
       'service_id',
       serializers.serialize(object.serviceId,
-          specifiedType: const FullType(double)),
+          specifiedType: const FullType(int)),
       'first_visit_price',
       serializers.serialize(object.firstVisitPrice,
           specifiedType: const FullType(double)),
@@ -650,7 +655,8 @@ class _$PriceItemSerializer implements StructuredSerializer<PriceItem> {
       serializers.serialize(object.serviceDuration,
           specifiedType: const FullType(double)),
       'age',
-      serializers.serialize(object.age, specifiedType: const FullType(String)),
+      serializers.serialize(object.age,
+          specifiedType: const FullType(JsonObject)),
     ];
 
     return result;
@@ -669,7 +675,7 @@ class _$PriceItemSerializer implements StructuredSerializer<PriceItem> {
       switch (key) {
         case 'product_type':
           result.productType = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'categ_id':
           result.categId = serializers.deserialize(value,
@@ -677,7 +683,7 @@ class _$PriceItemSerializer implements StructuredSerializer<PriceItem> {
           break;
         case 'service_id':
           result.serviceId = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(int))! as int;
           break;
         case 'first_visit_price':
           result.firstVisitPrice = serializers.deserialize(value,
@@ -701,7 +707,7 @@ class _$PriceItemSerializer implements StructuredSerializer<PriceItem> {
           break;
         case 'age':
           result.age = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
       }
     }
@@ -830,7 +836,7 @@ class _$DoctorData extends DoctorData {
   @override
   final int id;
   @override
-  final String name;
+  final JsonObject name;
   @override
   final JsonObject? infoDescription;
   @override
@@ -939,9 +945,9 @@ class DoctorDataBuilder implements Builder<DoctorData, DoctorDataBuilder> {
   int? get id => _$this._id;
   set id(int? id) => _$this._id = id;
 
-  String? _name;
-  String? get name => _$this._name;
-  set name(String? name) => _$this._name = name;
+  JsonObject? _name;
+  JsonObject? get name => _$this._name;
+  set name(JsonObject? name) => _$this._name = name;
 
   JsonObject? _infoDescription;
   JsonObject? get infoDescription => _$this._infoDescription;
@@ -1057,7 +1063,7 @@ class _$ModelDoctor extends ModelDoctor {
   @override
   final int id;
   @override
-  final String name;
+  final JsonObject name;
   @override
   final JsonObject? shortDesc;
   @override
@@ -1073,11 +1079,11 @@ class _$ModelDoctor extends ModelDoctor {
   @override
   final String jobId;
   @override
-  final String image;
+  final JsonObject image;
   @override
   final BuiltList<PriceItem> priceList;
   @override
-  final String servicePriceList;
+  final JsonObject servicePriceList;
 
   factory _$ModelDoctor([void Function(ModelDoctorBuilder)? updates]) =>
       (new ModelDoctorBuilder()..update(updates))._build();
@@ -1183,9 +1189,9 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
   int? get id => _$this._id;
   set id(int? id) => _$this._id = id;
 
-  String? _name;
-  String? get name => _$this._name;
-  set name(String? name) => _$this._name = name;
+  JsonObject? _name;
+  JsonObject? get name => _$this._name;
+  set name(JsonObject? name) => _$this._name = name;
 
   JsonObject? _shortDesc;
   JsonObject? get shortDesc => _$this._shortDesc;
@@ -1221,9 +1227,9 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
   String? get jobId => _$this._jobId;
   set jobId(String? jobId) => _$this._jobId = jobId;
 
-  String? _image;
-  String? get image => _$this._image;
-  set image(String? image) => _$this._image = image;
+  JsonObject? _image;
+  JsonObject? get image => _$this._image;
+  set image(JsonObject? image) => _$this._image = image;
 
   ListBuilder<PriceItem>? _priceList;
   ListBuilder<PriceItem> get priceList =>
@@ -1231,9 +1237,9 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
   set priceList(ListBuilder<PriceItem>? priceList) =>
       _$this._priceList = priceList;
 
-  String? _servicePriceList;
-  String? get servicePriceList => _$this._servicePriceList;
-  set servicePriceList(String? servicePriceList) =>
+  JsonObject? _servicePriceList;
+  JsonObject? get servicePriceList => _$this._servicePriceList;
+  set servicePriceList(JsonObject? servicePriceList) =>
       _$this._servicePriceList = servicePriceList;
 
   ModelDoctorBuilder();
@@ -1507,9 +1513,9 @@ class WorkScheduleBuilder
 
 class _$ScheduleItem extends ScheduleItem {
   @override
-  final String company;
+  final JsonObject company;
   @override
-  final String time;
+  final JsonObject time;
 
   factory _$ScheduleItem([void Function(ScheduleItemBuilder)? updates]) =>
       (new ScheduleItemBuilder()..update(updates))._build();
@@ -1556,13 +1562,13 @@ class ScheduleItemBuilder
     implements Builder<ScheduleItem, ScheduleItemBuilder> {
   _$ScheduleItem? _$v;
 
-  String? _company;
-  String? get company => _$this._company;
-  set company(String? company) => _$this._company = company;
+  JsonObject? _company;
+  JsonObject? get company => _$this._company;
+  set company(JsonObject? company) => _$this._company = company;
 
-  String? _time;
-  String? get time => _$this._time;
-  set time(String? time) => _$this._time = time;
+  JsonObject? _time;
+  JsonObject? get time => _$this._time;
+  set time(JsonObject? time) => _$this._time = time;
 
   ScheduleItemBuilder();
 
@@ -1605,11 +1611,11 @@ class ScheduleItemBuilder
 
 class _$Experience extends Experience {
   @override
-  final String title;
+  final JsonObject title;
   @override
-  final String date;
+  final JsonObject date;
   @override
-  final String description;
+  final JsonObject description;
 
   factory _$Experience([void Function(ExperienceBuilder)? updates]) =>
       (new ExperienceBuilder()..update(updates))._build();
@@ -1662,17 +1668,17 @@ class _$Experience extends Experience {
 class ExperienceBuilder implements Builder<Experience, ExperienceBuilder> {
   _$Experience? _$v;
 
-  String? _title;
-  String? get title => _$this._title;
-  set title(String? title) => _$this._title = title;
+  JsonObject? _title;
+  JsonObject? get title => _$this._title;
+  set title(JsonObject? title) => _$this._title = title;
 
-  String? _date;
-  String? get date => _$this._date;
-  set date(String? date) => _$this._date = date;
+  JsonObject? _date;
+  JsonObject? get date => _$this._date;
+  set date(JsonObject? date) => _$this._date = date;
 
-  String? _description;
-  String? get description => _$this._description;
-  set description(String? description) => _$this._description = description;
+  JsonObject? _description;
+  JsonObject? get description => _$this._description;
+  set description(JsonObject? description) => _$this._description = description;
 
   ExperienceBuilder();
 
@@ -1718,11 +1724,11 @@ class ExperienceBuilder implements Builder<Experience, ExperienceBuilder> {
 
 class _$Education extends Education {
   @override
-  final String title;
+  final JsonObject title;
   @override
-  final String date;
+  final JsonObject date;
   @override
-  final String description;
+  final JsonObject description;
 
   factory _$Education([void Function(EducationBuilder)? updates]) =>
       (new EducationBuilder()..update(updates))._build();
@@ -1775,17 +1781,17 @@ class _$Education extends Education {
 class EducationBuilder implements Builder<Education, EducationBuilder> {
   _$Education? _$v;
 
-  String? _title;
-  String? get title => _$this._title;
-  set title(String? title) => _$this._title = title;
+  JsonObject? _title;
+  JsonObject? get title => _$this._title;
+  set title(JsonObject? title) => _$this._title = title;
 
-  String? _date;
-  String? get date => _$this._date;
-  set date(String? date) => _$this._date = date;
+  JsonObject? _date;
+  JsonObject? get date => _$this._date;
+  set date(JsonObject? date) => _$this._date = date;
 
-  String? _description;
-  String? get description => _$this._description;
-  set description(String? description) => _$this._description = description;
+  JsonObject? _description;
+  JsonObject? get description => _$this._description;
+  set description(JsonObject? description) => _$this._description = description;
 
   EducationBuilder();
 
@@ -1887,11 +1893,11 @@ class AwardBuilder implements Builder<Award, AwardBuilder> {
 
 class _$PriceItem extends PriceItem {
   @override
-  final String productType;
+  final JsonObject productType;
   @override
   final String categId;
   @override
-  final double serviceId;
+  final int serviceId;
   @override
   final double firstVisitPrice;
   @override
@@ -1903,7 +1909,7 @@ class _$PriceItem extends PriceItem {
   @override
   final double serviceDuration;
   @override
-  final String age;
+  final JsonObject age;
 
   factory _$PriceItem([void Function(PriceItemBuilder)? updates]) =>
       (new PriceItemBuilder()..update(updates))._build();
@@ -1993,17 +1999,17 @@ class _$PriceItem extends PriceItem {
 class PriceItemBuilder implements Builder<PriceItem, PriceItemBuilder> {
   _$PriceItem? _$v;
 
-  String? _productType;
-  String? get productType => _$this._productType;
-  set productType(String? productType) => _$this._productType = productType;
+  JsonObject? _productType;
+  JsonObject? get productType => _$this._productType;
+  set productType(JsonObject? productType) => _$this._productType = productType;
 
   String? _categId;
   String? get categId => _$this._categId;
   set categId(String? categId) => _$this._categId = categId;
 
-  double? _serviceId;
-  double? get serviceId => _$this._serviceId;
-  set serviceId(double? serviceId) => _$this._serviceId = serviceId;
+  int? _serviceId;
+  int? get serviceId => _$this._serviceId;
+  set serviceId(int? serviceId) => _$this._serviceId = serviceId;
 
   double? _firstVisitPrice;
   double? get firstVisitPrice => _$this._firstVisitPrice;
@@ -2029,9 +2035,9 @@ class PriceItemBuilder implements Builder<PriceItem, PriceItemBuilder> {
   set serviceDuration(double? serviceDuration) =>
       _$this._serviceDuration = serviceDuration;
 
-  String? _age;
-  String? get age => _$this._age;
-  set age(String? age) => _$this._age = age;
+  JsonObject? _age;
+  JsonObject? get age => _$this._age;
+  set age(JsonObject? age) => _$this._age = age;
 
   PriceItemBuilder();
 
