@@ -47,6 +47,9 @@ abstract class Service implements Built<Service, ServiceBuilder> {
   @BuiltValueField(wireName: 'age')
   String? get age;
 
+  @BuiltValueField(wireName: "can_receive_call_back")
+  bool? get canReceiveCallBack;
+
   String get decodedDescription => decodeHtml(description);
 
   String toJson() {
@@ -294,6 +297,9 @@ abstract class HomeServiceBooking
 
   @BuiltValueField(wireName: 'price_uzd')
   double? get priceUzd;
+
+  @BuiltValueField(wireName: "can_receive_call_back")
+  bool? get canReceiveCallBack;
 
   HomeServiceBooking._();
   factory HomeServiceBooking(

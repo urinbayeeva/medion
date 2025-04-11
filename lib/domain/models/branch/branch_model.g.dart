@@ -15,6 +15,7 @@ Serializer<ContentModel> _$contentModelSerializer =
     new _$ContentModelSerializer();
 Serializer<ChildContentModel> _$childContentModelSerializer =
     new _$ChildContentModelSerializer();
+Serializer<MedionModel> _$medionModelSerializer = new _$MedionModelSerializer();
 
 class _$BranchModelSerializer implements StructuredSerializer<BranchModel> {
   @override
@@ -668,6 +669,83 @@ class _$ChildContentModelSerializer
         case 'create_date':
           result.createDate = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$MedionModelSerializer implements StructuredSerializer<MedionModel> {
+  @override
+  final Iterable<Type> types = const [MedionModel, _$MedionModel];
+  @override
+  final String wireName = 'MedionModel';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, MedionModel object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'name',
+      serializers.serialize(object.name, specifiedType: const FullType(String)),
+      'description',
+      serializers.serialize(object.description,
+          specifiedType: const FullType(String)),
+      'about',
+      serializers.serialize(object.about,
+          specifiedType: const FullType(String)),
+      'history',
+      serializers.serialize(object.history,
+          specifiedType: const FullType(String)),
+      'mission',
+      serializers.serialize(object.mission,
+          specifiedType: const FullType(String)),
+      'licenses',
+      serializers.serialize(object.licenses,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
+    ];
+
+    return result;
+  }
+
+  @override
+  MedionModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new MedionModelBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'description':
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'about':
+          result.about = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'history':
+          result.history = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'mission':
+          result.mission = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'licenses':
+          result.licenses.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -1765,6 +1843,176 @@ class ChildContentModelBuilder
           createDate: BuiltValueNullFieldError.checkNotNull(
               createDate, r'ChildContentModel', 'createDate'),
         );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$MedionModel extends MedionModel {
+  @override
+  final String name;
+  @override
+  final String description;
+  @override
+  final String about;
+  @override
+  final String history;
+  @override
+  final String mission;
+  @override
+  final BuiltList<String> licenses;
+
+  factory _$MedionModel([void Function(MedionModelBuilder)? updates]) =>
+      (new MedionModelBuilder()..update(updates))._build();
+
+  _$MedionModel._(
+      {required this.name,
+      required this.description,
+      required this.about,
+      required this.history,
+      required this.mission,
+      required this.licenses})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(name, r'MedionModel', 'name');
+    BuiltValueNullFieldError.checkNotNull(
+        description, r'MedionModel', 'description');
+    BuiltValueNullFieldError.checkNotNull(about, r'MedionModel', 'about');
+    BuiltValueNullFieldError.checkNotNull(history, r'MedionModel', 'history');
+    BuiltValueNullFieldError.checkNotNull(mission, r'MedionModel', 'mission');
+    BuiltValueNullFieldError.checkNotNull(licenses, r'MedionModel', 'licenses');
+  }
+
+  @override
+  MedionModel rebuild(void Function(MedionModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  MedionModelBuilder toBuilder() => new MedionModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is MedionModel &&
+        name == other.name &&
+        description == other.description &&
+        about == other.about &&
+        history == other.history &&
+        mission == other.mission &&
+        licenses == other.licenses;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jc(_$hash, about.hashCode);
+    _$hash = $jc(_$hash, history.hashCode);
+    _$hash = $jc(_$hash, mission.hashCode);
+    _$hash = $jc(_$hash, licenses.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'MedionModel')
+          ..add('name', name)
+          ..add('description', description)
+          ..add('about', about)
+          ..add('history', history)
+          ..add('mission', mission)
+          ..add('licenses', licenses))
+        .toString();
+  }
+}
+
+class MedionModelBuilder implements Builder<MedionModel, MedionModelBuilder> {
+  _$MedionModel? _$v;
+
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
+
+  String? _about;
+  String? get about => _$this._about;
+  set about(String? about) => _$this._about = about;
+
+  String? _history;
+  String? get history => _$this._history;
+  set history(String? history) => _$this._history = history;
+
+  String? _mission;
+  String? get mission => _$this._mission;
+  set mission(String? mission) => _$this._mission = mission;
+
+  ListBuilder<String>? _licenses;
+  ListBuilder<String> get licenses =>
+      _$this._licenses ??= new ListBuilder<String>();
+  set licenses(ListBuilder<String>? licenses) => _$this._licenses = licenses;
+
+  MedionModelBuilder();
+
+  MedionModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _name = $v.name;
+      _description = $v.description;
+      _about = $v.about;
+      _history = $v.history;
+      _mission = $v.mission;
+      _licenses = $v.licenses.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(MedionModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$MedionModel;
+  }
+
+  @override
+  void update(void Function(MedionModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  MedionModel build() => _build();
+
+  _$MedionModel _build() {
+    _$MedionModel _$result;
+    try {
+      _$result = _$v ??
+          new _$MedionModel._(
+            name: BuiltValueNullFieldError.checkNotNull(
+                name, r'MedionModel', 'name'),
+            description: BuiltValueNullFieldError.checkNotNull(
+                description, r'MedionModel', 'description'),
+            about: BuiltValueNullFieldError.checkNotNull(
+                about, r'MedionModel', 'about'),
+            history: BuiltValueNullFieldError.checkNotNull(
+                history, r'MedionModel', 'history'),
+            mission: BuiltValueNullFieldError.checkNotNull(
+                mission, r'MedionModel', 'mission'),
+            licenses: licenses.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'licenses';
+        licenses.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'MedionModel', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

@@ -211,7 +211,16 @@ abstract class StudyService extends ChopperService {
 abstract class HelpCallService extends ChopperService {
   @Post(path: "/help/call")
   Future<Response<ServiceResponse>> serviceReqCall(
-      {required ServiceRequest request});
+      {@Body() required ServiceRequest request});
+
+  static StudyService create(DBService dbService) =>
+      _$StudyService(_Client(Constants.baseUrlP, true, dbService));
+}
+
+@ChopperApi(baseUrl: "/company/")
+abstract class CompanyService extends ChopperService {
+  @Get(path: "activity")
+  Future<Response<MedionModel>> getMedionActivity();
 
   static StudyService create(DBService dbService) =>
       _$StudyService(_Client(Constants.baseUrlP, true, dbService));

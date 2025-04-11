@@ -6,6 +6,7 @@ import 'package:medion/application/services/open_pdf_service.dart';
 import 'package:medion/infrastructure/services/download_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_small_container.dart';
+import 'package:medion/presentation/pages/appointment/payment_web_view.dart';
 import 'package:medion/presentation/pages/profile/widget/results_data.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -51,7 +52,21 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
                     ),
                     child: AnimationButtonEffect(
                       onTap: () async {
-                        launchURL(state.patientAnalyze[item]!.documentUrl);
+                        context
+                            .read<BottomNavBarController>()
+                            .changeNavBar(true);
+
+                        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PaymentWebView(
+                                        url:
+                                            "https://his.uicgroup.tech/apiweb/patient_report/1365")))
+                            .then((_) {
+                          context
+                              .read<BottomNavBarController>()
+                              .changeNavBar(false);
+                        });
                       },
                       child: ListTile(
                         title: Text(state.patientAnalyze[item]!.documentName,
@@ -93,17 +108,5 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
               );
       });
     });
-  }
-}
-
-Future<void> launchURL(String url) async {
-  final Uri uri = Uri.parse(url);
-  if (await canLaunchUrl(uri)) {
-    await launchUrl(
-      uri,
-      mode: LaunchMode.externalApplication, // Forces external browser
-    );
-  } else {
-    throw 'Could not launch $url';
   }
 }

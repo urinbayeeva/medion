@@ -158,6 +158,13 @@ class _$ServiceSerializer implements StructuredSerializer<Service> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.canReceiveCallBack;
+    if (value != null) {
+      result
+        ..add('can_receive_call_back')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -195,6 +202,10 @@ class _$ServiceSerializer implements StructuredSerializer<Service> {
         case 'age':
           result.age = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'can_receive_call_back':
+          result.canReceiveCallBack = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
       }
     }
@@ -963,6 +974,13 @@ class _$HomeServiceBookingSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(double)));
     }
+    value = object.canReceiveCallBack;
+    if (value != null) {
+      result
+        ..add('can_receive_call_back')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -993,6 +1011,10 @@ class _$HomeServiceBookingSerializer
         case 'price_uzd':
           result.priceUzd = serializers.deserialize(value,
               specifiedType: const FullType(double)) as double?;
+          break;
+        case 'can_receive_call_back':
+          result.canReceiveCallBack = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
       }
     }
@@ -1568,6 +1590,8 @@ class _$Service extends Service {
   final double? priceUsd;
   @override
   final String? age;
+  @override
+  final bool? canReceiveCallBack;
 
   factory _$Service([void Function(ServiceBuilder)? updates]) =>
       (new ServiceBuilder()..update(updates))._build();
@@ -1578,7 +1602,8 @@ class _$Service extends Service {
       this.description,
       this.priceUzs,
       this.priceUsd,
-      this.age})
+      this.age,
+      this.canReceiveCallBack})
       : super._();
 
   @override
@@ -1597,7 +1622,8 @@ class _$Service extends Service {
         description == other.description &&
         priceUzs == other.priceUzs &&
         priceUsd == other.priceUsd &&
-        age == other.age;
+        age == other.age &&
+        canReceiveCallBack == other.canReceiveCallBack;
   }
 
   @override
@@ -1609,6 +1635,7 @@ class _$Service extends Service {
     _$hash = $jc(_$hash, priceUzs.hashCode);
     _$hash = $jc(_$hash, priceUsd.hashCode);
     _$hash = $jc(_$hash, age.hashCode);
+    _$hash = $jc(_$hash, canReceiveCallBack.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -1621,7 +1648,8 @@ class _$Service extends Service {
           ..add('description', description)
           ..add('priceUzs', priceUzs)
           ..add('priceUsd', priceUsd)
-          ..add('age', age))
+          ..add('age', age)
+          ..add('canReceiveCallBack', canReceiveCallBack))
         .toString();
   }
 }
@@ -1653,6 +1681,11 @@ class ServiceBuilder implements Builder<Service, ServiceBuilder> {
   String? get age => _$this._age;
   set age(String? age) => _$this._age = age;
 
+  bool? _canReceiveCallBack;
+  bool? get canReceiveCallBack => _$this._canReceiveCallBack;
+  set canReceiveCallBack(bool? canReceiveCallBack) =>
+      _$this._canReceiveCallBack = canReceiveCallBack;
+
   ServiceBuilder();
 
   ServiceBuilder get _$this {
@@ -1664,6 +1697,7 @@ class ServiceBuilder implements Builder<Service, ServiceBuilder> {
       _priceUzs = $v.priceUzs;
       _priceUsd = $v.priceUsd;
       _age = $v.age;
+      _canReceiveCallBack = $v.canReceiveCallBack;
       _$v = null;
     }
     return this;
@@ -1692,6 +1726,7 @@ class ServiceBuilder implements Builder<Service, ServiceBuilder> {
           priceUzs: priceUzs,
           priceUsd: priceUsd,
           age: age,
+          canReceiveCallBack: canReceiveCallBack,
         );
     replace(_$result);
     return _$result;
@@ -2966,12 +3001,19 @@ class _$HomeServiceBooking extends HomeServiceBooking {
   final double? priceUzs;
   @override
   final double? priceUzd;
+  @override
+  final bool? canReceiveCallBack;
 
   factory _$HomeServiceBooking(
           [void Function(HomeServiceBookingBuilder)? updates]) =>
       (new HomeServiceBookingBuilder()..update(updates))._build();
 
-  _$HomeServiceBooking._({this.id, this.name, this.priceUzs, this.priceUzd})
+  _$HomeServiceBooking._(
+      {this.id,
+      this.name,
+      this.priceUzs,
+      this.priceUzd,
+      this.canReceiveCallBack})
       : super._();
 
   @override
@@ -2990,7 +3032,8 @@ class _$HomeServiceBooking extends HomeServiceBooking {
         id == other.id &&
         name == other.name &&
         priceUzs == other.priceUzs &&
-        priceUzd == other.priceUzd;
+        priceUzd == other.priceUzd &&
+        canReceiveCallBack == other.canReceiveCallBack;
   }
 
   @override
@@ -3000,6 +3043,7 @@ class _$HomeServiceBooking extends HomeServiceBooking {
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, priceUzs.hashCode);
     _$hash = $jc(_$hash, priceUzd.hashCode);
+    _$hash = $jc(_$hash, canReceiveCallBack.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -3010,7 +3054,8 @@ class _$HomeServiceBooking extends HomeServiceBooking {
           ..add('id', id)
           ..add('name', name)
           ..add('priceUzs', priceUzs)
-          ..add('priceUzd', priceUzd))
+          ..add('priceUzd', priceUzd)
+          ..add('canReceiveCallBack', canReceiveCallBack))
         .toString();
   }
 }
@@ -3035,6 +3080,11 @@ class HomeServiceBookingBuilder
   double? get priceUzd => _$this._priceUzd;
   set priceUzd(double? priceUzd) => _$this._priceUzd = priceUzd;
 
+  bool? _canReceiveCallBack;
+  bool? get canReceiveCallBack => _$this._canReceiveCallBack;
+  set canReceiveCallBack(bool? canReceiveCallBack) =>
+      _$this._canReceiveCallBack = canReceiveCallBack;
+
   HomeServiceBookingBuilder();
 
   HomeServiceBookingBuilder get _$this {
@@ -3044,6 +3094,7 @@ class HomeServiceBookingBuilder
       _name = $v.name;
       _priceUzs = $v.priceUzs;
       _priceUzd = $v.priceUzd;
+      _canReceiveCallBack = $v.canReceiveCallBack;
       _$v = null;
     }
     return this;
@@ -3070,6 +3121,7 @@ class HomeServiceBookingBuilder
           name: name,
           priceUzs: priceUzs,
           priceUzd: priceUzd,
+          canReceiveCallBack: canReceiveCallBack,
         );
     replace(_$result);
     return _$result;

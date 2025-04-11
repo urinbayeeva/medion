@@ -499,12 +499,37 @@ final class _$HelpCallService extends HelpCallService {
   Future<Response<ServiceResponse>> serviceReqCall(
       {required ServiceRequest request}) {
     final Uri $url = Uri.parse('/help/call');
+    final $body = request;
     final Request $request = Request(
       'POST',
       $url,
       client.baseUrl,
+      body: $body,
     );
     return client.send<ServiceResponse, ServiceResponse>($request);
+  }
+}
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$CompanyService extends CompanyService {
+  _$CompanyService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = CompanyService;
+
+  @override
+  Future<Response<MedionModel>> getMedionActivity() {
+    final Uri $url = Uri.parse('/company/activity');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<MedionModel, MedionModel>($request);
   }
 }
 

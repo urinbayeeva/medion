@@ -216,3 +216,29 @@ abstract class ChildContentModel
   static Serializer<ChildContentModel> get serializer =>
       _$childContentModelSerializer;
 }
+
+abstract class MedionModel implements Built<MedionModel, MedionModelBuilder> {
+  @BuiltValueField(wireName: 'name')
+  String get name;
+
+  @BuiltValueField(wireName: 'description')
+  String get description;
+
+  @BuiltValueField(wireName: 'about')
+  String get about;
+
+  @BuiltValueField(wireName: 'history')
+  String get history;
+
+  @BuiltValueField(wireName: 'mission')
+  String get mission;
+
+  @BuiltValueField(wireName: 'licenses')
+  BuiltList<String> get licenses;
+
+  MedionModel._();
+  factory MedionModel([void Function(MedionModelBuilder) updates]) =
+      _$MedionModel;
+
+  static Serializer<MedionModel> get serializer => _$medionModelSerializer;
+}

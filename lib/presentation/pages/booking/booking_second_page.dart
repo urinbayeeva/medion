@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
+import 'package:http/http.dart' as http;
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/selected_provider.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
@@ -13,9 +18,12 @@ import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/c_progress_bar.dart';
+import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
+import 'package:medion/presentation/component/phone_number_component.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/appointment/component/service_selection_model.dart';
+import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -49,10 +57,18 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
   double turns = 0.0;
   bool changeSum = false;
   late DBService dbService;
+  late FocusNode focusNode;
+  late GlobalKey<FormState> _formKey;
+
+  late TextEditingController _phoneNumberController;
 
   @override
   void initState() {
     super.initState();
+    _phoneNumberController = TextEditingController(text: "+998 ");
+    _formKey = GlobalKey<FormState>();
+
+    focusNode = FocusNode();
     _initializeDBService();
     _serviceIdsProvider =
         Provider.of<SelectedServiceIdsProvider>(context, listen: false);
@@ -74,6 +90,8 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
   void dispose() {
     _serviceIdsProvider.removeListener(_updateSelectedServices);
     _refreshController.dispose();
+    _phoneNumberController.dispose();
+    focusNode.dispose();
     super.dispose();
   }
 
@@ -327,88 +345,251 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                 );
               }),
               if (chose > 0) ...[
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: colors.neutral200),
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24.r),
-                      topRight: Radius.circular(24.r),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "count_services_selected"
-                                .tr(namedArgs: {"count": "$chose"}),
-                            style: fonts.xSmallLink.copyWith(
-                                fontSize: 13.sp, fontWeight: FontWeight.bold),
+                BlocBuilder<BookingBloc, BookingState>(
+                  builder: (context, state) {
+                    if (state.categoryServices.isNotEmpty) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.w, vertical: 16.h),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(width: 1, color: colors.neutral200),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(24.r),
+                            topRight: Radius.circular(24.r),
                           ),
-                          AnimationButtonEffect(
-                            onTap: () {
-                              if (!mounted) return;
-                              showModalBottomSheet(
-                                context: context,
-                                isDismissible: true,
-                                isScrollControlled: true,
-                                enableDrag: true,
-                                builder: (context) {
-                                  return SingleChildScrollView(
-                                    child: ServiceSelectionModal(
-                                      selectedServices: selectedServices,
-                                      chose: chose,
-                                      onRemoveService: (service) {
-                                        if (!mounted) return;
-                                        setState(() {
-                                          _servicesProvider
-                                              .removeService(service);
-                                          _serviceIdsProvider
-                                              .removeServiceId(service.id!);
-                                          selectedServices.remove(service);
-                                          selectedServiceIDCatch
-                                              .remove(service.id!);
-                                          chose--;
-                                        });
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "count_services_selected"
+                                      .tr(namedArgs: {"count": "$chose"}),
+                                  style: fonts.xSmallLink.copyWith(
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                AnimationButtonEffect(
+                                  onTap: () {
+                                    if (!mounted) return;
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isDismissible: true,
+                                      isScrollControlled: true,
+                                      enableDrag: true,
+                                      builder: (context) {
+                                        return SingleChildScrollView(
+                                          child: ServiceSelectionModal(
+                                            selectedServices: selectedServices,
+                                            chose: chose,
+                                            onRemoveService: (service) {
+                                              if (!mounted) return;
+                                              setState(() {
+                                                _servicesProvider
+                                                    .removeService(service);
+                                                _serviceIdsProvider
+                                                    .removeServiceId(
+                                                        service.id!);
+                                                selectedServices
+                                                    .remove(service);
+                                                selectedServiceIDCatch
+                                                    .remove(service.id!);
+                                                chose--;
+                                              });
+                                            },
+                                          ),
+                                        );
                                       },
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: icons.right.svg(
-                              width: 20.w,
-                              height: 20.h,
-                              color: colors.iconGreyColor,
+                                    );
+                                  },
+                                  child: icons.right.svg(
+                                    width: 20.w,
+                                    height: 20.h,
+                                    color: colors.iconGreyColor,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      12.h.verticalSpace,
-                      CButton(
-                        title: "next".tr(),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AppointmentPage(
-                                index: 2,
-                                selectedServiceIds:
-                                    selectedServiceIDCatch.toSet(),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                            12.h.verticalSpace,
+                            CButton(
+                                title: "next".tr(),
+                                onTap: () async {
+                                  // Get all selected service objects
+                                  final selectedServices = state
+                                      .categoryServices
+                                      .expand((category) => category.services)
+                                      .where((service) => selectedServiceIDCatch
+                                          .contains(service.id))
+                                      .toList();
+
+                                  // Check if any requires call back
+                                  final requiresCallBack = selectedServices.any(
+                                      (service) =>
+                                          service.canReceiveCallBack == true);
+                                  if (requiresCallBack) {
+                                    bool? confirmCallBack =
+                                        await showDialog<bool>(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        backgroundColor: colors.shade0,
+                                        content: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Center(
+                                              child: Text(
+                                                "Обратный звонок".tr(),
+                                                style: fonts.mediumMain,
+                                              ),
+                                            ),
+                                            12.h.verticalSpace,
+                                            Text(
+                                              textAlign: TextAlign.center,
+                                              "Оставьте свой номер телефона и мы вам перезвоним"
+                                                  .tr(),
+                                              style: fonts.xSmallMain
+                                                  .copyWith(fontSize: 14.sp),
+                                            ),
+                                            12.h.verticalSpace,
+                                            Text("contact_phone_number".tr(),
+                                                style: fonts.regularLink),
+                                            CustomTextField(
+                                              autoFocus: true,
+                                              title: "",
+                                              keyboardType: TextInputType.phone,
+                                              onChanged: (value) {
+                                                if (value.length >= 17) {
+                                                  setState(() {});
+                                                }
+                                              },
+                                              controller:
+                                                  _phoneNumberController,
+                                              formatter: <TextInputFormatter>[
+                                                InternationalPhoneFormatter()
+                                              ],
+                                              hintText: '+998',
+                                              validator: (String? text) {},
+                                            ),
+                                            30.h.verticalSpace,
+                                            CButton(
+                                              title: "send".tr(),
+                                              onTap: () async {
+                                                final phone =
+                                                    _phoneNumberController.text;
+                                                final serviceIds =
+                                                    selectedServiceIDCatch
+                                                        .toList();
+
+                                                final response =
+                                                    await http.post(
+                                                  Uri.parse(
+                                                      'https://his.uicgroup.tech/apiweb/help/call'),
+                                                  headers: {
+                                                    'Content-Type':
+                                                        'application/json',
+                                                  },
+                                                  body: jsonEncode({
+                                                    'phone': phone,
+                                                    'service_ids': serviceIds,
+                                                  }),
+                                                );
+
+                                                // Close the current dialog first
+                                                Navigator.of(context).pop();
+
+                                                if (response.statusCode ==
+                                                    200) {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        backgroundColor:
+                                                            colors.shade0,
+                                                        content: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                                "assets/icons/done.svg"),
+                                                            8.h.verticalSpace,
+                                                            Text(
+                                                                "Заявка оставлена",
+                                                                style: fonts
+                                                                    .mediumMain),
+                                                            4.h.verticalSpace,
+                                                            Text(
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              "В скором времени мы вам перезвоним по поводу вашей заявки",
+                                                              style: fonts
+                                                                  .xSmallMain,
+                                                            ),
+                                                            30.h.verticalSpace,
+                                                            CButton(
+                                                                title:
+                                                                    "back".tr(),
+                                                                onTap: () {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) => MainPage(
+                                                                                index: 0,
+                                                                              )));
+                                                                })
+                                                          ],
+                                                        ),
+                                                      );
+                                                    },
+                                                  );
+                                                } else {
+                                                  // Show error if needed
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                        content: Text(
+                                                            "Ошибка отправки данных")),
+                                                  );
+                                                }
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        actions: [],
+                                      ),
+                                    );
+                                  } else {
+                                    Navigator.push(
+                                      // ignore: use_build_context_synchronously
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AppointmentPage(
+                                          index: 2,
+                                          selectedServiceIds:
+                                              selectedServiceIDCatch.toSet(),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                }),
+                          ],
+                        ),
+                      );
+                    }
+                    return const SizedBox
+                        .shrink(); // Add a default return widget
+                  },
+                )
               ]
             ],
           ),
