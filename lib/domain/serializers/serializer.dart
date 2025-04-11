@@ -102,7 +102,11 @@ part 'serializer.g.dart';
 
   //Map
   Position,
-  LocationModel
+  LocationModel,
+
+  //Service Reques
+  ServiceResponse,
+  ServiceRequest,
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

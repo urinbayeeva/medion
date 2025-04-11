@@ -23,22 +23,23 @@ class DoctorsItem extends StatelessWidget {
   final VoidCallback onTap;
   final String? gender;
   final int doctorID;
+  final bool home;
 
-  const DoctorsItem({
-    super.key,
-    this.imagePath,
-    this.name,
-    this.profession,
-    this.status,
-    this.candidateScience,
-    this.experience,
-    this.isInnerPageUsed = false,
-    this.isCategoried = false,
-    this.categoryType,
-    required this.onTap,
-    this.gender,
-    required this.doctorID,
-  });
+  const DoctorsItem(
+      {super.key,
+      this.imagePath,
+      this.name,
+      this.profession,
+      this.status,
+      this.candidateScience,
+      this.experience,
+      this.isInnerPageUsed = false,
+      this.isCategoried = false,
+      this.categoryType,
+      required this.onTap,
+      this.gender,
+      required this.doctorID,
+      this.home = true});
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +205,9 @@ class DoctorsItem extends StatelessWidget {
                               doctorId: doctorID,
                             ))).then((value) {}).then((_) {
                   // ignore: use_build_context_synchronously
-                  context.read<BottomNavBarController>().changeNavBar(false);
+                  context
+                      .read<BottomNavBarController>()
+                      .changeNavBar(home == false ? true : false);
                 });
               },
               // width: double.infinity,

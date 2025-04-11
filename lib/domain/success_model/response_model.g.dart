@@ -249,4 +249,105 @@ class ResponseModelBuilder
   }
 }
 
+class _$ServiceResponse extends ServiceResponse {
+  @override
+  final String status;
+  @override
+  final String message;
+
+  factory _$ServiceResponse([void Function(ServiceResponseBuilder)? updates]) =>
+      (new ServiceResponseBuilder()..update(updates))._build();
+
+  _$ServiceResponse._({required this.status, required this.message})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(status, r'ServiceResponse', 'status');
+    BuiltValueNullFieldError.checkNotNull(
+        message, r'ServiceResponse', 'message');
+  }
+
+  @override
+  ServiceResponse rebuild(void Function(ServiceResponseBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ServiceResponseBuilder toBuilder() =>
+      new ServiceResponseBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ServiceResponse &&
+        status == other.status &&
+        message == other.message;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, status.hashCode);
+    _$hash = $jc(_$hash, message.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'ServiceResponse')
+          ..add('status', status)
+          ..add('message', message))
+        .toString();
+  }
+}
+
+class ServiceResponseBuilder
+    implements Builder<ServiceResponse, ServiceResponseBuilder> {
+  _$ServiceResponse? _$v;
+
+  String? _status;
+  String? get status => _$this._status;
+  set status(String? status) => _$this._status = status;
+
+  String? _message;
+  String? get message => _$this._message;
+  set message(String? message) => _$this._message = message;
+
+  ServiceResponseBuilder();
+
+  ServiceResponseBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _status = $v.status;
+      _message = $v.message;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ServiceResponse other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ServiceResponse;
+  }
+
+  @override
+  void update(void Function(ServiceResponseBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ServiceResponse build() => _build();
+
+  _$ServiceResponse _build() {
+    final _$result = _$v ??
+        new _$ServiceResponse._(
+          status: BuiltValueNullFieldError.checkNotNull(
+              status, r'ServiceResponse', 'status'),
+          message: BuiltValueNullFieldError.checkNotNull(
+              message, r'ServiceResponse', 'message'),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

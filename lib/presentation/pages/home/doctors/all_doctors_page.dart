@@ -372,7 +372,11 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                                             doctor['image'].toString(),
                                             doctor['id'],
                                           ),
-                                        );
+                                        ).then((_) {
+                                          context
+                                              .read<BottomNavBarController>()
+                                              .changeNavBar(true);
+                                        });
                                       },
                                       categoryType: doctor['category'],
                                       imagePath: doctor['image'].toString(),
@@ -554,20 +558,27 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 12.0,
                 mainAxisSpacing: 12.0,
-                childAspectRatio: 0.63,
+                childAspectRatio: 0.55,
               ),
               itemBuilder: (context, index) {
                 final doctor = doctors[index];
                 return DoctorsItem(
+                    home: false,
+                    isInnerPageUsed: true,
                     onTap: () {
                       Navigator.push(
-                          context,
-                          AppRoutes.getAboutDoctorPage(
-                              doctor['name'].toString(),
-                              doctor['profession'],
-                              doctor['name'].toString(),
-                              doctor['image'].toString(),
-                              doctor['id']));
+                              context,
+                              AppRoutes.getAboutDoctorPage(
+                                  doctor['name'].toString(),
+                                  doctor['profession'],
+                                  doctor['name'].toString(),
+                                  doctor['image'].toString(),
+                                  doctor['id']))
+                          .then((_) {
+                        context
+                            .read<BottomNavBarController>()
+                            .changeNavBar(true);
+                      });
                     },
                     categoryType: doctor['category'].toString(),
                     imagePath: doctor['image'].toString(),

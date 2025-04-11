@@ -471,3 +471,17 @@ abstract class MedicalService
   factory MedicalService([void Function(MedicalServiceBuilder) updates]) =
       _$MedicalService;
 }
+
+abstract class ServiceRequest
+    implements Built<ServiceRequest, ServiceRequestBuilder> {
+  @BuiltValueField(wireName: 'phone')
+  String get phone;
+
+  @BuiltValueField(wireName: 'service_ids')
+  BuiltList<String> get serviceIds;
+
+  ServiceRequest._();
+
+  factory ServiceRequest([void Function(ServiceRequestBuilder) updates]) =
+      _$ServiceRequest;
+}

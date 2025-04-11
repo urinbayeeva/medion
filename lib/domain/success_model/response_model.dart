@@ -31,3 +31,17 @@ abstract class ResponseModel
 
   static Serializer<ResponseModel> get serializer => _$responseModelSerializer;
 }
+
+abstract class ServiceResponse
+    implements Built<ServiceResponse, ServiceResponseBuilder> {
+  @BuiltValueField(wireName: 'status')
+  String get status;
+
+  @BuiltValueField(wireName: 'message')
+  String get message;
+
+  ServiceResponse._();
+
+  factory ServiceResponse([void Function(ServiceResponseBuilder) updates]) =
+      _$ServiceResponse;
+}

@@ -4052,4 +4052,119 @@ class MedicalServiceBuilder
   }
 }
 
+class _$ServiceRequest extends ServiceRequest {
+  @override
+  final String phone;
+  @override
+  final BuiltList<String> serviceIds;
+
+  factory _$ServiceRequest([void Function(ServiceRequestBuilder)? updates]) =>
+      (new ServiceRequestBuilder()..update(updates))._build();
+
+  _$ServiceRequest._({required this.phone, required this.serviceIds})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(phone, r'ServiceRequest', 'phone');
+    BuiltValueNullFieldError.checkNotNull(
+        serviceIds, r'ServiceRequest', 'serviceIds');
+  }
+
+  @override
+  ServiceRequest rebuild(void Function(ServiceRequestBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ServiceRequestBuilder toBuilder() =>
+      new ServiceRequestBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ServiceRequest &&
+        phone == other.phone &&
+        serviceIds == other.serviceIds;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, phone.hashCode);
+    _$hash = $jc(_$hash, serviceIds.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'ServiceRequest')
+          ..add('phone', phone)
+          ..add('serviceIds', serviceIds))
+        .toString();
+  }
+}
+
+class ServiceRequestBuilder
+    implements Builder<ServiceRequest, ServiceRequestBuilder> {
+  _$ServiceRequest? _$v;
+
+  String? _phone;
+  String? get phone => _$this._phone;
+  set phone(String? phone) => _$this._phone = phone;
+
+  ListBuilder<String>? _serviceIds;
+  ListBuilder<String> get serviceIds =>
+      _$this._serviceIds ??= new ListBuilder<String>();
+  set serviceIds(ListBuilder<String>? serviceIds) =>
+      _$this._serviceIds = serviceIds;
+
+  ServiceRequestBuilder();
+
+  ServiceRequestBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _phone = $v.phone;
+      _serviceIds = $v.serviceIds.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ServiceRequest other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ServiceRequest;
+  }
+
+  @override
+  void update(void Function(ServiceRequestBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ServiceRequest build() => _build();
+
+  _$ServiceRequest _build() {
+    _$ServiceRequest _$result;
+    try {
+      _$result = _$v ??
+          new _$ServiceRequest._(
+            phone: BuiltValueNullFieldError.checkNotNull(
+                phone, r'ServiceRequest', 'phone'),
+            serviceIds: serviceIds.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'serviceIds';
+        serviceIds.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'ServiceRequest', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint
