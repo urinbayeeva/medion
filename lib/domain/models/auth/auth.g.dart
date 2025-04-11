@@ -265,6 +265,13 @@ class _$CreateInfoReqSerializer implements StructuredSerializer<CreateInfoReq> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.offerta;
+    if (value != null) {
+      result
+        ..add('offerta')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -307,6 +314,10 @@ class _$CreateInfoReqSerializer implements StructuredSerializer<CreateInfoReq> {
         case 'passport_serial':
           result.passportSerial = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'offerta':
+          result.offerta = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
       }
     }
@@ -828,6 +839,8 @@ class _$CreateInfoReq extends CreateInfoReq {
   final String? gender;
   @override
   final String? passportSerial;
+  @override
+  final bool? offerta;
 
   factory _$CreateInfoReq([void Function(CreateInfoReqBuilder)? updates]) =>
       (new CreateInfoReqBuilder()..update(updates))._build();
@@ -839,7 +852,8 @@ class _$CreateInfoReq extends CreateInfoReq {
       this.phoneNumber,
       this.dateOfBirth,
       this.gender,
-      this.passportSerial})
+      this.passportSerial,
+      this.offerta})
       : super._();
 
   @override
@@ -859,7 +873,8 @@ class _$CreateInfoReq extends CreateInfoReq {
         phoneNumber == other.phoneNumber &&
         dateOfBirth == other.dateOfBirth &&
         gender == other.gender &&
-        passportSerial == other.passportSerial;
+        passportSerial == other.passportSerial &&
+        offerta == other.offerta;
   }
 
   @override
@@ -872,6 +887,7 @@ class _$CreateInfoReq extends CreateInfoReq {
     _$hash = $jc(_$hash, dateOfBirth.hashCode);
     _$hash = $jc(_$hash, gender.hashCode);
     _$hash = $jc(_$hash, passportSerial.hashCode);
+    _$hash = $jc(_$hash, offerta.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -885,7 +901,8 @@ class _$CreateInfoReq extends CreateInfoReq {
           ..add('phoneNumber', phoneNumber)
           ..add('dateOfBirth', dateOfBirth)
           ..add('gender', gender)
-          ..add('passportSerial', passportSerial))
+          ..add('passportSerial', passportSerial)
+          ..add('offerta', offerta))
         .toString();
   }
 }
@@ -923,6 +940,10 @@ class CreateInfoReqBuilder
   set passportSerial(String? passportSerial) =>
       _$this._passportSerial = passportSerial;
 
+  bool? _offerta;
+  bool? get offerta => _$this._offerta;
+  set offerta(bool? offerta) => _$this._offerta = offerta;
+
   CreateInfoReqBuilder();
 
   CreateInfoReqBuilder get _$this {
@@ -935,6 +956,7 @@ class CreateInfoReqBuilder
       _dateOfBirth = $v.dateOfBirth;
       _gender = $v.gender;
       _passportSerial = $v.passportSerial;
+      _offerta = $v.offerta;
       _$v = null;
     }
     return this;
@@ -964,6 +986,7 @@ class CreateInfoReqBuilder
           dateOfBirth: dateOfBirth,
           gender: gender,
           passportSerial: passportSerial,
+          offerta: offerta,
         );
     replace(_$result);
     return _$result;

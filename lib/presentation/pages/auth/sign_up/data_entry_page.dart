@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
-
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/pages/auth/sign_up/component/gender_enum.dart';
@@ -11,7 +10,8 @@ import 'package:medion/presentation/pages/auth/sign_up/component/gender_selectio
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/domain/models/auth/auth.dart';
-import 'package:medion/utils/extensions.dart'; // Import for CreateInfoReq
+import 'package:medion/utils/extensions.dart';
+import 'package:intl/intl.dart'; // Add this for date formatting
 
 class DataEntryPage extends StatefulWidget {
   final String phoneNumber;
@@ -27,9 +27,11 @@ class _DataEntryPageState extends State<DataEntryPage> {
   final TextEditingController secondNameController = TextEditingController();
   final TextEditingController otchestvoController = TextEditingController();
   final TextEditingController passportController = TextEditingController();
+  final TextEditingController birthDateController = TextEditingController();
 
   Gender selectedGender = Gender.men;
   bool isLoading = false;
+  DateTime? selectedDate;
 
   @override
   void dispose() {
@@ -37,17 +39,61 @@ class _DataEntryPageState extends State<DataEntryPage> {
     secondNameController.dispose();
     otchestvoController.dispose();
     passportController.dispose();
+    birthDateController.dispose();
     super.dispose();
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary:
+                  Theme.of(context).primaryColor, // header background color
+              onPrimary: Colors.white, // header text color
+              onSurface: Colors.black, // body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor:
+                    Theme.of(context).primaryColor, // button text color
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        birthDateController.text =
+            DateFormat('yyyy-MM-dd').format(picked); // Format date for API
+      });
+    }
+  }
+
   void _submitForm(BuildContext context) {
+    if (selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('please_select_birth_date'.tr())),
+      );
+      return;
+    }
+
     final createInfoRequest = CreateInfoReq((b) => b
+      ..offerta = false
       ..firstName = nameController.text.trim()
       ..lastName = secondNameController.text.trim()
       ..middleName = otchestvoController.text.trim()
       ..phoneNumber = widget.phoneNumber
-      ..dateOfBirth = "2022-01-23"
-      ..gender = "male"
+      ..dateOfBirth = birthDateController.text // Use the formatted date
+      ..gender = selectedGender == Gender.men ? "male" : "female"
       ..passportSerial = passportController.text.trim());
 
     context.read<AuthBloc>().add(
@@ -111,6 +157,19 @@ class _DataEntryPageState extends State<DataEntryPage> {
                         hintText: "fathers_name".tr(),
                       ),
                       16.h.verticalSpace,
+                      // Add birth date field
+                      GestureDetector(
+                        onTap: () => _selectDate(context),
+                        child: AbsorbPointer(
+                          child: CustomTextField(
+                            controller: birthDateController,
+                            title: "birth_date".tr(),
+                            borderRadius: 8.r,
+                            hintText: "select_birth_date".tr(),
+                          ),
+                        ),
+                      ),
+                      16.h.verticalSpace,
                       CustomTextField(
                         textCapitalization: TextCapitalization.characters,
                         maxLength: 9, // Adjusted for "AB 123456" format
@@ -140,12 +199,6 @@ class _DataEntryPageState extends State<DataEntryPage> {
                                   : "sign_in".tr(),
                               onTap: () {
                                 _submitForm(context);
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  AppRoutes.getMainPage(0), 
-                                  (route) =>
-                                      false, 
-                                );
                               });
                         },
                       ),

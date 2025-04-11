@@ -61,7 +61,7 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
                                 MaterialPageRoute(
                                     builder: (context) => PaymentWebView(
                                         url:
-                                            "https://his.uicgroup.tech/apiweb/patient_report/1365")))
+                                            "https://his.uicgroup.tech/web/content/15171")))
                             .then((_) {
                           context
                               .read<BottomNavBarController>()

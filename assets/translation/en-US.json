@@ -40,5 +40,8 @@
   "failed_to_open_file": "Failed to open file",
   "download_pdf": "Download PDF",
   "cancel": "Cancel",
+  "please_select_birth_date": "Please select your birth date",
+  "birth_date": "Birth Date",
+  "select_birth_date": "Select your birth date",
   "": ""
 }

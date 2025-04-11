@@ -19,7 +19,6 @@ abstract class PhoneNumberSendReq
       _$phoneNumberSendReqSerializer;
 }
 
-
 abstract class RegisterReq implements Built<RegisterReq, RegisterReqBuilder> {
   RegisterReq._();
 
@@ -86,6 +85,9 @@ abstract class CreateInfoReq
   @BuiltValueField(wireName: "passport_serial")
   String? get passportSerial;
 
+  @BuiltValueField(wireName: "offerta")
+  bool? get offerta;
+
   static Serializer<CreateInfoReq> get serializer => _$createInfoReqSerializer;
 }
 
@@ -124,13 +126,13 @@ abstract class RefreshTokenModel
       _$refreshTokenModelSerializer;
 }
 
-
 abstract class RefreshTokenResponseModel
-    implements Built<RefreshTokenResponseModel, RefreshTokenResponseModelBuilder> {
+    implements
+        Built<RefreshTokenResponseModel, RefreshTokenResponseModelBuilder> {
   RefreshTokenResponseModel._();
 
   factory RefreshTokenResponseModel(
-      [void Function(RefreshTokenResponseModelBuilder) updates]) =
+          [void Function(RefreshTokenResponseModelBuilder) updates]) =
       _$RefreshTokenResponseModel;
 
   @BuiltValueField(wireName: 'access_token')
@@ -142,4 +144,3 @@ abstract class RefreshTokenResponseModel
   static Serializer<RefreshTokenResponseModel> get serializer =>
       _$refreshTokenResponseModelSerializer;
 }
-
