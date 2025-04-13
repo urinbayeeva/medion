@@ -92,7 +92,7 @@ class _DataEntryPageState extends State<DataEntryPage> {
       ..lastName = secondNameController.text.trim()
       ..middleName = otchestvoController.text.trim()
       ..phoneNumber = widget.phoneNumber
-      ..dateOfBirth = birthDateController.text // Use the formatted date
+      ..dateOfBirth = birthDateController.text
       ..gender = selectedGender == Gender.men ? "male" : "female"
       ..passportSerial = passportController.text.trim());
 
