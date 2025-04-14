@@ -8,9 +8,12 @@ import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/sources/med_service.dart';
+import 'package:medion/presentation/component/c_bottom_icon.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_choose.dart';
+import 'package:medion/presentation/pages/home/news/news_page.dart';
+import 'package:medion/presentation/pages/map/map_page.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -319,7 +322,7 @@ class _HomePageState extends State<HomePage> {
                             final newsContent =
                                 state.contentByType["news"] ?? [];
                             return SizedBox(
-                              height: 220.h,
+                              height: 260.h,
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,
                                 shrinkWrap: true,
@@ -328,8 +331,9 @@ class _HomePageState extends State<HomePage> {
                                 itemBuilder: (context, index) {
                                   final news = newsContent[index];
                                   return Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
+                                    padding: const EdgeInsets.only(right: 4.0),
                                     child: NewsItem(
+                                      inner: true,
                                       onTap: () {
                                         context
                                             .read<BottomNavBarController>()
@@ -461,8 +465,20 @@ class _HomePageState extends State<HomePage> {
         return Column(
           children: state.companyLocations
               .map((location) => AdressItem(
+                    yandexOnTap: () {},
                     address: location.address,
-                    onTap: () {},
+                    onTap: () {
+                      context.read<BottomNavBarController>().changeNavBar(true);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MapPage())).then((_) {
+                        // ignore: use_build_context_synchronously
+                        context
+                            .read<BottomNavBarController>()
+                            .changeNavBar(false);
+                      });
+                    },
                     url: location.icon,
                   ))
               .toList(),
