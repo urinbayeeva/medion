@@ -67,8 +67,7 @@ class _MedServicesPageState extends State<MedServicesPage> {
                           subtitle: state.medicalServices[index].info,
                           iconPath: "",
                           onTap: () {
-                            final categoryId =
-                                state.medicalServices[index].categoryId;
+                            final categoryId = 19;
                             final intId = categoryId is int
                                 ? categoryId
                                 : int.parse(categoryId.toString());

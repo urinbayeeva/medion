@@ -25,12 +25,6 @@ abstract class DiagnosticsModel
   @BuiltValueField(wireName: 'image')
   String get image;
 
-  @BuiltValueField(wireName: 'category_id')
-  JsonObject get categoryId;
-
-  @BuiltValueField(wireName: 'is_main')
-  bool get isMain;
-
   DiagnosticsModel._();
 
   factory DiagnosticsModel([void Function(DiagnosticsModelBuilder) updates]) =

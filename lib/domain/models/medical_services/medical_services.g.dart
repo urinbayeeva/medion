@@ -40,11 +40,6 @@ class _$DiagnosticsModelSerializer
       'image',
       serializers.serialize(object.image,
           specifiedType: const FullType(String)),
-      'category_id',
-      serializers.serialize(object.categoryId,
-          specifiedType: const FullType(JsonObject)),
-      'is_main',
-      serializers.serialize(object.isMain, specifiedType: const FullType(bool)),
     ];
 
     return result;
@@ -85,14 +80,6 @@ class _$DiagnosticsModelSerializer
         case 'image':
           result.image = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
-          break;
-        case 'category_id':
-          result.categoryId = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject))! as JsonObject;
-          break;
-        case 'is_main':
-          result.isMain = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -288,10 +275,6 @@ class _$DiagnosticsModel extends DiagnosticsModel {
   final JsonObject backgroundColor;
   @override
   final String image;
-  @override
-  final JsonObject categoryId;
-  @override
-  final bool isMain;
 
   factory _$DiagnosticsModel(
           [void Function(DiagnosticsModelBuilder)? updates]) =>
@@ -303,9 +286,7 @@ class _$DiagnosticsModel extends DiagnosticsModel {
       required this.forChildren,
       required this.link,
       required this.backgroundColor,
-      required this.image,
-      required this.categoryId,
-      required this.isMain})
+      required this.image})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(title, r'DiagnosticsModel', 'title');
     BuiltValueNullFieldError.checkNotNull(info, r'DiagnosticsModel', 'info');
@@ -315,10 +296,6 @@ class _$DiagnosticsModel extends DiagnosticsModel {
     BuiltValueNullFieldError.checkNotNull(
         backgroundColor, r'DiagnosticsModel', 'backgroundColor');
     BuiltValueNullFieldError.checkNotNull(image, r'DiagnosticsModel', 'image');
-    BuiltValueNullFieldError.checkNotNull(
-        categoryId, r'DiagnosticsModel', 'categoryId');
-    BuiltValueNullFieldError.checkNotNull(
-        isMain, r'DiagnosticsModel', 'isMain');
   }
 
   @override
@@ -338,9 +315,7 @@ class _$DiagnosticsModel extends DiagnosticsModel {
         forChildren == other.forChildren &&
         link == other.link &&
         backgroundColor == other.backgroundColor &&
-        image == other.image &&
-        categoryId == other.categoryId &&
-        isMain == other.isMain;
+        image == other.image;
   }
 
   @override
@@ -352,8 +327,6 @@ class _$DiagnosticsModel extends DiagnosticsModel {
     _$hash = $jc(_$hash, link.hashCode);
     _$hash = $jc(_$hash, backgroundColor.hashCode);
     _$hash = $jc(_$hash, image.hashCode);
-    _$hash = $jc(_$hash, categoryId.hashCode);
-    _$hash = $jc(_$hash, isMain.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -366,9 +339,7 @@ class _$DiagnosticsModel extends DiagnosticsModel {
           ..add('forChildren', forChildren)
           ..add('link', link)
           ..add('backgroundColor', backgroundColor)
-          ..add('image', image)
-          ..add('categoryId', categoryId)
-          ..add('isMain', isMain))
+          ..add('image', image))
         .toString();
   }
 }
@@ -402,14 +373,6 @@ class DiagnosticsModelBuilder
   String? get image => _$this._image;
   set image(String? image) => _$this._image = image;
 
-  JsonObject? _categoryId;
-  JsonObject? get categoryId => _$this._categoryId;
-  set categoryId(JsonObject? categoryId) => _$this._categoryId = categoryId;
-
-  bool? _isMain;
-  bool? get isMain => _$this._isMain;
-  set isMain(bool? isMain) => _$this._isMain = isMain;
-
   DiagnosticsModelBuilder();
 
   DiagnosticsModelBuilder get _$this {
@@ -421,8 +384,6 @@ class DiagnosticsModelBuilder
       _link = $v.link;
       _backgroundColor = $v.backgroundColor;
       _image = $v.image;
-      _categoryId = $v.categoryId;
-      _isMain = $v.isMain;
       _$v = null;
     }
     return this;
@@ -457,10 +418,6 @@ class DiagnosticsModelBuilder
               backgroundColor, r'DiagnosticsModel', 'backgroundColor'),
           image: BuiltValueNullFieldError.checkNotNull(
               image, r'DiagnosticsModel', 'image'),
-          categoryId: BuiltValueNullFieldError.checkNotNull(
-              categoryId, r'DiagnosticsModel', 'categoryId'),
-          isMain: BuiltValueNullFieldError.checkNotNull(
-              isMain, r'DiagnosticsModel', 'isMain'),
         );
     replace(_$result);
     return _$result;

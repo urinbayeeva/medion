@@ -473,7 +473,6 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => const MapPage())).then((_) {
-                        // ignore: use_build_context_synchronously
                         context
                             .read<BottomNavBarController>()
                             .changeNavBar(false);
@@ -492,14 +491,14 @@ class _HomePageState extends State<HomePage> {
       builder: (context, colors, fonts, icons, controller) {
         final limitedDoctors = doctors.take(10).toList();
         return SizedBox(
-          height: 300.h,
+          height: 330.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.zero,
             itemCount: limitedDoctors.length,
             itemBuilder: (context, index) {
               final doctor = limitedDoctors[index];
-              return AnimationButtonEffect(
+              return DoctorsItem(
                 onTap: () {
                   context.read<BottomNavBarController>().changeNavBar(true);
 
@@ -515,17 +514,14 @@ class _HomePageState extends State<HomePage> {
                     context.read<BottomNavBarController>().changeNavBar(false);
                   });
                 },
-                child: DoctorsItem(
-                  onTap: () {},
-                  imagePath: doctor['image'].toString(),
-                  name: doctor['name'].toString(),
-                  profession: doctor['profession'].toString(),
-                  status: doctor['status'].toString(),
-                  gender: doctor['gender'].toString(),
-                  candidateScience: false,
-                  isInnerPageUsed: true,
-                  doctorID: doctor['id'],
-                ),
+                imagePath: doctor['image'].toString(),
+                name: doctor['name'].toString(),
+                profession: doctor['profession'].toString(),
+                status: doctor['status'].toString(),
+                gender: doctor['gender'].toString(),
+                candidateScience: false,
+                isInnerPageUsed: true,
+                doctorID: doctor['id'],
               );
             },
           ),

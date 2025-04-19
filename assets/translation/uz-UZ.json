@@ -340,5 +340,8 @@
   "select_birth_date": "Tug'ilgan kuningizni tanlang",
   "read_in_detail": "Batafsil o'qish",
   "show_address": "Marshrutni ko'rsatish",
+  "week": "Hafta",
+  "month": "Oy",
+  "year": "Yil",
   "": ""
 }

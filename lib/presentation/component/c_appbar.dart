@@ -138,9 +138,9 @@ class _CAppBarState extends State<CAppBar> {
                     ],
                   ),
                   if (widget.bottom != null) ...[
-                    16.h.verticalSpace,
+                    // 16.h.verticalSpace,
                     widget.bottom!,
-                    12.h.verticalSpace,
+                    // 12.h.verticalSpace,
                   ],
                   if (widget.hasSearch == true) ...[
                     Padding(
