@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,6 +23,13 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/svg.dart';
+// ... other imports ...
+
 class MyVisitsPage extends StatefulWidget {
   const MyVisitsPage({super.key});
 
@@ -34,25 +43,49 @@ class _MyVisitsPageState extends State<MyVisitsPage>
   final DateTime _firstDay = DateTime(2020, 1, 1);
   final DateTime _lastDay = DateTime(2030, 1, 1);
   DateTime? _selectedDate;
+  bool _isDateSelected = false;
+
+  // Month selection
+  String? _selectedMonth;
+  final List<String> _months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+    _tabController.addListener(_handleTabSelection);
     _loadVisitsData();
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(_handleTabSelection);
     _tabController.dispose();
     super.dispose();
+  }
+
+  void _handleTabSelection() {
+    if (_tabController.index != 2 && _selectedMonth != null) {
+      setState(() => _selectedMonth = null);
+    }
   }
 
   void _loadVisitsData() {
     context.read<AuthBloc>().add(const AuthEvent.fetchPatientVisits());
   }
-
-  bool _isDateSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -76,16 +109,18 @@ class _MyVisitsPageState extends State<MyVisitsPage>
     );
   }
 
-  // App Bar with Tabs
   Widget _buildAppBar(colors, fonts, icons) {
     return CAppBar(
+      leading: _tabController.index == 2
+          ? 80.w.horizontalSpace
+          : 60.w.horizontalSpace,
       padding: EdgeInsets.zero,
       bordered: true,
       isBack: false,
       title: "my_visits".tr(),
       centerTitle: true,
       bottom: _buildTabBar(colors, fonts),
-      trailing: _buildCalendarButton(icons),
+      trailing: _buildTrailingButtons(icons),
     );
   }
 
@@ -113,28 +148,51 @@ class _MyVisitsPageState extends State<MyVisitsPage>
     );
   }
 
-  Widget _buildCalendarButton(icons) {
+  Widget _buildTrailingButtons(icons) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AnimationButtonEffect(
-            onTap: _resetDateSelection, child: Icon(Icons.restore)),
-        4.w.horizontalSpace,
-        AnimationButtonEffect(
+        if (_isDateSelected || _selectedMonth != null)
+          AnimationButtonEffect(
+            onTap: _resetSelections,
+            child: Icon(Icons.cancel, size: 20.w),
+          ),
+        if (_tabController.index == 2) _buildMonthDropdown(),
+        if (_tabController.index != 2)
+          AnimationButtonEffect(
             onTap: _showCalendarDialog,
-            child: SvgPicture.asset("assets/icons/calendar.svg")),
+            child: SvgPicture.asset("assets/icons/calendar.svg"),
+          ),
       ],
     );
   }
 
-  void _resetDateSelection() {
+  Widget _buildMonthDropdown() {
+    return Padding(
+      padding: EdgeInsets.only(left: 8.w),
+      child: PopupMenuButton<String>(
+        color: Colors.white,
+        elevation: 0,
+        icon: Text(_selectedMonth ?? DateFormat.MMMM().format(DateTime.now())),
+        onSelected: (month) => setState(() => _selectedMonth = month),
+        itemBuilder: (context) => _months.map((month) {
+          return PopupMenuItem<String>(
+            value: month,
+            child: Text(month),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  void _resetSelections() {
     setState(() {
       _selectedDate = null;
       _isDateSelected = false;
+      _selectedMonth = null;
     });
   }
 
-  // Content Area
   Widget _buildContentArea(AuthState state, colors, fonts) {
     return Expanded(
       child: state.isLoadingVisits
@@ -155,18 +213,32 @@ class _MyVisitsPageState extends State<MyVisitsPage>
       children: [
         _buildVisitsList(state.patientVisits, colors, fonts),
         _buildVisitsList(
-          VisitDataFilter.filterByPeriod(state.patientVisits, VisitPeriod.week),
+          VisitDataFilter.filterByPeriod(
+            state.patientVisits,
+            VisitPeriod.week,
+            selectedMonth: null,
+            months: _months,
+          ),
           colors,
           fonts,
         ),
         _buildVisitsList(
           VisitDataFilter.filterByPeriod(
-              state.patientVisits, VisitPeriod.month),
+            state.patientVisits,
+            VisitPeriod.month,
+            selectedMonth: _selectedMonth,
+            months: _months,
+          ),
           colors,
           fonts,
         ),
         _buildVisitsList(
-          VisitDataFilter.filterByPeriod(state.patientVisits, VisitPeriod.year),
+          VisitDataFilter.filterByPeriod(
+            state.patientVisits,
+            VisitPeriod.year,
+            selectedMonth: null,
+            months: _months,
+          ),
           colors,
           fonts,
         ),
@@ -174,89 +246,29 @@ class _MyVisitsPageState extends State<MyVisitsPage>
     );
   }
 
-  // Visits List Builder
   Widget _buildVisitsList(List<dynamic> visits, colors, fonts) {
-    final groupedVisits = VisitDataGrouper.groupByDate(visits);
-    final filteredVisits = _applyDateFilter(groupedVisits);
+    try {
+      final groupedVisits = VisitDataGrouper.groupByDate(visits);
+      final filteredVisits = _applyDateFilter(groupedVisits);
 
-    if (filteredVisits.isEmpty) {
+      if (filteredVisits.isEmpty ||
+          filteredVisits.values.every((list) => list.isEmpty)) {
+        return _buildEmptyState(colors, fonts);
+      }
+
+      return ListView.builder(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        itemCount: filteredVisits.length,
+        itemBuilder: (context, index) {
+          final date = filteredVisits.keys.elementAt(index);
+          final visitsForDate = filteredVisits[date] ?? [];
+          if (visitsForDate.isEmpty) return SizedBox.shrink();
+          return _buildVisitCard(visitsForDate, date, colors, fonts);
+        },
+      );
+    } catch (e) {
       return _buildEmptyState(colors, fonts);
     }
-
-    return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      itemCount: filteredVisits.length,
-      itemBuilder: (context, index) {
-        final date = filteredVisits.keys.elementAt(index);
-        return _buildVisitCard(filteredVisits[date]!, date, colors, fonts);
-      },
-    );
-  }
-
-  Map<String, List<dynamic>> _applyDateFilter(
-      Map<String, List<dynamic>> visits) {
-    return _selectedDate == null
-        ? visits
-        : {
-            DateFormat('yyyy-MM-dd').format(_selectedDate!):
-                visits[DateFormat('yyyy-MM-dd').format(_selectedDate!)] ?? []
-          };
-  }
-
-  Widget _buildEmptyState(colors, fonts) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(
-            "assets/icons/emoji-sad_d.svg",
-            width: 73.w,
-            height: 75.h,
-          ),
-          SizedBox(height: 12.h),
-          Text(
-            _selectedDate == null
-                ? "you_have_no_visits".tr()
-                : "you_have_no_visits_on".tr(namedArgs: {
-                    "date":
-                        DateFormat('dd MMMM yyyy', context.locale.toString())
-                            .format(_selectedDate!)
-                  }),
-            style: fonts.smallLink.copyWith(
-              color: colors.neutral600,
-              fontSize: 15.sp,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Visit Card Builder
-  Widget _buildVisitCard(List<dynamic> visits, String date, colors, fonts) {
-    return AnimationButtonEffect(
-      onTap: () {},
-      child: Container(
-        margin: EdgeInsets.only(bottom: 8.h),
-        decoration: BoxDecoration(
-          color: colors.shade0,
-          borderRadius: BorderRadius.circular(8.r),
-        ),
-        padding: EdgeInsets.all(12.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "${"order".tr()}: ${visits.first.orderNumber}",
-              // style: fonts..copyWith(fontWeight: FontWeight.w600),
-            ),
-            SizedBox(height: 12.h),
-            ...visits.map((visit) => _buildVisitItem(visit, colors, fonts)),
-          ],
-        ),
-      ),
-    );
   }
 
   Widget _buildVisitItem(dynamic visit, colors, fonts) {
@@ -306,7 +318,72 @@ class _MyVisitsPageState extends State<MyVisitsPage>
     );
   }
 
-  // Navigation Methods
+  Widget _buildVisitCard(List<dynamic> visits, String date, colors, fonts) {
+    return AnimationButtonEffect(
+      onTap: () {},
+      child: Container(
+        margin: EdgeInsets.only(bottom: 8.h),
+        decoration: BoxDecoration(
+          color: colors.shade0,
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        padding: EdgeInsets.all(12.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (visits.isNotEmpty)
+              Text(
+                "${"order".tr()}: ${visits.first.orderNumber}",
+                // style: fonts.medium.copyWith(fontWeight: FontWeight.w600),
+              ),
+            SizedBox(height: 12.h),
+            ...visits.map((visit) => _buildVisitItem(visit, colors, fonts)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Map<String, List<dynamic>> _applyDateFilter(
+      Map<String, List<dynamic>> visits) {
+    if (_selectedDate == null) return visits;
+
+    final selectedDateStr = DateFormat('yyyy-MM-dd').format(_selectedDate!);
+    final visitsForDate = visits[selectedDateStr] ?? [];
+
+    return visitsForDate.isNotEmpty ? {selectedDateStr: visitsForDate} : {};
+  }
+
+  Widget _buildEmptyState(colors, fonts) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            "assets/icons/emoji-sad_d.svg",
+            width: 73.w,
+            height: 75.h,
+          ),
+          SizedBox(height: 12.h),
+          Text(
+            _selectedDate == null
+                ? "you_have_no_visits".tr()
+                : "you_have_no_visits_on".tr(namedArgs: {
+                    "date":
+                        DateFormat('dd MMMM yyyy', context.locale.toString())
+                            .format(_selectedDate!)
+                  }),
+            style: fonts.smallLink.copyWith(
+              color: colors.neutral600,
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _navigateToVisitDetail(dynamic visitData) {
     context.read<BottomNavBarController>().changeNavBar(true);
     Navigator.push(
@@ -342,7 +419,6 @@ class _MyVisitsPageState extends State<MyVisitsPage>
     ).then((_) => context.read<BottomNavBarController>().changeNavBar(false));
   }
 
-  // Calendar Dialog
   void _showCalendarDialog() {
     showDialog(
       context: context,
@@ -372,7 +448,10 @@ class _MyVisitsPageState extends State<MyVisitsPage>
               lastDay: _lastDay,
               selectedDayPredicate: (day) => isSameDay(_selectedDate, day),
               onDaySelected: (selectedDay, _) {
-                setState(() => _selectedDate = selectedDay);
+                setState(() {
+                  _selectedDate = selectedDay;
+                  _isDateSelected = true;
+                });
                 Navigator.pop(context);
               },
             ),
@@ -383,25 +462,41 @@ class _MyVisitsPageState extends State<MyVisitsPage>
   }
 }
 
-// Data Handling Utilities
 class VisitDataFilter {
   static List<dynamic> filterByPeriod(
-      List<dynamic> visits, VisitPeriod period) {
+    List<dynamic> visits,
+    VisitPeriod period, {
+    String? selectedMonth,
+    required List<String> months,
+  }) {
     if (period == VisitPeriod.all) return visits;
 
     final now = DateTime.now();
     DateTime startDate;
+    DateTime? endDate;
 
     switch (period) {
       case VisitPeriod.week:
         startDate = now.subtract(const Duration(days: 7));
         break;
+
       case VisitPeriod.month:
+        if (selectedMonth != null) {
+          final monthIndex = months.indexOf(selectedMonth) + 1;
+          final year = now.year;
+          startDate = DateTime(year, monthIndex, 1);
+          endDate = monthIndex < 12
+              ? DateTime(year, monthIndex + 1, 1)
+              : DateTime(year + 1, 1, 1);
+          break;
+        }
         startDate = DateTime(now.year, now.month - 1, now.day);
         break;
+
       case VisitPeriod.year:
         startDate = DateTime(now.year, 1, 1);
         break;
+
       default:
         return visits;
     }
@@ -409,6 +504,10 @@ class VisitDataFilter {
     return visits.where((visit) {
       if (visit?.visits?.first?.visitDate == null) return false;
       final visitDate = DateTime.parse(visit.visits.first.visitDate);
+
+      if (endDate != null) {
+        return visitDate.isAfter(startDate) && visitDate.isBefore(endDate!);
+      }
       return visitDate.isAfter(startDate);
     }).toList();
   }
@@ -425,15 +524,10 @@ class VisitDataGrouper {
       }
     }
 
-    // Sort by date descending
     final sortedKeys = groupedVisits.keys.toList()
       ..sort((a, b) => b.compareTo(a));
-    final sortedMap = <String, List<dynamic>>{};
-    for (var key in sortedKeys) {
-      sortedMap[key] = groupedVisits[key]!;
-    }
-
-    return sortedMap;
+    return Map.fromEntries(
+        sortedKeys.map((key) => MapEntry(key, groupedVisits[key]!)));
   }
 }
 
