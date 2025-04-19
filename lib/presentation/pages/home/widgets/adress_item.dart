@@ -79,16 +79,16 @@ class AdressItem extends StatelessWidget {
               ),
             ),
             8.h.verticalSpace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: CIconButton(
-                title: "order_taxi".tr(),
-                iconPath: "assets/images/yandex_png.png",
-                onTap: () {},
-                // backgroundColor: colors.neutral200,
-                // textColor: colors.primary900,
-              ),
-            )
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 16.w),
+            //   child: CIconButton(
+            //     title: "order_taxi".tr(),
+            //     iconPath: "assets/images/yandex_png.png",
+            //     onTap: () {},
+            //     // backgroundColor: colors.neutral200,
+            //     // textColor: colors.primary900,
+            //   ),
+            // )
           ],
         ),
       );

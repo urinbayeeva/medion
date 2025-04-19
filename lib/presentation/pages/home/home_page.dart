@@ -13,6 +13,7 @@ import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_choose.dart';
 import 'package:medion/presentation/pages/home/news/news_page.dart';
+import 'package:medion/presentation/pages/home/yandex_on_tap.dart';
 import 'package:medion/presentation/pages/map/map_page.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:provider/provider.dart';
@@ -465,7 +466,10 @@ class _HomePageState extends State<HomePage> {
         return Column(
           children: state.companyLocations
               .map((location) => AdressItem(
-                    yandexOnTap: () {},
+                    yandexOnTap: () {
+                      launchYandexTaxi(context, location.position.latitude,
+                          location.position.longitude);
+                    },
                     address: location.address,
                     onTap: () {
                       context.read<BottomNavBarController>().changeNavBar(true);

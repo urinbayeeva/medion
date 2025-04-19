@@ -109,12 +109,11 @@ class _MapPageState extends State<MapPage> {
       return;
     }
 
-    // Construct Yandex Taxi URL with current location
     final url = Uri.parse(
       'https://3.redirect.appmetrica.yandex.com/route?'
       'start-lat=$startLat&start-lon=$startLon&'
       'end-lat=$endLat&end-lon=$endLon&'
-      'appmetrica_tracking_id=1178268795219780156', // Your tracking ID if needed
+      'appmetrica_tracking_id=1178268795219780156',
     );
 
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
