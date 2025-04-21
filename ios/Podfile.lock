@@ -1147,6 +1147,12 @@ PODS:
   - abseil/xcprivacy (1.20240116.2)
   - app_links (0.0.2):
     - Flutter
+  - appsflyer_sdk (6.15.3):
+    - AppsFlyerFramework (= 6.15.3)
+    - Flutter
+  - AppsFlyerFramework (6.15.3):
+    - AppsFlyerFramework/Main (= 6.15.3)
+  - AppsFlyerFramework/Main (6.15.3)
   - audio_session (0.0.1):
     - Flutter
   - BoringSSL-GRPC (0.0.36):
@@ -1468,6 +1474,7 @@ PODS:
 
 DEPENDENCIES:
   - app_links (from `.symlinks/plugins/app_links/ios`)
+  - appsflyer_sdk (from `.symlinks/plugins/appsflyer_sdk/ios`)
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
@@ -1504,6 +1511,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - abseil
+    - AppsFlyerFramework
     - BoringSSL-GRPC
     - Firebase
     - FirebaseAnalytics
@@ -1532,6 +1540,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   app_links:
     :path: ".symlinks/plugins/app_links/ios"
+  appsflyer_sdk:
+    :path: ".symlinks/plugins/appsflyer_sdk/ios"
   audio_session:
     :path: ".symlinks/plugins/audio_session/ios"
   camera_avfoundation:
@@ -1600,6 +1610,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   abseil: d121da9ef7e2ff4cab7666e76c5a3e0915ae08c3
   app_links: e7a6750a915a9e161c58d91bc610e8cd1d4d0ad0
+  appsflyer_sdk: 0132c7cd33db42ce3daf878f02809a9f88756f9f
+  AppsFlyerFramework: ad7ff0d22aa36c7f8cc4f71a5424e19b89ccb8ae
   audio_session: 088d2483ebd1dc43f51d253d4a1c517d9a2e7207
   BoringSSL-GRPC: ca6a8e5d04812fce8ffd6437810c2d46f925eaeb
   camera_avfoundation: dd002b0330f4981e1bbcb46ae9b62829237459a4

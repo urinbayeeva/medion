@@ -110,6 +110,8 @@ dependencies:
   flutter_custom_tabs: ^2.2.1
   easy_date_timeline: ^2.0.9
   webview_flutter: ^4.10.0
+  appsflyer_sdk: ^6.15.2
+  html_unescape: ^2.0.0
 
 
 

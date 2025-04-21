@@ -531,6 +531,17 @@ final class _$CompanyService extends CompanyService {
     );
     return client.send<MedionModel, MedionModel>($request);
   }
+
+  @override
+  Future<Response<OfferModel>> getOfferta() {
+    final Uri $url = Uri.parse('/company/offerta');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<OfferModel, OfferModel>($request);
+  }
 }
 
 // coverage:ignore-file

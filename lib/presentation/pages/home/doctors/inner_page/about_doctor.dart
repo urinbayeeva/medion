@@ -58,6 +58,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
                 bottom: Column(
                   children: [
                     AboutDoctorWidget(
+                      doctorID: widget.id,
                       name: widget.name,
                       profession: widget.profession,
                       specialty: widget.status,
@@ -108,28 +109,40 @@ class _AboutDoctorState extends State<AboutDoctor> {
 
   Widget _buildAboutDoctorTab(
       ModelDoctor doctor, dynamic colors, dynamic fonts, icons) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text("about_the_doctor".tr(), style: fonts.regularSemLink),
-          ),
-          8.h.verticalSpace,
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: CContainer(
-                text: doctor.decodedDescription is String
-                    ? doctor.decodedDescription.replaceAll('\n', '').trim()
-                    : '', // or some default text when false
-              )),
-          _buildExperienceTab(doctor, colors, fonts, icons),
-          _buildEducationTab(doctor, colors, fonts, icons),
-          _buildWorkingHoursTab(doctor, colors, fonts),
-        ],
-      ),
-    );
+    return doctor.education.isEmpty ||
+            doctor.experience.isEmpty ||
+            doctor.workSchedule == null
+        ? Center(
+            child: Text(
+              "no_result_found".tr(),
+              style: fonts.mediumMain.copyWith(fontWeight: FontWeight.w600),
+            ),
+          )
+        : SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Text("about_the_doctor".tr(),
+                      style: fonts.regularSemLink),
+                ),
+                8.h.verticalSpace,
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: CContainer(
+                      text: doctor.decodedDescription is String
+                          ? doctor.decodedDescription
+                              .replaceAll('\n', '')
+                              .trim()
+                          : '', // or some default text when false
+                    )),
+                _buildExperienceTab(doctor, colors, fonts, icons),
+                _buildEducationTab(doctor, colors, fonts, icons),
+                _buildWorkingHoursTab(doctor, colors, fonts),
+              ],
+            ),
+          );
   }
 
   Widget _buildExperienceTab(
@@ -266,6 +279,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
                       doctor.workSchedule.saturday.isNotEmpty)
               ? _buildSchedule(doctor.workSchedule, colors, fonts)
               : Text("No working hours available", style: fonts.xSmallText),
+          40.h.verticalSpace,
         ],
       ),
     );

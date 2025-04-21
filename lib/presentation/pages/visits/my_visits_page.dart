@@ -274,6 +274,7 @@ class _MyVisitsPageState extends State<MyVisitsPage>
   Widget _buildVisitItem(dynamic visit, colors, fonts) {
     final visitData = visit.visits.first;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         VisitInfoCard(
           onTap: () => _navigateToVisitDetail(visitData),
@@ -285,6 +286,12 @@ class _MyVisitsPageState extends State<MyVisitsPage>
           visitStatus: visitData.paymentStatus == "paid" ? "Paid" : "Not Paid",
           image: visitData.imageUrl,
           categoryName: visitData.categoryName,
+        ),
+        CButton(
+          width: 160.w,
+          height: 38.h,
+          onTap: () => _openInvoice(visit),
+          title: "download_pdf".tr(),
         ),
         SizedBox(height: 12.h),
         _buildVisitFooter(visit, visitData, colors, fonts),

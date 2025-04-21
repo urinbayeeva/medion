@@ -65,6 +65,10 @@ List<Map<String, dynamic>> othersData = [
     "title": "services".tr(),
     "icon": IconSet.create.hospital,
   },
+  {
+    "title": "offerta",
+    "icon": IconSet.create.document,
+  },
 ];
 
 List<Map<String, dynamic>> othersDataSecond = [

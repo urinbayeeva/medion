@@ -36,7 +36,6 @@ class ResponsiveTimeSlotGrid extends StatelessWidget {
     return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}';
   }
 
-  // Check if a time slot should be disabled
   bool isTimeSlotDisabled(String timeSlot) {
     return disabledTimeSlots.contains(timeSlot);
   }
@@ -85,7 +84,7 @@ class ResponsiveTimeSlotGrid extends StatelessWidget {
                 ? null
                 : Border.all(width: 1, color: colors.neutral400),
             color: isDisabled
-                ? colors.neutral200 // Gray out disabled slots
+                ? colors.neutral200
                 : (active
                     ? colors.neutral200
                     : (isSelected ? colors.error500 : colors.shade0)),
@@ -96,7 +95,7 @@ class ResponsiveTimeSlotGrid extends StatelessWidget {
               timeSlot,
               style: fonts.xSmallMain.copyWith(
                 color: isDisabled
-                    ? colors.neutral600 // Gray out text for disabled slots
+                    ? colors.neutral600
                     : (isSelected ? Colors.white : Colors.black),
                 fontWeight: FontWeight.w500,
               ),

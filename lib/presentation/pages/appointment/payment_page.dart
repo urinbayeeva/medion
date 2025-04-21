@@ -275,7 +275,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                                 ),
                                               ),
                                               Text(
-                                                "${"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ "} ${"sum".tr(namedArgs: {
+                                                "${"_ _ _ _ _ _ _ _ _ _ "} ${"sum".tr(namedArgs: {
                                                       "amount":
                                                           _formatNumber(price)
                                                     })}",
@@ -301,7 +301,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                           padding: EdgeInsets.symmetric(
                                               vertical: 8.h),
                                           child: Text(
-                                            "${"total".tr()}_ _ _ _ _ _ _ _ _ _ _ _ _ ${"sum".tr(namedArgs: {
+                                            "${"total".tr()}_ _ _ _ _ _ _ _ _ _ ${"sum".tr(namedArgs: {
                                                   "amount":
                                                       _formatNumber(subtotal)
                                                 })}",

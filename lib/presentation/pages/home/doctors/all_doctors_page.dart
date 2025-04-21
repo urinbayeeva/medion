@@ -357,7 +357,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                                     crossAxisCount: 2,
                                     crossAxisSpacing: 12.0,
                                     mainAxisSpacing: 12.0,
-                                    childAspectRatio: 0.53,
+                                    childAspectRatio: 0.51,
                                   ),
                                   itemBuilder: (context, index) {
                                     final doctor = searchResults[index];
@@ -496,13 +496,14 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                                 ],
                               ),
                             ),
-                          ]
+                          ],
                         ],
                       ),
                     );
                   },
                 ),
               ),
+              40.h.verticalSpace,
             ],
           ),
         );
@@ -556,9 +557,9 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                crossAxisSpacing: 12.0,
+                crossAxisSpacing: 0,
                 mainAxisSpacing: 12.0,
-                childAspectRatio: 0.55,
+                childAspectRatio: 0.51,
               ),
               itemBuilder: (context, index) {
                 final doctor = doctors[index];
@@ -573,7 +574,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                                   doctor['profession'],
                                   doctor['name'].toString(),
                                   doctor['image'].toString(),
-                                  doctor['id']))
+                                  int.parse(doctor['id'])))
                           .then((_) {
                         context
                             .read<BottomNavBarController>()

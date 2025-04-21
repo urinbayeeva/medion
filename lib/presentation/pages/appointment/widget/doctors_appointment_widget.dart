@@ -262,7 +262,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: isDisabled
-                      ? colors.neutral400
+                      ? Colors.red.withOpacity(0.2)
                       : isSelected
                           ? colors.primary500
                           : colors.neutral200,
@@ -276,7 +276,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
                   time,
                   style: TextStyle(
                     color: isDisabled
-                        ? colors.neutral600
+                        ? Colors.black.withOpacity(0.7)
                         : isSelected
                             ? colors.shade0
                             : colors.primary900,

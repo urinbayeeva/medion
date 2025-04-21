@@ -9,8 +9,9 @@ import 'package:medion/infrastructure/services/log_service.dart';
 class BranchRepository implements IBranchRepository {
   final BranchService apiService;
   final StudyService studyService;
+  final CompanyService companyService;
 
-  BranchRepository(this.apiService, this.studyService);
+  BranchRepository(this.apiService, this.studyService, this.companyService);
 
   @override
   Future<Either<ResponseFailure, List<BranchModel>>> fetchBranches() async {
@@ -49,10 +50,10 @@ class BranchRepository implements IBranchRepository {
       return left(handleError(e));
     }
   }
-  
+
   @override
   Future<Either<ResponseFailure, EducationModel>> fetchStudy() async {
-     try {
+    try {
       final response = await studyService.getStudy();
       LogService.d('Response Status: ${response.statusCode}');
       LogService.d('Response Body: ${response.body}');
@@ -60,6 +61,25 @@ class BranchRepository implements IBranchRepository {
       if (response.isSuccessful && response.body != null) {
         final study = response.body!;
         return right(study);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      LogService.e(" ----> error on branch repo  : ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, OfferModel>> getOfferta() async {
+    try {
+      final response = await companyService.getOfferta();
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        final offerta = response.body!;
+        return right(offerta);
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }

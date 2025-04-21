@@ -11,5 +11,6 @@ class BranchState with _$BranchState {
     @Default([]) List<BranchModel> branches,
     @Default([]) List<AwardsModel> awards,
     @Default(null) EducationModel? study,
+    @Default(null) OfferModel? offerta,
   }) = _BranchState;
 }

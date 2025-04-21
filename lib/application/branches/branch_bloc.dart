@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/infrastructure/repository/branch_repo.dart';
+import 'package:medion/infrastructure/repository/company_service.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 
@@ -13,10 +14,11 @@ part 'branch_state.dart';
 class BranchBloc extends Bloc<BranchEvent, BranchState> {
   final BranchRepository _repository;
 
-  BranchBloc(this._repository) : super(const BranchState()) {
+  BranchBloc(this._repository) : super(BranchState()) {
     on<_FetchBranches>(_fetchBranches);
     on<_FetchAwards>(_fetchAwards);
     on<_FetchStudy>(_fetchStudy);
+    on<_FetchOfferta>(_fetchOfferta);
   }
 
   FutureOr<void> _fetchBranches(
@@ -69,7 +71,7 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
     );
   }
 
-   FutureOr<void> _fetchStudy(
+  FutureOr<void> _fetchStudy(
     _FetchStudy event,
     Emitter<BranchState> emit,
   ) async {
@@ -89,6 +91,31 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
           loading: false,
           success: true,
           study: data,
+        ));
+      },
+    );
+  }
+
+  FutureOr<void> _fetchOfferta(
+    _FetchOfferta event,
+    Emitter<BranchState> emit,
+  ) async {
+    emit(state.copyWith(loading: true, error: false, success: false));
+    EasyLoading.show();
+
+    final res = await _repository.getOfferta();
+    res.fold(
+      (error) {
+        LogService.e("Error in fetching branches: $error");
+        EasyLoading.showError(error.message);
+        emit(state.copyWith(loading: false, error: true));
+      },
+      (data) {
+        EasyLoading.dismiss();
+        emit(state.copyWith(
+          loading: false,
+          success: true,
+          offerta: data,
         ));
       },
     );

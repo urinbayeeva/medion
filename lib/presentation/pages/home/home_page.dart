@@ -511,7 +511,7 @@ class _HomePageState extends State<HomePage> {
                     AppRoutes.getAboutDoctorPage(
                         doctor['name'].toString(),
                         doctor['profession'].toString(),
-                        doctor['status'].toString(),
+                        doctor['name'].toString(),
                         doctor['image'].toString(),
                         doctor['id']),
                   ).then((_) {

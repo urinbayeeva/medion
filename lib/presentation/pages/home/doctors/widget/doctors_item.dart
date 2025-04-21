@@ -192,6 +192,20 @@ class DoctorsItem extends StatelessWidget {
         ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
           return Center(
             child: CButton(
+              backgroundColor: colors.neutral200,
+              textColor: colors.primary900,
+              width: 164,
+              title: "podrobno".tr(),
+              onTap: onTap,
+              // width: double.infinity,
+              height: 32.h,
+            ),
+          );
+        }),
+        8.h.verticalSpace,
+        ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+          return Center(
+            child: CButton(
               width: 164,
               title: "appointment_nav_bar".tr(),
               onTap: () {
@@ -210,20 +224,6 @@ class DoctorsItem extends StatelessWidget {
                       .changeNavBar(home == false ? true : false);
                 });
               },
-              // width: double.infinity,
-              height: 32.h,
-            ),
-          );
-        }),
-        8.h.verticalSpace,
-        ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-          return Center(
-            child: CButton(
-              backgroundColor: colors.neutral200,
-              textColor: colors.primary900,
-              width: 164,
-              title: "get_know".tr(),
-              onTap: onTap,
               // width: double.infinity,
               height: 32.h,
             ),

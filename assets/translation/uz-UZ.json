@@ -343,5 +343,9 @@
   "week": "Hafta",
   "month": "Oy",
   "year": "Yil",
+  "podrobno": "Batafsil",
+  "information": "Ma'lumot",
+  "info_desc": "Xizmatlar narxi AQSh dollarida faqat ma’lumot uchun ko‘rsatilgan. Barcha to‘lovlar milliy valyuta — O‘zbekiston so‘mida (UZS) amalga oshiriladi.",
+  "confirm": "Tasdiqlash",
   "": ""
 }

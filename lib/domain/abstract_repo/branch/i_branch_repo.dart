@@ -6,4 +6,5 @@ abstract class IBranchRepository {
   Future<Either<ResponseFailure, List<BranchModel>>> fetchBranches();
   Future<Either<ResponseFailure, List<AwardsModel>>> fetchAwards();
   Future<Either<ResponseFailure, EducationModel>> fetchStudy();
+  Future<Either<ResponseFailure, OfferModel>> getOfferta();
 }

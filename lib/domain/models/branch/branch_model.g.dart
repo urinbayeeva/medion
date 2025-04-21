@@ -16,6 +16,7 @@ Serializer<ContentModel> _$contentModelSerializer =
 Serializer<ChildContentModel> _$childContentModelSerializer =
     new _$ChildContentModelSerializer();
 Serializer<MedionModel> _$medionModelSerializer = new _$MedionModelSerializer();
+Serializer<OfferModel> _$offerModelSerializer = new _$OfferModelSerializer();
 
 class _$BranchModelSerializer implements StructuredSerializer<BranchModel> {
   @override
@@ -746,6 +747,53 @@ class _$MedionModelSerializer implements StructuredSerializer<MedionModel> {
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(String)]))!
               as BuiltList<Object?>);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$OfferModelSerializer implements StructuredSerializer<OfferModel> {
+  @override
+  final Iterable<Type> types = const [OfferModel, _$OfferModel];
+  @override
+  final String wireName = 'OfferModel';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, OfferModel object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'offerta',
+      serializers.serialize(object.offerta,
+          specifiedType: const FullType(String)),
+      'company_name',
+      serializers.serialize(object.companyName,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  OfferModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new OfferModelBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'offerta':
+          result.offerta = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'company_name':
+          result.companyName = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -2013,6 +2061,105 @@ class MedionModelBuilder implements Builder<MedionModel, MedionModelBuilder> {
       }
       rethrow;
     }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$OfferModel extends OfferModel {
+  @override
+  final String offerta;
+  @override
+  final String companyName;
+
+  factory _$OfferModel([void Function(OfferModelBuilder)? updates]) =>
+      (new OfferModelBuilder()..update(updates))._build();
+
+  _$OfferModel._({required this.offerta, required this.companyName})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(offerta, r'OfferModel', 'offerta');
+    BuiltValueNullFieldError.checkNotNull(
+        companyName, r'OfferModel', 'companyName');
+  }
+
+  @override
+  OfferModel rebuild(void Function(OfferModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  OfferModelBuilder toBuilder() => new OfferModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is OfferModel &&
+        offerta == other.offerta &&
+        companyName == other.companyName;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, offerta.hashCode);
+    _$hash = $jc(_$hash, companyName.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'OfferModel')
+          ..add('offerta', offerta)
+          ..add('companyName', companyName))
+        .toString();
+  }
+}
+
+class OfferModelBuilder implements Builder<OfferModel, OfferModelBuilder> {
+  _$OfferModel? _$v;
+
+  String? _offerta;
+  String? get offerta => _$this._offerta;
+  set offerta(String? offerta) => _$this._offerta = offerta;
+
+  String? _companyName;
+  String? get companyName => _$this._companyName;
+  set companyName(String? companyName) => _$this._companyName = companyName;
+
+  OfferModelBuilder();
+
+  OfferModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _offerta = $v.offerta;
+      _companyName = $v.companyName;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(OfferModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$OfferModel;
+  }
+
+  @override
+  void update(void Function(OfferModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  OfferModel build() => _build();
+
+  _$OfferModel _build() {
+    final _$result = _$v ??
+        new _$OfferModel._(
+          offerta: BuiltValueNullFieldError.checkNotNull(
+              offerta, r'OfferModel', 'offerta'),
+          companyName: BuiltValueNullFieldError.checkNotNull(
+              companyName, r'OfferModel', 'companyName'),
+        );
     replace(_$result);
     return _$result;
   }

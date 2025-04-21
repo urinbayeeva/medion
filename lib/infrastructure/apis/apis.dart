@@ -222,8 +222,11 @@ abstract class CompanyService extends ChopperService {
   @Get(path: "activity")
   Future<Response<MedionModel>> getMedionActivity();
 
-  static StudyService create(DBService dbService) =>
-      _$StudyService(_Client(Constants.baseUrlP, true, dbService));
+  @Get(path: "offerta")
+  Future<Response<OfferModel>> getOfferta();
+
+  static CompanyService create(DBService dbService) =>
+      _$CompanyService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "")

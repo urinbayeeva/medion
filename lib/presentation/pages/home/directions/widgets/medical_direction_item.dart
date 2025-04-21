@@ -27,7 +27,7 @@ class MedicalDirectionItem extends StatelessWidget {
         onTap: onTap,
         child: Column(
           children: [
-            12.h.verticalSpace,
+            7.h.verticalSpace,
             Container(
               decoration: BoxDecoration(
                   color: colors.shade0,

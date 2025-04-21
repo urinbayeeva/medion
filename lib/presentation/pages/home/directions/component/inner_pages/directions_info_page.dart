@@ -270,15 +270,15 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
         return DoctorsItem(
           gender: "male",
           isInnerPageUsed: true,
-          imagePath: doctor.image ?? icons.nonUser,
+          imagePath: doctor.image,
           onTap: () {
             Navigator.push(
               context,
               AppRoutes.getAboutDoctorPage(
                 doctor.name!,
                 doctor.jobName!,
-                doctor.image!,
                 "",
+                doctor.image!,
                 doctor.id!,
               ),
             );

@@ -69,6 +69,8 @@ class OthersPageComp extends StatelessWidget {
                         navigateTo(AppRoutes.getDiscountPage());
                       case 8:
                         navigateTo(AppRoutes.getServicesPage());
+                      case 9:
+                        navigateTo(AppRoutes.getOffertaPage());
 
                       default:
                         navigateTo(AppRoutes.getUnderDevPage(

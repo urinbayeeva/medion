@@ -132,19 +132,67 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                 trailing: Row(
                   children: [
                     AnimatedRotation(
-                        turns: turns,
-                        duration: const Duration(seconds: 1),
-                        child: AnimationButtonEffect(
-                            onTap: () {
-                              setState(() {
-                                turns += 2 / 4;
-                                changeSum = !changeSum;
-                                dbService.setCurrencyPreference(changeSum);
-                                // _updateUseCaseForCurrency();
-                              });
+                      turns: turns,
+                      duration: const Duration(seconds: 1),
+                      child: AnimationButtonEffect(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: colors.shade0,
+                                title: Center(
+                                    child: Text(
+                                  "information".tr(),
+                                  style: fonts.regularMain
+                                      .copyWith(color: colors.error500),
+                                )),
+                                content: Text(
+                                  "info_desc".tr(),
+                                  style: fonts.regularLink,
+                                ),
+                                actions: [
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.black),
+                                      overlayColor: MaterialStateProperty.all(
+                                          Colors.black.withOpacity(0.1)),
+                                    ),
+                                    child: Text("cancel".tr()),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(Colors.red),
+                                      overlayColor: MaterialStateProperty.all(
+                                          Colors.red.withOpacity(0.1)),
+                                    ),
+                                    child: Text("confirm".tr()),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      setState(() {
+                                        turns += 2 / 4;
+                                        changeSum = !changeSum;
+                                        dbService
+                                            .setCurrencyPreference(changeSum);
+                                        // _updateUseCaseForCurrency();
+                                      });
+                                    },
+                                  ),
+                                ],
+                              );
                             },
-                            child: icons.valyutaChange
-                                .svg(width: 20.w, height: 20.h))),
+                          );
+                        },
+                        child:
+                            icons.valyutaChange.svg(width: 20.w, height: 20.h),
+                      ),
+                    ),
                     6.w.horizontalSpace,
                     icons.filter.svg(width: 20.w, height: 20.h),
                   ],

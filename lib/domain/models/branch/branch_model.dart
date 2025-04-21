@@ -242,3 +242,17 @@ abstract class MedionModel implements Built<MedionModel, MedionModelBuilder> {
 
   static Serializer<MedionModel> get serializer => _$medionModelSerializer;
 }
+
+abstract class OfferModel implements Built<OfferModel, OfferModelBuilder> {
+  @BuiltValueField(wireName: "offerta")
+  String get offerta;
+
+  @BuiltValueField(wireName: "company_name")
+  String get companyName;
+
+  OfferModel._();
+
+  factory OfferModel([void Function(OfferModelBuilder) updates]) = _$OfferModel;
+
+  static Serializer<OfferModel> get serializer => _$offerModelSerializer;
+}

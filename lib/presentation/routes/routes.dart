@@ -47,6 +47,7 @@ import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
 import 'package:medion/presentation/pages/others/dicsount/widgets/discount_page_view.dart';
 import 'package:medion/presentation/pages/others/education/education_page.dart';
 import 'package:medion/presentation/pages/others/equipment/equipment_page.dart';
+import 'package:medion/presentation/pages/others/offerta/offerta_page.dart';
 import 'package:medion/presentation/pages/others/our_activity/our_activity_page.dart';
 import 'package:medion/presentation/pages/others/partners/partners_inner_page.dart';
 import 'package:medion/presentation/pages/others/partners/partners_page.dart';
@@ -409,9 +410,12 @@ class AppRoutes {
     return MaterialPageRoute(
       builder: (context) => BlocProvider(
         create: (context) {
-          DBService dbService = context.read<DBService>();
+          final dbService = context.read<DBService>();
           return BranchBloc(BranchRepository(
-              BranchService.create(dbService), StudyService.create(dbService)));
+            BranchService.create(dbService),
+            StudyService.create(dbService),
+            CompanyService.create(dbService),
+          ));
         },
         child: const BranchesPage(),
       ),
@@ -520,7 +524,8 @@ class AppRoutes {
                 DBService dbService = context.read<DBService>();
                 return BranchBloc(BranchRepository(
                     BranchService.create(dbService),
-                    StudyService.create(dbService)));
+                    StudyService.create(dbService),
+                    CompanyService.create(dbService)));
               },
               child: const AboutHealthPage(),
             ));
@@ -576,7 +581,8 @@ class AppRoutes {
                 DBService dbService = context.read<DBService>();
                 return BranchBloc(BranchRepository(
                     BranchService.create(dbService),
-                    StudyService.create(dbService)));
+                    StudyService.create(dbService),
+                    CompanyService.create(dbService)));
               },
               child: const EquipmentPage(),
             ));
@@ -589,7 +595,8 @@ class AppRoutes {
                 DBService dbService = context.read<DBService>();
                 return BranchBloc(BranchRepository(
                     BranchService.create(dbService),
-                    StudyService.create(dbService)));
+                    StudyService.create(dbService),
+                    CompanyService.create(dbService)));
               },
               child: const AwardsPage(),
             ));
@@ -606,7 +613,8 @@ class AppRoutes {
                 DBService dbService = context.read<DBService>();
                 return BranchBloc(BranchRepository(
                     BranchService.create(dbService),
-                    StudyService.create(dbService)));
+                    StudyService.create(dbService),
+                    CompanyService.create(dbService)));
               },
               child: const EducationPage(),
             ));
@@ -619,7 +627,8 @@ class AppRoutes {
                 DBService dbService = context.read<DBService>();
                 return BranchBloc(BranchRepository(
                     BranchService.create(dbService),
-                    StudyService.create(dbService)));
+                    StudyService.create(dbService),
+                    CompanyService.create(dbService)));
               },
               child: const DiscountPage(),
             ));
@@ -691,5 +700,23 @@ class AppRoutes {
 
   static MaterialPageRoute getMedServicesPage() {
     return MaterialPageRoute(builder: (_) => const MedServicesPage());
+  }
+
+  static MaterialPageRoute getOffertaPage() {
+    return MaterialPageRoute(
+      builder: (context) => BlocProvider(
+        create: (context) {
+          final dbService = context.read<DBService>();
+          return BranchBloc(
+            BranchRepository(
+              BranchService.create(dbService),
+              StudyService.create(dbService),
+              CompanyService.create(dbService),
+            ),
+          );
+        },
+        child: const OffertaPage(),
+      ),
+    );
   }
 }

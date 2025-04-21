@@ -44,26 +44,28 @@ class _PaymentWebViewState extends State<PaymentWebView> {
   Future<void> _initializePaymentUrl() async {
     _webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(Colors.white)
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (int progress) {},
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) {},
-          onWebResourceError: (WebResourceError error) {},
+          onWebResourceError: _handleError,
           onNavigationRequest: (NavigationRequest request) {
+            if (!(request.url.startsWith('https://') ||
+                request.url.startsWith('http://'))) {
+              return NavigationDecision.prevent;
+            }
             return NavigationDecision.navigate;
           },
         ),
-      );
-    _openPaymentWebView(widget.url);
-  }
+      )
+      ..loadRequest(Uri.parse(widget.url));
 
-  void _openPaymentWebView(String url) {
-    _webViewController.loadRequest(Uri.parse(url));
     setState(() {
       _showWebView = true;
     });
+  }
+
+  void _handleError(WebResourceError error) {
+    // Handle web resource errors here
+    print('WebView error: ${error.description}');
   }
 
   Future<void> _downloadPdf(String url) async {
