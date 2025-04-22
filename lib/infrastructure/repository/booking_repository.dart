@@ -103,15 +103,11 @@ class BookingRepository implements IBookingFacade {
     required List<int> serviceIds,
   }) async {
     try {
-      // Create the proper request object
       final request =
           DoctorsRequest((b) => b..serviceIds = ListBuilder<int>(serviceIds));
 
-      // API call (ensure `request` is passed correctly)
       final response = await _bookingService.fetchDoctors(
-        requiresToken: "true",
-        request: request, // You were missing this parameter!
-      );
+          requiresToken: "true", request: request, days: 10);
 
       // Logging
       LogService.d('Response Status: ${response.statusCode}');

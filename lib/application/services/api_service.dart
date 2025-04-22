@@ -4,7 +4,10 @@ import 'package:medion/domain/models/models.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 
 class ApiService {
-  static Future<List<Service>> fetchServices(List<int> serviceIds) async {
+  static Future<List<Service>> fetchServices(
+    List<int> serviceIds, {
+    int days = 10, // 👈 Make it optional with default value
+  }) async {
     final dbService = await DBService.create;
     final token = dbService.token;
 
@@ -14,8 +17,12 @@ class ApiService {
     if (dbService.isTokenExpired(token.accessToken!)) {
       throw Exception('Token has expired');
     }
+
+    final uri = Uri.parse('https://his.uicgroup.tech/apiweb/booking/doctors')
+        .replace(queryParameters: {'days': days.toString()});
+
     final response = await http.post(
-      Uri.parse('https://his.uicgroup.tech/apiweb/booking/doctors'),
+      uri,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': '${token.tokenType} ${token.accessToken}',

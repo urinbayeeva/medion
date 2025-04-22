@@ -155,9 +155,11 @@ final class _$BookingService extends BookingService {
   @override
   Future<Response<BuiltList<ThirdBookingService>>> fetchDoctors({
     String requiresToken = 'true',
+    int? days,
     required DoctorsRequest request,
   }) {
     final Uri $url = Uri.parse('/booking/doctors');
+    final Map<String, dynamic> $params = <String, dynamic>{'days': days};
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
     };
@@ -167,6 +169,7 @@ final class _$BookingService extends BookingService {
       $url,
       client.baseUrl,
       body: $body,
+      parameters: $params,
       headers: $headers,
     );
     return client

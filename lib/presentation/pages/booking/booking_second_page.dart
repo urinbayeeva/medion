@@ -316,13 +316,14 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                               Text(
-                                                widget.isUSD
-                                                    ? "${formatNumber(service.priceUzs)} UZS"
-                                                    : "${formatNumber(service.priceUsd, isDecimal: true)} USD",
+                                                (widget.isUSD ?? false)
+                                                    ? "${formatNumber(service.priceUsd, isDecimal: true)} USD"
+                                                    : "${formatNumber(service.priceUzs)} UZS",
                                                 style: fonts.smallLink.copyWith(
-                                                    color: colors.primary900,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 13.sp),
+                                                  color: colors.primary900,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 13.sp,
+                                                ),
                                               ),
                                             ],
                                           ),
