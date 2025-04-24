@@ -122,6 +122,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                8.h.verticalSpace,
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Text("about_the_doctor".tr(),

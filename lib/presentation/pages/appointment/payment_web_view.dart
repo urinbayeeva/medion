@@ -68,7 +68,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
     print('WebView error: ${error.description}');
   }
 
-  Future<void> _downloadPdf(String url) async {
+  Future<void> downloadPdf(String url) async {
     try {
       print("Starting PDF download...");
       setState(() {
@@ -281,7 +281,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
                           child: CButton(
                             title: "download_pdf".tr(),
-                            onTap: () => _downloadPdf(widget.url),
+                            onTap: () => downloadPdf(widget.url),
                           ),
                         ),
                       ),

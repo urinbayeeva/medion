@@ -495,7 +495,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context, colors, fonts, icons, controller) {
         final limitedDoctors = doctors.take(10).toList();
         return SizedBox(
-          height: 330.h,
+          height: 340.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.zero,

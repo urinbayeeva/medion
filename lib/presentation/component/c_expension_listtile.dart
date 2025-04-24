@@ -49,7 +49,7 @@ class _CustomExpansionListTileState extends State<CustomExpansionListTile> {
           ),
           child: ExpansionTile(
             iconColor: colors.error500,
-            initiallyExpanded: true,
+            // initiallyExpanded: true,
             key: _expansionTileKey,
             childrenPadding: EdgeInsets.symmetric(horizontal: 16.w),
             collapsedBackgroundColor: Colors.transparent,

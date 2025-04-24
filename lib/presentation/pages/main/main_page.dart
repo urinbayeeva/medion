@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,89 +33,83 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  ScrollController scrollController = ScrollController();
-  late List<Widget> pageList;
-  late PersistentTabController _controller = PersistentTabController();
-
-  late DynamicLinkService dynamicLinkService;
-
+  late final ScrollController scrollController;
+  late final List<Widget> pageList;
+  late final PersistentTabController _controller;
+  late final DynamicLinkService dynamicLinkService;
+  late final StreamSubscription<List<ConnectivityResult>>
+      _connectivitySubscription;
   final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
-
-  int currentIndex = 0;
 
   @override
   void initState() {
-    scrollController = ScrollController();
-    Future.delayed(Duration.zero, () {
-      // ignore: use_build_context_synchronously
-      context.read<BottomNavBarController>().changeNavBar(false);
-    });
-    context.read<DBService>();
-    _controller = PersistentTabController(initialIndex: widget.index ?? 0);
     super.initState();
 
+    scrollController = ScrollController();
+    _controller = PersistentTabController(initialIndex: widget.index ?? 0);
+
+    // Initialize pages
     pageList = [
       const HomePage(),
       const BookingFirstPage(),
       const MyVisitsPage(),
       BlocProvider(
-          create: (context) {
-            DBService dbService = context.read<DBService>();
-            return AuthBloc(
-              AuthRepository(
-                  dbService,
-                  AuthService.create(dbService),
-                  PatientService.create(dbService),
-                  RefreshService.create(dbService)),
+        create: (context) {
+          final dbService = context.read<DBService>();
+          return AuthBloc(
+            AuthRepository(
               dbService,
-            );
-          },
-          child: const ProfilePage()),
+              AuthService.create(dbService),
+              PatientService.create(dbService),
+              RefreshService.create(dbService),
+            ),
+            dbService,
+          );
+        },
+        child: const ProfilePage(),
+      ),
       const OthersPage(),
     ];
-  }
 
-  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
-    if (result.contains(ConnectivityResult.wifi) ||
-        result.contains(ConnectivityResult.mobile)) {
-      if (!(await ConnectivityX().create())) {
-        _showConnectionError();
-      } else {
-        EasyLoading.dismiss();
-      }
-    } else {
-      _showConnectionError();
-    }
-  }
-
-  _showConnectionError() {
-    EasyLoading.showWidget(builder: (context) {
-      return ThemeWrapper(builder: (ctx, colors, fonts, icons, global) {
-        return Padding(
-          padding: EdgeInsets.only(top: 30.h),
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-                color: colors.error500,
-                borderRadius: BorderRadius.circular(16.r)),
-            margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-            child: Text(
-              "No Internet",
-              textAlign: TextAlign.center,
-              style: fonts.smallMain.copyWith(color: colors.shade0),
-            ),
-          ),
+    // Sync with BottomNavBarController after first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final navController = context.read<BottomNavBarController>();
+        navController.setIndices(
+          navIndex: widget.index ?? 0,
+          pageIndex: 0,
         );
-      });
+        // Force update if needed
+        if (_controller.index != (widget.index ?? 0)) {
+          _controller.index = widget.index ?? 0;
+        }
+      }
     });
+  }
+
+  @override
+  void didUpdateWidget(MainPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.index != widget.index && widget.index != null) {
+      _controller.index = widget.index!;
+      // Also update the BottomNavBarController
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          final navController = context.read<BottomNavBarController>();
+          navController.setIndices(
+            navIndex: widget.index!,
+            pageIndex: 0,
+          );
+        }
+      });
+    }
   }
 
   @override
   void dispose() {
     _connectivitySubscription.cancel();
     scrollController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -135,11 +128,7 @@ class _MainPageState extends State<MainPage> {
             backgroundColor: colors.shade0,
             body: Consumer<BottomNavBarController>(
               builder: (context, navController, _) {
-                if (mounted &&
-                    _controller.index != navController.currentIndex) {
-                  _controller.index = navController.currentIndex;
-                }
-
+                // Remove the automatic index synchronization here
                 return PersistentTabView(
                   context,
                   controller: _controller,
@@ -185,6 +174,7 @@ class _MainPageState extends State<MainPage> {
     final navController = context.read<BottomNavBarController>();
     if (navController.currentIndex != 0) {
       navController.setIndices(navIndex: 0, pageIndex: 0);
+      _controller.index = 0;
     } else {
       SystemNavigator.pop();
     }

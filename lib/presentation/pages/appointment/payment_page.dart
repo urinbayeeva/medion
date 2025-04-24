@@ -16,8 +16,10 @@ import 'package:medion/presentation/pages/appointment/component/user_info_widget
 import 'package:medion/presentation/pages/appointment/component/verify_appointment_item.dart';
 import 'package:medion/presentation/pages/appointment/payment_web_view.dart';
 import 'package:medion/presentation/pages/appointment/widget/zigzag.dart';
+import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -329,8 +331,16 @@ class _PaymentPageState extends State<PaymentPage> {
                           textColor: Style.primary900,
                           title: "pay_not_right_now".tr(),
                           onTap: () async {
-                            Navigator.pushReplacement(
-                                context, AppRoutes.getMainPage(3));
+                            context
+                                .read<BottomNavBarController>()
+                                .changeNavBar(false);
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MainPage(
+                                          index: 2,
+                                        )));
                           },
                         ),
                         8.h.verticalSpace,
