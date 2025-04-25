@@ -347,5 +347,11 @@
   "information": "Ma'lumot",
   "info_desc": "Xizmatlar narxi AQSh dollarida faqat ma’lumot uchun ko‘rsatilgan. Barcha to‘lovlar milliy valyuta — O‘zbekiston so‘mida (UZS) amalga oshiriladi.",
   "confirm": "Tasdiqlash",
+  "offerta": "Offerta",
+  "search_by_services": "Xizmatlar bo‘yicha qidiruv",
+  "too_many_attempts": "Juda koʻp urinishlar, iltimos, birozdan keyin yana urinib koʻring",
+  "incorrect_sms_code": "Kiritilgan SMS kodi noto‘g‘ri",
+  "i_accept_privacy_policy": "Men maxfiylik siyosatiga roziman",
+  "privacy_policy": "Maxfiylik siyosati",
   "": ""
 }

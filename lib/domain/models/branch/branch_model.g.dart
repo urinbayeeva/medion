@@ -2165,4 +2165,101 @@ class OfferModelBuilder implements Builder<OfferModel, OfferModelBuilder> {
   }
 }
 
+class _$PrivacyModel extends PrivacyModel {
+  @override
+  final String? privacy;
+  @override
+  final String companyName;
+
+  factory _$PrivacyModel([void Function(PrivacyModelBuilder)? updates]) =>
+      (new PrivacyModelBuilder()..update(updates))._build();
+
+  _$PrivacyModel._({this.privacy, required this.companyName}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        companyName, r'PrivacyModel', 'companyName');
+  }
+
+  @override
+  PrivacyModel rebuild(void Function(PrivacyModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  PrivacyModelBuilder toBuilder() => new PrivacyModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is PrivacyModel &&
+        privacy == other.privacy &&
+        companyName == other.companyName;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, privacy.hashCode);
+    _$hash = $jc(_$hash, companyName.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'PrivacyModel')
+          ..add('privacy', privacy)
+          ..add('companyName', companyName))
+        .toString();
+  }
+}
+
+class PrivacyModelBuilder
+    implements Builder<PrivacyModel, PrivacyModelBuilder> {
+  _$PrivacyModel? _$v;
+
+  String? _privacy;
+  String? get privacy => _$this._privacy;
+  set privacy(String? privacy) => _$this._privacy = privacy;
+
+  String? _companyName;
+  String? get companyName => _$this._companyName;
+  set companyName(String? companyName) => _$this._companyName = companyName;
+
+  PrivacyModelBuilder();
+
+  PrivacyModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _privacy = $v.privacy;
+      _companyName = $v.companyName;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(PrivacyModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$PrivacyModel;
+  }
+
+  @override
+  void update(void Function(PrivacyModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  PrivacyModel build() => _build();
+
+  _$PrivacyModel _build() {
+    final _$result = _$v ??
+        new _$PrivacyModel._(
+          privacy: privacy,
+          companyName: BuiltValueNullFieldError.checkNotNull(
+              companyName, r'PrivacyModel', 'companyName'),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

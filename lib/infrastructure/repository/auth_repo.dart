@@ -91,10 +91,18 @@ class AuthRepository implements IAuthFacade {
           return right(res.body!);
         }
       } else {
-        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+        if (res.body?.message.toLowerCase().contains('incorrect code') ==
+            true) {
+          return left(InvalidCredentials(message: 'incorrect_sms_code'.tr()));
+        }
+        return left(InvalidCredentials(message: 'incorrect_sms_code'.tr()));
       }
     } catch (e) {
       LogService.e("Register error: $e");
+      // Also handle the case where the error might be in the exception message
+      if (e.toString().toLowerCase().contains('incorrect code')) {
+        return left(InvalidCredentials(message: 'incorrect_sms_code'.tr()));
+      }
       return left(handleError(e));
     }
   }
@@ -115,17 +123,27 @@ class AuthRepository implements IAuthFacade {
           return right(body);
         } else {
           return left(
-              InvalidCredentials(message: 'Empty response from server'));
+            InvalidCredentials(message: 'Empty response from server'),
+          );
         }
       } else {
-        final errorMessage = response.error?.toString() ?? 'Unknown Error';
+        String errorMessage;
+
+        if (response.statusCode == 403) {
+          errorMessage = 'too_many_attempts'.tr();
+        } else {
+          errorMessage = response.error?.toString() ?? 'Unknown Error';
+        }
+
         return left(InvalidCredentials(message: errorMessage));
       }
     } catch (e, stackTrace) {
       LogService.e(
-          "Error in sendPhoneNumber: ${e.toString()} \nStackTrace: $stackTrace");
+        "Error in sendPhoneNumber: ${e.toString()} \nStackTrace: $stackTrace",
+      );
       return left(
-          const InvalidCredentials(message: 'An unexpected error occurred'));
+        InvalidCredentials(message: 'too_many_attempts'.tr()),
+      );
     }
   }
 

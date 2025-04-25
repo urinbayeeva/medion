@@ -545,6 +545,17 @@ final class _$CompanyService extends CompanyService {
     );
     return client.send<OfferModel, OfferModel>($request);
   }
+
+  @override
+  Future<Response<PrivacyModel>> getPrivacy() {
+    final Uri $url = Uri.parse('/company/privacy');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<PrivacyModel, PrivacyModel>($request);
+  }
 }
 
 // coverage:ignore-file

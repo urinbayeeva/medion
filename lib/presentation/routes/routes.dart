@@ -14,6 +14,7 @@ import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/c_info_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
+import 'package:medion/presentation/pages/auth/sign_up/privacy_page/privacy_policy_page.dart';
 import 'package:medion/presentation/pages/core/choose_language_page.dart';
 import 'package:medion/presentation/pages/core/debug_page.dart';
 import 'package:medion/presentation/pages/core/no_connection.dart';
@@ -357,6 +358,10 @@ class AppRoutes {
 
   static MaterialPageRoute getNewsPage() {
     return MaterialPageRoute(builder: (_) => const NewsPage());
+  }
+
+  static MaterialPageRoute getPrivacyPolicyPage() {
+    return MaterialPageRoute(builder: (_) => const PrivacyPolicyPage());
   }
 
   // static MaterialPageRoute getNewsViewPage() {

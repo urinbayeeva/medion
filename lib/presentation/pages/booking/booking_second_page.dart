@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,9 +63,14 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
 
   late TextEditingController _phoneNumberController;
 
+  late TextEditingController _searchController; // New controller for search
+  List<ThirdBookingDoctorSchedule> _filteredCategoryServices =
+      []; // Filtered services
+
   @override
   void initState() {
     super.initState();
+
     _phoneNumberController = TextEditingController(text: "+998 ");
     _formKey = GlobalKey<FormState>();
 
@@ -76,7 +82,6 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
         Provider.of<SelectedServicesProvider>(context, listen: false);
     _serviceIdsProvider.addListener(_updateSelectedServices);
 
-    // Fetch category services using the passed serviceId
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<BookingBloc>().add(
             BookingEvent.fetchCategoryServices(id: widget.serviceId),
@@ -226,6 +231,12 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                       count: 1 + 2,
                       allCount: 5,
                     ),
+                    2.h.verticalSpace,
+                    CustomTextField(
+                      hintText: "search_by_services".tr(),
+                      prefixIcon: icons.search.svg(color: colors.neutral500),
+                    ),
+                    4.h.verticalSpace,
                   ],
                 ),
               ),
@@ -635,8 +646,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                         ),
                       );
                     }
-                    return const SizedBox
-                        .shrink(); // Add a default return widget
+                    return const SizedBox.shrink();
                   },
                 )
               ]

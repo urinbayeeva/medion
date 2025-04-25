@@ -61,7 +61,7 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
                                 MaterialPageRoute(
                                     builder: (context) => PaymentWebView(
                                         url:
-                                            "https://his.uicgroup.tech/web/content/15171")))
+                                            "https://his.uicgroup.tech/apiweb/pdf/content/16490")))
                             .then((_) {
                           context
                               .read<BottomNavBarController>()
@@ -69,9 +69,10 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
                         });
                       },
                       child: ListTile(
-                        title: Text(state.patientAnalyze[item]!.documentName,
+                        title: Text(
+                            state.patientAnalyze[item]!.documentName ?? "",
                             style: fonts.smallSemLink),
-                        subtitle: Text(state.patientAnalyze[item]!.date,
+                        subtitle: Text(state.patientAnalyze[item]!.date ?? "",
                             style: fonts.xSmallText
                                 .copyWith(color: colors.neutral600)),
                         trailing: Row(

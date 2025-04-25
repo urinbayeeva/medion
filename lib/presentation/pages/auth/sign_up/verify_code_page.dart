@@ -79,7 +79,8 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
               AppRoutes.getMainPage(0),
               (route) => false,
             );
-          } else {
+          } else if (state.errorSendCode != true &&
+              state.isNewPatient == true) {
             Navigator.pushAndRemoveUntil(
               context,
               AppRoutes.getDataEntryPage(widget.phoneNumber),
@@ -161,9 +162,13 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                     refresh++;
                                     context.read<AuthBloc>().add(
                                           AuthEvent.verificationSend(
-                                              request: RegisterReq((p0) => p0
-                                                ..phoneNumber =
-                                                    widget.phoneNumber)),
+                                            request: RegisterReq((p0) => p0
+                                              ..phoneNumber = widget.phoneNumber
+                                              ..code = _smsController.text),
+                                          ),
+                                        );
+                                    context.read<AuthBloc>().add(
+                                          AuthEvent.checkAuth(),
                                         );
                                   },
                                 ),

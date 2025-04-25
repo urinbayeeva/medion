@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/domain/models/auth/auth.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_outlined_button.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
@@ -36,6 +38,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
   late GlobalKey<FormState> _formKey;
 
   late TextEditingController _phoneNumberController;
+  bool _isAccepted = false;
 
   @override
   void initState() {
@@ -57,16 +60,18 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          SmsAutoFill().getAppSignature.then((value) {
-            Navigator.pushReplacement(
-                context,
-                AppRoutes.getVerifyCodePage(
-                    additionalPhone: widget.additionalPhone,
-                    autofill: value,
-                    phoneNumber: formatPhoneNumberForBackend(
-                        _phoneNumberController.text),
-                    password: null));
-          });
+          if (state.successSendCode) {
+            SmsAutoFill().getAppSignature.then((value) {
+              Navigator.pushReplacement(
+                  context,
+                  AppRoutes.getVerifyCodePage(
+                      additionalPhone: widget.additionalPhone,
+                      autofill: value,
+                      phoneNumber: formatPhoneNumberForBackend(
+                          _phoneNumberController.text),
+                      password: null));
+            });
+          }
         },
         listenWhen: (previous, current) =>
             (previous.successSendCode != current.successSendCode &&
@@ -132,38 +137,90 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                         ),
                       ),
                       const Spacer(),
+                      Center(
+                        child: Flexible(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Checkbox(
+                                value: _isAccepted,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    _isAccepted = value ?? false;
+                                  });
+                                },
+                                activeColor: Colors.transparent,
+                                checkColor: Colors.white,
+                                side: BorderSide(color: colors.error500),
+                                fillColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.selected)) {
+                                    return Colors.red;
+                                  }
+                                  return colors.shade0;
+                                }),
+                              ),
+                              AnimationButtonEffect(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      AppRoutes.getPrivacyPolicyPage());
+                                },
+                                child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    style: fonts.regularLink
+                                        .copyWith(color: colors.primary900),
+                                    children: [
+                                      const TextSpan(
+                                        text: 'Я согласен(а) с ',
+                                      ),
+                                      TextSpan(
+                                        text: 'политикой \nконфиденциальности',
+                                        style: TextStyle(
+                                          color: colors.error500,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            Navigator.push(
+                                                context,
+                                                AppRoutes
+                                                    .getPrivacyPolicyPage());
+                                            print(
+                                                'Политика конфиденциальности tapped!');
+                                          },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      16.h.verticalSpace,
                       CustomButton(
-                        isDisabled: _phoneNumberController.text.length < 17,
-                        title: "send_code".tr(),
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            focusNode.unfocus();
-                            await SmsAutoFill().getAppSignature.then((value) {
-                              // ignore: use_build_context_synchronously
+                          isDisabled: _phoneNumberController.text.length < 17 &&
+                              _isAccepted == false,
+                          title: "send_code".tr(),
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              focusNode.unfocus();
+                              final signature =
+                                  await SmsAutoFill().getAppSignature;
                               context.read<AuthBloc>().add(
-                                  AuthEvent.sendPhoneNumber(
+                                    AuthEvent.sendPhoneNumber(
                                       request: PhoneNumberSendReq((p0) => p0
                                         ..phoneNumber =
                                             formatPhoneNumberForBackend(
-                                                _phoneNumberController.text))));
-
-                              // ignore: use_build_context_synchronously
-
-                              SmsAutoFill().getAppSignature.then((value) {
-                                Navigator.push(
-                                    context,
-                                    AppRoutes.getVerifyCodePage(
-                                        additionalPhone: widget.additionalPhone,
-                                        autofill: value,
-                                        phoneNumber:
-                                            formatPhoneNumberForBackend(
-                                                _phoneNumberController.text),
-                                        password: null));
-                              });
-                            });
-                          }
-                        },
-                      ),
+                                                _phoneNumberController.text)),
+                                    ),
+                                  );
+                              // No need to navigate here — BlocListener will handle it
+                            }
+                          }),
                       27.h.verticalSpace,
                     ],
                   ),

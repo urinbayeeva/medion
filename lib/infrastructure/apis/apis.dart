@@ -226,6 +226,9 @@ abstract class CompanyService extends ChopperService {
   @Get(path: "offerta")
   Future<Response<OfferModel>> getOfferta();
 
+  @Get(path: "privacy")
+  Future<Response<PrivacyModel>> getPrivacy();
+
   static CompanyService create(DBService dbService) =>
       _$CompanyService(_Client(Constants.baseUrlP, true, dbService));
 }

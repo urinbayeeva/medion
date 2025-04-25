@@ -8,6 +8,8 @@ part of 'profile_model.dart';
 
 Serializer<PatientInfo> _$patientInfoSerializer = new _$PatientInfoSerializer();
 Serializer<VisitModel> _$visitModelSerializer = new _$VisitModelSerializer();
+Serializer<PatientDocuments> _$patientDocumentsSerializer =
+    new _$PatientDocumentsSerializer();
 Serializer<PatientAnalysis> _$patientAnalysisSerializer =
     new _$PatientAnalysisSerializer();
 
@@ -348,6 +350,81 @@ class _$VisitModelSerializer implements StructuredSerializer<VisitModel> {
   }
 }
 
+class _$PatientDocumentsSerializer
+    implements StructuredSerializer<PatientDocuments> {
+  @override
+  final Iterable<Type> types = const [PatientDocuments, _$PatientDocuments];
+  @override
+  final String wireName = 'PatientDocuments';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, PatientDocuments object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'emr_docs_lis',
+      serializers.serialize(object.lisDocuments,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(PatientAnalysis)])),
+      'emr_docs_fis',
+      serializers.serialize(object.fisDocuments,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(PatientAnalysis)])),
+      'emr_docs_ris',
+      serializers.serialize(object.risDocuments,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(PatientAnalysis)])),
+      'emr_docs_consultation',
+      serializers.serialize(object.consultationDocuments,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(PatientAnalysis)])),
+    ];
+
+    return result;
+  }
+
+  @override
+  PatientDocuments deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new PatientDocumentsBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'emr_docs_lis':
+          result.lisDocuments.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(PatientAnalysis)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'emr_docs_fis':
+          result.fisDocuments.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(PatientAnalysis)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'emr_docs_ris':
+          result.risDocuments.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(PatientAnalysis)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'emr_docs_consultation':
+          result.consultationDocuments.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(PatientAnalysis)]))!
+              as BuiltList<Object?>);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$PatientAnalysisSerializer
     implements StructuredSerializer<PatientAnalysis> {
   @override
@@ -358,17 +435,29 @@ class _$PatientAnalysisSerializer
   @override
   Iterable<Object?> serialize(Serializers serializers, PatientAnalysis object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'document_name',
-      serializers.serialize(object.documentName,
-          specifiedType: const FullType(String)),
-      'date',
-      serializers.serialize(object.date, specifiedType: const FullType(String)),
-      'document_url',
-      serializers.serialize(object.documentUrl,
-          specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.documentName;
+    if (value != null) {
+      result
+        ..add('document_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.date;
+    if (value != null) {
+      result
+        ..add('date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.documentUrl;
+    if (value != null) {
+      result
+        ..add('document_url')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -386,15 +475,15 @@ class _$PatientAnalysisSerializer
       switch (key) {
         case 'document_name':
           result.documentName = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'date':
           result.date = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'document_url':
           result.documentUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -851,28 +940,178 @@ class VisitModelBuilder implements Builder<VisitModel, VisitModelBuilder> {
   }
 }
 
+class _$PatientDocuments extends PatientDocuments {
+  @override
+  final BuiltList<PatientAnalysis> lisDocuments;
+  @override
+  final BuiltList<PatientAnalysis> fisDocuments;
+  @override
+  final BuiltList<PatientAnalysis> risDocuments;
+  @override
+  final BuiltList<PatientAnalysis> consultationDocuments;
+
+  factory _$PatientDocuments(
+          [void Function(PatientDocumentsBuilder)? updates]) =>
+      (new PatientDocumentsBuilder()..update(updates))._build();
+
+  _$PatientDocuments._(
+      {required this.lisDocuments,
+      required this.fisDocuments,
+      required this.risDocuments,
+      required this.consultationDocuments})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        lisDocuments, r'PatientDocuments', 'lisDocuments');
+    BuiltValueNullFieldError.checkNotNull(
+        fisDocuments, r'PatientDocuments', 'fisDocuments');
+    BuiltValueNullFieldError.checkNotNull(
+        risDocuments, r'PatientDocuments', 'risDocuments');
+    BuiltValueNullFieldError.checkNotNull(
+        consultationDocuments, r'PatientDocuments', 'consultationDocuments');
+  }
+
+  @override
+  PatientDocuments rebuild(void Function(PatientDocumentsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  PatientDocumentsBuilder toBuilder() =>
+      new PatientDocumentsBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is PatientDocuments &&
+        lisDocuments == other.lisDocuments &&
+        fisDocuments == other.fisDocuments &&
+        risDocuments == other.risDocuments &&
+        consultationDocuments == other.consultationDocuments;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, lisDocuments.hashCode);
+    _$hash = $jc(_$hash, fisDocuments.hashCode);
+    _$hash = $jc(_$hash, risDocuments.hashCode);
+    _$hash = $jc(_$hash, consultationDocuments.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'PatientDocuments')
+          ..add('lisDocuments', lisDocuments)
+          ..add('fisDocuments', fisDocuments)
+          ..add('risDocuments', risDocuments)
+          ..add('consultationDocuments', consultationDocuments))
+        .toString();
+  }
+}
+
+class PatientDocumentsBuilder
+    implements Builder<PatientDocuments, PatientDocumentsBuilder> {
+  _$PatientDocuments? _$v;
+
+  ListBuilder<PatientAnalysis>? _lisDocuments;
+  ListBuilder<PatientAnalysis> get lisDocuments =>
+      _$this._lisDocuments ??= new ListBuilder<PatientAnalysis>();
+  set lisDocuments(ListBuilder<PatientAnalysis>? lisDocuments) =>
+      _$this._lisDocuments = lisDocuments;
+
+  ListBuilder<PatientAnalysis>? _fisDocuments;
+  ListBuilder<PatientAnalysis> get fisDocuments =>
+      _$this._fisDocuments ??= new ListBuilder<PatientAnalysis>();
+  set fisDocuments(ListBuilder<PatientAnalysis>? fisDocuments) =>
+      _$this._fisDocuments = fisDocuments;
+
+  ListBuilder<PatientAnalysis>? _risDocuments;
+  ListBuilder<PatientAnalysis> get risDocuments =>
+      _$this._risDocuments ??= new ListBuilder<PatientAnalysis>();
+  set risDocuments(ListBuilder<PatientAnalysis>? risDocuments) =>
+      _$this._risDocuments = risDocuments;
+
+  ListBuilder<PatientAnalysis>? _consultationDocuments;
+  ListBuilder<PatientAnalysis> get consultationDocuments =>
+      _$this._consultationDocuments ??= new ListBuilder<PatientAnalysis>();
+  set consultationDocuments(
+          ListBuilder<PatientAnalysis>? consultationDocuments) =>
+      _$this._consultationDocuments = consultationDocuments;
+
+  PatientDocumentsBuilder();
+
+  PatientDocumentsBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _lisDocuments = $v.lisDocuments.toBuilder();
+      _fisDocuments = $v.fisDocuments.toBuilder();
+      _risDocuments = $v.risDocuments.toBuilder();
+      _consultationDocuments = $v.consultationDocuments.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(PatientDocuments other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$PatientDocuments;
+  }
+
+  @override
+  void update(void Function(PatientDocumentsBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  PatientDocuments build() => _build();
+
+  _$PatientDocuments _build() {
+    _$PatientDocuments _$result;
+    try {
+      _$result = _$v ??
+          new _$PatientDocuments._(
+            lisDocuments: lisDocuments.build(),
+            fisDocuments: fisDocuments.build(),
+            risDocuments: risDocuments.build(),
+            consultationDocuments: consultationDocuments.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'lisDocuments';
+        lisDocuments.build();
+        _$failedField = 'fisDocuments';
+        fisDocuments.build();
+        _$failedField = 'risDocuments';
+        risDocuments.build();
+        _$failedField = 'consultationDocuments';
+        consultationDocuments.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'PatientDocuments', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$PatientAnalysis extends PatientAnalysis {
   @override
-  final String documentName;
+  final String? documentName;
   @override
-  final String date;
+  final String? date;
   @override
-  final String documentUrl;
+  final String? documentUrl;
 
   factory _$PatientAnalysis([void Function(PatientAnalysisBuilder)? updates]) =>
       (new PatientAnalysisBuilder()..update(updates))._build();
 
-  _$PatientAnalysis._(
-      {required this.documentName,
-      required this.date,
-      required this.documentUrl})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        documentName, r'PatientAnalysis', 'documentName');
-    BuiltValueNullFieldError.checkNotNull(date, r'PatientAnalysis', 'date');
-    BuiltValueNullFieldError.checkNotNull(
-        documentUrl, r'PatientAnalysis', 'documentUrl');
-  }
+  _$PatientAnalysis._({this.documentName, this.date, this.documentUrl})
+      : super._();
 
   @override
   PatientAnalysis rebuild(void Function(PatientAnalysisBuilder) updates) =>
@@ -957,12 +1196,9 @@ class PatientAnalysisBuilder
   _$PatientAnalysis _build() {
     final _$result = _$v ??
         new _$PatientAnalysis._(
-          documentName: BuiltValueNullFieldError.checkNotNull(
-              documentName, r'PatientAnalysis', 'documentName'),
-          date: BuiltValueNullFieldError.checkNotNull(
-              date, r'PatientAnalysis', 'date'),
-          documentUrl: BuiltValueNullFieldError.checkNotNull(
-              documentUrl, r'PatientAnalysis', 'documentUrl'),
+          documentName: documentName,
+          date: date,
+          documentUrl: documentUrl,
         );
     replace(_$result);
     return _$result;

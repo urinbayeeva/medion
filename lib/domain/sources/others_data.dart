@@ -66,7 +66,7 @@ List<Map<String, dynamic>> othersData = [
     "icon": IconSet.create.hospital,
   },
   {
-    "title": "offerta",
+    "title": "offerta".tr(),
     "icon": IconSet.create.document,
   },
 ];

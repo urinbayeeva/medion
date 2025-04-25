@@ -39,7 +39,7 @@ class _VisitInfoCardState extends State<VisitInfoCard> {
           color: colors.shade0,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                 width: 3.w,

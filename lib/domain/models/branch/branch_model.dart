@@ -256,3 +256,17 @@ abstract class OfferModel implements Built<OfferModel, OfferModelBuilder> {
 
   static Serializer<OfferModel> get serializer => _$offerModelSerializer;
 }
+
+abstract class PrivacyModel
+    implements Built<PrivacyModel, PrivacyModelBuilder> {
+  @BuiltValueField(wireName: "privacy")
+  String? get privacy;
+
+  @BuiltValueField(wireName: "company_name")
+  String get companyName;
+
+  PrivacyModel._();
+
+  factory PrivacyModel([void Function(PrivacyModelBuilder) updates]) =
+      _$PrivacyModel;
+}

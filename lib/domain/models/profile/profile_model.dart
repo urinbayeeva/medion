@@ -1,3 +1,4 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 part 'profile_model.g.dart';
@@ -93,16 +94,38 @@ abstract class VisitModel implements Built<VisitModel, VisitModelBuilder> {
   static Serializer<VisitModel> get serializer => _$visitModelSerializer;
 }
 
+abstract class PatientDocuments
+    implements Built<PatientDocuments, PatientDocumentsBuilder> {
+  @BuiltValueField(wireName: 'emr_docs_lis')
+  BuiltList<PatientAnalysis> get lisDocuments;
+
+  @BuiltValueField(wireName: 'emr_docs_fis')
+  BuiltList<PatientAnalysis> get fisDocuments;
+
+  @BuiltValueField(wireName: 'emr_docs_ris')
+  BuiltList<PatientAnalysis> get risDocuments;
+
+  @BuiltValueField(wireName: 'emr_docs_consultation')
+  BuiltList<PatientAnalysis> get consultationDocuments;
+
+  PatientDocuments._();
+  factory PatientDocuments([void Function(PatientDocumentsBuilder) updates]) =
+      _$PatientDocuments;
+
+  static Serializer<PatientDocuments> get serializer =>
+      _$patientDocumentsSerializer;
+}
+
 abstract class PatientAnalysis
     implements Built<PatientAnalysis, PatientAnalysisBuilder> {
   @BuiltValueField(wireName: 'document_name')
-  String get documentName;
+  String? get documentName;
 
   @BuiltValueField(wireName: 'date')
-  String get date;
+  String? get date;
 
   @BuiltValueField(wireName: 'document_url')
-  String get documentUrl;
+  String? get documentUrl;
 
   PatientAnalysis._();
   factory PatientAnalysis([void Function(PatientAnalysisBuilder) updates]) =

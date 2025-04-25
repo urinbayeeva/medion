@@ -112,6 +112,7 @@ dependencies:
   webview_flutter: ^4.10.0
   appsflyer_sdk: ^6.15.2
   html_unescape: ^2.0.0
+  flutter_html: ^3.0.0
 
 
 
