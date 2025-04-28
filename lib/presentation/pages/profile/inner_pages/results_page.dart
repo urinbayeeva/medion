@@ -17,11 +17,25 @@ class ResultsPage extends StatefulWidget {
   State<ResultsPage> createState() => _ResultsPageState();
 }
 
-class _ResultsPageState extends State<ResultsPage> {
+class _ResultsPageState extends State<ResultsPage>
+    with SingleTickerProviderStateMixin {
   bool isAnalyse = true;
+  late TabController _tabController;
 
   final DateTime firstDay = DateTime(2020, 1, 1);
   final DateTime lastDay = DateTime(2030, 1, 1);
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 4, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,89 +48,51 @@ class _ResultsPageState extends State<ResultsPage> {
               title: "my_results".tr(),
               centerTitle: true,
               isBack: true,
-              trailing: GestureDetector(
-                onTap: () async {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        backgroundColor: colors.shade0,
-                        content: Container(
-                          height: 400.h,
-                          width: 560.w,
-                          color: colors.shade0,
-                          child: TableCalendar(
-                            locale: Localizations.localeOf(context).toString(),
-                            rowHeight: 40,
-                            daysOfWeekHeight: 35,
-                            headerStyle: const HeaderStyle(
-                              formatButtonVisible: false,
-                              titleCentered: true,
-                            ),
-                            calendarStyle: CalendarStyle(
-                              markerSize: 48,
-                              todayDecoration: BoxDecoration(
-                                color: colors.error500,
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                            ),
-                            focusedDay: DateTime.now(),
-                            firstDay: firstDay,
-                            lastDay: lastDay,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-                child: icons.calendar.svg(width: 20.w, height: 20.h),
-              ),
+              trailing: 24.w.horizontalSpace,
               bottom: Column(
                 children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: CustomToggle(
-                      iconList: [
-                        Text(
-                          'doctors_reports'.tr(),
-                          style: fonts.xSmallLink.copyWith(
-                            color:
-                                isAnalyse ? colors.shade0 : colors.primary900,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          'analyzes'.tr(),
-                          style: fonts.xSmallLink.copyWith(
-                            color:
-                                !isAnalyse ? colors.shade0 : colors.primary900,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        )
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          isAnalyse = value;
-                        });
-                      },
-                      current: isAnalyse,
-                      values: const [
-                        true,
-                        false,
-                      ],
-                    ),
-                  ),
+                  _buildTabBar(colors, fonts),
                 ],
               ),
             ),
-            const Expanded(
-              child: ResultsDataWidget(),
-            )
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: const [
+                  ResultsDataWidget(type: 'lis'),
+                  ResultsDataWidget(type: 'fis'),
+                  ResultsDataWidget(type: 'ris'),
+                  ResultsDataWidget(type: 'consultation'),
+                ],
+              ),
+            ),
           ],
         ),
       );
     });
+  }
+
+  Widget _buildTabBar(colors, fonts) {
+    return TabBar(
+      controller: _tabController,
+      indicatorWeight: 3,
+      overlayColor: MaterialStateProperty.all(colors.shade0),
+      indicatorColor: colors.error500,
+      tabs: [
+        _buildTab("LIS".tr(), fonts),
+        _buildTab("FIS".tr(), fonts),
+        _buildTab("RIS".tr(), fonts),
+        _buildTab("doctors_reports".tr(), fonts),
+      ],
+    );
+  }
+
+  Widget _buildTab(String text, fonts) {
+    return Tab(
+      child: Text(
+        text,
+        style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
+      ),
+    );
   }
 }

@@ -352,5 +352,18 @@
     "incorrect_sms_code": "Введённый SMS-код неверный",
     "i_accept_privacy_policy": "Я согласен(а) с политикой конфиденциальности",
     "privacy_policy": "Политика конфиденциальности",
+    "recommendations_error": "Ошибка при получении рекомендаций",
+    "recommendations_empty": "Рекомендации отсутствуют",
+    "recommendations_no_service": "Название услуги отсутствует",
+    "recommendations_paid": "Оплачено",
+    "recommendations_not_paid": "Не оплачено",
+    "recommendations_created_date": "Дата создания:",
+    "recommendations_scheduled_date": "Дата запланирована:",
+    "recommendations_time": "Время:",
+    "recommendations_status": "Статус:",
+    "recommendations_completed": "Завершено",
+    "recommendations_pending": "В ожидании",
+    "recommendations_price": "Цена:",
+    "recommendations_total": "Итого: ",
     "": ""
 }

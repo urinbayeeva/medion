@@ -214,8 +214,7 @@ class AuthRepository implements IAuthFacade {
   }
 
   @override
-  Future<Either<ResponseFailure, BuiltList<PatientAnalysis>>>
-      getPatientAnalyze() async {
+  Future<Either<ResponseFailure, PatientDocuments>> getPatientAnalyze() async {
     try {
       EasyLoading.show(status: 'Loading...'.tr());
 

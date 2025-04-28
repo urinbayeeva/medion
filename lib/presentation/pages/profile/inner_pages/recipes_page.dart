@@ -17,7 +17,7 @@ class RecipesPage extends StatelessWidget {
         body: Column(
           children: [
             CAppBar(
-              title: "recipe".tr(),
+              title: "recommendations".tr(),
               isBack: true,
               centerTitle: true,
               trailing: icons.calendar.svg(
@@ -26,17 +26,8 @@ class RecipesPage extends StatelessWidget {
               ),
             ),
             12.h.verticalSpace,
-            const RecipcesWidget(
-              title:
-                  "21.01.2024 - Прием (осмотр, консультация) кардиолога - Жалилов Ш.З.",
-              innerTitle: 'Paracetamol Strength, 20 mg, Spray',
-              methodOfAdministration: 'перорально',
-              regardingToFood: 'после еды',
-              recipeDate: '21.01.2024 10 дней',
-              recipeTimes: '11:00; 15:00; 17:00',
-              comments: 'раздражения слизистой ',
-              recipeCount: '3',
-            ),
+            Expanded(child: const RecommendationsWidget()),
+            80.h.verticalSpace,
           ],
         ),
       );

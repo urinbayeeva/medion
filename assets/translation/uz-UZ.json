@@ -353,5 +353,18 @@
   "incorrect_sms_code": "Kiritilgan SMS kodi noto‘g‘ri",
   "i_accept_privacy_policy": "Men maxfiylik siyosatiga roziman",
   "privacy_policy": "Maxfiylik siyosati",
+  "recommendations_error": "Tavsiyalarni yuklashda xatolik",
+  "recommendations_empty": "Tavsiyalar mavjud emas",
+  "recommendations_no_service": "Xizmat nomi mavjud emas",
+  "recommendations_paid": "To'langan",
+  "recommendations_not_paid": "To'lanmagan",
+  "recommendations_created_date": "Yaratilgan sana:",
+  "recommendations_scheduled_date": "Rejalashtirilgan sana:",
+  "recommendations_time": "Vaqt:",
+  "recommendations_status": "Holat:",
+  "recommendations_completed": "Tugallangan",
+  "recommendations_pending": "Jarayonda",
+  "recommendations_price": "Narxi:",
+  "recommendations_total": "Jami: ",
   "": ""
 }

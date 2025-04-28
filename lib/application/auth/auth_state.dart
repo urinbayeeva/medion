@@ -22,7 +22,7 @@ class AuthState with _$AuthState {
     @Default(false) bool isLoadingVisits,
     @Default(false) bool errorFetchingVisits,
     @Default([]) List<VisitOrder?> patientVisits,
-    @Default([]) List<PatientAnalysis?> patientAnalyze,
+    @Default(null) PatientDocuments? patientAnalyze,
     @Default(null) bool? isNewPatient,
     @Default(null) String? paymeUrl,
     @Default(null) String? clickUrl,

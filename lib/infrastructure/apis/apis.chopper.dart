@@ -414,7 +414,7 @@ final class _$PatientService extends PatientService {
   }
 
   @override
-  Future<Response<BuiltList<PatientAnalysis>>> getPatientAnalyze(
+  Future<Response<PatientDocuments>> getPatientAnalyze(
       {String requiresToken = "true"}) {
     final Uri $url = Uri.parse('/profile/patient_analysis_mobile');
     final Map<String, String> $headers = {
@@ -426,7 +426,7 @@ final class _$PatientService extends PatientService {
       client.baseUrl,
       headers: $headers,
     );
-    return client.send<BuiltList<PatientAnalysis>, PatientAnalysis>($request);
+    return client.send<PatientDocuments, PatientDocuments>($request);
   }
 }
 

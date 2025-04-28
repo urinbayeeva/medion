@@ -203,7 +203,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(state.copyWith(
           isFetchingPatientInfo: false,
           errorFetchingPatientInfo: false,
-          patientAnalyze: patientAnalyze.toList(),
+          patientAnalyze: patientAnalyze,
         ));
       },
     );

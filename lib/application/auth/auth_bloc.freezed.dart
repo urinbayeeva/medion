@@ -1604,8 +1604,7 @@ mixin _$AuthState {
   bool get isLoadingVisits => throw _privateConstructorUsedError;
   bool get errorFetchingVisits => throw _privateConstructorUsedError;
   List<VisitOrder?> get patientVisits => throw _privateConstructorUsedError;
-  List<PatientAnalysis?> get patientAnalyze =>
-      throw _privateConstructorUsedError;
+  PatientDocuments? get patientAnalyze => throw _privateConstructorUsedError;
   bool? get isNewPatient => throw _privateConstructorUsedError;
   String? get paymeUrl => throw _privateConstructorUsedError;
   String? get clickUrl => throw _privateConstructorUsedError;
@@ -1641,7 +1640,7 @@ abstract class $AuthStateCopyWith<$Res> {
       bool isLoadingVisits,
       bool errorFetchingVisits,
       List<VisitOrder?> patientVisits,
-      List<PatientAnalysis?> patientAnalyze,
+      PatientDocuments? patientAnalyze,
       bool? isNewPatient,
       String? paymeUrl,
       String? clickUrl,
@@ -1679,7 +1678,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? isLoadingVisits = null,
     Object? errorFetchingVisits = null,
     Object? patientVisits = null,
-    Object? patientAnalyze = null,
+    Object? patientAnalyze = freezed,
     Object? isNewPatient = freezed,
     Object? paymeUrl = freezed,
     Object? clickUrl = freezed,
@@ -1747,10 +1746,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.patientVisits
           : patientVisits // ignore: cast_nullable_to_non_nullable
               as List<VisitOrder?>,
-      patientAnalyze: null == patientAnalyze
+      patientAnalyze: freezed == patientAnalyze
           ? _value.patientAnalyze
           : patientAnalyze // ignore: cast_nullable_to_non_nullable
-              as List<PatientAnalysis?>,
+              as PatientDocuments?,
       isNewPatient: freezed == isNewPatient
           ? _value.isNewPatient
           : isNewPatient // ignore: cast_nullable_to_non_nullable
@@ -1799,7 +1798,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       bool isLoadingVisits,
       bool errorFetchingVisits,
       List<VisitOrder?> patientVisits,
-      List<PatientAnalysis?> patientAnalyze,
+      PatientDocuments? patientAnalyze,
       bool? isNewPatient,
       String? paymeUrl,
       String? clickUrl,
@@ -1835,7 +1834,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? isLoadingVisits = null,
     Object? errorFetchingVisits = null,
     Object? patientVisits = null,
-    Object? patientAnalyze = null,
+    Object? patientAnalyze = freezed,
     Object? isNewPatient = freezed,
     Object? paymeUrl = freezed,
     Object? clickUrl = freezed,
@@ -1903,10 +1902,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value._patientVisits
           : patientVisits // ignore: cast_nullable_to_non_nullable
               as List<VisitOrder?>,
-      patientAnalyze: null == patientAnalyze
-          ? _value._patientAnalyze
+      patientAnalyze: freezed == patientAnalyze
+          ? _value.patientAnalyze
           : patientAnalyze // ignore: cast_nullable_to_non_nullable
-              as List<PatientAnalysis?>,
+              as PatientDocuments?,
       isNewPatient: freezed == isNewPatient
           ? _value.isNewPatient
           : isNewPatient // ignore: cast_nullable_to_non_nullable
@@ -1950,14 +1949,13 @@ class _$AuthStateImpl extends _AuthState {
       this.isLoadingVisits = false,
       this.errorFetchingVisits = false,
       final List<VisitOrder?> patientVisits = const [],
-      final List<PatientAnalysis?> patientAnalyze = const [],
+      this.patientAnalyze = null,
       this.isNewPatient = null,
       this.paymeUrl = null,
       this.clickUrl = null,
       this.isFetchingPaymentUrls = false,
       this.errorFetchingPaymentUrls = false})
       : _patientVisits = patientVisits,
-        _patientAnalyze = patientAnalyze,
         super._();
 
   @override
@@ -2012,15 +2010,9 @@ class _$AuthStateImpl extends _AuthState {
     return EqualUnmodifiableListView(_patientVisits);
   }
 
-  final List<PatientAnalysis?> _patientAnalyze;
   @override
   @JsonKey()
-  List<PatientAnalysis?> get patientAnalyze {
-    if (_patientAnalyze is EqualUnmodifiableListView) return _patientAnalyze;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_patientAnalyze);
-  }
-
+  final PatientDocuments? patientAnalyze;
   @override
   @JsonKey()
   final bool? isNewPatient;
@@ -2079,8 +2071,8 @@ class _$AuthStateImpl extends _AuthState {
                 other.errorFetchingVisits == errorFetchingVisits) &&
             const DeepCollectionEquality()
                 .equals(other._patientVisits, _patientVisits) &&
-            const DeepCollectionEquality()
-                .equals(other._patientAnalyze, _patientAnalyze) &&
+            (identical(other.patientAnalyze, patientAnalyze) ||
+                other.patientAnalyze == patientAnalyze) &&
             (identical(other.isNewPatient, isNewPatient) ||
                 other.isNewPatient == isNewPatient) &&
             (identical(other.paymeUrl, paymeUrl) ||
@@ -2112,7 +2104,7 @@ class _$AuthStateImpl extends _AuthState {
         isLoadingVisits,
         errorFetchingVisits,
         const DeepCollectionEquality().hash(_patientVisits),
-        const DeepCollectionEquality().hash(_patientAnalyze),
+        patientAnalyze,
         isNewPatient,
         paymeUrl,
         clickUrl,
@@ -2146,7 +2138,7 @@ abstract class _AuthState extends AuthState {
       final bool isLoadingVisits,
       final bool errorFetchingVisits,
       final List<VisitOrder?> patientVisits,
-      final List<PatientAnalysis?> patientAnalyze,
+      final PatientDocuments? patientAnalyze,
       final bool? isNewPatient,
       final String? paymeUrl,
       final String? clickUrl,
@@ -2185,7 +2177,7 @@ abstract class _AuthState extends AuthState {
   @override
   List<VisitOrder?> get patientVisits;
   @override
-  List<PatientAnalysis?> get patientAnalyze;
+  PatientDocuments? get patientAnalyze;
   @override
   bool? get isNewPatient;
   @override
