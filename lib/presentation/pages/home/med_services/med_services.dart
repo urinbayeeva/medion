@@ -65,9 +65,10 @@ class _MedServicesPageState extends State<MedServicesPage> {
                         return MedicalDirectionItem(
                           title: state.medicalServices[index].title,
                           subtitle: state.medicalServices[index].info,
-                          iconPath: "",
+                          iconPath: state.medicalServices[index].image,
                           onTap: () {
-                            final categoryId = 19;
+                            final categoryId =
+                                state.medicalServices[index].categoryId;
                             final intId = categoryId is int
                                 ? categoryId
                                 : int.parse(categoryId.toString());
@@ -76,9 +77,8 @@ class _MedServicesPageState extends State<MedServicesPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const MedServiceChoose(
-                                          serviceTypeId: 19,
+                                    builder: (context) => MedServiceChoose(
+                                          serviceTypeId: categoryId ?? 0,
                                         ))).then((value) {
                               if (value != null && value is Set<int>) {
                                 setState(() {

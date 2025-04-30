@@ -109,8 +109,10 @@ class IconSet {
   final String recipeFour;
   final String recipeFive;
   final String recipeSix;
+  final String resumeFile;
 
   IconSet._({
+    required this.resumeFile,
     required this.medicalHistoryFirst,
     required this.calendarFirst,
     required this.folderFirst,
@@ -335,6 +337,7 @@ class IconSet {
       recipeFour: 'assets/icons/recipe_four.svg',
       recipeFive: 'assets/icons/recipe_five.svg',
       recipeSix: 'assets/icons/recipe_six.svg',
+      resumeFile: "assets/icons/file_resume.svg",
     );
   }
 }

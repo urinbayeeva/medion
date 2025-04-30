@@ -218,7 +218,6 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                                   _phoneNumberController.text)),
                                       ),
                                     );
-                                // No need to navigate here — BlocListener will handle it
                               }
                             }),
                         27.h.verticalSpace,

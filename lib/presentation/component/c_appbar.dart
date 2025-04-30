@@ -9,7 +9,7 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class CAppBar extends StatefulWidget {
-  final String title;
+  final String? title;
   final Widget? titleWidget;
   final bool isBack;
   final Widget? leading;
@@ -32,7 +32,7 @@ class CAppBar extends StatefulWidget {
 
   const CAppBar(
       {super.key,
-      required this.title,
+      this.title,
       this.isBack = true,
       this.leading,
       this.trailing,
@@ -86,7 +86,9 @@ class _CAppBarState extends State<CAppBar> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // const SafeArea(bottom: false, child: SizedBox.shrink()),
-                  40.h.verticalSpace,
+                  widget.title == null
+                      ? 12.h.verticalSpace
+                      : 40.h.verticalSpace,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -118,7 +120,7 @@ class _CAppBarState extends State<CAppBar> {
                           child: widget.titleWidget ??
                               Text(
                                 semanticsLabel: widget.title,
-                                widget.title,
+                                widget.title ?? "",
                                 style: fonts.regularMain.copyWith(
                                     color: colors.primary900, fontSize: 17.sp),
                                 textAlign: widget.centerTitle

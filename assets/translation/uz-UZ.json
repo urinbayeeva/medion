@@ -366,5 +366,15 @@
   "recommendations_pending": "Jarayonda",
   "recommendations_price": "Narxi:",
   "recommendations_total": "Jami: ",
+  "morningGreeting": "Hayrli tong",
+  "afternoonGreeting": "Hayrli kun",
+  "eveningGreeting": "Hayrli kech",
+  "greetingWithName": "{greeting}, {name} 👋",
+  "not_found_vacancy": "Kerakli vakansiyani topa olmadingizmi?",
+  "enter_full_name": "F.I.Sh.ni kiriting",
+  "file_max_15mb": "Fayl hajmi maksimal 15Mb",
+  "upload": "Yuklash",
+  "submit": "Yuborish",
+  "leave_resume_contact": "Rezyume va kontakt ma'lumotlaringizni qoldiring, biz siz bilan bog'lanamiz.",
   "": ""
 }

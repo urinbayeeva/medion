@@ -6,11 +6,13 @@ import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
+import 'package:medion/application/vacancy_bloc/vacancy_bloc.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/branch_repo.dart';
 import 'package:medion/infrastructure/repository/content_service.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
+import 'package:medion/infrastructure/repository/recruitment_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/c_info_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
@@ -393,7 +395,19 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getCareerPage() {
-    return MaterialPageRoute(builder: (_) => const CareerPage());
+    return MaterialPageRoute(
+      builder: (context) {
+        DBService dbService = context.read<DBService>();
+        return BlocProvider(
+          create: (_) => VacancyBloc(
+            RecruitmentRepository(
+              RecruitmentService.create(dbService),
+            ),
+          ),
+          child: const CareerPage(),
+        );
+      },
+    );
   }
 
   // static MaterialPageRoute getSecondServicePage(onTap, id) {

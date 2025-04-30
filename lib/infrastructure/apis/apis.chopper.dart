@@ -580,3 +580,26 @@ final class _$ContentService extends ContentService {
     return client.send<BuiltList<ContentModel>, ContentModel>($request);
   }
 }
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$RecruitmentService extends RecruitmentService {
+  _$RecruitmentService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = RecruitmentService;
+
+  @override
+  Future<Response<BuiltList<VacancyModel>>> getVacancies() {
+    final Uri $url = Uri.parse('recruitment/vacancies');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<BuiltList<VacancyModel>, VacancyModel>($request);
+  }
+}

@@ -16,6 +16,7 @@ import 'package:medion/presentation/pages/home/news/news_page.dart';
 import 'package:medion/presentation/pages/home/yandex_on_tap.dart';
 import 'package:medion/presentation/pages/map/map_page.dart';
 import 'package:medion/presentation/styles/theme.dart';
+import 'package:medion/utils/helpers/decode_html.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -290,7 +291,13 @@ class _HomePageState extends State<HomePage> {
                                               'name': doctor.name,
                                               'profession': doctor.specialty,
                                               'image': doctor.image,
-                                              'id': doctor.id
+                                              'id': doctor.id,
+                                              'work_experience': doctor
+                                                  .workExperience
+                                                  .toString(),
+                                              'info_description': decodeHtml(
+                                                  doctor.infoDescription
+                                                      .toString())
                                             }))
                                     .toList()),
                               ],
@@ -483,6 +490,7 @@ class _HomePageState extends State<HomePage> {
                       });
                     },
                     url: location.icon,
+                    name: location.fullName.toString(),
                   ))
               .toList(),
         );
@@ -521,11 +529,13 @@ class _HomePageState extends State<HomePage> {
                 imagePath: doctor['image'].toString(),
                 name: doctor['name'].toString(),
                 profession: doctor['profession'].toString(),
-                status: doctor['status'].toString(),
+                status: doctor['info_description'].toString(),
                 gender: doctor['gender'].toString(),
                 candidateScience: false,
                 isInnerPageUsed: true,
                 doctorID: doctor['id'],
+                experience: "experience".tr(
+                    namedArgs: {"count": doctor['work_experience'].toString()}),
               );
             },
           ),

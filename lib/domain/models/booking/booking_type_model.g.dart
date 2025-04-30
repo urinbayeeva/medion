@@ -734,7 +734,7 @@ class _$HomepageBookingCategorySerializer
     value = object.icon;
     if (value != null) {
       result
-        ..add('icond')
+        ..add('icon')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -761,7 +761,7 @@ class _$HomepageBookingCategorySerializer
           result.name = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'icond':
+        case 'icon':
           result.icon = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;

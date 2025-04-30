@@ -10,6 +10,7 @@ class AdressItem extends StatelessWidget {
   final VoidCallback onTap;
   final String address;
   final String url;
+  final String name;
   final VoidCallback yandexOnTap;
   const AdressItem({
     super.key,
@@ -17,6 +18,7 @@ class AdressItem extends StatelessWidget {
     required this.url,
     required this.onTap,
     required this.yandexOnTap,
+    required this.name,
   });
 
   @override
@@ -30,6 +32,7 @@ class AdressItem extends StatelessWidget {
           color: colors.shade0,
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,14 +59,29 @@ class AdressItem extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: Text(
-                    address,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: fonts.smallLink.copyWith(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: fonts.smallLink.copyWith(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      4.h.verticalSpace,
+                      Text(
+                        address,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: fonts.smallLink.copyWith(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -88,7 +106,7 @@ class AdressItem extends StatelessWidget {
                 // backgroundColor: colors.neutral200,
                 // textColor: colors.primary900,
               ),
-            )
+            ),
           ],
         ),
       );

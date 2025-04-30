@@ -12,6 +12,7 @@ import 'package:medion/domain/models/map/map_model.dart';
 import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
+import 'package:medion/domain/models/recruitment/recruitment_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
@@ -241,6 +242,15 @@ abstract class ContentService extends ChopperService {
 
   static ContentService create(DBService dbService) =>
       _$ContentService(_Client(Constants.baseUrlP, true, dbService));
+}
+
+@ChopperApi(baseUrl: "recruitment")
+abstract class RecruitmentService extends ChopperService {
+  @Get(path: "/vacancies")
+  Future<Response<BuiltList<VacancyModel>>> getVacancies();
+
+  static RecruitmentService create(DBService dbService) =>
+      _$RecruitmentService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 base class _Client extends ChopperClient {

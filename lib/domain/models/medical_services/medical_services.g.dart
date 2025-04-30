@@ -41,7 +41,13 @@ class _$DiagnosticsModelSerializer
       serializers.serialize(object.image,
           specifiedType: const FullType(String)),
     ];
-
+    Object? value;
+    value = object.categoryId;
+    if (value != null) {
+      result
+        ..add('category_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -80,6 +86,10 @@ class _$DiagnosticsModelSerializer
         case 'image':
           result.image = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
+          break;
+        case 'category_id':
+          result.categoryId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -275,6 +285,8 @@ class _$DiagnosticsModel extends DiagnosticsModel {
   final JsonObject backgroundColor;
   @override
   final String image;
+  @override
+  final int? categoryId;
 
   factory _$DiagnosticsModel(
           [void Function(DiagnosticsModelBuilder)? updates]) =>
@@ -286,7 +298,8 @@ class _$DiagnosticsModel extends DiagnosticsModel {
       required this.forChildren,
       required this.link,
       required this.backgroundColor,
-      required this.image})
+      required this.image,
+      this.categoryId})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(title, r'DiagnosticsModel', 'title');
     BuiltValueNullFieldError.checkNotNull(info, r'DiagnosticsModel', 'info');
@@ -315,7 +328,8 @@ class _$DiagnosticsModel extends DiagnosticsModel {
         forChildren == other.forChildren &&
         link == other.link &&
         backgroundColor == other.backgroundColor &&
-        image == other.image;
+        image == other.image &&
+        categoryId == other.categoryId;
   }
 
   @override
@@ -327,6 +341,7 @@ class _$DiagnosticsModel extends DiagnosticsModel {
     _$hash = $jc(_$hash, link.hashCode);
     _$hash = $jc(_$hash, backgroundColor.hashCode);
     _$hash = $jc(_$hash, image.hashCode);
+    _$hash = $jc(_$hash, categoryId.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -339,7 +354,8 @@ class _$DiagnosticsModel extends DiagnosticsModel {
           ..add('forChildren', forChildren)
           ..add('link', link)
           ..add('backgroundColor', backgroundColor)
-          ..add('image', image))
+          ..add('image', image)
+          ..add('categoryId', categoryId))
         .toString();
   }
 }
@@ -373,6 +389,10 @@ class DiagnosticsModelBuilder
   String? get image => _$this._image;
   set image(String? image) => _$this._image = image;
 
+  int? _categoryId;
+  int? get categoryId => _$this._categoryId;
+  set categoryId(int? categoryId) => _$this._categoryId = categoryId;
+
   DiagnosticsModelBuilder();
 
   DiagnosticsModelBuilder get _$this {
@@ -384,6 +404,7 @@ class DiagnosticsModelBuilder
       _link = $v.link;
       _backgroundColor = $v.backgroundColor;
       _image = $v.image;
+      _categoryId = $v.categoryId;
       _$v = null;
     }
     return this;
@@ -418,6 +439,7 @@ class DiagnosticsModelBuilder
               backgroundColor, r'DiagnosticsModel', 'backgroundColor'),
           image: BuiltValueNullFieldError.checkNotNull(
               image, r'DiagnosticsModel', 'image'),
+          categoryId: categoryId,
         );
     replace(_$result);
     return _$result;

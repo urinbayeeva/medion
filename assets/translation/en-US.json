@@ -43,5 +43,11 @@
   "please_select_birth_date": "Please select your birth date",
   "birth_date": "Birth Date",
   "select_birth_date": "Select your birth date",
+  "not_found_vacancy": "Didn't find the vacancy you were looking for?",
+  "enter_full_name": "Enter full name",
+  "file_max_15mb": "File size max 15Mb",
+  "upload": "Upload",
+  "submit": "Submit",
+  "leave_resume_contact": "Leave your resume and contact details, we will contact you.",
   "": ""
 }

@@ -168,7 +168,7 @@ class DoctorsItem extends StatelessWidget {
       ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
         return SizedBox(
           width: 164.w,
-          child: Text("Test Description",
+          child: Text(status ?? "",
               overflow: TextOverflow.ellipsis,
               style: fonts.headlineMain.copyWith(
                   fontSize: 11.sp,

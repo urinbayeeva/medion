@@ -25,6 +25,9 @@ abstract class DiagnosticsModel
   @BuiltValueField(wireName: 'image')
   String get image;
 
+  @BuiltValueField(wireName: "category_id")
+  int? get categoryId;
+
   DiagnosticsModel._();
 
   factory DiagnosticsModel([void Function(DiagnosticsModelBuilder) updates]) =

@@ -222,7 +222,7 @@ abstract class HomepageBookingCategory
   @BuiltValueField(wireName: "name")
   String? get name;
 
-  @BuiltValueField(wireName: "icond")
+  @BuiltValueField(wireName: "icon")
   String? get icon;
 
   static Serializer<HomepageBookingCategory> get serializer =>

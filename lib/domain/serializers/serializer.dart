@@ -8,6 +8,7 @@ import 'package:medion/domain/models/map/map_model.dart';
 import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
+import 'package:medion/domain/models/recruitment/recruitment_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/success_model/response_model.dart';
@@ -107,6 +108,11 @@ part 'serializer.g.dart';
   //Service Reques
   ServiceResponse,
   ServiceRequest,
+
+  //Vacancy
+
+  VacancyModel,
+  JobApplicationModel
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();
