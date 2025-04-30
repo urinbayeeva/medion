@@ -9,6 +9,7 @@ import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
+import 'package:medion/presentation/pages/appointment/verify_appointment.dart';
 import 'package:medion/presentation/pages/appointment/widget/doctors_appointment_widget.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_verify.dart';
 import 'package:medion/presentation/styles/style.dart';
@@ -198,26 +199,10 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                 final appointment = selectedList.first;
 
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MedServiceVerify(
-                                      doctorImage:
-                                          appointment['doctorPhoto'] ?? "",
-                                      diagnosName:
-                                          appointment['category_name'] ?? '',
-                                      serviceName:
-                                          appointment['serviceName'] ?? '',
-                                      doctorName:
-                                          appointment['doctorName'] ?? '',
-                                      servicePrice:
-                                          appointment['servicePrice'] ?? '',
-                                      selectedTime: appointment['time'] ?? '',
-                                      selectedLocation:
-                                          appointment['location'] ?? '',
-                                      // Add any additional fields you need
-                                    ),
-                                  ),
-                                );
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => VerifyAppointment(
+                                            isHome: true, onTap: () {})));
                               }
                             },
                           ),

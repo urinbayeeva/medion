@@ -249,9 +249,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           icons.filter.svg(width: 20.w, height: 20.h),
                         ],
                       )
-                    : screenIndex == 2 || screenIndex == 3
-                        ? icons.filter.svg()
-                        : 24.w.horizontalSpace,
+                    : 24.w.horizontalSpace,
                 isBack: screenIndex == 0 ? false : true,
                 onTap: () {
                   context

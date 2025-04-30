@@ -99,6 +99,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                     CAppBar(
                       leading: icons.left.svg(width: 24.w, height: 24.h),
                       title: '',
+                      isBack: true,
                     ),
                     16.h.verticalSpace,
                     Flexible(
@@ -188,6 +189,11 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                 context.read<AuthBloc>().add(
                                       AuthEvent.checkAuth(),
                                     );
+                                context.read<DBService>().setBool(
+                                    isSaved: true, key: DBService.intro);
+                                context
+                                    .read<DBService>()
+                                    .setLang(isSaved: true);
                               },
                             ),
                             27.h.verticalSpace,

@@ -48,15 +48,7 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
         valueListenable: AppointmentState.selectedAppointments,
         builder: (context, selectedList, _) {
           if (selectedList.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: EdgeInsets.all(16.w),
-                child: Text(
-                  'no_appointments_selected'.tr(),
-                  style: fonts.smallMain,
-                ),
-              ),
-            );
+            Navigator.pop(context);
           }
 
           return BlocBuilder<VisitBloc, VisitState>(builder: (context, state) {

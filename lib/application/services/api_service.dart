@@ -6,7 +6,7 @@ import 'package:medion/infrastructure/services/local_database/db_service.dart';
 class ApiService {
   static Future<List<Service>> fetchServices(
     List<int> serviceIds, {
-    int days = 10, // 👈 Make it optional with default value
+    int days = 15, //
   }) async {
     final dbService = await DBService.create;
     final token = dbService.token;

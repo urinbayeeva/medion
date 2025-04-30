@@ -88,57 +88,56 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // const Spacer(),
-                      Text("enter_phone_number".tr(),
-                          style: fonts.displaySecond),
-                      8.h.verticalSpace,
-                      Text("to_enter_make_appoints".tr(),
-                          style: fonts.smallText.copyWith(
-                              color: colors.neutral700,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w400)),
-                      16.h.verticalSpace,
-                      Form(
-                        key: _formKey,
-                        child: CustomTextField(
-                          focusNode: focusNode,
-                          autoFocus: true,
-                          title: "",
-                          keyboardType: TextInputType.phone,
-                          onChanged: (value) {
-                            if (value.length >= 17) {
-                              setState(() {});
-                            }
-                          },
-                          controller: _phoneNumberController,
-                          formatter: <TextInputFormatter>[
-                            InternationalPhoneFormatter()
-                          ],
-                          hintText: '+998',
-                          validator: (String? text) {
-                            if (text != null && text.length < 17) {
-                              return "number_entered_incorrectly".tr();
-                            } else {
-                              if (widget.phoneNumbers != null &&
-                                  widget.phoneNumbers!.isNotEmpty) {
-                                for (var phone in widget.phoneNumbers!) {
-                                  if (phone ==
-                                      formatPhoneNumberForUI(
-                                          _phoneNumberController.text)) {
-                                    return "phone_number_already_exists";
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // const Spacer(),
+                        Text("enter_phone_number".tr(),
+                            style: fonts.displaySecond),
+                        8.h.verticalSpace,
+                        Text("to_enter_make_appoints".tr(),
+                            style: fonts.smallText.copyWith(
+                                color: colors.neutral700,
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w400)),
+                        16.h.verticalSpace,
+                        Form(
+                          key: _formKey,
+                          child: CustomTextField(
+                            focusNode: focusNode,
+                            autoFocus: true,
+                            title: "",
+                            keyboardType: TextInputType.phone,
+                            onChanged: (value) {
+                              if (value.length >= 17) {
+                                setState(() {});
+                              }
+                            },
+                            controller: _phoneNumberController,
+                            formatter: <TextInputFormatter>[
+                              InternationalPhoneFormatter()
+                            ],
+                            hintText: '+998',
+                            validator: (String? text) {
+                              if (text != null && text.length < 17) {
+                                return "number_entered_incorrectly".tr();
+                              } else {
+                                if (widget.phoneNumbers != null &&
+                                    widget.phoneNumbers!.isNotEmpty) {
+                                  for (var phone in widget.phoneNumbers!) {
+                                    if (phone ==
+                                        formatPhoneNumberForUI(
+                                            _phoneNumberController.text)) {
+                                      return "phone_number_already_exists";
+                                    }
                                   }
                                 }
+                                return null;
                               }
-                              return null;
-                            }
-                          },
+                            },
+                          ),
                         ),
-                      ),
-                      const Spacer(),
-                      Center(
-                        child: Flexible(
+                        const Spacer(),
+                        Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
@@ -199,33 +198,33 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                             ],
                           ),
                         ),
-                      ),
-                      16.h.verticalSpace,
-                      CustomButton(
-                          isDisabled: _phoneNumberController.text.length < 17 &&
-                              _isAccepted == false,
-                          title: "send_code".tr(),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              focusNode.unfocus();
-                              final signature =
-                                  await SmsAutoFill().getAppSignature;
-                              context.read<AuthBloc>().add(
-                                    AuthEvent.sendPhoneNumber(
-                                      request: PhoneNumberSendReq((p0) => p0
-                                        ..phoneNumber =
-                                            formatPhoneNumberForBackend(
-                                                _phoneNumberController.text)),
-                                    ),
-                                  );
-                              // No need to navigate here — BlocListener will handle it
-                            }
-                          }),
-                      27.h.verticalSpace,
-                    ],
-                  ),
+
+                        16.h.verticalSpace,
+                        CustomButton(
+                            isDisabled:
+                                _phoneNumberController.text.length < 17 &&
+                                    _isAccepted == false,
+                            title: "send_code".tr(),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                focusNode.unfocus();
+                                final signature =
+                                    await SmsAutoFill().getAppSignature;
+                                context.read<AuthBloc>().add(
+                                      AuthEvent.sendPhoneNumber(
+                                        request: PhoneNumberSendReq((p0) => p0
+                                          ..phoneNumber =
+                                              formatPhoneNumberForBackend(
+                                                  _phoneNumberController.text)),
+                                      ),
+                                    );
+                                // No need to navigate here — BlocListener will handle it
+                              }
+                            }),
+                        27.h.verticalSpace,
+                      ]),
                 ),
-              ),
+              )
             ],
           ),
         ),

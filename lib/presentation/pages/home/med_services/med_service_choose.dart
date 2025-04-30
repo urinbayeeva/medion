@@ -20,7 +20,7 @@ import 'package:medion/utils/helpers/decode_html.dart';
 class MedServiceChoose extends StatefulWidget {
   final int serviceTypeId;
   final bool isDoctorService;
-  final int? doctorId; // Only required when isDoctorService is true
+  final int? doctorId;
 
   const MedServiceChoose({
     super.key,

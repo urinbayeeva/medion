@@ -234,17 +234,15 @@ class _MedServicePaymentState extends State<MedServicePayment> {
                                                 Padding(
                                                   padding: EdgeInsets.symmetric(
                                                       vertical: 6.h),
-                                                  child: Expanded(
-                                                    child: Text(
-                                                      appointment[
-                                                              'serviceName'] ??
-                                                          'Service',
-                                                      style: TextStyle(
-                                                        fontSize: 14.sp,
-                                                        color: Style.neutral600,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
+                                                  child: Text(
+                                                    appointment[
+                                                            'serviceName'] ??
+                                                        'Service',
+                                                    style: TextStyle(
+                                                      fontSize: 14.sp,
+                                                      color: Style.neutral600,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                   ),
                                                 ),
