@@ -134,198 +134,205 @@ class _PaymentPageState extends State<PaymentPage> {
 
               return Column(
                 children: [
-                  if (widget.isHome) ...[
+                  if (widget.isHome)
                     CAppBar(
                       title: "payment".tr(),
                       centerTitle: true,
                       isBack: true,
                       trailing: 24.w.horizontalSpace,
                     ),
-                  ],
                   Expanded(
-                    child: ListView(
+                    child: SingleChildScrollView(
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      children: [
-                        UserInfoWidget(
-                          title: "your_info".tr(),
-                          children: [
-                            CustomTextField(
-                              readOnly: true,
-                              padding: const EdgeInsets.only(bottom: 12),
-                              hintText:
-                                  patientInfo?.firstName ?? "Not available",
-                              title: "name".tr(),
-                            ),
-                            CustomTextField(
-                              readOnly: true,
-                              padding: const EdgeInsets.only(bottom: 12),
-                              hintText:
-                                  patientInfo?.lastName ?? "Not available",
-                              title: "second_name".tr(),
-                            ),
-                            CustomTextField(
-                              readOnly: true,
-                              padding: const EdgeInsets.only(bottom: 12),
-                              hintText: patientInfo?.patientId?.toString() ??
-                                  "Not available",
-                              title: "ID",
-                            ),
-                            CustomTextField(
-                              readOnly: true,
-                              padding: const EdgeInsets.only(bottom: 12),
-                              hintText:
-                                  patientInfo?.phoneNumber ?? "Not available",
-                              title: "contact_phone_number".tr(),
-                            ),
-                          ],
-                        ),
-                        12.h.verticalSpace,
-                        ValueListenableBuilder<List<Map<String, String>>>(
-                          valueListenable:
-                              AppointmentState.selectedAppointments,
-                          builder: (context, selectedList, _) {
-                            return Column(
-                              children: selectedList
-                                  .map((appointment) => _buildAppointmentItem(
-                                        appointment,
-                                        context,
-                                      ))
-                                  .toList(),
-                            );
-                          },
-                        ),
-                        12.h.verticalSpace,
-                        UserInfoWidget(
-                          title: "who_pays".tr(),
-                          children: [
-                            CustomRadioTile<String>(
-                              value: "myself".tr(),
-                              groupValue: _selectedOption,
-                              title: Text("myself".tr()),
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedOption = value!;
-                                });
-                              },
-                            ),
-                            CustomRadioTile<String>(
-                              value: "employer".tr(),
-                              groupValue: _selectedOption,
-                              title: Text(
-                                "employer".tr(),
+                      child: Column(
+                        children: [
+                          UserInfoWidget(
+                            title: "your_info".tr(),
+                            children: [
+                              CustomTextField(
+                                readOnly: true,
+                                padding: const EdgeInsets.only(bottom: 12),
+                                hintText:
+                                    patientInfo?.firstName ?? "Not available",
+                                title: "name".tr(),
                               ),
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedOption = value!;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        12.h.verticalSpace,
-                        ZigZagContainer(
-                          color: Colors.white,
-                          zigZagHeight: 15,
-                          padding: EdgeInsets.all(20),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16.w, vertical: 8.h),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "your_check".tr(),
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.bold,
+                              CustomTextField(
+                                readOnly: true,
+                                padding: const EdgeInsets.only(bottom: 12),
+                                hintText:
+                                    patientInfo?.lastName ?? "Not available",
+                                title: "second_name".tr(),
+                              ),
+                              CustomTextField(
+                                readOnly: true,
+                                padding: const EdgeInsets.only(bottom: 12),
+                                hintText: patientInfo?.patientId?.toString() ??
+                                    "Not available",
+                                title: "ID",
+                              ),
+                              CustomTextField(
+                                readOnly: true,
+                                padding: const EdgeInsets.only(bottom: 12),
+                                hintText:
+                                    patientInfo?.phoneNumber ?? "Not available",
+                                title: "contact_phone_number".tr(),
+                              ),
+                            ],
+                          ),
+                          12.h.verticalSpace,
+                          ValueListenableBuilder<List<Map<String, String>>>(
+                            valueListenable:
+                                AppointmentState.selectedAppointments,
+                            builder: (context, selectedList, _) {
+                              return Column(
+                                children: selectedList
+                                    .map((appointment) => _buildAppointmentItem(
+                                        appointment, context))
+                                    .toList(),
+                              );
+                            },
+                          ),
+                          12.h.verticalSpace,
+                          UserInfoWidget(
+                            title: "who_pays".tr(),
+                            children: [
+                              CustomRadioTile<String>(
+                                value: "myself".tr(),
+                                groupValue: _selectedOption,
+                                title: Text("myself".tr()),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedOption = value!;
+                                  });
+                                },
+                              ),
+                              CustomRadioTile<String>(
+                                value: "employer".tr(),
+                                groupValue: _selectedOption,
+                                title: Text("employer".tr()),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedOption = value!;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          12.h.verticalSpace,
+                          ZigZagContainer(
+                            color: Colors.white,
+                            zigZagHeight: 15,
+                            padding: const EdgeInsets.all(20),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w, vertical: 8.h),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "your_check".tr(),
+                                    style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                12.h.verticalSpace,
-                                ValueListenableBuilder<
-                                    List<Map<String, String>>>(
-                                  valueListenable:
-                                      AppointmentState.selectedAppointments,
-                                  builder: (context, selectedList, _) {
-                                    double subtotal = 0;
+                                  12.h.verticalSpace,
+                                  ValueListenableBuilder<
+                                      List<Map<String, String>>>(
+                                    valueListenable:
+                                        AppointmentState.selectedAppointments,
+                                    builder: (context, selectedList, _) {
+                                      double subtotal = 0;
 
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ...selectedList.map((appointment) {
-                                          final price = double.tryParse(
-                                                  appointment['price'] ??
-                                                      '0') ??
-                                              0;
-                                          subtotal += price;
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          ...selectedList.map((appointment) {
+                                            final price = double.tryParse(
+                                                    appointment['price'] ??
+                                                        '0') ??
+                                                0;
+                                            subtotal += price;
 
-                                          return Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 6.h),
-                                                child: Text(
-                                                  appointment['serviceName'] ??
-                                                      'Service',
-                                                  style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                    color: Style.neutral600,
-                                                    fontWeight: FontWeight.w500,
+                                            return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 6.h),
+                                                  child: Text(
+                                                    appointment[
+                                                            'serviceName'] ??
+                                                        'Service',
+                                                    style: TextStyle(
+                                                      fontSize: 14.sp,
+                                                      color: Style.neutral600,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Text(
-                                                "${"_ _ _ _ _ _ _ _ _ _ "} ${"sum".tr(namedArgs: {
-                                                      "amount":
-                                                          _formatNumber(price)
-                                                    })}",
-                                                style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  color: Style.neutral500,
+                                                Text(
+                                                  "${"_ _ _ _ _ _ _ _ _ _ "} ${"sum".tr(namedArgs: {
+                                                        "amount":
+                                                            _formatNumber(price)
+                                                      })}",
+                                                  style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    color: Style.neutral500,
+                                                  ),
                                                 ),
+                                                if (selectedList
+                                                        .indexOf(appointment) !=
+                                                    selectedList.length - 1)
+                                                  Divider(
+                                                      height: 1.h,
+                                                      color: Colors.grey[300]),
+                                              ],
+                                            );
+                                          }).toList(),
+                                          Divider(
+                                              color: Colors.grey[300],
+                                              thickness: 1,
+                                              height: 16.h),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 8.h),
+                                            child: Text(
+                                              "${"total".tr()}_ _ _ _ _ _ _ _ _ _ ${"sum".tr(namedArgs: {
+                                                    "amount":
+                                                        _formatNumber(subtotal)
+                                                  })}",
+                                              style: TextStyle(
+                                                fontSize: 16.sp,
+                                                color: Style.neutral600,
+                                                fontWeight: FontWeight.bold,
                                               ),
-                                              if (selectedList
-                                                      .indexOf(appointment) !=
-                                                  selectedList.length - 1)
-                                                Divider(
-                                                    height: 1.h,
-                                                    color: Colors.grey[300]),
-                                            ],
-                                          );
-                                        }).toList(),
-                                        Divider(
-                                            color: Colors.grey[300],
-                                            thickness: 1,
-                                            height: 16.h),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 8.h),
-                                          child: Text(
-                                            "${"total".tr()}_ _ _ _ _ _ _ _ _ _ ${"sum".tr(namedArgs: {
-                                                  "amount":
-                                                      _formatNumber(subtotal)
-                                                })}",
-                                            style: TextStyle(
-                                              fontSize: 16.sp,
-                                              color: Style.neutral600,
-                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ],
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        12.h.verticalSpace,
-                        Text("if_you_make_an_advance_payment".tr(),
-                            style: Style.smallLink()),
-                        40.h.verticalSpace,
+                          12.h.verticalSpace,
+                          Text("if_you_make_an_advance_payment".tr(),
+                              style: Style.smallLink()),
+                          80.h.verticalSpace, // Extra space to avoid overlap
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
                         CButton(
                           backgroundColor: Style.neutral200,
                           textColor: Style.primary900,
@@ -334,13 +341,11 @@ class _PaymentPageState extends State<PaymentPage> {
                             context
                                 .read<BottomNavBarController>()
                                 .changeNavBar(false);
-
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MainPage(
-                                          index: 2,
-                                        )));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MainPage(index: 2)),
+                            );
                           },
                         ),
                         8.h.verticalSpace,
@@ -352,10 +357,12 @@ class _PaymentPageState extends State<PaymentPage> {
                                 if (paymentProvider.multiUrl?.isNotEmpty ??
                                     false) {
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => PaymentWebView(
-                                              url: paymentProvider.multiUrl!)));
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PaymentWebView(
+                                          url: paymentProvider.multiUrl!),
+                                    ),
+                                  );
                                 } else {
                                   await _initializePaymentUrl();
                                   if (paymentProvider.multiUrl?.isNotEmpty ??
