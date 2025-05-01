@@ -58,22 +58,22 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
 
       if (response.statusCode == 200) {
         final data = json.decode(utf8.decode(response.bodyBytes));
+
         setState(() {
-          switch (widget.type) {
-            case 'lis':
-              documents = data['emr_docs_lis'] ?? [];
-              break;
-            case 'fis':
-              documents = data['emr_docs_fis'] ?? [];
-              break;
-            case 'ris':
-              documents = data['emr_docs_ris'] ?? [];
-              break;
-            case 'consultation':
-              documents = data['emr_docs_consultation'] ?? [];
-              break;
-            default:
-              documents = [];
+          if (widget.type == 'lis') {
+            documents = [
+              ...(data['emr_docs_lis'] ?? []),
+              ...(data['emr_docs_fis'] ?? []),
+              ...(data['emr_docs_ris'] ?? []),
+            ];
+          } else if (widget.type == 'fis') {
+            documents = data['emr_docs_fis'] ?? [];
+          } else if (widget.type == 'ris') {
+            documents = data['emr_docs_ris'] ?? [];
+          } else if (widget.type == 'consultation') {
+            documents = data['emr_docs_consultation'] ?? [];
+          } else {
+            documents = [];
           }
           isLoading = false;
         });

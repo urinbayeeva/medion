@@ -35,12 +35,14 @@ class MedicalDirectionItem extends StatelessWidget {
               child: ListTile(
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(8.r),
-                  child: CachedNetworkImage(
-                    imageUrl: iconPath!,
-                    width: 50.w,
-                    height: 50.h,
-                    fit: BoxFit.cover,
-                  ),
+                  child: iconPath == null || iconPath == ""
+                      ? icons.stethoscope.svg()
+                      : CachedNetworkImage(
+                          imageUrl: iconPath!,
+                          width: 50.w,
+                          height: 50.h,
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 title: Text(title ?? "Unknown Service",
                     style: fonts.smallSemLink.copyWith(

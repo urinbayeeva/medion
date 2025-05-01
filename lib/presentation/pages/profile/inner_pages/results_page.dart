@@ -28,7 +28,7 @@ class _ResultsPageState extends State<ResultsPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -60,8 +60,6 @@ class _ResultsPageState extends State<ResultsPage>
                 controller: _tabController,
                 children: const [
                   ResultsDataWidget(type: 'lis'),
-                  ResultsDataWidget(type: 'fis'),
-                  ResultsDataWidget(type: 'ris'),
                   ResultsDataWidget(type: 'consultation'),
                 ],
               ),
@@ -79,9 +77,7 @@ class _ResultsPageState extends State<ResultsPage>
       overlayColor: MaterialStateProperty.all(colors.shade0),
       indicatorColor: colors.error500,
       tabs: [
-        _buildTab("LIS".tr(), fonts),
-        _buildTab("FIS".tr(), fonts),
-        _buildTab("RIS".tr(), fonts),
+        _buildTab("analyzes".tr(), fonts),
         _buildTab("doctors_reports".tr(), fonts),
       ],
     );
