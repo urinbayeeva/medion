@@ -7,6 +7,7 @@ import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/domain/sources/branches_data.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
+import 'package:medion/presentation/pages/home/yandex_on_tap.dart';
 import 'package:medion/presentation/pages/others/branches/component/branches_info.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
@@ -48,13 +49,7 @@ class _BranchesPageState extends State<BranchesPage> {
             Expanded(
               child: BlocBuilder<BranchBloc, BranchState>(
                 builder: (context, state) {
-                  if (state.loading) {
-                    // return const Center(child: CircularProgressIndicator());
-                  } else if (state.error) {
-                    return Center(child: Text("Error loading branches"));
-                  } else if (state.success && state.branches.isEmpty) {
-                    return const Center(child: Text("No branches found"));
-                  }
+                  if (state.loading) {}
 
                   return SmartRefresher(
                     controller: _refreshController,
@@ -76,6 +71,10 @@ class _BranchesPageState extends State<BranchesPage> {
                         final branch = state.branches[index];
 
                         return BranchesInfoCard(
+                          yandexButton: () {
+                            launchYandexTaxi(
+                                context, branch.latitude, branch.longitude);
+                          },
                           branchPhoneNumberButton: () {
                             makePhoneCall(branch.phone!);
                           },
@@ -116,10 +115,10 @@ class _BranchesPageState extends State<BranchesPage> {
                             });
                           },
                           branchPhotos: branch.image ?? "",
-                          branchName: branch.name ?? "No Name",
+                          branchName: branch.name ?? "N/A",
                           branchAdress: branch.address ?? "",
                           branchPhoneNumber: branch.phone ?? "",
-                          branchWorkingHours: branch.workTime,
+                          branchWorkingHours: branch.workTime ?? "N/A",
                         );
                       },
                     ),

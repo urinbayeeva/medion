@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/component/c_icon_button.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -17,6 +19,7 @@ class BranchesInfoCard extends StatelessWidget {
   final VoidCallback branchPhoneNumberButton;
   final VoidCallback branchAdressButton;
   final VoidCallback branchMoreInfo;
+  final VoidCallback yandexButton;
 
   const BranchesInfoCard(
       {super.key,
@@ -27,7 +30,8 @@ class BranchesInfoCard extends StatelessWidget {
       required this.branchWorkingHours,
       required this.branchPhoneNumberButton,
       required this.branchAdressButton,
-      required this.branchMoreInfo});
+      required this.branchMoreInfo,
+      required this.yandexButton});
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +97,7 @@ class BranchesInfoCard extends StatelessWidget {
                     child: CButton(
                       backgroundColor: colors.neutral200,
                       textColor: colors.primary900,
-                      title: "Позвонить",
+                      title: "call_center".tr(),
                       iconPath: icons.phone,
                       onTap: branchPhoneNumberButton,
                     ),
@@ -107,7 +111,7 @@ class BranchesInfoCard extends StatelessWidget {
                     child: CButton(
                       backgroundColor: colors.neutral200,
                       textColor: colors.primary900,
-                      title: "На карте",
+                      title: "on_map".tr(),
                       iconPath: icons.map,
                       onTap: branchAdressButton,
                     ),
@@ -122,9 +126,17 @@ class BranchesInfoCard extends StatelessWidget {
               child: CButton(
                 backgroundColor: colors.neutral200,
                 textColor: colors.primary900,
-                title: "Подробнее о клинике",
+                title: "more_about_clinic".tr(),
                 onTap: branchMoreInfo,
               ),
+            ),
+            8.h.verticalSpace,
+            CIconButton(
+              title: "order_taxi".tr(),
+              iconPath: "assets/images/yandex_png.png",
+              onTap: yandexButton,
+              // backgroundColor: colors.neutral200,
+              // textColor: colors.primary900,
             ),
           ],
         ),
@@ -133,8 +145,7 @@ class BranchesInfoCard extends StatelessWidget {
   }
 
   Widget _buildImageSection(colors, fonts) {
-    return 
-        CachedImageComponent(
-            height: 250, width: double.infinity, imageUrl: branchPhotos);
+    return CachedImageComponent(
+        height: 250, width: double.infinity, imageUrl: branchPhotos);
   }
 }

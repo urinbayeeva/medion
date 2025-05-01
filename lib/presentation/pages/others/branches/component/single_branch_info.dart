@@ -128,7 +128,7 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                 16.h.verticalSpace,
                 CButtomIcon(
                   title: "Позвонить",
-                  onTap: () {},
+                  onTap: widget.branchPhoneNumberButton,
                   iconPath: icons.phone,
                   textColor: colors.shade0,
                   iconColor: colors.shade0,
