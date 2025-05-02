@@ -1,5 +1,3 @@
-import 'dart:math' as Style;
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +10,7 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/extensions.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:intl/intl.dart';
 
 class DiscountPage extends StatefulWidget {
   const DiscountPage({super.key});
@@ -22,6 +21,7 @@ class DiscountPage extends StatefulWidget {
 
 class _DiscountPageState extends State<DiscountPage> {
   final RefreshController _refreshController = RefreshController();
+  final DateFormat _dateFormat = DateFormat('dd.MM.yyyy');
 
   @override
   void initState() {
@@ -42,6 +42,17 @@ class _DiscountPageState extends State<DiscountPage> {
         .read<ContentBloc>()
         .add(const ContentEvent.fetchContent(type: "discount"));
     _refreshController.refreshCompleted();
+  }
+
+  String _formatDiscountDate(String? date) {
+    if (date == null || date.isEmpty) {
+      return 'дата не указана'.tr();
+    }
+    try {
+      return _dateFormat.format(DateTime.parse(date));
+    } catch (e) {
+      return 'неверный формат даты'.tr();
+    }
   }
 
   @override
@@ -82,7 +93,7 @@ class _DiscountPageState extends State<DiscountPage> {
                   if (discountContent.isEmpty) {
                     return Center(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           icons.emojiSad.svg(width: 80.w, height: 80.h),
                           4.h.verticalSpace,
@@ -117,6 +128,9 @@ class _DiscountPageState extends State<DiscountPage> {
                             itemCount: discountContent.length,
                             itemBuilder: (context, index) {
                               final discount = discountContent[index];
+                              final endDateFormatted = _formatDiscountDate(
+                                  discount.discountEndDate?.toString());
+
                               return ArticleCardWidget(
                                 onTap: () {
                                   Navigator.push(
@@ -129,10 +143,14 @@ class _DiscountPageState extends State<DiscountPage> {
                                           .toCapitalized(),
                                       date: discount.createDate,
                                       isDiscount: true,
-                                      discountAddress:
-                                          discount.discountLocation.toString(),
-                                      discountDuration:
-                                          "${DateFormat('dd.MM.yyyy').format(DateTime.parse(discount.discountStartDate.toString()))} - ${DateFormat('dd.MM.yyyy').format(DateTime.parse(discount.discountEndDate.toString()))}",
+                                      discountAddress: discount.discountLocation
+                                              ?.toString() ??
+                                          '',
+                                      discountDuration: discount
+                                                  .discountStartDate !=
+                                              null
+                                          ? "${_formatDiscountDate(discount.discountStartDate?.toString())} - $endDateFormatted"
+                                          : endDateFormatted,
                                       phoneShortNumber: discount
                                               .phoneNumberShort
                                               ?.toString() ??
@@ -145,12 +163,7 @@ class _DiscountPageState extends State<DiscountPage> {
                                 },
                                 title: discount.title.toCapitalized(),
                                 description: "Акция до {date}".tr(namedArgs: {
-                                  "date": discount.discountEndDate != null
-                                      ? DateFormat('dd.MM.yyyy').format(
-                                          DateTime.parse(discount
-                                              .discountEndDate
-                                              .toString()))
-                                      : "дата не указана" // Fallback if null
+                                  "date": endDateFormatted,
                                 }),
                                 image: discount.primaryImage,
                               );

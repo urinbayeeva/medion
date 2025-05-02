@@ -13,6 +13,7 @@ import 'package:medion/presentation/pages/appointment/payment_web_view.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/constants.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -48,8 +49,7 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
       }
 
       final response = await http.get(
-        Uri.parse(
-            'https://his.uicgroup.tech/apiweb/profile/patient_analysis_mobile'),
+        Uri.parse('${Constants.baseUrlP}/profile/patient_analysis_mobile'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',

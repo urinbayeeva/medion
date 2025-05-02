@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:medion/domain/models/models.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:medion/utils/constants.dart';
 
 class ApiService {
   static Future<List<Service>> fetchServices(
     List<int> serviceIds, {
-    int days = 15, //
+    int days = 7, //
   }) async {
     final dbService = await DBService.create;
     final token = dbService.token;
@@ -18,7 +19,7 @@ class ApiService {
       throw Exception('Token has expired');
     }
 
-    final uri = Uri.parse('https://his.uicgroup.tech/apiweb/booking/doctors')
+    final uri = Uri.parse('${Constants.baseUrlP}/booking/doctors')
         .replace(queryParameters: {'days': days.toString()});
 
     final response = await http.post(

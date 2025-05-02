@@ -7,6 +7,8 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:medion/utils/constants.dart';
+
 class RecommendationsWidget extends StatefulWidget {
   const RecommendationsWidget({super.key});
 
@@ -33,7 +35,7 @@ class _RecommendationsWidgetState extends State<RecommendationsWidget> {
       }
 
       final response = await http.get(
-        Uri.parse('https://his.uicgroup.tech/apiweb/profile/recommendations'),
+        Uri.parse('${Constants.baseUrlP}/profile/recommendations'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',

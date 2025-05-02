@@ -23,6 +23,8 @@ Future<void> main() async {
     Bloc.observer = LogBlocObserver();
   }
 
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   HttpOverrides.global = MyHttpOverrides();
 
   runZonedGuarded(() async {

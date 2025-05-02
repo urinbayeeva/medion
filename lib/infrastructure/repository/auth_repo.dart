@@ -266,8 +266,8 @@ class AuthRepository implements IAuthFacade {
 
 ///
 Future<List<dynamic>> fetchServiceData() async {
-  final response = await http
-      .get(Uri.parse('https://his.uicgroup.tech/apiweb/booking/doctors'));
+  final response =
+      await http.get(Uri.parse('${Constants.baseUrlP}/booking/doctors'));
 
   if (response.statusCode == 200) {
     // Parse the JSON response

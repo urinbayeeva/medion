@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' show Client, MultipartFile;
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
@@ -262,7 +263,7 @@ base class _Client extends ChopperClient {
             baseUrl: Uri.parse(baseUrl),
             interceptors: useInterceptors
                 ? [
-                    CoreInterceptor(dbService),
+                    CoreInterceptor(dbService, alice.getNavigatorKey()!),
                     if (AppConfig.shared.flavor == Flavor.dev) ...[],
                     HttpLoggingInterceptor(),
                     HtmlDecodeInterceptor(),

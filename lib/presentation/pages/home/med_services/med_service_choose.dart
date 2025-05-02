@@ -13,6 +13,7 @@ import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:http/http.dart' as http;
+import 'package:medion/utils/constants.dart';
 import 'dart:convert';
 
 import 'package:medion/utils/helpers/decode_html.dart';
@@ -111,11 +112,11 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
           throw Exception('Doctor ID is required for doctor services');
         }
         uri = Uri.parse(
-          'https://his.uicgroup.tech/apiweb/booking/services_by_doctor/${widget.doctorId}',
+          '${Constants.baseUrlP}/booking/services_by_doctor/${widget.doctorId}',
         );
       } else {
         uri = Uri.parse(
-          'https://his.uicgroup.tech/apiweb/booking/category_services/${widget.serviceTypeId}',
+          '${Constants.baseUrlP}/booking/category_services/${widget.serviceTypeId}',
         );
       }
 

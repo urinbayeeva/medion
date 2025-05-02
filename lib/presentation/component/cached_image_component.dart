@@ -65,8 +65,10 @@ class CachedImageComponent extends StatelessWidget {
                         placeholder: (context, url) => const Center(
                           child: AppLoadingComponent(),
                         ),
-                        errorWidget: (context, _, __) =>
-                            icons.other.svg(width: width, height: height),
+                        errorWidget: (context, _, __) => Image.asset(
+                            "assets/images/new_medion_chatgpt.png",
+                            width: width,
+                            height: height),
                       )
                     : Image.file(
                         File(imageUrl),
