@@ -8,6 +8,7 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
+import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -15,7 +16,6 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:http/http.dart' as http;
 import 'package:medion/utils/constants.dart';
 import 'dart:convert';
-
 import 'package:medion/utils/helpers/decode_html.dart';
 
 class MedServiceChoose extends StatefulWidget {
@@ -45,55 +45,54 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
   bool changeSum = false;
   DBService? dbService;
   String _currentFilter = 'all';
-
-  List<dynamic> get _filteredCategories {
-    if (_currentFilter == 'all') return _categories;
-
-    final filtered = _categories
-        .map((category) {
-          final filteredServices =
-              (category['services'] as List).where((service) {
-            if (_currentFilter == 'adult') return service['is_child'] == false;
-            if (_currentFilter == 'child') return service['is_child'] == true;
-            return true;
-          }).toList();
-
-          return {
-            'category_name': category['category_name'],
-            'services': filteredServices,
-          };
-        })
-        .where((category) => (category['services'] as List).isNotEmpty)
-        .toList();
-
-    return filtered;
-  }
-
-  void _showFilterDialog() {
-    showModalBottomSheet(
-      backgroundColor: Style.shade0,
-      context: context,
-      isDismissible: true,
-      isScrollControlled: true,
-      enableDrag: true,
-      builder: (context) {
-        return FilterDialog(
-          onFilterApplied: (filter) {
-            setState(() {
-              _currentFilter = filter;
-            });
-          },
-          currentFilter: _currentFilter,
-        );
-      },
-    );
-  }
+  TextEditingController _searchController = TextEditingController();
+  List<dynamic> _filteredBySearch = [];
+  bool _isSearching = false;
 
   @override
   void initState() {
     super.initState();
+    _searchController.addListener(_onSearchChanged);
     _initializeDBService();
     _fetchServices();
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    if (_searchController.text.isEmpty) {
+      setState(() {
+        _isSearching = false;
+        _filteredBySearch = [];
+      });
+    } else {
+      final query = _searchController.text.toLowerCase();
+      setState(() {
+        _isSearching = true;
+        _filteredBySearch = _filteredCategories
+            .map((category) {
+              final filteredServices =
+                  (category['services'] as List).where((service) {
+                final name = service['name']?.toString().toLowerCase() ?? '';
+                final description =
+                    service['description']?.toString().toLowerCase() ?? '';
+                return name.contains(query) || description.contains(query);
+              }).toList();
+
+              return {
+                'category_name': category['category_name'],
+                'services': filteredServices,
+              };
+            })
+            .where((category) => (category['services'] as List).isNotEmpty)
+            .toList();
+      });
+    }
   }
 
   Future<void> _initializeDBService() async {
@@ -140,6 +139,51 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
         _isLoading = false;
       });
     }
+  }
+
+  List<dynamic> get _filteredCategories {
+    if (_currentFilter == 'all') return _categories;
+
+    final filtered = _categories
+        .map((category) {
+          final filteredServices =
+              (category['services'] as List).where((service) {
+            if (_currentFilter == 'adult') return service['is_child'] == false;
+            if (_currentFilter == 'child') return service['is_child'] == true;
+            return true;
+          }).toList();
+
+          return {
+            'category_name': category['category_name'],
+            'services': filteredServices,
+          };
+        })
+        .where((category) => (category['services'] as List).isNotEmpty)
+        .toList();
+
+    return filtered;
+  }
+
+  void _showFilterDialog() {
+    showModalBottomSheet(
+      backgroundColor: Style.shade0,
+      context: context,
+      isDismissible: true,
+      isScrollControlled: true,
+      enableDrag: true,
+      builder: (context) {
+        return FilterDialog(
+          onFilterApplied: (filter) {
+            setState(() {
+              _currentFilter = filter;
+              // Clear search when filter changes
+              _searchController.clear();
+            });
+          },
+          currentFilter: _currentFilter,
+        );
+      },
+    );
   }
 
   void _handleServiceSelection(Map<String, dynamic> service) {
@@ -214,6 +258,14 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                 title: "selecting_service".tr(),
                 centerTitle: true,
                 isBack: true,
+                bottom: Padding(
+                  padding: EdgeInsets.only(bottom: 8.h),
+                  child: CustomTextField(
+                    controller: _searchController,
+                    hintText: "search_doctors".tr(),
+                    prefixIcon: icons.search.svg(),
+                  ),
+                ),
                 trailing: Row(
                   children: [
                     AnimatedRotation(
@@ -256,7 +308,10 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
       return Center(child: Text(_error!));
     }
 
-    if (_filteredCategories.isEmpty) {
+    final displayCategories =
+        _isSearching ? _filteredBySearch : _filteredCategories;
+
+    if (displayCategories.isEmpty) {
       return Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -267,7 +322,9 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
             height: 78.h,
           ),
           Text(
-            'no_result_found'.tr(),
+            _isSearching
+                ? 'try_different_search'.tr()
+                : 'no_results_found'.tr(),
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
           ),
         ],
@@ -279,9 +336,9 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
         Expanded(
           child: ListView.builder(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-            itemCount: _filteredCategories.length,
+            itemCount: displayCategories.length,
             itemBuilder: (context, index) {
-              final category = _filteredCategories[index];
+              final category = displayCategories[index];
               return _ServiceCategoryTile(
                 categoryName: category['category_name'] ?? 'Unnamed Category',
                 services:

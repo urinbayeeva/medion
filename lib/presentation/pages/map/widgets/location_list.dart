@@ -60,8 +60,8 @@ class LocationList extends StatelessWidget {
                           const SizedBox(width: 10),
                           CachedNetworkImage(
                             imageUrl: location.icon,
-                            width: 60.w,
-                            height: 64.h,
+                            width: 40.w,
+                            height: 40.h,
                           ),
                           const SizedBox(width: 8),
                           Expanded(
