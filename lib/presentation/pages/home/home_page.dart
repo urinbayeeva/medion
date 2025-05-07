@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:medion/presentation/pages/home/med_services/med_service_choose.d
 import 'package:medion/presentation/pages/home/news/news_page.dart';
 import 'package:medion/presentation/pages/home/yandex_on_tap.dart';
 import 'package:medion/presentation/pages/map/map_page.dart';
+import 'package:medion/presentation/pages/map/map_with_polylines.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/utils/helpers/decode_html.dart';
 import 'package:provider/provider.dart';
@@ -470,16 +472,26 @@ class _HomePageState extends State<HomePage> {
           children: state.companyLocations
               .map((location) => AdressItem(
                     yandexOnTap: () {
-                      launchYandexTaxi(context, location.position.latitude,
-                          location.position.longitude);
+                      launchYandexTaxi(
+                        context,
+                        location.position.latitude,
+                        location.position.longitude,
+                      );
                     },
                     address: location.address,
                     onTap: () {
                       context.read<BottomNavBarController>().changeNavBar(true);
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MapPage())).then((_) {
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MapWithPolylines(
+                            destination: LatLng(
+                              location.position.latitude,
+                              location.position.longitude,
+                            ),
+                          ),
+                        ),
+                      ).then((_) {
                         context
                             .read<BottomNavBarController>()
                             .changeNavBar(false);
@@ -525,7 +537,7 @@ class _HomePageState extends State<HomePage> {
                 imagePath: doctor['image'].toString(),
                 name: doctor['name'].toString(),
                 profession: doctor['profession'].toString(),
-                status: doctor['info_description'].toString(),
+                status: doctor['profession'].toString(),
                 gender: doctor['gender'].toString(),
                 candidateScience: false,
                 isInnerPageUsed: true,

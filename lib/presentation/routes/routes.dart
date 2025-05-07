@@ -38,6 +38,7 @@ import 'package:medion/presentation/pages/auth/sign_up/sign_up_page.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_email.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_phone.dart';
 import 'package:medion/presentation/pages/auth/sign_up/verify_code_page.dart';
+import 'package:medion/presentation/pages/map/map_with_polylines.dart';
 import 'package:medion/presentation/pages/onboarding/onboarding_page.dart';
 import 'package:medion/presentation/pages/others/about_health/about_health_page.dart';
 import 'package:medion/presentation/pages/others/article/article_page.dart';
@@ -720,6 +721,10 @@ class AppRoutes {
   static MaterialPageRoute getMedServicesPage() {
     return MaterialPageRoute(builder: (_) => const MedServicesPage());
   }
+
+  // static MaterialPageRoute getMapWithPolylines() {
+  //   return MaterialPageRoute(builder: (_) => const MapWithPolylines());
+  // }
 
   static MaterialPageRoute getOffertaPage() {
     return MaterialPageRoute(

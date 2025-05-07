@@ -82,32 +82,12 @@ class _AdsState extends State<Ads> {
                         Center(
                           child: CachedImageComponent(
                             width: double.infinity,
-                            height: index == 0 ? 250 : 130,
+                            height: 250,
                             imageUrl: ad.image!,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
-                        Positioned(
-                          bottom: index == 0 ? -10 : -15,
-                          left: 10,
-                          right: 20,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CButton(
-                                width: 140.w,
-                                height: 40,
-                                backgroundColor: colors.neutral200,
-                                textColor: colors.primary900,
-                                title: "Подробнее".tr(),
-                                onTap: () {
-                                  _launchUrl(ad.link.toString());
-                                },
-                              ),
-                              12.h.verticalSpace,
-                            ],
-                          ),
-                        ),
+                        //
                       ],
                     ),
                   ),
