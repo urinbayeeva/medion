@@ -7,7 +7,7 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 class ServiceWidget extends StatelessWidget {
   final String consultInfo;
   final String consultPrice;
-  final bool isSelected; // Indicates if the service is selected
+  final bool isSelected;
   final VoidCallback onTap;
 
   const ServiceWidget({

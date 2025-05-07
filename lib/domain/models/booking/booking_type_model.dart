@@ -251,6 +251,7 @@ abstract class MedicalModel
   BuiltList<HomeServiceBooking> get services;
 
   String get decodedTitle => decodeHtml(description);
+  String get cleanedDescription => cleanDescription(decodedTitle);
 
   MedicalModel._();
   factory MedicalModel([void Function(MedicalModelBuilder) updates]) =

@@ -26,11 +26,18 @@ class MedServiceDoctorChose extends StatefulWidget {
 class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
   ValueNotifier<List<Map<String, String>>> selectedAppointments =
       ValueNotifier([]);
+  Future<List<Service>>? _servicesFuture;
 
   @override
   void dispose() {
     selectedAppointments.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    _servicesFuture = ApiService.fetchServices(widget.servicesID);
+    super.initState();
   }
 
   void addAppointment(Map<String, String> appointment) {
@@ -77,7 +84,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
               12.h.verticalSpace,
               Expanded(
                 child: FutureBuilder<List<Service>>(
-                  future: ApiService.fetchServices(widget.servicesID),
+                  future: _servicesFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -252,6 +259,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                   return Padding(
                     padding: EdgeInsets.only(bottom: 10.h),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         CircleAvatar(
                           backgroundColor: colors.neutral500,

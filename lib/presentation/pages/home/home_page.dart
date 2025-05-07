@@ -136,8 +136,7 @@ class _HomePageState extends State<HomePage> {
                             print(
                                 "Medical services: ${state.medicalServices}"); // Debugging line
                             if (state.medicalServices.isEmpty) {
-                              return const Center(
-                                  child: Text("No medical services available"));
+                              return SizedBox.shrink();
                             }
                             return SizedBox(
                               height: 140.h,
@@ -157,13 +156,11 @@ class _HomePageState extends State<HomePage> {
                                             .read<BottomNavBarController>()
                                             .changeNavBar(true);
                                         Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const MedServiceChoose(
-                                                        isDoctorService: false,
-                                                        serviceTypeId:
-                                                            19))).then((_) {
+                                          context,
+                                          AppRoutes.getDirectionInfoPage(
+                                              id: medicalService.categoryId!!,
+                                              name: medicalService.title),
+                                        ).then((_) {
                                           context
                                               .read<BottomNavBarController>()
                                               .changeNavBar(false);
@@ -198,8 +195,7 @@ class _HomePageState extends State<HomePage> {
                                                   fontWeight: FontWeight.w500,
                                                   color: colors.primary900,
                                                 ),
-                                                textAlign: TextAlign
-                                                    .center, // Ensure uniform text alignment
+                                                textAlign: TextAlign.center,
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                               ),

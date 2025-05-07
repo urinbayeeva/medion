@@ -7,7 +7,7 @@ import 'package:medion/utils/constants.dart';
 class ApiService {
   static Future<List<Service>> fetchServices(
     List<int> serviceIds, {
-    int days = 7, //
+    int days = 5,
   }) async {
     final dbService = await DBService.create;
     final token = dbService.token;

@@ -110,15 +110,12 @@ class _ServicesPageState extends State<ServicesPage> {
                                   .changeNavBar(true);
                             },
                             child: ListTile(
-                              leading: item.icon == null
-                                  ? icons.diagnostic
-                                      .svg(color: colors.primary900)
-                                  : SvgPicture.asset(
-                                      item.icon!,
-                                      fit: BoxFit.cover,
-                                      placeholderBuilder: (context) =>
-                                          const Icon(Icons.error,
-                                              color: Colors.grey),
+                              leading: item.icon == null || item.icon == ""
+                                  ? icons.diagnostic.svg(color: colors.error500)
+                                  : CachedNetworkImage(
+                                      width: 40.w,
+                                      height: 40.h,
+                                      imageUrl: item.icon!,
                                     ),
                               title: Text(
                                 item.name,

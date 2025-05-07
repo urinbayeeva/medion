@@ -36,7 +36,8 @@ class MedicalDirectionItem extends StatelessWidget {
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(8.r),
                   child: iconPath == null || iconPath == ""
-                      ? icons.stethoscope.svg()
+                      ? icons.stethoscope.svg(
+                          color: colors.error500, width: 50.w, height: 50.h)
                       : CachedNetworkImage(
                           imageUrl: iconPath!,
                           width: 50.w,

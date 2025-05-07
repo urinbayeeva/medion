@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
@@ -33,25 +35,25 @@ class _VisitInfoCardState extends State<VisitInfoCard> {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return SizedBox(
-        child: Card(
-          elevation: 0,
-          color: colors.shade0,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 3.w,
-                height: 70.h,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.r),
-                    color: widget.visitStatus! == "Paid"
-                        ? const Color(0xFF0E73F6).withOpacity(0.3)
-                        : const Color(0xFFFFA41B).withOpacity(0.3)),
-              ),
-              8.w.horizontalSpace,
-              Column(
+      return Card(
+        elevation: 0,
+        color: colors.shade0,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 3.w,
+              height: 70.h,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.r),
+                  color: widget.visitStatus! == "Paid"
+                      ? const Color(0xFF0E73F6).withOpacity(0.3)
+                      : const Color(0x00d90506).withOpacity(0.3)),
+            ),
+            8.w.horizontalSpace,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 4.h,
                 children: [
@@ -63,13 +65,13 @@ class _VisitInfoCardState extends State<VisitInfoCard> {
                         borderRadius: BorderRadius.circular(60.r),
                         color: widget.visitStatus! == "Paid"
                             ? const Color(0xFF0E73F6).withOpacity(0.3)
-                            : const Color(0xFFFFA41B).withOpacity(0.3)),
+                            : const Color(0x00d90506).withOpacity(0.3)),
                     child: Text(
                       widget.visitStatus!,
                       style: fonts.xSmallMain.copyWith(
                           color: widget.visitStatus! == "Paid"
                               ? const Color(0xFF0E73F6)
-                              : const Color(0xFFFFA41B)),
+                              : const Color(0xFFD90506)),
                     ),
                   ),
                   Text(widget.doctorJob!,
@@ -77,9 +79,9 @@ class _VisitInfoCardState extends State<VisitInfoCard> {
                           fonts.xSmallMain.copyWith(color: colors.neutral600))
                 ],
               ),
-              Flexible(child: Text(widget.visitTime!, style: fonts.xSmallLink)),
-            ],
-          ),
+            ),
+            Flexible(child: Text(widget.visitTime!, style: fonts.xSmallLink)),
+          ],
         ),
       );
     });

@@ -11,6 +11,7 @@ import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/recruitment/recruitment_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
+import 'package:medion/domain/models/visit/visit_new_model.dart';
 import 'package:medion/domain/success_model/response_model.dart';
 
 import 'package:medion/domain/success_model/success_model.dart';
@@ -100,6 +101,8 @@ part 'serializer.g.dart';
   VisitRequest,
   VisitOrder,
   OrderVisit,
+  VisitResponse,
+  Visit,
 
   //Map
   Position,
