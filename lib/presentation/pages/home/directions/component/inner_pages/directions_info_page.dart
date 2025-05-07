@@ -186,13 +186,15 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
           ),
           if (selectedIndex == 0) ...[
             if (!hasDoctors && !hasServices && !hasDescription) ...[
-              250.h.verticalSpace,
-              Center(
-                child: Text(
-                  "no_general_information_found".tr(),
-                  style: fonts.regularMain.copyWith(
-                    color: colors.primary900,
-                    fontSize: 16.sp,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Center(
+                  child: Text(
+                    "no_general_information_found".tr(),
+                    style: fonts.regularMain.copyWith(
+                      color: colors.primary900,
+                      fontSize: 16.sp,
+                    ),
                   ),
                 ),
               ),
@@ -218,11 +220,16 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
               _buildSectionTitle('doctors'.tr(), fonts),
               _buildDoctorsGrid(state, icons),
             ] else ...[
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 12.h),
-                child: Text(
-                  "no_result_found".tr(),
-                  style: Style.regularMain(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Center(
+                  child: Text(
+                    "no_result_found".tr(),
+                    style: fonts.regularMain.copyWith(
+                      color: colors.primary900,
+                      fontSize: 16.sp,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -232,11 +239,16 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
               _buildSectionTitle('services'.tr(), fonts),
               _buildServicesList(state),
             ] else ...[
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 12.h),
-                child: Text(
-                  "no_result_found".tr(),
-                  style: Style.regularMain(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Center(
+                  child: Text(
+                    "no_result_found".tr(),
+                    style: fonts.regularMain.copyWith(
+                      color: colors.primary900,
+                      fontSize: 16.sp,
+                    ),
+                  ),
                 ),
               ),
             ],
