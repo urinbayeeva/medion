@@ -51,5 +51,9 @@
   "leave_resume_contact": "Leave your resume and contact details, we will contact you.",
   "no_results_found": "No results found",
   "try_different_search": "Try a different search",
+  "distance": "Distance",
+  "travel_time": "Estimated time",
+  "minutes": "{} min",
+  "hours": "{} h",
   "": ""
 }

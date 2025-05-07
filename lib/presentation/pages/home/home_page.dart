@@ -485,6 +485,9 @@ class _HomePageState extends State<HomePage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => MapWithPolylines(
+                            name: location.address,
+                            workingHours: location.workHours,
+                            image: location.icon,
                             destination: LatLng(
                               location.position.latitude,
                               location.position.longitude,

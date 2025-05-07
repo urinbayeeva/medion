@@ -380,5 +380,9 @@
     "search_doctors": "Поиск врачей",
     "no_results_found": "Результаты не найдены",
     "try_different_search": "Попробуйте другой запрос",
+    "distance": "Расстояние",
+    "travel_time": "Примерное время",
+    "minutes": "{} мин",
+    "hours": "{} ч",
     "": ""
 }

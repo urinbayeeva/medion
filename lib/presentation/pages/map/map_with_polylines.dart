@@ -1,20 +1,30 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:medion/presentation/pages/home/yandex_on_tap.dart';
+import 'package:medion/presentation/pages/map/widgets/map_polylines_widget.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/helpers/get_location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as maps;
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../styles/style.dart';
 
 class MapWithPolylines extends StatefulWidget {
   final LatLng destination;
+  final String name;
+  final String workingHours;
+  final String image;
 
   const MapWithPolylines({
     super.key,
     required this.destination,
+    required this.name,
+    required this.workingHours,
+    required this.image,
   });
 
   @override
@@ -61,9 +71,9 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
     double hours = _distanceInKm / 5;
     if (hours < 1) {
       int minutes = (hours * 60).round();
-      _travelTime = '$minutes min';
+      _travelTime = tr('minutes', args: [minutes.toString()]);
     } else {
-      _travelTime = '${hours.toStringAsFixed(1)} h';
+      _travelTime = tr('hours', args: [hours.toStringAsFixed(1)]);
     }
 
     setState(() {});
@@ -90,7 +100,10 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Scaffold(
         body: _currentPosition == null
-            ? const Center(child: CircularProgressIndicator())
+            ? Center(
+                child: CircularProgressIndicator(
+                color: colors.error500,
+              ))
             : Stack(
                 children: [
                   GoogleMap(
@@ -120,7 +133,7 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
                       Marker(
                         markerId: const MarkerId('destination'),
                         position: widget.destination,
-                        infoWindow: const InfoWindow(title: 'Destination'),
+                        infoWindow: InfoWindow(title: widget.name),
                       ),
                     },
                   ),
@@ -130,7 +143,7 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
                       child: IconButton(
-                        icon: Icon(Icons.close, color: Colors.black),
+                        icon: const Icon(Icons.close, color: Colors.black),
                         onPressed: () {
                           context
                               .read<BottomNavBarController>()
@@ -179,6 +192,26 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
                         ),
                       ),
                     ),
+                  // Enhanced bottom container
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: MapPolylinesWidget(
+                      yandexTap: () {
+                        launchYandexTaxi(
+                          context,
+                          widget.destination.latitude,
+                          widget.destination.longitude,
+                        );
+                      },
+                      name: widget.name,
+                      workingHours: widget.workingHours,
+                      image: widget.image,
+                      distanceKm: _distanceInKm,
+                      travelTime: '',
+                    ),
+                  ),
                 ],
               ),
       );
@@ -210,7 +243,7 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
     _mapController!.animateCamera(
       maps.CameraUpdate.newLatLngBounds(
         bounds,
-        100, // padding
+        180,
       ),
     );
   }

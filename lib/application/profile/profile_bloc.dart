@@ -10,6 +10,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
+import 'package:medion/utils/constants.dart';
 
 part 'profile_bloc.freezed.dart';
 part 'profile_event.dart';
@@ -73,7 +74,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       String base64Image = base64Encode(imageBytes);
 
       Response response = await _dio.post(
-        'https://his.uicgroup.tech/apiweb/profile/patient_image',
+        '${Constants.baseUrlP}/profile/patient_image',
         options: Options(
           headers: {
             'accept': 'application/json',

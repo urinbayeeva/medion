@@ -51,7 +51,7 @@
   "visits": "Tashriflar",
   "profile": "Profil",
   "more": "Yana",
-  "order_taxi": "Taxi buyurtma qilish",
+  "order_taxi": "Taksi chaqirish",
   "doctors_of_medion": "Medion shifokorlari",
   "foreign_doctors": "Chet el shifokorlari",
   "filter": "Filtr",
@@ -380,5 +380,9 @@
   "search_doctors": "Shifokorlarni qidiring",
   "no_results_found": "Hech qanday natija topilmadi",
   "try_different_search": "Boshqa qidiruvni sinab ko'ring",
+  "distance": "Masofa",
+  "travel_time": "Taxminiy vaqt",
+  "minutes": "{} daqiqa",
+  "hours": "{} soat",
   "": ""
 }
