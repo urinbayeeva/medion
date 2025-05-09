@@ -69,6 +69,8 @@ Future<void> main() async {
     } catch (e) {
       debugPrint(e.toString());
     }
+    final isFirstLaunch =
+        Hive.box('localDB').get('first_launch', defaultValue: true);
 
     runApp(EasyLocalization(
       supportedLocales: const [Locale('uz', 'UZ'), Locale('ru', 'RU')],
@@ -78,6 +80,7 @@ Future<void> main() async {
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
         builder: (context, child) => MyApp(
+          isFirstLaunch: isFirstLaunch,
           dbService: AppInit.dbService!,
           connectivityX: AppInit.connectivityX!,
         ),
