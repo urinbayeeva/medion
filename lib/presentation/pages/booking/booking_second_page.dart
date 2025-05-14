@@ -53,7 +53,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
   late final SelectedServicesProvider _servicesProvider;
   int chose = 0;
   int? selectedIndex;
-  List<dynamic> selectedServices = [];
+  List<Service> selectedServices = [];
   final List<int> selectedServiceIDCatch = [];
   double turns = 0.0;
   bool changeSum = false;
@@ -115,7 +115,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
           .where((service) =>
               _serviceIdsProvider.selectedServiceIds.contains(service.id))
           .toList();
-      chose = selectedServices.length;
+      chose = selectedServices.length - 1;
       selectedServiceIDCatch.clear();
       selectedServiceIDCatch.addAll(_serviceIdsProvider.selectedServiceIds);
       if (_searchController.text.isEmpty) {
@@ -286,7 +286,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                       ),
                     ),
                     const CustomProgressBar(
-                      count: 1 + 2,
+                      count: 1,
                       allCount: 5,
                     ),
                     2.h.verticalSpace,
@@ -312,7 +312,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                 },
                 builder: (context, state) {
                   if (state.categoryServices.isEmpty) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const SizedBox.shrink();
                   }
 
                   final categoriesToDisplay = _searchController.text.isNotEmpty

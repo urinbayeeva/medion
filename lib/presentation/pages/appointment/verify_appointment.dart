@@ -24,6 +24,7 @@ import 'package:medion/presentation/pages/appointment/component/verify_appointme
 import 'package:medion/presentation/pages/appointment/payment_page.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 class VerifyAppointment extends StatefulWidget {
@@ -96,6 +97,7 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                         final appointment = selectedList.first;
                         final success =
                             await sendVisitRequest(appointment, context);
+                        print("VISIT DATA: ${appointment}");
                         if (success) {
                           if (widget.isHome) {
                             Navigator.push(
@@ -151,7 +153,7 @@ Future<bool> sendVisitRequest(
     return false;
   }
 
-  final url = Uri.parse('https://his.uicgroup.tech/apiweb/create_visit');
+  final url = Uri.parse('${Constants.baseUrlP}/create_visit');
 
   final requestBody = [
     {
@@ -164,6 +166,7 @@ Future<bool> sendVisitRequest(
     }
   ];
 
+  print("REQUEST BODY: ${requestBody}");
   try {
     EasyLoading.show(status: "Loading...");
 

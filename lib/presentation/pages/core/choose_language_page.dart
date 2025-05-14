@@ -64,6 +64,7 @@ class ChooseLanguagePage extends StatelessWidget {
                       backgroundColor: colors.primary500,
                       title: "next".tr(),
                     ),
+                    // 24.h.verticalSpace,
                   ],
                 ),
               ),

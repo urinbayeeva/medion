@@ -384,5 +384,7 @@
   "travel_time": "Taxminiy vaqt",
   "minutes": "{} daqiqa",
   "hours": "{} soat",
+  "want_to_logout": "Tizimdan chiqishni xohlaysizmi?",
+  "back_to": "Ortga qaytish",
   "": ""
 }

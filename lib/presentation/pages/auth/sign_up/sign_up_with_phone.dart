@@ -202,7 +202,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                         16.h.verticalSpace,
                         CustomButton(
                             isDisabled:
-                                _phoneNumberController.text.length < 17 &&
+                                _phoneNumberController.text.length < 17 ||
                                     _isAccepted == false,
                             title: "send_code".tr(),
                             onPressed: () async {

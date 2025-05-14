@@ -6,8 +6,4 @@ List<Map<String, dynamic>> settingsData = [
     "title": "call_center".tr(),
     "icon": IconSet.create.phone,
   },
-  {
-    "title": "logout".tr(),
-    "icon": IconSet.create.logOut,
-  },
 ];

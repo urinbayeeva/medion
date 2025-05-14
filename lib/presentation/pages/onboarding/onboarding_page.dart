@@ -123,7 +123,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
       return Align(
         alignment: Alignment.topRight,
         child: AnimationButtonEffect(
-          onTap: () => _pageController.jumpToPage(2),
+          onTap: () {
+            Navigator.push(context, AppRoutes.getSignUpPage());
+          },
           child: Text("skip".tr(),
               style: fonts.smallText.copyWith(
                   color: colors.neutral600,

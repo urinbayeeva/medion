@@ -1,7 +1,8 @@
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
+import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -29,7 +30,6 @@ class _CBottomsheetProfileState extends State<CBottomsheetProfile> {
             topLeft: Radius.circular(24.r),
             topRight: Radius.circular(24.r),
           ),
-     
         ),
         child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -53,28 +53,36 @@ class _CBottomsheetProfileState extends State<CBottomsheetProfile> {
                         width: 24.w, height: 24.h, color: colors.primary500),
                   )),
               16.h.verticalSpace,
-              Text("want_to_logout", style: fonts.headlineMain),
+              Text("want_to_logout".tr(), style: fonts.headlineMain),
               26.h.verticalSpace,
               const CDivider(padding: false),
               16.h.verticalSpace,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
                       child: AnimationButtonEffect(
                         onTap: widget.onTapBack,
                         child: Text(
-                          "back_to",
+                          "back_to".tr(),
                           style: fonts.smallMain.copyWith(
                             fontSize: 18.sp,
+                            decoration: TextDecoration.underline,
                             fontWeight: FontWeight.w600,
                           ),
                           textAlign: TextAlign.center,
                         ),
                       ),
                     ),
-                   
+                    Expanded(
+                      child: CButton(
+                        borderRadius: 30.r,
+                        onTap: widget.onTapLogOut,
+                        title: "logout".tr(),
+                      ),
+                    ),
                   ],
                 ),
               ),

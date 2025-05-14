@@ -114,7 +114,17 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                             .toList();
 
                         if (availableDoctors.isEmpty)
-                          return const SizedBox.shrink();
+                          // ignore: curly_braces_in_flow_control_structures
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.7,
+                            child: Center(
+                              child: Text(
+                                "no_result_found".tr(),
+                                style:
+                                    fonts.regularMain.copyWith(fontSize: 18.sp),
+                              ),
+                            ),
+                          );
 
                         return Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),

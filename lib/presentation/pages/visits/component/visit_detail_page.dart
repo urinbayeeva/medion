@@ -29,6 +29,7 @@ class VisitDetailPage extends StatefulWidget {
   final double longitude;
   final double latitude;
   final String image;
+  final VoidCallback onTap;
   const VisitDetailPage(
       {super.key,
       this.categoryName,
@@ -43,7 +44,8 @@ class VisitDetailPage extends StatefulWidget {
       this.data,
       required this.longitude,
       required this.latitude,
-      required this.image});
+      required this.image,
+      required this.onTap});
 
   @override
   State<VisitDetailPage> createState() => _VisitDetailPageState();
@@ -85,8 +87,8 @@ class _VisitDetailPageState extends State<VisitDetailPage> {
                 child: CButton(
                   backgroundColor: colors.neutral200,
                   textColor: colors.primary900,
-                  title: "cancel_appointment".tr(),
-                  onTap: () {},
+                  title: "open_invoice".tr(),
+                  onTap: widget.onTap,
                 ),
               ),
               8.h.verticalSpace,

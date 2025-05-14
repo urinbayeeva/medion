@@ -62,34 +62,36 @@ class ServiceSelectionModal extends StatelessWidget {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          service.name ?? "",
-                          style: fonts.xSmallLink.copyWith(
-                              fontSize: 13.sp, fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          "Test Description",
-                          style: fonts.xSmallLink.copyWith(
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF66686C)),
-                        ),
-                        Text(
-                          "sum".tr(namedArgs: {
-                            "amount": formatNumber(
-                              service.priceUsd,
-                            )
-                          }),
-                          style: fonts.xSmallLink.copyWith(
-                            color: colors.primary900,
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            service.name ?? "",
+                            style: fonts.xSmallLink.copyWith(
+                                fontSize: 13.sp, fontWeight: FontWeight.w600),
                           ),
-                        ),
-                        if (index < selectedServices.length - 1)
-                          const CDivider(),
-                      ],
+                          Text(
+                            "Test Description",
+                            style: fonts.xSmallLink.copyWith(
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xFF66686C)),
+                          ),
+                          Text(
+                            "sum".tr(namedArgs: {
+                              "amount": formatNumber(
+                                service.priceUzs,
+                              )
+                            }),
+                            style: fonts.xSmallLink.copyWith(
+                              color: colors.primary900,
+                            ),
+                          ),
+                          if (index < selectedServices.length - 1)
+                            const CDivider(),
+                        ],
+                      ),
                     ),
                     AnimationButtonEffect(
                       onTap: () {

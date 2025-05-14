@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                             print(
                                 "Medical services: ${state.medicalServices}"); // Debugging line
                             if (state.medicalServices.isEmpty) {
-                              return SizedBox.shrink();
+                              return const SizedBox.shrink();
                             }
                             return SizedBox(
                               height: 140.h,
@@ -216,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                         BlocBuilder<BookingBloc, BookingState>(
                             builder: (context, state) {
                           if (state.homePageBookingCategory.isEmpty) {
-                            return SizedBox.shrink();
+                            return const SizedBox.shrink();
                           }
                           final limitedItems =
                               state.homePageBookingCategory.take(10).toList();
@@ -264,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                         BlocBuilder<DoctorBloc, DoctorState>(
                           builder: (context, state) {
                             if (state.error) {
-                              return SizedBox.shrink();
+                              return const SizedBox.shrink();
                             }
 
                             return Column(
@@ -278,6 +278,7 @@ class _HomePageState extends State<HomePage> {
                                   Navigator.push(context,
                                           AppRoutes.getAllDoctorsPage())
                                       .then((_) {
+                                    // ignore: use_build_context_synchronously
                                     context
                                         .read<BottomNavBarController>()
                                         .changeNavBar(false);
@@ -514,7 +515,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context, colors, fonts, icons, controller) {
         final limitedDoctors = doctors.take(10).toList();
         return SizedBox(
-          height: 340.h,
+          height: 350.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.zero,

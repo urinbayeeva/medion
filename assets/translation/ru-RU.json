@@ -384,5 +384,8 @@
     "travel_time": "Примерное время",
     "minutes": "{} мин",
     "hours": "{} ч",
+    "no_doctors_found": "",
+    "want_to_logout": "Вы действительно хотите выйти?",
+    "back_to": "Назад",
     "": ""
 }

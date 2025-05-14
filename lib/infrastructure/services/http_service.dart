@@ -1,10 +1,8 @@
 // import 'dart:convert';
-// import 'package:http/http.dart' as http;
-// import 'package:medion/domain/models/news_model/news_model.dart';
+// import 'package:http/http.dart' as http;// import 'package:medion/domain/models/news_model/news_model.dart';
 
 // import 'dart:convert';
-// import 'package:http/http.dart' as http;
-// import 'package:medion/domain/models/news_model/news_model.dart';
+// import 'package:http/http.dart' as http;// import 'package:medion/domain/models/news_model/news_model.dart';
 
 // Future<List<News>> fetchNews() async {
 //   final url = Uri.parse("https://his.uicgroup.tech/apiweb/home/news?lang=en");
@@ -20,7 +18,6 @@
 //     throw Exception('Failed to load news: ${response.statusCode}');
 //   }
 // }
-
 
 // class HttpService {
 //   Future<http.Response> get(Uri url) async {

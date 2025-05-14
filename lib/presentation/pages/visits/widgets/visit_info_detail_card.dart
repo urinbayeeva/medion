@@ -76,18 +76,16 @@ class VisitInfoDetailCard extends StatelessWidget {
                             serviceName ?? "N/A", fonts, colors),
                         const CDivider(),
                         _buildOverflowText(doctorName ?? "N/A", fonts, colors),
-                        _buildOverflowTextGrey(
-                            servicePrice?.toString() ?? "N/A", fonts, colors),
+                        _buildOverflowTextGrey("N/A", fonts, colors),
                         const CDivider(),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             icons.clock.svg(width: 12.w, height: 12.h),
                             4.w.horizontalSpace,
                             Expanded(
                               child: _buildOverflowText(
-                                formatVisitDate(context,
-                                    visitDate?.toCapitalized() ?? "N/A"),
+                                visitDate?.toCapitalized() ?? "N/A",
                                 fonts,
                                 colors,
                               ),
@@ -153,7 +151,8 @@ class VisitInfoDetailCard extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("${"payment_methods".tr()} : ",
+                  Text(
+                      "${"payment_method".tr()} : ${paymentMethod == "" ? "N/A" : paymentMethod} ",
                       style: fonts.smallLink.copyWith(
                           color: colors.primary900,
                           fontSize: 15.sp,

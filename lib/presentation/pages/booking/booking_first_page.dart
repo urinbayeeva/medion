@@ -74,7 +74,7 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                     ),
                   ),
                   const CustomProgressBar(
-                    count: 1 + 1,
+                    count: 1,
                     allCount: 5,
                   ),
                 ],

@@ -173,7 +173,7 @@ class _SettingPageState extends State<SettingPage> {
     }
 
     if (index == 0) {
-      makePhoneCall("+998958098661");
+      makePhoneCall("+998781400010");
     } else {
       setNavBarState(true);
       showModalBottomSheet(

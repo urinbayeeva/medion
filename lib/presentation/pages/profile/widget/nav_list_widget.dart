@@ -6,6 +6,8 @@ import 'package:medion/presentation/pages/profile/widget/nav_list_data.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:provider/provider.dart';
+import 'package:medion/presentation/component/c_bottomsheet_profile.dart';
 
 class NavListWidget extends StatelessWidget {
   final List? data;
@@ -33,7 +35,7 @@ class NavListWidget extends StatelessWidget {
               context: context,
               data: resolvedData[index],
               isLastItem: index == resolvedData.length - 1,
-              onTap: () => _handleNavTap(context, index),
+              onTap: () => _handleNavTap(context, index, resolvedData.length),
             );
           },
         ),
@@ -72,18 +74,44 @@ class NavListWidget extends StatelessWidget {
     });
   }
 
-  void _handleNavTap(BuildContext context, int index) {
-    final resolvedRoutes = routes ??
-        [
-          AppRoutes.getUserDetailsPage(),
-          AppRoutes.getResultsPage(),
-          AppRoutes.getRecipesPage(),
-          AppRoutes.getWalletPage(),
-          AppRoutes.getSettingsPage(),
-        ];
+  void _handleNavTap(BuildContext context, int index, int totalItems) {
+    if (index == totalItems - 1) {
+      context.read<BottomNavBarController>().changeNavBar(true);
+      _showProfileBottomSheet(context);
+    } else {
+      final resolvedRoutes = routes ??
+          [
+            AppRoutes.getUserDetailsPage(),
+            AppRoutes.getResultsPage(),
+            AppRoutes.getRecipesPage(),
+            AppRoutes.getWalletPage(),
+            AppRoutes.getSettingsPage(),
+          ];
 
-    if (index < resolvedRoutes.length) {
-      Navigator.push(context, resolvedRoutes[index]);
+      if (index < resolvedRoutes.length) {
+        Navigator.push(context, resolvedRoutes[index]);
+      }
     }
+  }
+
+  void _showProfileBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => CBottomsheetProfile(
+        onTapBack: () {
+          context.read<BottomNavBarController>().changeNavBar(false);
+          Navigator.pop(context);
+        },
+        onTapLogOut: () async {
+          context.read<BottomNavBarController>().changeNavBar(true);
+          Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+            AppRoutes.getSignUpPage(),
+            (Route<dynamic> route) => false,
+          );
+        },
+      ),
+    ).then((_) {
+      context.read<BottomNavBarController>().changeNavBar(false);
+    });
   }
 }
