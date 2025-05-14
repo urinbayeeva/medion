@@ -1,22 +1,39 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:formz/formz.dart';
+import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/application/selected_provider.dart';
+import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
+import 'package:medion/presentation/component/c_progress_bar.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
+import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
+import 'package:medion/presentation/component/phone_number_component.dart';
+import 'package:medion/presentation/pages/appointment/appointment_page.dart';
+import 'package:medion/presentation/pages/appointment/component/service_selection_model.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
+import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:http/http.dart' as http;
 import 'package:medion/utils/constants.dart';
+import 'package:medion/utils/format_currency.dart';
 import 'dart:convert';
 import 'package:medion/utils/helpers/decode_html.dart';
+import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MedServiceChoose extends StatefulWidget {
   final int serviceTypeId;
@@ -35,912 +52,1538 @@ class MedServiceChoose extends StatefulWidget {
 }
 
 class _MedServiceChooseState extends State<MedServiceChoose> {
-  List<dynamic> _categories = [];
-  bool _isLoading = true;
-  String? _error;
+  late final SelectedServiceIdsProvider _serviceIdsProvider;
+  late final SelectedServicesProvider _servicesProvider;
   int chose = 0;
-  List<Map<String, dynamic>> selectedServices = [];
-  Set<int> selectedServiceIDCatch = {};
+  int? selectedIndex;
+  List<Service> selectedServices = [];
+  final List<int> selectedServiceIDCatch = [];
   double turns = 0.0;
   bool changeSum = false;
-  DBService? dbService;
-  String _currentFilter = 'all';
-  TextEditingController _searchController = TextEditingController();
-  List<dynamic> _filteredBySearch = [];
-  bool _isSearching = false;
+  late DBService dbService;
+  late FocusNode focusNode;
+  late GlobalKey<FormState> _formKey;
+  late TextEditingController _phoneNumberController;
+  late TextEditingController _searchController;
+  List<Category> _filteredCategories = [];
+  Timer? _searchDebounce;
 
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(_onSearchChanged);
+
+    _phoneNumberController = TextEditingController(text: "+998 ");
+    _searchController = TextEditingController();
+    _formKey = GlobalKey<FormState>();
+    focusNode = FocusNode();
     _initializeDBService();
-    _fetchServices();
+    _serviceIdsProvider =
+        Provider.of<SelectedServiceIdsProvider>(context, listen: false);
+    _servicesProvider =
+        Provider.of<SelectedServicesProvider>(context, listen: false);
+    _serviceIdsProvider.addListener(_updateSelectedServices);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<BookingBloc>().add(
+            BookingEvent.fetchCategoryServices(id: widget.serviceTypeId),
+          );
+    });
+
+    _updateSelectedServices();
   }
 
   @override
   void dispose() {
-    _searchController.removeListener(_onSearchChanged);
+    _serviceIdsProvider.removeListener(_updateSelectedServices);
+    _phoneNumberController.dispose();
     _searchController.dispose();
+    focusNode.dispose();
+    _searchDebounce?.cancel();
     super.dispose();
-  }
-
-  void _onSearchChanged() {
-    if (_searchController.text.isEmpty) {
-      setState(() {
-        _isSearching = false;
-        _filteredBySearch = [];
-      });
-    } else {
-      final query = _searchController.text.toLowerCase();
-      setState(() {
-        _isSearching = true;
-        _filteredBySearch = _filteredCategories
-            .map((category) {
-              final filteredServices =
-                  (category['services'] as List).where((service) {
-                final name = service['name']?.toString().toLowerCase() ?? '';
-                final description =
-                    service['description']?.toString().toLowerCase() ?? '';
-                return name.contains(query) || description.contains(query);
-              }).toList();
-
-              return {
-                'category_name': category['category_name'],
-                'services': filteredServices,
-              };
-            })
-            .where((category) => (category['services'] as List).isNotEmpty)
-            .toList();
-      });
-    }
   }
 
   Future<void> _initializeDBService() async {
     dbService = await DBService.create;
     setState(() {
-      changeSum = dbService?.getCurrencyPreference ?? false;
+      changeSum = dbService.getCurrencyPreference;
     });
   }
 
-  Future<void> _fetchServices() async {
-    try {
-      final Uri uri;
+  void _updateSelectedServices() {
+    if (!mounted) return;
+    final bookingState = context.read<BookingBloc>().state;
+    setState(() {
+      selectedServices = bookingState.categoryServices
+          .expand((category) => category.services)
+          .where((service) =>
+              _serviceIdsProvider.selectedServiceIds.contains(service.id))
+          .toList();
+      chose = selectedServices.length - 1;
+      selectedServiceIDCatch.clear();
+      selectedServiceIDCatch.addAll(_serviceIdsProvider.selectedServiceIds);
+      if (_searchController.text.isEmpty) {
+        _filteredCategories = bookingState.categoryServices.toList();
+      }
+    });
+  }
 
-      if (widget.isDoctorService) {
-        if (widget.doctorId == null) {
-          throw Exception('Doctor ID is required for doctor services');
+  void _filterServices(String query) {
+    if (!mounted) return;
+
+    // Cancel any previous debounce timer
+    if (_searchDebounce?.isActive ?? false) _searchDebounce?.cancel();
+
+    // Set up new debounce timer
+    _searchDebounce = Timer(const Duration(milliseconds: 300), () {
+      if (!mounted) return;
+
+      final bookingState = context.read<BookingBloc>().state;
+      if (bookingState.categoryServices.isEmpty) return;
+
+      if (query.isEmpty) {
+        setState(() {
+          _filteredCategories =
+              List<Category>.from(bookingState.categoryServices);
+        });
+        return;
+      }
+
+      final lowercaseQuery = query.toLowerCase();
+      try {
+        final filtered = bookingState.categoryServices.where((category) {
+          final categoryName = category.name?.toString().toLowerCase() ?? '';
+          return categoryName.contains(lowercaseQuery) ||
+              category.services.any((service) {
+                final serviceName = service.name?.toLowerCase() ?? '';
+                final serviceDescription =
+                    service.decodedDescription.toLowerCase();
+                return serviceName.contains(lowercaseQuery) ||
+                    serviceDescription.contains(lowercaseQuery);
+              });
+        }).map((category) {
+          return Category((b) => b
+            ..name = category.name
+            ..services.replace(category.services.where((service) {
+              final serviceName = service.name?.toLowerCase() ?? '';
+              final serviceDescription =
+                  service.decodedDescription.toLowerCase();
+              return serviceName.contains(lowercaseQuery) ||
+                  serviceDescription.contains(lowercaseQuery);
+            }).toList()));
+        }).toList();
+
+        if (mounted) {
+          setState(() {
+            _filteredCategories = filtered;
+          });
         }
-        uri = Uri.parse(
-          '${Constants.baseUrlP}/booking/services_by_doctor/${widget.doctorId}',
-        );
-      } else {
-        uri = Uri.parse(
-          '${Constants.baseUrlP}/booking/category_services/${widget.serviceTypeId}',
-        );
+      } catch (e) {
+        debugPrint('Error filtering services: $e');
       }
-
-      final response = await http.get(uri);
-
-      if (response.statusCode == 200) {
-        final responseBody = utf8.decode(response.bodyBytes);
-        setState(() {
-          _categories = json.decode(responseBody);
-          _isLoading = false;
-        });
-      } else {
-        setState(() {
-          _error = 'no_result_found'.tr();
-          _isLoading = false;
-        });
-      }
-    } catch (e) {
-      setState(() {
-        _error = 'no_result_found'.tr();
-        _isLoading = false;
-      });
-    }
+    });
   }
 
-  List<dynamic> get _filteredCategories {
-    if (_currentFilter == 'all') return _categories;
+  @override
+  Widget build(BuildContext context) {
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        // Create a new RefreshController for this build
+        final RefreshController refreshController = RefreshController();
 
-    final filtered = _categories
-        .map((category) {
-          final filteredServices =
-              (category['services'] as List).where((service) {
-            if (_currentFilter == 'adult') return service['is_child'] == false;
-            if (_currentFilter == 'child') return service['is_child'] == true;
-            return true;
-          }).toList();
+        return Scaffold(
+          backgroundColor: colors.backgroundColor,
+          body: Column(
+            children: [
+              CAppBar(
+                  title: "selecting_service".tr(),
+                  centerTitle: true,
+                  isBack: true,
+                  bottom: Padding(
+                    padding: EdgeInsets.only(bottom: 8.h),
+                    child: CustomTextField(
+                      controller: _searchController,
+                      hintText: "search_doctors".tr(),
+                      prefixIcon: icons.search.svg(),
+                    ),
+                  ),
+                  trailing: Row(
+                    children: [
+                      AnimatedRotation(
+                          turns: turns,
+                          duration: const Duration(seconds: 1),
+                          child: AnimationButtonEffect(
+                              onTap: () {
+                                setState(() {
+                                  turns += 2 / 4;
+                                  changeSum = !changeSum;
+                                  dbService?.setCurrencyPreference(changeSum);
+                                });
+                              },
+                              child: icons.valyutaChange
+                                  .svg(width: 20.w, height: 20.h))),
+                      6.w.horizontalSpace,
+                      // AnimationButtonEffect(
+                      //     onTap: _showFilterDialog,
+                      //     child: icons.filter.svg(width: 20.w, height: 20.h)),
+                    ],
+                  )),
+              BlocConsumer<BookingBloc, BookingState>(
+                listener: (context, state) {
+                  if (state.categoryServices.isNotEmpty && mounted) {
+                    setState(() {
+                      if (_searchController.text.isEmpty) {
+                        _filteredCategories = state.categoryServices.toList();
+                      }
+                    });
+                  }
+                },
+                builder: (context, state) {
+                  if (state.categoryServices.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
 
-          return {
-            'category_name': category['category_name'],
-            'services': filteredServices,
-          };
-        })
-        .where((category) => (category['services'] as List).isNotEmpty)
-        .toList();
+                  final categoriesToDisplay = _searchController.text.isNotEmpty
+                      ? _filteredCategories
+                      : state.categoryServices;
 
-    return filtered;
-  }
+                  if (categoriesToDisplay.isEmpty) {
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.search_off,
+                                size: 48, color: colors.neutral400),
+                            16.h.verticalSpace,
+                            Text(
+                              _searchController.text.isEmpty
+                                  ? "no_services_available".tr()
+                                  : "no_search_results".tr(),
+                              style: Style.headlineMain()
+                                  .copyWith(color: colors.neutral500),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
 
-  void _showFilterDialog() {
-    showModalBottomSheet(
-      backgroundColor: Style.shade0,
-      context: context,
-      isDismissible: true,
-      isScrollControlled: true,
-      enableDrag: true,
-      builder: (context) {
-        return FilterDialog(
-          onFilterApplied: (filter) {
-            setState(() {
-              _currentFilter = filter;
-              // Clear search when filter changes
-              _searchController.clear();
-            });
-          },
-          currentFilter: _currentFilter,
+                  return Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: CustomListView(
+                        onRefresh: () async {
+                          if (!mounted) return;
+                          final selectedId = context
+                              .read<BookingBloc>()
+                              .state
+                              .selectedServiceId;
+                          context.read<BookingBloc>().add(
+                                BookingEvent.fetchCategoryServices(
+                                    id: selectedId!),
+                              );
+                          refreshController.refreshCompleted();
+                        },
+                        refreshController: refreshController,
+                        padding: EdgeInsets.only(top: 16.w),
+                        itemBuilder: (index, category) {
+                          var item = categoriesToDisplay[index];
+
+                          return CustomExpansionListTile(
+                            title:
+                                item.name is bool ? "" : item.name.toString(),
+                            description: item.services.isEmpty
+                                ? 'no_services_available'.tr()
+                                : 'services_list'.tr(),
+                            children: item.services.map((service) {
+                              return Container(
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                    top: BorderSide(
+                                        width: 1, color: Color(0xFFF2F2F3)),
+                                    bottom: BorderSide(
+                                        width: 1, color: Color(0xFFF2F2F3)),
+                                  ),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 12.h),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  service.name!,
+                                                  style: fonts.smallSemLink
+                                                      .copyWith(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  service.decodedDescription,
+                                                  style:
+                                                      fonts.smallLink.copyWith(
+                                                    color: colors.neutral600,
+                                                    fontSize: 11.sp,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                  softWrap: true,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                                Text(
+                                                  (widget.isDoctorService)
+                                                      ? "${formatNumber(service.priceUsd, isDecimal: true)} USD"
+                                                      : "${formatNumber(service.priceUzs)} UZS",
+                                                  style:
+                                                      fonts.smallLink.copyWith(
+                                                    color: colors.primary900,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 13.sp,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          AnimationButtonEffect(
+                                            onTap: () {
+                                              setState(() {
+                                                if (_servicesProvider
+                                                    .selectedServices
+                                                    .contains(service)) {
+                                                  _servicesProvider
+                                                      .removeService(service);
+                                                  _serviceIdsProvider
+                                                      .removeServiceId(
+                                                          service.id!);
+                                                  chose--;
+                                                } else {
+                                                  _servicesProvider
+                                                      .addService(service);
+                                                  _serviceIdsProvider
+                                                      .addServiceId(
+                                                          service.id!);
+                                                  chose++;
+                                                }
+                                                selectedServiceIDCatch.clear();
+                                                selectedServiceIDCatch.addAll(
+                                                    _serviceIdsProvider
+                                                        .selectedServiceIds);
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(12.w),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.r),
+                                                color: _servicesProvider
+                                                        .selectedServices
+                                                        .contains(service)
+                                                    ? colors.error500
+                                                    : colors.neutral200,
+                                              ),
+                                              child: _servicesProvider
+                                                      .selectedServices
+                                                      .contains(service)
+                                                  ? icons.check
+                                                      .svg(color: colors.shade0)
+                                                  : icons.plus.svg(
+                                                      color: colors.primary900),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          );
+                        },
+                        data: categoriesToDisplay,
+                        emptyWidgetModel:
+                            ErrorWidgetModel(title: "", subtitle: ""),
+                        status: FormzSubmissionStatus.success,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              if (chose > 0) ...[
+                BlocBuilder<BookingBloc, BookingState>(
+                  builder: (context, state) {
+                    if (state.categoryServices.isEmpty) {
+                      return const SizedBox.shrink();
+                    }
+                    return Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.w, vertical: 16.h),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: colors.neutral200),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24.r),
+                          topRight: Radius.circular(24.r),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "count_services_selected"
+                                    .tr(namedArgs: {"count": "$chose"}),
+                                style: fonts.xSmallLink.copyWith(
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              AnimationButtonEffect(
+                                onTap: () {
+                                  if (!mounted) return;
+                                  showModalBottomSheet(
+                                    context: context,
+                                    isDismissible: true,
+                                    isScrollControlled: true,
+                                    enableDrag: true,
+                                    constraints: BoxConstraints(
+                                      maxHeight:
+                                          MediaQuery.of(context).size.height *
+                                              0.8,
+                                    ),
+                                    builder: (context) {
+                                      return ConstrainedBox(
+                                        constraints: BoxConstraints(
+                                          maxHeight: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.8,
+                                        ),
+                                        child: SingleChildScrollView(
+                                          child: ServiceSelectionModal(
+                                            selectedServices: selectedServices,
+                                            chose: chose,
+                                            onRemoveService: (service) {
+                                              if (!mounted) return;
+                                              setState(() {
+                                                _servicesProvider
+                                                    .removeService(service);
+                                                _serviceIdsProvider
+                                                    .removeServiceId(
+                                                        service.id!);
+                                                selectedServices
+                                                    .remove(service);
+                                                selectedServiceIDCatch
+                                                    .remove(service.id!);
+                                                chose--;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: icons.right.svg(
+                                  width: 20.w,
+                                  height: 20.h,
+                                  color: colors.iconGreyColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          12.h.verticalSpace,
+                          CButton(
+                            title: "next".tr(),
+                            onTap: () async {
+                              final selectedServices = state.categoryServices
+                                  .expand((category) => category.services)
+                                  .where((service) => selectedServiceIDCatch
+                                      .contains(service.id))
+                                  .toList();
+                              final requiresCallBack = selectedServices.any(
+                                  (service) =>
+                                      service.canReceiveCallBack == true);
+                              if (requiresCallBack) {
+                                bool? confirmCallBack = await showDialog<bool>(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    backgroundColor: colors.shade0,
+                                    content: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Center(
+                                          child: Text(
+                                            "Обратный звонок".tr(),
+                                            style: fonts.mediumMain,
+                                          ),
+                                        ),
+                                        12.h.verticalSpace,
+                                        Text(
+                                          textAlign: TextAlign.center,
+                                          "Оставьте свой номер телефона и мы вам перезвоним"
+                                              .tr(),
+                                          style: fonts.xSmallMain
+                                              .copyWith(fontSize: 14.sp),
+                                        ),
+                                        12.h.verticalSpace,
+                                        Text("contact_phone_number".tr(),
+                                            style: fonts.regularLink),
+                                        CustomTextField(
+                                          autoFocus: true,
+                                          title: "",
+                                          keyboardType: TextInputType.phone,
+                                          onChanged: (value) {
+                                            if (value.length >= 17) {
+                                              setState(() {});
+                                            }
+                                          },
+                                          controller: _phoneNumberController,
+                                          formatter: <TextInputFormatter>[
+                                            InternationalPhoneFormatter()
+                                          ],
+                                          hintText: '+998',
+                                          validator: (String? text) {},
+                                        ),
+                                        30.h.verticalSpace,
+                                        CButton(
+                                          title: "send".tr(),
+                                          onTap: () async {
+                                            final phone =
+                                                _phoneNumberController.text;
+                                            final serviceIds =
+                                                selectedServiceIDCatch.toList();
+
+                                            final response = await http.post(
+                                              Uri.parse(
+                                                  'https://his.uicgroup.tech/apiweb/help/call'),
+                                              headers: {
+                                                'Content-Type':
+                                                    'application/json',
+                                              },
+                                              body: jsonEncode({
+                                                'phone': phone,
+                                                'service_ids': serviceIds,
+                                              }),
+                                            );
+
+                                            // ignore: use_build_context_synchronously
+                                            Navigator.of(context).pop();
+
+                                            if (response.statusCode == 200) {
+                                              showDialog(
+                                                // ignore: use_build_context_synchronously
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                        colors.shade0,
+                                                    content: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            "assets/icons/done.svg"),
+                                                        8.h.verticalSpace,
+                                                        Text("Заявка оставлена",
+                                                            style: fonts
+                                                                .mediumMain),
+                                                        4.h.verticalSpace,
+                                                        Text(
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          "В скором времени мы вам перезвоним по поводу вашей заявки",
+                                                          style:
+                                                              fonts.xSmallMain,
+                                                        ),
+                                                        30.h.verticalSpace,
+                                                        CButton(
+                                                          title: "back".tr(),
+                                                          onTap: () {
+                                                            Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    const MainPage(
+                                                                        index:
+                                                                            0),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        "Ошибка отправки данных")),
+                                              );
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [],
+                                  ),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AppointmentPage(
+                                      index: 2,
+                                      selectedServiceIds:
+                                          selectedServiceIDCatch.toSet(),
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ],
+          ),
         );
       },
     );
   }
-
-  void _handleServiceSelection(Map<String, dynamic> service) {
-    setState(() {
-      final serviceId = service['id'] as int;
-      if (selectedServiceIDCatch.contains(serviceId)) {
-        selectedServiceIDCatch.remove(serviceId);
-        selectedServices.removeWhere((s) => s['id'] == serviceId);
-        chose--;
-      } else {
-        selectedServiceIDCatch.add(serviceId);
-        selectedServices.add(service);
-        chose++;
-      }
-    });
-  }
-
-  String formatNumber(dynamic number, {bool isDecimal = false}) {
-    if (number == null) return isDecimal ? "0.00" : "0";
-
-    // Convert to double first to handle both int and string inputs
-    double doubleValue;
-    if (number is String) {
-      doubleValue = double.tryParse(number) ?? 0;
-    } else if (number is int) {
-      doubleValue = number.toDouble();
-    } else {
-      doubleValue = number;
-    }
-
-    if (isDecimal) {
-      // Format with 2 decimal places
-      String formatted = doubleValue.toStringAsFixed(2);
-      List<String> parts = formatted.split('.');
-      String integerPart = parts[0];
-      String decimalPart = parts.length > 1 ? parts[1] : "00";
-
-      // Add thousand separators
-      final buffer = StringBuffer();
-      for (int i = 0; i < integerPart.length; i++) {
-        if (i > 0 && (integerPart.length - i) % 3 == 0) {
-          buffer.write(' ');
-        }
-        buffer.write(integerPart[i]);
-      }
-      buffer.write('.');
-      buffer.write(decimalPart);
-      return buffer.toString();
-    } else {
-      // Format without decimal places
-      int intValue = doubleValue.toInt();
-      String numberStr = intValue.toString();
-      final buffer = StringBuffer();
-      for (int i = 0; i < numberStr.length; i++) {
-        if (i > 0 && (numberStr.length - i) % 3 == 0) {
-          buffer.write(' ');
-        }
-        buffer.write(numberStr[i]);
-      }
-      return buffer.toString();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Scaffold(
-        backgroundColor: colors.backgroundColor,
-        body: Column(
-          children: [
-            CAppBar(
-                title: "selecting_service".tr(),
-                centerTitle: true,
-                isBack: true,
-                bottom: Padding(
-                  padding: EdgeInsets.only(bottom: 8.h),
-                  child: CustomTextField(
-                    controller: _searchController,
-                    hintText: "search_doctors".tr(),
-                    prefixIcon: icons.search.svg(),
-                  ),
-                ),
-                trailing: Row(
-                  children: [
-                    AnimatedRotation(
-                        turns: turns,
-                        duration: const Duration(seconds: 1),
-                        child: AnimationButtonEffect(
-                            onTap: () {
-                              setState(() {
-                                turns += 2 / 4;
-                                changeSum = !changeSum;
-                                dbService?.setCurrencyPreference(changeSum);
-                              });
-                            },
-                            child: icons.valyutaChange
-                                .svg(width: 20.w, height: 20.h))),
-                    6.w.horizontalSpace,
-                    AnimationButtonEffect(
-                        onTap: _showFilterDialog,
-                        child: icons.filter.svg(width: 20.w, height: 20.h)),
-                  ],
-                )),
-            Expanded(
-              child: _buildContent(colors, fonts, icons),
-            ),
-          ],
-        ),
-      );
-    });
-  }
-
-  Widget _buildContent(colors, fonts, icons) {
-    if (_isLoading) {
-      return Center(
-          child: CircularProgressIndicator(
-        color: colors.error500,
-      ));
-    }
-
-    if (_error != null) {
-      return Center(child: Text(_error!));
-    }
-
-    final displayCategories =
-        _isSearching ? _filteredBySearch : _filteredCategories;
-
-    if (displayCategories.isEmpty) {
-      return Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            "assets/icons/emoji-sad_d.svg",
-            width: 74.w,
-            height: 78.h,
-          ),
-          Text(
-            _isSearching
-                ? 'try_different_search'.tr()
-                : 'no_results_found'.tr(),
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
-          ),
-        ],
-      ));
-    }
-
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-            itemCount: displayCategories.length,
-            itemBuilder: (context, index) {
-              final category = displayCategories[index];
-              return _ServiceCategoryTile(
-                categoryName: category['category_name'] ?? 'Unnamed Category',
-                services:
-                    List<Map<String, dynamic>>.from(category['services'] ?? []),
-                colors: colors,
-                fonts: fonts,
-                icons: icons,
-                onServiceSelected: _handleServiceSelection,
-                selectedServiceIds: selectedServiceIDCatch,
-                changeSum: changeSum,
-              );
-            },
-          ),
-        ),
-        if (chose >= 1) ...[
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-            width: double.infinity,
-            color: chose >= 1 ? null : colors.shade0,
-            decoration: chose >= 1
-                ? BoxDecoration(
-                    boxShadow: colors.shadowMMMM,
-                    color: colors.shade0,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24.r),
-                      topRight: Radius.circular(24.r),
-                    ),
-                  )
-                : null,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (chose >= 1) ...[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "count_services_selected"
-                            .tr(namedArgs: {"count": "$chose"}),
-                        style: fonts.xSmallLink.copyWith(
-                            fontSize: 13.sp, fontWeight: FontWeight.bold),
-                      ),
-                      AnimationButtonEffect(
-                        disabled: chose == 0 ? true : false,
-                        onTap: () {
-                          showModalBottomSheet(
-                            backgroundColor: colors.shade0,
-                            context: context,
-                            isDismissible: true,
-                            isScrollControlled: true,
-                            enableDrag: true,
-                            builder: (context) {
-                              return ServiceSelectionModal(
-                                selectedServices: selectedServices,
-                                chose: chose,
-                                onRemoveService: (serviceToRemove) {
-                                  setState(() {
-                                    selectedServices.remove(serviceToRemove);
-                                    selectedServiceIDCatch
-                                        .remove(serviceToRemove['id']);
-                                    chose--;
-                                  });
-                                },
-                                changeSum: changeSum,
-                              );
-                            },
-                          );
-                        },
-                        child: SvgPicture.asset(
-                          "assets/icons/right.svg",
-                          width: 20.w,
-                          height: 20.h,
-                          color: colors.iconGreyColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                  12.h.verticalSpace,
-                ],
-                CButton(
-                  onTap: () {
-                    if (chose >= 1) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MedServiceDoctorChose(
-                                    servicesID: selectedServices
-                                        .map((s) => s['id'] as int)
-                                        .toList(),
-                                  )));
-                    }
-                  },
-                  title: 'next'.tr(),
-                )
-              ],
-            ),
-          ),
-        ]
-      ],
-    );
-  }
 }
 
-class _ServiceCategoryTile extends StatefulWidget {
-  final String categoryName;
-  final List<Map<String, dynamic>> services;
-  final dynamic colors;
-  final dynamic fonts;
-  final dynamic icons;
-  final Function(Map<String, dynamic>) onServiceSelected;
-  final Set<int> selectedServiceIds;
-  final bool changeSum;
+//   List<dynamic> _categories = [];
+//   bool _isLoading = true;
+//   String? _error;
+//   int chose = 0;
+//   List<Map<String, dynamic>> selectedServices = [];
+//   Set<int> selectedServiceIDCatch = {};
+//   double turns = 0.0;
+//   bool changeSum = false;
+//   DBService? dbService;
+//   String _currentFilter = 'all';
+//   TextEditingController _searchController = TextEditingController();
+//   List<dynamic> _filteredBySearch = [];
+//   bool _isSearching = false;
 
-  const _ServiceCategoryTile({
-    required this.categoryName,
-    required this.services,
-    required this.colors,
-    required this.fonts,
-    required this.icons,
-    required this.onServiceSelected,
-    required this.selectedServiceIds,
-    required this.changeSum,
-  });
+//   @override
+//   void initState() {
+//     super.initState();
+//     _searchController.addListener(_onSearchChanged);
+//     _initializeDBService();
+//     _fetchServices();
+//   }
 
-  @override
-  State<_ServiceCategoryTile> createState() => _ServiceCategoryTileState();
-}
+//   @override
+//   void dispose() {
+//     _searchController.removeListener(_onSearchChanged);
+//     _searchController.dispose();
+//     super.dispose();
+//   }
 
-class _ServiceCategoryTileState extends State<_ServiceCategoryTile> {
-  @override
-  Widget build(BuildContext context) {
-    if (widget.services.isEmpty) return const SizedBox.shrink();
+//   void _onSearchChanged() {
+//     if (_searchController.text.isEmpty) {
+//       setState(() {
+//         _isSearching = false;
+//         _filteredBySearch = [];
+//       });
+//     } else {
+//       final query = _searchController.text.toLowerCase();
+//       setState(() {
+//         _isSearching = true;
+//         _filteredBySearch = _filteredCategories
+//             .map((category) {
+//               final filteredServices =
+//                   (category['services'] as List).where((service) {
+//                 final name = service['name']?.toString().toLowerCase() ?? '';
+//                 final description =
+//                     service['description']?.toString().toLowerCase() ?? '';
+//                 return name.contains(query) || description.contains(query);
+//               }).toList();
 
-    return CustomExpansionListTile(
-      description: widget.services.isEmpty
-          ? 'no_services_available'.tr()
-          : 'services_list'.tr(),
-      title: widget.categoryName,
-      children: widget.services.map((service) {
-        return _ServiceItem(
-          service: service,
-          colors: widget.colors,
-          fonts: widget.fonts,
-          icons: widget.icons,
-          isSelected: widget.selectedServiceIds.contains(service['id']),
-          onTap: () => widget.onServiceSelected(service),
-          changeSum: widget.changeSum,
-        );
-      }).toList(),
-    );
-  }
-}
+//               return {
+//                 'category_name': category['category_name'],
+//                 'services': filteredServices,
+//               };
+//             })
+//             .where((category) => (category['services'] as List).isNotEmpty)
+//             .toList();
+//       });
+//     }
+//   }
 
-class _ServiceItem extends StatelessWidget {
-  final Map<String, dynamic> service;
-  final dynamic colors;
-  final dynamic fonts;
-  final dynamic icons;
-  final bool isSelected;
-  final VoidCallback onTap;
-  final bool changeSum;
+//   Future<void> _initializeDBService() async {
+//     dbService = await DBService.create;
+//     setState(() {
+//       changeSum = dbService?.getCurrencyPreference ?? false;
+//     });
+//   }
 
-  const _ServiceItem({
-    required this.service,
-    required this.colors,
-    required this.fonts,
-    required this.icons,
-    required this.isSelected,
-    required this.onTap,
-    required this.changeSum,
-  });
+//   Future<void> _fetchServices() async {
+//     try {
+//       final Uri uri;
 
-  String formatNumber(dynamic number, {bool isDecimal = false}) {
-    if (number == null) return isDecimal ? "0.00" : "0";
+//       if (widget.isDoctorService) {
+//         if (widget.doctorId == null) {
+//           throw Exception('Doctor ID is required for doctor services');
+//         }
+//         uri = Uri.parse(
+//           '${Constants.baseUrlP}/booking/services_by_doctor/${widget.doctorId}',
+//         );
+//       } else {
+//         uri = Uri.parse(
+//           '${Constants.baseUrlP}/booking/category_services/${widget.serviceTypeId}',
+//         );
+//       }
 
-    double doubleValue;
-    if (number is String) {
-      doubleValue = double.tryParse(number) ?? 0;
-    } else if (number is int) {
-      doubleValue = number.toDouble();
-    } else {
-      doubleValue = number;
-    }
+//       final response = await http.get(uri);
 
-    if (isDecimal) {
-      String formatted = doubleValue.toStringAsFixed(2);
-      List<String> parts = formatted.split('.');
-      String integerPart = parts[0];
-      String decimalPart = parts.length > 1 ? parts[1] : "00";
+//       if (response.statusCode == 200) {
+//         final responseBody = utf8.decode(response.bodyBytes);
+//         setState(() {
+//           _categories = json.decode(responseBody);
+//           _isLoading = false;
+//         });
+//       } else {
+//         setState(() {
+//           _error = 'no_result_found'.tr();
+//           _isLoading = false;
+//         });
+//       }
+//     } catch (e) {
+//       setState(() {
+//         _error = 'no_result_found'.tr();
+//         _isLoading = false;
+//       });
+//     }
+//   }
 
-      final buffer = StringBuffer();
-      for (int i = 0; i < integerPart.length; i++) {
-        if (i > 0 && (integerPart.length - i) % 3 == 0) {
-          buffer.write(' ');
-        }
-        buffer.write(integerPart[i]);
-      }
-      buffer.write('.');
-      buffer.write(decimalPart);
-      return buffer.toString();
-    } else {
-      int intValue = doubleValue.toInt();
-      String numberStr = intValue.toString();
-      final buffer = StringBuffer();
-      for (int i = 0; i < numberStr.length; i++) {
-        if (i > 0 && (numberStr.length - i) % 3 == 0) {
-          buffer.write(' ');
-        }
-        buffer.write(numberStr[i]);
-      }
-      return buffer.toString();
-    }
-  }
+//   List<dynamic> get _filteredCategories {
+//     if (_currentFilter == 'all') return _categories;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(width: 1, color: Color(0xFFF2F2F3)),
-          bottom: BorderSide(width: 1, color: Color(0xFFF2F2F3)),
-        ),
-      ),
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 12.h),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      service['name'] ?? '',
-                      style: fonts.smallSemLink.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 4.h),
-                      child: Text(
-                        decodeHtml(
-                          service['description'] is String
-                              ? service['description']
-                              : 'Test description',
-                        ),
-                        style: fonts.smallLink.copyWith(
-                          color: colors.neutral600,
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      changeSum
-                          ? "${formatNumber(service['doctor_price_start_uzs'])} UZS"
-                          : "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)} USD",
-                      style: fonts.smallLink.copyWith(
-                        color: colors.primary900,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12.sp,
-                      ),
-                    ),
-                    4.h.verticalSpace,
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 20.h),
-                padding: EdgeInsets.all(12.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.r),
-                  color: isSelected ? colors.primary500 : colors.neutral200,
-                ),
-                child: SvgPicture.asset(
-                  isSelected
-                      ? "assets/icons/check.svg"
-                      : "assets/icons/plus.svg",
-                  color: isSelected ? Colors.white : null,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+//     final filtered = _categories
+//         .map((category) {
+//           final filteredServices =
+//               (category['services'] as List).where((service) {
+//             if (_currentFilter == 'adult') return service['is_child'] == false;
+//             if (_currentFilter == 'child') return service['is_child'] == true;
+//             return true;
+//           }).toList();
 
-class ServiceSelectionModal extends StatefulWidget {
-  final List<Map<String, dynamic>> selectedServices;
-  final int chose;
-  final Function(Map<String, dynamic>) onRemoveService;
-  final bool changeSum;
+//           return {
+//             'category_name': category['category_name'],
+//             'services': filteredServices,
+//           };
+//         })
+//         .where((category) => (category['services'] as List).isNotEmpty)
+//         .toList();
 
-  const ServiceSelectionModal({
-    super.key,
-    required this.selectedServices,
-    required this.chose,
-    required this.onRemoveService,
-    required this.changeSum,
-  });
+//     return filtered;
+//   }
 
-  @override
-  State<ServiceSelectionModal> createState() => _ServiceSelectionModalState();
-}
+//   void _showFilterDialog() {
+//     showModalBottomSheet(
+//       backgroundColor: Style.shade0,
+//       context: context,
+//       isDismissible: true,
+//       isScrollControlled: true,
+//       enableDrag: true,
+//       builder: (context) {
+//         return FilterDialog(
+//           onFilterApplied: (filter) {
+//             setState(() {
+//               _currentFilter = filter;
+//               // Clear search when filter changes
+//               _searchController.clear();
+//             });
+//           },
+//           currentFilter: _currentFilter,
+//         );
+//       },
+//     );
+//   }
 
-class _ServiceSelectionModalState extends State<ServiceSelectionModal> {
-  late List<Map<String, dynamic>> _currentServices;
-  late int _currentChose;
+//   void _handleServiceSelection(Map<String, dynamic> service) {
+//     setState(() {
+//       final serviceId = service['id'] as int;
+//       if (selectedServiceIDCatch.contains(serviceId)) {
+//         selectedServiceIDCatch.remove(serviceId);
+//         selectedServices.removeWhere((s) => s['id'] == serviceId);
+//         chose--;
+//       } else {
+//         selectedServiceIDCatch.add(serviceId);
+//         selectedServices.add(service);
+//         chose++;
+//       }
+//     });
+//   }
 
-  String formatNumber(dynamic number, {bool isDecimal = false}) {
-    if (number == null) return isDecimal ? "0.00" : "0";
+//   String formatNumber(dynamic number, {bool isDecimal = false}) {
+//     if (number == null) return isDecimal ? "0.00" : "0";
 
-    double doubleValue;
-    if (number is String) {
-      doubleValue = double.tryParse(number) ?? 0;
-    } else if (number is int) {
-      doubleValue = number.toDouble();
-    } else {
-      doubleValue = number;
-    }
+//     // Convert to double first to handle both int and string inputs
+//     double doubleValue;
+//     if (number is String) {
+//       doubleValue = double.tryParse(number) ?? 0;
+//     } else if (number is int) {
+//       doubleValue = number.toDouble();
+//     } else {
+//       doubleValue = number;
+//     }
 
-    if (isDecimal) {
-      String formatted = doubleValue.toStringAsFixed(2);
-      List<String> parts = formatted.split('.');
-      String integerPart = parts[0];
-      String decimalPart = parts.length > 1 ? parts[1] : "00";
+//     if (isDecimal) {
+//       // Format with 2 decimal places
+//       String formatted = doubleValue.toStringAsFixed(2);
+//       List<String> parts = formatted.split('.');
+//       String integerPart = parts[0];
+//       String decimalPart = parts.length > 1 ? parts[1] : "00";
 
-      final buffer = StringBuffer();
-      for (int i = 0; i < integerPart.length; i++) {
-        if (i > 0 && (integerPart.length - i) % 3 == 0) {
-          buffer.write(' ');
-        }
-        buffer.write(integerPart[i]);
-      }
-      buffer.write('.');
-      buffer.write(decimalPart);
-      return buffer.toString();
-    } else {
-      int intValue = doubleValue.toInt();
-      String numberStr = intValue.toString();
-      final buffer = StringBuffer();
-      for (int i = 0; i < numberStr.length; i++) {
-        if (i > 0 && (numberStr.length - i) % 3 == 0) {
-          buffer.write(' ');
-        }
-        buffer.write(numberStr[i]);
-      }
-      return buffer.toString();
-    }
-  }
+//       // Add thousand separators
+//       final buffer = StringBuffer();
+//       for (int i = 0; i < integerPart.length; i++) {
+//         if (i > 0 && (integerPart.length - i) % 3 == 0) {
+//           buffer.write(' ');
+//         }
+//         buffer.write(integerPart[i]);
+//       }
+//       buffer.write('.');
+//       buffer.write(decimalPart);
+//       return buffer.toString();
+//     } else {
+//       // Format without decimal places
+//       int intValue = doubleValue.toInt();
+//       String numberStr = intValue.toString();
+//       final buffer = StringBuffer();
+//       for (int i = 0; i < numberStr.length; i++) {
+//         if (i > 0 && (numberStr.length - i) % 3 == 0) {
+//           buffer.write(' ');
+//         }
+//         buffer.write(numberStr[i]);
+//       }
+//       return buffer.toString();
+//     }
+//   }
 
-  @override
-  void initState() {
-    super.initState();
-    _currentServices = List.from(widget.selectedServices);
-    _currentChose = widget.chose;
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+//       return Scaffold(
+//         backgroundColor: colors.backgroundColor,
+//         body: Column(
+//           children: [
+//             CAppBar(
+//                 title: "selecting_service".tr(),
+//                 centerTitle: true,
+//                 isBack: true,
+//                 bottom: Padding(
+//                   padding: EdgeInsets.only(bottom: 8.h),
+//                   child: CustomTextField(
+//                     controller: _searchController,
+//                     hintText: "search_doctors".tr(),
+//                     prefixIcon: icons.search.svg(),
+//                   ),
+//                 ),
+//                 trailing: Row(
+//                   children: [
+//                     AnimatedRotation(
+//                         turns: turns,
+//                         duration: const Duration(seconds: 1),
+//                         child: AnimationButtonEffect(
+//                             onTap: () {
+//                               setState(() {
+//                                 turns += 2 / 4;
+//                                 changeSum = !changeSum;
+//                                 dbService?.setCurrencyPreference(changeSum);
+//                               });
+//                             },
+//                             child: icons.valyutaChange
+//                                 .svg(width: 20.w, height: 20.h))),
+//                     6.w.horizontalSpace,
+//                     AnimationButtonEffect(
+//                         onTap: _showFilterDialog,
+//                         child: icons.filter.svg(width: 20.w, height: 20.h)),
+//                   ],
+//                 )),
+//             Expanded(
+//               child: _buildContent(colors, fonts, icons),
+//             ),
+//           ],
+//         ),
+//       );
+//     });
+//   }
 
-  void _removeService(Map<String, dynamic> service) {
-    setState(() {
-      _currentServices.remove(service);
-      _currentChose--;
-    });
-    widget.onRemoveService(service);
+//   Widget _buildContent(colors, fonts, icons) {
+//     if (_isLoading) {
+//       return Center(
+//           child: CircularProgressIndicator(
+//         color: colors.error500,
+//       ));
+//     }
 
-    if (_currentServices.isEmpty) {
-      Navigator.of(context).pop();
-    }
-  }
+//     if (_error != null) {
+//       return Center(child: Text(_error!));
+//     }
 
-  @override
-  Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Container(
-        padding: EdgeInsets.all(16.w),
-        decoration: BoxDecoration(
-          color: colors.shade0,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                width: 40.w,
-                height: 4.h,
-                decoration: BoxDecoration(
-                  color: colors.neutral400,
-                  borderRadius: BorderRadius.circular(2.r),
-                ),
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Flexible(
-              child: SizedBox(
-                width: double.infinity,
-                child: Text(
-                  "Выбраны ${_currentChose} услуги",
-                  style: fonts.smallSemLink
-                      .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500),
-                ),
-              ),
-            ),
-            SizedBox(height: 16.h),
-            ..._currentServices.map((service) => Column(
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Container(
-                            width: double.infinity,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "${service['name']}",
-                                    style: fonts.smallSemLink.copyWith(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    decodeHtml(
-                                      service['description'] is String
-                                          ? service['description']
-                                          : 'Test description',
-                                    ),
-                                    style: fonts.smallLink.copyWith(
-                                      color: colors.neutral600,
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    widget.changeSum
-                                        ? "${formatNumber(service['doctor_price_start_uzs'])} UZS"
-                                        : "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)} USD",
-                                    style: fonts.smallSemLink.copyWith(
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ]),
-                          ),
-                        ),
-                        IconButton(
-                          icon: Image.asset(
-                            "assets/images/trash.png",
-                            width: 28.w,
-                            height: 28.h,
-                          ),
-                          onPressed: () => _removeService(service),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16.h),
-                  ],
-                )),
-            SizedBox(height: 16.h),
-            CButton(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              title: 'Готово',
-            ),
-          ],
-        ),
-      );
-    });
-  }
-}
+//     final displayCategories =
+//         _isSearching ? _filteredBySearch : _filteredCategories;
 
-class FilterDialog extends StatefulWidget {
-  final Function(String) onFilterApplied;
-  final String currentFilter;
+//     if (displayCategories.isEmpty) {
+//       return Center(
+//           child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           SvgPicture.asset(
+//             "assets/icons/emoji-sad_d.svg",
+//             width: 74.w,
+//             height: 78.h,
+//           ),
+//           Text(
+//             _isSearching
+//                 ? 'try_different_search'.tr()
+//                 : 'no_results_found'.tr(),
+//             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+//           ),
+//         ],
+//       ));
+//     }
 
-  const FilterDialog({
-    super.key,
-    required this.onFilterApplied,
-    required this.currentFilter,
-  });
+//     return Column(
+//       children: [
+//         Expanded(
+//           child: ListView.builder(
+//             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+//             itemCount: displayCategories.length,
+//             itemBuilder: (context, index) {
+//               final category = displayCategories[index];
+//               return _ServiceCategoryTile(
+//                 categoryName: category['category_name'] ?? 'Unnamed Category',
+//                 services:
+//                     List<Map<String, dynamic>>.from(category['services'] ?? []),
+//                 colors: colors,
+//                 fonts: fonts,
+//                 icons: icons,
+//                 onServiceSelected: _handleServiceSelection,
+//                 selectedServiceIds: selectedServiceIDCatch,
+//                 changeSum: changeSum,
+//               );
+//             },
+//           ),
+//         ),
+//         if (chose >= 1) ...[
+//           Container(
+//             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+//             width: double.infinity,
+//             color: chose >= 1 ? null : colors.shade0,
+//             decoration: chose >= 1
+//                 ? BoxDecoration(
+//                     boxShadow: colors.shadowMMMM,
+//                     color: colors.shade0,
+//                     borderRadius: BorderRadius.only(
+//                       topLeft: Radius.circular(24.r),
+//                       topRight: Radius.circular(24.r),
+//                     ),
+//                   )
+//                 : null,
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 if (chose >= 1) ...[
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     children: [
+//                       Text(
+//                         "count_services_selected"
+//                             .tr(namedArgs: {"count": "$chose"}),
+//                         style: fonts.xSmallLink.copyWith(
+//                             fontSize: 13.sp, fontWeight: FontWeight.bold),
+//                       ),
+//                       AnimationButtonEffect(
+//                         disabled: chose == 0 ? true : false,
+//                         onTap: () {
+//                           showModalBottomSheet(
+//                             backgroundColor: colors.shade0,
+//                             context: context,
+//                             isDismissible: true,
+//                             isScrollControlled: true,
+//                             enableDrag: true,
+//                             builder: (context) {
+//                               return ServiceSelectionModal(
+//                                 selectedServices: selectedServices,
+//                                 chose: chose,
+//                                 onRemoveService: (serviceToRemove) {
+//                                   setState(() {
+//                                     selectedServices.remove(serviceToRemove);
+//                                     selectedServiceIDCatch
+//                                         .remove(serviceToRemove['id']);
+//                                     chose--;
+//                                   });
+//                                 },
+//                                 changeSum: changeSum,
+//                               );
+//                             },
+//                           );
+//                         },
+//                         child: SvgPicture.asset(
+//                           "assets/icons/right.svg",
+//                           width: 20.w,
+//                           height: 20.h,
+//                           color: colors.iconGreyColor,
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                   12.h.verticalSpace,
+//                 ],
+//                 CButton(
+//                   onTap: () {
+//                     if (chose >= 1) {
+//                       Navigator.push(
+//                           context,
+//                           MaterialPageRoute(
+//                               builder: (context) => MedServiceDoctorChose(
+//                                     servicesID: selectedServices
+//                                         .map((s) => s['id'] as int)
+//                                         .toList(),
+//                                   )));
+//                     }
+//                   },
+//                   title: 'next'.tr(),
+//                 )
+//               ],
+//             ),
+//           ),
+//         ]
+//       ],
+//     );
+//   }
+// }
 
-  @override
-  State<FilterDialog> createState() => _FilterDialogState();
-}
+// class _ServiceCategoryTile extends StatefulWidget {
+//   final String categoryName;
+//   final List<Map<String, dynamic>> services;
+//   final dynamic colors;
+//   final dynamic fonts;
+//   final dynamic icons;
+//   final Function(Map<String, dynamic>) onServiceSelected;
+//   final Set<int> selectedServiceIds;
+//   final bool changeSum;
 
-class _FilterDialogState extends State<FilterDialog> {
-  late String _selectedFilter;
+//   const _ServiceCategoryTile({
+//     required this.categoryName,
+//     required this.services,
+//     required this.colors,
+//     required this.fonts,
+//     required this.icons,
+//     required this.onServiceSelected,
+//     required this.selectedServiceIds,
+//     required this.changeSum,
+//   });
 
-  @override
-  void initState() {
-    super.initState();
-    _selectedFilter = widget.currentFilter;
-  }
+//   @override
+//   State<_ServiceCategoryTile> createState() => _ServiceCategoryTileState();
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Container(
+// class _ServiceCategoryTileState extends State<_ServiceCategoryTile> {
+//   @override
+//   Widget build(BuildContext context) {
+//     if (widget.services.isEmpty) return const SizedBox.shrink();
 
-          // ignore: sort_child_properties_last
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                child: Container(
-                  width: 40.w,
-                  height: 4.h,
-                  decoration: BoxDecoration(
-                    color: colors.neutral400,
-                    borderRadius: BorderRadius.circular(2.r),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                "filter".tr(),
-                style: fonts.smallSemLink.copyWith(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(height: 24.h),
-              _buildFilterOption("Все", "all"),
-              CDivider(),
-              SizedBox(height: 16.h),
-              _buildFilterOption("Взрослые", "adult"),
-              CDivider(),
-              SizedBox(height: 16.h),
-              _buildFilterOption("Дети", "child"),
-              CDivider(),
-              SizedBox(height: 24.h),
-              CButton(
-                onTap: () {
-                  widget.onFilterApplied(_selectedFilter);
-                  Navigator.of(context).pop();
-                },
-                title: 'Применить',
-              ),
-            ],
-          ),
-          padding: EdgeInsets.all(16.w),
-          decoration: BoxDecoration(
-            color: colors.shade0,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
-          ));
-    });
-  }
+//     return CustomExpansionListTile(
+//       description: widget.services.isEmpty
+//           ? 'no_services_available'.tr()
+//           : 'services_list'.tr(),
+//       title: widget.categoryName,
+//       children: widget.services.map((service) {
+//         return _ServiceItem(
+//           service: service,
+//           colors: widget.colors,
+//           fonts: widget.fonts,
+//           icons: widget.icons,
+//           isSelected: widget.selectedServiceIds.contains(service['id']),
+//           onTap: () => widget.onServiceSelected(service),
+//           changeSum: widget.changeSum,
+//         );
+//       }).toList(),
+//     );
+//   }
+// }
 
-  Widget _buildFilterOption(String title, String value) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return InkWell(
-        onTap: () {
-          setState(() {
-            _selectedFilter = value;
-          });
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: fonts.smallSemLink.copyWith(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w400,
-                color: colors.neutral900,
-              ),
-            ),
-            Container(
-              width: 20.w,
-              height: 20.h,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: _selectedFilter == value
-                      ? colors.primary500
-                      : colors.neutral400,
-                  width: 2.w,
-                ),
-              ),
-              child: Center(
-                child: _selectedFilter == value
-                    ? Container(
-                        width: 10.w,
-                        height: 10.h,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: colors.primary500,
-                        ),
-                      )
-                    : null,
-              ),
-            ),
-          ],
-        ),
-      );
-    });
-  }
-}
+// class _ServiceItem extends StatelessWidget {
+//   final Map<String, dynamic> service;
+//   final dynamic colors;
+//   final dynamic fonts;
+//   final dynamic icons;
+//   final bool isSelected;
+//   final VoidCallback onTap;
+//   final bool changeSum;
+
+//   const _ServiceItem({
+//     required this.service,
+//     required this.colors,
+//     required this.fonts,
+//     required this.icons,
+//     required this.isSelected,
+//     required this.onTap,
+//     required this.changeSum,
+//   });
+
+//   String formatNumber(dynamic number, {bool isDecimal = false}) {
+//     if (number == null) return isDecimal ? "0.00" : "0";
+
+//     double doubleValue;
+//     if (number is String) {
+//       doubleValue = double.tryParse(number) ?? 0;
+//     } else if (number is int) {
+//       doubleValue = number.toDouble();
+//     } else {
+//       doubleValue = number;
+//     }
+
+//     if (isDecimal) {
+//       String formatted = doubleValue.toStringAsFixed(2);
+//       List<String> parts = formatted.split('.');
+//       String integerPart = parts[0];
+//       String decimalPart = parts.length > 1 ? parts[1] : "00";
+
+//       final buffer = StringBuffer();
+//       for (int i = 0; i < integerPart.length; i++) {
+//         if (i > 0 && (integerPart.length - i) % 3 == 0) {
+//           buffer.write(' ');
+//         }
+//         buffer.write(integerPart[i]);
+//       }
+//       buffer.write('.');
+//       buffer.write(decimalPart);
+//       return buffer.toString();
+//     } else {
+//       int intValue = doubleValue.toInt();
+//       String numberStr = intValue.toString();
+//       final buffer = StringBuffer();
+//       for (int i = 0; i < numberStr.length; i++) {
+//         if (i > 0 && (numberStr.length - i) % 3 == 0) {
+//           buffer.write(' ');
+//         }
+//         buffer.write(numberStr[i]);
+//       }
+//       return buffer.toString();
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       decoration: const BoxDecoration(
+//         border: Border(
+//           top: BorderSide(width: 1, color: Color(0xFFF2F2F3)),
+//           bottom: BorderSide(width: 1, color: Color(0xFFF2F2F3)),
+//         ),
+//       ),
+//       child: InkWell(
+//         onTap: onTap,
+//         child: Padding(
+//           padding: EdgeInsets.symmetric(vertical: 12.h),
+//           child: Row(
+//             crossAxisAlignment: CrossAxisAlignment.center,
+//             children: [
+//               Expanded(
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       service['name'] ?? '',
+//                       style: fonts.smallSemLink.copyWith(
+//                         fontWeight: FontWeight.bold,
+//                       ),
+//                     ),
+//                     Padding(
+//                       padding: EdgeInsets.only(top: 4.h),
+//                       child: Text(
+//                         decodeHtml(
+//                           service['description'] is String
+//                               ? service['description']
+//                               : 'Test description',
+//                         ),
+//                         style: fonts.smallLink.copyWith(
+//                           color: colors.neutral600,
+//                           fontSize: 11.sp,
+//                           fontWeight: FontWeight.w400,
+//                         ),
+//                       ),
+//                     ),
+//                     Text(
+//                       changeSum
+//                           ? "${formatNumber(service['doctor_price_start_uzs'])} UZS"
+//                           : "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)} USD",
+//                       style: fonts.smallLink.copyWith(
+//                         color: colors.primary900,
+//                         fontWeight: FontWeight.w600,
+//                         fontSize: 12.sp,
+//                       ),
+//                     ),
+//                     4.h.verticalSpace,
+//                   ],
+//                 ),
+//               ),
+//               Container(
+//                 margin: EdgeInsets.only(bottom: 20.h),
+//                 padding: EdgeInsets.all(12.w),
+//                 decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.circular(8.r),
+//                   color: isSelected ? colors.primary500 : colors.neutral200,
+//                 ),
+//                 child: SvgPicture.asset(
+//                   isSelected
+//                       ? "assets/icons/check.svg"
+//                       : "assets/icons/plus.svg",
+//                   color: isSelected ? Colors.white : null,
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class ServiceSelectionModal extends StatefulWidget {
+//   final List<Map<String, dynamic>> selectedServices;
+//   final int chose;
+//   final Function(Map<String, dynamic>) onRemoveService;
+//   final bool changeSum;
+
+//   const ServiceSelectionModal({
+//     super.key,
+//     required this.selectedServices,
+//     required this.chose,
+//     required this.onRemoveService,
+//     required this.changeSum,
+//   });
+
+//   @override
+//   State<ServiceSelectionModal> createState() => _ServiceSelectionModalState();
+// }
+
+// class _ServiceSelectionModalState extends State<ServiceSelectionModal> {
+//   late List<Map<String, dynamic>> _currentServices;
+//   late int _currentChose;
+
+//   String formatNumber(dynamic number, {bool isDecimal = false}) {
+//     if (number == null) return isDecimal ? "0.00" : "0";
+
+//     double doubleValue;
+//     if (number is String) {
+//       doubleValue = double.tryParse(number) ?? 0;
+//     } else if (number is int) {
+//       doubleValue = number.toDouble();
+//     } else {
+//       doubleValue = number;
+//     }
+
+//     if (isDecimal) {
+//       String formatted = doubleValue.toStringAsFixed(2);
+//       List<String> parts = formatted.split('.');
+//       String integerPart = parts[0];
+//       String decimalPart = parts.length > 1 ? parts[1] : "00";
+
+//       final buffer = StringBuffer();
+//       for (int i = 0; i < integerPart.length; i++) {
+//         if (i > 0 && (integerPart.length - i) % 3 == 0) {
+//           buffer.write(' ');
+//         }
+//         buffer.write(integerPart[i]);
+//       }
+//       buffer.write('.');
+//       buffer.write(decimalPart);
+//       return buffer.toString();
+//     } else {
+//       int intValue = doubleValue.toInt();
+//       String numberStr = intValue.toString();
+//       final buffer = StringBuffer();
+//       for (int i = 0; i < numberStr.length; i++) {
+//         if (i > 0 && (numberStr.length - i) % 3 == 0) {
+//           buffer.write(' ');
+//         }
+//         buffer.write(numberStr[i]);
+//       }
+//       return buffer.toString();
+//     }
+//   }
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _currentServices = List.from(widget.selectedServices);
+//     _currentChose = widget.chose;
+//   }
+
+//   void _removeService(Map<String, dynamic> service) {
+//     setState(() {
+//       _currentServices.remove(service);
+//       _currentChose--;
+//     });
+//     widget.onRemoveService(service);
+
+//     if (_currentServices.isEmpty) {
+//       Navigator.of(context).pop();
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+//       return Container(
+//         padding: EdgeInsets.all(16.w),
+//         decoration: BoxDecoration(
+//           color: colors.shade0,
+//           borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+//         ),
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Center(
+//               child: Container(
+//                 width: 40.w,
+//                 height: 4.h,
+//                 decoration: BoxDecoration(
+//                   color: colors.neutral400,
+//                   borderRadius: BorderRadius.circular(2.r),
+//                 ),
+//               ),
+//             ),
+//             SizedBox(height: 16.h),
+//             Flexible(
+//               child: SizedBox(
+//                 width: double.infinity,
+//                 child: Text(
+//                   "Выбраны ${_currentChose} услуги",
+//                   style: fonts.smallSemLink
+//                       .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500),
+//                 ),
+//               ),
+//             ),
+//             SizedBox(height: 16.h),
+//             ..._currentServices.map((service) => Column(
+//                   children: [
+//                     Row(
+//                       children: [
+//                         Flexible(
+//                           child: Container(
+//                             width: double.infinity,
+//                             child: Column(
+//                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                 mainAxisAlignment:
+//                                     MainAxisAlignment.spaceBetween,
+//                                 children: [
+//                                   Text(
+//                                     "${service['name']}",
+//                                     style: fonts.smallSemLink.copyWith(
+//                                         fontSize: 14.sp,
+//                                         fontWeight: FontWeight.w600),
+//                                   ),
+//                                   Text(
+//                                     decodeHtml(
+//                                       service['description'] is String
+//                                           ? service['description']
+//                                           : 'Test description',
+//                                     ),
+//                                     style: fonts.smallLink.copyWith(
+//                                       color: colors.neutral600,
+//                                       fontSize: 11.sp,
+//                                       fontWeight: FontWeight.w400,
+//                                     ),
+//                                   ),
+//                                   Text(
+//                                     widget.changeSum
+//                                         ? "${formatNumber(service['doctor_price_start_uzs'])} UZS"
+//                                         : "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)} USD",
+//                                     style: fonts.smallSemLink.copyWith(
+//                                         fontSize: 13.sp,
+//                                         fontWeight: FontWeight.w500),
+//                                   ),
+//                                 ]),
+//                           ),
+//                         ),
+//                         IconButton(
+//                           icon: Image.asset(
+//                             "assets/images/trash.png",
+//                             width: 28.w,
+//                             height: 28.h,
+//                           ),
+//                           onPressed: () => _removeService(service),
+//                         ),
+//                       ],
+//                     ),
+//                     SizedBox(height: 16.h),
+//                   ],
+//                 )),
+//             SizedBox(height: 16.h),
+//             CButton(
+//               onTap: () {
+//                 Navigator.of(context).pop();
+//               },
+//               title: 'Готово',
+//             ),
+//           ],
+//         ),
+//       );
+//     });
+//   }
+// }
+
+// class FilterDialog extends StatefulWidget {
+//   final Function(String) onFilterApplied;
+//   final String currentFilter;
+
+//   const FilterDialog({
+//     super.key,
+//     required this.onFilterApplied,
+//     required this.currentFilter,
+//   });
+
+//   @override
+//   State<FilterDialog> createState() => _FilterDialogState();
+// }
+
+// class _FilterDialogState extends State<FilterDialog> {
+//   late String _selectedFilter;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _selectedFilter = widget.currentFilter;
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+//       return Container(
+
+//           // ignore: sort_child_properties_last
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             crossAxisAlignment: CrossAxisAlignment.center,
+//             children: [
+//               Center(
+//                 child: Container(
+//                   width: 40.w,
+//                   height: 4.h,
+//                   decoration: BoxDecoration(
+//                     color: colors.neutral400,
+//                     borderRadius: BorderRadius.circular(2.r),
+//                   ),
+//                 ),
+//               ),
+//               SizedBox(height: 16.h),
+//               Text(
+//                 "filter".tr(),
+//                 style: fonts.smallSemLink.copyWith(
+//                   fontSize: 17.sp,
+//                   fontWeight: FontWeight.w500,
+//                 ),
+//               ),
+//               SizedBox(height: 24.h),
+//               _buildFilterOption("Все", "all"),
+//               CDivider(),
+//               SizedBox(height: 16.h),
+//               _buildFilterOption("Взрослые", "adult"),
+//               CDivider(),
+//               SizedBox(height: 16.h),
+//               _buildFilterOption("Дети", "child"),
+//               CDivider(),
+//               SizedBox(height: 24.h),
+//               CButton(
+//                 onTap: () {
+//                   widget.onFilterApplied(_selectedFilter);
+//                   Navigator.of(context).pop();
+//                 },
+//                 title: 'Применить',
+//               ),
+//             ],
+//           ),
+//           padding: EdgeInsets.all(16.w),
+//           decoration: BoxDecoration(
+//             color: colors.shade0,
+//             borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+//           ));
+//     });
+//   }
+
+//   Widget _buildFilterOption(String title, String value) {
+//     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+//       return InkWell(
+//         onTap: () {
+//           setState(() {
+//             _selectedFilter = value;
+//           });
+//         },
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             Text(
+//               title,
+//               style: fonts.smallSemLink.copyWith(
+//                 fontSize: 15.sp,
+//                 fontWeight: FontWeight.w400,
+//                 color: colors.neutral900,
+//               ),
+//             ),
+//             Container(
+//               width: 20.w,
+//               height: 20.h,
+//               decoration: BoxDecoration(
+//                 shape: BoxShape.circle,
+//                 border: Border.all(
+//                   color: _selectedFilter == value
+//                       ? colors.primary500
+//                       : colors.neutral400,
+//                   width: 2.w,
+//                 ),
+//               ),
+//               child: Center(
+//                 child: _selectedFilter == value
+//                     ? Container(
+//                         width: 10.w,
+//                         height: 10.h,
+//                         decoration: BoxDecoration(
+//                           shape: BoxShape.circle,
+//                           color: colors.primary500,
+//                         ),
+//                       )
+//                     : null,
+//               ),
+//             ),
+//           ],
+//         ),
+//       );
+//     });
+//   }
+// }

@@ -24,7 +24,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
   List<Order> orders = [];
   DBService? _dbService;
   bool _isLoading = true;
-  bool _showVisits = true; // Changed variable name for clarity
+  bool _showVisits = true;
 
   @override
   void initState() {

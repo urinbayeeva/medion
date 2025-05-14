@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/pages/profile/widget/nav_list_data.dart';
 import 'package:medion/presentation/routes/routes.dart';
@@ -9,14 +10,31 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:medion/presentation/component/c_bottomsheet_profile.dart';
 
-class NavListWidget extends StatelessWidget {
+class NavListWidget extends StatefulWidget {
   final List? data;
   final List? routes;
   const NavListWidget({super.key, this.data, this.routes});
 
   @override
+  State<NavListWidget> createState() => _NavListWidgetState();
+}
+
+class _NavListWidgetState extends State<NavListWidget> {
+  late DBService dbService;
+
+  @override
+  void initState() {
+    super.initState();
+    _initDbService();
+  }
+
+  Future<void> _initDbService() async {
+    dbService = await DBService.create;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final resolvedData = data ?? navListData;
+    final resolvedData = widget.data ?? navListData;
 
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Container(
@@ -79,7 +97,7 @@ class NavListWidget extends StatelessWidget {
       context.read<BottomNavBarController>().changeNavBar(true);
       _showProfileBottomSheet(context);
     } else {
-      final resolvedRoutes = routes ??
+      final resolvedRoutes = widget.routes ??
           [
             AppRoutes.getUserDetailsPage(),
             AppRoutes.getResultsPage(),
@@ -103,6 +121,10 @@ class NavListWidget extends StatelessWidget {
           Navigator.pop(context);
         },
         onTapLogOut: () async {
+          await dbService.signOut();
+
+          await dbService.clearAllData();
+
           context.read<BottomNavBarController>().changeNavBar(true);
           Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
             AppRoutes.getSignUpPage(),
