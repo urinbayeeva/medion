@@ -31,7 +31,7 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
       return BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state.loading) {
-            return const Center(child: CircularProgressIndicator());
+            return const SizedBox.shrink();
           }
 
           final filteredDiseases = state.diseases

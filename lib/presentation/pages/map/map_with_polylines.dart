@@ -1,17 +1,16 @@
+import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:medion/presentation/pages/home/yandex_on_tap.dart';
 import 'package:medion/presentation/pages/map/widgets/map_polylines_widget.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:medion/utils/helpers/get_location.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' as maps;
-import 'package:cached_network_image/cached_network_image.dart';
-
-import '../../styles/style.dart';
+import 'package:medion/presentation/styles/style.dart';
 
 class MapWithPolylines extends StatefulWidget {
   final LatLng destination;
@@ -42,57 +41,166 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
   void initState() {
     super.initState();
     _getCurrentLocation();
-    determinePosition();
   }
 
   Future<void> _getCurrentLocation() async {
-    Position position = await Geolocator.getCurrentPosition();
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (!serviceEnabled) {
+      await Geolocator.requestPermission();
+      return;
+    }
+
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse &&
+          permission != LocationPermission.always) {
+        return;
+      }
+    }
+
+    final position = await Geolocator.getCurrentPosition();
     if (mounted) {
       setState(() {
         _currentPosition = LatLng(position.latitude, position.longitude);
-        _calculateDistanceAndTime();
-        _createPolylines();
       });
+      await _fetchRoutePolyline();
+      _calculateDistanceAndTime();
     }
+  }
+
+  Future<void> _fetchRoutePolyline() async {
+    if (_currentPosition == null) return;
+
+    final origin = LatLng(41.2995, 69.2401);
+    final destination =
+        '${widget.destination.latitude},${widget.destination.longitude}';
+    print('Origin: $origin');
+    print('Destination: $destination');
+
+    final url =
+        'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&mode=driving&key=AIzaSyBcjnX5w8RHfWQ113YmpBM2NhRBYp1j6ws';
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      print('API body: ${response.body}');
+
+      if (data['status'] != 'OK') {
+        print('Error: ${data['error_message']}');
+        return;
+      }
+
+      if (data['routes'].isEmpty) {
+        print('No routes found.');
+        return;
+      }
+
+      if (!data['routes'][0].containsKey('overview_polyline')) {
+        print('No polyline found.');
+        return;
+      }
+
+      final points = data['routes'][0]['overview_polyline']['points'];
+      final List<LatLng> polylineCoordinates = _decodePolyline(points);
+
+      setState(() {
+        _polylines.clear();
+        _polylines.add(Polyline(
+          polylineId: const PolylineId('route'),
+          color: Style.error500,
+          width: 5,
+          points: polylineCoordinates,
+        ));
+      });
+
+      print('Polyline added with ${polylineCoordinates.length} points');
+
+      _fitMapToPolyline(polylineCoordinates);
+    } else {
+      print('Failed to fetch directions: ${response.body}');
+    }
+  }
+
+  List<LatLng> _decodePolyline(String encoded) {
+    List<LatLng> polyline = [];
+    int index = 0, len = encoded.length;
+    int lat = 0, lng = 0;
+
+    while (index < len) {
+      int b, shift = 0, result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlat = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
+      lat += dlat;
+
+      shift = 0;
+      result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlng = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
+      lng += dlng;
+
+      polyline.add(LatLng(lat / 1e5, lng / 1e5));
+    }
+
+    return polyline;
   }
 
   void _calculateDistanceAndTime() {
     if (_currentPosition == null) return;
 
-    double distanceInMeters = Geolocator.distanceBetween(
+    final meters = Geolocator.distanceBetween(
       _currentPosition!.latitude,
       _currentPosition!.longitude,
       widget.destination.latitude,
       widget.destination.longitude,
     );
 
-    _distanceInKm = distanceInMeters / 1000;
+    _distanceInKm = meters / 1000;
 
-    double hours = _distanceInKm / 5;
-    if (hours < 1) {
-      int minutes = (hours * 60).round();
-      _travelTime = tr('minutes', args: [minutes.toString()]);
-    } else {
-      _travelTime = tr('hours', args: [hours.toStringAsFixed(1)]);
-    }
+    final hours = _distanceInKm / 5;
+    _travelTime = hours < 1
+        ? tr('minutes', args: [(hours * 60).round().toString()])
+        : tr('hours', args: [hours.toStringAsFixed(1)]);
 
     setState(() {});
   }
 
-  void _createPolylines() {
-    if (_currentPosition == null) return;
+  void _fitMapToPolyline(List<LatLng> polylinePoints) {
+    if (_mapController == null || polylinePoints.isEmpty) return;
 
-    _polylines.add(Polyline(
-      polylineId: const PolylineId('route'),
-      points: [
-        _currentPosition!,
-        widget.destination,
-      ],
-      color: Style.error500,
-      width: 5,
-    ));
+    final bounds = _createBoundsFromLatLngList(polylinePoints);
+    _mapController!.animateCamera(CameraUpdate.newLatLngBounds(bounds, 60));
+  }
 
-    setState(() {});
+  LatLngBounds _createBoundsFromLatLngList(List<LatLng> list) {
+    assert(list.isNotEmpty);
+    double x0 = list.first.latitude;
+    double x1 = list.first.latitude;
+    double y0 = list.first.longitude;
+    double y1 = list.first.longitude;
+
+    for (var latLng in list) {
+      if (latLng.latitude > x1) x1 = latLng.latitude;
+      if (latLng.latitude < x0) x0 = latLng.latitude;
+      if (latLng.longitude > y1) y1 = latLng.longitude;
+      if (latLng.longitude < y0) y0 = latLng.longitude;
+    }
+
+    return LatLngBounds(
+      southwest: LatLng(x0, y0),
+      northeast: LatLng(x1, y1),
+    );
   }
 
   @override
@@ -100,29 +208,16 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Scaffold(
         body: _currentPosition == null
-            ? Center(
-                child: CircularProgressIndicator(
-                color: colors.error500,
-              ))
+            ? Center(child: CircularProgressIndicator(color: colors.error500))
             : Stack(
                 children: [
                   GoogleMap(
-                    compassEnabled: true,
-                    buildingsEnabled: true,
-                    zoomGesturesEnabled: true,
-                    trafficEnabled: true,
-                    mapToolbarEnabled: true,
                     initialCameraPosition: CameraPosition(
                       target: _currentPosition!,
-                      zoom: 18,
+                      zoom: 14,
                     ),
-                    onMapCreated: (controller) {
-                      _mapController = controller;
-                      _fitMapToPolyline();
-                    },
+                    onMapCreated: (controller) => _mapController = controller,
                     myLocationEnabled: true,
-                    myLocationButtonEnabled: false,
-                    zoomControlsEnabled: false,
                     polylines: _polylines,
                     markers: {
                       Marker(
@@ -173,26 +268,17 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              '${_distanceInKm.toStringAsFixed(1)} km',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
+                            Text('${_distanceInKm.toStringAsFixed(1)} km',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16)),
                             const SizedBox(height: 4),
-                            Text(
-                              _travelTime,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey,
-                              ),
-                            ),
+                            Text(_travelTime,
+                                style: const TextStyle(
+                                    fontSize: 14, color: Colors.grey)),
                           ],
                         ),
                       ),
                     ),
-                  // Enhanced bottom container
                   Positioned(
                     bottom: 0,
                     left: 0,
@@ -209,42 +295,12 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
                       workingHours: widget.workingHours,
                       image: widget.image,
                       distanceKm: _distanceInKm,
-                      travelTime: '',
+                      travelTime: _travelTime,
                     ),
                   ),
                 ],
               ),
       );
     });
-  }
-
-  Future<void> _fitMapToPolyline() async {
-    if (_mapController == null || _currentPosition == null) return;
-
-    final bounds = maps.LatLngBounds(
-      southwest: maps.LatLng(
-        _currentPosition!.latitude < widget.destination.latitude
-            ? _currentPosition!.latitude
-            : widget.destination.latitude,
-        _currentPosition!.longitude < widget.destination.longitude
-            ? _currentPosition!.longitude
-            : widget.destination.longitude,
-      ),
-      northeast: maps.LatLng(
-        _currentPosition!.latitude > widget.destination.latitude
-            ? _currentPosition!.latitude
-            : widget.destination.latitude,
-        _currentPosition!.longitude > widget.destination.longitude
-            ? _currentPosition!.longitude
-            : widget.destination.longitude,
-      ),
-    );
-
-    _mapController!.animateCamera(
-      maps.CameraUpdate.newLatLngBounds(
-        bounds,
-        180,
-      ),
-    );
   }
 }

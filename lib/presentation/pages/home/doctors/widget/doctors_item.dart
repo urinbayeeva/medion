@@ -214,7 +214,6 @@ class DoctorsItem extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => MedServiceChoose(
-                              serviceTypeId: 0,
                               isDoctorService: true,
                               doctorId: doctorID,
                             ))).then((value) {}).then((_) {

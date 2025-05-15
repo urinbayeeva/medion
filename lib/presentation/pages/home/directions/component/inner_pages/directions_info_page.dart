@@ -294,13 +294,14 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                 doctor.image!,
                 doctor.id!,
               ),
-            );
+            ).then((_) {});
           },
           name: doctor.name ?? '',
           profession: doctor.jobName ?? "No profession",
           experience: "experience"
               .tr(namedArgs: {"count": doctor.experienceYears.toString()}),
           doctorID: doctor.id!,
+          home: false,
         );
       },
     );
@@ -317,7 +318,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
         final serviceId = service.id ?? index;
         return ServiceWidget(
           consultInfo: service.name ?? "No service name",
-          consultPrice: changeSum
+          consultPrice: !changeSum
               ? "${formatNumber(service.priceUzs)} UZS"
               : "${formatNumber(service.priceUzd, isDecimal: true)} USD",
           isSelected: selectedServiceIds.contains(serviceId),

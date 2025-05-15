@@ -9,6 +9,7 @@ import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/pages/appointment/payment_web_view.dart';
 import 'package:medion/presentation/pages/visits/component/visit_detail_page.dart';
 import 'package:medion/presentation/pages/visits/widgets/visits_new_design_card.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -20,11 +21,12 @@ class MyVisitsPage extends StatefulWidget {
 }
 
 class _MyVisitsPageState extends State<MyVisitsPage> {
-  List<OrderVisit> visits = [];
+  List<OrderVisit> orderVisits = []; // For "My Bills" tab
+  List<Visit> visits = []; // For "My Appointments" tab
   List<Order> orders = [];
   DBService? _dbService;
   bool _isLoading = true;
-  bool _showVisits = true;
+  bool _showVisits = false;
 
   @override
   void initState() {
@@ -46,15 +48,18 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
   Future<void> _loadVisits() async {
     if (_dbService == null) return;
     final token = _dbService!.token.accessToken;
-    if (token == null || token.isEmpty || _dbService!.isTokenExpired(token))
+    if (token == null || token.isEmpty || _dbService!.isTokenExpired(token)) {
       return;
+    }
 
     final service = PatientVisitsService(token: token);
     try {
       final response = await service.getPatientVisits();
       setState(() {
         orders = response.orders;
-        visits = response.orders.expand((order) => order.orderVisits).toList();
+        orderVisits =
+            response.orders.expand((order) => order.orderVisits).toList();
+        visits = response.visits;
       });
     } catch (e) {
       print('Failed to fetch visits: $e');
@@ -103,20 +108,20 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                         'Мои счета'.tr(),
                         style: fonts.xSmallLink.copyWith(
                           color:
-                              _showVisits ? colors.shade0 : colors.primary900,
+                              !_showVisits ? colors.shade0 : colors.primary900,
                         ),
                       ),
                       Text(
                         'Мои приемы'.tr(),
                         style: fonts.xSmallLink.copyWith(
                           color:
-                              !_showVisits ? colors.shade0 : colors.primary900,
+                              _showVisits ? colors.shade0 : colors.primary900,
                         ),
                       ),
                     ],
-                    onChanged: (value) => setState(() => _showVisits = !value),
+                    onChanged: (value) => setState(() => _showVisits = value),
                     current: _showVisits,
-                    values: const [true, false],
+                    values: const [false, true],
                   ),
                   12.h.verticalSpace,
                 ],
@@ -131,18 +136,26 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
     });
   }
 
-  Widget _buildVisitsList() {
-    if (_isLoading) return const Center(child: CircularProgressIndicator());
-    if (visits.isEmpty) return Center(child: Text('No visits found'.tr()));
+  Widget _buildBillsList() {
+    if (_isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: Style.error500,
+        ),
+      );
+    }
+    if (orderVisits.isEmpty) {
+      return Center(child: Text('no_result_found'.tr()));
+    }
 
     return ListView.builder(
-      itemCount: visits.length,
+      itemCount: orderVisits.length,
       padding: EdgeInsets.zero,
       itemBuilder: (_, index) {
-        final visit = visits[index];
+        final visit = orderVisits[index];
         final pdfUrl = _getPdfUrlForVisit(visit);
         return VisitsNewDesignCard(
-          onTap: () => _navigateToVisitDetails(visit, pdfUrl),
+          onTap: () => _navigateToOrderVisitDetails(visit, pdfUrl),
           doctorName: visit.doctorFullName,
           doctorJob: visit.doctorJobName,
           serviceName: visit.serviceName,
@@ -155,16 +168,38 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
     );
   }
 
-  Widget _buildBillsList() {
-    return Center(
-      child: Text(
-        'Bills content will be displayed here',
-        style: TextStyle(fontSize: 16), // Using default style for bills content
-      ),
+  Widget _buildVisitsList() {
+    if (_isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: Style.error500,
+        ),
+      );
+    }
+    if (visits.isEmpty) {
+      return Center(child: Text('no_result_found'.tr()));
+    }
+
+    return ListView.builder(
+      itemCount: visits.length,
+      padding: EdgeInsets.zero,
+      itemBuilder: (_, index) {
+        final visit = visits[index];
+        return VisitsNewDesignCard(
+          onTap: () => _navigateToVisitDetails(visit),
+          doctorName: visit.doctorFullName,
+          doctorJob: visit.doctorJobName,
+          serviceName: visit.serviceName,
+          location: visit.address,
+          timaAndDate: formatVisitDateTime(visit.visitDate, visit.visitTime),
+          paymentStatus: visit.paymentStatus,
+          doctorImage: visit.image,
+        );
+      },
     );
   }
 
-  void _navigateToVisitDetails(OrderVisit visit, String pdfUrl) {
+  void _navigateToOrderVisitDetails(OrderVisit visit, String pdfUrl) {
     context.read<BottomNavBarController>().changeNavBar(true);
     Navigator.push(
       context,
@@ -184,6 +219,32 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
               );
             }
           },
+          longitude: visit.longitude,
+          latitude: visit.latitude,
+          image: visit.image,
+          doctorName: visit.doctorFullName,
+          categoryName: visit.categoryName,
+          visitDate: visit.visitDate,
+          visitLocation: visit.address,
+          visitPaymentByWhom: visit.paymentMethod,
+          visitStatus: visit.visitStatus,
+          serviceName: visit.serviceName,
+          servicePrice: 0,
+          paymentMethod: visit.paymentMethod,
+        ),
+      ),
+    ).then((_) {
+      context.read<BottomNavBarController>().changeNavBar(false);
+    });
+  }
+
+  void _navigateToVisitDetails(Visit visit) {
+    context.read<BottomNavBarController>().changeNavBar(true);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VisitDetailPage(
+          onTap: () {}, // No PDF for regular visits
           longitude: visit.longitude,
           latitude: visit.latitude,
           image: visit.image,
