@@ -125,7 +125,7 @@ class _MainPageState extends State<MainPage> {
       child: ThemeWrapper(
         builder: (ctx, colors, fonts, icons, global) {
           return Scaffold(
-            backgroundColor: colors.shade0,
+            backgroundColor: colors.backgroundColor,
             body: Consumer<BottomNavBarController>(
               builder: (context, navController, _) {
                 // Remove the automatic index synchronization here

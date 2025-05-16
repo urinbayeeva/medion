@@ -163,7 +163,7 @@
   "doctors_reports": "Shifokor hisobotlari",
   "analyzes": "Analizlar",
   "balance": "Balans",
-  "sum": "{amount} so'm",
+  "sum": "{amount} so'm dan boshlanadi",
   "cache": "Keshbek",
   "appointment_nav_bar": "Qabulga yozilish",
   "choose_doctor_time": "Shifokorning sana va vaqtini belgilang",
@@ -386,5 +386,8 @@
   "hours": "{} soat",
   "want_to_logout": "Tizimdan chiqishni xohlaysizmi?",
   "back_to": "Ortga qaytish",
+  "with_vat": "QQS bilan",
+  "search": "Qidirish",
+  "remove_all": "Hammasini o'chirish",
   "": ""
 }

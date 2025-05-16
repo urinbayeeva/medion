@@ -86,9 +86,7 @@ class _CAppBarState extends State<CAppBar> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // const SafeArea(bottom: false, child: SizedBox.shrink()),
-                  widget.title == null
-                      ? 12.h.verticalSpace
-                      : 40.h.verticalSpace,
+                  widget.title == null ? 8.h.verticalSpace : 40.h.verticalSpace,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

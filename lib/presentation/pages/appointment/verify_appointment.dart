@@ -114,7 +114,7 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                     },
                   ),
                 ),
-                12.h.verticalSpace,
+                6.h.verticalSpace,
               ],
             );
           });

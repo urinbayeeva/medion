@@ -11,8 +11,7 @@ import 'package:medion/utils/format_currency.dart';
 class ServiceSelectionModal extends StatelessWidget {
   final List<dynamic> selectedServices;
   final int chose;
-  final Function(Service)?
-      onRemoveService; // Changed to accept specific service
+  final Function(Service)? onRemoveService;
   final VoidCallback? onRemoveAllServices;
 
   const ServiceSelectionModal({
@@ -70,13 +69,6 @@ class ServiceSelectionModal extends StatelessWidget {
                             service.name ?? "",
                             style: fonts.xSmallLink.copyWith(
                                 fontSize: 13.sp, fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            "Test Description",
-                            style: fonts.xSmallLink.copyWith(
-                                fontSize: 11.sp,
-                                fontWeight: FontWeight.w500,
-                                color: const Color(0xFF66686C)),
                           ),
                           Text(
                             "sum".tr(namedArgs: {

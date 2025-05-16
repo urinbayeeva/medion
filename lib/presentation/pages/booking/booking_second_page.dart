@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/selected_provider.dart';
@@ -22,6 +23,7 @@ import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/c_progress_bar.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
+import 'package:medion/presentation/component/custom_button.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/component/phone_number_component.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
@@ -30,6 +32,7 @@ import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/constants.dart';
 import 'package:medion/utils/format_currency.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -109,15 +112,19 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
   void _updateSelectedServices() {
     if (!mounted) return;
     final bookingState = context.read<BookingBloc>().state;
+    final selectedIds = _serviceIdsProvider.selectedServiceIds;
+
     setState(() {
       selectedServices = bookingState.categoryServices
           .expand((category) => category.services)
-          .where((service) =>
-              _serviceIdsProvider.selectedServiceIds.contains(service.id))
+          .where((service) => selectedIds.contains(service.id))
           .toList();
-      chose = selectedServices.length - 1;
-      selectedServiceIDCatch.clear();
-      selectedServiceIDCatch.addAll(_serviceIdsProvider.selectedServiceIds);
+
+      chose = selectedServices.length;
+      selectedServiceIDCatch
+        ..clear()
+        ..addAll(selectedIds);
+
       if (_searchController.text.isEmpty) {
         _filteredCategories = bookingState.categoryServices.toList();
       }
@@ -286,7 +293,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                       ),
                     ),
                     const CustomProgressBar(
-                      count: 1,
+                      count: 2,
                       allCount: 5,
                     ),
                     2.h.verticalSpace,
@@ -402,28 +409,61 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                Text(
-                                                  service.decodedDescription,
-                                                  style:
-                                                      fonts.smallLink.copyWith(
-                                                    color: colors.neutral600,
-                                                    fontSize: 11.sp,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                  softWrap: true,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
+                                                service.decodedDescription
+                                                        .isEmpty
+                                                    ? SizedBox.shrink()
+                                                    : Text(
+                                                        service
+                                                            .decodedDescription,
+                                                        style: fonts.smallLink
+                                                            .copyWith(
+                                                          color:
+                                                              colors.neutral600,
+                                                          fontSize: 11.sp,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                        softWrap: true,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                18.h.verticalSpace,
                                                 Text(
                                                   (widget.isUSD)
-                                                      ? "${formatNumber(service.priceUsd, isDecimal: true)} USD"
-                                                      : "${formatNumber(service.priceUzs)} UZS",
+                                                      ? "sum".tr(namedArgs: {
+                                                          "amount":
+                                                              formatNumber(
+                                                                  service
+                                                                      .priceUsd,
+                                                                  isDecimal:
+                                                                      true)
+                                                        })
+                                                      : "sum".tr(namedArgs: {
+                                                          "amount":
+                                                              formatNumber(
+                                                                  service
+                                                                      .priceUzs,
+                                                                  isDecimal:
+                                                                      true)
+                                                        }),
                                                   style:
                                                       fonts.smallLink.copyWith(
                                                     color: colors.primary900,
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 13.sp,
                                                   ),
+                                                ),
+                                                Text(
+                                                  "with_vat".tr(),
+                                                  style:
+                                                      fonts.smallLink.copyWith(
+                                                    fontSize: 13.sp,
+                                                    color: colors.neutral600,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                  softWrap: true,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ],
                                             ),
@@ -440,14 +480,12 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                                   _serviceIdsProvider
                                                       .removeServiceId(
                                                           service.id!);
-                                                  chose--;
                                                 } else {
                                                   _servicesProvider
                                                       .addService(service);
                                                   _serviceIdsProvider
                                                       .addServiceId(
                                                           service.id!);
-                                                  chose++;
                                                 }
                                                 selectedServiceIDCatch.clear();
                                                 selectedServiceIDCatch.addAll(
@@ -493,256 +531,271 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                   );
                 },
               ),
-              if (chose > 0) ...[
-                BlocBuilder<BookingBloc, BookingState>(
-                  builder: (context, state) {
-                    if (state.categoryServices.isEmpty) {
-                      return const SizedBox.shrink();
-                    }
-                    return Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 16.h),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: colors.neutral200),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(24.r),
-                          topRight: Radius.circular(24.r),
-                        ),
+              BlocBuilder<BookingBloc, BookingState>(
+                builder: (context, state) {
+                  if (state.categoryServices.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
+                  return Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: colors.neutral200),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24.r),
+                        topRight: Radius.circular(24.r),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "count_services_selected"
-                                    .tr(namedArgs: {"count": "$chose"}),
-                                style: fonts.xSmallLink.copyWith(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "count_services_selected"
+                                  .tr(namedArgs: {"count": "$chose"}),
+                              style: fonts.xSmallLink.copyWith(
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.bold,
                               ),
-                              AnimationButtonEffect(
-                                onTap: () {
-                                  if (!mounted) return;
-                                  showModalBottomSheet(
-                                    context: context,
-                                    isDismissible: true,
-                                    isScrollControlled: true,
-                                    enableDrag: true,
-                                    constraints: BoxConstraints(
-                                      maxHeight:
-                                          MediaQuery.of(context).size.height *
-                                              0.8,
-                                    ),
-                                    builder: (context) {
-                                      return ConstrainedBox(
-                                        constraints: BoxConstraints(
-                                          maxHeight: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.8,
-                                        ),
-                                        child: SingleChildScrollView(
-                                          child: ServiceSelectionModal(
-                                            selectedServices: selectedServices,
-                                            chose: chose,
-                                            onRemoveService: (service) {
-                                              if (!mounted) return;
-                                              setState(() {
-                                                _servicesProvider
-                                                    .removeService(service);
-                                                _serviceIdsProvider
-                                                    .removeServiceId(
-                                                        service.id!);
-                                                selectedServices
-                                                    .remove(service);
-                                                selectedServiceIDCatch
-                                                    .remove(service.id!);
-                                                chose--;
-                                              });
+                            ),
+                            AnimationButtonEffect(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isDismissible: true,
+                                  isScrollControlled: true,
+                                  enableDrag: true,
+                                  constraints: BoxConstraints(
+                                    maxHeight:
+                                        MediaQuery.of(context).size.height *
+                                            0.8,
+                                  ),
+                                  builder: (context) {
+                                    // Use StatefulBuilder to maintain modal state
+                                    return StatefulBuilder(
+                                      builder: (BuildContext context,
+                                          StateSetter setModalState) {
+                                        return ListenableProvider.value(
+                                          value: _servicesProvider,
+                                          child: Consumer<
+                                              SelectedServicesProvider>(
+                                            builder:
+                                                (context, provider, child) {
+                                              return ConstrainedBox(
+                                                constraints:
+                                                    const BoxConstraints(),
+                                                child: SingleChildScrollView(
+                                                  child: ServiceSelectionModal(
+                                                    // Use the provider's list directly
+                                                    selectedServices: provider
+                                                        .selectedServices,
+                                                    chose: provider
+                                                        .selectedServices
+                                                        .length,
+                                                    onRemoveService: (service) {
+                                                      if (!mounted) return;
+                                                      // Only modify through providers
+                                                      _servicesProvider
+                                                          .removeService(
+                                                              service);
+                                                      _serviceIdsProvider
+                                                          .removeServiceId(
+                                                              service.id!);
+                                                    },
+                                                    onRemoveAllServices: () {
+                                                      if (!mounted) return;
+                                                      _servicesProvider
+                                                          .clearServices();
+                                                      _serviceIdsProvider
+                                                          .clearServiceIds();
+                                                    },
+                                                  ),
+                                                ),
+                                              );
                                             },
                                           ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                child: icons.right.svg(
-                                  width: 20.w,
-                                  height: 20.h,
-                                  color: colors.iconGreyColor,
-                                ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                );
+                              },
+                              child: icons.right.svg(
+                                width: 20.w,
+                                height: 20.h,
+                                color: colors.iconGreyColor,
                               ),
-                            ],
-                          ),
-                          12.h.verticalSpace,
-                          CButton(
-                            title: "next".tr(),
-                            onTap: () async {
-                              final selectedServices = state.categoryServices
-                                  .expand((category) => category.services)
-                                  .where((service) => selectedServiceIDCatch
-                                      .contains(service.id))
-                                  .toList();
-                              final requiresCallBack = selectedServices.any(
-                                  (service) =>
-                                      service.canReceiveCallBack == true);
-                              if (requiresCallBack) {
-                                bool? confirmCallBack = await showDialog<bool>(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    backgroundColor: colors.shade0,
-                                    content: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Center(
-                                          child: Text(
-                                            "Обратный звонок".tr(),
-                                            style: fonts.mediumMain,
-                                          ),
+                            ),
+                          ],
+                        ),
+                        12.h.verticalSpace,
+                        CustomButton(
+                          borderRadius: 8.r,
+                          title: "next".tr(),
+                          isDisabled: chose ==
+                              0, // Disable button if no services chosen
+                          onPressed: () async {
+                            final selectedServices = state.categoryServices
+                                .expand((category) => category.services)
+                                .where((service) =>
+                                    selectedServiceIDCatch.contains(service.id))
+                                .toList();
+                            final requiresCallBack = selectedServices.any(
+                                (service) =>
+                                    service.canReceiveCallBack == true);
+                            if (requiresCallBack) {
+                              bool? confirmCallBack = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  backgroundColor: colors.shade0,
+                                  content: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          "Обратный звонок".tr(),
+                                          style: fonts.mediumMain,
                                         ),
-                                        12.h.verticalSpace,
-                                        Text(
-                                          textAlign: TextAlign.center,
-                                          "Оставьте свой номер телефона и мы вам перезвоним"
-                                              .tr(),
-                                          style: fonts.xSmallMain
-                                              .copyWith(fontSize: 14.sp),
-                                        ),
-                                        12.h.verticalSpace,
-                                        Text("contact_phone_number".tr(),
-                                            style: fonts.regularLink),
-                                        CustomTextField(
-                                          autoFocus: true,
-                                          title: "",
-                                          keyboardType: TextInputType.phone,
-                                          onChanged: (value) {
-                                            if (value.length >= 17) {
-                                              setState(() {});
-                                            }
-                                          },
-                                          controller: _phoneNumberController,
-                                          formatter: <TextInputFormatter>[
-                                            InternationalPhoneFormatter()
-                                          ],
-                                          hintText: '+998',
-                                          validator: (String? text) {},
-                                        ),
-                                        30.h.verticalSpace,
-                                        CButton(
-                                          title: "send".tr(),
-                                          onTap: () async {
-                                            final phone =
-                                                _phoneNumberController.text;
-                                            final serviceIds =
-                                                selectedServiceIDCatch.toList();
+                                      ),
+                                      12.h.verticalSpace,
+                                      Text(
+                                        textAlign: TextAlign.center,
+                                        "Оставьте свой номер телефона и мы вам перезвоним"
+                                            .tr(),
+                                        style: fonts.xSmallMain
+                                            .copyWith(fontSize: 14.sp),
+                                      ),
+                                      12.h.verticalSpace,
+                                      Text("contact_phone_number".tr(),
+                                          style: fonts.regularLink),
+                                      CustomTextField(
+                                        autoFocus: true,
+                                        title: "",
+                                        keyboardType: TextInputType.phone,
+                                        onChanged: (value) {
+                                          if (value.length >= 17) {
+                                            setState(() {});
+                                          }
+                                        },
+                                        controller: _phoneNumberController,
+                                        formatter: <TextInputFormatter>[
+                                          InternationalPhoneFormatter()
+                                        ],
+                                        hintText: '+998',
+                                        validator: (String? text) {},
+                                      ),
+                                      30.h.verticalSpace,
+                                      CButton(
+                                        title: "send".tr(),
+                                        onTap: () async {
+                                          final phone =
+                                              _phoneNumberController.text;
+                                          final serviceIds =
+                                              selectedServiceIDCatch.toList();
 
-                                            final response = await http.post(
-                                              Uri.parse(
-                                                  'https://his.uicgroup.tech/apiweb/help/call'),
-                                              headers: {
-                                                'Content-Type':
-                                                    'application/json',
-                                              },
-                                              body: jsonEncode({
-                                                'phone': phone,
-                                                'service_ids': serviceIds,
-                                              }),
-                                            );
+                                          final response = await http.post(
+                                            Uri.parse(
+                                                '${Constants.baseUrlP}/help/call'),
+                                            headers: {
+                                              'Content-Type':
+                                                  'application/json',
+                                            },
+                                            body: jsonEncode({
+                                              'phone': phone,
+                                              'service_ids': serviceIds,
+                                            }),
+                                          );
 
-                                            // ignore: use_build_context_synchronously
-                                            Navigator.of(context).pop();
+                                          // ignore: use_build_context_synchronously
+                                          Navigator.of(context).pop();
 
-                                            if (response.statusCode == 200) {
-                                              showDialog(
-                                                // ignore: use_build_context_synchronously
-                                                context: context,
-                                                builder: (context) {
-                                                  return AlertDialog(
-                                                    backgroundColor:
-                                                        colors.shade0,
-                                                    content: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                            "assets/icons/done.svg"),
-                                                        8.h.verticalSpace,
-                                                        Text("Заявка оставлена",
-                                                            style: fonts
-                                                                .mediumMain),
-                                                        4.h.verticalSpace,
-                                                        Text(
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          "В скором времени мы вам перезвоним по поводу вашей заявки",
+                                          if (response.statusCode == 200) {
+                                            showDialog(
+                                              // ignore: use_build_context_synchronously
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  backgroundColor:
+                                                      colors.shade0,
+                                                  content: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                          "assets/icons/done.svg"),
+                                                      8.h.verticalSpace,
+                                                      Text("Заявка оставлена",
                                                           style:
-                                                              fonts.xSmallMain,
-                                                        ),
-                                                        30.h.verticalSpace,
-                                                        CButton(
-                                                          title: "back".tr(),
-                                                          onTap: () {
-                                                            Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    const MainPage(
-                                                                        index:
-                                                                            0),
-                                                              ),
-                                                            );
-                                                          },
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                    content: Text(
-                                                        "Ошибка отправки данных")),
-                                              );
-                                            }
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                    actions: [],
+                                                              fonts.mediumMain),
+                                                      4.h.verticalSpace,
+                                                      Text(
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        "В скором времени мы вам перезвоним по поводу вашей заявки",
+                                                        style: fonts.xSmallMain,
+                                                      ),
+                                                      30.h.verticalSpace,
+                                                      CButton(
+                                                        title: "back".tr(),
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  const MainPage(
+                                                                      index: 0),
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                  content: Text(
+                                                      "Ошибка отправки данных")),
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                );
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AppointmentPage(
-                                      index: 2,
-                                      selectedServiceIds:
-                                          selectedServiceIDCatch.toSet(),
-                                    ),
+                                  actions: [],
+                                ),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AppointmentPage(
+                                    index: 2,
+                                    selectedServiceIds:
+                                        selectedServiceIDCatch.toSet(),
                                   ),
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ],
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         );

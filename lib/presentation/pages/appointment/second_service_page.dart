@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/selected_provider.dart';
+import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
@@ -45,7 +46,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
   late final SelectedServicesProvider _servicesProvider;
   int chose = 0;
   int? selectedIndex;
-  List<dynamic> selectedServices = [];
+  List<Service> selectedServices = [];
   final List<int> selectedServiceIDCatch = [];
 
   @override
@@ -157,16 +158,16 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            Text(
-                                              'Test description',
-                                              style: fonts.smallLink.copyWith(
-                                                color: colors.neutral600,
-                                                fontSize: 11.sp,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                              softWrap: true,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
+                                            // Text(
+                                            //   'Test description',
+                                            //   style: fonts.smallLink.copyWith(
+                                            //     color: colors.neutral600,
+                                            //     fontSize: 11.sp,
+                                            //     fontWeight: FontWeight.w400,
+                                            //   ),
+                                            //   softWrap: true,
+                                            //   overflow: TextOverflow.ellipsis,
+                                            // ),
                                             Text(
                                               widget.isUSD
                                                   ? "${formatNumber(service.priceUzs)} UZS"

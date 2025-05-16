@@ -81,7 +81,7 @@
     "continue": "Продолжить",
     "experience": "Стаж {count} лет",
     "select_service_type": "Выберите тип услуги",
-    "step": "Шаг {count} из {total}:",
+    "step": "Шаг {count} из {total}: ",
     "choose_service": "Выберите  услугy",
     "service_added": "Услуга добавлена!",
     "service_adding_error": "Неизвестная ошибка 404 ",
@@ -163,7 +163,7 @@
     "doctors_reports": "Заключения врача",
     "analyzes": "Анализы",
     "balance": "Баланс",
-    "sum": "{amount} сум",
+    "sum": "От {amount} сум",
     "cache": "Кешбек",
     "appointment_nav_bar": "Записаться",
     "choose_doctor_time": "Выберите дату и время врача",
@@ -387,5 +387,8 @@
     "no_doctors_found": "",
     "want_to_logout": "Вы действительно хотите выйти?",
     "back_to": "Назад",
+    "with_vat": "С учетом НДС",
+    "search": "Поиск",
+    "remove_all": "Удалить все",
     "": ""
 }
