@@ -398,5 +398,8 @@
   "sunday": "Yakshanba",
   "see_all_doctors": "Barchasini ko'rish",
   "search_hint": "Hammasini bir joyda toping. Qidiruv so‘zini kiriting...",
+  "no_search_results": "Qidiruv natijalari topilmadi",
+  "no_services_available": "Xizmatlar mavjud emas",
+  "cacheback": "Keshbek",
   "": ""
 }

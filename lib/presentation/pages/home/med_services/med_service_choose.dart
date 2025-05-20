@@ -284,7 +284,7 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                   padding: EdgeInsets.only(bottom: 8.h),
                   child: CustomTextField(
                     controller: _searchController,
-                    hintText: "search_doctors".tr(),
+                    hintText: "search_by_services".tr(),
                     prefixIcon: icons.search.svg(),
                   ),
                 ),
@@ -628,7 +628,7 @@ class _ServiceItem extends StatelessWidget {
                     // ),
                     4.h.verticalSpace,
                     Text(
-                      changeSum
+                      !changeSum
                           ? "sum".tr(namedArgs: {
                               "amount":
                                   "${formatNumber(service['doctor_price_start_uzs'])}"

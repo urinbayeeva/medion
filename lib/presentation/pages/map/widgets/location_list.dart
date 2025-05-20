@@ -51,8 +51,7 @@ class LocationList extends StatelessWidget {
                             : const Color(0xFFF2F2F3),
                         borderRadius: BorderRadius.circular(8),
                         border: selectedIndex == index
-                            ? Border.all(
-                                color: const Color(0xFFE6E6E6), width: 1)
+                            ? Border.all(color: colors.primary900, width: 1)
                             : null,
                       ),
                       child: Row(

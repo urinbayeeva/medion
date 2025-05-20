@@ -6,6 +6,7 @@ import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_progress_bar.dart';
+import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/booking/booking_second_page.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/styles/style.dart';
@@ -84,15 +85,57 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
               buildWhen: (previous, current) {
                 return previous.selectedServiceId !=
                         current.selectedServiceId ||
-                    previous.bookingTypes != current.bookingTypes;
+                    previous.bookingTypes != current.bookingTypes ||
+                    previous.loading != current.loading ||
+                    previous.error != current.error;
               },
               builder: (context, state) {
                 if (state.loading) {
-                  return CircularProgressIndicator(color: colors.error50);
-                }
-                if (state.error) {
-                  return Center(
-                    child: Text("no_result_found".tr()),
+                  return Expanded(
+                    child: ShimmerView(
+                      child: ListView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        itemCount: 5, // Show 5 shimmer placeholders
+                        itemBuilder: (context, index) {
+                          return ShimmerContainer(
+                            margin: EdgeInsets.symmetric(vertical: 8.h),
+                            height: 80
+                                .h, // Approximate height of MedicalDirectionItem
+                            borderRadius: 12.r,
+                            child: Row(
+                              children: [
+                                ShimmerContainer(
+                                  width: 40.w,
+                                  height: 40.h,
+                                  borderRadius: 8.r,
+                                  margin: EdgeInsets.all(8.w),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ShimmerContainer(
+                                        width: 150.w,
+                                        height: 16.h,
+                                        borderRadius: 4.r,
+                                        margin: EdgeInsets.only(bottom: 8.h),
+                                      ),
+                                      ShimmerContainer(
+                                        width: 100.w,
+                                        height: 12.h,
+                                        borderRadius: 4.r,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   );
                 }
 

@@ -26,6 +26,7 @@ import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/component/custom_button.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/component/phone_number_component.dart';
+import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/appointment/component/service_selection_model.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
@@ -137,10 +138,8 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
   void _filterServices(String query) {
     if (!mounted) return;
 
-    // Cancel any previous debounce timer
     if (_searchDebounce?.isActive ?? false) _searchDebounce?.cancel();
 
-    // Set up new debounce timer
     _searchDebounce = Timer(const Duration(milliseconds: 300), () {
       if (!mounted) return;
 
@@ -194,7 +193,6 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
   Widget build(BuildContext context) {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
-        // Create a new RefreshController for this build
         final RefreshController refreshController = RefreshController();
 
         return Scaffold(
@@ -204,6 +202,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
               CAppBar(
                 title: "choose_service".tr(),
                 isBack: true,
+                showBottomBar: true,
                 centerTitle: true,
                 trailing: Row(
                   children: [
@@ -295,10 +294,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                         ],
                       ),
                     ),
-                    const CustomProgressBar(
-                      count: 2,
-                      allCount: 5,
-                    ),
+                    CustomProgressBar(count: 2, allCount: 5),
                     2.h.verticalSpace,
                     CustomTextField(
                       controller: _searchController,
@@ -321,15 +317,96 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                   }
                 },
                 builder: (context, state) {
-                  if (state.categoryServices.isEmpty) {
-                    return const SizedBox.shrink();
+                  if (state.loading) {
+                    return Expanded(
+                      child: ShimmerView(
+                        child: ListView.builder(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          itemCount: 10,
+                          itemBuilder: (context, index) {
+                            return ShimmerContainer(
+                              margin: EdgeInsets.symmetric(vertical: 8.h),
+                              height: 70.h,
+                              borderRadius: 12.r,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(12.w),
+                                    child: ShimmerContainer(
+                                      width: 150.w,
+                                      height: 16.h,
+                                      borderRadius: 4.r,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount:
+                                          2, // 2 service placeholders per category
+                                      itemBuilder: (context, serviceIndex) {
+                                        return ShimmerContainer(
+                                          height: 80.h,
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 8.w, vertical: 4.h),
+                                          borderRadius: 8.r,
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(8.w),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      ShimmerContainer(
+                                                        width: 120.w,
+                                                        height: 14.h,
+                                                        borderRadius: 4.r,
+                                                      ),
+                                                      8.h.verticalSpace,
+                                                      ShimmerContainer(
+                                                        width: 80.w,
+                                                        height: 12.h,
+                                                        borderRadius: 4.r,
+                                                      ),
+                                                      8.h.verticalSpace,
+                                                      ShimmerContainer(
+                                                        width: 100.w,
+                                                        height: 12.h,
+                                                        borderRadius: 4.r,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              ShimmerContainer(
+                                                width: 40.w,
+                                                height: 40.h,
+                                                borderRadius: 8.r,
+                                                margin: EdgeInsets.all(8.w),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    );
                   }
 
-                  final categoriesToDisplay = _searchController.text.isNotEmpty
-                      ? _filteredCategories
-                      : state.categoryServices;
-
-                  if (categoriesToDisplay.isEmpty) {
+                  if (state.error || state.categoryServices.isEmpty) {
                     return SizedBox(
                       height: MediaQuery.of(context).size.height * 0.6,
                       child: Center(
@@ -351,6 +428,10 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                       ),
                     );
                   }
+
+                  final categoriesToDisplay = _searchController.text.isNotEmpty
+                      ? _filteredCategories
+                      : state.categoryServices;
 
                   return Expanded(
                     child: Padding(
@@ -529,7 +610,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
               ),
               BlocBuilder<BookingBloc, BookingState>(
                 builder: (context, state) {
-                  if (state.categoryServices.isEmpty) {
+                  if (state.categoryServices.isEmpty && !state.loading) {
                     return const SizedBox.shrink();
                   }
                   return Container(
@@ -571,7 +652,6 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                             0.8,
                                   ),
                                   builder: (context) {
-                                    // Use StatefulBuilder to maintain modal state
                                     return StatefulBuilder(
                                       builder: (BuildContext context,
                                           StateSetter setModalState) {
@@ -586,7 +666,6 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                                     const BoxConstraints(),
                                                 child: SingleChildScrollView(
                                                   child: ServiceSelectionModal(
-                                                    // Use the provider's list directly
                                                     selectedServices: provider
                                                         .selectedServices,
                                                     chose: provider
@@ -594,7 +673,6 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                                         .length,
                                                     onRemoveService: (service) {
                                                       if (!mounted) return;
-                                                      // Only modify through providers
                                                       _servicesProvider
                                                           .removeService(
                                                               service);
@@ -631,9 +709,8 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                         12.h.verticalSpace,
                         CustomButton(
                           borderRadius: 8.r,
-                          title: "next".tr(),
-                          isDisabled: chose ==
-                              0, // Disable button if no services chosen
+                          title: "continue".tr(),
+                          isDisabled: chose == 0,
                           onPressed: () async {
                             final selectedServices = state.categoryServices
                                 .expand((category) => category.services)
@@ -708,12 +785,10 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                             }),
                                           );
 
-                                          // ignore: use_build_context_synchronously
                                           Navigator.of(context).pop();
 
                                           if (response.statusCode == 200) {
                                             showDialog(
-                                              // ignore: use_build_context_synchronously
                                               context: context,
                                               builder: (context) {
                                                 return AlertDialog(

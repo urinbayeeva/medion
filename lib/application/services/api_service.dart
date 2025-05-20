@@ -8,7 +8,7 @@ class ApiService {
   static Future<List<Service>> fetchServices({
     List<int>? serviceIds,
     int? doctorId,
-    int days = 5,
+    int? days,
   }) async {
     final dbService = await DBService.create;
     final token = dbService.token;
@@ -20,9 +20,11 @@ class ApiService {
       throw Exception('Token has expired');
     }
 
-    // Use the /booking/doctors endpoint (update if /booking/doctor/day is correct)
+    // Use the correct endpoint (update to /booking/doctor/day if required)
     final uri = Uri.parse('${Constants.baseUrlP}/booking/doctors')
-        .replace(queryParameters: {'days': days.toString()});
+        .replace(queryParameters: {
+      'days': days?.toString() ?? '1', // Default to 1 if days is null
+    });
 
     // Construct the request body to match the API
     final Map<String, dynamic> requestBody = {

@@ -75,7 +75,7 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
                     },
                     child: Container(
                       width: 109.w,
-                      height: 134.h,
+                      height: 110.h,
                       padding: EdgeInsets.all(8.w),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.r),

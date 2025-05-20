@@ -146,7 +146,7 @@ class CustomButton extends StatelessWidget {
                   style: titleStyle ??
                       fonts.smallMain.copyWith(
                         color: isDisabled
-                            ? disableColor ?? colors.neutral400
+                            ? const Color(0xFFC1C1C1)
                             : titleColor ?? colors.neutral50,
                       ),
                 ),

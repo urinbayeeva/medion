@@ -10,6 +10,7 @@ import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/c_progress_bar.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
+import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/appointment/verify_appointment.dart';
 import 'package:medion/presentation/pages/appointment/widget/doctors_appointment_widget.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_verify.dart';
@@ -38,7 +39,8 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
   ValueNotifier<List<Map<String, String>>> selectedAppointments =
       ValueNotifier([]);
   Future<List<Service>>? _servicesFuture;
-  List<Service>? _services; // Store services data in state
+  List<Service>? _services;
+  int _selectedDay = 1; // Start with day 1
 
   @override
   void dispose() {
@@ -48,11 +50,18 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
 
   @override
   void initState() {
-    _servicesFuture = ApiService.fetchServices(
-      serviceIds: widget.servicesID,
-      doctorId: widget.doctorsID,
-    );
+    _fetchServices(_selectedDay);
     super.initState();
+  }
+
+  void _fetchServices(int days) {
+    setState(() {
+      _servicesFuture = ApiService.fetchServices(
+        serviceIds: widget.servicesID,
+        doctorId: widget.doctorsID,
+        days: days,
+      );
+    });
   }
 
   void addAppointment(Map<String, String> appointment) {
@@ -127,10 +136,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                               ],
                             ),
                           ),
-                          const CustomProgressBar(
-                            count: 3,
-                            allCount: 5,
-                          ),
+                          const CustomProgressBar(count: 3, allCount: 5),
                         ],
                       ),
                     )
@@ -146,9 +152,19 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                   future: _servicesFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                          child:
-                              CircularProgressIndicator(color: Style.error500));
+                      return ShimmerView(
+                        child: ListView.builder(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          itemCount: 4,
+                          itemBuilder: (context, index) {
+                            return ShimmerContainer(
+                              margin: EdgeInsets.only(bottom: 12.h),
+                              height: 80.h,
+                              borderRadius: 8.r,
+                            );
+                          },
+                        ),
+                      );
                     }
                     if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
@@ -157,7 +173,6 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                       return const Center(child: Text('No services available'));
                     }
 
-                    // Store services data in state
                     _services = snapshot.data;
 
                     return CustomListView(
@@ -217,7 +232,6 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                           if (appointment != null) {
                                             addAppointment(appointment);
                                           } else {
-                                            // When unselecting, we need to remove the appointment for this service
                                             removeAppointmentForService(
                                                 service.serviceId.toString());
                                           }
@@ -274,12 +288,11 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                           ),
                           12.h.verticalSpace,
                           CButton(
-                            title: 'next'.tr(),
+                            title: 'continue'.tr(),
                             onTap: () {
                               if (selectedList.isNotEmpty) {
                                 final appointment = selectedList.first;
 
-                                // Extract values from the appointment map
                                 final serviceId =
                                     appointment['serviceId'] ?? '';
                                 final doctorName =
@@ -290,12 +303,10 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                 final companyId =
                                     appointment['companyId'] ?? '';
 
-                                // Initialize default values
                                 String serviceName = 'Unknown Service';
                                 String servicePrice = 'N/A';
                                 String selectedLocation = 'Unknown Location';
 
-                                // Find the service from stored _services
                                 if (_services != null) {
                                   final selectedService = _services!.firstWhere(
                                     (service) =>
@@ -308,9 +319,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                     ),
                                   );
                                   serviceName = selectedService.serviceName;
-                                  // Assuming price is a field in Service model; adjust if different
-
-                                  'N/A';
+                                  servicePrice = 'N/A';
                                   selectedLocation = selectedService
                                           .companiesDoctors.isNotEmpty
                                       ? selectedService.companiesDoctors.first
@@ -318,7 +327,6 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                           'Unknown Location'
                                       : 'Unknown Location';
                                 } else {
-                                  // Show a message if services are not loaded
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content:
@@ -335,8 +343,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                           builder: (context) =>
                                               MedServiceVerify(
                                             isHome: true,
-                                            diagnosName:
-                                                'N/A', // Replace if available
+                                            diagnosName: 'N/A',
                                             serviceName: serviceName,
                                             doctorName: doctorName,
                                             servicePrice: servicePrice,

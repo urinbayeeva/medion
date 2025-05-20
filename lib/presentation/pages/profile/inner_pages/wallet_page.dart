@@ -122,28 +122,59 @@ class _WalletPageState extends State<WalletPage> {
                         ],
                       ),
                       8.h.verticalSpace,
-                      Container(
-                        height: 82.h,
-                        padding: EdgeInsets.all(12.w),
-                        margin: EdgeInsets.only(right: 8.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: colors.shade0,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("deposit".tr(), style: fonts.smallLink),
-                            12.h.verticalSpace,
-                            Text(
-                                style: fonts.regularMain,
-                                "sum".tr(namedArgs: {
-                                  "amount": _formatNumber(
-                                      (state.patientInfo?.patientDeposit ?? 0)
-                                          .toString()),
-                                })),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 82.h,
+                              padding: EdgeInsets.all(12.w),
+                              margin: EdgeInsets.only(right: 8.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.r),
+                                color: colors.shade0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("deposit".tr(), style: fonts.smallLink),
+                                  12.h.verticalSpace,
+                                  Text(
+                                      style: fonts.regularMain,
+                                      "sum".tr(namedArgs: {
+                                        "amount": _formatNumber((state
+                                                    .patientInfo
+                                                    ?.patientDeposit ??
+                                                0)
+                                            .toString()),
+                                      })),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 82.h,
+                              padding: EdgeInsets.all(12.w),
+                              margin: EdgeInsets.only(right: 8.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.r),
+                                color: colors.shade0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("cacheback".tr(),
+                                      style: fonts.smallLink),
+                                  12.h.verticalSpace,
+                                  Text(
+                                    "sum".tr(namedArgs: {"amount": "0"}),
+                                    style: fonts.regularMain,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

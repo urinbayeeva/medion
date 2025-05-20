@@ -11,6 +11,7 @@ import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_container.dart';
 import 'package:medion/presentation/component/c_filter.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
+import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/appointment/doctor_time_and_service.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/service_widget.dart';
@@ -107,8 +108,8 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
             ),
             BlocBuilder<BookingBloc, BookingState>(
               builder: (context, state) {
-                if (state.medicalModel == null) {
-                  return _buildEmptyState();
+                if (state.loading || state.medicalModel == null) {
+                  return Expanded(child: _buildShimmerView(colors));
                 }
                 return Expanded(
                   child: _buildContent(context, state, colors, fonts, icons),
@@ -131,10 +132,66 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
     });
   }
 
+  Widget _buildShimmerView(dynamic colors) {
+    return ShimmerView(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.all(12.0.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Shimmer for Toggle
+            ShimmerContainer(
+              width: double.infinity,
+              height: 38.h,
+              borderRadius: 8.r,
+              margin: EdgeInsets.only(bottom: 12.h),
+            ),
+            // Shimmer for Section Title
+            ShimmerContainer(
+              width: 100.w,
+              height: 20.h,
+              borderRadius: 4.r,
+              margin: EdgeInsets.only(bottom: 12.h),
+            ),
+            // Shimmer for Doctors Grid or Services List
+            GridView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12.w,
+                mainAxisSpacing: 12.h,
+                childAspectRatio: 0.48,
+              ),
+              itemCount: 4, // Show 4 placeholders
+              itemBuilder: (_, __) => ShimmerContainer(
+                height: 200.h,
+                borderRadius: 8.r,
+              ),
+            ),
+            // Shimmer for Services List
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              itemCount: 3, // Show 3 placeholders
+              itemBuilder: (_, __) => ShimmerContainer(
+                height: 80.h,
+                borderRadius: 8.r,
+                margin: EdgeInsets.only(bottom: 12.h),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildEmptyState() {
     return Center(
       child: Text(
-        "",
+        "no_data_available".tr(),
         style: Style.headlineMain(),
       ),
     );

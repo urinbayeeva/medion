@@ -57,7 +57,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       emit(state.copyWith(loading: true, error: false, success: false));
 
       try {
-        EasyLoading.show();
+        // EasyLoading.show();
 
         final res = await _repository.fetchCategoryServices(
           selectedId,
@@ -103,7 +103,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
 
       final res = await _repository.fetchBookingTypes();
 
-      if (isClosed) return;
+      if (isClosed) return; // Early exit if bloc is closed
 
       res.fold(
         (error) {
@@ -136,7 +136,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     emit(state.copyWith(loading: true, error: false, success: false));
 
     try {
-      EasyLoading.show();
+      // EasyLoading.show();
 
       final res = await _repository.fetchHomePageBookingCategories();
 
@@ -173,7 +173,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     emit(state.copyWith(loading: true, error: false, success: false));
 
     try {
-      EasyLoading.show();
+      // EasyLoading.show();
 
       final res = await _repository.fetchCategoryServices(
         event.id,
@@ -218,7 +218,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     ));
 
     try {
-      EasyLoading.show();
+      // EasyLoading.show();
 
       final res = await _repository.fetchHomePageBookingDoctors(event.id);
 
@@ -314,7 +314,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     ));
 
     try {
-      EasyLoading.show();
+      // EasyLoading.show();
 
       final result = await _repository.getServicesByDoctorId(event.doctorId);
 

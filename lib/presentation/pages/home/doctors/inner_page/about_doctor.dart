@@ -9,6 +9,7 @@ import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_container.dart';
 import 'package:medion/presentation/component/custom_tabbar.dart';
+import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/about_doctor_widget.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -76,24 +77,17 @@ class _AboutDoctorState extends State<AboutDoctor> {
               ),
               BlocBuilder<DoctorBloc, DoctorState>(
                 builder: (context, state) {
-                  if (state.doctorDetails == null) {
-                    return const Center(child: CircularProgressIndicator());
+                  if (state.loading || state.doctorDetails == null) {
+                    return Expanded(child: _buildShimmerView(colors));
                   }
 
                   final doctor = state.doctorDetails!;
                   return Expanded(
                     child: TabBarView(
                       children: [
-                        // About the Doctor tab
                         _buildAboutDoctorTab(doctor, colors, fonts, icons),
-
-                        // Working Experience tab
                         _buildExperienceTab(doctor, colors, fonts, icons),
-
-                        // Education tab
                         _buildEducationTab(doctor, colors, fonts, icons),
-
-                        // Working Hours tab
                         _buildWorkingHoursTab(doctor, colors, fonts),
                       ],
                     ),
@@ -107,10 +101,52 @@ class _AboutDoctorState extends State<AboutDoctor> {
     });
   }
 
+  Widget _buildShimmerView(dynamic colors) {
+    return ShimmerView(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ShimmerContainer(
+              width: 150.w,
+              height: 20.h,
+              borderRadius: 4.r,
+              margin: EdgeInsets.only(bottom: 8.h),
+            ),
+            ShimmerContainer(
+              width: double.infinity,
+              height: 100.h,
+              borderRadius: 8.r,
+              margin: EdgeInsets.only(bottom: 16.h),
+            ),
+            Column(
+              children: List.generate(
+                2,
+                (index) => ShimmerContainer(
+                  width: double.infinity,
+                  height: 80.h,
+                  borderRadius: 8.r,
+                  margin: EdgeInsets.only(bottom: 8.h),
+                ),
+              ),
+            ),
+            ShimmerContainer(
+              width: double.infinity,
+              height: 120.h,
+              borderRadius: 8.r,
+              margin: EdgeInsets.only(bottom: 16.h),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildAboutDoctorTab(
       ModelDoctor doctor, dynamic colors, dynamic fonts, icons) {
-    return doctor.education.isEmpty ||
-            doctor.experience.isEmpty ||
+    return doctor.education.isEmpty &&
+            doctor.experience.isEmpty &&
             doctor.workSchedule == null
         ? Center(
             child: Text(
@@ -125,19 +161,20 @@ class _AboutDoctorState extends State<AboutDoctor> {
                 8.h.verticalSpace,
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Text("about_the_doctor".tr(),
-                      style: fonts.regularSemLink),
+                  child: Text(
+                    "about_the_doctor".tr(),
+                    style: fonts.regularSemLink,
+                  ),
                 ),
                 8.h.verticalSpace,
                 Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: CContainer(
-                      text: doctor.decodedDescription is String
-                          ? doctor.decodedDescription
-                              .replaceAll('\n', '')
-                              .trim()
-                          : '', // or some default text when false
-                    )),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: CContainer(
+                    text: doctor.decodedDescription is String
+                        ? doctor.decodedDescription.replaceAll('\n', '').trim()
+                        : '',
+                  ),
+                ),
                 _buildExperienceTab(doctor, colors, fonts, icons),
                 _buildEducationTab(doctor, colors, fonts, icons),
                 _buildWorkingHoursTab(doctor, colors, fonts),
@@ -161,43 +198,44 @@ class _AboutDoctorState extends State<AboutDoctor> {
           8.h.verticalSpace,
           Column(
             children: doctor.experience.map((exp) {
-              // Format the date
               final dateParts = exp.date.toString().split(" - ");
               final startDate = DateTime.parse(dateParts[0]);
               final formattedStartDate =
                   DateFormat('d MMM yyyy').format(startDate);
 
-              // If the date includes 'current', we leave the end date as 'current'
               final endDate = dateParts.length > 1 && dateParts[1] == 'current'
                   ? 'current'
                   : DateFormat('d MMM yyyy')
                       .format(DateTime.parse(dateParts[1]));
 
               return Padding(
-                padding: EdgeInsets.only(bottom: 16.h),
+                padding: EdgeInsets.only(bottom: 8.h),
                 child: Container(
                   width: double.infinity,
                   padding: EdgeInsets.all(16.w),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      color: colors.shade0),
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: colors.shade0,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(exp.title.toString(),
-                          style: fonts.xSmallText
-                              .copyWith(fontWeight: FontWeight.bold)),
-                      Text('$formattedStartDate - $endDate',
-                          style: fonts.xSmallText),
-                      8.h.verticalSpace,
-                      // In _buildExperienceTab and _buildEducationTab, handle the case where description is boolean:
+                      Text(
+                        exp.title.toString(),
+                        style: fonts.xSmallText
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '$formattedStartDate - $endDate',
+                        style: fonts.xSmallText,
+                      ),
+                      // 8.h.verticalSpace,
                       exp.description.toString().isEmpty
-                          ? SizedBox.shrink()
+                          ? const SizedBox.shrink()
                           : Text(
-                              exp.description is String
-                                  ? exp.description.toString()
-                                  : '',
-                              style: fonts.xSmallText),
+                              exp.description.toString(),
+                              style: fonts.xSmallText,
+                            ),
                     ],
                   ),
                 ),
@@ -224,13 +262,11 @@ class _AboutDoctorState extends State<AboutDoctor> {
           8.h.verticalSpace,
           Column(
             children: doctor.education.map((edu) {
-              // Format the date
               final dateParts = edu.date.toString().split(" - ");
               final startDate = DateTime.parse(dateParts[0]);
               final formattedStartDate =
                   DateFormat('d MMM yyyy').format(startDate);
 
-              // If the date includes 'current', we leave the end date as 'current'
               final endDate = dateParts.length > 1 && dateParts[1] == 'current'
                   ? 'current'
                   : DateFormat('d MMM yyyy')
@@ -242,18 +278,26 @@ class _AboutDoctorState extends State<AboutDoctor> {
                   padding: EdgeInsets.all(8.w),
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      color: colors.shade0,
-                      borderRadius: BorderRadius.circular(8.r)),
+                    color: colors.shade0,
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(edu.title.toString(),
-                          style: fonts.xSmallLink
-                              .copyWith(fontWeight: FontWeight.bold)),
-                      Text('$formattedStartDate - $endDate',
-                          style: fonts.xSmallLink),
-                      8.h.verticalSpace,
-                      Text(edu.description.toString(), style: fonts.xSmallLink),
+                      Text(
+                        edu.title.toString(),
+                        style: fonts.xSmallLink
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '$formattedStartDate - $endDate',
+                        style: fonts.xSmallLink,
+                      ),
+                      if (edu.description.toString().isNotEmpty)
+                        Text(
+                          edu.description.toString(),
+                          style: fonts.xSmallLink,
+                        ),
                     ],
                   ),
                 ),
@@ -265,7 +309,6 @@ class _AboutDoctorState extends State<AboutDoctor> {
     );
   }
 
-// In _buildWorkingHoursTab, modify to handle empty schedule:
   Widget _buildWorkingHoursTab(
       ModelDoctor doctor, dynamic colors, dynamic fonts) {
     return SingleChildScrollView(
@@ -278,11 +321,13 @@ class _AboutDoctorState extends State<AboutDoctor> {
           doctor.workSchedule != null &&
                   (doctor.workSchedule.monday.isNotEmpty ||
                       doctor.workSchedule.tuesday.isNotEmpty ||
-                      // check other days...
+                      doctor.workSchedule.wednesday.isNotEmpty ||
+                      doctor.workSchedule.thursday.isNotEmpty ||
+                      doctor.workSchedule.friday.isNotEmpty ||
                       doctor.workSchedule.saturday.isNotEmpty)
               ? _buildSchedule(doctor.workSchedule, colors, fonts)
               : Text("No working hours available", style: fonts.xSmallText),
-          40.h.verticalSpace,
+          20.h.verticalSpace,
         ],
       ),
     );
@@ -311,14 +356,14 @@ class _AboutDoctorState extends State<AboutDoctor> {
             final dayName = day['day'] as String;
             final schedules = day['schedules'] as BuiltList<ScheduleItem>;
 
-            if (schedules.isEmpty) return SizedBox.shrink();
+            if (schedules.isEmpty) return const SizedBox.shrink();
 
             return Container(
               margin: EdgeInsets.only(right: 10.w),
               padding: EdgeInsets.all(8.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.r),
-                color: Color(0xFFF9F9F9),
+                color: const Color(0xFFF9F9F9),
               ),
               child: Padding(
                 padding: EdgeInsets.only(bottom: 16.h),
@@ -326,7 +371,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      dayName.tr(),
+                      dayName,
                       style: fonts.mediumMain.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.sp,

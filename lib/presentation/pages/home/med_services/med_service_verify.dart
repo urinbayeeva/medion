@@ -134,7 +134,7 @@ class _MedServiceVerifyState extends State<MedServiceVerify> {
                     children: [
                       CButton(
                         width: double.infinity,
-                        title: 'next'.tr(),
+                        title: 'continue'.tr(),
                         onTap: () async {
                           if (selectedList.isNotEmpty) {
                             final appointment = selectedList.first;

@@ -10,6 +10,7 @@ import 'package:medion/presentation/component/animation_effect.dart'
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
+import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/appointment/component/service_selection_model.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
@@ -28,6 +29,7 @@ class MedServicesPage extends StatefulWidget {
 class _MedServicesPageState extends State<MedServicesPage> {
   Set<int>? selectedServiceIds;
   int chose = 0;
+
   @override
   void initState() {
     context.read<HomeBloc>().add(const HomeEvent.fetchMedicalServices());
@@ -47,65 +49,75 @@ class _MedServicesPageState extends State<MedServicesPage> {
               centerTitle: true,
               trailing: 24.w.horizontalSpace,
             ),
-            Expanded(child:
-                BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-              print(
-                  "Medical services: ${state.medicalServices}"); // Debugging line
-              if (state.medicalServices.isEmpty) {
-                return const Center(
-                    child: Text("No medical services available"));
-              }
-              return Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      itemCount: state.medicalServices.length,
-                      itemBuilder: (context, index) {
-                        return MedicalDirectionItem(
-                          title: state.medicalServices[index].title,
-                          subtitle: state.medicalServices[index].info,
-                          iconPath: state.medicalServices[index].image,
-                          onTap: () {
-                            final categoryId =
-                                state.medicalServices[index].categoryId;
-                            final intId = categoryId is int
-                                ? categoryId
-                                : int.parse(categoryId.toString());
-                            print(
-                                " MEDICAL SERVICE ID ${int.parse(intId.toString())}");
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MedServiceChoose(
-                                          serviceTypeId: categoryId ?? 0,
-                                        ))).then((value) {
-                              if (value != null && value is Set<int>) {
-                                setState(() {
-                                  selectedServiceIds = value;
+            Expanded(
+              child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  print("Medical services: ${state.medicalServices}");
+                  if (state.loading || state.medicalServices.isEmpty) {
+                    return _buildShimmerView(colors);
+                  }
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          itemCount: state.medicalServices.length,
+                          itemBuilder: (context, index) {
+                            return MedicalDirectionItem(
+                              title: state.medicalServices[index].title,
+                              subtitle: state.medicalServices[index].info,
+                              iconPath: state.medicalServices[index].image,
+                              onTap: () {
+                                final categoryId =
+                                    state.medicalServices[index].categoryId;
+                                final intId = categoryId is int
+                                    ? categoryId
+                                    : int.parse(categoryId.toString());
+                                print("MEDICAL SERVICE ID $intId");
+                                context
+                                    .read<BottomNavBarController>()
+                                    .changeNavBar(true);
+                                Navigator.push(
+                                  context,
+                                  AppRoutes.getDirectionInfoPage(
+                                    id: intId,
+                                    name: state.medicalServices[index].title,
+                                  ),
+                                ).then((_) {
+                                  context
+                                      .read<BottomNavBarController>()
+                                      .changeNavBar(false);
                                 });
-                              }
-                            }).then((_) {
-                              context
-                                  .read<BottomNavBarController>()
-                                  .changeNavBar(false);
-                            });
-
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(true);
+                              },
+                            );
                           },
-                        );
-                      },
-                    ),
-                  ),
-                  60.h.verticalSpace,
-                ],
-              );
-            }))
+                        ),
+                      ),
+                      60.h.verticalSpace,
+                    ],
+                  );
+                },
+              ),
+            ),
           ],
         ),
       );
     });
+  }
+
+  Widget _buildShimmerView(dynamic colors) {
+    return ShimmerView(
+      child: ListView.builder(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        itemCount: 5, // Show 5 placeholders
+        itemBuilder: (context, index) {
+          return ShimmerContainer(
+            height: 100.h, // Adjust to match MedicalDirectionItem height
+            borderRadius: 8.r,
+            margin: EdgeInsets.only(bottom: 12.h),
+          );
+        },
+      ),
+    );
   }
 }

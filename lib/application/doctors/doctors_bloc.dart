@@ -29,7 +29,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
       success: false,
       doctorDetailsLoading: false,
     ));
-    EasyLoading.show();
+    // EasyLoading.show();
 
     final res = await _repository.fetchDoctors();
     res.fold(
@@ -57,6 +57,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
       doctorDetailsLoading: true,
       doctorDetailsError: false,
       doctorDetailsSuccess: false,
+      doctorDetails: null,
     ));
 
     final res = await _repository.getDoctorDetailInfo(event.doctorId);

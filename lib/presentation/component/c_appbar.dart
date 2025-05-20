@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
@@ -29,6 +30,7 @@ class CAppBar extends StatefulWidget {
   final String? toggleFirstText;
   final String? toggleSecondText;
   final Function(String)? onSearchChanged;
+  final bool showBottomBar;
 
   const CAppBar(
       {super.key,
@@ -51,6 +53,7 @@ class CAppBar extends StatefulWidget {
       this.allCount,
       this.toggleFirstText,
       this.toggleSecondText,
+      this.showBottomBar = false,
       this.onSearchChanged});
 
   @override
@@ -97,6 +100,11 @@ class _CAppBarState extends State<CAppBar> {
                           onTap: widget.onTap ??
                               () {
                                 Navigator.pop(context);
+                                if (widget.showBottomBar) {
+                                  context
+                                      .read<BottomNavBarController>()
+                                      .changeNavBar(false);
+                                }
                               },
                           child: Padding(
                             padding: EdgeInsets.only(left: 8.w),

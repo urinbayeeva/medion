@@ -31,7 +31,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
-    EasyLoading.show();
+    // EasyLoading.show();
 
     final res = await _repository.getCompanyLocation();
 
@@ -58,7 +58,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
-    EasyLoading.show();
+    // EasyLoading.show();
 
     final res = await _repository.getNews();
 
@@ -110,7 +110,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
-    EasyLoading.show();
+    // EasyLoading.show();
 
     final res = await _repository.getAds();
 
@@ -137,7 +137,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
-    EasyLoading.show();
+    // EasyLoading.show();
 
     final res = await _repository.getDiagnosis();
 

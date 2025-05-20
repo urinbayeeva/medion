@@ -12,6 +12,7 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_filter_bottomsheet.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
+import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctor_search_page.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
@@ -137,16 +138,6 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                                       _searchFocusNode.hasFocus;
                                 });
                               },
-                              // onSubmitted: (value) {
-                              //   if (value.isNotEmpty) {
-                              //     _addToRecentSearches(value);
-                              //   }
-                              // },
-                              // onTap: () {
-                              //   setState(() {
-                              //     isSearchActive = true;
-                              //   });
-                              // },
                               hintText: 'search_doctors'.tr(),
                             ),
                           ),
@@ -170,16 +161,17 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               Expanded(
                 child: BlocBuilder<DoctorBloc, DoctorState>(
                   builder: (context, state) {
+                    if (state.loading || state.doctors.isEmpty) {
+                      return _buildShimmerView(colors);
+                    }
                     if (state.error) {
                       return Center(
                           child: Text('something_went_wrong'.tr(),
                               style: fonts.regularSemLink));
                     }
-
                     if (isSearchActive) {
                       return _buildSearchResults(state, colors, fonts, icons);
                     }
-
                     return _buildDefaultView(state, colors, fonts, icons);
                   },
                 ),
@@ -191,8 +183,49 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
     );
   }
 
+  Widget _buildShimmerView(dynamic colors) {
+    return ShimmerView(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: List.generate(
+              3,
+              (index) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      12.h.verticalSpace,
+                      ShimmerContainer(
+                        width: 100.w,
+                        height: 20.h,
+                        borderRadius: 4.r,
+                        margin: EdgeInsets.only(bottom: 12.h),
+                      ),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 12.0,
+                          mainAxisSpacing: 12.0,
+                          childAspectRatio: 0.5,
+                        ),
+                        itemCount: 4, // Show 4 placeholders per category
+                        itemBuilder: (_, __) => ShimmerContainer(
+                          height: 200.h, // Match DoctorsItem height
+                          borderRadius: 8.r,
+                        ),
+                      ),
+                      16.h.verticalSpace,
+                    ],
+                  )),
+        ),
+      ),
+    );
+  }
+
   Widget _buildSearchResults(DoctorState state, colors, fonts, icons) {
-    // Get all doctors flattened
     final allDoctors = state.doctors.expand((category) {
       return category.doctorData.map((doctor) {
         return {
@@ -208,7 +241,6 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
       });
     }).toList();
 
-    // Filter doctors based on search query
     final searchResults = searchQuery.isEmpty
         ? []
         : allDoctors.where((doctor) {
@@ -423,8 +455,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                         'id': doctor.id.toString(),
                         'status': doctor.specialty?.toString() ?? 'N/A',
                         'candidateScience': false,
-                        'work_experience':
-                            doctor.workExperience, // Include experience
+                        'work_experience': doctor.workExperience,
                       })
                   .toList();
 
@@ -510,6 +541,14 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         12.h.verticalSpace,
+        Text(
+          category,
+          style: fonts.regularMain.copyWith(
+            fontSize: 17.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        12.h.verticalSpace,
         GridView.builder(
           shrinkWrap: true,
           itemCount: doctors.length,
@@ -524,30 +563,32 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
           itemBuilder: (context, index) {
             final doctor = doctors[index];
             return DoctorsItem(
-                home: false,
-                isInnerPageUsed: true,
-                onTap: () {
-                  Navigator.push(
-                          context,
-                          AppRoutes.getAboutDoctorPage(
-                              doctor['name'].toString(),
-                              doctor['profession'],
-                              doctor['name'].toString(),
-                              doctor['image'].toString(),
-                              int.parse(doctor['id'])))
-                      .then((_) {
-                    context.read<BottomNavBarController>().changeNavBar(true);
-                  });
-                },
-                experience: "experience".tr(
-                    namedArgs: {"count": doctor['work_experience'].toString()}),
-                categoryType: doctor['category'].toString(),
-                imagePath: doctor['image'].toString(),
-                name: doctor['name'].toString(),
-                profession: doctor['profession'].toString(),
-                status: doctor['status']?.toString() ?? 'N/A',
-                candidateScience: false,
-                doctorID: int.parse(doctor['id']));
+              home: false,
+              isInnerPageUsed: true,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  AppRoutes.getAboutDoctorPage(
+                    doctor['name'].toString(),
+                    doctor['profession'],
+                    doctor['name'].toString(),
+                    doctor['image'].toString(),
+                    int.parse(doctor['id']),
+                  ),
+                ).then((_) {
+                  context.read<BottomNavBarController>().changeNavBar(true);
+                });
+              },
+              experience: "experience".tr(
+                  namedArgs: {"count": doctor['work_experience'].toString()}),
+              categoryType: doctor['category'].toString(),
+              imagePath: doctor['image'].toString(),
+              name: doctor['name'].toString(),
+              profession: doctor['profession'].toString(),
+              status: doctor['status']?.toString() ?? 'N/A',
+              candidateScience: false,
+              doctorID: int.parse(doctor['id']),
+            );
           },
         ),
         16.h.verticalSpace,
