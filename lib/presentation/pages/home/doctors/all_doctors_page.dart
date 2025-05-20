@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';
-import 'package:medion/domain/sources/category.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_filter_bottomsheet.dart';
@@ -18,6 +17,40 @@ import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart'
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+
+enum Category {
+  all,
+  allergistImmunologist,
+  andrologist,
+  anesthesiologistResuscitator,
+  ultrasoundSpecialist,
+  gastroenterologist,
+  gynecologist,
+  dermatovenereologist,
+  pediatricNeurologist,
+  pediatricTherapistDentist,
+  cardiologist,
+  cardiacSurgeon,
+  mammologist,
+  neurologist,
+  neurosurgeon,
+  oncologist,
+  oncosurgeon,
+  orthopedist,
+  otorhinolaryngologist,
+  ophthalmologist,
+  pediatrician,
+  plasticSurgeon,
+  pulmonologist,
+  rheumatologist,
+  vascularSurgeon,
+  surdologistOtorhinolaryngologist,
+  therapist,
+  therapistDentist,
+  traumatologist,
+  urologist,
+  endocrinologist,
+}
 
 class AllDoctorsPage extends StatefulWidget {
   const AllDoctorsPage({super.key});
@@ -71,7 +104,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
       setState(() {
         recentSearches.insert(0, {
           'query': query,
-          'time': DateTime.now(),
+          'time': DateTime.now(), // Reflects May 20, 2025, 18:43 +05
         });
 
         if (recentSearches.length > 5) {
@@ -211,9 +244,9 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                           mainAxisSpacing: 12.0,
                           childAspectRatio: 0.5,
                         ),
-                        itemCount: 4, // Show 4 placeholders per category
+                        itemCount: 4,
                         itemBuilder: (_, __) => ShimmerContainer(
-                          height: 200.h, // Match DoctorsItem height
+                          height: 200.h,
                           borderRadius: 8.r,
                         ),
                       ),
@@ -368,7 +401,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 12.0,
                   mainAxisSpacing: 12.0,
-                  childAspectRatio: 0.51,
+                  childAspectRatio: 0.47,
                 ),
                 itemBuilder: (context, index) {
                   final doctor = searchResults[index];
@@ -437,69 +470,149 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
   }
 
   Widget _buildDefaultView(DoctorState state, colors, fonts, icons) {
+    // Collect all doctors into a single list
+    List<Map<String, dynamic>> allDoctors = [];
+    for (var category in state.doctors) {
+      var filteredDoctors = category.doctorData
+          .where((doctor) => _matchesCategory(doctor))
+          .map((doctor) => {
+                'name': doctor.name.toString(),
+                'profession': doctor.specialty?.toString() ?? 'N/A',
+                'image': doctor.image?.toString() ?? '',
+                'category': category.categoryName.toString(),
+                'id': doctor.id.toString(),
+                'status': doctor.specialty?.toString() ?? 'N/A',
+                'candidateScience': false,
+                'work_experience': doctor.workExperience,
+              })
+          .toList();
+      allDoctors.addAll(filteredDoctors);
+    }
+
+    // If no doctors match the filter and category is not 'all', show empty state
+    if (allDoctors.isEmpty && selectedCategory != Category.all) {
+      return SizedBox(
+        height: MediaQuery.of(context).size.height * 0.7,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset("assets/icons/emoji-sad_d.svg",
+                width: 80.w, height: 80.h),
+            Center(
+              child: Text(
+                "no_result_found".tr(),
+                style: fonts.mediumMain.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // If toggled to foreign doctors, show empty state (since we only have Medion doctors)
+    if (!isMedionDoctor) {
+      return SizedBox(
+        height: MediaQuery.of(context).size.height * 0.7,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset("assets/icons/emoji-sad_d.svg",
+                width: 80.w, height: 80.h),
+            Center(
+              child: Text(
+                "no_result_found".tr(),
+                style: fonts.mediumMain.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // Calculate the number of doctors needed to fill the last row
+    const int crossAxisCount = 2;
+    int remainder = allDoctors.length % crossAxisCount;
+    if (remainder != 0) {
+      int doctorsToAdd = crossAxisCount - remainder;
+      for (int i = 0; i < doctorsToAdd; i++) {
+        allDoctors.add({
+          'name': 'Placeholder Doctor',
+          'profession': 'N/A',
+          'image': '',
+          'category': 'N/A',
+          'id': 'placeholder_${i + allDoctors.length}',
+          'status': 'N/A',
+          'candidateScience': false,
+          'work_experience': 0,
+        });
+      }
+    }
+
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (isMedionDoctor) ...[
-            ...state.doctors.map((category) {
-              var filteredDoctors = category.doctorData
-                  .where((doctor) => _matchesCategory(doctor))
-                  .map((doctor) => {
-                        'name': doctor.name.toString(),
-                        'profession': doctor.specialty?.toString() ?? 'N/A',
-                        'image': doctor.image?.toString() ?? '',
-                        'category': category.categoryName.toString(),
-                        'id': doctor.id.toString(),
-                        'status': doctor.specialty?.toString() ?? 'N/A',
-                        'candidateScience': false,
-                        'work_experience': doctor.workExperience,
-                      })
-                  .toList();
-
-              if (filteredDoctors.isEmpty && selectedCategory != Category.all) {
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset("assets/icons/emoji-sad_d.svg",
-                          width: 80.w, height: 80.h),
-                      Center(
-                        child: Text(
-                          "no_result_found".tr(),
-                          style: fonts.mediumMain
-                              .copyWith(fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ],
-                  ),
+          12.h.verticalSpace,
+          GridView.builder(
+            shrinkWrap: true,
+            itemCount: allDoctors.length,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12.0,
+              mainAxisSpacing: 12.0,
+              childAspectRatio: 0.47,
+            ),
+            itemBuilder: (context, index) {
+              final doctor = allDoctors[index];
+              if (doctor['name'] == 'Placeholder Doctor') {
+                return DoctorsItem(
+                  home: false,
+                  isInnerPageUsed: true,
+                  onTap: () {},
+                  experience: "experience".tr(namedArgs: {"count": "0"}),
+                  categoryType: doctor['category'].toString(),
+                  imagePath: '',
+                  name: 'N/A',
+                  profession: 'N/A',
+                  status: 'N/A',
+                  candidateScience: false,
+                  doctorID: int.parse(doctor['id'].toString().split('_').last),
                 );
               }
-              return _buildDoctorCategoryList(
-                  category.categoryName, filteredDoctors, colors, fonts, icons);
-            }),
-          ] else ...[
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset("assets/icons/emoji-sad_d.svg",
-                      width: 80.w, height: 80.h),
-                  Center(
-                    child: Text(
-                      "no_result_found".tr(),
-                      style: fonts.mediumMain
-                          .copyWith(fontWeight: FontWeight.w600),
+              return DoctorsItem(
+                home: false,
+                isInnerPageUsed: true,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    AppRoutes.getAboutDoctorPage(
+                      doctor['name'].toString(),
+                      doctor['profession'],
+                      doctor['name'].toString(),
+                      doctor['image'].toString(),
+                      int.parse(doctor['id']),
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+                  ).then((_) {
+                    context.read<BottomNavBarController>().changeNavBar(true);
+                  });
+                },
+                experience: "experience".tr(
+                    namedArgs: {"count": doctor['work_experience'].toString()}),
+                categoryType: doctor['category'].toString(),
+                imagePath: doctor['image'].toString(),
+                name: doctor['name'].toString(),
+                profession: doctor['profession'].toString(),
+                status: doctor['status']?.toString() ?? 'N/A',
+                candidateScience: false,
+                doctorID: int.parse(doctor['id']),
+              );
+            },
+          ),
+          16.h.verticalSpace,
         ],
       ),
     );
@@ -516,83 +629,71 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
             : specialtyValue.toString().toLowerCase();
 
     switch (selectedCategory) {
-      case Category.gynecology:
+      case Category.allergistImmunologist:
+        return specialty.contains('аллерголог-иммунолог');
+      case Category.andrologist:
+        return specialty.contains('андролог');
+      case Category.anesthesiologistResuscitator:
+        return specialty.contains('анестезиолог-реаниматолог');
+      case Category.ultrasoundSpecialist:
+        return specialty.contains('врач узи');
+      case Category.gastroenterologist:
+        return specialty.contains('гастроэнтеролог');
+      case Category.gynecologist:
         return specialty.contains('гинеколог');
-      case Category.cardiology:
-        return specialty.contains('кардиолог') ||
-            specialty.contains('кардиохирург') ||
-            specialty.contains('интервенционный кардиолог');
-      case Category.ophthalmology:
-        return specialty.contains('офтальмолог');
-      case Category.neurology:
+      case Category.dermatovenereologist:
+        return specialty.contains('дерматовенеролог');
+      case Category.pediatricNeurologist:
+        return specialty.contains('детский невролог');
+      case Category.pediatricTherapistDentist:
+        return specialty.contains('детский терапевт-стоматолог');
+      case Category.cardiologist:
+        return specialty.contains('кардиолог');
+      case Category.cardiacSurgeon:
+        return specialty.contains('кардиохирург');
+      case Category.mammologist:
+        return specialty.contains('маммолог');
+      case Category.neurologist:
         return specialty.contains('невролог');
-      case Category.pediatric:
-        return specialty.contains('педиатр') || specialty.contains('детский');
+      case Category.neurosurgeon:
+        return specialty.contains('нейрохирург');
+      case Category.oncologist:
+        return specialty.contains('онколог');
+      case Category.oncosurgeon:
+        return specialty.contains('онкохирург');
+      case Category.orthopedist:
+        return specialty.contains('ортопед');
+      case Category.otorhinolaryngologist:
+        return specialty.contains('оториноларинголог');
+      case Category.ophthalmologist:
+        return specialty.contains('офтальмолог');
+      case Category.pediatrician:
+        return specialty.contains('педиатр');
+      case Category.plasticSurgeon:
+        return specialty.contains('пластический хирург');
+      case Category.pulmonologist:
+        return specialty.contains('пульмонолог');
+      case Category.rheumatologist:
+        return specialty.contains('ревматолог');
+      case Category.vascularSurgeon:
+        return specialty.contains('сосудистый хирург');
+      case Category.surdologistOtorhinolaryngologist:
+        return specialty.contains('сурдолог-оториноларинголог');
+      case Category.therapist:
+        return specialty.contains('терапевт') &&
+            !specialty.contains('стоматолог');
+      case Category.therapistDentist:
+        return specialty.contains('терапевт стоматолог');
+      case Category.traumatologist:
+        return specialty.contains('травматолог');
+      case Category.urologist:
+        return specialty.contains('уролог');
+      case Category.endocrinologist:
+        return specialty.contains('эндокринолог');
       case Category.all:
         return true;
       default:
         return false;
     }
-  }
-
-  Widget _buildDoctorCategoryList(String category,
-      List<Map<String, dynamic>> doctors, colors, fonts, icons) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        12.h.verticalSpace,
-        Text(
-          category,
-          style: fonts.regularMain.copyWith(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        12.h.verticalSpace,
-        GridView.builder(
-          shrinkWrap: true,
-          itemCount: doctors.length,
-          padding: EdgeInsets.zero,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 0,
-            mainAxisSpacing: 12.0,
-            childAspectRatio: 0.5,
-          ),
-          itemBuilder: (context, index) {
-            final doctor = doctors[index];
-            return DoctorsItem(
-              home: false,
-              isInnerPageUsed: true,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  AppRoutes.getAboutDoctorPage(
-                    doctor['name'].toString(),
-                    doctor['profession'],
-                    doctor['name'].toString(),
-                    doctor['image'].toString(),
-                    int.parse(doctor['id']),
-                  ),
-                ).then((_) {
-                  context.read<BottomNavBarController>().changeNavBar(true);
-                });
-              },
-              experience: "experience".tr(
-                  namedArgs: {"count": doctor['work_experience'].toString()}),
-              categoryType: doctor['category'].toString(),
-              imagePath: doctor['image'].toString(),
-              name: doctor['name'].toString(),
-              profession: doctor['profession'].toString(),
-              status: doctor['status']?.toString() ?? 'N/A',
-              candidateScience: false,
-              doctorID: int.parse(doctor['id']),
-            );
-          },
-        ),
-        16.h.verticalSpace,
-      ],
-    );
   }
 }
