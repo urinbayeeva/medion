@@ -137,7 +137,7 @@ class _CustomListViewState<T> extends State<CustomListView<T>> {
             shrinkWrap: true,
             physics: widget.physics,
             reverse: widget.reverse,
-            // controller: widget.scrollController,
+            controller: widget.scrollController,
             scrollDirection: widget.scrollDirection ?? Axis.vertical,
             children: List.generate(widget.loadingItemCount, (index) {
               if (widget.loadingItem != null) {

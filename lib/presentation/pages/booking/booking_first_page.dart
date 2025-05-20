@@ -120,6 +120,7 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                                   builder: (context) => BookingSecondPage(
                                         isUSD: false,
                                         serviceId: item.id,
+                                        show: true,
                                       ))).then((_) {
                             context
                                 .read<BottomNavBarController>()

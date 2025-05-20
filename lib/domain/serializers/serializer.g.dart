@@ -13,6 +13,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(BookingTypeModel.serializer)
       ..add(BranchModel.serializer)
       ..add(Category.serializer)
+      ..add(CategorySearchText.serializer)
       ..add(ChildContentModel.serializer)
       ..add(CompanyDoctor.serializer)
       ..add(ContentModel.serializer)
@@ -28,6 +29,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Doctor.serializer)
       ..add(DoctorCategory.serializer)
       ..add(DoctorData.serializer)
+      ..add(DoctorSearchText.serializer)
       ..add(DoctorsRequest.serializer)
       ..add(Education.serializer)
       ..add(EducationModel.serializer)
@@ -41,6 +43,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ImageModel.serializer)
       ..add(LocationModel.serializer)
       ..add(MedicalModel.serializer)
+      ..add(MedionResponseSearchText.serializer)
       ..add(ModelDoctor.serializer)
       ..add(News.serializer)
       ..add(OrderVisit.serializer)
@@ -57,6 +60,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Schedule.serializer)
       ..add(ScheduleItem.serializer)
       ..add(ScheduleTime.serializer)
+      ..add(SearchReqModel.serializer)
       ..add(Service.serializer)
       ..add(SuccessModel.serializer)
       ..add(ThirdBookingCompanyDoctor.serializer)
@@ -78,6 +82,18 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DoctorData)]),
           () => new ListBuilder<DoctorData>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(DoctorSearchText)]),
+          () => new ListBuilder<DoctorSearchText>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
+          () => new ListBuilder<CategorySearchText>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(dynamic)]),
+          () => new ListBuilder<dynamic>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(dynamic)]),
+          () => new ListBuilder<dynamic>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Experience)]),
           () => new ListBuilder<Experience>())

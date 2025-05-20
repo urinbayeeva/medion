@@ -5,6 +5,7 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_container.dart';
 import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/custom_tabbar.dart';
+import 'package:medion/presentation/pages/others/image_preview.dart';
 import 'package:medion/presentation/pages/others/our_activity/component/pattern_background.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -62,7 +63,12 @@ class _OurActivityPageState extends State<OurActivityPage> {
                                       style: fonts.regularMain),
                                   8.h.verticalSpace,
                                   CContainer(
-                                    text: "about_medion".tr(),
+                                    text:
+                                        """Ежегодно участвует в международных научных конференциях, посвященных актуальным вопросам репродуктивной медицины, проводимых под эгидой ESHRE и РАРЧ в России и за рубежом. 
+
+Участник программы стажировки в клинике "ИВИ-Валенсия", Испания.
+
+Активный сторонник внедрения доказательной медицины (EBM) в медицинскую практику в России.""",
                                   ),
                                   24.h.verticalSpace,
                                 ],
@@ -81,7 +87,12 @@ class _OurActivityPageState extends State<OurActivityPage> {
                                       style: fonts.regularMain),
                                   8.h.verticalSpace,
                                   CContainer(
-                                    text: "about_medion".tr(),
+                                    text:
+                                        """В клинике "Скандинавия" мы стремимся быть вашим помощником на пути к долгой, здоровой и качественной жизни. Используя последние технологии в области медицины, учитывая все нюансы жизни каждого пациента, мы предлагаем решения с доказанной эффективностью, которые позволяют вам сохранить и улучшить здоровье.
+
+Мы уважаем вас, а значит ценим каждую минуту вашего времени. Поэтому в каждом отделении «Скандинавии» созданы все условия, которые позволят вам получить качественное медицинское обслуживание тогда, когда это удобно именно вам.
+
+Мы уважаем вас, а значит ценим каждую минуту вашего времени. Поэтому в каждом отделении «Скандинавии» созданы все условия, которые позволят вам получить качественное медицинское обслуживание тогда, когда это удобно именно вам.""",
                                   ),
                                   24.h.verticalSpace,
                                 ],
@@ -100,7 +111,12 @@ class _OurActivityPageState extends State<OurActivityPage> {
                                       style: fonts.regularMain),
                                   8.h.verticalSpace,
                                   CContainer(
-                                    text: "about_medion".tr(),
+                                    text:
+                                        """В клинике "Скандинавия" мы стремимся быть вашим помощником на пути к долгой, здоровой и качественной жизни. Используя последние технологии в области медицины, учитывая все нюансы жизни каждого пациента, мы предлагаем решения с доказанной эффективностью, которые позволяют вам сохранить и улучшить здоровье.
+
+Мы уважаем вас, а значит ценим каждую минуту вашего времени. Поэтому в каждом отделении «Скандинавии» созданы все условия, которые позволят вам получить качественное медицинское обслуживание тогда, когда это удобно именно вам.
+
+Мы уважаем вас, а значит ценим каждую минуту вашего времени. Поэтому в каждом отделении «Скандинавии» созданы все условия, которые позволят вам получить качественное медицинское обслуживание тогда, когда это удобно именно вам.""",
                                   ),
                                   24.h.verticalSpace,
                                 ],
@@ -118,8 +134,46 @@ class _OurActivityPageState extends State<OurActivityPage> {
                                   Text("license".tr(),
                                       style: fonts.regularMain),
                                   8.h.verticalSpace,
-                                  CContainer(
-                                    text: "about_medion".tr(),
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const ImagePreviewPage(
+                                                imagePath:
+                                                    "assets/images/litsenziyaaa.png",
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Image.asset(
+                                          "assets/images/litsenziyaaa.png",
+                                          height: 250,
+                                        ),
+                                      ),
+                                      8.w.horizontalSpace,
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const ImagePreviewPage(
+                                                imagePath:
+                                                    "assets/images/litsenziya.png",
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Image.asset(
+                                          "assets/images/litsenziya.png",
+                                          height: 250,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   24.h.verticalSpace,
                                 ],

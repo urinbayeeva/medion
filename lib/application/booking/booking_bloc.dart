@@ -99,11 +99,11 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     emit(state.copyWith(loading: true, error: false, success: false));
 
     try {
-      EasyLoading.show();
+      // EasyLoading.show();
 
       final res = await _repository.fetchBookingTypes();
 
-      if (isClosed) return; // Early exit if bloc is closed
+      if (isClosed) return;
 
       res.fold(
         (error) {

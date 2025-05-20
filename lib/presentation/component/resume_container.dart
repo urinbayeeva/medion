@@ -9,8 +9,9 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/extensions.dart';
 
 class ResumeContainer extends StatefulWidget {
-  final VoidCallback fileUpdloadOntap;
-  const ResumeContainer({super.key, required this.fileUpdloadOntap});
+  final Future<String?> Function() fileUploadOnTap;
+
+  const ResumeContainer({super.key, required this.fileUploadOnTap});
 
   @override
   State<ResumeContainer> createState() => _ResumeContainerState();
@@ -22,6 +23,7 @@ class _ResumeContainerState extends State<ResumeContainer> {
   late TextEditingController _phoneNumberController;
   late TextEditingController _nameController;
   late FocusNode focusNode;
+  String? uploadedFileName;
 
   @override
   void initState() {
@@ -92,9 +94,46 @@ class _ResumeContainerState extends State<ResumeContainer> {
               ),
             ),
             12.h.verticalSpace,
-            CFileUploadContainer(
-              onTap: widget.fileUpdloadOntap,
-            ),
+            uploadedFileName == null
+                ? CFileUploadContainer(
+                    onTap: () async {
+                      String? fileName = await widget.fileUploadOnTap();
+                      if (fileName != null) {
+                        setState(() {
+                          uploadedFileName = fileName;
+                        });
+                      }
+                    },
+                  )
+                : Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: colors.shade0,
+                      borderRadius: BorderRadius.circular(8.r),
+                      border: Border.all(color: colors.neutral400, width: 2),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.insert_drive_file, color: colors.primary500),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: Text(
+                            uploadedFileName!,
+                            style: fonts.regularLink.copyWith(fontSize: 14.sp),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.close, color: colors.error500),
+                          onPressed: () {
+                            setState(() {
+                              uploadedFileName = null;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
           ],
         ),
       );

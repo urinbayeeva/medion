@@ -17,12 +17,14 @@ class PartnersInnerPage extends StatefulWidget {
   final String partnerImage;
   final String partnerUrl;
   final String partnerPhoneNumber;
+  final String partnerTitle;
   const PartnersInnerPage(
       {super.key,
       required this.partnerName,
       required this.partnerImage,
       required this.partnerUrl,
-      required this.partnerPhoneNumber});
+      required this.partnerPhoneNumber,
+      required this.partnerTitle});
 
   @override
   State<PartnersInnerPage> createState() => _PartnersInnerPageState();
@@ -50,7 +52,7 @@ class _PartnersInnerPageState extends State<PartnersInnerPage> {
                 centerTitle: true,
                 isBack: true,
                 trailing: 24.w.horizontalSpace),
-            if (widget.partnerPhoneNumber.isEmpty &&
+            if (widget.partnerPhoneNumber.isEmpty ||
                 widget.partnerUrl.isEmpty) ...[
               Expanded(
                 child: Center(
@@ -61,7 +63,7 @@ class _PartnersInnerPageState extends State<PartnersInnerPage> {
                       12.h.verticalSpace,
                       Text(
                           textAlign: TextAlign.center,
-                          "Ushbu hamkor haqida hech\nqanday ma'lumot topilmadi",
+                          "Информация об этом партнере не найдена",
                           style: fonts.smallSemLink.copyWith()),
                       50.h.verticalSpace,
                     ],
@@ -75,6 +77,7 @@ class _PartnersInnerPageState extends State<PartnersInnerPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    16.h.verticalSpace,
                     widget.partnerImage.isEmpty
                         ? SvgPicture.asset("assets/icons/picture.svg",
                             width: 80.w, height: 80.h, color: colors.neutral500)
@@ -92,21 +95,28 @@ class _PartnersInnerPageState extends State<PartnersInnerPage> {
                               makePhoneCall(widget.partnerPhoneNumber);
                             },
                             child: Container(
+                              width: 195.w,
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 16.w, vertical: 8.h),
-                              height: 55.h,
+                                  horizontal: 12.w, vertical: 8.h),
                               decoration: BoxDecoration(
-                                  color: colors.shade0,
-                                  border: Border.all(
-                                      width: 1, color: colors.neutral400),
-                                  borderRadius: BorderRadius.circular(8.r)),
+                                color: colors.shade0,
+                                border: Border.all(
+                                    width: 1, color: colors.neutral400),
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text("phone".tr(), style: fonts.xSmallText),
-                                  Text(widget.partnerPhoneNumber,
-                                      style: fonts.smallSemLink
-                                          .copyWith(fontSize: 12.sp)),
+                                  SizedBox(height: 2.h),
+                                  Text(
+                                    widget.partnerPhoneNumber,
+                                    style: fonts.smallSemLink
+                                        .copyWith(fontSize: 12.sp),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ],
                               ),
                             ),
@@ -116,58 +126,40 @@ class _PartnersInnerPageState extends State<PartnersInnerPage> {
                         Expanded(
                           child: AnimationButtonEffect(
                             onTap: () {
-                              if (widget.partnerUrl.isEmpty) {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                          backgroundColor: colors.shade0,
-                                          content: Container(
-                                            color: colors.shade0,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                icons.emojiSad.svg(
-                                                    width: 60.w, height: 60.h),
-                                                12.h.verticalSpace,
-                                                Text(
-                                                    textAlign: TextAlign.center,
-                                                    "Hozirda ushbu klinika o'z veb saytiga ega emas",
-                                                    style: fonts.smallSemLink)
-                                              ],
-                                            ),
-                                          ));
-                                    });
-                              } else {
-                                getUrl();
-                              }
+                              getUrl();
                             },
                             child: Container(
+                              width: 140.w,
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 16.w, vertical: 8.h),
-                              height: 55.h,
+                                  horizontal: 12.w, vertical: 8.h),
                               decoration: BoxDecoration(
-                                  color: colors.shade0,
-                                  border: Border.all(
-                                      width: 1, color: colors.neutral400),
-                                  borderRadius: BorderRadius.circular(8.r)),
+                                color: colors.shade0,
+                                border: Border.all(
+                                    width: 1, color: colors.neutral400),
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text("site".tr(), style: fonts.xSmallText),
-                                  Text(widget.partnerUrl,
-                                      style: fonts.smallSemLink),
+                                  SizedBox(height: 2.h),
+                                  Text(
+                                    widget.partnerUrl,
+                                    style: fonts.smallSemLink
+                                        .copyWith(fontSize: 12.sp),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ],
                               ),
                             ),
                           ),
-                        )
+                        ),
                       ],
-                    )
+                    ),
+                    24.h.verticalSpace,
+                    Text(widget.partnerTitle, style: fonts.smallLink),
                   ],
                 ),
               ))

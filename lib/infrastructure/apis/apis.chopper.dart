@@ -466,6 +466,33 @@ final class _$BranchService extends BranchService {
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
+final class _$SearchService extends SearchService {
+  _$SearchService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = SearchService;
+
+  @override
+  Future<Response<MedionResponseSearchText>> getBranchInfo(
+      SearchReqModel request) {
+    final Uri $url = Uri.parse('/his-web-search');
+    final $body = request;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client
+        .send<MedionResponseSearchText, MedionResponseSearchText>($request);
+  }
+}
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _$StudyService extends StudyService {
   _$StudyService([ChopperClient? client]) {
     if (client == null) return;

@@ -443,14 +443,24 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                 CButton(
                   onTap: () {
                     if (chose >= 1) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MedServiceDoctorChose(
-                                    servicesID: selectedServices
-                                        .map((s) => s['id'] as int)
-                                        .toList(),
-                                  )));
+                      widget.isDoctorService
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MedServiceDoctorChose(
+                                        doctorsID: widget.doctorId,
+                                        servicesID: selectedServices
+                                            .map((s) => s['id'] as int)
+                                            .toList(),
+                                      )))
+                          : Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MedServiceDoctorChose(
+                                        servicesID: selectedServices
+                                            .map((s) => s['id'] as int)
+                                            .toList(),
+                                      )));
                     }
                   },
                   title: 'next'.tr(),
@@ -601,25 +611,32 @@ class _ServiceItem extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 4.h),
-                      child: Text(
-                        decodeHtml(
-                          service['description'] is String
-                              ? service['description']
-                              : 'Test description',
-                        ),
-                        style: fonts.smallLink.copyWith(
-                          color: colors.neutral600,
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(top: 4.h),
+                    //   child: Text(
+                    //     decodeHtml(
+                    //       service['description'] is String
+                    //           ? service['description']
+                    //           : 'Test description',
+                    //     ),
+                    //     style: fonts.smallLink.copyWith(
+                    //       color: colors.neutral600,
+                    //       fontSize: 11.sp,
+                    //       fontWeight: FontWeight.w400,
+                    //     ),
+                    //   ),
+                    // ),
+                    4.h.verticalSpace,
                     Text(
                       changeSum
-                          ? "${formatNumber(service['doctor_price_start_uzs'])} UZS"
-                          : "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)} USD",
+                          ? "sum".tr(namedArgs: {
+                              "amount":
+                                  "${formatNumber(service['doctor_price_start_uzs'])}"
+                            })
+                          : "sum".tr(namedArgs: {
+                              "amount":
+                                  "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)}"
+                            }),
                       style: fonts.smallLink.copyWith(
                         color: colors.primary900,
                         fontWeight: FontWeight.w600,
@@ -627,6 +644,14 @@ class _ServiceItem extends StatelessWidget {
                       ),
                     ),
                     4.h.verticalSpace,
+                    Text(
+                      "with_vat".tr(),
+                      style: fonts.smallLink.copyWith(
+                        color: colors.neutral600,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -788,20 +813,20 @@ class _ServiceSelectionModalState extends State<ServiceSelectionModal> {
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w600),
                                   ),
+                                  // Text(
+                                  //   decodeHtml(
+                                  //     service['description'] is String
+                                  //         ? service['description']
+                                  //         : 'Test description',
+                                  //   ),
+                                  //   style: fonts.smallLink.copyWith(
+                                  //     color: colors.neutral600,
+                                  //     fontSize: 11.sp,
+                                  //     fontWeight: FontWeight.w400,
+                                  //   ),
+                                  // ),
                                   Text(
-                                    decodeHtml(
-                                      service['description'] is String
-                                          ? service['description']
-                                          : 'Test description',
-                                    ),
-                                    style: fonts.smallLink.copyWith(
-                                      color: colors.neutral600,
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    widget.changeSum
+                                    !widget.changeSum
                                         ? "${formatNumber(service['doctor_price_start_uzs'])} UZS"
                                         : "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)} USD",
                                     style: fonts.smallSemLink.copyWith(

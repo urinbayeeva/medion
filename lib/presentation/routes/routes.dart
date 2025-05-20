@@ -7,6 +7,7 @@ import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
+import 'package:medion/application/search/search_bloc.dart';
 import 'package:medion/application/vacancy_bloc/vacancy_bloc.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/branch_repo.dart';
@@ -14,6 +15,7 @@ import 'package:medion/infrastructure/repository/content_service.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/repository/recruitment_repo.dart';
+import 'package:medion/infrastructure/repository/search_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/c_info_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
@@ -31,6 +33,7 @@ import 'package:medion/presentation/pages/home/med_services/med_services.dart';
 import 'package:medion/presentation/pages/home/news/news_page.dart';
 import 'package:medion/presentation/pages/home/news/news_view.dart';
 import 'package:medion/presentation/pages/home/notifications/notification_page.dart';
+import 'package:medion/presentation/pages/home/search/search_page.dart';
 import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/pages/map/component/adress_view_page.dart';
 import 'package:medion/presentation/pages/map/map_page.dart';
@@ -387,6 +390,22 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const NotificationPage());
   }
 
+  static MaterialPageRoute getSearchPage() {
+    return MaterialPageRoute(
+      builder: (context) {
+        final dbService = context.read<DBService>();
+        return BlocProvider(
+          create: (_) => SearchBloc(
+            SearchRepository(
+              SearchService.create(dbService),
+            ),
+          ),
+          child: const SearchPage(),
+        );
+      },
+    );
+  }
+
   static MaterialPageRoute getDoctorsAppointmentPage(
       String? name, String? profession, String? image, String? specialty) {
     return MaterialPageRoute(
@@ -463,9 +482,13 @@ class AppRoutes {
     required String branchOfferTitle,
     required String branchOfferSubtitle,
     required VoidCallback branchPhoneNumberButton,
+    required double lang,
+    required double lat,
   }) {
     return MaterialPageRoute(
         builder: (_) => SingleBranchPage(
+              lang: lang,
+              lat: lat,
               branchPhotos: branchPhotos,
               branchName: branchName,
               branchAdress: branchAdress,
@@ -486,6 +509,8 @@ class AppRoutes {
     required String branchOfferTitle,
     required String branchOfferSubtitle,
     required VoidCallback branchPhoneNumberButton,
+    required double lang,
+    required double lat,
   }) {
     return MaterialPageRoute(
       builder: (_) => SingleBranchInfo(
@@ -497,6 +522,8 @@ class AppRoutes {
         branchOfferTitle: branchOfferTitle,
         branchOfferSubtitle: branchOfferSubtitle,
         branchPhoneNumberButton: branchPhoneNumberButton,
+        lang: lang,
+        lat: lat,
       ),
     );
   }
@@ -531,11 +558,13 @@ class AppRoutes {
       {required String partnerName,
       required String partnerImage,
       required String partnerUrl,
+      required String partnerTitle,
       required String partnerPhoneNumber}) {
     return MaterialPageRoute(
         builder: (_) => PartnersInnerPage(
               partnerName: partnerName,
               partnerImage: partnerImage,
+              partnerTitle: partnerTitle,
               partnerUrl: partnerUrl,
               partnerPhoneNumber: partnerPhoneNumber,
             ));

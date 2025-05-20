@@ -27,20 +27,19 @@ class HomeListTile extends StatelessWidget {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
         return ListTile(
-        
           minVerticalPadding: 0,
           onTap: onTap,
-          leading: icon != null
-              ? img != null
-                  ? CachedImageComponent(
-                      imageUrl: img!,
-                      height: 42.r,
-                      width: 42.r,
-                      borderRadius: 8.r,
-                      fit: BoxFit.cover,
-                    )
-                  : icon!.svg(height: 24.r, width: 24.r)
-              : null,
+          leading: img != null
+              ? CachedImageComponent(
+                  imageUrl: img!,
+                  height: 42.r,
+                  width: 42.r,
+                  borderRadius: 8.r,
+                  fit: BoxFit.cover,
+                )
+              : icon != null
+                  ? icon!.svg(height: 24.r, width: 24.r)
+                  : null,
           title: Text(
             semanticsLabel: title,
             title,

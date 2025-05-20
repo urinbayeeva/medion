@@ -163,7 +163,7 @@
   "doctors_reports": "Shifokor hisobotlari",
   "analyzes": "Analizlar",
   "balance": "Balans",
-  "sum": "{amount} so'm dan boshlanadi",
+  "sum": "{amount} so'm",
   "cache": "Keshbek",
   "appointment_nav_bar": "Qabulga yozilish",
   "choose_doctor_time": "Shifokorning sana va vaqtini belgilang",
@@ -389,5 +389,14 @@
   "with_vat": "QQS bilan",
   "search": "Qidirish",
   "remove_all": "Hammasini o'chirish",
+  "monday": "Dushanba",
+  "tuesday": "Seshanba",
+  "wednesday": "Chorshanba",
+  "thursday": "Payshanba",
+  "friday": "Juma",
+  "saturday": "Shanba",
+  "sunday": "Yakshanba",
+  "see_all_doctors": "Barchasini ko'rish",
+  "search_hint": "Hammasini bir joyda toping. Qidiruv so‘zini kiriting...",
   "": ""
 }

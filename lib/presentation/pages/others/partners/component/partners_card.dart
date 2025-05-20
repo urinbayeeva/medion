@@ -37,11 +37,14 @@ class PartnersCard extends StatelessWidget {
               partnerImage.isEmpty
                   ? SvgPicture.asset("assets/icons/picture.svg",
                       width: 80.w, height: 80.h, color: colors.neutral500)
-                  : CachedImageComponent(
-                      height: 80.h, width: 80.w, imageUrl: partnerImage),
-              8.h.verticalSpace,
-              Text(parnterName, style: fonts.mediumMain),
-              12.h.verticalSpace,
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(parnterName, style: fonts.mediumMain),
+                        CachedImageComponent(
+                            height: 80.h, width: 80.w, imageUrl: partnerImage),
+                      ],
+                    ),
               Text(partnerSubtitle, style: fonts.smallLink),
             ],
           ),

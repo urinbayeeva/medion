@@ -11,6 +11,7 @@ import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/sources/med_service.dart';
 import 'package:medion/presentation/component/c_bottom_icon.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
+import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_choose.dart';
 import 'package:medion/presentation/pages/home/news/news_page.dart';
@@ -21,6 +22,7 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/utils/helpers/decode_html.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../application/home/home_bloc.dart';
 import '../../../presentation/component/animation_effect.dart';
@@ -97,12 +99,30 @@ class _HomePageState extends State<HomePage> {
                   isBack: false,
                   title: "main".tr(),
                   centerTitle: true,
-                  trailing: AnimationButtonEffect(
-                    onTap: () => Navigator.push(
-                      context,
-                      AppRoutes.getNotificationPage(),
-                    ),
-                    child: icons.notification.svg(color: colors.primary900),
+                  trailing: Row(
+                    children: [
+                      AnimationButtonEffect(
+                        onTap: () => Navigator.push(
+                          context,
+                          AppRoutes.getNotificationPage(),
+                        ),
+                        child: icons.notification.svg(
+                            color: colors.primary900,
+                            width: 24.w,
+                            height: 24.h),
+                      ),
+                      8.w.horizontalSpace,
+                      AnimationButtonEffect(
+                        onTap: () => Navigator.push(
+                          context,
+                          AppRoutes.getSearchPage(),
+                        ),
+                        child: icons.search.svg(
+                            color: colors.primary900,
+                            width: 22.w,
+                            height: 22.h),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -135,8 +155,9 @@ class _HomePageState extends State<HomePage> {
                         12.h.verticalSpace,
                         BlocBuilder<HomeBloc, HomeState>(
                           builder: (context, state) {
-                            print(
-                                "Medical services: ${state.medicalServices}"); // Debugging line
+                            if (state.loading) {
+                              return _buildMedicalServicesShimmer();
+                            }
                             if (state.medicalServices.isEmpty) {
                               return const SizedBox.shrink();
                             }
@@ -215,6 +236,9 @@ class _HomePageState extends State<HomePage> {
                         12.h.verticalSpace,
                         BlocBuilder<BookingBloc, BookingState>(
                             builder: (context, state) {
+                          if (state.loading) {
+                            return _buildDirectionsShimmer(fonts);
+                          }
                           if (state.homePageBookingCategory.isEmpty) {
                             return const SizedBox.shrink();
                           }
@@ -263,6 +287,9 @@ class _HomePageState extends State<HomePage> {
                         12.h.verticalSpace,
                         BlocBuilder<DoctorBloc, DoctorState>(
                           builder: (context, state) {
+                            if (state.loading) {
+                              return _buildDoctorsShimmer(fonts);
+                            }
                             if (state.error) {
                               return const SizedBox.shrink();
                             }
@@ -270,7 +297,7 @@ class _HomePageState extends State<HomePage> {
                             return Column(
                               children: [
                                 _buildVerticalSpacingAndHeader(
-                                    "doctors", fonts, "all", () {
+                                    "doctors", fonts, "see_all_doctors", () {
                                   context
                                       .read<BottomNavBarController>()
                                       .changeNavBar(true);
@@ -319,6 +346,9 @@ class _HomePageState extends State<HomePage> {
                         }),
                         BlocBuilder<ContentBloc, ContentState>(
                           builder: (context, state) {
+                            if (state.loading) {
+                              return _buildNewsShimmer();
+                            }
                             if (state.error) {
                               return Center(
                                 child: Text('something_went_wrong'.tr(),
@@ -384,7 +414,15 @@ class _HomePageState extends State<HomePage> {
                                 .changeNavBar(false);
                           });
                         }),
-                        _buildAddressSection(context, colors, fonts, icons),
+                        BlocBuilder<HomeBloc, HomeState>(
+                          builder: (context, state) {
+                            if (state.loading) {
+                              return _buildAddressShimmer();
+                            }
+                            return _buildAddressSection(
+                                context, colors, fonts, icons);
+                          },
+                        ),
                         80.h.verticalSpace,
                       ],
                     ),
@@ -396,6 +434,135 @@ class _HomePageState extends State<HomePage> {
         );
       });
     });
+  }
+
+  Widget _buildMedicalServicesShimmer() {
+    return SizedBox(
+      height: 140.h,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            child: ShimmerView(
+              child: SizedBox(
+                width: 135.w,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ShimmerContainer(
+                      height: 100.h,
+                      width: 135.w,
+                      borderRadius: 8.r,
+                    ),
+                    5.h.verticalSpace,
+                    ShimmerContainer(
+                      height: 16.h,
+                      width: 100.w,
+                      borderRadius: 4.r,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildDirectionsShimmer(fonts) {
+    return Column(
+      children: [
+        _buildVerticalSpacingAndHeader(
+            "directions_of_medion_clinic", fonts, "all", () {}),
+        ListView.builder(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: 5,
+          itemBuilder: (context, index) {
+            return ShimmerView(
+              child: ShimmerContainer(
+                height: 70.h,
+                width: double.infinity,
+                margin: EdgeInsets.only(bottom: 8.h),
+                borderRadius: 8.r,
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDoctorsShimmer(fonts) {
+    return Column(
+      children: [
+        _buildVerticalSpacingAndHeader(
+            "doctors", fonts, "see_all_doctors", () {}),
+        SizedBox(
+          height: 350.h,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.zero,
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.only(right: 12.w),
+                child: ShimmerView(
+                  child: ShimmerContainer(
+                    height: 350.h,
+                    width: 200.w,
+                    borderRadius: 12.r,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNewsShimmer() {
+    return SizedBox(
+      height: 260.h,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.zero,
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets.only(right: 12.w),
+            child: ShimmerView(
+              child: ShimmerContainer(
+                height: 260.h,
+                width: 200.w,
+                borderRadius: 12.r,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildAddressShimmer() {
+    return Column(
+      children: List.generate(
+        3,
+        (index) => ShimmerView(
+          child: ShimmerContainer(
+            height: 100.h,
+            width: double.infinity,
+            margin: EdgeInsets.only(bottom: 12.h),
+            borderRadius: 12.r,
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildOptionsRow(colors, fonts) {
@@ -466,7 +633,7 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state.companyLocations.isEmpty) {
-          return const CircularProgressIndicator();
+          return const SizedBox.shrink();
         }
 
         return Column(

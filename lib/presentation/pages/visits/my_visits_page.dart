@@ -26,7 +26,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
   List<Order> orders = [];
   DBService? _dbService;
   bool _isLoading = true;
-  bool _showVisits = false;
+  bool _showVisits = true;
 
   @override
   void initState() {
@@ -105,23 +105,26 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                   CustomToggle(
                     iconList: [
                       Text(
-                        'Мои счета'.tr(),
-                        style: fonts.xSmallLink.copyWith(
-                          color:
-                              !_showVisits ? colors.shade0 : colors.primary900,
-                        ),
-                      ),
-                      Text(
-                        'Мои приемы'.tr(),
+                        'Мои приемы'.tr(), // "My Visits" now comes first
                         style: fonts.xSmallLink.copyWith(
                           color:
                               _showVisits ? colors.shade0 : colors.primary900,
                         ),
                       ),
+                      Text(
+                        'Мои счета'.tr(), // "My Bills" now comes second
+                        style: fonts.xSmallLink.copyWith(
+                          color:
+                              !_showVisits ? colors.shade0 : colors.primary900,
+                        ),
+                      ),
                     ],
                     onChanged: (value) => setState(() => _showVisits = value),
                     current: _showVisits,
-                    values: const [false, true],
+                    values: const [
+                      true,
+                      false
+                    ], // Inverted values to match the new order
                   ),
                   12.h.verticalSpace,
                 ],
@@ -145,7 +148,11 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
       );
     }
     if (orderVisits.isEmpty) {
-      return Center(child: Text('no_result_found'.tr()));
+      return Center(
+          child: Text(
+        'you_have_no_visits'.tr(),
+        style: Style.regularMain(),
+      ));
     }
 
     return ListView.builder(
@@ -177,7 +184,18 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
       );
     }
     if (visits.isEmpty) {
-      return Center(child: Text('no_result_found'.tr()));
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconSet.create.emojiSad.svg(width: 74.w, height: 78.h),
+          4.h.verticalSpace,
+          Center(
+              child: Text(
+            'you_have_no_visits'.tr(),
+            style: Style.regularMain(),
+          )),
+        ],
+      );
     }
 
     return ListView.builder(
@@ -210,7 +228,10 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PaymentWebView(url: pdfUrl),
+                  builder: (context) => PaymentWebView(
+                    url: pdfUrl,
+                    isInvoice: true,
+                  ),
                 ),
               );
             } else {
@@ -244,7 +265,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
       context,
       MaterialPageRoute(
         builder: (context) => VisitDetailPage(
-          onTap: () {}, // No PDF for regular visits
+          onTap: () {},
           longitude: visit.longitude,
           latitude: visit.latitude,
           image: visit.image,

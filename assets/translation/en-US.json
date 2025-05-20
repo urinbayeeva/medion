@@ -55,5 +55,6 @@
   "travel_time": "Estimated time",
   "minutes": "{} min",
   "hours": "{} h",
+  "search_hint": "Find everything in one place. Enter a search term...",
   "": ""
 }

@@ -5,7 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class WhatWeOfferCard extends StatefulWidget {
-  const WhatWeOfferCard({super.key});
+  const WhatWeOfferCard({
+    super.key,
+  });
 
   @override
   State<WhatWeOfferCard> createState() => _WhatWeOfferCardState();
@@ -25,13 +27,6 @@ class _WhatWeOfferCardState extends State<WhatWeOfferCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SvgPicture.asset(
-              "assets/icons/picture.svg",
-              width: 60.w,
-              height: 60.h,
-              color: colors.neutral500,
-            ),
-            12.h.verticalSpace,
             Text(
               "Title null",
               style: fonts.smallMain,

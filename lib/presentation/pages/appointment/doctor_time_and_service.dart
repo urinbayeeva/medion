@@ -107,7 +107,7 @@ class _DoctorTimeAndServiceState extends State<DoctorTimeAndService> {
     }
 
     return FutureBuilder<List<Service>>(
-      future: ApiService.fetchServices(serviceIds),
+      future: ApiService.fetchServices(serviceIds: serviceIds, doctorId: null),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(

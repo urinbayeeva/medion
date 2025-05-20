@@ -118,30 +118,6 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 ),
                 bottom: Column(
                   children: [
-                    CustomToggle(
-                      iconList: [
-                        Text(
-                          'doctors_of_medion'.tr(),
-                          style: fonts.xSmallLink.copyWith(
-                            color: isMedionDoctor
-                                ? colors.shade0
-                                : colors.primary900,
-                          ),
-                        ),
-                        Text(
-                          'foreign_doctors'.tr(),
-                          style: fonts.xSmallLink.copyWith(
-                            color: !isMedionDoctor
-                                ? colors.shade0
-                                : colors.primary900,
-                          ),
-                        ),
-                      ],
-                      onChanged: (value) =>
-                          setState(() => isMedionDoctor = value),
-                      current: isMedionDoctor,
-                      values: const [true, false],
-                    ),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
@@ -221,12 +197,13 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
       return category.doctorData.map((doctor) {
         return {
           'name': doctor.name.toString(),
-          'profession': doctor.specialty?.value.toString() ?? 'N/A',
-          'image': doctor.image?.value.toString() ?? '',
+          'profession': doctor.specialty?.toString() ?? 'N/A',
+          'image': doctor.image?.toString() ?? '',
           'category': category.categoryName.toString(),
           'id': doctor.id.toString(),
-          'status': doctor.academicRank?.toString() ?? 'N/A',
+          'status': doctor.specialty?.toString() ?? 'N/A',
           'candidateScience': false,
+          'work_experience': doctor.workExperience,
         };
       });
     }).toList();
@@ -440,13 +417,14 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                   .where((doctor) => _matchesCategory(doctor))
                   .map((doctor) => {
                         'name': doctor.name.toString(),
-                        'profession':
-                            doctor.specialty?.value.toString() ?? 'N/A',
-                        'image': doctor.image?.value.toString() ?? '',
+                        'profession': doctor.specialty?.toString() ?? 'N/A',
+                        'image': doctor.image?.toString() ?? '',
                         'category': category.categoryName.toString(),
                         'id': doctor.id.toString(),
-                        'status': doctor.academicRank?.toString() ?? 'N/A',
-                        'candidateScience': false
+                        'status': doctor.specialty?.toString() ?? 'N/A',
+                        'candidateScience': false,
+                        'work_experience':
+                            doctor.workExperience, // Include experience
                       })
                   .toList();
 
@@ -531,7 +509,6 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(category, style: fonts.regularSemLink),
         12.h.verticalSpace,
         GridView.builder(
           shrinkWrap: true,
@@ -542,7 +519,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
             crossAxisCount: 2,
             crossAxisSpacing: 0,
             mainAxisSpacing: 12.0,
-            childAspectRatio: 0.51,
+            childAspectRatio: 0.5,
           ),
           itemBuilder: (context, index) {
             final doctor = doctors[index];
@@ -562,6 +539,8 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                     context.read<BottomNavBarController>().changeNavBar(true);
                   });
                 },
+                experience: "experience".tr(
+                    namedArgs: {"count": doctor['work_experience'].toString()}),
                 categoryType: doctor['category'].toString(),
                 imagePath: doctor['image'].toString(),
                 name: doctor['name'].toString(),

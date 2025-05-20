@@ -5,10 +5,6 @@ import 'package:medion/utils/app_config.dart';
 List<Map<String, dynamic>> othersData = [
   if (AppConfig.shared.flavor == Flavor.dev) ...[
     {
-      "title": "our_activities".tr(),
-      "icon": IconSet.create.stethoscope,
-    },
-    {
       "title": "services".tr(),
       "icon": IconSet.create.hospital,
     },
@@ -68,6 +64,10 @@ List<Map<String, dynamic>> othersData = [
   {
     "title": "offerta".tr(),
     "icon": IconSet.create.document,
+  },
+  {
+    "title": "our_activities".tr(),
+    "icon": IconSet.create.stethoscope,
   },
 ];
 

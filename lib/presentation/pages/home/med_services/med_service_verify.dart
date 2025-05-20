@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/component/c_progress_bar.dart';
 import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
 import 'package:medion/presentation/pages/appointment/component/verify_appointment_item.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_payment.dart';
@@ -17,6 +18,7 @@ class MedServiceVerify extends StatefulWidget {
   final String selectedTime;
   final String selectedLocation;
   final String doctorImage;
+  final bool isHome;
 
   const MedServiceVerify({
     super.key,
@@ -27,6 +29,7 @@ class MedServiceVerify extends StatefulWidget {
     required this.selectedTime,
     required this.selectedLocation,
     required this.doctorImage,
+    this.isHome = false,
   });
 
   @override
@@ -53,12 +56,53 @@ class _MedServiceVerifyState extends State<MedServiceVerify> {
             backgroundColor: colors.backgroundColor,
             body: Column(
               children: [
-                CAppBar(
-                  title: "verify_selected".tr(),
-                  centerTitle: true,
-                  isBack: true,
-                  trailing: 24.w.horizontalSpace,
-                ),
+                widget.isHome
+                    ? CAppBar(
+                        title: "confirmation_of_appointment".tr(),
+                        isBack: true,
+                        centerTitle: true,
+                        trailing: 24.w.horizontalSpace,
+                        bottom: Column(
+                          spacing: 8.h,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'step'.tr(namedArgs: {
+                                      "count": "4",
+                                      "total": "5"
+                                    }),
+                                    style: fonts.xSmallLink.copyWith(
+                                        color: colors.neutral600,
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        "  ${"confirmation_of_appointment".tr()}",
+                                    style: fonts.xSmallLink.copyWith(
+                                        color: colors.primary900,
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const CustomProgressBar(
+                              count: 4,
+                              allCount: 5,
+                            ),
+                          ],
+                        ),
+                      )
+                    : CAppBar(
+                        title: "selecting_the_time_the_date".tr(),
+                        centerTitle: true,
+                        isBack: true,
+                        trailing: 24.w.horizontalSpace,
+                      ),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(

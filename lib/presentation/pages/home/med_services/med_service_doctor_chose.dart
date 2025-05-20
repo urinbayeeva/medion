@@ -7,6 +7,7 @@ import 'package:medion/domain/models/models.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
+import 'package:medion/presentation/component/c_progress_bar.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/pages/appointment/verify_appointment.dart';
@@ -16,8 +17,18 @@ import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class MedServiceDoctorChose extends StatefulWidget {
-  final List<int> servicesID;
-  const MedServiceDoctorChose({super.key, required this.servicesID});
+  final List<int>? servicesID;
+  final int? doctorsID;
+  final bool isHome;
+
+  const MedServiceDoctorChose({
+    super.key,
+    this.servicesID,
+    this.doctorsID,
+    this.isHome = false,
+  }) : assert(
+          servicesID != null || doctorsID != null,
+        );
 
   @override
   State<MedServiceDoctorChose> createState() => _MedServiceDoctorChoseState();
@@ -27,6 +38,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
   ValueNotifier<List<Map<String, String>>> selectedAppointments =
       ValueNotifier([]);
   Future<List<Service>>? _servicesFuture;
+  List<Service>? _services; // Store services data in state
 
   @override
   void dispose() {
@@ -36,7 +48,10 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
 
   @override
   void initState() {
-    _servicesFuture = ApiService.fetchServices(widget.servicesID);
+    _servicesFuture = ApiService.fetchServices(
+      serviceIds: widget.servicesID,
+      doctorId: widget.doctorsID,
+    );
     super.initState();
   }
 
@@ -45,28 +60,34 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
 
     final serviceId = appointment['serviceId'];
 
-    // Remove any existing appointment with the same serviceId
     selectedAppointments.value = selectedAppointments.value
         .where((a) => a['serviceId'] != serviceId)
         .toList();
 
-    // Add the new appointment
     selectedAppointments.value = [...selectedAppointments.value, appointment];
   }
 
   void removeAppointment(Map<String, String> appointment) {
     if (!mounted) return;
-    final updatedList =
-        selectedAppointments.value.where((a) => a != appointment).toList();
-    if (updatedList.length != selectedAppointments.value.length) {
-      selectedAppointments.value = updatedList;
-    }
+    selectedAppointments.value = selectedAppointments.value
+        .where((a) =>
+            a['serviceId'] != appointment['serviceId'] ||
+            a['time'] != appointment['time'] ||
+            a['doctorName'] != appointment['doctorName'])
+        .toList();
+  }
+
+  void removeAppointmentForService(String serviceId) {
+    if (!mounted) return;
+    selectedAppointments.value = selectedAppointments.value
+        .where((a) => a['serviceId'] != serviceId)
+        .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.servicesID.isEmpty) {
-      return Center(child: Text("No services selected"));
+    if (widget.servicesID == null && widget.doctorsID == null) {
+      return const Center(child: Text("No services selected"));
     }
 
     return ThemeWrapper(
@@ -75,12 +96,50 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
           backgroundColor: colors.backgroundColor,
           body: Column(
             children: [
-              CAppBar(
-                title: "selecting_the_time_the_date".tr(),
-                centerTitle: true,
-                isBack: true,
-                trailing: 24.w.horizontalSpace,
-              ),
+              widget.isHome
+                  ? CAppBar(
+                      title: "select_doctor_time".tr(),
+                      isBack: true,
+                      centerTitle: true,
+                      trailing: 24.w.horizontalSpace,
+                      bottom: Column(
+                        spacing: 8.h,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'step'.tr(
+                                      namedArgs: {"count": "3", "total": "5"}),
+                                  style: fonts.xSmallLink.copyWith(
+                                      color: colors.neutral600,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                TextSpan(
+                                  text: "  ${"select_doctor_time".tr()}",
+                                  style: fonts.xSmallLink.copyWith(
+                                      color: colors.primary900,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const CustomProgressBar(
+                            count: 3,
+                            allCount: 5,
+                          ),
+                        ],
+                      ),
+                    )
+                  : CAppBar(
+                      title: "selecting_the_time_the_date".tr(),
+                      centerTitle: true,
+                      isBack: true,
+                      trailing: 24.w.horizontalSpace,
+                    ),
               12.h.verticalSpace,
               Expanded(
                 child: FutureBuilder<List<Service>>(
@@ -98,6 +157,9 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                       return const Center(child: Text('No services available'));
                     }
 
+                    // Store services data in state
+                    _services = snapshot.data;
+
                     return CustomListView(
                       enablePullDown: false,
                       enablePullUp: false,
@@ -114,7 +176,6 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                             .toList();
 
                         if (availableDoctors.isEmpty)
-                          // ignore: curly_braces_in_flow_control_structures
                           return SizedBox(
                             height: MediaQuery.of(context).size.height * 0.7,
                             child: Center(
@@ -155,6 +216,10 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                         onAppointmentSelected: (appointment) {
                                           if (appointment != null) {
                                             addAppointment(appointment);
+                                          } else {
+                                            // When unselecting, we need to remove the appointment for this service
+                                            removeAppointmentForService(
+                                                service.serviceId.toString());
                                           }
                                         },
                                       );
@@ -208,18 +273,96 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                             ],
                           ),
                           12.h.verticalSpace,
-                          // Replace the current CButton onTap code with this:
                           CButton(
                             title: 'next'.tr(),
                             onTap: () {
                               if (selectedList.isNotEmpty) {
                                 final appointment = selectedList.first;
 
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => VerifyAppointment(
-                                            isHome: true, onTap: () {})));
+                                // Extract values from the appointment map
+                                final serviceId =
+                                    appointment['serviceId'] ?? '';
+                                final doctorName =
+                                    appointment['doctorName'] ?? 'Unknown';
+                                final selectedTime = appointment['time'] ?? '';
+                                final doctorImage =
+                                    appointment['doctorPhoto'] ?? '';
+                                final companyId =
+                                    appointment['companyId'] ?? '';
+
+                                // Initialize default values
+                                String serviceName = 'Unknown Service';
+                                String servicePrice = 'N/A';
+                                String selectedLocation = 'Unknown Location';
+
+                                // Find the service from stored _services
+                                if (_services != null) {
+                                  final selectedService = _services!.firstWhere(
+                                    (service) =>
+                                        service.serviceId.toString() ==
+                                        serviceId,
+                                    orElse: () => Service(
+                                      serviceId: 0,
+                                      serviceName: 'Unknown Service',
+                                      companiesDoctors: [],
+                                    ),
+                                  );
+                                  serviceName = selectedService.serviceName;
+                                  // Assuming price is a field in Service model; adjust if different
+
+                                  'N/A';
+                                  selectedLocation = selectedService
+                                          .companiesDoctors.isNotEmpty
+                                      ? selectedService.companiesDoctors.first
+                                              .companyName ??
+                                          'Unknown Location'
+                                      : 'Unknown Location';
+                                } else {
+                                  // Show a message if services are not loaded
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content:
+                                          Text('Services not loaded yet'.tr()),
+                                    ),
+                                  );
+                                  return;
+                                }
+
+                                widget.isHome
+                                    ? Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              MedServiceVerify(
+                                            isHome: true,
+                                            diagnosName:
+                                                'N/A', // Replace if available
+                                            serviceName: serviceName,
+                                            doctorName: doctorName,
+                                            servicePrice: servicePrice,
+                                            selectedTime: selectedTime,
+                                            selectedLocation: selectedLocation,
+                                            doctorImage: doctorImage,
+                                          ),
+                                        ),
+                                      )
+                                    : Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              VerifyAppointment(
+                                            isHome: true,
+                                            onTap: () {},
+                                          ),
+                                        ),
+                                      );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        Text('No appointment selected'.tr()),
+                                  ),
+                                );
                               }
                             },
                           ),
@@ -259,13 +402,13 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
               Column(
                 children: List.generate(selectedList.length, (index) {
                   final appointment = selectedList[index];
-                  String timeString = appointment['time']!;
+                  String timeString = appointment['time'] ?? '00:00';
                   List<String> parts = timeString.split(':');
-                  int hour = int.parse(parts[0]);
-                  int minute = int.parse(parts[1]);
+                  int hour = int.tryParse(parts[0]) ?? 0;
+                  int minute = int.tryParse(parts[1]) ?? 0;
 
                   DateTime startTime = DateTime(0, 1, 1, hour, minute);
-                  DateTime endTime = startTime.add(Duration(minutes: 30));
+                  DateTime endTime = startTime.add(const Duration(minutes: 30));
                   return Padding(
                     padding: EdgeInsets.only(bottom: 10.h),
                     child: Row(
@@ -276,9 +419,9 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                           radius: 34.r,
                           child: ClipOval(
                             child: CachedImageComponent(
-                              height: 68.h, // slightly smaller than the avatar
+                              height: 68.h,
                               width: 68.w,
-                              imageUrl: appointment['doctorPhoto']!,
+                              imageUrl: appointment['doctorPhoto'] ?? '',
                             ),
                           ),
                         ),
@@ -297,14 +440,14 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                   padding: EdgeInsets.all(4.w),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30.r),
-                                      color:
-                                          Color(0xff0E73F6).withOpacity(0.3)),
+                                      color: const Color(0xff0E73F6)
+                                          .withOpacity(0.3)),
                                   child: Text(
                                     "${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} - "
                                     "${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}",
                                     style: fonts.xSmallLink.copyWith(
                                         fontSize: 12.sp,
-                                        color: Color(0xFF0E73F6)),
+                                        color: const Color(0xFF0E73F6)),
                                   )),
                               Text(
                                 "Test Description",

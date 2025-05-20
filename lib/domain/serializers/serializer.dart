@@ -9,6 +9,7 @@ import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/recruitment/recruitment_model.dart';
+import 'package:medion/domain/models/search/search_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/models/visit/visit_new_model.dart';
@@ -115,7 +116,13 @@ part 'serializer.g.dart';
   //Vacancy
 
   VacancyModel,
-  JobApplicationModel
+  JobApplicationModel,
+
+  //Search
+  SearchReqModel,
+  DoctorSearchText,
+  CategorySearchText,
+  MedionResponseSearchText,
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

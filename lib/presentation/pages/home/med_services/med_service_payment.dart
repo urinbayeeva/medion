@@ -6,6 +6,7 @@ import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/payment_provider.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/component/c_progress_bar.dart';
 import 'package:medion/presentation/component/c_radio_tile.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
@@ -29,6 +30,7 @@ class MedServicePayment extends StatefulWidget {
     required this.appointmentTime,
     required this.location,
     required this.imagePath,
+    this.isHome = false,
   });
 
   final String diagnosis;
@@ -38,6 +40,7 @@ class MedServicePayment extends StatefulWidget {
   final String appointmentTime;
   final String location;
   final String imagePath;
+  final bool isHome;
 
   @override
   State<MedServicePayment> createState() => _MedServicePaymentState();
@@ -81,12 +84,51 @@ class _MedServicePaymentState extends State<MedServicePayment> {
         body: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
-              child: CAppBar(
-                title: "payment".tr(),
-                isBack: true,
-                centerTitle: true,
-                trailing: 24.w.horizontalSpace,
-              ),
+              child: widget.isHome
+                  ? CAppBar(
+                      title: "payment".tr(),
+                      isBack: true,
+                      centerTitle: true,
+                      trailing: 24.w.horizontalSpace,
+                      bottom: Column(
+                        spacing: 8.h,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'step'.tr(
+                                      namedArgs: {"count": "5", "total": "5"}),
+                                  style: fonts.xSmallLink.copyWith(
+                                      color: colors.neutral600,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                TextSpan(
+                                  text:
+                                      "  ${"payment_for_the_appointment".tr()}",
+                                  style: fonts.xSmallLink.copyWith(
+                                      color: colors.primary900,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const CustomProgressBar(
+                            count: 5,
+                            allCount: 5,
+                          ),
+                        ],
+                      ),
+                    )
+                  : CAppBar(
+                      title: "selecting_the_time_the_date".tr(),
+                      centerTitle: true,
+                      isBack: true,
+                      trailing: 24.w.horizontalSpace,
+                    ),
             ),
             SliverFillRemaining(
               child: BlocBuilder<AuthBloc, AuthState>(

@@ -88,41 +88,35 @@ class _CareerPageState extends State<CareerPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Spacer(),
-        ResumeContainer(fileUpdloadOntap: () async {
-          try {
-            var status = await Permission.storage.status;
-            if (!status.isGranted) {
-              status = await Permission.storage.request();
-            }
-
-            if (status.isGranted) {
-              FilePickerResult? result = await FilePicker.platform.pickFiles(
-                type: FileType.custom,
-                allowedExtensions: ['pdf', 'doc', 'docx'],
-              ).catchError((e) {
-                print("File picker error: $e");
-                return null;
-              });
-
-              if (result != null && result.files.isNotEmpty) {
-                final file = result.files.first;
-                if (file.path != null) {
-                  final filePath = file.path!;
-                  final fileName = file.name;
-                  print("Selected file: $fileName at $filePath");
-                }
-              } else {
-                print("File selection cancelled or no file selected");
+        ResumeContainer(
+          fileUploadOnTap: () async {
+            try {
+              var status = await Permission.storage.status;
+              if (!status.isGranted) {
+                status = await Permission.storage.request();
               }
-            } else if (status.isPermanentlyDenied) {
-              await openAppSettings();
-            } else {
-              print("Storage permission denied");
+
+              if (status.isGranted) {
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: ['pdf', 'doc', 'docx'],
+                );
+
+                if (result != null && result.files.isNotEmpty) {
+                  final file = result.files.first;
+                  if (file.path != null) {
+                    return file.name;
+                  }
+                }
+              } else if (status.isPermanentlyDenied) {
+                await openAppSettings();
+              }
+            } catch (e) {
+              print("Exception in file picking: $e");
             }
-          } catch (e) {
-            print("Exception in file picking: $e");
-          }
-        }),
+            return null;
+          },
+        ),
         const Spacer(),
         const Spacer(),
         Padding(

@@ -28,6 +28,7 @@ import 'package:medion/presentation/component/custom_list_view/custom_list_view.
 import 'package:medion/presentation/component/phone_number_component.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/appointment/component/service_selection_model.dart';
+import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
 import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -40,11 +41,13 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class BookingSecondPage extends StatefulWidget {
   final bool isUSD;
   final int serviceId;
+  final bool show;
 
   const BookingSecondPage({
     super.key,
     required this.isUSD,
     required this.serviceId,
+    required this.show,
   });
 
   @override
@@ -429,15 +432,8 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                                       ),
                                                 18.h.verticalSpace,
                                                 Text(
-                                                  (widget.isUSD)
-                                                      ? "sum".tr(namedArgs: {
-                                                          "amount":
-                                                              formatNumber(
-                                                                  service
-                                                                      .priceUsd,
-                                                                  isDecimal:
-                                                                      true)
-                                                        })
+                                                  (widget.isUSD || changeSum)
+                                                      ? "${formatNumber(service.priceUsd, isDecimal: true)} USD"
                                                       : "sum".tr(namedArgs: {
                                                           "amount":
                                                               formatNumber(
@@ -781,10 +777,9 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => AppointmentPage(
-                                    index: 2,
-                                    selectedServiceIds:
-                                        selectedServiceIDCatch.toSet(),
+                                  builder: (context) => MedServiceDoctorChose(
+                                    isHome: true,
+                                    servicesID: selectedServiceIDCatch,
                                   ),
                                 ),
                               );

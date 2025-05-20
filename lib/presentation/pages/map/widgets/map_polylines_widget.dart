@@ -46,18 +46,29 @@ class _MapPolylinesWidgetState extends State<MapPolylinesWidget> {
           children: [
             Row(
               children: [
-                if (widget.image.isNotEmpty)
-                  Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      image: DecorationImage(
-                        image: CachedNetworkImageProvider(widget.image),
-                        fit: BoxFit.cover,
+                widget.image.isNotEmpty
+                    ? Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          image: DecorationImage(
+                            image: CachedNetworkImageProvider(widget.image),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        width: 80,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Image.asset(
+                          "assets/images/medion_only.png",
+                          fit: BoxFit.fill,
+                        ),
                       ),
-                    ),
-                  ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(

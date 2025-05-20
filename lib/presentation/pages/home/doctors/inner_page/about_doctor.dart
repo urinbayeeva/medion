@@ -191,11 +191,13 @@ class _AboutDoctorState extends State<AboutDoctor> {
                           style: fonts.xSmallText),
                       8.h.verticalSpace,
                       // In _buildExperienceTab and _buildEducationTab, handle the case where description is boolean:
-                      Text(
-                          exp.description is String
-                              ? exp.description.toString()
-                              : 'No description available',
-                          style: fonts.xSmallText),
+                      exp.description.toString().isEmpty
+                          ? SizedBox.shrink()
+                          : Text(
+                              exp.description is String
+                                  ? exp.description.toString()
+                                  : '',
+                              style: fonts.xSmallText),
                     ],
                   ),
                 ),
@@ -235,7 +237,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
                       .format(DateTime.parse(dateParts[1]));
 
               return Padding(
-                padding: EdgeInsets.only(bottom: 16.h),
+                padding: EdgeInsets.only(bottom: 8.h),
                 child: Container(
                   padding: EdgeInsets.all(8.w),
                   width: double.infinity,
@@ -288,12 +290,12 @@ class _AboutDoctorState extends State<AboutDoctor> {
 
   Widget _buildSchedule(WorkSchedule schedule, dynamic colors, dynamic fonts) {
     final days = [
-      {'day': 'Monday', 'schedules': schedule.monday},
-      {'day': 'Tuesday', 'schedules': schedule.tuesday},
-      {'day': 'Wednesday', 'schedules': schedule.wednesday},
-      {'day': 'Thursday', 'schedules': schedule.thursday},
-      {'day': 'Friday', 'schedules': schedule.friday},
-      {'day': 'Saturday', 'schedules': schedule.saturday},
+      {'day': 'monday'.tr(), 'schedules': schedule.monday},
+      {'day': 'tuesday'.tr(), 'schedules': schedule.tuesday},
+      {'day': 'wednesday'.tr(), 'schedules': schedule.wednesday},
+      {'day': 'thursday'.tr(), 'schedules': schedule.thursday},
+      {'day': 'friday'.tr(), 'schedules': schedule.friday},
+      {'day': 'saturday'.tr(), 'schedules': schedule.saturday},
     ];
 
     return Container(

@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/home/home_bloc.dart';
-import 'package:medion/presentation/component/c_text_field.dart';
-import 'package:medion/presentation/styles/theme.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
+import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -34,6 +34,20 @@ class _AdsState extends State<Ads> {
     }
   }
 
+  Widget _buildShimmerAd() {
+    return ShimmerView(
+      child: Container(
+        width: double.infinity,
+        height: 160.h,
+        margin: EdgeInsets.symmetric(horizontal: 4.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
@@ -42,16 +56,7 @@ class _AdsState extends State<Ads> {
           builder: (context, state) {
             if (state.ads.isEmpty) {
               return CarouselSlider(
-                items: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.r),
-                    child: Image.asset(
-                      "assets/images/ad_first.jpg",
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ],
+                items: List.generate(1, (_) => _buildShimmerAd()),
                 options: CarouselOptions(
                   autoPlay: true,
                   aspectRatio: 1.9,
@@ -77,10 +82,13 @@ class _AdsState extends State<Ads> {
                       clipBehavior: Clip.none,
                       children: [
                         Center(
-                          child: CachedNetworkImage(
-                            width: double.infinity,
-                            imageUrl: ad.image!,
-                            fit: BoxFit.contain,
+                          child: AnimationButtonEffect(
+                            onTap: () => _launchUrl(ad.link.toString()),
+                            child: CachedNetworkImage(
+                              width: double.infinity,
+                              imageUrl: ad.image!,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       ],

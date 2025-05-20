@@ -14,6 +14,7 @@ import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/recruitment/recruitment_model.dart';
+import 'package:medion/domain/models/search/search_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
@@ -199,6 +200,17 @@ abstract class BranchService extends ChopperService {
 
   static BranchService create(DBService dbService) =>
       _$BranchService(_Client(Constants.baseUrlP, true, dbService));
+}
+
+@ChopperApi(baseUrl: "")
+abstract class SearchService extends ChopperService {
+  @Post(path: "/his-web-search")
+  Future<Response<MedionResponseSearchText>> getBranchInfo(
+    @Body() SearchReqModel request,
+  );
+
+  static SearchService create(DBService dbService) =>
+      _$SearchService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "")

@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart' as html; // Alias flutter_html
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_container.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:http/http.dart' as http;
+import 'package:medion/utils/constants.dart';
 import 'package:medion/utils/helpers/decode_html.dart';
 
 class OffertaPage extends StatefulWidget {
@@ -31,14 +34,14 @@ class _OffertaPageState extends State<OffertaPage> {
   Future<void> _fetchOffertaData() async {
     try {
       final response = await http.get(
-        Uri.parse('https://his.uicgroup.tech/apiweb/company/offerta'),
+        Uri.parse('${Constants.baseUrlP}/company/offerta'),
       );
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
 
         setState(() {
-          _offertaText = decodeHtml(jsonData['offerta'] ?? '');
+          _offertaText = jsonData['offerta'] ?? '';
           _companyName = decodeHtml(jsonData['companyName'] ?? '');
           _isLoading = false;
         });
@@ -71,7 +74,10 @@ class _OffertaPageState extends State<OffertaPage> {
             ),
             Expanded(
               child: _isLoading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? Center(
+                      child: CircularProgressIndicator(
+                      color: colors.error500,
+                    ))
                   : _errorMessage.isNotEmpty
                       ? Center(child: Text(_errorMessage))
                       : SingleChildScrollView(
@@ -89,8 +95,26 @@ class _OffertaPageState extends State<OffertaPage> {
                                     ),
                                   ),
                                 ),
-                              CContainer(
-                                text: _offertaText,
+                              html.Html(
+                                data: _offertaText,
+                                style: {
+                                  "body": html.Style(
+                                    fontSize: html.FontSize(14.sp),
+                                    color: Colors.black,
+                                  ),
+                                  "b": html.Style(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  "i": html.Style(
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                  "li": html.Style(
+                                    margin: html.Margins.only(bottom: 8.h),
+                                  ),
+                                },
+                                onLinkTap: (url, _, __) {
+                                  if (url != null) {}
+                                },
                               ),
                             ],
                           ),

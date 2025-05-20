@@ -319,7 +319,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
         return ServiceWidget(
           consultInfo: service.name ?? "No service name",
           consultPrice: !changeSum
-              ? "${formatNumber(service.priceUzs)} UZS"
+              ? "sum".tr(namedArgs: {"amount": formatNumber(service.priceUzs)})
               : "${formatNumber(service.priceUzd, isDecimal: true)} USD",
           isSelected: selectedServiceIds.contains(serviceId),
           onTap: () {

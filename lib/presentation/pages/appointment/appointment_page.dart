@@ -90,7 +90,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
           AddAppointmentScreenType.allServices),
       _AddAppointmentUseCaseModel(
           SecondServicePage(
-            onTap: () => navigateToNextScreen(id),
             id: 39,
             isUSD: changeSum,
           ),
@@ -170,7 +169,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
   void _updateUseCaseForCurrency() {
     useCase[1] = _AddAppointmentUseCaseModel(
       SecondServicePage(
-        onTap: () => navigateToNextScreen(id),
         id: id,
         isUSD: changeSum,
       ),

@@ -20,6 +20,8 @@ class SingleBranchPage extends StatefulWidget {
   final String branchOfferTitle;
   final String branchOfferSubtitle;
   final VoidCallback branchPhoneNumberButton;
+  final double lang;
+  final double lat;
 
   const SingleBranchPage(
       {super.key,
@@ -30,7 +32,9 @@ class SingleBranchPage extends StatefulWidget {
       required this.branchInfoDescription,
       required this.branchOfferTitle,
       required this.branchOfferSubtitle,
-      required this.branchPhoneNumberButton});
+      required this.branchPhoneNumberButton,
+      required this.lang,
+      required this.lat});
 
   @override
   State<SingleBranchPage> createState() => _SingleBranchPageState();
@@ -64,6 +68,8 @@ class _SingleBranchPageState extends State<SingleBranchPage> {
                     itemBuilder: (index, _) {
                       // final branch = branches[index];
                       return SingleBranchInfo(
+                          lang: widget.lang,
+                          lat: widget.lat,
                           branchPhoneNumberButton:
                               widget.branchPhoneNumberButton,
                           branchPhotos: widget.branchPhotos,

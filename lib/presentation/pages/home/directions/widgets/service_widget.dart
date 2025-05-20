@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
@@ -53,6 +54,16 @@ class ServiceWidget extends StatelessWidget {
                           color: colors.primary900,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        "with_vat".tr(),
+                        style: fonts.xSmallMain.copyWith(
+                          color: colors.neutral600,
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w600,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
