@@ -70,39 +70,6 @@ class _MainPageState extends State<MainPage> {
       ),
       const OthersPage(),
     ];
-
-    // Sync with BottomNavBarController after first frame
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        final navController = context.read<BottomNavBarController>();
-        navController.setIndices(
-          navIndex: widget.index ?? 0,
-          pageIndex: 0,
-        );
-        // Force update if needed
-        if (_controller.index != (widget.index ?? 0)) {
-          _controller.index = widget.index ?? 0;
-        }
-      }
-    });
-  }
-
-  @override
-  void didUpdateWidget(MainPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.index != widget.index && widget.index != null) {
-      _controller.index = widget.index!;
-      // Also update the BottomNavBarController
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          final navController = context.read<BottomNavBarController>();
-          navController.setIndices(
-            navIndex: widget.index!,
-            pageIndex: 0,
-          );
-        }
-      });
-    }
   }
 
   @override
@@ -116,19 +83,12 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) {
-        if (!didPop && mounted) {
-          _handleBackPress(context);
-        }
-      },
       child: ThemeWrapper(
         builder: (ctx, colors, fonts, icons, global) {
           return Scaffold(
             backgroundColor: colors.backgroundColor,
             body: Consumer<BottomNavBarController>(
               builder: (context, navController, _) {
-                // Remove the automatic index synchronization here
                 return PersistentTabView(
                   context,
                   controller: _controller,
@@ -168,15 +128,5 @@ class _MainPageState extends State<MainPage> {
         },
       ),
     );
-  }
-
-  void _handleBackPress(BuildContext context) {
-    final navController = context.read<BottomNavBarController>();
-    if (navController.currentIndex != 0) {
-      navController.setIndices(navIndex: 0, pageIndex: 0);
-      _controller.index = 0;
-    } else {
-      SystemNavigator.pop();
-    }
   }
 }

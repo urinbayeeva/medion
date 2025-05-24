@@ -18,6 +18,7 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/phone_utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class BranchesPage extends StatefulWidget {
   const BranchesPage({super.key});
@@ -89,8 +90,9 @@ class _BranchesPageState extends State<BranchesPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => MapWithPolylines(
-                                        destination: LatLng(
-                                            branch.latitude, branch.longitude),
+                                        destination: Point(
+                                            latitude: branch.latitude,
+                                            longitude: branch.longitude),
                                         name: branch.name ?? "",
                                         workingHours: branch.workTime,
                                         image: branch.image ?? ""))).then((_) {

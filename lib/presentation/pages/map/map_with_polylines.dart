@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
@@ -13,7 +13,7 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/presentation/styles/style.dart';
 
 class MapWithPolylines extends StatefulWidget {
-  final LatLng destination;
+  final Point destination; // Using Point for Yandex MapKit
   final String name;
   final String workingHours;
   final String image;
@@ -31,9 +31,9 @@ class MapWithPolylines extends StatefulWidget {
 }
 
 class _MapWithPolylinesState extends State<MapWithPolylines> {
-  GoogleMapController? _mapController;
-  LatLng? _currentPosition;
-  Set<Polyline> _polylines = {};
+  YandexMapController? _mapController; // Changed to YandexMapController
+  Point? _currentPosition;
+  List<MapObject> _mapObjects = [];
   double _distanceInKm = 0;
   String _travelTime = '';
 
@@ -64,7 +64,10 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
     final position = await Geolocator.getCurrentPosition();
     if (mounted) {
       setState(() {
-        _currentPosition = LatLng(position.latitude, position.longitude);
+        _currentPosition = Point(
+          latitude: position.latitude,
+          longitude: position.longitude,
+        );
       });
       await _fetchRoutePolyline();
       _calculateDistanceAndTime();
@@ -74,14 +77,11 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
   Future<void> _fetchRoutePolyline() async {
     if (_currentPosition == null) return;
 
-    final origin = LatLng(41.2995, 69.2401);
-    final destination =
-        '${widget.destination.latitude},${widget.destination.longitude}';
-    print('Origin: $origin');
-    print('Destination: $destination');
+    final origin = Point(latitude: 41.2995, longitude: 69.2401);
+    final destination = widget.destination;
 
     final url =
-        'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&mode=driving&key=AIzaSyBcjnX5w8RHfWQ113YmpBM2NhRBYp1j6ws';
+        'https://api.routing.yandex.net/v2/route?waypoints=${origin.latitude},${origin.longitude}|${destination.latitude},${destination.longitude}&apikey=YOUR_YANDEX_ROUTING_API_KEY';
 
     final response = await http.get(Uri.parse(url));
 
@@ -89,8 +89,8 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
       final data = json.decode(response.body);
       print('API body: ${response.body}');
 
-      if (data['status'] != 'OK') {
-        print('Error: ${data['error_message']}');
+      if (data['status'] != 'success') {
+        print('Error: ${data['error']}');
         return;
       }
 
@@ -99,61 +99,53 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
         return;
       }
 
-      if (!data['routes'][0].containsKey('overview_polyline')) {
-        print('No polyline found.');
-        return;
-      }
-
-      final points = data['routes'][0]['overview_polyline']['points'];
-      final List<LatLng> polylineCoordinates = _decodePolyline(points);
+      final route = data['routes'][0];
+      final List<Point> polylinePoints = route['geometry']['coordinates']
+          .map<Point>((coord) => Point(latitude: coord[1], longitude: coord[0]))
+          .toList();
 
       setState(() {
-        _polylines.clear();
-        _polylines.add(Polyline(
-          polylineId: const PolylineId('route'),
-          color: Style.error500,
-          width: 5,
-          points: polylineCoordinates,
+        _mapObjects.clear();
+        _mapObjects.add(PolylineMapObject(
+          mapId: const MapObjectId('route'),
+          polyline: Polyline(points: polylinePoints),
+          strokeColor: Style.error500,
+          strokeWidth: 5.0,
+        ));
+
+        // Add markers
+        _mapObjects.add(PlacemarkMapObject(
+          mapId: const MapObjectId('current'),
+          point: _currentPosition!,
+          icon: PlacemarkIcon.single(
+            PlacemarkIconStyle(
+              image: BitmapDescriptor.fromAssetImage('assets/current.png'),
+            ),
+          ),
+          text: const PlacemarkText(
+            text: 'Your Location',
+            style: PlacemarkTextStyle(),
+          ),
+        ));
+
+        _mapObjects.add(PlacemarkMapObject(
+          mapId: const MapObjectId('destination'),
+          point: destination,
+          icon: PlacemarkIcon.single(
+            PlacemarkIconStyle(
+              image: BitmapDescriptor.fromAssetImage('assets/destination.png'),
+            ),
+          ),
+          text: PlacemarkText(text: widget.name, style: PlacemarkTextStyle()),
         ));
       });
 
-      print('Polyline added with ${polylineCoordinates.length} points');
+      print('Polyline added with ${polylinePoints.length} points');
 
-      _fitMapToPolyline(polylineCoordinates);
+      _fitMapToPolyline(polylinePoints);
     } else {
       print('Failed to fetch directions: ${response.body}');
     }
-  }
-
-  List<LatLng> _decodePolyline(String encoded) {
-    List<LatLng> polyline = [];
-    int index = 0, len = encoded.length;
-    int lat = 0, lng = 0;
-
-    while (index < len) {
-      int b, shift = 0, result = 0;
-      do {
-        b = encoded.codeUnitAt(index++) - 63;
-        result |= (b & 0x1f) << shift;
-        shift += 5;
-      } while (b >= 0x20);
-      int dlat = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
-      lat += dlat;
-
-      shift = 0;
-      result = 0;
-      do {
-        b = encoded.codeUnitAt(index++) - 63;
-        result |= (b & 0x1f) << shift;
-        shift += 5;
-      } while (b >= 0x20);
-      int dlng = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
-      lng += dlng;
-
-      polyline.add(LatLng(lat / 1e5, lng / 1e5));
-    }
-
-    return polyline;
   }
 
   void _calculateDistanceAndTime() {
@@ -176,31 +168,40 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
     setState(() {});
   }
 
-  void _fitMapToPolyline(List<LatLng> polylinePoints) {
+  void _fitMapToPolyline(List<Point> polylinePoints) {
     if (_mapController == null || polylinePoints.isEmpty) return;
 
-    final bounds = _createBoundsFromLatLngList(polylinePoints);
-    _mapController!.animateCamera(CameraUpdate.newLatLngBounds(bounds, 60));
+    final bounds = _createBoundsFromPointList(polylinePoints);
+    _mapController!.moveCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: bounds.target,
+          zoom: 14,
+        ),
+      ),
+    );
   }
 
-  LatLngBounds _createBoundsFromLatLngList(List<LatLng> list) {
+  CameraPosition _createBoundsFromPointList(List<Point> list) {
     assert(list.isNotEmpty);
     double x0 = list.first.latitude;
     double x1 = list.first.latitude;
     double y0 = list.first.longitude;
     double y1 = list.first.longitude;
 
-    for (var latLng in list) {
-      if (latLng.latitude > x1) x1 = latLng.latitude;
-      if (latLng.latitude < x0) x0 = latLng.latitude;
-      if (latLng.longitude > y1) y1 = latLng.longitude;
-      if (latLng.longitude < y0) y0 = latLng.longitude;
+    for (var point in list) {
+      if (point.latitude > x1) x1 = point.latitude;
+      if (point.latitude < x0) x0 = point.latitude;
+      if (point.longitude > y1) y1 = point.longitude;
+      if (point.longitude < y0) y0 = point.longitude;
     }
 
-    return LatLngBounds(
-      southwest: LatLng(x0, y0),
-      northeast: LatLng(x1, y1),
+    final center = Point(
+      latitude: (x0 + x1) / 2,
+      longitude: (y0 + y1) / 2,
     );
+
+    return CameraPosition(target: center, zoom: 14);
   }
 
   @override
@@ -211,26 +212,16 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
             ? Center(child: CircularProgressIndicator(color: colors.error500))
             : Stack(
                 children: [
-                  GoogleMap(
-                    initialCameraPosition: CameraPosition(
-                      target: _currentPosition!,
-                      zoom: 14,
-                    ),
-                    onMapCreated: (controller) => _mapController = controller,
-                    myLocationEnabled: true,
-                    polylines: _polylines,
-                    markers: {
-                      Marker(
-                        markerId: const MarkerId('current'),
-                        position: _currentPosition!,
-                        infoWindow: const InfoWindow(title: 'Your Location'),
-                      ),
-                      Marker(
-                        markerId: const MarkerId('destination'),
-                        position: widget.destination,
-                        infoWindow: InfoWindow(title: widget.name),
-                      ),
+                  YandexMap(
+                    onMapCreated: (controller) async {
+                      _mapController = controller;
+                      await controller.toggleUserLayer(
+                        visible: true,
+                        autoZoomEnabled: true,
+                      );
                     },
+                    mapObjects: _mapObjects,
+                    onCameraPositionChanged: (position, reason, finished) {},
                   ),
                   Positioned(
                     top: 60,

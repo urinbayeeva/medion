@@ -225,11 +225,11 @@ class _MedServicePaymentState extends State<MedServicePayment> {
                           ),
                           // Add some bottom padding to ensure all content is scrollable
                           24.h.verticalSpace,
-                          ZigZagContainer(
-                            color: Colors.white,
-                            zigZagHeight:
-                                15, // Reduced from 60 for better proportions
-                            padding: EdgeInsets.all(20),
+                          Container(
+                            padding: EdgeInsets.all(8.w),
+                            decoration: BoxDecoration(
+                                color: colors.shade0,
+                                borderRadius: BorderRadius.circular(8.r)),
                             child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 16.w, vertical: 8.h),
@@ -388,6 +388,7 @@ class _MedServicePaymentState extends State<MedServicePayment> {
                               ),
                             ),
                           ),
+
                           12.h.verticalSpace,
                           Text("if_you_make_an_advance_payment".tr(),
                               style: Style.smallLink()),

@@ -16,6 +16,7 @@ import 'package:medion/utils/app_config.dart';
 import 'package:medion/utils/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 Future<void> main() async {
   debugDisableShadows = true;

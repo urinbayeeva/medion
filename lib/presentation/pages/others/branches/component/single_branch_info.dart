@@ -6,7 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart'; // Replaced google_maps_flutter
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_bottom_icon.dart';
@@ -26,43 +26,53 @@ class SingleBranchInfo extends StatefulWidget {
   final double lat;
   final VoidCallback branchPhoneNumberButton;
 
-  const SingleBranchInfo(
-      {super.key,
-      required this.branchPhotos,
-      required this.branchName,
-      required this.branchAdress,
-      required this.branchWorkingHours,
-      required this.branchInfoDescription,
-      required this.branchOfferTitle,
-      required this.branchOfferSubtitle,
-      required this.branchPhoneNumberButton,
-      required this.lang,
-      required this.lat});
+  const SingleBranchInfo({
+    super.key,
+    required this.branchPhotos,
+    required this.branchName,
+    required this.branchAdress,
+    required this.branchWorkingHours,
+    required this.branchInfoDescription,
+    required this.branchOfferTitle,
+    required this.branchOfferSubtitle,
+    required this.branchPhoneNumberButton,
+    required this.lang,
+    required this.lat,
+  });
 
   @override
   State<SingleBranchInfo> createState() => _SingleBranchInfoState();
 }
 
 class _SingleBranchInfoState extends State<SingleBranchInfo> {
+  final Completer<YandexMapController> _controller =
+      Completer<YandexMapController>(); // Updated to YandexMapController
+
   @override
   Widget build(BuildContext context) {
-    final Completer<GoogleMapController> controller0 =
-        Completer<GoogleMapController>();
-    // ignore: unused_local_variable
-    GoogleMapController? controller;
-
-    late final CameraPosition kGooglePlex = CameraPosition(
-      target: LatLng(widget.lat, widget.lang),
+    final CameraPosition kYandexPlex = CameraPosition(
+      target: Point(
+          latitude: widget.lat, longitude: widget.lang), // Changed to Point
       zoom: 14,
     );
 
-    late final Set<Marker> _markers = {
-      Marker(
-        markerId: const MarkerId("branchLocation"),
-        position: LatLng(widget.lat, widget.lang),
-        infoWindow: InfoWindow(title: widget.branchName),
-      )
-    };
+    final List<MapObject> _mapObjects = [
+      PlacemarkMapObject(
+        mapId: const MapObjectId('branchLocation'),
+        point: Point(latitude: widget.lat, longitude: widget.lang),
+        icon: PlacemarkIcon.single(
+          PlacemarkIconStyle(
+            image: BitmapDescriptor.fromAssetImage(
+                'assets/branch_marker.png'), // Add your marker icon
+          ),
+        ),
+        text: PlacemarkText(
+          text: widget.branchName,
+          style: const PlacemarkTextStyle(),
+        ),
+      ),
+    ];
+
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Scaffold(
         backgroundColor: colors.backgroundColor,
@@ -79,34 +89,45 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
               child: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 children: [
-                  Text(widget.branchName,
-                      style: fonts.mediumMain.copyWith(
-                          fontSize: 18.sp, fontWeight: FontWeight.w600)),
+                  Text(
+                    widget.branchName,
+                    style: fonts.mediumMain.copyWith(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   8.h.verticalSpace,
                   AnimationButtonEffect(
+                    onTap: () {},
+                    child: CButtomIcon(
+                      backgroundColor: colors.neutral200,
+                      textColor: colors.primary900,
+                      title: widget.branchAdress,
                       onTap: () {},
-                      child: CButtomIcon(
-                          backgroundColor: colors.neutral200,
-                          textColor: colors.primary900,
-                          title: widget.branchAdress,
-                          onTap: () {},
-                          iconPath: icons.location)),
+                      iconPath: icons.location,
+                    ),
+                  ),
                   8.h.verticalSpace,
                   AnimationButtonEffect(
+                    onTap: () {},
+                    child: CButtomIcon(
+                      backgroundColor: colors.neutral200,
+                      textColor: colors.primary900,
+                      title: widget.branchWorkingHours,
                       onTap: () {},
-                      child: CButtomIcon(
-                          backgroundColor: colors.neutral200,
-                          textColor: colors.primary900,
-                          title: widget.branchWorkingHours,
-                          onTap: () {},
-                          iconPath: icons.clock)),
+                      iconPath: icons.clock,
+                    ),
+                  ),
                   12.h.verticalSpace,
                   Text(
-                      widget.branchInfoDescription.isEmpty
-                          ? "about_medion".tr()
-                          : widget.branchInfoDescription,
-                      style: fonts.smallLink.copyWith(
-                          fontSize: 15.sp, fontWeight: FontWeight.w400)),
+                    widget.branchInfoDescription.isEmpty
+                        ? "about_medion".tr()
+                        : widget.branchInfoDescription,
+                    style: fonts.smallLink.copyWith(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                   8.h.verticalSpace,
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8.r),
@@ -151,25 +172,30 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                   //   color: colors.neutral500,
                   //   width: double.infinity,
                   //   height: 150.h,
-                  //   // height: 148.h,
                   // ),
                   // 24.h.verticalSpace,
-                  Text("address_branch".tr(),
-                      style: fonts.regularMain.copyWith(
-                          fontSize: 17.sp, fontWeight: FontWeight.w600)),
+                  Text(
+                    "address_branch".tr(),
+                    style: fonts.regularMain.copyWith(
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   16.h.verticalSpace,
                   SizedBox(
                     height: 200.h,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.r),
-                      child: GoogleMap(
-                        mapType: MapType.normal,
-                        initialCameraPosition: kGooglePlex,
-                        onMapCreated: (GoogleMapController controller) {
-                          controller0.complete(controller);
+                      child: YandexMap(
+                        mapObjects: _mapObjects,
+                        onMapCreated: (YandexMapController controller) async {
+                          _controller.complete(controller);
+                          await controller.moveCamera(
+                            CameraUpdate.newCameraPosition(kYandexPlex),
+                          );
                         },
-                        myLocationButtonEnabled: false,
-                        markers: _markers,
+                        onCameraPositionChanged:
+                            (position, reason, finished) {},
                       ),
                     ),
                   ),
@@ -189,11 +215,10 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                     textColor: colors.shade0,
                     iconColor: colors.shade0,
                   ),
-
                   40.h.verticalSpace,
                 ],
               ),
-            )
+            ),
           ],
         ),
       );

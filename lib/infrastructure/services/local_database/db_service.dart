@@ -10,8 +10,7 @@ class DBService {
   static const _refreshToken = 'refresh_token';
   static const _themeMode = 'theme_mode';
   static const _language = 'language';
-  static const _currencyPreference =
-      'currency_preference'; // New key for currency
+  static const _currencyPreference = 'currency_preference';
   static const intro = 'intro';
   static const prediction = 'prediction';
   static const auction = 'auction';
@@ -91,7 +90,7 @@ class DBService {
 
   Future<void> signOut() async {
     bool? langSaved = getLang;
-    await clearAllData();
+    // await clearAllData();
     setLang(isSaved: langSaved ?? false);
   }
 

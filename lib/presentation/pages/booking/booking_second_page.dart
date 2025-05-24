@@ -29,6 +29,7 @@ import 'package:medion/presentation/component/phone_number_component.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/appointment/component/service_selection_model.dart';
+import 'package:medion/presentation/pages/booking/phone_callback_dialog.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
 import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/styles/style.dart';
@@ -546,29 +547,42 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                             ),
                                           ),
                                           const Spacer(),
+                                          // Find the icon section in the code (around line 600 in your original code)
                                           AnimationButtonEffect(
                                             onTap: () {
-                                              setState(() {
-                                                if (_servicesProvider
-                                                    .selectedServices
-                                                    .contains(service)) {
-                                                  _servicesProvider
-                                                      .removeService(service);
-                                                  _serviceIdsProvider
-                                                      .removeServiceId(
-                                                          service.id!);
-                                                } else {
-                                                  _servicesProvider
-                                                      .addService(service);
-                                                  _serviceIdsProvider
-                                                      .addServiceId(
-                                                          service.id!);
-                                                }
-                                                selectedServiceIDCatch.clear();
-                                                selectedServiceIDCatch.addAll(
+                                              if (service.canReceiveCallBack ==
+                                                  true) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      PhoneCallbackDialog(
+                                                    serviceIds: [service.id!],
+                                                  ),
+                                                );
+                                              } else {
+                                                setState(() {
+                                                  if (_servicesProvider
+                                                      .selectedServices
+                                                      .contains(service)) {
+                                                    _servicesProvider
+                                                        .removeService(service);
                                                     _serviceIdsProvider
-                                                        .selectedServiceIds);
-                                              });
+                                                        .removeServiceId(
+                                                            service.id!);
+                                                  } else {
+                                                    _servicesProvider
+                                                        .addService(service);
+                                                    _serviceIdsProvider
+                                                        .addServiceId(
+                                                            service.id!);
+                                                  }
+                                                  selectedServiceIDCatch
+                                                      .clear();
+                                                  selectedServiceIDCatch.addAll(
+                                                      _serviceIdsProvider
+                                                          .selectedServiceIds);
+                                                });
+                                              }
                                             },
                                             child: Container(
                                               padding: EdgeInsets.all(12.w),
@@ -581,13 +595,23 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                                     ? colors.error500
                                                     : colors.neutral200,
                                               ),
-                                              child: _servicesProvider
-                                                      .selectedServices
-                                                      .contains(service)
-                                                  ? icons.check
-                                                      .svg(color: colors.shade0)
-                                                  : icons.plus.svg(
-                                                      color: colors.primary900),
+                                              child: service
+                                                          .canReceiveCallBack ==
+                                                      true
+                                                  ? icons.phone.svg(
+                                                      color: _servicesProvider
+                                                              .selectedServices
+                                                              .contains(service)
+                                                          ? colors.shade0
+                                                          : colors.primary900)
+                                                  : _servicesProvider
+                                                          .selectedServices
+                                                          .contains(service)
+                                                      ? icons.check.svg(
+                                                          color: colors.shade0)
+                                                      : icons.plus.svg(
+                                                          color: colors
+                                                              .primary900),
                                             ),
                                           ),
                                         ],
@@ -717,135 +741,16 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                 .where((service) =>
                                     selectedServiceIDCatch.contains(service.id))
                                 .toList();
+
                             final requiresCallBack = selectedServices.any(
                                 (service) =>
                                     service.canReceiveCallBack == true);
+
                             if (requiresCallBack) {
-                              bool? confirmCallBack = await showDialog<bool>(
+                              await showDialog(
                                 context: context,
-                                builder: (context) => AlertDialog(
-                                  backgroundColor: colors.shade0,
-                                  content: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Center(
-                                        child: Text(
-                                          "Обратный звонок".tr(),
-                                          style: fonts.mediumMain,
-                                        ),
-                                      ),
-                                      12.h.verticalSpace,
-                                      Text(
-                                        textAlign: TextAlign.center,
-                                        "Оставьте свой номер телефона и мы вам перезвоним"
-                                            .tr(),
-                                        style: fonts.xSmallMain
-                                            .copyWith(fontSize: 14.sp),
-                                      ),
-                                      12.h.verticalSpace,
-                                      Text("contact_phone_number".tr(),
-                                          style: fonts.regularLink),
-                                      CustomTextField(
-                                        autoFocus: true,
-                                        title: "",
-                                        keyboardType: TextInputType.phone,
-                                        onChanged: (value) {
-                                          if (value.length >= 17) {
-                                            setState(() {});
-                                          }
-                                        },
-                                        controller: _phoneNumberController,
-                                        formatter: <TextInputFormatter>[
-                                          InternationalPhoneFormatter()
-                                        ],
-                                        hintText: '+998',
-                                        validator: (String? text) {},
-                                      ),
-                                      30.h.verticalSpace,
-                                      CButton(
-                                        title: "send".tr(),
-                                        onTap: () async {
-                                          final phone =
-                                              _phoneNumberController.text;
-                                          final serviceIds =
-                                              selectedServiceIDCatch.toList();
-
-                                          final response = await http.post(
-                                            Uri.parse(
-                                                '${Constants.baseUrlP}/help/call'),
-                                            headers: {
-                                              'Content-Type':
-                                                  'application/json',
-                                            },
-                                            body: jsonEncode({
-                                              'phone': phone,
-                                              'service_ids': serviceIds,
-                                            }),
-                                          );
-
-                                          Navigator.of(context).pop();
-
-                                          if (response.statusCode == 200) {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  backgroundColor:
-                                                      colors.shade0,
-                                                  content: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      SvgPicture.asset(
-                                                          "assets/icons/done.svg"),
-                                                      8.h.verticalSpace,
-                                                      Text("Заявка оставлена",
-                                                          style:
-                                                              fonts.mediumMain),
-                                                      4.h.verticalSpace,
-                                                      Text(
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        "В скором времени мы вам перезвоним по поводу вашей заявки",
-                                                        style: fonts.xSmallMain,
-                                                      ),
-                                                      30.h.verticalSpace,
-                                                      CButton(
-                                                        title: "back".tr(),
-                                                        onTap: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  const MainPage(
-                                                                      index: 0),
-                                                            ),
-                                                          );
-                                                        },
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          } else {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                  content: Text(
-                                                      "Ошибка отправки данных")),
-                                            );
-                                          }
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                  actions: [],
+                                builder: (context) => PhoneCallbackDialog(
+                                  serviceIds: selectedServiceIDCatch.toList(),
                                 ),
                               );
                             } else {

@@ -123,17 +123,16 @@ class _NavListWidgetState extends State<NavListWidget> {
         onTapLogOut: () async {
           await dbService.signOut();
 
-          await dbService.clearAllData();
-
-          context.read<BottomNavBarController>().changeNavBar(true);
-          Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-            AppRoutes.getSignUpPage(),
+          Navigator.of(context, rootNavigator: true)
+              .pushAndRemoveUntil(
+            AppRoutes.getLangPage(),
             (Route<dynamic> route) => false,
-          );
+          )
+              .then((_) {
+            context.read<BottomNavBarController>().changeNavBar(false);
+          });
         },
       ),
-    ).then((_) {
-      context.read<BottomNavBarController>().changeNavBar(false);
-    });
+    );
   }
 }

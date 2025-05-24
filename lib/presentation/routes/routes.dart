@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/application/content/content_bloc.dart';
@@ -82,15 +81,10 @@ class AppRoutes {
   }) {
     ScreenUtil.init(context, designSize: const Size(390, 846));
 
-    final isFirstLaunch =
-        Hive.box('localDB').get('first_launch', defaultValue: true);
-
     if (notConnection) {
       return getNetworkNotFound();
     } else if (!isLang) {
       return getLangPage();
-    } else if (isFirstLaunch) {
-      return getOnboardingPage();
     } else {
       return getMainPage(0);
     }
@@ -136,10 +130,8 @@ class AppRoutes {
   // }
 
   static MaterialPageRoute getSignUpPage() {
-    final isFirstLaunch =
-        Hive.box('localDB').get('first_launch', defaultValue: true);
     return MaterialPageRoute(
-      builder: (_) => isFirstLaunch ? OnboardingPage() : SignUpPage(),
+      builder: (_) => const SignUpPage(),
     );
   }
 

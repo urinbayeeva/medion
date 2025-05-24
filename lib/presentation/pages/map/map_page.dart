@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart'; // Add geolocator package
+import 'package:geolocator/geolocator.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/domain/models/location_model.dart';
 import 'package:medion/domain/models/map/map_model.dart';
@@ -11,6 +10,7 @@ import 'package:medion/presentation/pages/map/widgets/location_list.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -20,17 +20,12 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  final Completer<GoogleMapController> _controller = Completer();
-  Set<Marker> markers = {};
+  final Completer<YandexMapController> _controller = Completer();
+  final List<MapObject> mapObjects = [];
   int? selectedIndex;
-  GoogleMapController? mapController;
-  CameraPosition? _currentCameraPosition;
-  CameraPosition? _initialCameraPosition;
-
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
+  YandexMapController? mapController;
+  Point? _currentCameraPosition;
+  Point? _userLocation;
 
   @override
   void initState() {
@@ -45,23 +40,13 @@ class _MapPageState extends State<MapPage> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // setState(() {
-      //   _initialCameraPosition = _kGooglePlex;
-      // });
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(content: Text('Location services are disabled.')),
-      // );
-      // return;
+      return;
     }
 
-    // Check location permissions
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        setState(() {
-          _initialCameraPosition = _kGooglePlex;
-        });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Location permissions are denied.')),
         );
@@ -70,71 +55,72 @@ class _MapPageState extends State<MapPage> {
     }
 
     if (permission == LocationPermission.deniedForever) {
-      setState(() {
-        _initialCameraPosition = _kGooglePlex;
-      });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text(
-                'Location permissions are permanently denied, please enable them in settings.')),
+          content: Text(
+              'Location permissions are permanently denied, please enable them in settings.'),
+        ),
       );
       return;
     }
 
-    // Get the current position
     try {
       var position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
 
       setState(() {
-        _initialCameraPosition = CameraPosition(
-          target: LatLng(position.latitude, position.longitude),
-          zoom: 14.4746,
+        _userLocation = Point(
+          latitude: position.latitude,
+          longitude: position.longitude,
         );
       });
 
       if (_controller.isCompleted) {
         final controller = await _controller.future;
-        controller.animateCamera(
-          CameraUpdate.newCameraPosition(_initialCameraPosition!),
+        await controller.moveCamera(
+          animation:
+              const MapAnimation(type: MapAnimationType.linear, duration: 1),
+          CameraUpdate.newCameraPosition(
+            CameraPosition(target: _userLocation!, zoom: 14),
+          ),
         );
       }
     } catch (e) {
-      setState(() {
-        _initialCameraPosition = _kGooglePlex;
-      });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error getting location: $e')),
       );
     }
   }
 
-  void _initializeMarkers(List<LocationModel> locations) async {
-    if (locations.isEmpty || markers.isNotEmpty) return;
+  void _initializePlacemarks(List<LocationModel> locations) async {
+    if (locations.isEmpty || mapObjects.isNotEmpty) return;
 
-    final BitmapDescriptor markerIcon = await BitmapDescriptor.fromAssetImage(
-      const ImageConfiguration(size: Size(48, 48)),
-      'assets/images/location.png',
-    );
-
-    markers = locations.asMap().entries.map((entry) {
+    final placemarks = locations.asMap().entries.map((entry) {
       final index = entry.key;
       final location = entry.value;
 
-      return Marker(
-        markerId: MarkerId('location_$index'),
-        position:
-            LatLng(location.position.latitude, location.position.longitude),
-        infoWindow: InfoWindow(
-          title: location.fullName.toString() ?? 'Medion Location',
+      return PlacemarkMapObject(
+        mapId: MapObjectId('location_$index'),
+        point: Point(
+          latitude: location.position.latitude,
+          longitude: location.position.longitude,
         ),
-        icon: markerIcon,
-        onTap: () => moveToLocation(index),
+        opacity: 1,
+        icon: PlacemarkIcon.single(
+          PlacemarkIconStyle(
+            image:
+                BitmapDescriptor.fromAssetImage('assets/images/location.png'),
+            scale: 0.5,
+          ),
+        ),
+        onTap: (_, __) => moveToLocation(index),
       );
-    }).toSet();
+    }).toList();
 
-    if (mounted) setState(() {});
+    setState(() {
+      mapObjects.addAll(placemarks);
+    });
   }
 
   void moveToLocation(int index) async {
@@ -144,11 +130,14 @@ class _MapPageState extends State<MapPage> {
     if (index >= locations.length) return;
 
     final location = locations[index];
-    await controller.animateCamera(
+    await controller.moveCamera(
+      animation: const MapAnimation(type: MapAnimationType.linear, duration: 1),
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          target:
-              LatLng(location.position.latitude, location.position.longitude),
+          target: Point(
+            latitude: location.position.latitude,
+            longitude: location.position.longitude,
+          ),
           zoom: 15,
         ),
       ),
@@ -158,8 +147,10 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<void> openYandexTaxi(double endLat, double endLon) async {
-    final startLat = _currentCameraPosition?.target.latitude;
-    final startLon = _currentCameraPosition?.target.longitude;
+    final startLat =
+        _currentCameraPosition?.latitude ?? _userLocation?.latitude;
+    final startLon =
+        _currentCameraPosition?.longitude ?? _userLocation?.longitude;
 
     if (startLat == null || startLon == null) {
       const defaultLat = 41.2995; // Example default latitude (Tashkent)
@@ -199,31 +190,31 @@ class _MapPageState extends State<MapPage> {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
-          _initializeMarkers(state.companyLocations);
+          _initializePlacemarks(state.companyLocations);
         },
         child: Scaffold(
           body: Stack(
             children: [
-              GoogleMap(
-                markers: markers,
-                mapType: MapType.normal,
-                initialCameraPosition: _initialCameraPosition ?? _kGooglePlex,
-                onMapCreated: (controller) {
+              YandexMap(
+                mapObjects: mapObjects,
+                onMapCreated: (controller) async {
                   _controller.complete(controller);
                   mapController = controller;
-                  // Move to user's location if available
-                  if (_initialCameraPosition != null &&
-                      _initialCameraPosition != _kGooglePlex) {
-                    controller.animateCamera(
-                      CameraUpdate.newCameraPosition(_initialCameraPosition!),
+                  if (_userLocation != null) {
+                    await controller.moveCamera(
+                      animation: const MapAnimation(
+                          type: MapAnimationType.linear, duration: 1),
+                      CameraUpdate.newCameraPosition(
+                        CameraPosition(target: _userLocation!, zoom: 14),
+                      ),
                     );
                   }
                 },
-                onCameraMove: (position) {
-                  _currentCameraPosition = position;
+                onCameraPositionChanged: (cameraPosition, reason, finished) {
+                  if (finished) {
+                    _currentCameraPosition = cameraPosition.target;
+                  }
                 },
-                myLocationButtonEnabled: true, // Enable my location button
-                myLocationEnabled: true, // Show user's location dot
               ),
               BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {

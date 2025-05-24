@@ -219,105 +219,98 @@ class _PaymentPageState extends State<PaymentPage> {
                             ],
                           ),
                           12.h.verticalSpace,
-                          ZigZagContainer(
-                            color: Colors.white,
-                            zigZagHeight: 15,
-                            padding: const EdgeInsets.all(20),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16.w, vertical: 8.h),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "your_check".tr(),
-                                    style: TextStyle(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16.w, vertical: 8.h),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "your_check".tr(),
+                                  style: TextStyle(
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  12.h.verticalSpace,
-                                  ValueListenableBuilder<
-                                      List<Map<String, String>>>(
-                                    valueListenable:
-                                        AppointmentState.selectedAppointments,
-                                    builder: (context, selectedList, _) {
-                                      double subtotal = 0;
+                                ),
+                                12.h.verticalSpace,
+                                ValueListenableBuilder<
+                                    List<Map<String, String>>>(
+                                  valueListenable:
+                                      AppointmentState.selectedAppointments,
+                                  builder: (context, selectedList, _) {
+                                    double subtotal = 0;
 
-                                      return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          ...selectedList.map((appointment) {
-                                            final price = double.tryParse(
-                                                    appointment['price'] ??
-                                                        '0') ??
-                                                0;
-                                            subtotal += price;
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ...selectedList.map((appointment) {
+                                          final price = double.tryParse(
+                                                  appointment['price'] ??
+                                                      '0') ??
+                                              0;
+                                          subtotal += price;
 
-                                            return Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 6.h),
-                                                  child: Text(
-                                                    appointment[
-                                                            'serviceName'] ??
-                                                        'Service',
-                                                    style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      color: Style.neutral600,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "${"_ _ _ _ _ _ _ _ _ _ "} ${"sum".tr(namedArgs: {
-                                                        "amount":
-                                                            _formatNumber(price)
-                                                      })}",
+                                          return Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 6.h),
+                                                child: Text(
+                                                  appointment['serviceName'] ??
+                                                      'Service',
                                                   style: TextStyle(
                                                     fontSize: 14.sp,
-                                                    color: Style.neutral500,
+                                                    color: Style.neutral600,
+                                                    fontWeight: FontWeight.w500,
                                                   ),
                                                 ),
-                                                if (selectedList
-                                                        .indexOf(appointment) !=
-                                                    selectedList.length - 1)
-                                                  Divider(
-                                                      height: 1.h,
-                                                      color: Colors.grey[300]),
-                                              ],
-                                            );
-                                          }).toList(),
-                                          Divider(
-                                              color: Colors.grey[300],
-                                              thickness: 1,
-                                              height: 16.h),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 8.h),
-                                            child: Text(
-                                              "${"total".tr()}_ _ _ _ _ _ _ _ _ _ ${"sum".tr(namedArgs: {
-                                                    "amount":
-                                                        _formatNumber(subtotal)
-                                                  })}",
-                                              style: TextStyle(
-                                                fontSize: 16.sp,
-                                                color: Style.neutral600,
-                                                fontWeight: FontWeight.bold,
                                               ),
+                                              Text(
+                                                "${"_ _ _ _ _ _ _ _ _ _ "} ${"sum".tr(namedArgs: {
+                                                      "amount":
+                                                          _formatNumber(price)
+                                                    })}",
+                                                style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  color: Style.neutral500,
+                                                ),
+                                              ),
+                                              if (selectedList
+                                                      .indexOf(appointment) !=
+                                                  selectedList.length - 1)
+                                                Divider(
+                                                    height: 1.h,
+                                                    color: Colors.grey[300]),
+                                            ],
+                                          );
+                                        }).toList(),
+                                        Divider(
+                                            color: Colors.grey[300],
+                                            thickness: 1,
+                                            height: 16.h),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 8.h),
+                                          child: Text(
+                                            "${"total".tr()}_ _ _ _ _ _ _ _${"sum".tr(namedArgs: {
+                                                  "amount":
+                                                      _formatNumber(subtotal)
+                                                })}",
+                                            style: TextStyle(
+                                              fontSize: 16.sp,
+                                              color: Style.neutral600,
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                        ],
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
                           ),
                           12.h.verticalSpace,

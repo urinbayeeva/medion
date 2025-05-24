@@ -29,7 +29,6 @@ class DoctorAppointmentWidget extends StatefulWidget {
   });
 
   @override
-  // ignore: library_private_types_in_public_api
   _DoctorAppointmentWidgetState createState() =>
       _DoctorAppointmentWidgetState();
 }
@@ -59,15 +58,17 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             "end_time": calculateEndTime(time),
             "date": currentDate,
             "serviceId": widget.serviceId.toString(),
-            "serviceName": widget.serviceName!,
+            "service_name":
+                widget.serviceName ?? "Unknown Service", // Fixed key
             "doctorName": widget.doctor.name,
             "doctorPhoto": widget.doctor.image ?? "",
             "price": widget.doctor.price.toString(),
             "location": widget.doctor.location,
             "specialty": widget.doctor.specialty,
             "doctorID": widget.doctor.id.toString(),
-            "companyID": widget.companyID!
+            "companyID": widget.companyID ?? "",
           };
+
     if (newAppointment != null) {
       AppointmentState.addAppointment(newAppointment);
     } else {
@@ -86,14 +87,15 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
         valueListenable: AppointmentState.selectedAppointments,
         builder: (context, selectedList, _) {
           if (widget.schedules.isEmpty) {
-            return Text("No available schedules".tr());
+            return const SizedBox.shrink();
           }
 
           String currentDate = widget.schedules[selectedDateIndex].keys.first;
 
           final currentAppointment = selectedList.firstWhere(
             (appointment) =>
-                appointment['serviceId'] == widget.serviceId.toString(),
+                appointment['serviceId'] == widget.serviceId.toString() &&
+                appointment['doctorID'] == widget.doctor.id.toString(),
             orElse: () => {},
           );
 
@@ -135,8 +137,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
       children: [
         CircleAvatar(
           radius: 30,
-          backgroundColor:
-              Colors.grey, // Replace with your actual color variable
+          backgroundColor: colors.neutral500, // Updated to use theme color
           backgroundImage: widget.doctor.image != null
               ? NetworkImage(widget.doctor.image!)
               : null,
@@ -156,8 +157,8 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             children: [
               Text(widget.doctor.name, style: fonts.smallMain),
               Text(widget.doctor.specialty,
-                  style: fonts.xSmallMain.copyWith(
-                      color: const Color(0xFF323232), fontSize: 13.sp)),
+                  style: fonts.xSmallMain
+                      .copyWith(color: colors.neutral600, fontSize: 13.sp)),
             ],
           ),
         ),
@@ -243,13 +244,19 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             String time = timeSlot['time'];
             bool isActive = timeSlot['active'] ?? true;
 
+            // Check if this time slot is selected for THIS doctor
             bool isSelected = currentAppointment['date'] == currentDate &&
-                currentAppointment['time'] == time;
+                currentAppointment['time'] == time &&
+                currentAppointment['doctorID'] == widget.doctor.id.toString();
 
-            bool isDisabledForOtherServices = AppointmentState.isTimeSlotTaken(
-                currentDate, time, widget.serviceId.toString());
+            // Check if the time slot is taken by ANOTHER doctor
+            bool isDisabledForOtherDoctors = AppointmentState.isTimeSlotTaken(
+              currentDate,
+              time,
+              widget.doctor.id.toString(),
+            );
 
-            bool isDisabled = !isActive || isDisabledForOtherServices;
+            bool isDisabled = !isActive || isDisabledForOtherDoctors;
 
             return GestureDetector(
               onTap: isDisabled
@@ -262,7 +269,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: isDisabled
-                      ? Colors.red.withOpacity(0.2)
+                      ? colors.error500.withOpacity(0.2) // Use theme color
                       : isSelected
                           ? colors.primary500
                           : colors.neutral200,
@@ -276,7 +283,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
                   time,
                   style: TextStyle(
                     color: isDisabled
-                        ? Colors.black.withOpacity(0.7)
+                        ? colors.neutral600.withOpacity(0.7)
                         : isSelected
                             ? colors.shade0
                             : colors.primary900,

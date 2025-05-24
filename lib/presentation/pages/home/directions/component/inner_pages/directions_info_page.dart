@@ -9,6 +9,7 @@ import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_container.dart';
+import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_filter.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
@@ -408,19 +409,25 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
           topRight: Radius.circular(8.r),
         ),
       ),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      child: GestureDetector(
-        onTap: () =>
-            _showSelectedServicesBottomSheet(context, state, colors, fonts),
-        child: Column(
-          children: [
-            Row(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Debugging: Add a hardcoded text to verify visibility
+          GestureDetector(
+            onTap: () =>
+                _showSelectedServicesBottomSheet(context, state, colors, fonts),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "selected_services"
-                      .tr(args: [selectedServiceIds.length.toString()]),
-                  style: fonts.regularSemLink.copyWith(fontSize: 14.sp),
+                  "count_services_selected".tr(namedArgs: {
+                    "count": selectedServiceIds.length.toString()
+                  }),
+                  style: fonts.regularSemLink.copyWith(
+                    fontSize: 14.sp,
+                    color: colors.primary900, // Ensure contrast with background
+                  ),
                 ),
                 Icon(
                   Icons.arrow_forward_ios,
@@ -429,28 +436,28 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                 ),
               ],
             ),
-            12.h.verticalSpace,
-            CButton(
-              title: "next".tr(),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MedServiceDoctorChose(
-                      servicesID: selectedServiceIds.toList(),
-                    ),
+          ),
+          12.h.verticalSpace,
+          CButton(
+            title: "next".tr(),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MedServiceDoctorChose(
+                    servicesID: selectedServiceIds.toList(),
                   ),
-                ).then((value) {
-                  if (value != null && value is Set<int>) {
-                    setState(() {
-                      selectedServiceIds = value;
-                    });
-                  }
-                });
-              },
-            ),
-          ],
-        ),
+                ),
+              ).then((value) {
+                if (value != null && value is Set<int>) {
+                  setState(() {
+                    selectedServiceIds = value;
+                  });
+                }
+              });
+            },
+          ),
+        ],
       ),
     );
   }
@@ -473,60 +480,87 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
       ),
       builder: (context) {
         return Container(
-          padding: EdgeInsets.all(16.w),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "selected_services"
-                    .tr(args: [selectedServices.length.toString()]),
-                style: fonts.headlineMain.copyWith(fontSize: 16.sp),
-              ),
-              SizedBox(height: 10.h),
-              Column(
+            padding: EdgeInsets.all(16.w),
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: List.generate(selectedServices.length, (index) {
-                  final service = selectedServices[index];
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 10.h),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            service.name ?? "No service name",
-                            style: fonts.xSmallLink.copyWith(
-                              color: colors.primary900,
-                              fontSize: 14.sp,
-                            ),
-                            softWrap: true,
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedServiceIds.remove(service.id ?? -1);
-                            });
-                            Navigator.pop(context);
-                          },
-                          child: Image.asset(
-                            "assets/images/trash.png",
-                            width: 40,
-                            height: 40,
-                          ),
-                        ),
-                      ],
+                children: [
+                  Text(
+                    "count_services_selected".tr(namedArgs: {
+                      "count": selectedServiceIds.length.toString()
+                    }),
+                    style: fonts.regularSemLink.copyWith(
+                      fontSize: 14.sp,
+                      color:
+                          colors.primary900, // Ensure contrast with background
                     ),
-                  );
-                }),
-              ),
-              SizedBox(height: 10.h),
-            ],
-          ),
-        );
+                  ),
+                  SizedBox(height: 10.h),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: selectedServices.length,
+                        itemBuilder: (context, index) {
+                          final service = selectedServices[index];
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 4.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        service.name ?? "No service name",
+                                        style: fonts.xSmallLink.copyWith(
+                                          color: colors.primary900,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      4.h.verticalSpace,
+                                      Text(
+                                        "sum".tr(namedArgs: {
+                                          "amount":
+                                              formatNumber(service.priceUzs)
+                                        }),
+                                        style: fonts.smallLink.copyWith(
+                                          color: colors.primary900,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13.sp,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedServiceIds
+                                          .remove(service.id ?? -1);
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                  child: Image.asset(
+                                    "assets/images/trash.png",
+                                    width: 35,
+                                    height: 35,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) => CDivider(),
+                      ),
+                    ],
+                  )
+                ]));
       },
     );
   }

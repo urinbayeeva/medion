@@ -23,6 +23,7 @@ import 'package:medion/utils/helpers/decode_html.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import '../../../application/home/home_bloc.dart';
 import '../../../presentation/component/animation_effect.dart';
@@ -656,9 +657,9 @@ class _HomePageState extends State<HomePage> {
                             name: location.address,
                             workingHours: location.workHours,
                             image: location.icon,
-                            destination: LatLng(
-                              location.position.latitude,
-                              location.position.longitude,
+                            destination: Point(
+                              latitude: location.position.latitude,
+                              longitude: location.position.longitude,
                             ),
                           ),
                         ),

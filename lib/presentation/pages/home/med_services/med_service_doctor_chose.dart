@@ -175,6 +175,29 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
 
                     _services = snapshot.data;
 
+                    // Check if ALL services have no available doctors
+                    bool allServicesHaveNoDoctors =
+                        snapshot.data!.every((service) {
+                      return service.companiesDoctors
+                          .expand((company) => company.doctors)
+                          .where((doctor) =>
+                              doctor.schedules != null &&
+                              doctor.schedules!.isNotEmpty)
+                          .isEmpty;
+                    });
+
+                    if (allServicesHaveNoDoctors) {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        child: Center(
+                          child: Text(
+                            "no_result_found".tr(),
+                            style: fonts.regularMain.copyWith(fontSize: 18.sp),
+                          ),
+                        ),
+                      );
+                    }
+
                     return CustomListView(
                       enablePullDown: false,
                       enablePullUp: false,
@@ -190,17 +213,42 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                 doctor.schedules!.isNotEmpty)
                             .toList();
 
-                        if (availableDoctors.isEmpty)
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.7,
-                            child: Center(
-                              child: Text(
-                                "no_result_found".tr(),
-                                style:
-                                    fonts.regularMain.copyWith(fontSize: 18.sp),
-                              ),
+                        if (availableDoctors.isEmpty) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (service.companiesDoctors.isNotEmpty &&
+                                    service.companiesDoctors.first
+                                            .companyName !=
+                                        null)
+                                  Text(
+                                      service
+                                          .companiesDoctors.first.companyName!,
+                                      style: fonts.regularMain),
+                                8.h.verticalSpace,
+                                CustomExpansionListTile(
+                                  title: service.serviceName,
+                                  description: "${service.serviceId}",
+                                  children: [
+                                    Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 16.h),
+                                        child: Text(
+                                          "no_result_found".tr(),
+                                          style: fonts.regularMain
+                                              .copyWith(fontSize: 16.sp),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           );
+                        }
 
                         return Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -389,93 +437,129 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
 
   void _showAppointmentsBottomSheet(BuildContext context,
       List<Map<String, String>> selectedList, dynamic colors, dynamic fonts) {
-    showModalBottomSheet(
-      backgroundColor: colors.shade0,
-      context: context,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16.r))),
-      builder: (context) {
-        return Container(
-          padding: EdgeInsets.all(16.w),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                  "count_session_selected"
-                      .tr(namedArgs: {"count": selectedList.length.toString()}),
-                  style: fonts.headlineMain.copyWith(fontSize: 16.sp)),
-              SizedBox(height: 10.h),
-              Column(
-                children: List.generate(selectedList.length, (index) {
-                  final appointment = selectedList[index];
-                  String timeString = appointment['time'] ?? '00:00';
-                  List<String> parts = timeString.split(':');
-                  int hour = int.tryParse(parts[0]) ?? 0;
-                  int minute = int.tryParse(parts[1]) ?? 0;
+    if (selectedList.isNotEmpty) {
+      final appointment = selectedList.first;
 
-                  DateTime startTime = DateTime(0, 1, 1, hour, minute);
-                  DateTime endTime = startTime.add(const Duration(minutes: 30));
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 10.h),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: colors.neutral500,
-                          radius: 34.r,
-                          child: ClipOval(
-                            child: CachedImageComponent(
-                              height: 68.h,
-                              width: 68.w,
-                              imageUrl: appointment['doctorPhoto'] ?? '',
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                appointment['doctorName'] ?? 'Unknown',
-                                style: fonts.xSmallLink.copyWith(
-                                    color: colors.primary900,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Container(
-                                  padding: EdgeInsets.all(4.w),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30.r),
-                                      color: const Color(0xff0E73F6)
-                                          .withOpacity(0.3)),
-                                  child: Text(
-                                    "${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} - "
-                                    "${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}",
-                                    style: fonts.xSmallLink.copyWith(
-                                        fontSize: 12.sp,
-                                        color: const Color(0xFF0E73F6)),
-                                  )),
-                              Text(
-                                "Test Description",
-                                style: fonts.xSmallLink.copyWith(
-                                  color: colors.neutral500,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-              ),
-              SizedBox(height: 10.h),
-            ],
+      final serviceId = appointment['serviceId'] ?? '';
+      final doctorName = appointment['doctorName'] ?? 'Unknown';
+      final selectedTime = appointment['time'] ?? '';
+      final doctorImage = appointment['doctorPhoto'] ?? '';
+      final companyId = appointment['companyId'] ?? '';
+
+      String serviceName = 'Unknown Service';
+      String servicePrice = 'N/A';
+      String selectedLocation = 'Unknown Location';
+
+      if (_services != null) {
+        final selectedService = _services!.firstWhere(
+          (service) => service.serviceId.toString() == serviceId,
+          orElse: () => Service(
+            serviceId: 0,
+            serviceName: 'Unknown Service',
+            companiesDoctors: [],
           ),
         );
-      },
-    );
+        serviceName = selectedService.serviceName;
+        servicePrice = 'N/A';
+        selectedLocation = selectedService.companiesDoctors.isNotEmpty
+            ? selectedService.companiesDoctors.first.companyName ??
+                'Unknown Location'
+            : 'Unknown Location';
+
+        showModalBottomSheet(
+          backgroundColor: colors.shade0,
+          context: context,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16.r))),
+          builder: (context) {
+            return Container(
+              padding: EdgeInsets.all(16.w),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      "count_session_selected".tr(
+                          namedArgs: {"count": selectedList.length.toString()}),
+                      style: fonts.headlineMain.copyWith(fontSize: 16.sp)),
+                  SizedBox(height: 10.h),
+                  Column(
+                    children: List.generate(selectedList.length, (index) {
+                      final appointment = selectedList[index];
+                      String timeString = appointment['time'] ?? '00:00';
+                      List<String> parts = timeString.split(':');
+                      int hour = int.tryParse(parts[0]) ?? 0;
+                      int minute = int.tryParse(parts[1]) ?? 0;
+
+                      DateTime startTime = DateTime(0, 1, 1, hour, minute);
+                      DateTime endTime =
+                          startTime.add(const Duration(minutes: 30));
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 10.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: colors.neutral500,
+                              radius: 34.r,
+                              child: ClipOval(
+                                child: CachedImageComponent(
+                                  height: 68.h,
+                                  width: 68.w,
+                                  imageUrl: appointment['doctorPhoto'] ?? '',
+                                ),
+                              ),
+                            ),
+                            10.w.horizontalSpace,
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    appointment['doctorName'] ?? 'Unknown',
+                                    style: fonts.xSmallLink.copyWith(
+                                        color: colors.primary900,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  4.h.verticalSpace,
+                                  Container(
+                                      padding: EdgeInsets.all(4.w),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30.r),
+                                          color: const Color(0xff0E73F6)
+                                              .withOpacity(0.3)),
+                                      child: Text(
+                                        "${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} - "
+                                        "${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}",
+                                        style: fonts.xSmallLink.copyWith(
+                                            fontSize: 12.sp,
+                                            color: const Color(0xFF0E73F6)),
+                                      )),
+                                  4.h.verticalSpace,
+                                  Text(
+                                    serviceName,
+                                    style: fonts.xSmallLink.copyWith(
+                                      color: colors.neutral500,
+                                      fontSize: 14.sp,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                  ),
+                  SizedBox(height: 10.h),
+                ],
+              ),
+            );
+          },
+        );
+      }
+    }
   }
 }

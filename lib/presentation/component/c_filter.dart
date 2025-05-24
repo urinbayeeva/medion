@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
+import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -29,7 +30,6 @@ class _CFilterState extends State<CFilter> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Handle Bar
             Center(
               child: Container(
                 width: 40.w,
@@ -41,18 +41,21 @@ class _CFilterState extends State<CFilter> {
               ),
             ),
             12.h.verticalSpace,
-
-            // Title
             Center(child: Text("filter".tr(), style: fonts.regularMain)),
             8.h.verticalSpace,
-
             _buildRadioTile("all", "Все", colors, fonts),
             const CDivider(),
             _buildRadioTile("adults", "Взрослые", colors, fonts),
             const CDivider(),
-
             _buildRadioTile("children", "Дети", colors, fonts),
             8.h.verticalSpace,
+            CButton(
+              title: "apply".tr(),
+              onTap: () {
+                Navigator.pop(
+                    context, selectedCategory); // Return selected category
+              },
+            ),
           ],
         ),
       );
@@ -72,14 +75,17 @@ class _CFilterState extends State<CFilter> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title,
-                  style: fonts.smallLink
-                      .copyWith(fontSize: 15.sp, fontWeight: FontWeight.w400)),
+              Text(
+                title,
+                style: fonts.smallLink.copyWith(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
               if (selectedCategory == value)
                 Container(
                   width: 24.w,
                   height: 24.h,
-                  // ignore: prefer_const_constructors
                   decoration: BoxDecoration(
                     color: colors.error500,
                     shape: BoxShape.circle,
