@@ -93,7 +93,6 @@ class VerifyAppointmentItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Diagnosis and Procedure
                   Text(
                     diagnosis,
                     style: fonts.smallMain.copyWith(

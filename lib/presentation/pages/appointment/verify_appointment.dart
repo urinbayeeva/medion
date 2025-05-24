@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:flutter/semantics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
@@ -37,7 +38,7 @@ class VerifyAppointment extends StatefulWidget {
     this.isHome = false,
   });
 
-  @override
+  @SemanticsHintOverrides()
   State<VerifyAppointment> createState() => _VerifyAppointmentState();
 }
 
@@ -127,7 +128,7 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
       Map<String, String> appointment, colors, fonts, BuildContext context) {
     return VerifyAppointmentItem(
       hasImage: true,
-      diagnosis: appointment['serviceName'] ?? '',
+      diagnosis: appointment['service_name'] ?? '',
       procedure: appointment['specialty'] ?? '',
       doctorName: 'Dr. ${appointment['doctorName']}',
       price: appointment['price'] ?? '',

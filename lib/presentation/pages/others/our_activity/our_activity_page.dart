@@ -21,7 +21,7 @@ class _OurActivityPageState extends State<OurActivityPage> {
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return DefaultTabController(
-        length: 4,
+        length: 3,
         child: Scaffold(
           backgroundColor: colors.backgroundColor,
           body: Column(
@@ -43,10 +43,11 @@ class _OurActivityPageState extends State<OurActivityPage> {
                             patternTitle: "medion_activity".tr())),
                     const CDivider(padding: false),
                     CustomTabbarBlack(
-                      leftTab: "about_the_company".tr(),
-                      middleTab: "history".tr(),
-                      nextMiddle: "mission".tr(),
-                      rightTab: "license".tr(),
+                      tabs: [
+                        "about_the_company".tr(),
+                        "history".tr(),
+                        "mission".tr(),
+                      ],
                     ),
                     Expanded(
                       child: TabBarView(
@@ -124,62 +125,6 @@ class _OurActivityPageState extends State<OurActivityPage> {
                             ),
                           ),
                           // Tab 4: License
-                          SingleChildScrollView(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  24.h.verticalSpace,
-                                  Text("license".tr(),
-                                      style: fonts.regularMain),
-                                  8.h.verticalSpace,
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (_) =>
-                                                  const ImagePreviewPage(
-                                                imagePath:
-                                                    "assets/images/litsenziyaaa.png",
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: Image.asset(
-                                          "assets/images/litsenziyaaa.png",
-                                          height: 250,
-                                        ),
-                                      ),
-                                      8.w.horizontalSpace,
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (_) =>
-                                                  const ImagePreviewPage(
-                                                imagePath:
-                                                    "assets/images/litsenziya.png",
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: Image.asset(
-                                          "assets/images/litsenziya.png",
-                                          height: 250,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  24.h.verticalSpace,
-                                ],
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),

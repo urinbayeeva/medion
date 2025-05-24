@@ -76,7 +76,6 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
   @override
   void initState() {
     super.initState();
-
     _phoneNumberController = TextEditingController(text: "+998 ");
     _searchController = TextEditingController();
     _formKey = GlobalKey<FormState>();
@@ -86,6 +85,9 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
         Provider.of<SelectedServiceIdsProvider>(context, listen: false);
     _servicesProvider =
         Provider.of<SelectedServicesProvider>(context, listen: false);
+    // Clear services for the current serviceId
+    _servicesProvider.clearServices(widget.serviceId);
+    _serviceIdsProvider.clearServiceIds(widget.serviceId);
     _serviceIdsProvider.addListener(_updateSelectedServices);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -104,6 +106,9 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
     _searchController.dispose();
     focusNode.dispose();
     _searchDebounce?.cancel();
+    // Clear services for the current serviceId
+    _servicesProvider.clearServices(widget.serviceId);
+    _serviceIdsProvider.clearServiceIds(widget.serviceId);
     super.dispose();
   }
 
@@ -117,7 +122,8 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
   void _updateSelectedServices() {
     if (!mounted) return;
     final bookingState = context.read<BookingBloc>().state;
-    final selectedIds = _serviceIdsProvider.selectedServiceIds;
+    final selectedIds =
+        _serviceIdsProvider.getSelectedServiceIds(widget.serviceId);
 
     setState(() {
       selectedServices = bookingState.categoryServices
@@ -133,6 +139,8 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
       if (_searchController.text.isEmpty) {
         _filteredCategories = bookingState.categoryServices.toList();
       }
+
+      // Warn if there are selected services from a different serviceId
     });
   }
 
@@ -188,6 +196,114 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
         debugPrint('Error filtering services: $e');
       }
     });
+  }
+
+  void _showPhoneCallbackDialog(
+      BuildContext context, colors, fonts, List<int> serviceIds) async {
+    bool? confirmCallBack = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: colors.shade0,
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(
+              child: Text(
+                "Обратный звонок".tr(),
+                style: fonts.mediumMain,
+              ),
+            ),
+            12.h.verticalSpace,
+            Text(
+              textAlign: TextAlign.center,
+              "Оставьте свой номер телефона и мы вам перезвоним".tr(),
+              style: fonts.xSmallMain.copyWith(fontSize: 14.sp),
+            ),
+            12.h.verticalSpace,
+            Text("contact_phone_number".tr(), style: fonts.regularLink),
+            CustomTextField(
+              autoFocus: true,
+              title: "",
+              keyboardType: TextInputType.phone,
+              onChanged: (value) {
+                if (value.length >= 17) {
+                  setState(() {});
+                }
+              },
+              controller: _phoneNumberController,
+              formatter: <TextInputFormatter>[InternationalPhoneFormatter()],
+              hintText: '+998',
+              validator: (String? text) {},
+            ),
+            30.h.verticalSpace,
+            CButton(
+              title: "send".tr(),
+              onTap: () async {
+                final phone = _phoneNumberController.text;
+
+                final response = await http.post(
+                  Uri.parse('${Constants.baseUrlP}/help/call'),
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: jsonEncode({
+                    'phone': phone,
+                    'service_ids': serviceIds,
+                  }),
+                );
+
+                Navigator.of(context).pop();
+
+                if (response.statusCode == 200) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        backgroundColor: colors.shade0,
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset("assets/icons/done.svg"),
+                            8.h.verticalSpace,
+                            Text("Заявка оставлена", style: fonts.mediumMain),
+                            4.h.verticalSpace,
+                            Text(
+                              textAlign: TextAlign.center,
+                              "В скором времени мы вам перезвоним по поводу вашей заявки",
+                              style: fonts.xSmallMain,
+                            ),
+                            30.h.verticalSpace,
+                            CButton(
+                              title: "back".tr(),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MainPage(index: 0),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Ошибка отправки данных")),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+        actions: [],
+      ),
+    );
   }
 
   @override
@@ -344,8 +460,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                     child: ListView.builder(
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemCount:
-                                          2, // 2 service placeholders per category
+                                      itemCount: 2,
                                       itemBuilder: (context, serviceIndex) {
                                         return ShimmerContainer(
                                           height: 80.h,
@@ -547,40 +662,44 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                             ),
                                           ),
                                           const Spacer(),
-                                          // Find the icon section in the code (around line 600 in your original code)
                                           AnimationButtonEffect(
                                             onTap: () {
                                               if (service.canReceiveCallBack ==
                                                   true) {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      PhoneCallbackDialog(
-                                                    serviceIds: [service.id!],
-                                                  ),
-                                                );
+                                                _showPhoneCallbackDialog(
+                                                    context,
+                                                    colors,
+                                                    fonts,
+                                                    [service.id!]);
                                               } else {
                                                 setState(() {
                                                   if (_servicesProvider
-                                                      .selectedServices
+                                                      .getSelectedServices(
+                                                          widget.serviceId)
                                                       .contains(service)) {
                                                     _servicesProvider
-                                                        .removeService(service);
+                                                        .removeService(
+                                                            widget.serviceId,
+                                                            service);
                                                     _serviceIdsProvider
                                                         .removeServiceId(
+                                                            widget.serviceId,
                                                             service.id!);
                                                   } else {
                                                     _servicesProvider
-                                                        .addService(service);
+                                                        .addService(
+                                                            widget.serviceId,
+                                                            service);
                                                     _serviceIdsProvider
                                                         .addServiceId(
+                                                            widget.serviceId,
                                                             service.id!);
                                                   }
                                                   selectedServiceIDCatch
-                                                      .clear();
-                                                  selectedServiceIDCatch.addAll(
-                                                      _serviceIdsProvider
-                                                          .selectedServiceIds);
+                                                    ..clear()
+                                                    ..addAll(_serviceIdsProvider
+                                                        .getSelectedServiceIds(
+                                                            widget.serviceId));
                                                 });
                                               }
                                             },
@@ -590,7 +709,8 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                                 borderRadius:
                                                     BorderRadius.circular(8.r),
                                                 color: _servicesProvider
-                                                        .selectedServices
+                                                        .getSelectedServices(
+                                                            widget.serviceId)
                                                         .contains(service)
                                                     ? colors.error500
                                                     : colors.neutral200,
@@ -600,12 +720,15 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                                       true
                                                   ? icons.phone.svg(
                                                       color: _servicesProvider
-                                                              .selectedServices
+                                                              .getSelectedServices(
+                                                                  widget
+                                                                      .serviceId)
                                                               .contains(service)
                                                           ? colors.shade0
                                                           : colors.primary900)
                                                   : _servicesProvider
-                                                          .selectedServices
+                                                          .getSelectedServices(
+                                                              widget.serviceId)
                                                           .contains(service)
                                                       ? icons.check.svg(
                                                           color: colors.shade0)
@@ -691,25 +814,31 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                                 child: SingleChildScrollView(
                                                   child: ServiceSelectionModal(
                                                     selectedServices: provider
-                                                        .selectedServices,
+                                                        .getSelectedServices(
+                                                            widget.serviceId),
                                                     chose: provider
-                                                        .selectedServices
+                                                        .getSelectedServices(
+                                                            widget.serviceId)
                                                         .length,
                                                     onRemoveService: (service) {
                                                       if (!mounted) return;
                                                       _servicesProvider
                                                           .removeService(
+                                                              widget.serviceId,
                                                               service);
                                                       _serviceIdsProvider
                                                           .removeServiceId(
+                                                              widget.serviceId,
                                                               service.id!);
                                                     },
                                                     onRemoveAllServices: () {
                                                       if (!mounted) return;
                                                       _servicesProvider
-                                                          .clearServices();
+                                                          .clearServices(
+                                                              widget.serviceId);
                                                       _serviceIdsProvider
-                                                          .clearServiceIds();
+                                                          .clearServiceIds(
+                                                              widget.serviceId);
                                                     },
                                                   ),
                                                 ),
@@ -759,7 +888,9 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                 MaterialPageRoute(
                                   builder: (context) => MedServiceDoctorChose(
                                     isHome: true,
-                                    servicesID: selectedServiceIDCatch,
+                                    servicesID: _serviceIdsProvider
+                                        .getSelectedServiceIds(
+                                            widget.serviceId),
                                   ),
                                 ),
                               );

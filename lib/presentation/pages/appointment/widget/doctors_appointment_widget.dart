@@ -58,8 +58,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             "end_time": calculateEndTime(time),
             "date": currentDate,
             "serviceId": widget.serviceId.toString(),
-            "service_name":
-                widget.serviceName ?? "Unknown Service", // Fixed key
+            "serviceName": widget.serviceName.toString(),
             "doctorName": widget.doctor.name,
             "doctorPhoto": widget.doctor.image ?? "",
             "price": widget.doctor.price.toString(),
@@ -275,8 +274,8 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
                           : colors.neutral200,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: isSelected ? colors.primary500 : colors.neutral200,
-                    width: 0,
+                    color: isSelected ? colors.error500 : colors.neutral200,
+                    width: 2,
                   ),
                 ),
                 child: Text(

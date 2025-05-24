@@ -2,20 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
-/// black tab bar
+/// Flexible black tab bar
 class CustomTabbarBlack extends StatelessWidget {
   const CustomTabbarBlack({
     super.key,
-    required this.leftTab,
-    required this.rightTab,
-    required this.middleTab,
-    required this.nextMiddle,
+    required this.tabs,
   });
 
-  final String leftTab;
-  final String rightTab;
-  final String middleTab;
-  final String nextMiddle;
+  final List<String> tabs;
 
   @override
   Widget build(BuildContext context) {
@@ -23,51 +17,23 @@ class CustomTabbarBlack extends StatelessWidget {
       return Container(
         height: 50.h,
         width: double.infinity,
-        decoration: const BoxDecoration(),
         child: TabBar(
           overlayColor: const WidgetStatePropertyAll(Colors.transparent),
           indicatorPadding: EdgeInsets.zero,
           labelPadding: EdgeInsets.zero,
           padding: EdgeInsets.zero,
           indicatorColor: colors.error500,
-          tabs: [
-            Tab(
-              child: Center(
-                child: Text(
-                  leftTab,
-                  textAlign: TextAlign.center,
-                  style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
-                ),
-              ),
-            ),
-            Tab(
-              child: Center(
-                child: Text(
-                  middleTab,
-                  textAlign: TextAlign.center,
-                  style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
-                ),
-              ),
-            ),
-            Tab(
-              child: Center(
-                child: Text(
-                  nextMiddle,
-                  textAlign: TextAlign.center,
-                  style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
-                ),
-              ),
-            ),
-            Tab(
-              child: Center(
-                child: Text(
-                  rightTab,
-                  textAlign: TextAlign.center,
-                  style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
-                ),
-              ),
-            ),
-          ],
+          tabs: tabs
+              .map((title) => Tab(
+                    child: Center(
+                      child: Text(
+                        title,
+                        textAlign: TextAlign.center,
+                        style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
+                      ),
+                    ),
+                  ))
+              .toList(),
         ),
       );
     });

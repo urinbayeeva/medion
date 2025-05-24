@@ -59,7 +59,17 @@ class _SecondServicePageState extends State<SecondServicePage> {
         Provider.of<SelectedServiceIdsProvider>(context, listen: false);
     _servicesProvider =
         Provider.of<SelectedServicesProvider>(context, listen: false);
+    // Clear services for the current widget.id
+    _servicesProvider.clearServices(widget.id);
+    _serviceIdsProvider.clearServiceIds(widget.id);
     _serviceIdsProvider.addListener(_updateSelectedServices);
+
+    // Fetch category services for the current widget.id
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<BookingBloc>().add(
+            BookingEvent.fetchCategoryServices(id: widget.id),
+          );
+    });
   }
 
   @override
@@ -67,33 +77,38 @@ class _SecondServicePageState extends State<SecondServicePage> {
     _serviceIdsProvider.removeListener(_updateSelectedServices);
     _refreshController.dispose();
     _phoneNumberController.dispose();
+    // Clear services for the current widget.id
+    _servicesProvider.clearServices(widget.id);
+    _serviceIdsProvider.clearServiceIds(widget.id);
     super.dispose();
   }
 
   void _updateSelectedServices() {
     if (!mounted) return;
-    setState(() {});
+    setState(() {
+      // Warn if there are selected services from a different widget.id
+    });
   }
 
-  int get _selectedServicesCount => _servicesProvider.selectedServices.length;
+  int get _selectedServicesCount =>
+      _servicesProvider.getSelectedServices(widget.id).length;
 
   Future<void> _handleRefresh() async {
     if (!mounted) return;
-    final selectedId = context.read<BookingBloc>().state.selectedServiceId;
-    context
-        .read<BookingBloc>()
-        .add(BookingEvent.fetchCategoryServices(id: selectedId!));
+    context.read<BookingBloc>().add(
+          BookingEvent.fetchCategoryServices(id: widget.id),
+        );
     _refreshController.refreshCompleted();
   }
 
   Future<void> _handleServiceSelection(Service service) async {
     setState(() {
-      if (_servicesProvider.selectedServices.contains(service)) {
-        _servicesProvider.removeService(service);
-        _serviceIdsProvider.removeServiceId(service.id!);
+      if (_servicesProvider.getSelectedServices(widget.id).contains(service)) {
+        _servicesProvider.removeService(widget.id, service);
+        _serviceIdsProvider.removeServiceId(widget.id, service.id!);
       } else {
-        _servicesProvider.addService(service);
-        _serviceIdsProvider.addServiceId(service.id!);
+        _servicesProvider.addService(widget.id, service);
+        _serviceIdsProvider.addServiceId(widget.id, service.id!);
       }
     });
   }
@@ -153,8 +168,9 @@ class _SecondServicePageState extends State<SecondServicePage> {
                         headers: {'Content-Type': 'application/json'},
                         body: jsonEncode({
                           'phone': phone,
-                          'service_ids':
-                              _serviceIdsProvider.selectedServiceIds.toList(),
+                          'service_ids': _serviceIdsProvider
+                              .getSelectedServiceIds(widget.id)
+                              .toList(),
                         }),
                       );
 
@@ -223,7 +239,8 @@ class _SecondServicePageState extends State<SecondServicePage> {
   }
 
   Future<void> _navigateToAppointmentPage(BuildContext context) async {
-    final requiresCallBack = _servicesProvider.selectedServices
+    final requiresCallBack = _servicesProvider
+        .getSelectedServices(widget.id)
         .any((service) => service.canReceiveCallBack == true);
 
     if (requiresCallBack) {
@@ -237,7 +254,8 @@ class _SecondServicePageState extends State<SecondServicePage> {
       MaterialPageRoute(
         builder: (context) => AppointmentPage(
           index: 2,
-          selectedServiceIds: _serviceIdsProvider.selectedServiceIds.toSet(),
+          selectedServiceIds:
+              _serviceIdsProvider.getSelectedServiceIds(widget.id).toSet(),
         ),
       ),
     );
@@ -348,12 +366,13 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                         borderRadius:
                                             BorderRadius.circular(8.r),
                                         color: _servicesProvider
-                                                .selectedServices
+                                                .getSelectedServices(widget.id)
                                                 .contains(service)
                                             ? colors.error500
                                             : colors.neutral200,
                                       ),
-                                      child: _servicesProvider.selectedServices
+                                      child: _servicesProvider
+                                              .getSelectedServices(widget.id)
                                               .contains(service)
                                           ? icons.check
                                               .svg(color: colors.shade0)
@@ -414,17 +433,19 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                       MediaQuery.of(context).size.height * 0.8,
                                 ),
                                 builder: (context) => ServiceSelectionModal(
-                                  selectedServices:
-                                      _servicesProvider.selectedServices,
+                                  selectedServices: _servicesProvider
+                                      .getSelectedServices(widget.id),
                                   chose: _selectedServicesCount,
                                   onRemoveService: (service) {
-                                    _servicesProvider.removeService(service);
-                                    _serviceIdsProvider
-                                        .removeServiceId(service.id!);
+                                    _servicesProvider.removeService(
+                                        widget.id, service);
+                                    _serviceIdsProvider.removeServiceId(
+                                        widget.id, service.id!);
                                   },
                                   onRemoveAllServices: () {
-                                    _servicesProvider.clearServices();
-                                    _serviceIdsProvider.clearServiceIds();
+                                    _servicesProvider.clearServices(widget.id);
+                                    _serviceIdsProvider
+                                        .clearServiceIds(widget.id);
                                   },
                                 ),
                               );

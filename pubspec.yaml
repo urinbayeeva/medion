@@ -103,6 +103,7 @@ dependencies:
   flutter_html: ^3.0.0
   http: ^1.4.0
   yandex_mapkit: ^4.1.0
+  fluttertoast: ^8.2.12
 
 
 

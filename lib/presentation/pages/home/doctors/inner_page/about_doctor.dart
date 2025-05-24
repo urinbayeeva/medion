@@ -66,12 +66,12 @@ class _AboutDoctorState extends State<AboutDoctor> {
                       image: widget.image,
                     ),
                     16.h.verticalSpace,
-                    CustomTabbarBlack(
-                      leftTab: "about_the_doctor".tr(),
-                      middleTab: "working_experience".tr(),
-                      nextMiddle: "education".tr(),
-                      rightTab: "working_hours".tr(),
-                    ),
+                    CustomTabbarBlack(tabs: [
+                      "about_the_doctor".tr(),
+                      "working_experience".tr(),
+                      "education".tr(),
+                      "working_hours".tr(),
+                    ]),
                   ],
                 ),
               ),
