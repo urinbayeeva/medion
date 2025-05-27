@@ -231,6 +231,27 @@ class _$AdModelSerializer implements StructuredSerializer<AdModel> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(JsonObject)));
     }
+    value = object.imageForMobileUz;
+    if (value != null) {
+      result
+        ..add('image_for_mobile_uz')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.imageForMobileEn;
+    if (value != null) {
+      result
+        ..add('image_for_mobile_en')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.imageForMobileRu;
+    if (value != null) {
+      result
+        ..add('image_for_mobile_ru')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -264,6 +285,18 @@ class _$AdModelSerializer implements StructuredSerializer<AdModel> {
         case 'link':
           result.link = serializers.deserialize(value,
               specifiedType: const FullType(JsonObject)) as JsonObject?;
+          break;
+        case 'image_for_mobile_uz':
+          result.imageForMobileUz = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'image_for_mobile_en':
+          result.imageForMobileEn = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'image_for_mobile_ru':
+          result.imageForMobileRu = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -585,11 +618,25 @@ class _$AdModel extends AdModel {
   final bool? important;
   @override
   final JsonObject? link;
+  @override
+  final String? imageForMobileUz;
+  @override
+  final String? imageForMobileEn;
+  @override
+  final String? imageForMobileRu;
 
   factory _$AdModel([void Function(AdModelBuilder)? updates]) =>
       (new AdModelBuilder()..update(updates))._build();
 
-  _$AdModel._({this.title, this.info, this.image, this.important, this.link})
+  _$AdModel._(
+      {this.title,
+      this.info,
+      this.image,
+      this.important,
+      this.link,
+      this.imageForMobileUz,
+      this.imageForMobileEn,
+      this.imageForMobileRu})
       : super._();
 
   @override
@@ -607,7 +654,10 @@ class _$AdModel extends AdModel {
         info == other.info &&
         image == other.image &&
         important == other.important &&
-        link == other.link;
+        link == other.link &&
+        imageForMobileUz == other.imageForMobileUz &&
+        imageForMobileEn == other.imageForMobileEn &&
+        imageForMobileRu == other.imageForMobileRu;
   }
 
   @override
@@ -618,6 +668,9 @@ class _$AdModel extends AdModel {
     _$hash = $jc(_$hash, image.hashCode);
     _$hash = $jc(_$hash, important.hashCode);
     _$hash = $jc(_$hash, link.hashCode);
+    _$hash = $jc(_$hash, imageForMobileUz.hashCode);
+    _$hash = $jc(_$hash, imageForMobileEn.hashCode);
+    _$hash = $jc(_$hash, imageForMobileRu.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -629,7 +682,10 @@ class _$AdModel extends AdModel {
           ..add('info', info)
           ..add('image', image)
           ..add('important', important)
-          ..add('link', link))
+          ..add('link', link)
+          ..add('imageForMobileUz', imageForMobileUz)
+          ..add('imageForMobileEn', imageForMobileEn)
+          ..add('imageForMobileRu', imageForMobileRu))
         .toString();
   }
 }
@@ -657,6 +713,21 @@ class AdModelBuilder implements Builder<AdModel, AdModelBuilder> {
   JsonObject? get link => _$this._link;
   set link(JsonObject? link) => _$this._link = link;
 
+  String? _imageForMobileUz;
+  String? get imageForMobileUz => _$this._imageForMobileUz;
+  set imageForMobileUz(String? imageForMobileUz) =>
+      _$this._imageForMobileUz = imageForMobileUz;
+
+  String? _imageForMobileEn;
+  String? get imageForMobileEn => _$this._imageForMobileEn;
+  set imageForMobileEn(String? imageForMobileEn) =>
+      _$this._imageForMobileEn = imageForMobileEn;
+
+  String? _imageForMobileRu;
+  String? get imageForMobileRu => _$this._imageForMobileRu;
+  set imageForMobileRu(String? imageForMobileRu) =>
+      _$this._imageForMobileRu = imageForMobileRu;
+
   AdModelBuilder();
 
   AdModelBuilder get _$this {
@@ -667,6 +738,9 @@ class AdModelBuilder implements Builder<AdModel, AdModelBuilder> {
       _image = $v.image;
       _important = $v.important;
       _link = $v.link;
+      _imageForMobileUz = $v.imageForMobileUz;
+      _imageForMobileEn = $v.imageForMobileEn;
+      _imageForMobileRu = $v.imageForMobileRu;
       _$v = null;
     }
     return this;
@@ -694,6 +768,9 @@ class AdModelBuilder implements Builder<AdModel, AdModelBuilder> {
           image: image,
           important: important,
           link: link,
+          imageForMobileUz: imageForMobileUz,
+          imageForMobileEn: imageForMobileEn,
+          imageForMobileRu: imageForMobileRu,
         );
     replace(_$result);
     return _$result;

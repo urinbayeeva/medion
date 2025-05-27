@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:medion/domain/common/failure.dart';
@@ -10,6 +11,7 @@ import 'package:medion/domain/common/token_ext.dart';
 import 'package:medion/domain/failurs/auth/auth_failure.dart';
 import 'package:medion/domain/failurs/auth/i_auth_facade.dart';
 import 'package:medion/domain/models/auth/auth.dart';
+import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/success_model/response_model.dart';
@@ -68,41 +70,57 @@ class AuthRepository implements IAuthFacade {
   }
 
   @override
-  Future<Either<ResponseFailure, ResponseModel>> registerUser(
-      {required RegisterReq request}) async {
+  Future<Either<ResponseFailure, RegistrationResponse>> registerUser({
+    required RegisterReq request,
+  }) async {
     try {
       final res = await _authService.registerUser(request: request);
 
       if (res.isSuccessful && res.body != null) {
-        bool isNewUser = res.body!.isNewPatient;
+        final response = res.body!;
 
-        if (!isNewUser &&
-            res.body!.accessToken!.isNotEmpty &&
-            res.body!.refreshToken!.isNotEmpty) {
-          _dbService.setToken(Token(
-            accessToken: res.body!.accessToken!,
-            refreshToken: res.body!.refreshToken!,
-            tokenType: 'Bearer',
-          ));
-
-          return right(res.body!);
+        // Handle token storage based on multi_user status
+        if (!response.multiUser) {
+          // Single user case - store tokens directly from response
+          if (response.accessToken != null && response.refreshToken != null) {
+            _dbService.setToken(Token(
+              accessToken: response.accessToken!,
+              refreshToken: response.refreshToken!,
+              tokenType: response.tokenType ?? 'Bearer',
+            ));
+          }
         } else {
-          return right(res.body!);
+          // Multi-user case - store tokens from the first user (or implement your selection logic)
+          if (response.users.isNotEmpty) {
+            final firstUser = response.users.first;
+            _dbService.setToken(Token(
+              accessToken: firstUser.accessToken,
+              refreshToken: firstUser.refreshToken,
+              tokenType: firstUser.tokenType,
+            ));
+          }
         }
+
+        return right(response);
       } else {
-        if (res.body?.message.toLowerCase().contains('incorrect code') ==
-            true) {
+        // Handle specific error messages
+        final errorMessage = res.body?.message ?? 'registration_failed'.tr();
+
+        if (errorMessage.toLowerCase().contains('incorrect code')) {
           return left(InvalidCredentials(message: 'incorrect_sms_code'.tr()));
         }
-        return left(InvalidCredentials(message: 'incorrect_sms_code'.tr()));
+
+        return left(InvalidCredentials(message: errorMessage));
       }
     } catch (e) {
       LogService.e("Register error: $e");
-      // Also handle the case where the error might be in the exception message
+
+      // Handle specific exception cases
       if (e.toString().toLowerCase().contains('incorrect code')) {
         return left(InvalidCredentials(message: 'incorrect_sms_code'.tr()));
       }
-      return left(handleError(e));
+
+      return left(InvalidCredentials(message: 'network_error'.tr()));
     }
   }
 
@@ -261,18 +279,39 @@ class AuthRepository implements IAuthFacade {
       return left(handleError(e));
     }
   }
-}
 
-///
-Future<List<dynamic>> fetchServiceData() async {
-  final response =
-      await http.get(Uri.parse('${Constants.baseUrlP}/booking/doctors'));
+  @override
+  Future<Either<ResponseFailure, PaymentResponse>> getMyWallet() async {
+    try {
+      final response = await _patientService.getMyWallet();
 
-  if (response.statusCode == 200) {
-    // Parse the JSON response
-    return json.decode(response.body);
-  } else {
-    // Throw an error if the request fails
-    throw Exception('Failed to load service data');
+      LogService.d('Wallet Response Status: ${response.statusCode}');
+      LogService.d('Wallet Response Body: ${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        return right(response.body!);
+      } else {
+        final errorMsg =
+            response.error?.toString() ?? 'wallet_fetch_failed'.tr();
+        return left(InvalidCredentials(message: errorMsg));
+      }
+    } catch (e, stackTrace) {
+      LogService.e("getMyWallet() error: $e\nStackTrace: $stackTrace");
+      return left(handleError(e));
+    }
+  }
+
+  ///
+  Future<List<dynamic>> fetchServiceData() async {
+    final response =
+        await http.get(Uri.parse('${Constants.baseUrlP}/booking/doctors'));
+
+    if (response.statusCode == 200) {
+      // Parse the JSON response
+      return json.decode(response.body);
+    } else {
+      // Throw an error if the request fails
+      throw Exception('Failed to load service data');
+    }
   }
 }

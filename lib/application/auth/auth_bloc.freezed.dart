@@ -27,6 +27,7 @@ mixin _$AuthEvent {
     required TResult Function() fetchPatientVisits,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -40,6 +41,7 @@ mixin _$AuthEvent {
     TResult? Function()? fetchPatientVisits,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -53,6 +55,7 @@ mixin _$AuthEvent {
     TResult Function()? fetchPatientVisits,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -67,6 +70,7 @@ mixin _$AuthEvent {
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -80,6 +84,7 @@ mixin _$AuthEvent {
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -93,6 +98,7 @@ mixin _$AuthEvent {
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -168,6 +174,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     required TResult Function() fetchPatientVisits,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
   }) {
     return checkAuth();
   }
@@ -184,6 +191,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult? Function()? fetchPatientVisits,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
   }) {
     return checkAuth?.call();
   }
@@ -200,6 +208,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult Function()? fetchPatientVisits,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (checkAuth != null) {
@@ -220,6 +229,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
   }) {
     return checkAuth(this);
   }
@@ -236,6 +246,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
   }) {
     return checkAuth?.call(this);
   }
@@ -252,6 +263,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (checkAuth != null) {
@@ -343,6 +355,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     required TResult Function() fetchPatientVisits,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
   }) {
     return verificationSend(request);
   }
@@ -359,6 +372,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult? Function()? fetchPatientVisits,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
   }) {
     return verificationSend?.call(request);
   }
@@ -375,6 +389,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult Function()? fetchPatientVisits,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (verificationSend != null) {
@@ -395,6 +410,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
   }) {
     return verificationSend(this);
   }
@@ -411,6 +427,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
   }) {
     return verificationSend?.call(this);
   }
@@ -427,6 +444,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (verificationSend != null) {
@@ -527,6 +545,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     required TResult Function() fetchPatientVisits,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
   }) {
     return sendPhoneNumber(request);
   }
@@ -543,6 +562,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult? Function()? fetchPatientVisits,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
   }) {
     return sendPhoneNumber?.call(request);
   }
@@ -559,6 +579,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult Function()? fetchPatientVisits,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (sendPhoneNumber != null) {
@@ -579,6 +600,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
   }) {
     return sendPhoneNumber(this);
   }
@@ -595,6 +617,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
   }) {
     return sendPhoneNumber?.call(this);
   }
@@ -611,6 +634,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (sendPhoneNumber != null) {
@@ -710,6 +734,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     required TResult Function() fetchPatientVisits,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
   }) {
     return sendUserInfo(request);
   }
@@ -726,6 +751,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult? Function()? fetchPatientVisits,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
   }) {
     return sendUserInfo?.call(request);
   }
@@ -742,6 +768,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult Function()? fetchPatientVisits,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (sendUserInfo != null) {
@@ -762,6 +789,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
   }) {
     return sendUserInfo(this);
   }
@@ -778,6 +806,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
   }) {
     return sendUserInfo?.call(this);
   }
@@ -794,6 +823,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (sendUserInfo != null) {
@@ -866,6 +896,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     required TResult Function() fetchPatientVisits,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
   }) {
     return fetchPatientInfo();
   }
@@ -882,6 +913,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult? Function()? fetchPatientVisits,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
   }) {
     return fetchPatientInfo?.call();
   }
@@ -898,6 +930,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult Function()? fetchPatientVisits,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (fetchPatientInfo != null) {
@@ -918,6 +951,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
   }) {
     return fetchPatientInfo(this);
   }
@@ -934,6 +968,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
   }) {
     return fetchPatientInfo?.call(this);
   }
@@ -950,6 +985,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (fetchPatientInfo != null) {
@@ -1040,6 +1076,7 @@ class _$PickImageImpl implements _PickImage {
     required TResult Function() fetchPatientVisits,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
   }) {
     return pickImage(context);
   }
@@ -1056,6 +1093,7 @@ class _$PickImageImpl implements _PickImage {
     TResult? Function()? fetchPatientVisits,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
   }) {
     return pickImage?.call(context);
   }
@@ -1072,6 +1110,7 @@ class _$PickImageImpl implements _PickImage {
     TResult Function()? fetchPatientVisits,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (pickImage != null) {
@@ -1092,6 +1131,7 @@ class _$PickImageImpl implements _PickImage {
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
   }) {
     return pickImage(this);
   }
@@ -1108,6 +1148,7 @@ class _$PickImageImpl implements _PickImage {
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
   }) {
     return pickImage?.call(this);
   }
@@ -1124,6 +1165,7 @@ class _$PickImageImpl implements _PickImage {
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (pickImage != null) {
@@ -1195,6 +1237,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     required TResult Function() fetchPatientVisits,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
   }) {
     return fetchPatientVisits();
   }
@@ -1211,6 +1254,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult? Function()? fetchPatientVisits,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
   }) {
     return fetchPatientVisits?.call();
   }
@@ -1227,6 +1271,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult Function()? fetchPatientVisits,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (fetchPatientVisits != null) {
@@ -1247,6 +1292,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
   }) {
     return fetchPatientVisits(this);
   }
@@ -1263,6 +1309,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
   }) {
     return fetchPatientVisits?.call(this);
   }
@@ -1279,6 +1326,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (fetchPatientVisits != null) {
@@ -1342,6 +1390,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     required TResult Function() fetchPatientVisits,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
   }) {
     return fetchPaymentUrls();
   }
@@ -1358,6 +1407,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult? Function()? fetchPatientVisits,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
   }) {
     return fetchPaymentUrls?.call();
   }
@@ -1374,6 +1424,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult Function()? fetchPatientVisits,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (fetchPaymentUrls != null) {
@@ -1394,6 +1445,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
   }) {
     return fetchPaymentUrls(this);
   }
@@ -1410,6 +1462,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
   }) {
     return fetchPaymentUrls?.call(this);
   }
@@ -1426,6 +1479,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (fetchPaymentUrls != null) {
@@ -1490,6 +1544,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     required TResult Function() fetchPatientVisits,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
   }) {
     return fetchPatientAnalyze();
   }
@@ -1506,6 +1561,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult? Function()? fetchPatientVisits,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
   }) {
     return fetchPatientAnalyze?.call();
   }
@@ -1522,6 +1578,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult Function()? fetchPatientVisits,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (fetchPatientAnalyze != null) {
@@ -1542,6 +1599,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
   }) {
     return fetchPatientAnalyze(this);
   }
@@ -1558,6 +1616,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
   }) {
     return fetchPatientAnalyze?.call(this);
   }
@@ -1574,6 +1633,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
     required TResult orElse(),
   }) {
     if (fetchPatientAnalyze != null) {
@@ -1585,6 +1645,159 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
 
 abstract class _FetchPatientAnalyze implements AuthEvent {
   const factory _FetchPatientAnalyze() = _$FetchPatientAnalyzeImpl;
+}
+
+/// @nodoc
+abstract class _$$FetchMyWalletImplCopyWith<$Res> {
+  factory _$$FetchMyWalletImplCopyWith(
+          _$FetchMyWalletImpl value, $Res Function(_$FetchMyWalletImpl) then) =
+      __$$FetchMyWalletImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FetchMyWalletImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$FetchMyWalletImpl>
+    implements _$$FetchMyWalletImplCopyWith<$Res> {
+  __$$FetchMyWalletImplCopyWithImpl(
+      _$FetchMyWalletImpl _value, $Res Function(_$FetchMyWalletImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$FetchMyWalletImpl implements _FetchMyWallet {
+  const _$FetchMyWalletImpl();
+
+  @override
+  String toString() {
+    return 'AuthEvent.fetchMyWallet()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$FetchMyWalletImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() checkAuth,
+    required TResult Function(RegisterReq request) verificationSend,
+    required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
+    required TResult Function(CreateInfoReq request) sendUserInfo,
+    required TResult Function() fetchPatientInfo,
+    required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
+    required TResult Function() fetchPaymentUrls,
+    required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
+  }) {
+    return fetchMyWallet();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? checkAuth,
+    TResult? Function(RegisterReq request)? verificationSend,
+    TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult? Function(CreateInfoReq request)? sendUserInfo,
+    TResult? Function()? fetchPatientInfo,
+    TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
+    TResult? Function()? fetchPaymentUrls,
+    TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
+  }) {
+    return fetchMyWallet?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? checkAuth,
+    TResult Function(RegisterReq request)? verificationSend,
+    TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult Function(CreateInfoReq request)? sendUserInfo,
+    TResult Function()? fetchPatientInfo,
+    TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
+    TResult Function()? fetchPaymentUrls,
+    TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
+    required TResult orElse(),
+  }) {
+    if (fetchMyWallet != null) {
+      return fetchMyWallet();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_VerificationSend value) verificationSend,
+    required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
+    required TResult Function(_SendUserInfo value) sendUserInfo,
+    required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
+    required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
+    required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
+  }) {
+    return fetchMyWallet(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_VerificationSend value)? verificationSend,
+    TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult? Function(_SendUserInfo value)? sendUserInfo,
+    TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+  }) {
+    return fetchMyWallet?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_VerificationSend value)? verificationSend,
+    TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult Function(_SendUserInfo value)? sendUserInfo,
+    TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    required TResult orElse(),
+  }) {
+    if (fetchMyWallet != null) {
+      return fetchMyWallet(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchMyWallet implements AuthEvent {
+  const factory _FetchMyWallet() = _$FetchMyWalletImpl;
 }
 
 /// @nodoc
@@ -1608,9 +1821,11 @@ mixin _$AuthState {
   bool? get isNewPatient => throw _privateConstructorUsedError;
   String? get paymeUrl => throw _privateConstructorUsedError;
   String? get clickUrl => throw _privateConstructorUsedError;
-  bool get isFetchingPaymentUrls =>
-      throw _privateConstructorUsedError; // Loading state for payments
+  bool get isFetchingPaymentUrls => throw _privateConstructorUsedError;
   bool get errorFetchingPaymentUrls => throw _privateConstructorUsedError;
+  PaymentResponse? get myWallet => throw _privateConstructorUsedError;
+  RegistrationResponse? get registrationResponse =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -1645,7 +1860,9 @@ abstract class $AuthStateCopyWith<$Res> {
       String? paymeUrl,
       String? clickUrl,
       bool isFetchingPaymentUrls,
-      bool errorFetchingPaymentUrls});
+      bool errorFetchingPaymentUrls,
+      PaymentResponse? myWallet,
+      RegistrationResponse? registrationResponse});
 }
 
 /// @nodoc
@@ -1684,6 +1901,8 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? clickUrl = freezed,
     Object? isFetchingPaymentUrls = null,
     Object? errorFetchingPaymentUrls = null,
+    Object? myWallet = freezed,
+    Object? registrationResponse = freezed,
   }) {
     return _then(_value.copyWith(
       proceedToHome: null == proceedToHome
@@ -1770,6 +1989,14 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.errorFetchingPaymentUrls
           : errorFetchingPaymentUrls // ignore: cast_nullable_to_non_nullable
               as bool,
+      myWallet: freezed == myWallet
+          ? _value.myWallet
+          : myWallet // ignore: cast_nullable_to_non_nullable
+              as PaymentResponse?,
+      registrationResponse: freezed == registrationResponse
+          ? _value.registrationResponse
+          : registrationResponse // ignore: cast_nullable_to_non_nullable
+              as RegistrationResponse?,
     ) as $Val);
   }
 }
@@ -1803,7 +2030,9 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       String? paymeUrl,
       String? clickUrl,
       bool isFetchingPaymentUrls,
-      bool errorFetchingPaymentUrls});
+      bool errorFetchingPaymentUrls,
+      PaymentResponse? myWallet,
+      RegistrationResponse? registrationResponse});
 }
 
 /// @nodoc
@@ -1840,6 +2069,8 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? clickUrl = freezed,
     Object? isFetchingPaymentUrls = null,
     Object? errorFetchingPaymentUrls = null,
+    Object? myWallet = freezed,
+    Object? registrationResponse = freezed,
   }) {
     return _then(_$AuthStateImpl(
       proceedToHome: null == proceedToHome
@@ -1926,6 +2157,14 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.errorFetchingPaymentUrls
           : errorFetchingPaymentUrls // ignore: cast_nullable_to_non_nullable
               as bool,
+      myWallet: freezed == myWallet
+          ? _value.myWallet
+          : myWallet // ignore: cast_nullable_to_non_nullable
+              as PaymentResponse?,
+      registrationResponse: freezed == registrationResponse
+          ? _value.registrationResponse
+          : registrationResponse // ignore: cast_nullable_to_non_nullable
+              as RegistrationResponse?,
     ));
   }
 }
@@ -1954,7 +2193,9 @@ class _$AuthStateImpl extends _AuthState {
       this.paymeUrl = null,
       this.clickUrl = null,
       this.isFetchingPaymentUrls = false,
-      this.errorFetchingPaymentUrls = false})
+      this.errorFetchingPaymentUrls = false,
+      this.myWallet = null,
+      this.registrationResponse = null})
       : _patientVisits = patientVisits,
         super._();
 
@@ -2025,14 +2266,19 @@ class _$AuthStateImpl extends _AuthState {
   @override
   @JsonKey()
   final bool isFetchingPaymentUrls;
-// Loading state for payments
   @override
   @JsonKey()
   final bool errorFetchingPaymentUrls;
+  @override
+  @JsonKey()
+  final PaymentResponse? myWallet;
+  @override
+  @JsonKey()
+  final RegistrationResponse? registrationResponse;
 
   @override
   String toString() {
-    return 'AuthState(proceedToHome: $proceedToHome, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls)';
+    return 'AuthState(proceedToHome: $proceedToHome, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, registrationResponse: $registrationResponse)';
   }
 
   @override
@@ -2083,7 +2329,11 @@ class _$AuthStateImpl extends _AuthState {
                 other.isFetchingPaymentUrls == isFetchingPaymentUrls) &&
             (identical(
                     other.errorFetchingPaymentUrls, errorFetchingPaymentUrls) ||
-                other.errorFetchingPaymentUrls == errorFetchingPaymentUrls));
+                other.errorFetchingPaymentUrls == errorFetchingPaymentUrls) &&
+            (identical(other.myWallet, myWallet) ||
+                other.myWallet == myWallet) &&
+            (identical(other.registrationResponse, registrationResponse) ||
+                other.registrationResponse == registrationResponse));
   }
 
   @override
@@ -2109,7 +2359,9 @@ class _$AuthStateImpl extends _AuthState {
         paymeUrl,
         clickUrl,
         isFetchingPaymentUrls,
-        errorFetchingPaymentUrls
+        errorFetchingPaymentUrls,
+        myWallet,
+        registrationResponse
       ]);
 
   /// Create a copy of AuthState
@@ -2143,7 +2395,9 @@ abstract class _AuthState extends AuthState {
       final String? paymeUrl,
       final String? clickUrl,
       final bool isFetchingPaymentUrls,
-      final bool errorFetchingPaymentUrls}) = _$AuthStateImpl;
+      final bool errorFetchingPaymentUrls,
+      final PaymentResponse? myWallet,
+      final RegistrationResponse? registrationResponse}) = _$AuthStateImpl;
   const _AuthState._() : super._();
 
   @override
@@ -2185,9 +2439,13 @@ abstract class _AuthState extends AuthState {
   @override
   String? get clickUrl;
   @override
-  bool get isFetchingPaymentUrls; // Loading state for payments
+  bool get isFetchingPaymentUrls;
   @override
   bool get errorFetchingPaymentUrls;
+  @override
+  PaymentResponse? get myWallet;
+  @override
+  RegistrationResponse? get registrationResponse;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.

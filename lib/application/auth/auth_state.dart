@@ -26,7 +26,10 @@ class AuthState with _$AuthState {
     @Default(null) bool? isNewPatient,
     @Default(null) String? paymeUrl,
     @Default(null) String? clickUrl,
-    @Default(false) bool isFetchingPaymentUrls, // Loading state for payments
+    @Default(false) bool isFetchingPaymentUrls,
     @Default(false) bool errorFetchingPaymentUrls,
+    @Default(null) PaymentResponse? myWallet,
+    @Default(null)
+    RegistrationResponse? registrationResponse, // Added this line
   }) = _AuthState;
 }

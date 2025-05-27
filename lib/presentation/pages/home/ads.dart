@@ -86,7 +86,7 @@ class _AdsState extends State<Ads> {
                             onTap: () => _launchUrl(ad.link.toString()),
                             child: CachedNetworkImage(
                               width: double.infinity,
-                              imageUrl: ad.image!,
+                              imageUrl: ad.imageForMobileRu!,
                               fit: BoxFit.contain,
                             ),
                           ),

@@ -49,6 +49,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(OrderVisit.serializer)
       ..add(PatientAnalysis.serializer)
       ..add(PatientInfo.serializer)
+      ..add(Payment.serializer)
+      ..add(PaymentResponse.serializer)
       ..add(PhoneNumberSendReq.serializer)
       ..add(Position.serializer)
       ..add(PriceItem.serializer)
@@ -67,6 +69,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ThirdBookingDoctor.serializer)
       ..add(ThirdBookingDoctorSchedule.serializer)
       ..add(ThirdBookingService.serializer)
+      ..add(User.serializer)
       ..add(Visit.serializer)
       ..add(VisitModel.serializer)
       ..add(VisitOrder.serializer)
@@ -116,6 +119,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(OrderVisit)]),
           () => new ListBuilder<OrderVisit>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Payment)]),
+          () => new ListBuilder<Payment>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Schedule)]),
           () => new ListBuilder<Schedule>())
       ..addBuilderFactory(
@@ -161,12 +167,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(ChildContentModel)]),
           () => new ListBuilder<ChildContentModel>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(ThirdBookingCompanyDoctor)]),
           () => new ListBuilder<ThirdBookingCompanyDoctor>())
@@ -177,6 +177,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(
               BuiltList, const [const FullType(ThirdBookingDoctorSchedule)]),
           () => new ListBuilder<ThirdBookingDoctorSchedule>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(User)]),
+          () => new ListBuilder<User>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Visit)]),
           () => new ListBuilder<Visit>())

@@ -8,6 +8,7 @@ import 'package:medion/application/vacancy_bloc/vacancy_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/resume_container.dart';
+import 'package:medion/presentation/pages/others/career/widgets/why_us_widget.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -19,6 +20,12 @@ class CareerPage extends StatefulWidget {
 }
 
 class _CareerPageState extends State<CareerPage> {
+  final List<String> whyUsTexts = [
+    "понятная система оплаты, конкурентная заработная плата, своевременные выплаты и бонусы;",
+    "возможность карьерного роста и профессионального развития;",
+    "дружный коллектив и комфортные условия труда;",
+    "современное оборудование и инновационные технологии;",
+  ];
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
@@ -36,43 +43,59 @@ class _CareerPageState extends State<CareerPage> {
                   isBack: true,
                   trailing: SizedBox(width: 24.w),
                 ),
-                Container(
-                  color: colors.shade0,
-                  child: TabBar(
-                    indicatorWeight: 3,
-                    overlayColor: MaterialStateProperty.all(colors.shade0),
-                    indicatorPadding: EdgeInsets.zero,
-                    labelPadding: EdgeInsets.zero,
-                    padding: EdgeInsets.zero,
-                    indicatorColor: colors.error500,
-                    tabs: [
-                      Tab(
-                        child: Center(
-                          child: Text(
-                            "med".tr(),
-                            textAlign: TextAlign.center,
-                            style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
-                          ),
-                        ),
-                      ),
-                      Tab(
-                        child: Center(
-                          child: Text(
-                            "office".tr(),
-                            textAlign: TextAlign.center,
-                            style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 Expanded(
-                  child: TabBarView(
-                    children: [
-                      _buildNoResultView(icons, fonts),
-                      _buildNoResultView(icons, fonts),
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.all(16.w),
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: [
+                        Text("Мы внимательны к тому, что важно, и предлагаем: ",
+                            style: fonts.regularMain),
+                        12.h.verticalSpace,
+                        const Text(
+                          "Мы в сети многопрофильных клиник «Medion» всегда ждем в своей команде новых специалистов. У нас врачи растут, развиваются и постоянно повышают свой профессиональный уровень, участвуя в российских и международных конференциях",
+                        ),
+                        40.h.verticalSpace,
+                        Text("Вот почему стоит выбрать нас:",
+                            style: fonts.regularMain),
+                        8.h.verticalSpace,
+                        GridView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: whyUsTexts.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 12.h,
+                            crossAxisSpacing: 12.w,
+                            childAspectRatio: 1,
+                          ),
+                          itemBuilder: (context, index) {
+                            return WhyUsWidget(text: whyUsTexts[index]);
+                          },
+                        ),
+                        20.h.verticalSpace,
+                        Text("Врачи", style: fonts.regularMain),
+                        8.h.verticalSpace,
+                        GridView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: whyUsTexts.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 12.h,
+                            crossAxisSpacing: 12.w,
+                            childAspectRatio: 1,
+                          ),
+                          itemBuilder: (context, index) {
+                            return WhyUsWidget(text: whyUsTexts[index]);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

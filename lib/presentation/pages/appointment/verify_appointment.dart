@@ -128,7 +128,7 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
       Map<String, String> appointment, colors, fonts, BuildContext context) {
     return VerifyAppointmentItem(
       hasImage: true,
-      diagnosis: appointment['service_name'] ?? '',
+      diagnosis: appointment['serviceName'] ?? '',
       procedure: appointment['specialty'] ?? '',
       doctorName: 'Dr. ${appointment['doctorName']}',
       price: appointment['price'] ?? '',
@@ -216,11 +216,17 @@ Future<bool> sendVisitRequest(
       print("Error: ${response.statusCode}, ${response.body}");
       try {
         final errorResponse = jsonDecode(response.body);
-        if (errorResponse is Map<String, dynamic> &&
-            errorResponse.containsKey("detail") &&
-            errorResponse["detail"] is Map<String, dynamic> &&
-            errorResponse["detail"].containsKey("error")) {
-          EasyLoading.showError(errorResponse["detail"]["error"]);
+
+        const specificMessage =
+            "This Patient already has a visit for the selected doctor on this date. You can't create another visit.";
+
+        if (response.statusCode == 400 &&
+            errorResponse is Map<String, dynamic> &&
+            errorResponse["detail"] == specificMessage) {
+          EasyLoading.showError('visit_already_exists'.tr());
+        } else if (errorResponse is Map<String, dynamic> &&
+            errorResponse.containsKey("detail")) {
+          EasyLoading.showError(errorResponse["detail"].toString());
         } else {
           EasyLoading.showError("Failed to create visit");
         }

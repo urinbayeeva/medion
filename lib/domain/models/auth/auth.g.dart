@@ -9,6 +9,7 @@ part of 'auth.dart';
 Serializer<PhoneNumberSendReq> _$phoneNumberSendReqSerializer =
     new _$PhoneNumberSendReqSerializer();
 Serializer<RegisterReq> _$registerReqSerializer = new _$RegisterReqSerializer();
+Serializer<User> _$userSerializer = new _$UserSerializer();
 Serializer<RegistrationResponse> _$registrationResponseSerializer =
     new _$RegistrationResponseSerializer();
 Serializer<CreateInfoReq> _$createInfoReqSerializer =
@@ -120,6 +121,73 @@ class _$RegisterReqSerializer implements StructuredSerializer<RegisterReq> {
   }
 }
 
+class _$UserSerializer implements StructuredSerializer<User> {
+  @override
+  final Iterable<Type> types = const [User, _$User];
+  @override
+  final String wireName = 'User';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, User object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'name',
+      serializers.serialize(object.name, specifiedType: const FullType(String)),
+      'access_token',
+      serializers.serialize(object.accessToken,
+          specifiedType: const FullType(String)),
+      'refresh_token',
+      serializers.serialize(object.refreshToken,
+          specifiedType: const FullType(String)),
+      'token_type',
+      serializers.serialize(object.tokenType,
+          specifiedType: const FullType(String)),
+      'offerta',
+      serializers.serialize(object.offerta,
+          specifiedType: const FullType(bool)),
+    ];
+
+    return result;
+  }
+
+  @override
+  User deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new UserBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'access_token':
+          result.accessToken = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'refresh_token':
+          result.refreshToken = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'token_type':
+          result.tokenType = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'offerta':
+          result.offerta = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$RegistrationResponseSerializer
     implements StructuredSerializer<RegistrationResponse> {
   @override
@@ -135,9 +203,22 @@ class _$RegistrationResponseSerializer
       Serializers serializers, RegistrationResponse object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
+      'status',
+      serializers.serialize(object.status,
+          specifiedType: const FullType(String)),
+      'message',
+      serializers.serialize(object.message,
+          specifiedType: const FullType(String)),
       'is_new_patient',
       serializers.serialize(object.isNewPatient,
           specifiedType: const FullType(bool)),
+      'multi_user',
+      serializers.serialize(object.multiUser,
+          specifiedType: const FullType(bool)),
+      'users',
+      serializers.serialize(object.users,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(User)])),
     ];
     Object? value;
     value = object.accessToken;
@@ -145,16 +226,14 @@ class _$RegistrationResponseSerializer
       result
         ..add('access_token')
         ..add(serializers.serialize(value,
-            specifiedType:
-                const FullType(BuiltList, const [const FullType(String)])));
+            specifiedType: const FullType(String)));
     }
     value = object.refreshToken;
     if (value != null) {
       result
         ..add('refresh_token')
         ..add(serializers.serialize(value,
-            specifiedType:
-                const FullType(BuiltList, const [const FullType(String)])));
+            specifiedType: const FullType(String)));
     }
     value = object.tokenType;
     if (value != null) {
@@ -162,6 +241,13 @@ class _$RegistrationResponseSerializer
         ..add('token_type')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
+    }
+    value = object.offerta;
+    if (value != null) {
+      result
+        ..add('offerta')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
     return result;
   }
@@ -178,25 +264,43 @@ class _$RegistrationResponseSerializer
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
+        case 'status':
+          result.status = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'message':
+          result.message = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
         case 'is_new_patient':
           result.isNewPatient = serializers.deserialize(value,
               specifiedType: const FullType(bool))! as bool;
           break;
-        case 'access_token':
-          result.accessToken.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
+        case 'multi_user':
+          result.multiUser = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
+          break;
+        case 'users':
+          result.users.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(BuiltList, const [const FullType(User)]))!
               as BuiltList<Object?>);
           break;
+        case 'access_token':
+          result.accessToken = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'refresh_token':
-          result.refreshToken.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
-              as BuiltList<Object?>);
+          result.refreshToken = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'token_type':
           result.tokenType = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'offerta':
+          result.offerta = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
       }
     }
@@ -678,28 +782,193 @@ class RegisterReqBuilder implements Builder<RegisterReq, RegisterReqBuilder> {
   }
 }
 
+class _$User extends User {
+  @override
+  final String name;
+  @override
+  final String accessToken;
+  @override
+  final String refreshToken;
+  @override
+  final String tokenType;
+  @override
+  final bool offerta;
+
+  factory _$User([void Function(UserBuilder)? updates]) =>
+      (new UserBuilder()..update(updates))._build();
+
+  _$User._(
+      {required this.name,
+      required this.accessToken,
+      required this.refreshToken,
+      required this.tokenType,
+      required this.offerta})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(name, r'User', 'name');
+    BuiltValueNullFieldError.checkNotNull(accessToken, r'User', 'accessToken');
+    BuiltValueNullFieldError.checkNotNull(
+        refreshToken, r'User', 'refreshToken');
+    BuiltValueNullFieldError.checkNotNull(tokenType, r'User', 'tokenType');
+    BuiltValueNullFieldError.checkNotNull(offerta, r'User', 'offerta');
+  }
+
+  @override
+  User rebuild(void Function(UserBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  UserBuilder toBuilder() => new UserBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is User &&
+        name == other.name &&
+        accessToken == other.accessToken &&
+        refreshToken == other.refreshToken &&
+        tokenType == other.tokenType &&
+        offerta == other.offerta;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, accessToken.hashCode);
+    _$hash = $jc(_$hash, refreshToken.hashCode);
+    _$hash = $jc(_$hash, tokenType.hashCode);
+    _$hash = $jc(_$hash, offerta.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'User')
+          ..add('name', name)
+          ..add('accessToken', accessToken)
+          ..add('refreshToken', refreshToken)
+          ..add('tokenType', tokenType)
+          ..add('offerta', offerta))
+        .toString();
+  }
+}
+
+class UserBuilder implements Builder<User, UserBuilder> {
+  _$User? _$v;
+
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
+  String? _accessToken;
+  String? get accessToken => _$this._accessToken;
+  set accessToken(String? accessToken) => _$this._accessToken = accessToken;
+
+  String? _refreshToken;
+  String? get refreshToken => _$this._refreshToken;
+  set refreshToken(String? refreshToken) => _$this._refreshToken = refreshToken;
+
+  String? _tokenType;
+  String? get tokenType => _$this._tokenType;
+  set tokenType(String? tokenType) => _$this._tokenType = tokenType;
+
+  bool? _offerta;
+  bool? get offerta => _$this._offerta;
+  set offerta(bool? offerta) => _$this._offerta = offerta;
+
+  UserBuilder();
+
+  UserBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _name = $v.name;
+      _accessToken = $v.accessToken;
+      _refreshToken = $v.refreshToken;
+      _tokenType = $v.tokenType;
+      _offerta = $v.offerta;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(User other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$User;
+  }
+
+  @override
+  void update(void Function(UserBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  User build() => _build();
+
+  _$User _build() {
+    final _$result = _$v ??
+        new _$User._(
+          name: BuiltValueNullFieldError.checkNotNull(name, r'User', 'name'),
+          accessToken: BuiltValueNullFieldError.checkNotNull(
+              accessToken, r'User', 'accessToken'),
+          refreshToken: BuiltValueNullFieldError.checkNotNull(
+              refreshToken, r'User', 'refreshToken'),
+          tokenType: BuiltValueNullFieldError.checkNotNull(
+              tokenType, r'User', 'tokenType'),
+          offerta: BuiltValueNullFieldError.checkNotNull(
+              offerta, r'User', 'offerta'),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$RegistrationResponse extends RegistrationResponse {
+  @override
+  final String status;
+  @override
+  final String message;
   @override
   final bool isNewPatient;
   @override
-  final BuiltList<String>? accessToken;
+  final bool multiUser;
   @override
-  final BuiltList<String>? refreshToken;
+  final BuiltList<User> users;
+  @override
+  final String? accessToken;
+  @override
+  final String? refreshToken;
   @override
   final String? tokenType;
+  @override
+  final bool? offerta;
 
   factory _$RegistrationResponse(
           [void Function(RegistrationResponseBuilder)? updates]) =>
       (new RegistrationResponseBuilder()..update(updates))._build();
 
   _$RegistrationResponse._(
-      {required this.isNewPatient,
+      {required this.status,
+      required this.message,
+      required this.isNewPatient,
+      required this.multiUser,
+      required this.users,
       this.accessToken,
       this.refreshToken,
-      this.tokenType})
+      this.tokenType,
+      this.offerta})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
+        status, r'RegistrationResponse', 'status');
+    BuiltValueNullFieldError.checkNotNull(
+        message, r'RegistrationResponse', 'message');
+    BuiltValueNullFieldError.checkNotNull(
         isNewPatient, r'RegistrationResponse', 'isNewPatient');
+    BuiltValueNullFieldError.checkNotNull(
+        multiUser, r'RegistrationResponse', 'multiUser');
+    BuiltValueNullFieldError.checkNotNull(
+        users, r'RegistrationResponse', 'users');
   }
 
   @override
@@ -715,19 +984,29 @@ class _$RegistrationResponse extends RegistrationResponse {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is RegistrationResponse &&
+        status == other.status &&
+        message == other.message &&
         isNewPatient == other.isNewPatient &&
+        multiUser == other.multiUser &&
+        users == other.users &&
         accessToken == other.accessToken &&
         refreshToken == other.refreshToken &&
-        tokenType == other.tokenType;
+        tokenType == other.tokenType &&
+        offerta == other.offerta;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
+    _$hash = $jc(_$hash, status.hashCode);
+    _$hash = $jc(_$hash, message.hashCode);
     _$hash = $jc(_$hash, isNewPatient.hashCode);
+    _$hash = $jc(_$hash, multiUser.hashCode);
+    _$hash = $jc(_$hash, users.hashCode);
     _$hash = $jc(_$hash, accessToken.hashCode);
     _$hash = $jc(_$hash, refreshToken.hashCode);
     _$hash = $jc(_$hash, tokenType.hashCode);
+    _$hash = $jc(_$hash, offerta.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -735,10 +1014,15 @@ class _$RegistrationResponse extends RegistrationResponse {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'RegistrationResponse')
+          ..add('status', status)
+          ..add('message', message)
           ..add('isNewPatient', isNewPatient)
+          ..add('multiUser', multiUser)
+          ..add('users', users)
           ..add('accessToken', accessToken)
           ..add('refreshToken', refreshToken)
-          ..add('tokenType', tokenType))
+          ..add('tokenType', tokenType)
+          ..add('offerta', offerta))
         .toString();
   }
 }
@@ -747,35 +1031,56 @@ class RegistrationResponseBuilder
     implements Builder<RegistrationResponse, RegistrationResponseBuilder> {
   _$RegistrationResponse? _$v;
 
+  String? _status;
+  String? get status => _$this._status;
+  set status(String? status) => _$this._status = status;
+
+  String? _message;
+  String? get message => _$this._message;
+  set message(String? message) => _$this._message = message;
+
   bool? _isNewPatient;
   bool? get isNewPatient => _$this._isNewPatient;
   set isNewPatient(bool? isNewPatient) => _$this._isNewPatient = isNewPatient;
 
-  ListBuilder<String>? _accessToken;
-  ListBuilder<String> get accessToken =>
-      _$this._accessToken ??= new ListBuilder<String>();
-  set accessToken(ListBuilder<String>? accessToken) =>
-      _$this._accessToken = accessToken;
+  bool? _multiUser;
+  bool? get multiUser => _$this._multiUser;
+  set multiUser(bool? multiUser) => _$this._multiUser = multiUser;
 
-  ListBuilder<String>? _refreshToken;
-  ListBuilder<String> get refreshToken =>
-      _$this._refreshToken ??= new ListBuilder<String>();
-  set refreshToken(ListBuilder<String>? refreshToken) =>
-      _$this._refreshToken = refreshToken;
+  ListBuilder<User>? _users;
+  ListBuilder<User> get users => _$this._users ??= new ListBuilder<User>();
+  set users(ListBuilder<User>? users) => _$this._users = users;
+
+  String? _accessToken;
+  String? get accessToken => _$this._accessToken;
+  set accessToken(String? accessToken) => _$this._accessToken = accessToken;
+
+  String? _refreshToken;
+  String? get refreshToken => _$this._refreshToken;
+  set refreshToken(String? refreshToken) => _$this._refreshToken = refreshToken;
 
   String? _tokenType;
   String? get tokenType => _$this._tokenType;
   set tokenType(String? tokenType) => _$this._tokenType = tokenType;
+
+  bool? _offerta;
+  bool? get offerta => _$this._offerta;
+  set offerta(bool? offerta) => _$this._offerta = offerta;
 
   RegistrationResponseBuilder();
 
   RegistrationResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
+      _status = $v.status;
+      _message = $v.message;
       _isNewPatient = $v.isNewPatient;
-      _accessToken = $v.accessToken?.toBuilder();
-      _refreshToken = $v.refreshToken?.toBuilder();
+      _multiUser = $v.multiUser;
+      _users = $v.users.toBuilder();
+      _accessToken = $v.accessToken;
+      _refreshToken = $v.refreshToken;
       _tokenType = $v.tokenType;
+      _offerta = $v.offerta;
       _$v = null;
     }
     return this;
@@ -800,19 +1105,25 @@ class RegistrationResponseBuilder
     try {
       _$result = _$v ??
           new _$RegistrationResponse._(
+            status: BuiltValueNullFieldError.checkNotNull(
+                status, r'RegistrationResponse', 'status'),
+            message: BuiltValueNullFieldError.checkNotNull(
+                message, r'RegistrationResponse', 'message'),
             isNewPatient: BuiltValueNullFieldError.checkNotNull(
                 isNewPatient, r'RegistrationResponse', 'isNewPatient'),
-            accessToken: _accessToken?.build(),
-            refreshToken: _refreshToken?.build(),
+            multiUser: BuiltValueNullFieldError.checkNotNull(
+                multiUser, r'RegistrationResponse', 'multiUser'),
+            users: users.build(),
+            accessToken: accessToken,
+            refreshToken: refreshToken,
             tokenType: tokenType,
+            offerta: offerta,
           );
     } catch (_) {
       late String _$failedField;
       try {
-        _$failedField = 'accessToken';
-        _accessToken?.build();
-        _$failedField = 'refreshToken';
-        _refreshToken?.build();
+        _$failedField = 'users';
+        users.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'RegistrationResponse', _$failedField, e.toString());

@@ -388,52 +388,17 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                             title: 'continue'.tr(),
                             onTap: () {
                               if (selectedList.isNotEmpty) {
-                                // Sync with AppointmentState
-                                // Assuming AppointmentState is a global state management class
-                                // Replace with actual implementation if different
-                                // For example: AppointmentState.selectedAppointments.value = selectedList;
+                                ;
 
-                                widget.isHome
-                                    ? Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              MedServiceVerify(
-                                            isHome: true,
-                                            diagnosName: selectedList
-                                                    .first['diagnosis'] ??
-                                                'N/A',
-                                            serviceName: selectedList
-                                                    .first['serviceName'] ??
-                                                'Unknown Service',
-                                            doctorName: selectedList
-                                                    .first['doctorName'] ??
-                                                'Unknown',
-                                            servicePrice:
-                                                selectedList.first['price'] ??
-                                                    'N/A',
-                                            selectedTime:
-                                                selectedList.first['time'] ??
-                                                    '',
-                                            selectedLocation: selectedList
-                                                    .first['location'] ??
-                                                'Unknown Location',
-                                            doctorImage: selectedList
-                                                    .first['doctorPhoto'] ??
-                                                '',
-                                          ),
-                                        ),
-                                      )
-                                    : Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              VerifyAppointment(
-                                            isHome: true,
-                                            onTap: () {},
-                                          ),
-                                        ),
-                                      );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => VerifyAppointment(
+                                      isHome: true,
+                                      onTap: () {},
+                                    ),
+                                  ),
+                                );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -540,8 +505,6 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                           return Column(
                             children: [
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   CircleAvatar(
                                     backgroundColor: colors.neutral500,

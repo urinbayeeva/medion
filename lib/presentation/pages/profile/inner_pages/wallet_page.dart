@@ -2,8 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
+import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
+import 'package:medion/presentation/component/c_divider.dart';
+import 'package:medion/presentation/component/c_outlined_button.dart';
+import 'package:medion/presentation/pages/profile/inner_pages/payment_history_widget.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -19,7 +24,8 @@ class _WalletPageState extends State<WalletPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
+    // Trigger wallet data fetch when page loads
+    context.read<AuthBloc>().add(const AuthEvent.fetchMyWallet());
   }
 
   String _formatNumber(String numberString) {
@@ -47,143 +53,162 @@ class _WalletPageState extends State<WalletPage> {
               trailing: 26.w.horizontalSpace,
             ),
             24.h.verticalSpace,
-            BlocBuilder<AuthBloc, AuthState>(
-              builder: (context, state) {
-                if (state.patientInfo == null) {
-                  return const Expanded(
-                    child: Center(
+            Expanded(
+              child: BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  if (state.isFetchingPatientInfo) {
+                    return Center(
                       child: CircularProgressIndicator(
-                        color: Style.error500,
+                        color: colors.primary500,
                       ),
+                    );
+                  }
+
+                  if (state.errorFetchingPatientInfo) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('failed_to_load_wallet'.tr()),
+                          16.h.verticalSpace,
+                          CustomButton(
+                            onPressed: () => context.read<AuthBloc>().add(
+                                  const AuthEvent.fetchMyWallet(),
+                                ),
+                            title: 'retry'.tr(),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  if (state.myWallet == null) {
+                    return Center(
+                      child: Text('no_wallet_data'.tr()),
+                    );
+                  }
+
+                  final wallet = state.myWallet!;
+
+                  return SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /// Wallet Cards
+                        Row(
+                          children: [
+                            _buildWalletCard(
+                              context,
+                              colors,
+                              fonts,
+                              title: "balance".tr(),
+                              amount: wallet.patientBalance?.toInt() ?? 0,
+                            ),
+                            8.w.horizontalSpace,
+                            _buildWalletCard(
+                              context,
+                              colors,
+                              fonts,
+                              title: "debit".tr(),
+                              amount: wallet.patientDebit?.toInt() ?? 0,
+                            ),
+                          ],
+                        ),
+                        8.h.verticalSpace,
+                        Row(
+                          children: [
+                            _buildWalletCard(
+                              context,
+                              colors,
+                              fonts,
+                              title: "deposit".tr(),
+                              amount: wallet.patientDeposit?.toInt() ?? 0,
+                            ),
+                            8.w.horizontalSpace,
+                            _buildWalletCard(
+                              context,
+                              colors,
+                              fonts,
+                              title: "cacheback".tr(),
+                              amount: 0,
+                            ),
+                          ],
+                        ),
+
+                        /// Payment History
+                        if (wallet.payments.isEmpty)
+                          Padding(
+                            padding: EdgeInsets.all(16.w),
+                            child: Center(
+                              child: Text(
+                                'no_payments_found'.tr(),
+                                style: fonts.regularLink.copyWith(
+                                  color: colors.neutral600,
+                                ),
+                              ),
+                            ),
+                          )
+                        else
+                          ListView.separated(
+                            padding: EdgeInsets.only(top: 24.h),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: wallet.payments.length,
+                            separatorBuilder: (_, __) => 12.h.verticalSpace,
+                            itemBuilder: (context, index) {
+                              final payment = wallet.payments[index];
+                              return PaymentHistoryWidget(
+                                moveId: payment.moveId ?? "",
+                                createDate: payment.createDate ?? '',
+                                displayAmount: payment.displayAmount ?? 0,
+                                createUser: payment.createUser ?? '',
+                              );
+                            },
+                          ),
+                        100.h.verticalSpace,
+                      ],
                     ),
                   );
-                }
-
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 82.h,
-                              padding: EdgeInsets.all(12.w),
-                              margin: EdgeInsets.only(right: 8.w),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.r),
-                                color: colors.shade0,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("balance".tr(), style: fonts.smallLink),
-                                  12.h.verticalSpace,
-                                  Text(
-                                    "sum".tr(namedArgs: {
-                                      "amount": _formatNumber(
-                                          (state.patientInfo?.patientBalance ??
-                                                  0)
-                                              .toString())
-                                    }),
-                                    style: fonts.regularMain,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 82.h,
-                              padding: EdgeInsets.all(12.w),
-                              margin: EdgeInsets.only(left: 8.w),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.r),
-                                color: colors.shade0,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("debit".tr(), style: fonts.smallLink),
-                                  12.h.verticalSpace,
-                                  Text(
-                                      style: fonts.regularMain,
-                                      "sum".tr(namedArgs: {
-                                        "amount": _formatNumber(
-                                            (state.patientInfo?.patientDebit ??
-                                                    0)
-                                                .toString()),
-                                      })),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      8.h.verticalSpace,
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 82.h,
-                              padding: EdgeInsets.all(12.w),
-                              margin: EdgeInsets.only(right: 8.w),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.r),
-                                color: colors.shade0,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("deposit".tr(), style: fonts.smallLink),
-                                  12.h.verticalSpace,
-                                  Text(
-                                      style: fonts.regularMain,
-                                      "sum".tr(namedArgs: {
-                                        "amount": _formatNumber((state
-                                                    .patientInfo
-                                                    ?.patientDeposit ??
-                                                0)
-                                            .toString()),
-                                      })),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 82.h,
-                              padding: EdgeInsets.all(12.w),
-                              margin: EdgeInsets.only(right: 8.w),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.r),
-                                color: colors.shade0,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("cacheback".tr(),
-                                      style: fonts.smallLink),
-                                  12.h.verticalSpace,
-                                  Text(
-                                    "sum".tr(namedArgs: {"amount": "0"}),
-                                    style: fonts.regularMain,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
+                },
+              ),
             ),
           ],
         ),
       );
     });
+  }
+
+  Widget _buildWalletCard(
+    BuildContext context,
+    colors,
+    fonts, {
+    required String title,
+    required int amount,
+  }) {
+    return Expanded(
+      child: Container(
+        height: 82.h,
+        padding: EdgeInsets.all(12.w),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.r),
+          color: colors.shade0,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: fonts.smallLink),
+            12.h.verticalSpace,
+            Text(
+              "sum".tr(namedArgs: {
+                "amount": _formatNumber(amount.toString()),
+              }),
+              style: fonts.regularMain,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

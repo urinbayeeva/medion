@@ -33,6 +33,27 @@ abstract class RegisterReq implements Built<RegisterReq, RegisterReqBuilder> {
   static Serializer<RegisterReq> get serializer => _$registerReqSerializer;
 }
 
+abstract class User implements Built<User, UserBuilder> {
+  User._();
+
+  factory User([void Function(UserBuilder) updates]) = _$User;
+
+  String get name;
+
+  @BuiltValueField(wireName: 'access_token')
+  String get accessToken;
+
+  @BuiltValueField(wireName: 'refresh_token')
+  String get refreshToken;
+
+  @BuiltValueField(wireName: 'token_type')
+  String get tokenType;
+
+  bool get offerta;
+
+  static Serializer<User> get serializer => _$userSerializer;
+}
+
 abstract class RegistrationResponse
     implements Built<RegistrationResponse, RegistrationResponseBuilder> {
   RegistrationResponse._();
@@ -41,17 +62,29 @@ abstract class RegistrationResponse
           [void Function(RegistrationResponseBuilder) updates]) =
       _$RegistrationResponse;
 
+  String get status;
+  String get message;
+
   @BuiltValueField(wireName: 'is_new_patient')
   bool get isNewPatient;
 
+  @BuiltValueField(wireName: 'multi_user')
+  bool get multiUser;
+
+  // For multi_user=true case
+  BuiltList<User> get users;
+
+  // For multi_user=false case
   @BuiltValueField(wireName: 'access_token')
-  BuiltList<String>? get accessToken;
+  String? get accessToken;
 
   @BuiltValueField(wireName: 'refresh_token')
-  BuiltList<String>? get refreshToken;
+  String? get refreshToken;
 
   @BuiltValueField(wireName: 'token_type')
   String? get tokenType;
+
+  bool? get offerta;
 
   static Serializer<RegistrationResponse> get serializer =>
       _$registrationResponseSerializer;

@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -87,7 +88,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       if (response.statusCode == 200) {
         print('Image uploaded successfully: ${response.data}');
-        EasyLoading.showSuccess("Upload Successful".tr());
+        Fluttertoast.showToast(
+            webPosition: "top",
+            msg: "Upload Successful".tr(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
       } else {
         print('Failed to upload image: ${response.statusCode}');
         EasyLoading.showError("Upload Failed".tr());

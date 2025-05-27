@@ -324,6 +324,7 @@ abstract class _UploadImage implements ProfileEvent {
 
 /// @nodoc
 mixin _$ProfileState {
+  BuildContext? get context => throw _privateConstructorUsedError;
   String? get pickedImagePath => throw _privateConstructorUsedError;
 
   /// Create a copy of ProfileState
@@ -339,7 +340,7 @@ abstract class $ProfileStateCopyWith<$Res> {
           ProfileState value, $Res Function(ProfileState) then) =
       _$ProfileStateCopyWithImpl<$Res, ProfileState>;
   @useResult
-  $Res call({String? pickedImagePath});
+  $Res call({BuildContext? context, String? pickedImagePath});
 }
 
 /// @nodoc
@@ -357,9 +358,14 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? context = freezed,
     Object? pickedImagePath = freezed,
   }) {
     return _then(_value.copyWith(
+      context: freezed == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as BuildContext?,
       pickedImagePath: freezed == pickedImagePath
           ? _value.pickedImagePath
           : pickedImagePath // ignore: cast_nullable_to_non_nullable
@@ -376,7 +382,7 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       __$$ProfileStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? pickedImagePath});
+  $Res call({BuildContext? context, String? pickedImagePath});
 }
 
 /// @nodoc
@@ -392,9 +398,14 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? context = freezed,
     Object? pickedImagePath = freezed,
   }) {
     return _then(_$ProfileStateImpl(
+      context: freezed == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as BuildContext?,
       pickedImagePath: freezed == pickedImagePath
           ? _value.pickedImagePath
           : pickedImagePath // ignore: cast_nullable_to_non_nullable
@@ -406,14 +417,16 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ProfileStateImpl extends _ProfileState {
-  const _$ProfileStateImpl({this.pickedImagePath}) : super._();
+  const _$ProfileStateImpl({this.context, this.pickedImagePath}) : super._();
 
+  @override
+  final BuildContext? context;
   @override
   final String? pickedImagePath;
 
   @override
   String toString() {
-    return 'ProfileState(pickedImagePath: $pickedImagePath)';
+    return 'ProfileState(context: $context, pickedImagePath: $pickedImagePath)';
   }
 
   @override
@@ -421,12 +434,13 @@ class _$ProfileStateImpl extends _ProfileState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ProfileStateImpl &&
+            (identical(other.context, context) || other.context == context) &&
             (identical(other.pickedImagePath, pickedImagePath) ||
                 other.pickedImagePath == pickedImagePath));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, pickedImagePath);
+  int get hashCode => Object.hash(runtimeType, context, pickedImagePath);
 
   /// Create a copy of ProfileState
   /// with the given fields replaced by the non-null parameter values.
@@ -438,10 +452,13 @@ class _$ProfileStateImpl extends _ProfileState {
 }
 
 abstract class _ProfileState extends ProfileState {
-  const factory _ProfileState({final String? pickedImagePath}) =
-      _$ProfileStateImpl;
+  const factory _ProfileState(
+      {final BuildContext? context,
+      final String? pickedImagePath}) = _$ProfileStateImpl;
   const _ProfileState._() : super._();
 
+  @override
+  BuildContext? get context;
   @override
   String? get pickedImagePath;
 

@@ -12,6 +12,7 @@ import 'package:medion/domain/models/doctors/doctor_model.dart';
 import 'package:medion/domain/models/map/map_model.dart';
 import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
+import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/recruitment/recruitment_model.dart';
 import 'package:medion/domain/models/search/search_model.dart';
@@ -41,7 +42,7 @@ abstract class AuthService extends ChopperService {
   });
 
   @Post(path: 'registration')
-  Future<Response<ResponseModel>> registerUser({
+  Future<Response<RegistrationResponse>> registerUser({
     @Body() required RegisterReq request,
   });
 
@@ -183,6 +184,11 @@ abstract class PatientService extends ChopperService {
 
   @Get(path: "patient_analysis_mobile")
   Future<Response<PatientDocuments>> getPatientAnalyze({
+    @Header('requires-token') String requiresToken = "true",
+  });
+
+  @Get(path: "my_wallet")
+  Future<Response<PaymentResponse>> getMyWallet({
     @Header('requires-token') String requiresToken = "true",
   });
 

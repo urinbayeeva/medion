@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart' as http;
+import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_progress_bar.dart';
@@ -9,6 +13,7 @@ import 'package:medion/presentation/pages/appointment/component/verify_appointme
 import 'package:medion/presentation/pages/home/med_services/med_service_payment.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:intl/intl.dart';
+import 'package:medion/utils/constants.dart';
 
 class MedServiceVerify extends StatefulWidget {
   final String diagnosName;
@@ -189,10 +194,60 @@ class _MedServiceVerifyState extends State<MedServiceVerify> {
     );
   }
 
-  // Mock function - replace with your actual implementation
   Future<bool> sendVisitRequest(
       Map<String, String> appointment, BuildContext context) async {
-    // Your implementation for sending visit request
-    return true;
+    try {
+      final dbService = await DBService.create;
+      final token = dbService.token;
+
+      if (token.accessToken == null || token.accessToken!.isEmpty) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('authentication_required'.tr())),
+          );
+        }
+        return false;
+      }
+
+      final requestBody = jsonEncode([
+        {
+          "service_id": int.tryParse(appointment['serviceId'] ?? '0') ?? 0,
+          "company_id": 0,
+          "doctor_id": int.tryParse(appointment['doctorId'] ?? '0') ?? 0,
+          "start_time": appointment['time'] ?? '',
+          "end_time": appointment['time'] ?? '',
+          "date": appointment['date'] ?? '',
+        }
+      ]);
+
+      final response = await http.post(
+        Uri.parse("${Constants.baseUrlP}/apiweb/create_visit"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': '${token.tokenType} ${token.accessToken}',
+        },
+        body: requestBody,
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Success
+        return true;
+      } else {
+        // Handle error
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('appointment_failed'.tr())),
+          );
+        }
+        return false;
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('error_occurred'.tr())),
+        );
+      }
+      return false;
+    }
   }
 }

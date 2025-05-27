@@ -82,5 +82,14 @@ abstract class AdModel implements Built<AdModel, AdModelBuilder> {
   @BuiltValueField(wireName: 'link')
   JsonObject? get link;
 
+  @BuiltValueField(wireName: "image_for_mobile_uz")
+  String? get imageForMobileUz;
+
+  @BuiltValueField(wireName: "image_for_mobile_en")
+  String? get imageForMobileEn;
+
+  @BuiltValueField(wireName: "image_for_mobile_ru")
+  String? get imageForMobileRu;
+
   static Serializer<AdModel> get serializer => _$adModelSerializer;
 }

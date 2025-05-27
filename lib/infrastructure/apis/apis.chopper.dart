@@ -32,7 +32,8 @@ final class _$AuthService extends AuthService {
   }
 
   @override
-  Future<Response<ResponseModel>> registerUser({required RegisterReq request}) {
+  Future<Response<RegistrationResponse>> registerUser(
+      {required RegisterReq request}) {
     final Uri $url = Uri.parse('/patient/registration');
     final $body = request;
     final Request $request = Request(
@@ -41,7 +42,7 @@ final class _$AuthService extends AuthService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<ResponseModel, ResponseModel>($request);
+    return client.send<RegistrationResponse, RegistrationResponse>($request);
   }
 
   @override
@@ -427,6 +428,22 @@ final class _$PatientService extends PatientService {
       headers: $headers,
     );
     return client.send<PatientDocuments, PatientDocuments>($request);
+  }
+
+  @override
+  Future<Response<PaymentResponse>> getMyWallet(
+      {String requiresToken = "true"}) {
+    final Uri $url = Uri.parse('/profile/my_wallet');
+    final Map<String, String> $headers = {
+      'requires-token': requiresToken,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      headers: $headers,
+    );
+    return client.send<PaymentResponse, PaymentResponse>($request);
   }
 }
 

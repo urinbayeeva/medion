@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
+import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
@@ -12,11 +13,10 @@ import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/pages/auth/sign_up/component/count_down.dart';
 import 'package:medion/presentation/pages/auth/sign_up/component/custom_pin_put.dart';
 import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-
-// [Imports remain the same]
 
 class VerifyCodePage extends StatefulWidget {
   final Function(dynamic)? onClose;
@@ -68,24 +68,123 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
     });
   }
 
+  Future<void> _handleMultiUserCase(List<User> users) async {
+    User? selectedUser = users.first;
+
+    await showDialog<User>(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: Style.shade0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              titlePadding: const EdgeInsets.only(top: 16),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              insetPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              title: Center(
+                child: Column(
+                  children: [
+                    Text(
+                      'Select User',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Style.primary900,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: users.map((user) {
+                    final isSelected = user == selectedUser;
+                    return ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(user.name),
+                      trailing: isSelected
+                          ? Icon(Icons.check_circle, color: Style.error500)
+                          : null,
+                      onTap: () {
+                        setState(() => selectedUser = user);
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+              actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 40),
+              actions: [
+                SizedBox(
+                  width: double.infinity,
+                  child: CButton(
+                    title: "next".tr(),
+                    onTap: () {
+                      Navigator.pop(context, selectedUser);
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    ).then((User? selected) {
+      if (selected != null) {
+        context.read<DBService>().setToken(Token(
+              accessToken: selected.accessToken,
+              refreshToken: selected.refreshToken,
+              tokenType: selected.tokenType,
+            ));
+
+        final isNewPatient = !selected.offerta;
+        if (isNewPatient) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            AppRoutes.getDataEntryPage(widget.phoneNumber),
+            (route) => false,
+          );
+        } else {
+          Navigator.pushAndRemoveUntil(
+            context,
+            AppRoutes.getMainPage(0),
+            (route) => false,
+          );
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Unfocuser(
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state.isNewPatient == false) {
-            Navigator.pushAndRemoveUntil(
-              context,
-              AppRoutes.getMainPage(0),
-              (route) => false,
-            );
-          } else if (state.errorSendCode != true &&
-              state.isNewPatient == true) {
-            Navigator.pushAndRemoveUntil(
-              context,
-              AppRoutes.getDataEntryPage(widget.phoneNumber),
-              (route) => false,
-            );
+          if (state.registrationResponse != null) {
+            final response = state.registrationResponse!;
+
+            if (response.multiUser) {
+              _handleMultiUserCase(response.users.toList());
+            } else {
+              if (state.isNewPatient == false) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  AppRoutes.getMainPage(0),
+                  (route) => false,
+                );
+              } else if (state.errorSendCode != true &&
+                  state.isNewPatient == true) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  AppRoutes.getDataEntryPage(widget.phoneNumber),
+                  (route) => false,
+                );
+              }
+            }
           }
         },
         builder: (context, state) {
@@ -168,9 +267,6 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                               ..code = _smsController.text),
                                           ),
                                         );
-                                    context.read<AuthBloc>().add(
-                                          AuthEvent.checkAuth(),
-                                        );
                                   },
                                 ),
                               ),
@@ -179,15 +275,20 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                             CButton(
                               title: "verify".tr(),
                               onTap: () {
+                                if (_smsController.text.length != 4) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            'please_enter_full_code'.tr())),
+                                  );
+                                  return;
+                                }
                                 context.read<AuthBloc>().add(
                                       AuthEvent.verificationSend(
                                         request: RegisterReq((p0) => p0
                                           ..phoneNumber = widget.phoneNumber
                                           ..code = _smsController.text),
                                       ),
-                                    );
-                                context.read<AuthBloc>().add(
-                                      AuthEvent.checkAuth(),
                                     );
                                 context.read<DBService>().setBool(
                                     isSaved: true, key: DBService.intro);

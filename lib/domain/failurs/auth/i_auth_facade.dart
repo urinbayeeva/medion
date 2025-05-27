@@ -2,6 +2,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/models/auth/auth.dart';
+import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/success_model/response_model.dart';
@@ -15,7 +16,7 @@ abstract class IAuthFacade {
   /// Check if user exists
   Option<AuthFailure> checkUser();
 
-  Future<Either<ResponseFailure, ResponseModel>> registerUser({
+  Future<Either<ResponseFailure, RegistrationResponse>> registerUser({
     required RegisterReq request,
   });
 
@@ -36,4 +37,6 @@ abstract class IAuthFacade {
   Future<Either<ResponseFailure, SuccessModel>> postPatientPhoto({
     required ImageUploadResponseModel image,
   });
+
+  Future<Either<ResponseFailure, PaymentResponse>> getMyWallet();
 }

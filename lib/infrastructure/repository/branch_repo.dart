@@ -88,4 +88,23 @@ class BranchRepository implements IBranchRepository {
       return left(handleError(e));
     }
   }
+
+  @override
+  Future<Either<ResponseFailure, MedionModel>> getMedionActivity() async {
+    try {
+      final response = await companyService.getMedionActivity();
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Bod y: ${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        final getMedionActivity = response.body!;
+        return right(getMedionActivity);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      LogService.e(" ----> error on branch repo  : ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
 }

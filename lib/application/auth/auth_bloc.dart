@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:medion/domain/common/token.dart';
+import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/upload_image/upload_image.dart';
@@ -34,6 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_FetchPatientInfo>(_fetchPatientInfoHandler);
     on<_FetchPatientVisits>(_fetchPatientVisitsHandler);
     on<_FetchPatientAnalyze>(_fetchPatientAnalyze);
+    on<_FetchMyWallet>(_fetchMyWallet);
   }
 
   FutureOr<void> _verificationSendHandler(
@@ -45,6 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       phoneNumber: null,
       successVerifyCode: false,
       isNewPatient: null,
+      registrationResponse: null,
     ));
     EasyLoading.show();
     final res = await _repository.registerUser(request: event.request);
@@ -59,12 +63,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }, (data) async {
       EasyLoading.dismiss();
 
-      emit(state.copyWith(
-        successSendCode: true,
-        successVerifyCode: true,
-        phoneNumber: event.request.phoneNumber,
-        isNewPatient: data.isNewPatient,
-      ));
+      if (data.multiUser) {
+        emit(state.copyWith(
+          registrationResponse: data,
+          successSendCode: true,
+          phoneNumber: event.request.phoneNumber,
+        ));
+      } else {
+        if (data.accessToken != null && data.refreshToken != null) {
+          _dbService.setToken(Token(
+            accessToken: data.accessToken!,
+            refreshToken: data.refreshToken!,
+            tokenType: data.tokenType ?? 'Bearer',
+          ));
+        }
+
+        emit(state.copyWith(
+          successSendCode: true,
+          successVerifyCode: true,
+          phoneNumber: event.request.phoneNumber,
+          isNewPatient: data.isNewPatient,
+          registrationResponse: data,
+        ));
+      }
     });
   }
 
@@ -117,18 +138,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _FetchPatientInfo event,
     Emitter<AuthState> emit,
   ) async {
-    // Skip fetching if patientInfo is already available
     if (state.patientInfo != null) {
-      return; // No need to emit a new state; existing data is sufficient
+      return;
     }
 
-    // Indicate that fetching is in progress
     emit(state.copyWith(
       isFetchingPatientInfo: true,
       errorFetchingPatientInfo: false,
     ));
 
-    // Fetch patient info from the repository
     final res = await _repository.getPatientInfo();
 
     res.fold(
@@ -148,17 +166,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
   }
-
-  // FutureOr<void> _pickImageHandler(
-  //   _PickImage event,
-  //   Emitter<AuthState> emit,
-  // ) async {
-  //   final image = await UploadImageUtil.pickImage(event.context);
-  //   if (image != null) {
-  //     final croppedImage = await UploadImageUtil.cropImage(image.path);
-  //     emit(state.copyWith(pickedImagePath: croppedImage?.path));
-  //   }
-  // }
 
   FutureOr<void> _fetchPatientVisitsHandler(
     _FetchPatientVisits event,
@@ -204,6 +211,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           isFetchingPatientInfo: false,
           errorFetchingPatientInfo: false,
           patientAnalyze: patientAnalyze,
+        ));
+      },
+    );
+  }
+
+  FutureOr<void> _fetchMyWallet(
+    _FetchMyWallet event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(
+      isFetchingPatientInfo: true,
+      errorFetchingPatientInfo: false,
+    ));
+
+    final res = await _repository.getMyWallet();
+
+    res.fold(
+      (error) {
+        emit(state.copyWith(
+          isFetchingPatientInfo: false,
+          errorFetchingPatientInfo: true,
+          myWallet: null,
+        ));
+      },
+      (myWallet) {
+        LogService.i("Successfully fetched wallet data");
+        emit(state.copyWith(
+          isFetchingPatientInfo: false,
+          errorFetchingPatientInfo: false,
+          myWallet: myWallet,
         ));
       },
     );
