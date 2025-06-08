@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -9,11 +10,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:medion/presentation/pages/home/yandex_on_tap.dart';
 import 'package:medion/presentation/pages/map/widgets/map_polylines_widget.dart';
 import 'package:medion/presentation/styles/theme.dart';
-import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/presentation/styles/style.dart';
 
 class MapWithPolylines extends StatefulWidget {
-  final Point destination; // Using Point for Yandex MapKit
+  final Point destination;
   final String name;
   final String workingHours;
   final String image;
@@ -31,7 +31,7 @@ class MapWithPolylines extends StatefulWidget {
 }
 
 class _MapWithPolylinesState extends State<MapWithPolylines> {
-  YandexMapController? _mapController; // Changed to YandexMapController
+  YandexMapController? _mapController;
   Point? _currentPosition;
   List<MapObject> _mapObjects = [];
   double _distanceInKm = 0;
@@ -48,6 +48,9 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
     LocationPermission permission = await Geolocator.checkPermission();
 
     if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Location services are disabled'.tr())),
+      );
       await Geolocator.requestPermission();
       return;
     }
@@ -57,6 +60,9 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
       permission = await Geolocator.requestPermission();
       if (permission != LocationPermission.whileInUse &&
           permission != LocationPermission.always) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Location permission denied'.tr())),
+        );
         return;
       }
     }
@@ -77,11 +83,11 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
   Future<void> _fetchRoutePolyline() async {
     if (_currentPosition == null) return;
 
-    final origin = Point(latitude: 41.2995, longitude: 69.2401);
+    final origin = _currentPosition!;
     final destination = widget.destination;
 
     final url =
-        'https://api.routing.yandex.net/v2/route?waypoints=${origin.latitude},${origin.longitude}|${destination.latitude},${destination.longitude}&apikey=YOUR_YANDEX_ROUTING_API_KEY';
+        'https://api.routing.yandex.net/v2/route?waypoints=${origin.latitude},${origin.longitude}|${destination.latitude},${destination.longitude}&apikey=3f886df1-7552-4a91-8dc7-3511e772780d';
 
     final response = await http.get(Uri.parse(url));
 
@@ -91,11 +97,18 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
 
       if (data['status'] != 'success') {
         print('Error: ${data['error']}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('Failed to fetch route: ${data['error']}'.tr())),
+        );
         return;
       }
 
       if (data['routes'].isEmpty) {
         print('No routes found.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No routes found'.tr())),
+        );
         return;
       }
 
@@ -113,7 +126,6 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
           strokeWidth: 5.0,
         ));
 
-        // Add markers
         _mapObjects.add(PlacemarkMapObject(
           mapId: const MapObjectId('current'),
           point: _currentPosition!,
@@ -141,9 +153,11 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
       });
 
       print('Polyline added with ${polylinePoints.length} points');
-
       _fitMapToPolyline(polylinePoints);
     } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to fetch route'.tr())),
+      );
       print('Failed to fetch directions: ${response.body}');
     }
   }
@@ -276,6 +290,8 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
                     right: 0,
                     child: MapPolylinesWidget(
                       yandexTap: () {
+                        print(
+                            "Yandex Tap triggered for destination: ${widget.destination}");
                         launchYandexTaxi(
                           context,
                           widget.destination.latitude,

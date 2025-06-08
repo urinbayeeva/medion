@@ -14,8 +14,11 @@ import 'package:medion/utils/date_util.dart';
 import 'package:medion/utils/extensions.dart';
 import 'package:share_plus/share_plus.dart';
 
-class CInfoView extends StatelessWidget {
-  final String? imagePath;
+import 'package:carousel_slider/carousel_slider.dart';
+// ... other imports
+
+class CInfoView extends StatefulWidget {
+  final List<String>? imagePaths;
   final String? title;
   final String? desc;
   final String? date;
@@ -24,175 +27,174 @@ class CInfoView extends StatelessWidget {
   final String? discountDuration;
   final String? phoneNumber;
   final String? phoneShortNumber;
+  final String discountCondition;
 
-  const CInfoView(
-      {super.key,
-      this.imagePath,
-      this.title,
-      this.desc,
-      this.date,
-      this.isDiscount,
-      this.discountAddress,
-      this.discountDuration,
-      this.phoneNumber,
-      this.phoneShortNumber});
+  const CInfoView({
+    super.key,
+    this.imagePaths,
+    this.title,
+    this.desc,
+    this.date,
+    this.isDiscount,
+    this.discountAddress,
+    this.discountDuration,
+    this.phoneNumber,
+    this.phoneShortNumber,
+    required this.discountCondition,
+  });
+
+  @override
+  State<CInfoView> createState() => _CInfoViewState();
+}
+
+class _CInfoViewState extends State<CInfoView> {
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final images = widget.imagePaths ?? [];
+
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Scaffold(
         backgroundColor: colors.shade0,
         body: Column(
           children: [
             Stack(
-              clipBehavior: Clip.none,
+              alignment: Alignment.bottomCenter,
               children: [
-                CachedNetworkImage(
-                  imageUrl: imagePath!,
-                  height: 264.h,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
+                CarouselSlider(
+                  options: CarouselOptions(
+                    height: 264.h,
+                    viewportFraction: 1.0,
+                    enableInfiniteScroll: true,
+                    autoPlay: true,
+                    autoPlayInterval: const Duration(seconds: 4),
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                  ),
+                  items: images.map((url) {
+                    return CachedNetworkImage(
+                      imageUrl: url,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    );
+                  }).toList(),
                 ),
+                // Navigation & Share Buttons
                 Positioned(
-                    top: 60,
-                    left: 0,
-                    right: 0,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          AnimationButtonEffect(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: CircleAvatar(
-                              radius: 20.r,
-                              backgroundColor: colors.shade0,
-                              child: icons.left.svg(
-                                color: colors.primary900,
-                              ),
+                  top: 60,
+                  left: 0,
+                  right: 0,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AnimationButtonEffect(
+                          onTap: () => Navigator.pop(context),
+                          child: CircleAvatar(
+                            radius: 20.r,
+                            backgroundColor: colors.shade0,
+                            child: icons.left.svg(
+                              color: colors.primary900,
                             ),
                           ),
-                          AnimationButtonEffect(
-                            onTap: () {
-                              Share.share(
-                                  "${title!}: https://www.instagram.com/");
-                            },
-                            child: CircleAvatar(
-                              radius: 20.r,
-                              backgroundColor: colors.shade0,
-                              child: icons.share.svg(
-                                width: 24.w,
-                                height: 24.h,
-                                color: colors.primary900,
-                              ),
+                        ),
+                        AnimationButtonEffect(
+                          onTap: () {
+                            Share.share(
+                                "${widget.title ?? ''}: https://www.instagram.com/");
+                          },
+                          child: CircleAvatar(
+                            radius: 20.r,
+                            backgroundColor: colors.shade0,
+                            child: icons.share.svg(
+                              width: 24.w,
+                              height: 24.h,
+                              color: colors.primary900,
                             ),
                           ),
-                        ],
-                      ),
-                    )),
-              ],
-            ),
-            Expanded(
-                child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                12.h.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Text(title ?? '', style: fonts.mediumMain),
-                ),
-                ListTile(
-                  leading: icons.calendarActive.svg(color: colors.neutral800),
-                  title: Text(
-                    DateUtilsEx.formatDate(context, date!).toCapitalized(),
-                    style: fonts.xSmallText,
-                  ),
-                ),
-                4.h.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Text(desc ?? '', style: fonts.smallLink),
-                ),
-                if (isDiscount != null) ...[
-                  24.h.verticalSpace,
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: const ConditionOfDiscountWidget(),
-                  ),
-                  24.h.verticalSpace,
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: DiscountDurationWidget(
-                      discountAddress: discountAddress ?? "",
-                      discountDuration: discountDuration ?? "",
-                      phoneNumber: phoneNumber ?? "",
-                      phoneShortNumber: phoneShortNumber ?? "",
+                        ),
+                      ],
                     ),
                   ),
-                  24.h.verticalSpace,
-                ]
+                ),
+                // Dot Indicators
+                if (images.length > 1)
+                  Positioned(
+                    bottom: 12.h,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: images.asMap().entries.map((entry) {
+                        final isActive = _currentIndex == entry.key;
+                        return Container(
+                          width: isActive ? 10.w : 8.w,
+                          height: isActive ? 10.w : 8.w,
+                          margin: EdgeInsets.symmetric(horizontal: 4.w),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color:
+                                isActive ? colors.error500 : colors.neutral200,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
               ],
-            ))
+            ),
+            // Content
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  12.h.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Text(widget.title ?? '', style: fonts.mediumMain),
+                  ),
+                  ListTile(
+                    leading: icons.calendarActive.svg(color: colors.neutral800),
+                    title: Text(
+                      DateUtilsEx.formatDate(context, widget.date!)
+                          .toCapitalized(),
+                      style: fonts.xSmallText,
+                    ),
+                  ),
+                  4.h.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Text(widget.desc ?? '', style: fonts.smallLink),
+                  ),
+                  if (widget.isDiscount != null &&
+                      widget.discountCondition.isNotEmpty) ...[
+                    24.h.verticalSpace,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: ConditionOfDiscountWidget(
+                        discountCondition: widget.discountCondition,
+                      ),
+                    ),
+                    24.h.verticalSpace,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: DiscountDurationWidget(
+                        discountAddress: widget.discountAddress ?? "",
+                        discountDuration: widget.discountDuration ?? "",
+                        phoneNumber: widget.phoneNumber ?? "",
+                        phoneShortNumber: widget.phoneShortNumber ?? "",
+                      ),
+                    ),
+                    24.h.verticalSpace,
+                  ],
+                ],
+              ),
+            ),
           ],
         ),
       );
     });
   }
 }
-
-// SafeArea(
-//           child: SingleChildScrollView(
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Stack(
-//                   children: [
-//                     imagePath != null && imagePath!.isNotEmpty
-//                         ? CachedImageComponent(
-//                             height: MediaQuery.of(context).size.height * 0.19,
-//                             width: double.infinity,
-//                             imageUrl: imagePath!,
-//                           )
-//                         : Image.asset(
-//                             'assets/placeholder.png', // Default image path
-//                             width: double.infinity,
-//                             height: 264.h,
-//                             fit: BoxFit.cover,
-//                           ),
-//                     Positioned(
-//                       top: 60.h,
-//                       left: 16.w,
-//                       right: 16.w,
-//                       child: Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           CircleAvatar(
-//                             backgroundColor: colors.shade0,
-//                             foregroundColor: colors.primary900,
-//                             child: GestureDetector(
-//                               onTap: () {
-//                                 context
-//                                     .read<BottomNavBarController>()
-//                                     .changeNavBar(true);
-//                                 Navigator.pop(context);
-//                               },
-//                               child: icons.left.svg(width: 24.w, height: 24.h),
-//                             ),
-//                           ),
-//                           CircleAvatar(
-//                             backgroundColor: colors.shade0,
-//                             foregroundColor: colors.primary900,
-//                             child: icons.share.svg(width: 24.w, height: 24.h),
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//
-//               ],
-//             ),
-//           ),
-//         ),

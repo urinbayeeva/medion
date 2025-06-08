@@ -139,17 +139,7 @@ class _WalletPageState extends State<WalletPage> {
 
                         /// Payment History
                         if (wallet.payments.isEmpty)
-                          Padding(
-                            padding: EdgeInsets.all(16.w),
-                            child: Center(
-                              child: Text(
-                                'no_payments_found'.tr(),
-                                style: fonts.regularLink.copyWith(
-                                  color: colors.neutral600,
-                                ),
-                              ),
-                            ),
-                          )
+                          SizedBox.shrink()
                         else
                           ListView.separated(
                             padding: EdgeInsets.only(top: 24.h),

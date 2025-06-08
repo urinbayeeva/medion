@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -85,7 +87,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               insetPadding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              title: Center(
+              title: const Center(
                 child: Column(
                   children: [
                     Text(
@@ -108,7 +110,8 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                       contentPadding: EdgeInsets.zero,
                       title: Text(user.name),
                       trailing: isSelected
-                          ? Icon(Icons.check_circle, color: Style.error500)
+                          ? const Icon(Icons.check_circle,
+                              color: Style.error500)
                           : null,
                       onTap: () {
                         setState(() => selectedUser = user);
@@ -143,6 +146,8 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
 
         final isNewPatient = !selected.offerta;
         if (isNewPatient) {
+          context.read<BottomNavBarController>().changeNavBar(false);
+
           Navigator.pushAndRemoveUntil(
             context,
             AppRoutes.getDataEntryPage(widget.phoneNumber),
@@ -171,6 +176,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
               _handleMultiUserCase(response.users.toList());
             } else {
               if (state.isNewPatient == false) {
+                context.read<BottomNavBarController>().changeNavBar(false);
                 Navigator.pushAndRemoveUntil(
                   context,
                   AppRoutes.getMainPage(0),

@@ -3,10 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_choose.dart';
-import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -24,22 +22,27 @@ class DoctorsItem extends StatelessWidget {
   final String? gender;
   final int doctorID;
   final bool home;
+  final bool hasDiscount;
+  final String academicRank;
 
-  const DoctorsItem(
-      {super.key,
-      this.imagePath,
-      this.name,
-      this.profession,
-      this.status,
-      this.candidateScience,
-      this.experience,
-      this.isInnerPageUsed = false,
-      this.isCategoried = false,
-      this.categoryType,
-      required this.onTap,
-      this.gender,
-      required this.doctorID,
-      this.home = true});
+  const DoctorsItem({
+    super.key,
+    this.imagePath,
+    this.name,
+    this.profession,
+    this.status,
+    this.candidateScience,
+    this.experience,
+    this.isInnerPageUsed = false,
+    this.isCategoried = false,
+    this.categoryType,
+    required this.onTap,
+    this.gender,
+    required this.doctorID,
+    this.home = true,
+    this.hasDiscount = false,
+    required this.academicRank, // Ensure academicRank is required or handle nullability
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +86,6 @@ class DoctorsItem extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(right: 12.w),
                 width: 164.w,
-                // height: 182.h,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.r),
                     color: colors.shade0),
@@ -95,24 +97,73 @@ class DoctorsItem extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(right: 12.w),
               width: 164.w,
-              // height: 182.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.r),
                 color: colors.shade0,
               ),
-              child: imagePath != "" && imagePath!.startsWith("http")
-                  ? CachedNetworkImage(
-                      width: 175.w,
-                      height: 165.h,
-                      imageUrl: imagePath!,
-                    )
-                  : gender == "female"
-                      ? icons.nonUser.svg(width: 175.w, height: 175.h)
-                      : icons.nonUser.svg(
-                          color: colors.neutral500,
+              child: Stack(
+                children: [
+                  imagePath != "" && imagePath!.startsWith("http")
+                      ? CachedNetworkImage(
                           width: 175.w,
-                          height: 165.h),
-            )
+                          height: 165.h,
+                          imageUrl: imagePath!,
+                          fit: BoxFit.cover,
+                        )
+                      : gender == "female"
+                          ? icons.nonUser.svg(width: 175.w, height: 175.h)
+                          : icons.nonUser.svg(
+                              color: colors.neutral500,
+                              width: 175.w,
+                              height: 165.h,
+                            ),
+                  if (hasDiscount)
+                    Positioned(
+                      top: 8.w,
+                      right: 8.w,
+                      child: Container(
+                        padding: EdgeInsets.all(4.w),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: colors.error500,
+                        ),
+                        child: icons.discount.svg(
+                          width: 26.w,
+                          height: 26.h,
+                          color: colors.shade0,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            // Display academic rank if not empty
+            if (academicRank.isNotEmpty)
+              Center(
+                child: SizedBox(
+                  width: 164.w,
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+                    margin: EdgeInsets.only(top: 8.h),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.r),
+                      color: colors.error500,
+                    ),
+                    child: Center(
+                      child: Text(
+                        academicRank,
+                        style: fonts.xSmallLink.copyWith(
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w500,
+                          color: colors.shade0,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
           ],
         );
       }),
@@ -123,7 +174,8 @@ class DoctorsItem extends StatelessWidget {
             return SizedBox(
               width: 164.w,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+                margin: EdgeInsets.only(top: 8.h),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6.r),
                   color: colors.error500,
@@ -148,42 +200,51 @@ class DoctorsItem extends StatelessWidget {
       ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
         return SizedBox(
           width: 164.w,
-          child: Text(name ?? "",
-              overflow: TextOverflow.ellipsis,
-              style: fonts.headlineMain
-                  .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500)),
+          child: Text(
+            name ?? "",
+            overflow: TextOverflow.ellipsis,
+            style: fonts.headlineMain
+                .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500),
+          ),
         );
       }),
       4.h.verticalSpace,
       ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
         return SizedBox(
           width: 164.w,
-          child: Text(profession ?? "",
-              overflow: TextOverflow.ellipsis,
-              style: fonts.headlineMain
-                  .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w400)),
+          child: Text(
+            profession ?? "",
+            overflow: TextOverflow.ellipsis,
+            style: fonts.headlineMain
+                .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w400),
+          ),
         );
       }),
       4.h.verticalSpace,
       ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
         return SizedBox(
           width: 164.w,
-          child: Text(status ?? "",
-              overflow: TextOverflow.ellipsis,
-              style: fonts.headlineMain.copyWith(
-                  fontSize: 11.sp,
-                  fontWeight: FontWeight.w400,
-                  color: colors.neutral600)),
+          child: Text(
+            status ?? "",
+            overflow: TextOverflow.ellipsis,
+            style: fonts.headlineMain.copyWith(
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w400,
+              color: colors.neutral600,
+            ),
+          ),
         );
       }),
       if (experience != null) ...[
         ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
           return SizedBox(
             width: 164.w,
-            child: Text(experience ?? "",
-                overflow: TextOverflow.ellipsis,
-                style: fonts.xxSmallText
-                    .copyWith(fontSize: 11.sp, fontWeight: FontWeight.w400)),
+            child: Text(
+              experience ?? "",
+              overflow: TextOverflow.ellipsis,
+              style: fonts.xxSmallText
+                  .copyWith(fontSize: 11.sp, fontWeight: FontWeight.w400),
+            ),
           );
         }),
       ],
@@ -194,10 +255,9 @@ class DoctorsItem extends StatelessWidget {
             child: CButton(
               backgroundColor: colors.neutral200,
               textColor: colors.primary900,
-              width: 164,
+              width: 164.w,
               title: "podrobno".tr(),
               onTap: onTap,
-              // width: double.infinity,
               height: 32.h,
             ),
           );
@@ -206,29 +266,29 @@ class DoctorsItem extends StatelessWidget {
         ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
           return Center(
             child: CButton(
-              width: 164,
+              width: 164.w,
               title: "appointment_nav_bar".tr(),
               onTap: () {
                 context.read<BottomNavBarController>().changeNavBar(true);
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MedServiceChoose(
-                              isDoctorService: true,
-                              doctorId: doctorID,
-                            ))).then((value) {}).then((_) {
-                  // ignore: use_build_context_synchronously
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MedServiceChoose(
+                      isDoctorService: true,
+                      doctorId: doctorID,
+                    ),
+                  ),
+                ).then((value) {}).then((_) {
                   context
                       .read<BottomNavBarController>()
                       .changeNavBar(home == false ? true : false);
                 });
               },
-              // width: double.infinity,
               height: 32.h,
             ),
           );
         }),
-      ]
+      ],
     ];
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
+import 'package:medion/presentation/pages/others/team/team_page.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -73,6 +74,13 @@ class OthersPageComp extends StatelessWidget {
                         navigateTo(AppRoutes.getOffertaPage());
                       case 10:
                         navigateTo(AppRoutes.getActivityPage());
+
+                      case 11:
+                        navigateTo(AppRoutes.getEducationPage());
+
+                      case 12:
+                        navigateTo(MaterialPageRoute(
+                            builder: (context) => TeamPage()));
 
                       default:
                         navigateTo(AppRoutes.getUnderDevPage(

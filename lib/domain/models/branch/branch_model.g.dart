@@ -84,6 +84,42 @@ class _$BranchModelSerializer implements StructuredSerializer<BranchModel> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.title;
+    if (value != null) {
+      result
+        ..add('title')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.extraDescription;
+    if (value != null) {
+      result
+        ..add('extra_description')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.ourOffer;
+    if (value != null) {
+      result
+        ..add('our_offer')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.icon;
+    if (value != null) {
+      result
+        ..add('icon')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.licenses;
+    if (value != null) {
+      result
+        ..add('licenses')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
+    }
     return result;
   }
 
@@ -139,6 +175,28 @@ class _$BranchModelSerializer implements StructuredSerializer<BranchModel> {
         case 'description':
           result.description = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'title':
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'extra_description':
+          result.extraDescription = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'our_offer':
+          result.ourOffer = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'icon':
+          result.icon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'licenses':
+          result.licenses.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -307,6 +365,20 @@ class _$EducationModelSerializer
             specifiedType:
                 const FullType(BuiltList, const [const FullType(Course)])));
     }
+    value = object.bannerLink;
+    if (value != null) {
+      result
+        ..add('banner_link')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.bannerImage;
+    if (value != null) {
+      result
+        ..add('banner_image')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -359,6 +431,14 @@ class _$EducationModelSerializer
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(Course)]))!
               as BuiltList<Object?>);
+          break;
+        case 'banner_link':
+          result.bannerLink = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'banner_image':
+          result.bannerImage = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -823,6 +903,16 @@ class _$BranchModel extends BranchModel {
   final BuiltList<String>? workDays;
   @override
   final String? description;
+  @override
+  final String? title;
+  @override
+  final String? extraDescription;
+  @override
+  final String? ourOffer;
+  @override
+  final String? icon;
+  @override
+  final BuiltList<String>? licenses;
 
   factory _$BranchModel([void Function(BranchModelBuilder)? updates]) =>
       (new BranchModelBuilder()..update(updates))._build();
@@ -837,7 +927,12 @@ class _$BranchModel extends BranchModel {
       required this.longitude,
       required this.workTime,
       this.workDays,
-      this.description})
+      this.description,
+      this.title,
+      this.extraDescription,
+      this.ourOffer,
+      this.icon,
+      this.licenses})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'BranchModel', 'id');
     BuiltValueNullFieldError.checkNotNull(latitude, r'BranchModel', 'latitude');
@@ -866,7 +961,12 @@ class _$BranchModel extends BranchModel {
         longitude == other.longitude &&
         workTime == other.workTime &&
         workDays == other.workDays &&
-        description == other.description;
+        description == other.description &&
+        title == other.title &&
+        extraDescription == other.extraDescription &&
+        ourOffer == other.ourOffer &&
+        icon == other.icon &&
+        licenses == other.licenses;
   }
 
   @override
@@ -882,6 +982,11 @@ class _$BranchModel extends BranchModel {
     _$hash = $jc(_$hash, workTime.hashCode);
     _$hash = $jc(_$hash, workDays.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jc(_$hash, title.hashCode);
+    _$hash = $jc(_$hash, extraDescription.hashCode);
+    _$hash = $jc(_$hash, ourOffer.hashCode);
+    _$hash = $jc(_$hash, icon.hashCode);
+    _$hash = $jc(_$hash, licenses.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -898,7 +1003,12 @@ class _$BranchModel extends BranchModel {
           ..add('longitude', longitude)
           ..add('workTime', workTime)
           ..add('workDays', workDays)
-          ..add('description', description))
+          ..add('description', description)
+          ..add('title', title)
+          ..add('extraDescription', extraDescription)
+          ..add('ourOffer', ourOffer)
+          ..add('icon', icon)
+          ..add('licenses', licenses))
         .toString();
   }
 }
@@ -947,6 +1057,28 @@ class BranchModelBuilder implements Builder<BranchModel, BranchModelBuilder> {
   String? get description => _$this._description;
   set description(String? description) => _$this._description = description;
 
+  String? _title;
+  String? get title => _$this._title;
+  set title(String? title) => _$this._title = title;
+
+  String? _extraDescription;
+  String? get extraDescription => _$this._extraDescription;
+  set extraDescription(String? extraDescription) =>
+      _$this._extraDescription = extraDescription;
+
+  String? _ourOffer;
+  String? get ourOffer => _$this._ourOffer;
+  set ourOffer(String? ourOffer) => _$this._ourOffer = ourOffer;
+
+  String? _icon;
+  String? get icon => _$this._icon;
+  set icon(String? icon) => _$this._icon = icon;
+
+  ListBuilder<String>? _licenses;
+  ListBuilder<String> get licenses =>
+      _$this._licenses ??= new ListBuilder<String>();
+  set licenses(ListBuilder<String>? licenses) => _$this._licenses = licenses;
+
   BranchModelBuilder();
 
   BranchModelBuilder get _$this {
@@ -962,6 +1094,11 @@ class BranchModelBuilder implements Builder<BranchModel, BranchModelBuilder> {
       _workTime = $v.workTime;
       _workDays = $v.workDays?.toBuilder();
       _description = $v.description;
+      _title = $v.title;
+      _extraDescription = $v.extraDescription;
+      _ourOffer = $v.ourOffer;
+      _icon = $v.icon;
+      _licenses = $v.licenses?.toBuilder();
       _$v = null;
     }
     return this;
@@ -999,12 +1136,20 @@ class BranchModelBuilder implements Builder<BranchModel, BranchModelBuilder> {
                 workTime, r'BranchModel', 'workTime'),
             workDays: _workDays?.build(),
             description: description,
+            title: title,
+            extraDescription: extraDescription,
+            ourOffer: ourOffer,
+            icon: icon,
+            licenses: _licenses?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'workDays';
         _workDays?.build();
+
+        _$failedField = 'licenses';
+        _licenses?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'BranchModel', _$failedField, e.toString());
@@ -1162,6 +1307,10 @@ class _$EducationModel extends EducationModel {
   final int? companyId;
   @override
   final BuiltList<Course>? courses;
+  @override
+  final String? bannerLink;
+  @override
+  final String? bannerImage;
 
   factory _$EducationModel([void Function(EducationModelBuilder)? updates]) =>
       (new EducationModelBuilder()..update(updates))._build();
@@ -1175,7 +1324,9 @@ class _$EducationModel extends EducationModel {
       this.audience,
       this.whyUs,
       this.companyId,
-      this.courses})
+      this.courses,
+      this.bannerLink,
+      this.bannerImage})
       : super._();
 
   @override
@@ -1198,7 +1349,9 @@ class _$EducationModel extends EducationModel {
         audience == other.audience &&
         whyUs == other.whyUs &&
         companyId == other.companyId &&
-        courses == other.courses;
+        courses == other.courses &&
+        bannerLink == other.bannerLink &&
+        bannerImage == other.bannerImage;
   }
 
   @override
@@ -1213,6 +1366,8 @@ class _$EducationModel extends EducationModel {
     _$hash = $jc(_$hash, whyUs.hashCode);
     _$hash = $jc(_$hash, companyId.hashCode);
     _$hash = $jc(_$hash, courses.hashCode);
+    _$hash = $jc(_$hash, bannerLink.hashCode);
+    _$hash = $jc(_$hash, bannerImage.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -1228,7 +1383,9 @@ class _$EducationModel extends EducationModel {
           ..add('audience', audience)
           ..add('whyUs', whyUs)
           ..add('companyId', companyId)
-          ..add('courses', courses))
+          ..add('courses', courses)
+          ..add('bannerLink', bannerLink)
+          ..add('bannerImage', bannerImage))
         .toString();
   }
 }
@@ -1274,6 +1431,14 @@ class EducationModelBuilder
       _$this._courses ??= new ListBuilder<Course>();
   set courses(ListBuilder<Course>? courses) => _$this._courses = courses;
 
+  String? _bannerLink;
+  String? get bannerLink => _$this._bannerLink;
+  set bannerLink(String? bannerLink) => _$this._bannerLink = bannerLink;
+
+  String? _bannerImage;
+  String? get bannerImage => _$this._bannerImage;
+  set bannerImage(String? bannerImage) => _$this._bannerImage = bannerImage;
+
   EducationModelBuilder();
 
   EducationModelBuilder get _$this {
@@ -1288,6 +1453,8 @@ class EducationModelBuilder
       _whyUs = $v.whyUs;
       _companyId = $v.companyId;
       _courses = $v.courses?.toBuilder();
+      _bannerLink = $v.bannerLink;
+      _bannerImage = $v.bannerImage;
       _$v = null;
     }
     return this;
@@ -1321,6 +1488,8 @@ class EducationModelBuilder
             whyUs: whyUs,
             companyId: companyId,
             courses: _courses?.build(),
+            bannerLink: bannerLink,
+            bannerImage: bannerImage,
           );
     } catch (_) {
       late String _$failedField;

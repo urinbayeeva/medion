@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/utils/constants.dart';
 
@@ -43,42 +44,145 @@ class VisitWithPdf {
   });
 }
 
+// lib/infrastructure/models/patient_visits_model.dart
+
 class PatientVisitsResponse {
-  final List<Order> orders;
-  final List<Visit> visits;
+  final List<PatientOrder> orders;
+  final List<PatientVisit> visits;
 
   PatientVisitsResponse({required this.orders, required this.visits});
 
   factory PatientVisitsResponse.fromJson(Map<String, dynamic> json) {
     return PatientVisitsResponse(
-      orders: (json['orders'] as List)
-          .map((order) => Order.fromJson(order))
+      orders: (json['moves'] as List)
+          .map((order) => PatientOrder.fromJson(order))
           .toList(),
       visits: (json['visits'] as List)
-          .map((visit) => Visit.fromJson(visit))
+          .map((visit) => PatientVisit.fromJson(visit))
           .toList(),
     );
   }
 }
 
-class Order {
-  final String order;
-  final String orderCheckPdfUrl;
-  final List<OrderVisit> orderVisits;
+class PatientOrder {
+  final String saleOrderName;
+  final String saleOrderCheckPdfUrl;
+  final List<SaleOrderLine> saleOrderLines;
+  final double saleOrderPrice;
+  final String saleOrderPaymentStatus;
+  final List<String> saleOrderPaymentUrls;
 
-  Order({
-    required this.order,
-    required this.orderCheckPdfUrl,
-    required this.orderVisits,
+  PatientOrder({
+    required this.saleOrderName,
+    required this.saleOrderCheckPdfUrl,
+    required this.saleOrderLines,
+    required this.saleOrderPrice,
+    required this.saleOrderPaymentStatus,
+    required this.saleOrderPaymentUrls,
   });
 
-  factory Order.fromJson(Map<String, dynamic> json) {
-    return Order(
-      order: json['order'],
-      orderCheckPdfUrl: json['order_check_pdf_url'],
-      orderVisits: (json['order_visits'] as List)
-          .map((visit) => OrderVisit.fromJson(visit))
+  factory PatientOrder.fromJson(Map<String, dynamic> json) {
+    return PatientOrder(
+      saleOrderName: json['sale_order_name'] ?? '',
+      saleOrderCheckPdfUrl: json['sale_order_check_pdf_url'] ?? '',
+      saleOrderLines: (json['sale_order_lines'] as List)
+          .map((line) => SaleOrderLine.fromJson(line))
           .toList(),
+      saleOrderPrice: (json['sale_order_price'] as num?)?.toDouble() ?? 0.0,
+      saleOrderPaymentStatus: json['sale_order_payment_status'] ?? '',
+      saleOrderPaymentUrls:
+          List<String>.from(json['sale_order_payment_urls'] ?? []),
+    );
+  }
+}
+
+class SaleOrderLine {
+  final String service;
+  final String createDate; // Format: "dd-MM-yyyy HH:mm:ss"
+  final bool isDone;
+
+  SaleOrderLine({
+    required this.service,
+    required this.createDate,
+    required this.isDone,
+  });
+
+  factory SaleOrderLine.fromJson(Map<String, dynamic> json) {
+    return SaleOrderLine(
+      service: json['service'] ?? '',
+      createDate: json['create_date'] ?? '',
+      isDone: json['is_done'] ?? false,
+    );
+  }
+
+  // Add this method to format the date nicely
+  String get formattedDate {
+    try {
+      final dateFormat = DateFormat('dd-MM-yyyy HH:mm:ss');
+      final parsedDate = dateFormat.parse(createDate);
+      return DateFormat('d MMMM yyyy, HH:mm').format(parsedDate);
+    } catch (e) {
+      print('Error formatting date: $e');
+      return createDate;
+    }
+  }
+}
+
+class PatientVisit {
+  final String image;
+  final String doctorFullName;
+  final String doctorJobName;
+  final String categoryName;
+  final String serviceName;
+  final String visitDate;
+  final String visitTime;
+  final String visitStatus;
+  final int weekIndex;
+  final String address;
+  final String paymentMethod;
+  final String paymentStatus;
+  final double longitude;
+  final double latitude;
+  final String companyName;
+  final double price;
+
+  PatientVisit({
+    required this.image,
+    required this.doctorFullName,
+    required this.doctorJobName,
+    required this.categoryName,
+    required this.serviceName,
+    required this.visitDate,
+    required this.visitTime,
+    required this.visitStatus,
+    required this.weekIndex,
+    required this.address,
+    required this.paymentMethod,
+    required this.paymentStatus,
+    required this.longitude,
+    required this.latitude,
+    required this.companyName,
+    required this.price,
+  });
+
+  factory PatientVisit.fromJson(Map<String, dynamic> json) {
+    return PatientVisit(
+      image: json['image'] ?? '',
+      doctorFullName: json['doctor_full_name'] ?? '',
+      doctorJobName: json['doctor_job_name'] ?? '',
+      categoryName: json['category_name'] ?? '',
+      serviceName: json['service_name'] ?? '',
+      visitDate: json['visit_date'] ?? '',
+      visitTime: json['visit_time'] ?? '',
+      visitStatus: json['visit_status'] ?? '',
+      weekIndex: json['week_index'] ?? 0,
+      address: json['address'] ?? '',
+      paymentMethod: json['payment_method'] ?? '',
+      paymentStatus: json['payment_status'] ?? '',
+      longitude: (json['longitude'] as num?)?.toDouble() ?? 0.0,
+      latitude: (json['latitude'] as num?)?.toDouble() ?? 0.0,
+      companyName: json['company_name'] ?? '',
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
     );
   }
 }

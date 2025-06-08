@@ -1,16 +1,28 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:medion/application/doctors/doctors_bloc.dart';
+import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/application/vacancy_bloc/vacancy_bloc.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/resume_container.dart';
+import 'package:medion/presentation/component/shimmer_view.dart';
+import 'package:medion/presentation/pages/home/widgets/adress_item.dart';
+import 'package:medion/presentation/pages/home/yandex_on_tap.dart';
+import 'package:medion/presentation/pages/map/map_with_polylines.dart';
 import 'package:medion/presentation/pages/others/career/widgets/why_us_widget.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class CareerPage extends StatefulWidget {
   const CareerPage({super.key});
@@ -20,12 +32,28 @@ class CareerPage extends StatefulWidget {
 }
 
 class _CareerPageState extends State<CareerPage> {
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
+
   final List<String> whyUsTexts = [
     "понятная система оплаты, конкурентная заработная плата, своевременные выплаты и бонусы;",
     "возможность карьерного роста и профессионального развития;",
     "дружный коллектив и комфортные условия труда;",
     "современное оборудование и инновационные технологии;",
   ];
+
+  final List<String> carouselImages = [
+    'assets/images/medion_inno_second.jpg',
+    'assets/images/medion_inno_third.jpg',
+    'assets/images/medion_inno.jpg',
+  ];
+
+  @override
+  void initState() {
+    context.read<DoctorBloc>().add(const DoctorEvent.fetchDoctorsJob());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
@@ -78,20 +106,90 @@ class _CareerPageState extends State<CareerPage> {
                         20.h.verticalSpace,
                         Text("Врачи", style: fonts.regularMain),
                         8.h.verticalSpace,
-                        GridView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: whyUsTexts.length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 12.h,
-                            crossAxisSpacing: 12.w,
-                            childAspectRatio: 1,
-                          ),
-                          itemBuilder: (context, index) {
-                            return WhyUsWidget(text: whyUsTexts[index]);
+                        BlocBuilder<DoctorBloc, DoctorState>(
+                            builder: (context, state) {
+                          return ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: state.doctorsJob.length,
+                            itemBuilder: (context, index) {
+                              final data = state.doctorsJob[index];
+                              return CustomExpansionListTile(
+                                  title: data.name,
+                                  description: data.id.toString(),
+                                  children: []);
+                            },
+                          );
+                        }),
+                        20.h.verticalSpace,
+                        Text("Работа в Medion — это работа по любви!",
+                            style: fonts.regularMain),
+                        8.h.verticalSpace,
+                        CButton(
+                            title: "get_more_medion".tr(),
+                            onTap: () {
+                              launchUrl(Uri.parse("https://medion.uz/"));
+                            }),
+                        20.h.verticalSpace,
+                        Row(
+                          children: [
+                            AnimationButtonEffect(
+                              onTap: () {
+                                _carouselController.previousPage();
+                              },
+                              child: CircleAvatar(
+                                radius: 20.r,
+                                backgroundColor: colors.neutral200,
+                                child: icons.left.svg(),
+                              ),
+                            ),
+                            Expanded(
+                              child: CarouselSlider(
+                                items: carouselImages
+                                    .map(
+                                      (imagePath) => ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(12.r),
+                                        child: Image.asset(
+                                          imagePath,
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                                carouselController: _carouselController,
+                                options: CarouselOptions(
+                                  height: 180.h,
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+                                  viewportFraction: 0.85,
+                                ),
+                              ),
+                            ),
+                            AnimationButtonEffect(
+                              onTap: () {
+                                _carouselController.nextPage();
+                              },
+                              child: CircleAvatar(
+                                radius: 20.r,
+                                backgroundColor: colors.neutral200,
+                                child: icons.right.svg(),
+                              ),
+                            ),
+                          ],
+                        ),
+                        20.h.verticalSpace,
+                        Text("Наши отделения", style: fonts.regularMain),
+                        8.h.verticalSpace,
+                        BlocBuilder<HomeBloc, HomeState>(
+                          builder: (context, state) {
+                            if (state.loading) {
+                              return _buildAddressShimmer();
+                            }
+                            return _buildAddressSection(
+                                context, colors, fonts, icons);
                           },
                         ),
                       ],
@@ -103,6 +201,22 @@ class _CareerPageState extends State<CareerPage> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildAddressShimmer() {
+    return Column(
+      children: List.generate(
+        3,
+        (index) => ShimmerView(
+          child: ShimmerContainer(
+            height: 100.h,
+            width: double.infinity,
+            margin: EdgeInsets.only(bottom: 12.h),
+            borderRadius: 12.r,
+          ),
+        ),
+      ),
     );
   }
 
@@ -162,4 +276,52 @@ class _CareerPageState extends State<CareerPage> {
       });
     });
   }
+}
+
+Widget _buildAddressSection(BuildContext context, colors, fonts, icons) {
+  return BlocBuilder<HomeBloc, HomeState>(
+    builder: (context, state) {
+      if (state.companyLocations.isEmpty) {
+        return const SizedBox.shrink();
+      }
+
+      return Column(
+        children: state.companyLocations
+            .map((location) => AdressItem(
+                  yandexOnTap: () {
+                    launchYandexTaxi(
+                      context,
+                      location.position.latitude,
+                      location.position.longitude,
+                    );
+                  },
+                  address: location.address,
+                  onTap: () {
+                    context.read<BottomNavBarController>().changeNavBar(true);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MapWithPolylines(
+                          name: location.address,
+                          workingHours: location.workHours,
+                          image: location.icon,
+                          destination: Point(
+                            latitude: location.position.latitude,
+                            longitude: location.position.longitude,
+                          ),
+                        ),
+                      ),
+                    ).then((_) {
+                      context
+                          .read<BottomNavBarController>()
+                          .changeNavBar(false);
+                    });
+                  },
+                  url: location.icon,
+                  name: location.fullName.toString(),
+                ))
+            .toList(),
+      );
+    },
+  );
 }

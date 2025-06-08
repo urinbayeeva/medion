@@ -75,7 +75,7 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
                     },
                     child: Container(
                       width: 109.w,
-                      height: 110.h,
+                      height: 120.h,
                       padding: EdgeInsets.all(8.w),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.r),
@@ -84,10 +84,17 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CachedImageComponent(
-                              height: 48.w,
-                              width: 48.w,
-                              imageUrl: disease.icon!),
+                          Container(
+                            padding: EdgeInsets.all(4.w),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: colors.error500.withOpacity(0.05),
+                            ),
+                            child: CachedImageComponent(
+                                height: 48.w,
+                                width: 48.w,
+                                imageUrl: disease.icon!),
+                          ),
                           8.h.verticalSpace,
                           Text(
                             disease.title ?? ''.tr(),

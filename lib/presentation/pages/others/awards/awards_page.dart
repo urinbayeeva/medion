@@ -73,7 +73,8 @@ class _AwardsPageState extends State<AwardsPage> {
                         Navigator.push(
                           context,
                           AppRoutes.getInfoViewAboutHealth(
-                            imagePath: data.image!,
+                            discountCondition: "",
+                            imagePath: [data.image!],
                             title: data.decodedTitle!,
                             desc: data.decodedDescription,
                             date: "2025-02-24",

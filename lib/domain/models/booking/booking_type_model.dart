@@ -225,6 +225,12 @@ abstract class HomepageBookingCategory
   @BuiltValueField(wireName: "icon")
   String? get icon;
 
+  @BuiltValueField(wireName: "is_child")
+  String? get isChild;
+
+  @BuiltValueField(wireName: "has_discount")
+  bool? get hasDiscount;
+
   static Serializer<HomepageBookingCategory> get serializer =>
       _$homepageBookingCategorySerializer;
 
@@ -250,6 +256,9 @@ abstract class MedicalModel
   @BuiltValueField(wireName: 'services')
   BuiltList<HomeServiceBooking> get services;
 
+  @BuiltValueField(wireName: 'discounts')
+  BuiltList<DiscountModel> get discount;
+
   String get decodedTitle => decodeHtml(description);
   String get cleanedDescription => cleanDescription(decodedTitle);
 
@@ -258,6 +267,28 @@ abstract class MedicalModel
       _$MedicalModel;
 
   static Serializer<MedicalModel> get serializer => _$medicalModelSerializer;
+}
+
+abstract class DiscountModel
+    implements Built<DiscountModel, DiscountModelBuilder> {
+  @BuiltValueField(wireName: 'id')
+  int get id;
+
+  @BuiltValueField(wireName: 'name')
+  String get name;
+
+  @BuiltValueField(wireName: 'image')
+  String get image;
+
+  @BuiltValueField(wireName: 'discount_end_date')
+  String get discountEndDate;
+
+  DiscountModel._();
+
+  factory DiscountModel([void Function(DiscountModelBuilder) updates]) =
+      _$DiscountModel;
+
+  static Serializer<DiscountModel> get serializer => _$discountModelSerializer;
 }
 
 abstract class HomeMedicalDoctor

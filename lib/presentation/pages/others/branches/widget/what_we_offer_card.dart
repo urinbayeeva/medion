@@ -5,8 +5,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class WhatWeOfferCard extends StatefulWidget {
+  final String? title;
+  final String? desc;
   const WhatWeOfferCard({
     super.key,
+    this.title,
+    this.desc,
   });
 
   @override
@@ -28,12 +32,12 @@ class _WhatWeOfferCardState extends State<WhatWeOfferCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Title null",
+              widget.title ?? "",
               style: fonts.smallMain,
             ),
             8.h.verticalSpace,
             Text(
-              "Description null",
+              widget.desc ?? "",
               style: fonts.smallLink,
             ),
             12.h.verticalSpace,

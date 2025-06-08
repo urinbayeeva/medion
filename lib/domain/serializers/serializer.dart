@@ -128,7 +128,12 @@ part 'serializer.g.dart';
   //Payment history
   PaymentResponse,
   Payment,
-  User
+  User,
+
+  //Doctor Job
+  DoctorsJob,
+  DoctorCategory,
+  DoctorData,
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

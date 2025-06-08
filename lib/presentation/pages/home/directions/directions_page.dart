@@ -23,6 +23,7 @@ class DirectionsPage extends StatefulWidget {
 class _DirectionsPageState extends State<DirectionsPage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
+  String _currentFilter = 'All'; // Default filter value
 
   @override
   void initState() {
@@ -41,6 +42,12 @@ class _DirectionsPageState extends State<DirectionsPage> {
   void _onSearchChanged(String query) {
     setState(() {
       _searchQuery = query.toLowerCase();
+    });
+  }
+
+  void _onFilterChanged(String filterValue) {
+    setState(() {
+      _currentFilter = filterValue;
     });
   }
 
@@ -64,7 +71,10 @@ class _DirectionsPageState extends State<DirectionsPage> {
                     showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
-                        return const CFilter();
+                        return CFilter(
+                          currentFilter: _currentFilter,
+                          onFilterChanged: _onFilterChanged,
+                        );
                       },
                     ).then((_) {
                       context
@@ -90,14 +100,19 @@ class _DirectionsPageState extends State<DirectionsPage> {
                       );
                     }
 
+                    // Corrected filtering logic
                     final filteredItems = validItems
                         .where((item) =>
-                            item.name!.toLowerCase().contains(_searchQuery))
+                            item.name!.toLowerCase().contains(_searchQuery) &&
+                            (_currentFilter == "All" ||
+                                (_currentFilter == "Adults" &&
+                                    item.isChild != "Children") ||
+                                (_currentFilter == "Children" &&
+                                    item.isChild == "Children")))
                         .toList();
 
                     if (filteredItems.isEmpty) {
-                      return const SizedBox
-                          .shrink(); // Show nothing when no matches
+                      return const SizedBox.shrink();
                     }
 
                     return ListView.builder(

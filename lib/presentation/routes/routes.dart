@@ -465,60 +465,62 @@ class AppRoutes {
     );
   }
 
-  static MaterialPageRoute getSingleBranchPage({
-    required String branchPhotos,
-    required String branchName,
-    required String branchAdress,
-    required String branchWorkingHours,
-    required String branchInfoDescription,
-    required String branchOfferTitle,
-    required String branchOfferSubtitle,
-    required VoidCallback branchPhoneNumberButton,
-    required double lang,
-    required double lat,
-  }) {
-    return MaterialPageRoute(
-        builder: (_) => SingleBranchPage(
-              lang: lang,
-              lat: lat,
-              branchPhotos: branchPhotos,
-              branchName: branchName,
-              branchAdress: branchAdress,
-              branchWorkingHours: branchWorkingHours,
-              branchInfoDescription: branchInfoDescription,
-              branchOfferTitle: branchOfferTitle,
-              branchOfferSubtitle: branchOfferSubtitle,
-              branchPhoneNumberButton: branchPhoneNumberButton,
-            ));
-  }
+  // static MaterialPageRoute getSingleBranchPage({
+  //   required String branchPhotos,
+  //   required String branchName,
+  //   required String branchAdress,
+  //   required String branchWorkingHours,
+  //   required String branchInfoDescription,
+  //   required String branchOfferTitle,
+  //   required String branchOfferSubtitle,
+  //   required VoidCallback branchPhoneNumberButton,
+  //   required double lang,
+  //   required double lat,
+  // }) {
+  //   return MaterialPageRoute(
+  //       builder: (_) => SingleBranchPage(
+  //             lang: lang,
+  //             lat: lat,
+  //             branchPhotos: branchPhotos,
+  //             branchName: branchName,
+  //             branchAdress: branchAdress,
+  //             branchWorkingHours: branchWorkingHours,
+  //             branchInfoDescription: branchInfoDescription,
+  //             branchOfferTitle: branchOfferTitle,
+  //             branchOfferSubtitle: branchOfferSubtitle,
+  //             branchPhoneNumberButton: branchPhoneNumberButton,
+  //           ));
+  // }
 
-  static MaterialPageRoute getSingleBranchInfoPage({
-    required String branchPhotos,
-    required String branchName,
-    required String branchAdress,
-    required String branchWorkingHours,
-    required String branchInfoDescription,
-    required String branchOfferTitle,
-    required String branchOfferSubtitle,
-    required VoidCallback branchPhoneNumberButton,
-    required double lang,
-    required double lat,
-  }) {
-    return MaterialPageRoute(
-      builder: (_) => SingleBranchInfo(
-        branchPhotos: branchPhotos,
-        branchName: branchName,
-        branchAdress: branchAdress,
-        branchWorkingHours: branchWorkingHours,
-        branchInfoDescription: branchInfoDescription,
-        branchOfferTitle: branchOfferTitle,
-        branchOfferSubtitle: branchOfferSubtitle,
-        branchPhoneNumberButton: branchPhoneNumberButton,
-        lang: lang,
-        lat: lat,
-      ),
-    );
-  }
+  // static MaterialPageRoute getSingleBranchInfoPage({
+  //   required String branchPhotos,
+  //   required String branchName,
+  //   required String branchAdress,
+  //   required String branchWorkingHours,
+  //   required String branchInfoDescription,
+  //   required String branchOfferTitle,
+  //   required String branchOfferSubtitle,
+  //   required VoidCallback branchPhoneNumberButton,
+  //   required double lang,
+  //   required double lat,
+  //   required List
+  // }) {
+  //   return MaterialPageRoute(
+  //     builder: (_) => SingleBranchInfo(
+
+  //       branchPhotos: branchPhotos,
+  //       branchName: branchName,
+  //       branchAdress: branchAdress,
+  //       branchWorkingHours: branchWorkingHours,
+  //       branchInfoDescription: branchInfoDescription,
+  //       branchOfferTitle: branchOfferTitle,
+  //       branchOfferSubtitle: branchOfferSubtitle,
+  //       branchPhoneNumberButton: branchPhoneNumberButton,
+  //       lang: lang,
+  //       lat: lat,
+  //     ),
+  //   );
+  // }
 
   static MaterialPageRoute getPartnersPage() {
     return MaterialPageRoute(
@@ -551,6 +553,7 @@ class AppRoutes {
       required String partnerImage,
       required String partnerUrl,
       required String partnerTitle,
+      required List<String> partnerImages,
       required String partnerPhoneNumber}) {
     return MaterialPageRoute(
         builder: (_) => PartnersInnerPage(
@@ -559,6 +562,7 @@ class AppRoutes {
               partnerTitle: partnerTitle,
               partnerUrl: partnerUrl,
               partnerPhoneNumber: partnerPhoneNumber,
+              partnerImages: partnerImages,
             ));
   }
 
@@ -585,10 +589,11 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getInfoViewAboutHealth({
-    required String imagePath,
+    required List<String>? imagePath,
     required String? title,
     required String? desc,
     required String? date,
+    required String discountCondition,
     bool? isDiscount,
     String? discountAddress,
     String? discountDuration,
@@ -597,7 +602,8 @@ class AppRoutes {
   }) {
     return MaterialPageRoute(
       builder: (_) => CInfoView(
-        imagePath: imagePath,
+        imagePaths: imagePath,
+        discountCondition: discountCondition,
         title: title,
         desc: desc,
         date: date,
@@ -618,12 +624,14 @@ class AppRoutes {
     required String? discountDuration,
     required String? phoneShortNumber,
     required String? phoneNumber,
+    required String discountCondition,
   }) {
     return MaterialPageRoute(
         builder: (_) => DiscountPageView(
               imagePath: imagePath,
               title: title,
               desc: desc,
+              discountCondition: discountCondition,
             ));
   }
 

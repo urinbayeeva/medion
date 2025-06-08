@@ -120,6 +120,8 @@ class _PartnersPageState extends State<PartnersPage> {
                                           context,
                                           AppRoutes.getPartnersInnerPage(
                                             partnerName: partner.title,
+                                            partnerImages:
+                                                partner.images.toList(),
                                             partnerTitle:
                                                 partner.decodedDescription,
                                             partnerImage: partner.primaryImage,

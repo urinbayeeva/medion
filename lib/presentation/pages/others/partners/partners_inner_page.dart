@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chopper/chopper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +19,15 @@ class PartnersInnerPage extends StatefulWidget {
   final String partnerUrl;
   final String partnerPhoneNumber;
   final String partnerTitle;
+  final List<String> partnerImages;
   const PartnersInnerPage(
       {super.key,
       required this.partnerName,
       required this.partnerImage,
       required this.partnerUrl,
       required this.partnerPhoneNumber,
-      required this.partnerTitle});
+      required this.partnerTitle,
+      required this.partnerImages});
 
   @override
   State<PartnersInnerPage> createState() => _PartnersInnerPageState();
@@ -32,7 +35,7 @@ class PartnersInnerPage extends StatefulWidget {
 
 class _PartnersInnerPageState extends State<PartnersInnerPage> {
   Future<void> getUrl() async {
-    final String url = "https://${widget.partnerUrl}";
+    final String url = "${widget.partnerUrl}";
     final Uri uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
@@ -160,6 +163,28 @@ class _PartnersInnerPageState extends State<PartnersInnerPage> {
                     ),
                     24.h.verticalSpace,
                     Text(widget.partnerTitle, style: fonts.smallLink),
+                    if (widget.partnerImages.isNotEmpty) ...[
+                      24.h.verticalSpace,
+                      CarouselSlider(
+                        options: CarouselOptions(
+                          height: 180.h,
+                          autoPlay: true,
+                          enlargeCenterPage: true,
+                          viewportFraction: 0.8,
+                        ),
+                        items: widget.partnerImages.map((imageUrl) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(8.r),
+                            child: CachedImageComponent(
+                              imageUrl: imageUrl,
+                              height: 180.h,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ]
                   ],
                 ),
               ))

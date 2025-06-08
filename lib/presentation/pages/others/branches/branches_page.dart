@@ -106,6 +106,8 @@ class _BranchesPageState extends State<BranchesPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => SingleBranchInfo(
+                                          branchLicense:
+                                              branch.licenses?.toList(),
                                           lang: branch.longitude,
                                           lat: branch.latitude,
                                           branchPhotos: branch.image ?? "",
@@ -114,8 +116,9 @@ class _BranchesPageState extends State<BranchesPage> {
                                           branchWorkingHours: branch.workTime,
                                           branchInfoDescription:
                                               branch.description ?? "",
-                                          branchOfferTitle: "",
-                                          branchOfferSubtitle: "",
+                                          branchOfferTitle: branch.title ?? "",
+                                          branchOfferSubtitle:
+                                              branch.ourOffer ?? "",
                                           branchPhoneNumberButton: () {
                                             makePhoneCall(branch.phone ?? "");
                                           },

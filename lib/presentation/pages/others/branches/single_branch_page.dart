@@ -22,6 +22,7 @@ class SingleBranchPage extends StatefulWidget {
   final VoidCallback branchPhoneNumberButton;
   final double lang;
   final double lat;
+  final List<String> branchLicense;
 
   const SingleBranchPage(
       {super.key,
@@ -34,7 +35,8 @@ class SingleBranchPage extends StatefulWidget {
       required this.branchOfferSubtitle,
       required this.branchPhoneNumberButton,
       required this.lang,
-      required this.lat});
+      required this.lat,
+      required this.branchLicense});
 
   @override
   State<SingleBranchPage> createState() => _SingleBranchPageState();
@@ -68,6 +70,7 @@ class _SingleBranchPageState extends State<SingleBranchPage> {
                     itemBuilder: (index, _) {
                       // final branch = branches[index];
                       return SingleBranchInfo(
+                          branchLicense: widget.branchLicense ?? [],
                           lang: widget.lang,
                           lat: widget.lat,
                           branchPhoneNumberButton:

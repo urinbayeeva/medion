@@ -448,7 +448,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
 
         return DraggableScrollableSheet(
           expand: false,
-          initialChildSize: 0.5,
+          initialChildSize: 0.43,
           minChildSize: 0.3,
           maxChildSize: 0.9,
           builder: (context, scrollController) {

@@ -8,11 +8,8 @@ part 'doctor_model.g.dart';
 
 abstract class DoctorCategory
     implements Built<DoctorCategory, DoctorCategoryBuilder> {
-  @BuiltValueField(wireName: "category_name")
-  String get categoryName;
-
-  @BuiltValueField(wireName: "doctor_data")
-  BuiltList<DoctorData> get doctorData;
+  @BuiltValueField(wireName: "doctors")
+  BuiltList<DoctorData>? get doctorData;
 
   DoctorCategory._();
   factory DoctorCategory([void Function(DoctorCategoryBuilder) updates]) =
@@ -24,10 +21,10 @@ abstract class DoctorCategory
 
 abstract class DoctorData implements Built<DoctorData, DoctorDataBuilder> {
   @BuiltValueField(wireName: "id")
-  int get id;
+  int? get id;
 
   @BuiltValueField(wireName: "name")
-  JsonObject get name;
+  JsonObject? get name;
 
   @BuiltValueField(wireName: "info_description")
   JsonObject? get infoDescription;
@@ -44,7 +41,7 @@ abstract class DoctorData implements Built<DoctorData, DoctorDataBuilder> {
   @BuiltValueField(wireName: "category_ids")
   BuiltList<int> get categoryIds;
 
-  @BuiltValueField(wireName: "specialty")
+  @BuiltValueField(wireName: "job_name")
   JsonObject? get specialty;
 
   @BuiltValueField(wireName: "image")
@@ -56,10 +53,30 @@ abstract class DoctorData implements Built<DoctorData, DoctorDataBuilder> {
   @BuiltValueField(wireName: "work_experience")
   JsonObject? get workExperience;
 
+  @BuiltValueField(wireName: "has_discount")
+  bool? get hasDiscount;
+
   DoctorData._();
   factory DoctorData([void Function(DoctorDataBuilder) updates]) = _$DoctorData;
 
   static Serializer<DoctorData> get serializer => _$doctorDataSerializer;
+}
+
+abstract class Discount implements Built<Discount, DiscountBuilder> {
+  @BuiltValueField(wireName: 'id')
+  int? get id;
+  @BuiltValueField(wireName: 'title')
+  String? get title;
+  @BuiltValueField(wireName: 'image')
+  String? get image;
+
+  @BuiltValueField(wireName: 'discount_end_date')
+  String? get discountEndDate;
+
+  Discount._();
+  factory Discount([void Function(DiscountBuilder) updates]) = _$Discount;
+
+  static Serializer<Discount> get serializer => _$discountSerializer;
 }
 
 abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
@@ -85,6 +102,9 @@ abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
   @BuiltValueField(wireName: 'education')
   BuiltList<Education> get education;
 
+  @BuiltValueField(wireName: 'discounts')
+  BuiltList<Discount> get discount;
+
   @BuiltValueField(wireName: 'award')
   BuiltList<Award> get award;
 
@@ -102,6 +122,9 @@ abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
 
   @BuiltValueField(wireName: 'service_price_list')
   JsonObject get servicePriceList;
+
+  @BuiltValueField(wireName: 'academic_rank')
+  JsonObject get academicRank;
 
   ModelDoctor._();
   factory ModelDoctor([void Function(ModelDoctorBuilder) updates]) =
@@ -221,4 +244,16 @@ abstract class PriceItem implements Built<PriceItem, PriceItemBuilder> {
 
   PriceItem._();
   factory PriceItem([void Function(PriceItemBuilder) updates]) = _$PriceItem;
+}
+
+abstract class DoctorsJob implements Built<DoctorsJob, DoctorsJobBuilder> {
+  DoctorsJob._();
+  factory DoctorsJob([void Function(DoctorsJobBuilder) updates]) = _$DoctorsJob;
+
+  @BuiltValueField(wireName: 'name')
+  String get name;
+
+  @BuiltValueField(wireName: 'id')
+  int get id;
+  static Serializer<DoctorsJob> get serializer => _$doctorsJobSerializer;
 }

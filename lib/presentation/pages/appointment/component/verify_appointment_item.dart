@@ -3,8 +3,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_divider.dart';
+import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/extensions.dart';
 
 class VerifyAppointmentItem extends StatelessWidget {
   final String diagnosis;
@@ -43,6 +45,13 @@ class VerifyAppointmentItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DateTime appointmentDateTime =
+        DateTime.tryParse(appointmentTime) ?? DateTime.now();
+
+    final dateFormatted =
+        DateFormat('EEEE, d MMMM', 'ru').format(appointmentDateTime);
+    final timeFormatted = DateFormat('HH:mm', 'ru').format(appointmentDateTime);
+
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Container(
         padding: EdgeInsets.all(12.w),
@@ -61,34 +70,19 @@ class VerifyAppointmentItem extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (hasImage ?? true) ...[
-              Container(
+            Container(
                 width: 80.w,
                 height: 80.w,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),
-                  color: colors.neutral200,
+                  color: colors.primary900,
                 ),
-                child: imagePath.isEmpty
-                    ? Center(child: icons.nonUser.svg())
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(8.r),
-                        child: CachedNetworkImage(
-                          imageUrl: imagePath,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Center(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: colors.primary900,
-                            ),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              Center(child: icons.nonUser.svg()),
-                        ),
-                      ),
-              ),
-              12.w.horizontalSpace,
-            ],
+                child: CachedImageComponent(
+                  height: 50.w,
+                  width: 50.w,
+                  imageUrl: imagePath,
+                )),
+            12.w.horizontalSpace,
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,7 +105,6 @@ class VerifyAppointmentItem extends StatelessWidget {
                     ),
                   ),
                   8.h.verticalSpace,
-
                   // Doctor Info
                   const CDivider(),
                   Text(
@@ -134,20 +127,50 @@ class VerifyAppointmentItem extends StatelessWidget {
                     ),
                   ),
                   8.h.verticalSpace,
-
                   // Appointment Time
                   const CDivider(),
-                  _buildInfoRow(
-                    icon: icons.clock.svg(width: 16.w, height: 16.h),
-                    text: appointmentTime,
-                    colors: colors,
-                    fonts: fonts,
+                  Row(
+                    children: [
+                      icons.calendar.svg(
+                        width: 16.w,
+                        height: 16.h,
+                        color: colors.error500,
+                      ),
+                      8.w.horizontalSpace,
+                      Text(
+                        dateFormatted.toCapitalized(),
+                        style: fonts.smallMain.copyWith(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w400,
+                          color: colors.neutral600,
+                        ),
+                      ),
+                    ],
+                  ),
+                  16.w.horizontalSpace,
+                  Row(
+                    children: [
+                      icons.clock.svg(
+                        width: 16.w,
+                        height: 16.h,
+                        color: colors.error500,
+                      ),
+                      8.w.horizontalSpace,
+                      Text(
+                        timeFormatted.toCapitalized(),
+                        style: fonts.smallMain.copyWith(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w400,
+                          color: colors.neutral600,
+                        ),
+                      ),
+                    ],
                   ),
                   4.h.verticalSpace,
-
                   // Location
                   _buildInfoRow(
-                    icon: icons.location.svg(width: 16.w, height: 16.h),
+                    icon: icons.location
+                        .svg(width: 16.w, height: 16.h, color: colors.error500),
                     text: location,
                     colors: colors,
                     fonts: fonts,

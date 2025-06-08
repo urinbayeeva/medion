@@ -10,6 +10,9 @@ class ServiceWidget extends StatelessWidget {
   final String consultPrice;
   final bool isSelected;
   final VoidCallback onTap;
+  final bool canReceiveCallBack;
+  final int serviceId; // Add this field
+  final Function(BuildContext, dynamic, dynamic, List<int>) onCallBackRequested;
 
   const ServiceWidget({
     super.key,
@@ -17,6 +20,9 @@ class ServiceWidget extends StatelessWidget {
     required this.consultPrice,
     required this.isSelected,
     required this.onTap,
+    required this.canReceiveCallBack,
+    required this.serviceId, // Add this parameter
+    required this.onCallBackRequested,
   });
 
   @override
@@ -71,21 +77,35 @@ class ServiceWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 12.w),
-                AnimationButtonEffect(
-                  onTap: onTap,
-                  child: Container(
-                    padding: EdgeInsets.all(8.w),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      color: isSelected ? colors.error500 : colors.neutral200,
+                if (canReceiveCallBack)
+                  AnimationButtonEffect(
+                    onTap: () => onCallBackRequested(context, colors, fonts,
+                        [serviceId]), // Use serviceId directly
+                    child: Container(
+                      padding: EdgeInsets.all(8.w),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: colors.neutral200,
+                      ),
+                      child: Center(child: icons.phone.svg()),
                     ),
-                    child: Center(
-                      child: isSelected
-                          ? icons.check.svg(width: 20.w, height: 20.h)
-                          : icons.plus.svg(width: 20.w, height: 20.h),
+                  )
+                else
+                  AnimationButtonEffect(
+                    onTap: onTap,
+                    child: Container(
+                      padding: EdgeInsets.all(8.w),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: isSelected ? colors.error500 : colors.neutral200,
+                      ),
+                      child: Center(
+                        child: isSelected
+                            ? icons.check.svg(width: 20.w, height: 20.h)
+                            : icons.plus.svg(width: 20.w, height: 20.h),
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
             Divider(color: colors.neutral400),

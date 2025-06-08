@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:http/http.dart' as http;
+import 'package:medion/utils/constants.dart';
 import 'dart:convert';
 
 import 'package:medion/utils/helpers/decode_html.dart';
@@ -30,8 +32,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
   Future<void> _fetchPrivacyPolicy() async {
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://his.uicgroup.tech/apiweb/company/privacy?lang=en_US'),
+        Uri.parse('${Constants.baseUrlP}/company/privacy'),
         headers: {'accept': 'application/json'},
       );
 
@@ -74,11 +75,14 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
             ),
             Expanded(
               child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                padding: EdgeInsets.zero,
                 children: [
-                  Text(
-                    "privacy_policy".tr(),
-                    style: fonts.displaySecond,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Text(
+                      "privacy_policy".tr(),
+                      style: fonts.displaySecond,
+                    ),
                   ),
                   SizedBox(height: 20.h),
                   isLoading
@@ -94,10 +98,17 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                                     fontSize: 16.sp, color: Colors.red),
                               ),
                             )
-                          : Text(
-                              decodeHtml(privacyContent ?? ''),
-                              style: TextStyle(fontSize: 16.sp),
-                            ), // Display privacy content or error message
+                          : Html(
+                              data: privacyContent ?? '',
+                              style: {
+                                "*": Style(
+                                  fontSize:
+                                      FontSize(16.sp), // Your preferred size
+                                  color: colors.primary900,
+                                  // fontFamily: fonts.body.fontFamily,
+                                ),
+                              },
+                            ),
                   34.h.verticalSpace,
                 ],
               ),

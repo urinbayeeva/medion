@@ -16,6 +16,7 @@ class DiscountPageView extends StatelessWidget {
   final String? discountDuration;
   final String? phoneShortNumber;
   final String? phoneNumber;
+  final String discountCondition;
 
   const DiscountPageView({
     super.key,
@@ -27,6 +28,7 @@ class DiscountPageView extends StatelessWidget {
     this.discountDuration,
     this.phoneShortNumber,
     this.phoneNumber,
+    required this.discountCondition,
   });
 
   @override
@@ -93,11 +95,14 @@ class DiscountPageView extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Text(desc!, style: fonts.smallLink),
                 ),
-                24.h.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: const ConditionOfDiscountWidget(),
-                ),
+                if (discountCondition.isNotEmpty) ...[
+                  24.h.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: ConditionOfDiscountWidget(
+                        discountCondition: discountCondition),
+                  ),
+                ],
                 24.h.verticalSpace,
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),

@@ -11,6 +11,9 @@ import 'package:medion/presentation/component/c_container.dart';
 import 'package:medion/presentation/component/custom_tabbar.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/about_doctor_widget.dart';
+import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
+import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -35,11 +38,24 @@ class AboutDoctor extends StatefulWidget {
 }
 
 class _AboutDoctorState extends State<AboutDoctor> {
+  final DateFormat _dateFormat = DateFormat('dd.MM.yyyy');
+
   @override
   void initState() {
     super.initState();
     LogService.d("Fetching details for doctor ID: ${widget.id}");
     context.read<DoctorBloc>().add(DoctorEvent.fetchDoctorDetails(widget.id));
+  }
+
+  String _formatDiscountDate(String? date) {
+    if (date == null || date.isEmpty) {
+      return 'дата не указана'.tr();
+    }
+    try {
+      return _dateFormat.format(DateTime.parse(date));
+    } catch (e) {
+      return 'неверный формат даты'.tr();
+    }
   }
 
   @override
@@ -148,12 +164,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
     return doctor.education.isEmpty &&
             doctor.experience.isEmpty &&
             doctor.workSchedule == null
-        ? Center(
-            child: Text(
-              "no_result_found".tr(),
-              style: fonts.mediumMain.copyWith(fontWeight: FontWeight.w600),
-            ),
-          )
+        ? SizedBox.shrink()
         : SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,6 +189,41 @@ class _AboutDoctorState extends State<AboutDoctor> {
                 _buildExperienceTab(doctor, colors, fonts, icons),
                 _buildEducationTab(doctor, colors, fonts, icons),
                 _buildWorkingHoursTab(doctor, colors, fonts),
+                GridView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                    childAspectRatio: 0.54,
+                  ),
+                  itemCount: doctor.discount.length,
+                  itemBuilder: (context, index) {
+                    final discount = doctor.discount[index];
+                    final endDateFormatted = _formatDiscountDate(
+                        discount.discountEndDate?.toString());
+
+                    return ArticleCardWidget(
+                      onTap: () {
+                        print("${discount.id}");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DiscountPage(
+                                      discountId: discount.id,
+                                    )));
+                      },
+                      title: discount.title,
+                      description: "Акция до {date}".tr(namedArgs: {
+                        "date": endDateFormatted,
+                      }),
+                      image: discount.image,
+                    );
+                  },
+                ),
+                60.h.verticalSpace,
               ],
             ),
           );
@@ -226,7 +272,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '$formattedStartDate - $endDate',
+                        '- $formattedStartDate - $endDate',
                         style: fonts.xSmallText,
                       ),
                       // 8.h.verticalSpace,
@@ -290,7 +336,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '$formattedStartDate - $endDate',
+                        '- $formattedStartDate - $endDate',
                         style: fonts.xSmallLink,
                       ),
                       if (edu.description.toString().isNotEmpty)
@@ -326,7 +372,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
                       doctor.workSchedule.friday.isNotEmpty ||
                       doctor.workSchedule.saturday.isNotEmpty)
               ? _buildSchedule(doctor.workSchedule, colors, fonts)
-              : Text("No working hours available", style: fonts.xSmallText),
+              : SizedBox.shrink(),
           20.h.verticalSpace,
         ],
       ),
@@ -398,19 +444,6 @@ class _AboutDoctorState extends State<AboutDoctor> {
   }
 
   Widget _buildEmptyState(dynamic colors, dynamic fonts, dynamic icons) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.7,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Text(
-              "no_result_found".tr(),
-              style: fonts.mediumMain.copyWith(fontWeight: FontWeight.w600),
-            ),
-          ),
-        ],
-      ),
-    );
+    return SizedBox.shrink();
   }
 }

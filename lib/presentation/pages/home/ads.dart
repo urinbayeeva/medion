@@ -34,6 +34,14 @@ class _AdsState extends State<Ads> {
     }
   }
 
+  String _getLocalizedImageUrl(dynamic ad) {
+    final locale = context.locale;
+    if (locale.languageCode == 'ru') {
+      return ad.imageForMobileRu ?? ad.imageForMobileUz ?? '';
+    }
+    return ad.imageForMobileUz ?? ad.imageForMobileRu ?? '';
+  }
+
   Widget _buildShimmerAd() {
     return ShimmerView(
       child: Container(
@@ -74,6 +82,8 @@ class _AdsState extends State<Ads> {
                   .entries
                   .map((entry) {
                 final ad = entry.value;
+                final imageUrl = _getLocalizedImageUrl(ad);
+
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(8.r),
                   child: SizedBox(
@@ -86,8 +96,11 @@ class _AdsState extends State<Ads> {
                             onTap: () => _launchUrl(ad.link.toString()),
                             child: CachedNetworkImage(
                               width: double.infinity,
-                              imageUrl: ad.imageForMobileRu!,
+                              imageUrl: imageUrl,
                               fit: BoxFit.contain,
+                              placeholder: (context, url) => _buildShimmerAd(),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error, size: 40.sp),
                             ),
                           ),
                         ),

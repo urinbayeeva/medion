@@ -5,7 +5,11 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class ConditionOfDiscountWidget extends StatelessWidget {
-  const ConditionOfDiscountWidget({super.key});
+  final String discountCondition;
+  const ConditionOfDiscountWidget({
+    super.key,
+    required this.discountCondition,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,7 @@ class ConditionOfDiscountWidget extends StatelessWidget {
               ),
             ),
             4.h.verticalSpace,
-            Text("condition_discount_desc".tr(), style: fonts.smallLink),
+            Text(discountCondition, style: fonts.smallLink),
           ],
         ),
       );

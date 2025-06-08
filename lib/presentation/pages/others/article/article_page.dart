@@ -49,7 +49,9 @@ class _ArticlePageState extends State<ArticlePage> {
                           style: fonts.regularSemLink));
                 }
 
-                if (state.content.isEmpty) {
+                final articles = state.contentByType["article"] ?? [];
+
+                if (articles.isEmpty) {
                   return Center(
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -61,42 +63,42 @@ class _ArticlePageState extends State<ArticlePage> {
                   ));
                 }
 
-                return Column(
+                return ListView(
+                  padding: EdgeInsets.zero,
                   children: [
                     12.h.verticalSpace,
-                    SizedBox(
-                      height: 300.h,
-                      child: GridView.builder(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                          childAspectRatio: 0.6,
-                        ),
-                        itemCount: state.content.length,
-                        itemBuilder: (context, index) {
-                          final article = state.content[index];
-                          return ArticleCardWidget(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  AppRoutes.getInfoViewAboutHealth(
-                                      date: article.createDate,
-                                      imagePath: article.primaryImage,
-                                      title: article.title,
-                                      desc: article.description));
-                            },
-                            title: article.title,
-                            description: article.description,
-                            image: article.primaryImage,
-                          );
-                        },
+                    GridView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 24,
+                        childAspectRatio: 0.54,
                       ),
+                      itemCount: articles.length,
+                      itemBuilder: (context, index) {
+                        final article = articles[index];
+                        return ArticleCardWidget(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                AppRoutes.getInfoViewAboutHealth(
+                                    discountCondition: "",
+                                    date: article.createDate,
+                                    imagePath: article.images.toList(),
+                                    title: article.title,
+                                    desc: article.decodedDescription));
+                          },
+                          title: article.title,
+                          description: article.decodedDescription,
+                          image: article.primaryImage,
+                        );
+                      },
                     ),
+                    40.h.verticalSpace,
                   ],
                 );
               }),

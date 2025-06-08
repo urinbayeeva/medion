@@ -36,13 +36,27 @@ class MedicalDirectionItem extends StatelessWidget {
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(8.r),
                   child: iconPath == null || iconPath == ""
-                      ? icons.stethoscope.svg(
-                          color: colors.error500, width: 50.w, height: 50.h)
-                      : CachedNetworkImage(
-                          imageUrl: iconPath!,
-                          width: 50.w,
-                          height: 50.h,
-                          fit: BoxFit.cover,
+                      ? Container(
+                          padding: EdgeInsets.all(4.w),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: colors.error500.withOpacity(0.05)),
+                          child: icons.stethoscope.svg(
+                              color: colors.error500,
+                              width: 50.w,
+                              height: 50.h),
+                        )
+                      : Container(
+                          padding: EdgeInsets.all(4.w),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: colors.error500.withOpacity(0.05)),
+                          child: CachedNetworkImage(
+                            imageUrl: iconPath!,
+                            width: 50.w,
+                            height: 50.h,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                 ),
                 title: Text(title ?? "Unknown Service",

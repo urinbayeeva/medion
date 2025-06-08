@@ -10,6 +10,7 @@ import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/sources/med_service.dart';
 import 'package:medion/presentation/component/c_bottom_icon.dart';
+import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
@@ -103,10 +104,12 @@ class _HomePageState extends State<HomePage> {
                   trailing: Row(
                     children: [
                       AnimationButtonEffect(
-                        onTap: () => Navigator.push(
-                          context,
-                          AppRoutes.getNotificationPage(),
-                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            AppRoutes.getNotificationPage(),
+                          );
+                        },
                         child: icons.notification.svg(
                             color: colors.primary900,
                             width: 24.w,
@@ -114,10 +117,19 @@ class _HomePageState extends State<HomePage> {
                       ),
                       8.w.horizontalSpace,
                       AnimationButtonEffect(
-                        onTap: () => Navigator.push(
-                          context,
-                          AppRoutes.getSearchPage(),
-                        ),
+                        onTap: () {
+                          context
+                              .read<BottomNavBarController>()
+                              .changeNavBar(true);
+                          Navigator.push(
+                            context,
+                            AppRoutes.getSearchPage(),
+                          ).then((_) {
+                            context
+                                .read<BottomNavBarController>()
+                                .changeNavBar(false);
+                          });
+                        },
                         child: icons.search.svg(
                             color: colors.primary900,
                             width: 22.w,
@@ -247,13 +259,10 @@ class _HomePageState extends State<HomePage> {
                               state.homePageBookingCategory.take(10).toList();
 
                           return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildVerticalSpacingAndHeader(
-                                  "directions_of_medion_clinic", fonts, "all",
-                                  () {
-                                Navigator.push(
-                                    context, AppRoutes.getDiresctionPage());
-                              }),
+                              _buildSectionHeader(
+                                  "directions_of_medion_clinic", fonts),
                               ListView.builder(
                                 padding: EdgeInsets.zero,
                                 shrinkWrap: true,
@@ -282,6 +291,13 @@ class _HomePageState extends State<HomePage> {
                                   );
                                 },
                               ),
+                              8.h.verticalSpace,
+                              CButton(
+                                  title: "directions_of_medion_clinic".tr(),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context, AppRoutes.getDiresctionPage());
+                                  })
                             ],
                           );
                         }),
@@ -312,21 +328,27 @@ class _HomePageState extends State<HomePage> {
                                         .changeNavBar(false);
                                   });
                                 }),
-                                _buildDoctorCategoryList(state.doctors
-                                    .expand((category) =>
-                                        category.doctorData.map((doctor) => {
-                                              'name': doctor.name,
-                                              'profession': doctor.specialty,
-                                              'image': doctor.image,
-                                              'id': doctor.id,
-                                              'work_experience': doctor
-                                                  .workExperience
-                                                  .toString(),
-                                              'info_description': decodeHtml(
-                                                  doctor.infoDescription
-                                                      .toString())
-                                            }))
-                                    .toList()),
+                                _buildDoctorCategoryList(
+                                  state.doctors!.doctorData!
+                                      .map((category) => {
+                                            'name': category.name,
+                                            'profession':
+                                                category.specialty.toString(),
+                                            'image': category.image,
+                                            'id': category.id,
+                                            'work_experience': category
+                                                .workExperience
+                                                .toString(),
+                                            'info_description': decodeHtml(
+                                                category.infoDescription
+                                                    .toString()),
+                                            'gender':
+                                                category.gender.toString(),
+                                            'has_discount': category
+                                                .hasDiscount, // Fixed key
+                                          })
+                                      .toList(),
+                                ),
                               ],
                             );
                           },
@@ -380,7 +402,8 @@ class _HomePageState extends State<HomePage> {
                                         Navigator.push(
                                           context,
                                           AppRoutes.getInfoViewAboutHealth(
-                                            imagePath: news.primaryImage,
+                                            discountCondition: "",
+                                            imagePath: news.images.toList(),
                                             title: news.decodedTitle,
                                             desc: news.decodedDescription,
                                             date: news.createDate,
@@ -678,7 +701,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
+  _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
         final limitedDoctors = doctors.take(10).toList();
@@ -693,19 +716,20 @@ class _HomePageState extends State<HomePage> {
               return DoctorsItem(
                 onTap: () {
                   context.read<BottomNavBarController>().changeNavBar(true);
-
                   Navigator.push(
                     context,
                     AppRoutes.getAboutDoctorPage(
-                        doctor['name'].toString(),
-                        doctor['profession'].toString(),
-                        doctor['name'].toString(),
-                        doctor['image'].toString(),
-                        doctor['id']),
+                      doctor['name'].toString(),
+                      doctor['profession'].toString(),
+                      doctor['name'].toString(),
+                      doctor['image'].toString(),
+                      doctor['id'],
+                    ),
                   ).then((_) {
                     context.read<BottomNavBarController>().changeNavBar(false);
                   });
                 },
+                hasDiscount: doctor['has_discount'] ?? false,
                 imagePath: doctor['image'].toString(),
                 name: doctor['name'].toString(),
                 profession: doctor['profession'].toString(),
@@ -715,7 +739,10 @@ class _HomePageState extends State<HomePage> {
                 isInnerPageUsed: true,
                 doctorID: doctor['id'],
                 experience: "experience".tr(
-                    namedArgs: {"count": doctor['work_experience'].toString()}),
+                  namedArgs: {"count": doctor['work_experience'].toString()},
+                ),
+                academicRank: doctor['academic_rank']?.toString() ??
+                    "", // Add academicRank
               );
             },
           ),

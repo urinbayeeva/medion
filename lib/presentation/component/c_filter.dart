@@ -7,14 +7,27 @@ import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class CFilter extends StatefulWidget {
-  const CFilter({super.key});
+  final String currentFilter;
+  final Function(String) onFilterChanged;
+
+  const CFilter({
+    super.key,
+    required this.currentFilter,
+    required this.onFilterChanged,
+  });
 
   @override
   State<CFilter> createState() => _CFilterState();
 }
 
 class _CFilterState extends State<CFilter> {
-  String selectedCategory = "all"; // Default selected option
+  late String _selectedCategory;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedCategory = widget.currentFilter;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,17 +56,17 @@ class _CFilterState extends State<CFilter> {
             12.h.verticalSpace,
             Center(child: Text("filter".tr(), style: fonts.regularMain)),
             8.h.verticalSpace,
-            _buildRadioTile("all", "Все", colors, fonts),
+            _buildRadioTile("All", "Все", colors, fonts),
             const CDivider(),
-            _buildRadioTile("adults", "Взрослые", colors, fonts),
+            _buildRadioTile("Adults", "Взрослые", colors, fonts),
             const CDivider(),
-            _buildRadioTile("children", "Дети", colors, fonts),
+            _buildRadioTile("Children", "Дети", colors, fonts),
             8.h.verticalSpace,
             CButton(
               title: "apply".tr(),
               onTap: () {
-                Navigator.pop(
-                    context, selectedCategory); // Return selected category
+                widget.onFilterChanged(_selectedCategory);
+                Navigator.pop(context);
               },
             ),
           ],
@@ -65,11 +78,7 @@ class _CFilterState extends State<CFilter> {
   Widget _buildRadioTile(String value, String title, colors, fonts) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return AnimationButtonEffect(
-        onTap: () {
-          setState(() {
-            selectedCategory = value;
-          });
-        },
+        onTap: () => setState(() => _selectedCategory = value),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 8.h),
           child: Row(
@@ -82,7 +91,7 @@ class _CFilterState extends State<CFilter> {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              if (selectedCategory == value)
+              if (_selectedCategory == value)
                 Container(
                   width: 24.w,
                   height: 24.h,

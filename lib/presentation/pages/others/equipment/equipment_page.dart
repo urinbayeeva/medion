@@ -119,8 +119,9 @@ class _EquipmentPageState extends State<EquipmentPage> {
                                   Navigator.push(
                                     context,
                                     AppRoutes.getInfoViewAboutHealth(
+                                      discountCondition: "",
                                       date: data.createDate,
-                                      imagePath: data.primaryImage,
+                                      imagePath: data.images.toList(),
                                       title: data.decodedTitle,
                                       desc: data.decodedDescription,
                                     ),
@@ -149,7 +150,10 @@ class _EquipmentPageState extends State<EquipmentPage> {
                                     Navigator.push(
                                       context,
                                       AppRoutes.getInfoViewAboutHealth(
-                                        imagePath: childData.primaryImage,
+                                        discountCondition: "",
+                                        imagePath: equipmentContent[index]
+                                            .images
+                                            .toList(),
                                         date: childData.createDate,
                                         title: childData.decodedTitle,
                                         desc: childData.decodedDescription,

@@ -40,10 +40,14 @@ class ArticleCardWidget extends StatelessWidget {
                   child: _buildImageSection(colors, fonts)),
               4.h.verticalSpace,
               Text(title!,
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
                   style: fonts.xSmallLink
                       .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w600)),
               4.h.verticalSpace,
               Text(description!,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                   style: fonts.xSmallLink.copyWith(
                     fontSize: 11.sp,
                     fontWeight: FontWeight.w500,

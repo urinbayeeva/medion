@@ -77,7 +77,8 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
                   }
 
                   // Use contentByType["blog_health"] instead of state.content
-                  final blogHealthContent = state.contentByType["blog_health"] ?? [];
+                  final blogHealthContent =
+                      state.contentByType["blog_health"] ?? [];
 
                   if (blogHealthContent.isEmpty) {
                     return Center(
@@ -106,8 +107,9 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
                           Navigator.push(
                             context,
                             AppRoutes.getInfoViewAboutHealth(
+                              discountCondition: "",
                               date: data.createDate,
-                              imagePath: data.primaryImage,
+                              imagePath: data.images.toList(),
                               title: data.title,
                               desc: data.description,
                             ),

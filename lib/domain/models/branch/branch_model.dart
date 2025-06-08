@@ -42,6 +42,21 @@ abstract class BranchModel implements Built<BranchModel, BranchModelBuilder> {
   @BuiltValueField(wireName: 'description')
   String? get description;
 
+  @BuiltValueField(wireName: 'title')
+  String? get title;
+
+  @BuiltValueField(wireName: 'extra_description')
+  String? get extraDescription;
+
+  @BuiltValueField(wireName: 'our_offer')
+  String? get ourOffer;
+
+  @BuiltValueField(wireName: 'icon')
+  String? get icon;
+
+  @BuiltValueField(wireName: 'licenses')
+  BuiltList<String>? get licenses;
+
   static Serializer<BranchModel> get serializer => _$branchModelSerializer;
 }
 
@@ -103,6 +118,19 @@ abstract class EducationModel
 
   @BuiltValueField(wireName: 'courses')
   BuiltList<Course>? get courses;
+
+  @BuiltValueField(wireName: 'banner_link')
+  String? get bannerLink;
+
+  @BuiltValueField(wireName: 'banner_image')
+  String? get bannerImage;
+
+  String get decodedDescription => decodeHtml(description);
+  String get decodedAudience => decodeHtml(audience);
+  String get decodedValues => decodeHtml(values);
+  String get decodedGoals => decodeHtml(goals);
+  String get decodedWhyUs => decodeHtml(whyUs);
+  String get decodedMission => decodeHtml(mission);
 
   EducationModel._();
 

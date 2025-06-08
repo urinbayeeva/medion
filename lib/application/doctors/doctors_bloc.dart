@@ -17,6 +17,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
   DoctorBloc(this._repository) : super(const DoctorState()) {
     on<_FetchDoctors>(_fetchDoctors);
     on<_FetchDoctorDetails>(_fetchDoctorDetails);
+    on<_FetchDoctorsJob>(_fetchDoctorsJob);
   }
 
   FutureOr<void> _fetchDoctors(
@@ -29,7 +30,6 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
       success: false,
       doctorDetailsLoading: false,
     ));
-    // EasyLoading.show();
 
     final res = await _repository.fetchDoctors();
     res.fold(
@@ -39,6 +39,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
         emit(state.copyWith(loading: false, error: true));
       },
       (data) {
+        LogService.i("Fetched doctors: ${data.doctorData}");
         EasyLoading.dismiss();
         emit(state.copyWith(
           loading: false,
@@ -74,6 +75,35 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
           doctorDetailsLoading: false,
           doctorDetailsSuccess: true,
           doctorDetails: doctor,
+        ));
+      },
+    );
+  }
+
+  FutureOr<void> _fetchDoctorsJob(
+    _FetchDoctorsJob event,
+    Emitter<DoctorState> emit,
+  ) async {
+    emit(state.copyWith(
+      loading: true,
+      error: false,
+      success: false,
+    ));
+    // EasyLoading.show();
+
+    final res = await _repository.getDoctorsJob();
+    res.fold(
+      (error) {
+        LogService.e("Error in fetching doctors: $error");
+        EasyLoading.showError(error.message);
+        emit(state.copyWith(loading: false, error: true));
+      },
+      (data) {
+        EasyLoading.dismiss();
+        emit(state.copyWith(
+          loading: false,
+          success: true,
+          doctorsJob: data.toList(),
         ));
       },
     );

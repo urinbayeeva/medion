@@ -1,3 +1,5 @@
+// lib/presentation/pages/visits/my_visits_page.dart
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,9 +23,8 @@ class MyVisitsPage extends StatefulWidget {
 }
 
 class _MyVisitsPageState extends State<MyVisitsPage> {
-  List<OrderVisit> orderVisits = []; // For "My Bills" tab
-  List<Visit> visits = []; // For "My Appointments" tab
-  List<Order> orders = [];
+  List<PatientOrder> orders = [];
+  List<PatientVisit> visits = [];
   DBService? _dbService;
   bool _isLoading = true;
   bool _showVisits = true;
@@ -57,22 +58,11 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
       final response = await service.getPatientVisits();
       setState(() {
         orders = response.orders;
-        orderVisits =
-            response.orders.expand((order) => order.orderVisits).toList();
         visits = response.visits;
       });
     } catch (e) {
       print('Failed to fetch visits: $e');
     }
-  }
-
-  String _getPdfUrlForVisit(OrderVisit visit) {
-    for (var order in orders) {
-      if (order.orderVisits.contains(visit)) {
-        return order.orderCheckPdfUrl;
-      }
-    }
-    return '';
   }
 
   String formatVisitDateTime(String visitDate, String visitTime) {
@@ -105,14 +95,14 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                   CustomToggle(
                     iconList: [
                       Text(
-                        'Мои приемы'.tr(), // "My Visits" now comes first
+                        'Мои приемы'.tr(),
                         style: fonts.xSmallLink.copyWith(
                           color:
                               _showVisits ? colors.shade0 : colors.primary900,
                         ),
                       ),
                       Text(
-                        'Мои счета'.tr(), // "My Bills" now comes second
+                        'Мои счета'.tr(),
                         style: fonts.xSmallLink.copyWith(
                           color:
                               !_showVisits ? colors.shade0 : colors.primary900,
@@ -121,10 +111,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                     ],
                     onChanged: (value) => setState(() => _showVisits = value),
                     current: _showVisits,
-                    values: const [
-                      true,
-                      false
-                    ], // Inverted values to match the new order
+                    values: const [true, false],
                   ),
                   12.h.verticalSpace,
                 ],
@@ -133,6 +120,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
             Expanded(
               child: _showVisits ? _buildVisitsList() : _buildBillsList(),
             ),
+            60.h.verticalSpace,
           ],
         ),
       );
@@ -147,7 +135,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
         ),
       );
     }
-    if (orderVisits.isEmpty) {
+    if (orders.isEmpty) {
       return Center(
           child: Text(
         'you_have_no_visits'.tr(),
@@ -156,20 +144,26 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
     }
 
     return ListView.builder(
-      itemCount: orderVisits.length,
+      itemCount: orders.length,
       padding: EdgeInsets.zero,
       itemBuilder: (_, index) {
-        final visit = orderVisits[index];
-        final pdfUrl = _getPdfUrlForVisit(visit);
+        final order = orders[index];
+        final service = order.saleOrderLines.isNotEmpty
+            ? order.saleOrderLines.first.service
+            : '';
+        final formattedDate = order.saleOrderLines.isNotEmpty
+            ? order.saleOrderLines.first.formattedDate
+            : '';
+
         return VisitsNewDesignCard(
-          onTap: () => _navigateToOrderVisitDetails(visit, pdfUrl),
-          doctorName: visit.doctorFullName,
-          doctorJob: visit.doctorJobName,
-          serviceName: visit.serviceName,
-          location: visit.address,
-          timaAndDate: formatVisitDateTime(visit.visitDate, visit.visitTime),
-          paymentStatus: visit.paymentStatus,
-          doctorImage: visit.image,
+          onTap: () => _navigateToOrderDetails(order),
+          doctorName: '', // Not available in orders
+          doctorJob: '', // Not available in orders
+          serviceName: service,
+          location: '', // Not available in orders
+          timaAndDate: formattedDate, // Use the formatted date
+          paymentStatus: order.saleOrderPaymentStatus,
+          doctorImage: '', // Not available in orders
         );
       },
     );
@@ -217,19 +211,19 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
     );
   }
 
-  void _navigateToOrderVisitDetails(OrderVisit visit, String pdfUrl) {
+  void _navigateToOrderDetails(PatientOrder order) {
     context.read<BottomNavBarController>().changeNavBar(true);
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => VisitDetailPage(
           onTap: () {
-            if (pdfUrl.isNotEmpty) {
+            if (order.saleOrderCheckPdfUrl.isNotEmpty) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => PaymentWebView(
-                    url: pdfUrl,
+                    url: order.saleOrderCheckPdfUrl,
                     isInvoice: true,
                   ),
                 ),
@@ -240,18 +234,22 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
               );
             }
           },
-          longitude: visit.longitude,
-          latitude: visit.latitude,
-          image: visit.image,
-          doctorName: visit.doctorFullName,
-          categoryName: visit.categoryName,
-          visitDate: visit.visitDate,
-          visitLocation: visit.address,
-          visitPaymentByWhom: visit.paymentMethod,
-          visitStatus: visit.visitStatus,
-          serviceName: visit.serviceName,
-          servicePrice: 0,
-          paymentMethod: visit.paymentMethod,
+          longitude: 0.0, // Not available in orders
+          latitude: 0.0, // Not available in orders
+          image: '', // Not available in orders
+          doctorName: '', // Not available in orders
+          categoryName: '', // Not available in orders
+          visitDate: order.saleOrderLines.isNotEmpty
+              ? order.saleOrderLines.first.createDate.split(' ').first
+              : '',
+          visitLocation: '', // Not available in orders
+          visitPaymentByWhom: '', // Not available in orders
+          visitStatus: '', // Not available in orders
+          serviceName: order.saleOrderLines.isNotEmpty
+              ? order.saleOrderLines.first.service
+              : '',
+          servicePrice: order.saleOrderPrice,
+          paymentMethod: '', // Not available in orders
         ),
       ),
     ).then((_) {
@@ -259,7 +257,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
     });
   }
 
-  void _navigateToVisitDetails(Visit visit) {
+  void _navigateToVisitDetails(PatientVisit visit) {
     context.read<BottomNavBarController>().changeNavBar(true);
     Navigator.push(
       context,
@@ -276,7 +274,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
           visitPaymentByWhom: visit.paymentMethod,
           visitStatus: visit.visitStatus,
           serviceName: visit.serviceName,
-          servicePrice: 0,
+          servicePrice: visit.price,
           paymentMethod: visit.paymentMethod,
         ),
       ),

@@ -15,9 +15,12 @@ import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/appointment/doctor_time_and_service.dart';
+import 'package:medion/presentation/pages/booking/phone_callback_dialog.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/service_widget.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
+import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
+import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -52,10 +55,39 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
         .add(BookingEvent.fetchHomePageServiceDoctors(id: widget.id));
   }
 
+  void _showPhoneCallbackDialog(BuildContext context, dynamic colors,
+      dynamic fonts, List<int> serviceIds) {
+    showDialog(
+      context: context,
+      builder: (context) => PhoneCallbackDialog(serviceIds: serviceIds),
+    );
+  }
+
   Future<void> _initializeDBService() async {
     dbService = await DBService.create;
     setState(() {
       changeSum = dbService.getCurrencyPreference;
+    });
+  }
+
+  final DateFormat _dateFormat = DateFormat('dd.MM.yyyy');
+
+  String _formatDiscountDate(String? date) {
+    if (date == null || date.isEmpty) {
+      return 'дата не указана'.tr();
+    }
+    try {
+      return _dateFormat.format(DateTime.parse(date));
+    } catch (e) {
+      return 'неверный формат даты'.tr();
+    }
+  }
+
+  String _currentFilter = 'All'; // Default filter value
+
+  void _onFilterChanged(String filterValue) {
+    setState(() {
+      _currentFilter = filterValue;
     });
   }
 
@@ -98,7 +130,10 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                       showModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return const CFilter();
+                          return CFilter(
+                            currentFilter: _currentFilter,
+                            onFilterChanged: _onFilterChanged,
+                          );
                         },
                       );
                     },
@@ -208,6 +243,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
     final hasDoctors = state.medicalModel!.doctors.isNotEmpty;
     final hasDescription = state.medicalModel!.description?.isNotEmpty ?? false;
     final hasServices = state.medicalModel!.services.isNotEmpty;
+    final hasDiscount = state.medicalModel!.discount.isNotEmpty;
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(12.0.w),
@@ -271,6 +307,47 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                 _buildSectionTitle('services'.tr(), fonts),
                 _buildServicesList(state),
               ],
+              if (hasDiscount) ...[
+                12.h.verticalSpace,
+                Text(
+                  "discounts".tr(),
+                  style: fonts.regularMain,
+                ),
+                8.h.verticalSpace,
+                GridView.builder(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  itemCount: state.medicalModel!.discount.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                    childAspectRatio: 0.68,
+                  ),
+                  itemBuilder: (context, index) {
+                    final discount = state.medicalModel!.discount[index];
+                    final endDateFormatted = _formatDiscountDate(
+                        discount.discountEndDate?.toString());
+
+                    return ArticleCardWidget(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DiscountPage(
+                                      discountId: discount.id,
+                                    )));
+                      },
+                      title: discount.name,
+                      description: "Акция до {date}".tr(namedArgs: {
+                        "date": endDateFormatted,
+                      }),
+                      image: discount.image,
+                    );
+                  },
+                ),
+              ]
             ],
           ],
           if (selectedIndex == 1) ...[
@@ -339,6 +416,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
       itemBuilder: (_, index) {
         final doctor = state.medicalModel!.doctors[index];
         return DoctorsItem(
+          academicRank: "",
           gender: "male",
           isInnerPageUsed: true,
           imagePath: doctor.image,
@@ -375,6 +453,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
         final service = state.medicalModel!.services[index];
         final serviceId = service.id ?? index;
         return ServiceWidget(
+          serviceId: serviceId,
           consultInfo: service.name ?? "No service name",
           consultPrice: !changeSum
               ? "sum".tr(namedArgs: {"amount": formatNumber(service.priceUzs)})
@@ -389,6 +468,8 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
               }
             });
           },
+          canReceiveCallBack: service.canReceiveCallBack ?? false,
+          onCallBackRequested: _showPhoneCallbackDialog,
         );
       },
     );

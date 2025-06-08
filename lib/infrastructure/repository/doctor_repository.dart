@@ -11,16 +11,15 @@ class DoctorRepository {
 
   DoctorRepository(this.apiService);
 
-  // @override
-  Future<Either<ResponseFailure, List<DoctorCategory>>> fetchDoctors() async {
+  Future<Either<ResponseFailure, DoctorCategory>> fetchDoctors() async {
     try {
       final response = await apiService.getDoctorsInfo();
       LogService.d('Response Status: ${response.statusCode}');
       LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
-        final bookingTypes = response.body!;
-        return right(bookingTypes.toList());
+        final doctors = response.body!;
+        return right(doctors);
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
@@ -39,6 +38,26 @@ class DoctorRepository {
 
       if (response.isSuccessful && response.body != null) {
         return right(response.body!);
+      } else {
+        return left(InvalidCredentials(
+          message: 'failed_to_load_doctor_details'.tr(),
+          // statusCode: response.statusCode,
+        ));
+      }
+    } catch (e) {
+      LogService.e("Error fetching doctor details: ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
+
+  Future<Either<ResponseFailure, BuiltList<DoctorsJob>>> getDoctorsJob() async {
+    try {
+      final response = await apiService.getDoctorsJob();
+      LogService.d('Doctor Job Response Status: ${response.statusCode}');
+      LogService.d('Doctor Job Response Body: ${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        return right(response.body!.toBuiltList());
       } else {
         return left(InvalidCredentials(
           message: 'failed_to_load_doctor_details'.tr(),

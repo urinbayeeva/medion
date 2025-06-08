@@ -70,22 +70,6 @@ class StudyInfoCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    8.w.horizontalSpace,
-                    Expanded(
-                      child: AnimationButtonEffect(
-                        onTap: applyOnTap,
-                        child: Container(
-                          padding: EdgeInsets.all(16.w),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.r),
-                              color: colors.neutral200),
-                          child: Center(
-                            child:
-                                Text("get_know".tr(), style: fonts.smallMain),
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 )
               ],

@@ -25,11 +25,14 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(CreatePatientResponse.serializer)
       ..add(CreatePatientServiceResponse.serializer)
       ..add(DiagnosticsModel.serializer)
+      ..add(Discount.serializer)
+      ..add(DiscountModel.serializer)
       ..add(DiseaseModle.serializer)
       ..add(Doctor.serializer)
       ..add(DoctorCategory.serializer)
       ..add(DoctorData.serializer)
       ..add(DoctorSearchText.serializer)
+      ..add(DoctorsJob.serializer)
       ..add(DoctorsRequest.serializer)
       ..add(Education.serializer)
       ..add(EducationModel.serializer)
@@ -104,6 +107,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(Education)]),
           () => new ListBuilder<Education>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Discount)]),
+          () => new ListBuilder<Discount>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Award)]),
           () => new ListBuilder<Award>())
       ..addBuilderFactory(
@@ -115,6 +121,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(HomeServiceBooking)]),
           () => new ListBuilder<HomeServiceBooking>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(DiscountModel)]),
+          () => new ListBuilder<DiscountModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(OrderVisit)]),
           () => new ListBuilder<OrderVisit>())
@@ -161,11 +170,14 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ChildContentModel)]),
+          () => new ListBuilder<ChildContentModel>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(ChildContentModel)]),
-          () => new ListBuilder<ChildContentModel>())
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(ThirdBookingCompanyDoctor)]),

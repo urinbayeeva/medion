@@ -9,10 +9,6 @@ List<Map<String, dynamic>> othersData = [
       "icon": IconSet.create.hospital,
     },
     {
-      "title": "team".tr(),
-      "icon": IconSet.create.group,
-    },
-    {
       "title": "training".tr(),
       "icon": IconSet.create.book,
     },
@@ -68,6 +64,14 @@ List<Map<String, dynamic>> othersData = [
   {
     "title": "our_activities".tr(),
     "icon": IconSet.create.stethoscope,
+  },
+  {
+    "title": "education".tr(),
+    "icon": IconSet.create.book,
+  },
+  {
+    "title": "team".tr(),
+    "icon": IconSet.create.group,
   },
 ];
 

@@ -24,6 +24,8 @@ Serializer<HomepageBookingCategory> _$homepageBookingCategorySerializer =
     new _$HomepageBookingCategorySerializer();
 Serializer<MedicalModel> _$medicalModelSerializer =
     new _$MedicalModelSerializer();
+Serializer<DiscountModel> _$discountModelSerializer =
+    new _$DiscountModelSerializer();
 Serializer<HomeMedicalDoctor> _$homeMedicalDoctorSerializer =
     new _$HomeMedicalDoctorSerializer();
 Serializer<HomeServiceBooking> _$homeServiceBookingSerializer =
@@ -738,6 +740,20 @@ class _$HomepageBookingCategorySerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.isChild;
+    if (value != null) {
+      result
+        ..add('is_child')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.hasDiscount;
+    if (value != null) {
+      result
+        ..add('has_discount')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -765,6 +781,14 @@ class _$HomepageBookingCategorySerializer
           result.icon = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'is_child':
+          result.isChild = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'has_discount':
+          result.hasDiscount = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
       }
     }
 
@@ -790,6 +814,10 @@ class _$MedicalModelSerializer implements StructuredSerializer<MedicalModel> {
       serializers.serialize(object.services,
           specifiedType: const FullType(
               BuiltList, const [const FullType(HomeServiceBooking)])),
+      'discounts',
+      serializers.serialize(object.discount,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(DiscountModel)])),
     ];
     Object? value;
     value = object.id;
@@ -839,6 +867,72 @@ class _$MedicalModelSerializer implements StructuredSerializer<MedicalModel> {
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(HomeServiceBooking)]))!
               as BuiltList<Object?>);
+          break;
+        case 'discounts':
+          result.discount.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(DiscountModel)]))!
+              as BuiltList<Object?>);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$DiscountModelSerializer implements StructuredSerializer<DiscountModel> {
+  @override
+  final Iterable<Type> types = const [DiscountModel, _$DiscountModel];
+  @override
+  final String wireName = 'DiscountModel';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, DiscountModel object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'id',
+      serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'name',
+      serializers.serialize(object.name, specifiedType: const FullType(String)),
+      'image',
+      serializers.serialize(object.image,
+          specifiedType: const FullType(String)),
+      'discount_end_date',
+      serializers.serialize(object.discountEndDate,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  DiscountModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new DiscountModelBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'image':
+          result.image = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'discount_end_date':
+          result.discountEndDate = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -2617,12 +2711,18 @@ class _$HomepageBookingCategory extends HomepageBookingCategory {
   final String? name;
   @override
   final String? icon;
+  @override
+  final String? isChild;
+  @override
+  final bool? hasDiscount;
 
   factory _$HomepageBookingCategory(
           [void Function(HomepageBookingCategoryBuilder)? updates]) =>
       (new HomepageBookingCategoryBuilder()..update(updates))._build();
 
-  _$HomepageBookingCategory._({this.id, this.name, this.icon}) : super._();
+  _$HomepageBookingCategory._(
+      {this.id, this.name, this.icon, this.isChild, this.hasDiscount})
+      : super._();
 
   @override
   HomepageBookingCategory rebuild(
@@ -2639,7 +2739,9 @@ class _$HomepageBookingCategory extends HomepageBookingCategory {
     return other is HomepageBookingCategory &&
         id == other.id &&
         name == other.name &&
-        icon == other.icon;
+        icon == other.icon &&
+        isChild == other.isChild &&
+        hasDiscount == other.hasDiscount;
   }
 
   @override
@@ -2648,6 +2750,8 @@ class _$HomepageBookingCategory extends HomepageBookingCategory {
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
+    _$hash = $jc(_$hash, isChild.hashCode);
+    _$hash = $jc(_$hash, hasDiscount.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -2657,7 +2761,9 @@ class _$HomepageBookingCategory extends HomepageBookingCategory {
     return (newBuiltValueToStringHelper(r'HomepageBookingCategory')
           ..add('id', id)
           ..add('name', name)
-          ..add('icon', icon))
+          ..add('icon', icon)
+          ..add('isChild', isChild)
+          ..add('hasDiscount', hasDiscount))
         .toString();
   }
 }
@@ -2679,6 +2785,14 @@ class HomepageBookingCategoryBuilder
   String? get icon => _$this._icon;
   set icon(String? icon) => _$this._icon = icon;
 
+  String? _isChild;
+  String? get isChild => _$this._isChild;
+  set isChild(String? isChild) => _$this._isChild = isChild;
+
+  bool? _hasDiscount;
+  bool? get hasDiscount => _$this._hasDiscount;
+  set hasDiscount(bool? hasDiscount) => _$this._hasDiscount = hasDiscount;
+
   HomepageBookingCategoryBuilder();
 
   HomepageBookingCategoryBuilder get _$this {
@@ -2687,6 +2801,8 @@ class HomepageBookingCategoryBuilder
       _id = $v.id;
       _name = $v.name;
       _icon = $v.icon;
+      _isChild = $v.isChild;
+      _hasDiscount = $v.hasDiscount;
       _$v = null;
     }
     return this;
@@ -2712,6 +2828,8 @@ class HomepageBookingCategoryBuilder
           id: id,
           name: name,
           icon: icon,
+          isChild: isChild,
+          hasDiscount: hasDiscount,
         );
     replace(_$result);
     return _$result;
@@ -2727,6 +2845,8 @@ class _$MedicalModel extends MedicalModel {
   final BuiltList<HomeMedicalDoctor> doctors;
   @override
   final BuiltList<HomeServiceBooking> services;
+  @override
+  final BuiltList<DiscountModel> discount;
 
   factory _$MedicalModel([void Function(MedicalModelBuilder)? updates]) =>
       (new MedicalModelBuilder()..update(updates))._build();
@@ -2735,11 +2855,14 @@ class _$MedicalModel extends MedicalModel {
       {this.id,
       this.description,
       required this.doctors,
-      required this.services})
+      required this.services,
+      required this.discount})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(doctors, r'MedicalModel', 'doctors');
     BuiltValueNullFieldError.checkNotNull(
         services, r'MedicalModel', 'services');
+    BuiltValueNullFieldError.checkNotNull(
+        discount, r'MedicalModel', 'discount');
   }
 
   @override
@@ -2756,7 +2879,8 @@ class _$MedicalModel extends MedicalModel {
         id == other.id &&
         description == other.description &&
         doctors == other.doctors &&
-        services == other.services;
+        services == other.services &&
+        discount == other.discount;
   }
 
   @override
@@ -2766,6 +2890,7 @@ class _$MedicalModel extends MedicalModel {
     _$hash = $jc(_$hash, description.hashCode);
     _$hash = $jc(_$hash, doctors.hashCode);
     _$hash = $jc(_$hash, services.hashCode);
+    _$hash = $jc(_$hash, discount.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -2776,7 +2901,8 @@ class _$MedicalModel extends MedicalModel {
           ..add('id', id)
           ..add('description', description)
           ..add('doctors', doctors)
-          ..add('services', services))
+          ..add('services', services)
+          ..add('discount', discount))
         .toString();
   }
 }
@@ -2805,6 +2931,12 @@ class MedicalModelBuilder
   set services(ListBuilder<HomeServiceBooking>? services) =>
       _$this._services = services;
 
+  ListBuilder<DiscountModel>? _discount;
+  ListBuilder<DiscountModel> get discount =>
+      _$this._discount ??= new ListBuilder<DiscountModel>();
+  set discount(ListBuilder<DiscountModel>? discount) =>
+      _$this._discount = discount;
+
   MedicalModelBuilder();
 
   MedicalModelBuilder get _$this {
@@ -2814,6 +2946,7 @@ class MedicalModelBuilder
       _description = $v.description;
       _doctors = $v.doctors.toBuilder();
       _services = $v.services.toBuilder();
+      _discount = $v.discount.toBuilder();
       _$v = null;
     }
     return this;
@@ -2842,6 +2975,7 @@ class MedicalModelBuilder
             description: description,
             doctors: doctors.build(),
             services: services.build(),
+            discount: discount.build(),
           );
     } catch (_) {
       late String _$failedField;
@@ -2850,12 +2984,144 @@ class MedicalModelBuilder
         doctors.build();
         _$failedField = 'services';
         services.build();
+        _$failedField = 'discount';
+        discount.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'MedicalModel', _$failedField, e.toString());
       }
       rethrow;
     }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$DiscountModel extends DiscountModel {
+  @override
+  final int id;
+  @override
+  final String name;
+  @override
+  final String image;
+  @override
+  final String discountEndDate;
+
+  factory _$DiscountModel([void Function(DiscountModelBuilder)? updates]) =>
+      (new DiscountModelBuilder()..update(updates))._build();
+
+  _$DiscountModel._(
+      {required this.id,
+      required this.name,
+      required this.image,
+      required this.discountEndDate})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(id, r'DiscountModel', 'id');
+    BuiltValueNullFieldError.checkNotNull(name, r'DiscountModel', 'name');
+    BuiltValueNullFieldError.checkNotNull(image, r'DiscountModel', 'image');
+    BuiltValueNullFieldError.checkNotNull(
+        discountEndDate, r'DiscountModel', 'discountEndDate');
+  }
+
+  @override
+  DiscountModel rebuild(void Function(DiscountModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  DiscountModelBuilder toBuilder() => new DiscountModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is DiscountModel &&
+        id == other.id &&
+        name == other.name &&
+        image == other.image &&
+        discountEndDate == other.discountEndDate;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, image.hashCode);
+    _$hash = $jc(_$hash, discountEndDate.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'DiscountModel')
+          ..add('id', id)
+          ..add('name', name)
+          ..add('image', image)
+          ..add('discountEndDate', discountEndDate))
+        .toString();
+  }
+}
+
+class DiscountModelBuilder
+    implements Builder<DiscountModel, DiscountModelBuilder> {
+  _$DiscountModel? _$v;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
+  String? _image;
+  String? get image => _$this._image;
+  set image(String? image) => _$this._image = image;
+
+  String? _discountEndDate;
+  String? get discountEndDate => _$this._discountEndDate;
+  set discountEndDate(String? discountEndDate) =>
+      _$this._discountEndDate = discountEndDate;
+
+  DiscountModelBuilder();
+
+  DiscountModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _name = $v.name;
+      _image = $v.image;
+      _discountEndDate = $v.discountEndDate;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(DiscountModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$DiscountModel;
+  }
+
+  @override
+  void update(void Function(DiscountModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  DiscountModel build() => _build();
+
+  _$DiscountModel _build() {
+    final _$result = _$v ??
+        new _$DiscountModel._(
+          id: BuiltValueNullFieldError.checkNotNull(id, r'DiscountModel', 'id'),
+          name: BuiltValueNullFieldError.checkNotNull(
+              name, r'DiscountModel', 'name'),
+          image: BuiltValueNullFieldError.checkNotNull(
+              image, r'DiscountModel', 'image'),
+          discountEndDate: BuiltValueNullFieldError.checkNotNull(
+              discountEndDate, r'DiscountModel', 'discountEndDate'),
+        );
     replace(_$result);
     return _$result;
   }

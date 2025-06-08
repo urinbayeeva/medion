@@ -19,8 +19,7 @@ class PatternBackground extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Text(patternTitle,
-                  style: fonts.smallLink
-                      .copyWith(fontSize: 15.sp, fontWeight: FontWeight.w400)),
+                  style: fonts.regularMain.copyWith(fontSize: 14.sp)),
             ),
           ],
         ),

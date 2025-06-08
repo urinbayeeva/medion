@@ -109,8 +109,9 @@ class _NewsPageState extends State<NewsPage> {
                             Navigator.push(
                               context,
                               AppRoutes.getInfoViewAboutHealth(
+                                discountCondition: "",
                                 date: item.createDate,
-                                imagePath: item.primaryImage,
+                                imagePath: item.images.toList(),
                                 title: item.decodedTitle,
                                 desc: item.decodedDescription,
                               ),

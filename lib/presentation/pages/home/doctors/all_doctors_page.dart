@@ -104,7 +104,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
       setState(() {
         recentSearches.insert(0, {
           'query': query,
-          'time': DateTime.now(), // Reflects May 20, 2025, 18:43 +05
+          'time': DateTime.now(),
         });
 
         if (recentSearches.length > 5) {
@@ -194,7 +194,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               Expanded(
                 child: BlocBuilder<DoctorBloc, DoctorState>(
                   builder: (context, state) {
-                    if (state.loading || state.doctors.isEmpty) {
+                    if (state.loading || state.doctors == null) {
                       return _buildShimmerView(colors);
                     }
                     if (state.error) {
@@ -258,21 +258,19 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
     );
   }
 
-  Widget _buildSearchResults(DoctorState state, colors, fonts, icons) {
-    final allDoctors = state.doctors.expand((category) {
-      return category.doctorData.map((doctor) {
-        return {
-          'name': doctor.name.toString(),
-          'profession': doctor.specialty?.toString() ?? 'N/A',
-          'image': doctor.image?.toString() ?? '',
-          'category': category.categoryName.toString(),
-          'id': doctor.id.toString(),
-          'status': doctor.specialty?.toString() ?? 'N/A',
-          'candidateScience': false,
-          'work_experience': doctor.workExperience,
-        };
-      });
-    }).toList();
+  Widget _buildSearchResults(state, colors, fonts, icons) {
+    final allDoctors = state.doctors?.doctorData.map((doctor) {
+          return {
+            'name': doctor.name.toString(),
+            'profession': doctor.specialty?.toString() ?? 'N/A',
+            'image': doctor.image?.toString() ?? '',
+            'id': doctor.id.toString(),
+            'status': doctor.specialty?.toString() ?? 'N/A',
+            'candidateScience': false,
+            'work_experience': doctor.workExperience,
+          };
+        }).toList() ??
+        [];
 
     final searchResults = searchQuery.isEmpty
         ? []
@@ -280,11 +278,8 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
             final name = doctor['name']?.toString().toLowerCase() ?? '';
             final profession =
                 doctor['profession']?.toString().toLowerCase() ?? '';
-            final category = doctor['category']?.toString().toLowerCase() ?? '';
-
             return name.contains(searchQuery) ||
-                profession.contains(searchQuery) ||
-                category.contains(searchQuery);
+                profession.contains(searchQuery);
           }).toList();
 
     return Padding(
@@ -406,6 +401,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 itemBuilder: (context, index) {
                   final doctor = searchResults[index];
                   return DoctorsItem(
+                    academicRank: doctor["academic_rank"].toString(),
                     home: false,
                     isInnerPageUsed: true,
                     onTap: () {
@@ -469,35 +465,55 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
     );
   }
 
-  Widget _buildDefaultView(DoctorState state, colors, fonts, icons) {
-    // Collect all doctors into a single list
-    List<Map<String, dynamic>> allDoctors = [];
-    for (var category in state.doctors) {
-      var filteredDoctors = category.doctorData
-          .where((doctor) => _matchesCategory(doctor))
-          .map((doctor) => {
-                'name': doctor.name.toString(),
-                'profession': doctor.specialty?.toString() ?? 'N/A',
-                'image': doctor.image?.toString() ?? '',
-                'category': category.categoryName.toString(),
-                'id': doctor.id.toString(),
-                'status': doctor.specialty?.toString() ?? 'N/A',
-                'candidateScience': false,
-                'work_experience': doctor.workExperience,
-              })
-          .toList();
-      allDoctors.addAll(filteredDoctors);
-    }
-
-    // If no doctors match the filter and category is not 'all', show empty state
-    if (allDoctors.isEmpty && selectedCategory != Category.all) {
+  Widget _buildDefaultView(state, colors, fonts, icons) {
+    // Handle null or empty doctorData
+    final doctorData = state.doctors?.doctorData ?? [];
+    if (doctorData.isEmpty) {
       return SizedBox(
         height: MediaQuery.of(context).size.height * 0.7,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset("assets/icons/emoji-sad_d.svg",
-                width: 80.w, height: 80.h),
+            SvgPicture.asset(
+              "assets/icons/emoji-sad_d.svg",
+              width: 80.w,
+              height: 80.h,
+            ),
+            Center(
+              child: Text(
+                "no_doctors_available".tr(),
+                style: fonts.mediumMain.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final filteredDoctors = doctorData
+        .where((doctor) => _matchesCategory(doctor))
+        .map((doctor) => {
+              'name': doctor.name.toString(),
+              'profession': doctor.specialty?.toString() ?? 'N/A',
+              'image': doctor.image?.toString() ?? '',
+              'id': doctor.id.toString(),
+              'status': doctor.specialty?.toString() ?? 'N/A',
+              'candidateScience': false,
+              'work_experience': doctor.workExperience,
+            })
+        .toList();
+
+    if (filteredDoctors.isEmpty && selectedCategory != Category.all) {
+      return SizedBox(
+        height: MediaQuery.of(context).size.height * 0.7,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              "assets/icons/emoji-sad_d.svg",
+              width: 80.w,
+              height: 80.h,
+            ),
             Center(
               child: Text(
                 "no_result_found".tr(),
@@ -509,15 +525,17 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
       );
     }
 
-    // If toggled to foreign doctors, show empty state (since we only have Medion doctors)
     if (!isMedionDoctor) {
       return SizedBox(
         height: MediaQuery.of(context).size.height * 0.7,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset("assets/icons/emoji-sad_d.svg",
-                width: 80.w, height: 80.h),
+            SvgPicture.asset(
+              "assets/icons/emoji-sad_d.svg",
+              width: 80.w,
+              height: 80.h,
+            ),
             Center(
               child: Text(
                 "no_result_found".tr(),
@@ -531,7 +549,9 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
 
     // Calculate the number of doctors needed to fill the last row
     const int crossAxisCount = 2;
-    int remainder = allDoctors.length % crossAxisCount;
+    int remainder = filteredDoctors.length % crossAxisCount;
+    List<Map<String, dynamic>> allDoctors = List.from(filteredDoctors);
+
     if (remainder != 0) {
       int doctorsToAdd = crossAxisCount - remainder;
       for (int i = 0; i < doctorsToAdd; i++) {
@@ -539,7 +559,6 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
           'name': 'Placeholder Doctor',
           'profession': 'N/A',
           'image': '',
-          'category': 'N/A',
           'id': 'placeholder_${i + allDoctors.length}',
           'status': 'N/A',
           'candidateScience': false,
@@ -570,11 +589,12 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               final doctor = allDoctors[index];
               if (doctor['name'] == 'Placeholder Doctor') {
                 return DoctorsItem(
+                  academicRank: doctor["academic_rank"].toString(),
                   home: false,
                   isInnerPageUsed: true,
                   onTap: () {},
                   experience: "experience".tr(namedArgs: {"count": "0"}),
-                  categoryType: doctor['category'].toString(),
+                  categoryType: '',
                   imagePath: '',
                   name: 'N/A',
                   profession: 'N/A',
@@ -584,6 +604,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 );
               }
               return DoctorsItem(
+                academicRank: doctor["academic_rank"].toString(),
                 home: false,
                 isInnerPageUsed: true,
                 onTap: () {
@@ -602,7 +623,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 },
                 experience: "experience".tr(
                     namedArgs: {"count": doctor['work_experience'].toString()}),
-                categoryType: doctor['category'].toString(),
+                categoryType: '',
                 imagePath: doctor['image'].toString(),
                 name: doctor['name'].toString(),
                 profession: doctor['profession'].toString(),
