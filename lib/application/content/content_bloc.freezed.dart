@@ -20,32 +20,38 @@ mixin _$ContentEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) fetchContent,
+    required TResult Function(String type) getTeams,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? fetchContent,
+    TResult? Function(String type)? getTeams,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? fetchContent,
+    TResult Function(String type)? getTeams,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchContent value) fetchContent,
+    required TResult Function(_GetTeams value) getTeams,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchContent value)? fetchContent,
+    TResult? Function(_GetTeams value)? getTeams,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchContent value)? fetchContent,
+    TResult Function(_GetTeams value)? getTeams,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -163,6 +169,7 @@ class _$FetchContentImpl implements _FetchContent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) fetchContent,
+    required TResult Function(String type) getTeams,
   }) {
     return fetchContent(type);
   }
@@ -171,6 +178,7 @@ class _$FetchContentImpl implements _FetchContent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? fetchContent,
+    TResult? Function(String type)? getTeams,
   }) {
     return fetchContent?.call(type);
   }
@@ -179,6 +187,7 @@ class _$FetchContentImpl implements _FetchContent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? fetchContent,
+    TResult Function(String type)? getTeams,
     required TResult orElse(),
   }) {
     if (fetchContent != null) {
@@ -191,6 +200,7 @@ class _$FetchContentImpl implements _FetchContent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchContent value) fetchContent,
+    required TResult Function(_GetTeams value) getTeams,
   }) {
     return fetchContent(this);
   }
@@ -199,6 +209,7 @@ class _$FetchContentImpl implements _FetchContent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchContent value)? fetchContent,
+    TResult? Function(_GetTeams value)? getTeams,
   }) {
     return fetchContent?.call(this);
   }
@@ -207,6 +218,7 @@ class _$FetchContentImpl implements _FetchContent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchContent value)? fetchContent,
+    TResult Function(_GetTeams value)? getTeams,
     required TResult orElse(),
   }) {
     if (fetchContent != null) {
@@ -232,9 +244,155 @@ abstract class _FetchContent implements ContentEvent {
 }
 
 /// @nodoc
+abstract class _$$GetTeamsImplCopyWith<$Res>
+    implements $ContentEventCopyWith<$Res> {
+  factory _$$GetTeamsImplCopyWith(
+          _$GetTeamsImpl value, $Res Function(_$GetTeamsImpl) then) =
+      __$$GetTeamsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class __$$GetTeamsImplCopyWithImpl<$Res>
+    extends _$ContentEventCopyWithImpl<$Res, _$GetTeamsImpl>
+    implements _$$GetTeamsImplCopyWith<$Res> {
+  __$$GetTeamsImplCopyWithImpl(
+      _$GetTeamsImpl _value, $Res Function(_$GetTeamsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ContentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_$GetTeamsImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetTeamsImpl implements _GetTeams {
+  const _$GetTeamsImpl({required this.type});
+
+  @override
+  final String type;
+
+  @override
+  String toString() {
+    return 'ContentEvent.getTeams(type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetTeamsImpl &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, type);
+
+  /// Create a copy of ContentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetTeamsImplCopyWith<_$GetTeamsImpl> get copyWith =>
+      __$$GetTeamsImplCopyWithImpl<_$GetTeamsImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type) fetchContent,
+    required TResult Function(String type) getTeams,
+  }) {
+    return getTeams(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type)? fetchContent,
+    TResult? Function(String type)? getTeams,
+  }) {
+    return getTeams?.call(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type)? fetchContent,
+    TResult Function(String type)? getTeams,
+    required TResult orElse(),
+  }) {
+    if (getTeams != null) {
+      return getTeams(type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchContent value) fetchContent,
+    required TResult Function(_GetTeams value) getTeams,
+  }) {
+    return getTeams(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchContent value)? fetchContent,
+    TResult? Function(_GetTeams value)? getTeams,
+  }) {
+    return getTeams?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchContent value)? fetchContent,
+    TResult Function(_GetTeams value)? getTeams,
+    required TResult orElse(),
+  }) {
+    if (getTeams != null) {
+      return getTeams(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetTeams implements ContentEvent {
+  const factory _GetTeams({required final String type}) = _$GetTeamsImpl;
+
+  @override
+  String get type;
+
+  /// Create a copy of ContentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GetTeamsImplCopyWith<_$GetTeamsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$ContentState {
   Map<String, List<ContentModel>> get contentByType =>
       throw _privateConstructorUsedError;
+  Map<String, Team> get team => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get teamStatus => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
   bool get success => throw _privateConstructorUsedError;
@@ -255,6 +413,8 @@ abstract class $ContentStateCopyWith<$Res> {
   @useResult
   $Res call(
       {Map<String, List<ContentModel>> contentByType,
+      Map<String, Team> team,
+      FormzSubmissionStatus teamStatus,
       bool loading,
       bool error,
       bool success,
@@ -277,6 +437,8 @@ class _$ContentStateCopyWithImpl<$Res, $Val extends ContentState>
   @override
   $Res call({
     Object? contentByType = null,
+    Object? team = null,
+    Object? teamStatus = null,
     Object? loading = null,
     Object? error = null,
     Object? success = null,
@@ -287,6 +449,14 @@ class _$ContentStateCopyWithImpl<$Res, $Val extends ContentState>
           ? _value.contentByType
           : contentByType // ignore: cast_nullable_to_non_nullable
               as Map<String, List<ContentModel>>,
+      team: null == team
+          ? _value.team
+          : team // ignore: cast_nullable_to_non_nullable
+              as Map<String, Team>,
+      teamStatus: null == teamStatus
+          ? _value.teamStatus
+          : teamStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -317,6 +487,8 @@ abstract class _$$ContentStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {Map<String, List<ContentModel>> contentByType,
+      Map<String, Team> team,
+      FormzSubmissionStatus teamStatus,
       bool loading,
       bool error,
       bool success,
@@ -337,6 +509,8 @@ class __$$ContentStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? contentByType = null,
+    Object? team = null,
+    Object? teamStatus = null,
     Object? loading = null,
     Object? error = null,
     Object? success = null,
@@ -347,6 +521,14 @@ class __$$ContentStateImplCopyWithImpl<$Res>
           ? _value._contentByType
           : contentByType // ignore: cast_nullable_to_non_nullable
               as Map<String, List<ContentModel>>,
+      team: null == team
+          ? _value._team
+          : team // ignore: cast_nullable_to_non_nullable
+              as Map<String, Team>,
+      teamStatus: null == teamStatus
+          ? _value.teamStatus
+          : teamStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -373,11 +555,14 @@ class _$ContentStateImpl extends _ContentState {
   const _$ContentStateImpl(
       {final Map<String, List<ContentModel>> contentByType =
           const <String, List<ContentModel>>{},
+      final Map<String, Team> team = const <String, Team>{},
+      this.teamStatus = FormzSubmissionStatus.initial,
       this.loading = false,
       this.error = false,
       this.success = false,
       final List<ContentModel> content = const []})
       : _contentByType = contentByType,
+        _team = team,
         _content = content,
         super._();
 
@@ -390,6 +575,18 @@ class _$ContentStateImpl extends _ContentState {
     return EqualUnmodifiableMapView(_contentByType);
   }
 
+  final Map<String, Team> _team;
+  @override
+  @JsonKey()
+  Map<String, Team> get team {
+    if (_team is EqualUnmodifiableMapView) return _team;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_team);
+  }
+
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus teamStatus;
   @override
   @JsonKey()
   final bool loading;
@@ -410,7 +607,7 @@ class _$ContentStateImpl extends _ContentState {
 
   @override
   String toString() {
-    return 'ContentState(contentByType: $contentByType, loading: $loading, error: $error, success: $success, content: $content)';
+    return 'ContentState(contentByType: $contentByType, team: $team, teamStatus: $teamStatus, loading: $loading, error: $error, success: $success, content: $content)';
   }
 
   @override
@@ -420,6 +617,9 @@ class _$ContentStateImpl extends _ContentState {
             other is _$ContentStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._contentByType, _contentByType) &&
+            const DeepCollectionEquality().equals(other._team, _team) &&
+            (identical(other.teamStatus, teamStatus) ||
+                other.teamStatus == teamStatus) &&
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.success, success) || other.success == success) &&
@@ -430,6 +630,8 @@ class _$ContentStateImpl extends _ContentState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_contentByType),
+      const DeepCollectionEquality().hash(_team),
+      teamStatus,
       loading,
       error,
       success,
@@ -447,6 +649,8 @@ class _$ContentStateImpl extends _ContentState {
 abstract class _ContentState extends ContentState {
   const factory _ContentState(
       {final Map<String, List<ContentModel>> contentByType,
+      final Map<String, Team> team,
+      final FormzSubmissionStatus teamStatus,
       final bool loading,
       final bool error,
       final bool success,
@@ -455,6 +659,10 @@ abstract class _ContentState extends ContentState {
 
   @override
   Map<String, List<ContentModel>> get contentByType;
+  @override
+  Map<String, Team> get team;
+  @override
+  FormzSubmissionStatus get teamStatus;
   @override
   bool get loading;
   @override

@@ -46,8 +46,7 @@ class _EducationPageState extends State<EducationPage> {
               Expanded(
                 child: BlocBuilder<BranchBloc, BranchState>(
                   builder: (context, state) {
-                    List<Map<String, dynamic>> _getStudyItems(
-                        BranchState state) {
+                    List<Map<String, dynamic>> _getStudyItems(BranchState state) {
                       return [
                         {
                           'title': "mission".tr(),
@@ -98,81 +97,85 @@ class _EducationPageState extends State<EducationPage> {
                     return ListView(
                       padding: EdgeInsets.zero,
                       children: [
-                        Stack(
-                          children: [
-                            // Background image
-                            CachedNetworkImage(
-                              imageUrl: state.study?.bannerImage ?? '',
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              height: 250.h, // Adjust as needed
-                            ),
+                        if (state.study?.bannerImage != null && state.study!.bannerImage!.isNotEmpty) ...[
+                          Stack(
+                            children: [
+                              // Background image
+                              CachedNetworkImage(
+                                imageUrl: state.study?.bannerImage ?? '',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: 250.h, // Adjust as needed
+                              ),
 
-                            // Black blur overlay
-                            Container(
-                              width: double.infinity,
-                              height: 250.h,
-                              color: Colors.black.withOpacity(0.5),
-                            ),
+                              // Black blur overlay
+                              Container(
+                                width: double.infinity,
+                                height: 250.h,
+                                color: Colors.black.withOpacity(0.5),
+                              ),
 
-                            // Centered text
-                            Positioned.fill(
-                              child: Center(
+                              // Centered text
+                              Positioned.fill(
+                                child: Center(
                                   child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      state.study?.name ?? "",
-                                      style: fonts.regularMain.copyWith(
-                                        color: Colors.white,
-                                      ),
-                                      textAlign: TextAlign.center,
+                                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          state.study?.name ?? "",
+                                          style: fonts.regularMain.copyWith(
+                                            color: Colors.white,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        8.h.verticalSpace,
+                                        Text(
+                                          state.study?.decodedDescription ?? "",
+                                          style: fonts.regularLink.copyWith(
+                                            color: Colors.white70,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        8.h.verticalSpace,
+                                        CButton(
+                                          backgroundColor: colors.neutral400,
+                                          textColor: colors.primary900,
+                                          onTap: () async {
+                                            await launchUrl(Uri.parse(state.study!.bannerLink ?? ""));
+                                          },
+                                          title: "open_our_web".tr(),
+                                        )
+                                      ],
                                     ),
-                                    8.h.verticalSpace,
-                                    Text(
-                                      state.study?.decodedDescription ?? "",
-                                      style: fonts.regularLink.copyWith(
-                                        color: Colors.white70,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    8.h.verticalSpace,
-                                    CButton(
-                                        backgroundColor: colors.neutral400,
-                                        textColor: colors.primary900,
-                                        onTap: () async {
-                                          await launchUrl(Uri.parse(
-                                              state.study!.bannerLink ?? ""));
-                                        },
-                                        title: "open_our_web".tr())
-                                  ],
+                                  ),
                                 ),
-                              )),
-                            ),
-                          ],
-                        ),
-                        12.h.verticalSpace,
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: state.study?.courses?.length ?? 0,
-                            padding: EdgeInsets.zero,
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              final studyInfo = state.study?.courses?[index];
-                              return StudyInfoCard(
-                                title: studyInfo?.name ?? "",
-                                description:
-                                    studyInfo?.description ?? "No Description",
-                                imagePath: studyInfo?.image ?? "",
-                                moreInfoOnTap: () {},
-                                applyOnTap: () {},
-                              );
-                            },
+                              ),
+                            ],
                           ),
-                        ),
+                        ],
+                        12.h.verticalSpace,
+                        if ((state.study?.courses?.length ?? 0) != 0) ...[
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: state.study?.courses?.length ?? 0,
+                              padding: EdgeInsets.zero,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                final studyInfo = state.study?.courses?[index];
+                                return StudyInfoCard(
+                                  title: studyInfo?.name ?? "",
+                                  description: studyInfo?.description ?? "No Description",
+                                  imagePath: studyInfo?.image ?? "",
+                                  moreInfoOnTap: () {},
+                                  applyOnTap: () {},
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                         24.h.verticalSpace,
                         ListView.builder(
                           padding: EdgeInsets.zero,
@@ -186,8 +189,7 @@ class _EducationPageState extends State<EducationPage> {
                               child: CustomExpansionListTile(
                                 hasIcon: item['image'],
                                 title: item['title'],
-                                description:
-                                    "", // You can modify this if needed
+                                description: "", // You can modify this if needed
                                 children: [
                                   Text(
                                     item['data'] ?? "no_result_found".tr(),
@@ -244,7 +246,8 @@ class _EducationPageState extends State<EducationPage> {
         12.h.verticalSpace,
         Expanded(
           child: ListView.builder(
-            itemCount: 3, // Show 3 shimmer cards for courses
+            itemCount: 3,
+            // Show 3 shimmer cards for courses
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -269,7 +272,8 @@ class _EducationPageState extends State<EducationPage> {
           padding: EdgeInsets.zero,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: 5, // Show shimmer for all 5 expansion tiles
+          itemCount: 5,
+          // Show shimmer for all 5 expansion tiles
           itemBuilder: (context, index) {
             return Shimmer.fromColors(
               baseColor: colors.neutral200,

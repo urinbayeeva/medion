@@ -46,131 +46,136 @@ class DoctorsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return isInnerPageUsed!
-          ? Container(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
-              margin: EdgeInsets.only(right: 8.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                color: colors.shade0,
-              ),
-              child: Column(
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return isInnerPageUsed!
+            ? Container(
+                padding: EdgeInsets.symmetric(horizontal: 4.w),
+                margin: EdgeInsets.only(right: 8.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.r),
+                  color: colors.shade0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: _buildDoctorInfo(context),
+                ),
+              )
+            : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: _buildDoctorInfo(context),
-              ),
-            )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: _buildDoctorInfo(context),
-            );
-    });
+              );
+      },
+    );
   }
 
   List<Widget> _buildDoctorInfo(BuildContext context) {
     return [
-      ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (isCategoried == true) ...[
-              SizedBox(
-                width: 164.w,
-                child: Text(
-                  categoryType!,
-                  style: fonts.regularSemLink
-                      .copyWith(fontSize: 17.sp, fontWeight: FontWeight.w600),
-                  overflow: TextOverflow.ellipsis,
+      ThemeWrapper(
+        builder: (context, colors, fonts, icons, controller) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (isCategoried == true) ...[
+                SizedBox(
+                  width: 164.w,
+                  child: Text(
+                    categoryType!,
+                    style: fonts.regularSemLink.copyWith(fontSize: 17.sp, fontWeight: FontWeight.w600),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
+                Container(
+                  margin: EdgeInsets.only(right: 12.w),
+                  width: 164.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: colors.shade0,
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: icons.nonUser.svg(),
+                  ),
+                ),
+              ],
               Container(
                 margin: EdgeInsets.only(right: 12.w),
                 width: 164.w,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.r),
-                    color: colors.shade0),
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: icons.nonUser.svg()),
-              ),
-            ],
-            Container(
-              margin: EdgeInsets.only(right: 12.w),
-              width: 164.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                color: colors.shade0,
-              ),
-              child: Stack(
-                children: [
-                  imagePath != "" && imagePath!.startsWith("http")
-                      ? CachedNetworkImage(
-                          width: 175.w,
-                          height: 165.h,
-                          imageUrl: imagePath!,
-                          fit: BoxFit.cover,
-                        )
-                      : gender == "female"
-                          ? icons.nonUser.svg(width: 175.w, height: 175.h)
-                          : icons.nonUser.svg(
-                              color: colors.neutral500,
-                              width: 175.w,
-                              height: 165.h,
-                            ),
-                  if (hasDiscount)
-                    Positioned(
-                      top: 8.w,
-                      right: 8.w,
-                      child: Container(
-                        padding: EdgeInsets.all(4.w),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: colors.error500,
-                        ),
-                        child: icons.discount.svg(
-                          width: 26.w,
-                          height: 26.h,
-                          color: colors.shade0,
+                  borderRadius: BorderRadius.circular(8.r),
+                  color: colors.shade0,
+                ),
+                child: Stack(
+                  children: [
+                    imagePath != "" && imagePath!.startsWith("http")
+                        ? CachedNetworkImage(
+                            width: 175.w,
+                            height: 165.h,
+                            imageUrl: imagePath!,
+                            fit: BoxFit.cover,
+                          )
+                        : gender == "female"
+                            ? icons.nonUser.svg(width: 175.w, height: 175.h)
+                            : icons.nonUser.svg(
+                                color: colors.neutral500,
+                                width: 175.w,
+                                height: 165.h,
+                              ),
+                    if (hasDiscount)
+                      Positioned(
+                        top: 8.w,
+                        right: 8.w,
+                        child: Container(
+                          padding: EdgeInsets.all(4.w),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: colors.error500,
+                          ),
+                          child: icons.discount.svg(
+                            width: 26.w,
+                            height: 26.h,
+                            color: colors.shade0,
+                          ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            // Display academic rank if not empty
-            if (academicRank.isNotEmpty)
-              Center(
-                child: SizedBox(
-                  width: 164.w,
-                  child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
-                    margin: EdgeInsets.only(top: 8.h),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.r),
-                      color: colors.error500,
-                    ),
-                    child: Center(
-                      child: Text(
-                        academicRank,
-                        style: fonts.xSmallLink.copyWith(
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w500,
-                          color: colors.shade0,
+              // Display academic rank if not empty
+              if (academicRank.isNotEmpty) ...[
+                Center(
+                  child: SizedBox(
+                    width: 164.w,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+                      margin: EdgeInsets.only(top: 8.h),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6.r),
+                        color: colors.error500,
+                      ),
+                      child: Center(
+                        child: Text(
+                          academicRank.toString() != 'null' ? academicRank : '',
+                          style: fonts.xSmallLink.copyWith(
+                            fontSize: 11.sp,
+                            fontWeight: FontWeight.w500,
+                            color: colors.shade0,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
                 ),
-              ),
-          ],
-        );
-      }),
+              ]
+            ],
+          );
+        },
+      ),
       if (candidateScience ?? false) ...[
         Center(
-          child: ThemeWrapper(
-              builder: (context, colors, fonts, icons, controller) {
+          child: ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
             return SizedBox(
               width: 164.w,
               child: Container(
@@ -203,8 +208,7 @@ class DoctorsItem extends StatelessWidget {
           child: Text(
             name ?? "",
             overflow: TextOverflow.ellipsis,
-            style: fonts.headlineMain
-                .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500),
+            style: fonts.headlineMain.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500),
           ),
         );
       }),
@@ -215,8 +219,7 @@ class DoctorsItem extends StatelessWidget {
           child: Text(
             profession ?? "",
             overflow: TextOverflow.ellipsis,
-            style: fonts.headlineMain
-                .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w400),
+            style: fonts.headlineMain.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w400),
           ),
         );
       }),
@@ -242,14 +245,13 @@ class DoctorsItem extends StatelessWidget {
             child: Text(
               experience ?? "",
               overflow: TextOverflow.ellipsis,
-              style: fonts.xxSmallText
-                  .copyWith(fontSize: 11.sp, fontWeight: FontWeight.w400),
+              style: fonts.xxSmallText.copyWith(fontSize: 11.sp, fontWeight: FontWeight.w400),
             ),
           );
         }),
       ],
       if (isInnerPageUsed == true) ...[
-        8.h.verticalSpace,
+        4.h.verticalSpace,
         ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
           return Center(
             child: CButton(
@@ -262,7 +264,7 @@ class DoctorsItem extends StatelessWidget {
             ),
           );
         }),
-        8.h.verticalSpace,
+        4.h.verticalSpace,
         ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
           return Center(
             child: CButton(
@@ -279,9 +281,7 @@ class DoctorsItem extends StatelessWidget {
                     ),
                   ),
                 ).then((value) {}).then((_) {
-                  context
-                      .read<BottomNavBarController>()
-                      .changeNavBar(home == false ? true : false);
+                  context.read<BottomNavBarController>().changeNavBar(home == false ? true : false);
                 });
               },
               height: 32.h,

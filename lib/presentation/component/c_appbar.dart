@@ -70,9 +70,7 @@ class _CAppBarState extends State<CAppBar> {
       builder: (context, colors, fonts, icons, controller) {
         return ClipRRect(
           child: BackdropFilter(
-            filter: widget.blur
-                ? ImageFilter.blur(sigmaX: 50, sigmaY: 50)
-                : ImageFilter.blur(),
+            filter: widget.blur ? ImageFilter.blur(sigmaX: 50, sigmaY: 50) : ImageFilter.blur(),
             child: Container(
               width: double.infinity,
               // height: 58.h,
@@ -80,8 +78,7 @@ class _CAppBarState extends State<CAppBar> {
                   color: Colors.white,
                   border: widget.bordered
                       ? const Border(
-                          bottom:
-                              BorderSide(width: 1, color: Color(0xFFEDEDED)),
+                          bottom: BorderSide(width: 1, color: Color(0xFFEDEDED)),
                         )
                       : null),
               padding: widget.padding ?? EdgeInsets.symmetric(horizontal: 12.w),
@@ -89,9 +86,7 @@ class _CAppBarState extends State<CAppBar> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // const SafeArea(bottom: false, child: SizedBox.shrink()),
-                  widget.title == null
-                      ? 50.h.verticalSpace
-                      : 40.h.verticalSpace,
+                  widget.title == null ? 50.h.verticalSpace : 40.h.verticalSpace,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -101,9 +96,7 @@ class _CAppBarState extends State<CAppBar> {
                               () {
                                 Navigator.pop(context);
                                 if (widget.showBottomBar) {
-                                  context
-                                      .read<BottomNavBarController>()
-                                      .changeNavBar(false);
+                                  context.read<BottomNavBarController>().changeNavBar(false);
                                 }
                               },
                           child: Padding(
@@ -117,10 +110,7 @@ class _CAppBarState extends State<CAppBar> {
                         ),
                         8.w.horizontalSpace,
                       ] else
-                        widget.leading ??
-                            (widget.centerTitle
-                                ? 36.w.horizontalSpace
-                                : const SizedBox.shrink()),
+                        widget.leading ?? (widget.centerTitle ? 36.w.horizontalSpace : const SizedBox.shrink()),
                       8.w.horizontalSpace,
                       Expanded(
                         child: Padding(
@@ -129,11 +119,8 @@ class _CAppBarState extends State<CAppBar> {
                               Text(
                                 semanticsLabel: widget.title,
                                 widget.title ?? "",
-                                style: fonts.regularMain.copyWith(
-                                    color: colors.primary900, fontSize: 17.sp),
-                                textAlign: widget.centerTitle
-                                    ? TextAlign.center
-                                    : TextAlign.start,
+                                style: fonts.regularMain.copyWith(color: colors.primary900, fontSize: 17.sp),
+                                textAlign: widget.centerTitle ? TextAlign.center : TextAlign.start,
                               ),
                         ),
                       ),

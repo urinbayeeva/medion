@@ -12,6 +12,7 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class ProblemSlidebaleCard extends StatefulWidget {
   final bool isChildren;
+
   const ProblemSlidebaleCard({super.key, required this.isChildren});
 
   @override
@@ -34,11 +35,8 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
             return const SizedBox.shrink();
           }
 
-          final filteredDiseases = state.diseases
-              .where((disease) => disease.forChildren == widget.isChildren)
-              .toList();
-          print(
-              "Filtered diseases: ${filteredDiseases.length} items for isChildren: ${widget.isChildren}");
+          final filteredDiseases = state.diseases.where((disease) => disease.forChildren == widget.isChildren).toList();
+          print("Filtered diseases: ${filteredDiseases.length} items for isChildren: ${widget.isChildren}");
 
           if (filteredDiseases.isEmpty) {
             return Center(
@@ -65,17 +63,14 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
                       context.read<BottomNavBarController>().changeNavBar(true);
                       Navigator.push(
                         context,
-                        AppRoutes.getDirectionInfoPage(
-                            id: disease.categoryId!, name: disease.title!),
+                        AppRoutes.getDirectionInfoPage(id: disease.categoryId!, name: disease.title!),
                       ).then((_) {
-                        context
-                            .read<BottomNavBarController>()
-                            .changeNavBar(false);
+                        context.read<BottomNavBarController>().changeNavBar(false);
                       });
                     },
                     child: Container(
                       width: 109.w,
-                      height: 120.h,
+                      height: 124.h,
                       padding: EdgeInsets.all(8.w),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.r),
@@ -90,10 +85,7 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
                               borderRadius: BorderRadius.circular(8.r),
                               color: colors.error500.withOpacity(0.05),
                             ),
-                            child: CachedImageComponent(
-                                height: 48.w,
-                                width: 48.w,
-                                imageUrl: disease.icon!),
+                            child: CachedImageComponent(height: 48.w, width: 48.w, imageUrl: disease.icon!),
                           ),
                           8.h.verticalSpace,
                           Text(

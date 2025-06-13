@@ -99,8 +99,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
   }
 
   void _addToRecentSearches(String query) {
-    if (query.trim().isNotEmpty &&
-        !recentSearches.any((item) => item['query'] == query)) {
+    if (query.trim().isNotEmpty && !recentSearches.any((item) => item['query'] == query)) {
       setState(() {
         recentSearches.insert(0, {
           'query': query,
@@ -153,22 +152,18 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 bottom: Column(
                   children: [
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
                       child: Row(
                         children: [
                           Expanded(
                             child: CustomTextField(
                               focusNode: _searchFocusNode,
-                              prefixIcon: SvgPicture.asset(
-                                  "assets/icons/search.svg",
-                                  color: colors.neutral500),
+                              prefixIcon: SvgPicture.asset("assets/icons/search.svg", color: colors.neutral500),
                               controller: _searchController,
                               onChanged: (value) {
                                 setState(() {
                                   searchQuery = value.toLowerCase();
-                                  isSearchActive = value.isNotEmpty ||
-                                      _searchFocusNode.hasFocus;
+                                  isSearchActive = value.isNotEmpty || _searchFocusNode.hasFocus;
                                 });
                               },
                               hintText: 'search_doctors'.tr(),
@@ -198,9 +193,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                       return _buildShimmerView(colors);
                     }
                     if (state.error) {
-                      return Center(
-                          child: Text('something_went_wrong'.tr(),
-                              style: fonts.regularSemLink));
+                      return Center(child: Text('something_went_wrong'.tr(), style: fonts.regularSemLink));
                     }
                     if (isSearchActive) {
                       return _buildSearchResults(state, colors, fonts, icons);
@@ -237,8 +230,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                       GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 12.0,
                           mainAxisSpacing: 12.0,
@@ -276,10 +268,8 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
         ? []
         : allDoctors.where((doctor) {
             final name = doctor['name']?.toString().toLowerCase() ?? '';
-            final profession =
-                doctor['profession']?.toString().toLowerCase() ?? '';
-            return name.contains(searchQuery) ||
-                profession.contains(searchQuery);
+            final profession = doctor['profession']?.toString().toLowerCase() ?? '';
+            return name.contains(searchQuery) || profession.contains(searchQuery);
           }).toList();
 
     return Padding(
@@ -292,8 +282,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               children: [
                 Text(
                   "recently_searchs".tr(),
-                  style: fonts.regularMain
-                      .copyWith(fontSize: 17.sp, fontWeight: FontWeight.w600),
+                  style: fonts.regularMain.copyWith(fontSize: 17.sp, fontWeight: FontWeight.w600),
                 ),
                 AnimationButtonEffect(
                   onTap: () {
@@ -303,10 +292,8 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                   },
                   child: Text(
                     "clear".tr(),
-                    style: fonts.regularMain.copyWith(
-                        fontSize: 14.sp,
-                        color: colors.neutral600,
-                        fontWeight: FontWeight.w400),
+                    style: fonts.regularMain
+                        .copyWith(fontSize: 14.sp, color: colors.neutral600, fontWeight: FontWeight.w400),
                   ),
                 ),
               ],
@@ -368,19 +355,16 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset("assets/icons/emoji-sad_d.svg",
-                        width: 80.w, height: 80.h),
+                    SvgPicture.asset("assets/icons/emoji-sad_d.svg", width: 80.w, height: 80.h),
                     16.h.verticalSpace,
                     Text(
                       "no_results_found".tr(),
-                      style: fonts.mediumMain
-                          .copyWith(fontWeight: FontWeight.w600),
+                      style: fonts.mediumMain.copyWith(fontWeight: FontWeight.w600),
                     ),
                     8.h.verticalSpace,
                     Text(
                       "try_different_search".tr(),
-                      style:
-                          fonts.regularMain.copyWith(color: colors.neutral600),
+                      style: fonts.regularMain.copyWith(color: colors.neutral600),
                     ),
                   ],
                 ),
@@ -396,7 +380,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 12.0,
                   mainAxisSpacing: 12.0,
-                  childAspectRatio: 0.47,
+                  childAspectRatio: 1,
                 ),
                 itemBuilder: (context, index) {
                   final doctor = searchResults[index];
@@ -415,9 +399,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                           doctor['id'],
                         ),
                       ).then((_) {
-                        context
-                            .read<BottomNavBarController>()
-                            .changeNavBar(true);
+                        context.read<BottomNavBarController>().changeNavBar(true);
                       });
                     },
                     categoryType: doctor['category'],
@@ -446,14 +428,12 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                     16.h.verticalSpace,
                     Text(
                       "search_for_doctors".tr(),
-                      style: fonts.mediumMain
-                          .copyWith(fontWeight: FontWeight.w600),
+                      style: fonts.mediumMain.copyWith(fontWeight: FontWeight.w600),
                     ),
                     8.h.verticalSpace,
                     Text(
                       "search_by_name_or_specialty".tr(),
-                      style:
-                          fonts.regularMain.copyWith(color: colors.neutral600),
+                      style: fonts.regularMain.copyWith(color: colors.neutral600),
                     ),
                   ],
                 ),
@@ -621,8 +601,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                     context.read<BottomNavBarController>().changeNavBar(true);
                   });
                 },
-                experience: "experience".tr(
-                    namedArgs: {"count": doctor['work_experience'].toString()}),
+                experience: "experience".tr(namedArgs: {"count": doctor['work_experience'].toString()}),
                 categoryType: '',
                 imagePath: doctor['image'].toString(),
                 name: doctor['name'].toString(),
@@ -701,8 +680,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
       case Category.surdologistOtorhinolaryngologist:
         return specialty.contains('сурдолог-оториноларинголог');
       case Category.therapist:
-        return specialty.contains('терапевт') &&
-            !specialty.contains('стоматолог');
+        return specialty.contains('терапевт') && !specialty.contains('стоматолог');
       case Category.therapistDentist:
         return specialty.contains('терапевт стоматолог');
       case Category.traumatologist:

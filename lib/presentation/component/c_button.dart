@@ -39,23 +39,19 @@ class CButton extends StatelessWidget {
           height: height?.h ?? 48.h,
           decoration: BoxDecoration(
             color: backgroundColor ?? colors.error500,
-            borderRadius:
-                hasBorderRadius ? BorderRadius.circular(borderRadius.r) : null,
+            borderRadius: hasBorderRadius ? BorderRadius.circular(borderRadius.r) : null,
           ),
-          padding:
-              EdgeInsets.symmetric(horizontal: iconPath != null ? 16.w : 0),
+          padding: EdgeInsets.symmetric(horizontal: iconPath != null ? 16.w : 0),
           child: Row(
-            mainAxisAlignment:
-                MainAxisAlignment.center, // Center the content horizontally
-            crossAxisAlignment:
-                CrossAxisAlignment.center, // Center the content vertically
+            mainAxisAlignment: MainAxisAlignment.center, // Center the content horizontally
+            crossAxisAlignment: CrossAxisAlignment.center, // Center the content vertically
             children: [
               Flexible(
                 child: Text(
                   title,
                   style: Style.smallMain(
                     color: textColor ?? Colors.white,
-                    size: 15.sp,
+                    size: 14.sp,
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,

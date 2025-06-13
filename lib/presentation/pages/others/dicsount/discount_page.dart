@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,9 +37,7 @@ class _DiscountPageState extends State<DiscountPage> {
       _fetchDiscountById(widget.discountId!);
     } else {
       // Fetch all discounts as before
-      context
-          .read<ContentBloc>()
-          .add(const ContentEvent.fetchContent(type: "discount"));
+      context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "discount"));
     }
   }
 
@@ -50,9 +49,7 @@ class _DiscountPageState extends State<DiscountPage> {
 
   void _onRefresh() {
     if (widget.discountId == null) {
-      context
-          .read<ContentBloc>()
-          .add(const ContentEvent.fetchContent(type: "discount"));
+      context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "discount"));
       _refreshController.refreshCompleted();
     }
   }
@@ -84,8 +81,7 @@ class _DiscountPageState extends State<DiscountPage> {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
         final discount = Discount.fromJson(jsonData);
-        final endDateFormatted =
-            _formatDiscountDate(discount.discountEndDate?.toString());
+        final endDateFormatted = _formatDiscountDate(discount.discountEndDate?.toString());
 
         // Navigate to the details page
         if (mounted) {
@@ -141,9 +137,8 @@ class _DiscountPageState extends State<DiscountPage> {
               trailing: 28.w.horizontalSpace,
             ),
             Expanded(
-              child: widget.discountId != null
-                  ? _buildLoadingView(colors)
-                  : _buildDiscountListView(colors, fonts, icons),
+              child:
+                  widget.discountId != null ? _buildLoadingView(colors) : _buildDiscountListView(colors, fonts, icons),
             ),
           ],
         ),
@@ -182,7 +177,7 @@ class _DiscountPageState extends State<DiscountPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                icons.emojiSad.svg(width: 80.w, height: 80.h),
+                (icons as IconSet).emojiSad.svg(width: 80, height: 80),
                 4.h.verticalSpace,
                 Text(
                   'no_result_found'.tr(),
@@ -214,8 +209,7 @@ class _DiscountPageState extends State<DiscountPage> {
                   itemCount: discountContent.length,
                   itemBuilder: (context, index) {
                     final discount = discountContent[index];
-                    final endDateFormatted = _formatDiscountDate(
-                        discount.discountEndDate?.toString());
+                    final endDateFormatted = _formatDiscountDate(discount.discountEndDate?.toString());
 
                     return ArticleCardWidget(
                       onTap: () {
@@ -228,13 +222,11 @@ class _DiscountPageState extends State<DiscountPage> {
                             desc: discount.decodedDescription.toCapitalized(),
                             date: discount.createDate,
                             isDiscount: true,
-                            discountAddress:
-                                discount.discountLocation?.toString() ?? '',
+                            discountAddress: discount.discountLocation?.toString() ?? '',
                             discountDuration: discount.discountStartDate != null
                                 ? "${_formatDiscountDate(discount.discountStartDate?.toString())} - $endDateFormatted"
                                 : endDateFormatted,
-                            phoneShortNumber:
-                                discount.phoneNumberShort?.toString() ?? '',
+                            phoneShortNumber: discount.phoneNumberShort?.toString() ?? '',
                             phoneNumber: discount.phoneNumber?.toString() ?? '',
                           ),
                         );

@@ -76,7 +76,7 @@ List<Map<String, dynamic>> othersData = [
 ];
 
 List<Map<String, dynamic>> othersDataSecond = [
-  if (AppConfig.shared.flavor == Flavor.dev) ...[
+  if (AppConfig.shared.flavor != Flavor.dev) ...[
     {
       "title": "documents".tr(),
       "icon": IconSet.create.document,

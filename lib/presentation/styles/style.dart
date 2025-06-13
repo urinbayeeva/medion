@@ -129,7 +129,7 @@ class Style {
     );
   }
 
-    static TextStyle semiBold14({double size = 14, Color color = primary900}) {
+  static TextStyle semiBold14({double size = 14, Color color = primary900}) {
     return TextStyle(
       fontSize: size,
       color: color,
@@ -148,8 +148,7 @@ class Style {
     );
   }
 
-  static TextStyle headlineSecondary(
-      {double size = 22, Color color = primary900}) {
+  static TextStyle headlineSecondary({double size = 22, Color color = primary900}) {
     return TextStyle(
       fontSize: size,
       color: color,
@@ -212,8 +211,7 @@ class Style {
     );
   }
 
-  static TextStyle regularSemLink(
-      {double size = 17, Color color = primary900}) {
+  static TextStyle regularSemLink({double size = 17, Color color = primary900}) {
     return TextStyle(
       fontSize: size,
       color: color,
@@ -267,8 +265,7 @@ class Style {
     );
   }
 
-  static TextStyle smallTagSecond(
-      {double size = 15, Color color = primary900}) {
+  static TextStyle smallTagSecond({double size = 15, Color color = primary900}) {
     return TextStyle(
       fontSize: size,
       color: color,
@@ -322,8 +319,7 @@ class Style {
     );
   }
 
-  static TextStyle xxSmallTagFirst(
-      {double size = 11, Color color = primary900}) {
+  static TextStyle xxSmallTagFirst({double size = 11, Color color = primary900}) {
     return TextStyle(
       fontSize: size,
       color: color,
@@ -332,8 +328,7 @@ class Style {
     );
   }
 
-  static TextStyle xxSmallTagSecond(
-      {double size = 11, Color color = primary900}) {
+  static TextStyle xxSmallTagSecond({double size = 11, Color color = primary900}) {
     return TextStyle(
       fontSize: size,
       color: color,
@@ -342,8 +337,7 @@ class Style {
     );
   }
 
-  static TextStyle xxSmallestText(
-      {double size = 11, Color color = primary900}) {
+  static TextStyle xxSmallestText({double size = 11, Color color = primary900}) {
     return TextStyle(
       fontSize: size,
       color: color,
@@ -378,8 +372,6 @@ class Style {
     begin: Alignment(.57, 0),
     end: Alignment(.57, 1.87),
   );
-
-
 
   static TextStyle regular24({double size = 24, Color color = primary900}) {
     return TextStyle(
@@ -497,7 +489,7 @@ class Style {
     statusBarBrightness: Brightness.light,
   );
 
-  // static Color transparent;
+// static Color transparent;
 
-  // static var primary50;
+// static var primary50;
 }

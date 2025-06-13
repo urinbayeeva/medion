@@ -11,14 +11,14 @@ import 'package:medion/infrastructure/services/log_service.dart';
 
 class BookingRepository implements IBookingFacade {
   final BookingService _bookingService;
+
   // final ApiService _apiService;
 
   BookingRepository(this._bookingService);
 
   /// Fetch booking types
   @override
-  Future<Either<ResponseFailure, List<BookingTypeModel>>>
-      fetchBookingTypes() async {
+  Future<Either<ResponseFailure, List<BookingTypeModel>>> fetchBookingTypes() async {
     try {
       final response = await _bookingService.bookingTypes();
       LogService.d('Response Status: ${response.statusCode}');
@@ -38,8 +38,7 @@ class BookingRepository implements IBookingFacade {
 
 //fetchCategoryServices
   @override
-  Future<Either<ResponseFailure, BuiltList<Category>>> fetchCategoryServices(
-      int id) async {
+  Future<Either<ResponseFailure, BuiltList<Category>>> fetchCategoryServices(int id) async {
     try {
       final response = await _bookingService.getServiceId(id);
       LogService.d('Response Status: ${response.statusCode}');
@@ -57,8 +56,7 @@ class BookingRepository implements IBookingFacade {
   }
 
   @override
-  Future<Either<ResponseFailure, List<HomepageBookingCategory>>>
-      fetchHomePageBookingCategories() async {
+  Future<Either<ResponseFailure, List<HomepageBookingCategory>>> fetchHomePageBookingCategories() async {
     try {
       final response = await _bookingService.getHomePageBookingCategory();
       LogService.d('Response Status: ${response.statusCode}');
@@ -78,9 +76,7 @@ class BookingRepository implements IBookingFacade {
   //HOME PAGE BOOKING GET DOCTORS
 
   @override
-  Future<Either<ResponseFailure, MedicalModel>> fetchHomePageBookingDoctors(
-    int id,
-  ) async {
+  Future<Either<ResponseFailure, MedicalModel>> fetchHomePageBookingDoctors(int id) async {
     try {
       final response = await _bookingService.getHomePageBookingDoctors(id);
       LogService.d('Response Status: ${response.statusCode}');
@@ -102,11 +98,9 @@ class BookingRepository implements IBookingFacade {
     required List<int> serviceIds,
   }) async {
     try {
-      final request =
-          DoctorsRequest((b) => b..serviceIds = ListBuilder<int>(serviceIds));
+      final request = DoctorsRequest((b) => b..serviceIds = ListBuilder<int>(serviceIds));
 
-      final response = await _bookingService.fetchDoctors(
-          requiresToken: "true", request: request, days: 10);
+      final response = await _bookingService.fetchDoctors(requiresToken: "true", request: request, days: 10);
 
       // Logging
       LogService.d('Response Status: ${response.statusCode}');
@@ -125,15 +119,13 @@ class BookingRepository implements IBookingFacade {
   }
 
   @override
-  Future<Either<ResponseFailure, BuiltList<MedicalServiceCategory>>>
-      getServicesByDoctorId(int doctorId) async {
+  Future<Either<ResponseFailure, BuiltList<MedicalServiceCategory>>> getServicesByDoctorId(int doctorId) async {
     try {
       // Remove any potential whitespace from the doctor_id parameter
       final cleanedDoctorId = doctorId.toString().trim();
       final numericDoctorId = int.parse(cleanedDoctorId);
 
-      final response =
-          await _bookingService.getHomePageBookingDoctorsByID(numericDoctorId);
+      final response = await _bookingService.getHomePageBookingDoctorsByID(numericDoctorId);
 
       LogService.d('Response Status: ${response.statusCode}');
       LogService.d('Response Body: ${response.body}');
@@ -141,8 +133,7 @@ class BookingRepository implements IBookingFacade {
       if (response.isSuccessful) {
         if (response.body != null) {
           // If the response is a single item, convert it to a BuiltList
-          final categories =
-              BuiltList<MedicalServiceCategory>([response.body!]);
+          final categories = BuiltList<MedicalServiceCategory>([response.body!]);
           return right(categories);
         } else {
           return left(InvalidCredentials(message: 'empty_response'.tr()));

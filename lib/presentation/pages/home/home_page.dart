@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,13 +64,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<DoctorBloc>().add(const DoctorEvent.fetchDoctors());
-    context
-        .read<BookingBloc>()
-        .add(const BookingEvent.fetchHomePageServicesBooking());
+    context.read<BookingBloc>().add(const BookingEvent.fetchHomePageServicesBooking());
     context.read<HomeBloc>().add(const HomeEvent.fetchMedicalServices());
-    context
-        .read<ContentBloc>()
-        .add(const ContentEvent.fetchContent(type: "news"));
+    context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "news"));
     context.read<HomeBloc>().add(const HomeEvent.fetchCompanyLocation());
   }
 
@@ -81,12 +79,8 @@ class _HomePageState extends State<HomePage> {
           enablePullUp: true,
           onRetry: () {
             context.read<HomeBloc>().add(const HomeEvent.fetchNews());
-            context
-                .read<BookingBloc>()
-                .add(const BookingEvent.fetchHomePageServicesBooking());
-            context
-                .read<ContentBloc>()
-                .add(const ContentEvent.fetchContent(type: "news"));
+            context.read<BookingBloc>().add(const BookingEvent.fetchHomePageServicesBooking());
+            context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "news"));
             setState(() {});
 
             _refreshController.refreshCompleted();
@@ -110,30 +104,20 @@ class _HomePageState extends State<HomePage> {
                             AppRoutes.getNotificationPage(),
                           );
                         },
-                        child: icons.notification.svg(
-                            color: colors.primary900,
-                            width: 24.w,
-                            height: 24.h),
+                        child: icons.notification.svg(color: colors.primary900, width: 24.w, height: 24.h),
                       ),
                       8.w.horizontalSpace,
                       AnimationButtonEffect(
                         onTap: () {
-                          context
-                              .read<BottomNavBarController>()
-                              .changeNavBar(true);
+                          context.read<BottomNavBarController>().changeNavBar(true);
                           Navigator.push(
                             context,
                             AppRoutes.getSearchPage(),
                           ).then((_) {
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(false);
+                            context.read<BottomNavBarController>().changeNavBar(false);
                           });
                         },
-                        child: icons.search.svg(
-                            color: colors.primary900,
-                            width: 22.w,
-                            height: 22.h),
+                        child: icons.search.svg(color: colors.primary900, width: 22.w, height: 22.h),
                       ),
                     ],
                   ),
@@ -152,17 +136,10 @@ class _HomePageState extends State<HomePage> {
                         12.h.verticalSpace,
                         ProblemSlidebaleCard(isChildren: isChildren),
                         12.h.verticalSpace,
-                        _buildVerticalSpacingAndHeader(
-                            "med_services", fonts, "all", () {
-                          context
-                              .read<BottomNavBarController>()
-                              .changeNavBar(true);
-                          Navigator.push(
-                                  context, AppRoutes.getMedServicesPage())
-                              .then((_) {
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(false);
+                        _buildVerticalSpacingAndHeader("med_services", fonts, "all", () {
+                          context.read<BottomNavBarController>().changeNavBar(true);
+                          Navigator.push(context, AppRoutes.getMedServicesPage()).then((_) {
+                            context.read<BottomNavBarController>().changeNavBar(false);
                           });
                         }),
                         12.h.verticalSpace,
@@ -181,32 +158,24 @@ class _HomePageState extends State<HomePage> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: state.medicalServices.length,
                                 itemBuilder: (context, index) {
-                                  final medicalService =
-                                      state.medicalServices[index];
+                                  final medicalService = state.medicalServices[index];
                                   return Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 8.w),
+                                    padding: EdgeInsets.symmetric(horizontal: 8.w),
                                     child: AnimationButtonEffect(
                                       onTap: () {
-                                        context
-                                            .read<BottomNavBarController>()
-                                            .changeNavBar(true);
+                                        context.read<BottomNavBarController>().changeNavBar(true);
                                         Navigator.push(
                                           context,
                                           AppRoutes.getDirectionInfoPage(
-                                              id: medicalService.categoryId!!,
-                                              name: medicalService.title),
+                                              id: medicalService.categoryId!, name: medicalService.title),
                                         ).then((_) {
-                                          context
-                                              .read<BottomNavBarController>()
-                                              .changeNavBar(false);
+                                          context.read<BottomNavBarController>().changeNavBar(false);
                                         });
                                       },
                                       child: SizedBox(
                                         width: 135.w,
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             SizedBox(
                                               height: 100.h,
@@ -215,8 +184,7 @@ class _HomePageState extends State<HomePage> {
                                                 fit: BoxFit.cover,
                                                 width: 135.w,
                                                 height: 100.h,
-                                                imageUrl:
-                                                    medicalService.image ?? '',
+                                                imageUrl: medicalService.image ?? '',
                                               ),
                                             ),
                                             5.h.verticalSpace,
@@ -225,8 +193,7 @@ class _HomePageState extends State<HomePage> {
                                               alignment: Alignment.center,
                                               child: Text(
                                                 medicalService.title ?? '',
-                                                style:
-                                                    fonts.xSmallLink.copyWith(
+                                                style: fonts.xSmallLink.copyWith(
                                                   fontSize: 13.sp,
                                                   fontWeight: FontWeight.w500,
                                                   color: colors.primary900,
@@ -248,123 +215,106 @@ class _HomePageState extends State<HomePage> {
                         ),
                         12.h.verticalSpace,
                         BlocBuilder<BookingBloc, BookingState>(
-                            builder: (context, state) {
-                          if (state.loading) {
-                            return _buildDirectionsShimmer(fonts);
-                          }
-                          if (state.homePageBookingCategory.isEmpty) {
-                            return const SizedBox.shrink();
-                          }
-                          final limitedItems =
-                              state.homePageBookingCategory.take(10).toList();
+                          builder: (ctX, state) {
+                            if (state.loading) {
+                              return _buildDirectionsShimmer(fonts);
+                            }
+                            if (state.homePageBookingCategory.isEmpty) {
+                              return const SizedBox.shrink();
+                            }
+                            final limitedItems = state.homePageBookingCategory.take(10).toList();
 
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _buildSectionHeader(
-                                  "directions_of_medion_clinic", fonts),
-                              ListView.builder(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: limitedItems.length,
-                                itemBuilder: (context, index) {
-                                  final item = limitedItems[index];
-                                  return MedicalDirectionItem(
-                                    onTap: () {
-                                      context
-                                          .read<BottomNavBarController>()
-                                          .changeNavBar(true);
-                                      Navigator.push(
-                                        context,
-                                        AppRoutes.getDirectionInfoPage(
-                                            id: item.id!, name: item.name!),
-                                      ).then((_) {
-                                        context
-                                            .read<BottomNavBarController>()
-                                            .changeNavBar(false);
-                                      });
-                                    },
-                                    title: item.name ?? "",
-                                    subtitle: "",
-                                    iconPath: item.icon ?? "",
-                                  );
-                                },
-                              ),
-                              8.h.verticalSpace,
-                              CButton(
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildSectionHeader("directions_of_medion_clinic", fonts),
+                                ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: limitedItems.length,
+                                  itemBuilder: (ctx, index) {
+                                    final item = limitedItems[index];
+                                    return MedicalDirectionItem(
+                                      onTap: () {
+                                        context.read<BottomNavBarController>().changeNavBar(true);
+                                        Navigator.push(
+                                          context,
+                                          AppRoutes.getDirectionInfoPage(id: item.id!, name: item.name!),
+                                        ).then(
+                                          (_) {
+                                            ctX.read<BottomNavBarController>().changeNavBar(false);
+                                          },
+                                        );
+                                      },
+                                      title: item.name ?? "",
+                                      subtitle: "",
+                                      iconPath: item.icon ?? "",
+                                    );
+                                  },
+                                ),
+                                8.h.verticalSpace,
+                                CButton(
                                   title: "directions_of_medion_clinic".tr(),
                                   onTap: () {
-                                    Navigator.push(
-                                        context, AppRoutes.getDiresctionPage());
-                                  })
-                            ],
-                          );
-                        }),
+                                    Navigator.push(context, AppRoutes.getDiresctionPage());
+                                  },
+                                )
+                              ],
+                            );
+                          },
+                        ),
                         12.h.verticalSpace,
                         BlocBuilder<DoctorBloc, DoctorState>(
+                          buildWhen: (o, n) => o.doctors != n.doctors,
                           builder: (context, state) {
-                            if (state.loading) {
-                              return _buildDoctorsShimmer(fonts);
-                            }
-                            if (state.error) {
+                            if (state.error ||
+                                state.doctors?.doctorData == null ||
+                                state.doctors!.doctorData!.isEmpty) {
                               return const SizedBox.shrink();
+                            }
+                            if (!state.success) {
+                              return _buildDoctorsShimmer(fonts);
                             }
 
                             return Column(
                               children: [
-                                _buildVerticalSpacingAndHeader(
-                                    "doctors", fonts, "see_all_doctors", () {
-                                  context
-                                      .read<BottomNavBarController>()
-                                      .changeNavBar(true);
+                                _buildVerticalSpacingAndHeader("doctors", fonts, "see_all_doctors", () {
+                                  context.read<BottomNavBarController>().changeNavBar(true);
 
-                                  Navigator.push(context,
-                                          AppRoutes.getAllDoctorsPage())
-                                      .then((_) {
+                                  Navigator.push(context, AppRoutes.getAllDoctorsPage()).then((_) {
                                     // ignore: use_build_context_synchronously
-                                    context
-                                        .read<BottomNavBarController>()
-                                        .changeNavBar(false);
+                                    context.read<BottomNavBarController>().changeNavBar(false);
                                   });
                                 }),
                                 _buildDoctorCategoryList(
-                                  state.doctors!.doctorData!
-                                      .map((category) => {
-                                            'name': category.name,
-                                            'profession':
-                                                category.specialty.toString(),
-                                            'image': category.image,
-                                            'id': category.id,
-                                            'work_experience': category
-                                                .workExperience
-                                                .toString(),
-                                            'info_description': decodeHtml(
-                                                category.infoDescription
-                                                    .toString()),
-                                            'gender':
-                                                category.gender.toString(),
-                                            'has_discount': category
-                                                .hasDiscount, // Fixed key
-                                          })
-                                      .toList(),
+                                  (state.doctors?.doctorData != null)
+                                      ? state.doctors!.doctorData!
+                                          .map(
+                                            (category) => {
+                                              'name': category.name,
+                                              'profession': category.specialty.toString(),
+                                              'image': category.image,
+                                              'id': category.id,
+                                              'work_experience': category.workExperience.toString(),
+                                              'info_description': decodeHtml(category.infoDescription.toString()),
+                                              'gender': category.gender.toString(),
+                                              'has_discount': category.hasDiscount,
+                                            },
+                                          )
+                                          .toList()
+                                      : [],
                                 ),
                               ],
                             );
                           },
                         ),
                         12.h.verticalSpace,
-                        _buildVerticalSpacingAndHeader("news", fonts, "all",
-                            () {
-                          context
-                              .read<BottomNavBarController>()
-                              .changeNavBar(true);
+                        _buildVerticalSpacingAndHeader("news", fonts, "all", () {
+                          context.read<BottomNavBarController>().changeNavBar(true);
 
-                          Navigator.push(context, AppRoutes.getNewsPage())
-                              .then((_) {
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(false);
+                          Navigator.push(context, AppRoutes.getNewsPage()).then((_) {
+                            context.read<BottomNavBarController>().changeNavBar(false);
                           });
                         }),
                         BlocBuilder<ContentBloc, ContentState>(
@@ -374,13 +324,11 @@ class _HomePageState extends State<HomePage> {
                             }
                             if (state.error) {
                               return Center(
-                                child: Text('something_went_wrong'.tr(),
-                                    style: fonts.regularSemLink),
+                                child: Text('something_went_wrong'.tr(), style: fonts.regularSemLink),
                               );
                             }
 
-                            final newsContent =
-                                state.contentByType["news"] ?? [];
+                            final newsContent = state.contentByType["news"] ?? [];
                             return SizedBox(
                               height: 260.h,
                               child: ListView.builder(
@@ -395,9 +343,7 @@ class _HomePageState extends State<HomePage> {
                                     child: NewsItem(
                                       inner: true,
                                       onTap: () {
-                                        context
-                                            .read<BottomNavBarController>()
-                                            .changeNavBar(true);
+                                        context.read<BottomNavBarController>().changeNavBar(true);
 
                                         Navigator.push(
                                           context,
@@ -409,9 +355,7 @@ class _HomePageState extends State<HomePage> {
                                             date: news.createDate,
                                           ),
                                         ).then((_) {
-                                          context
-                                              .read<BottomNavBarController>()
-                                              .changeNavBar(false);
+                                          context.read<BottomNavBarController>().changeNavBar(false);
                                         });
                                       },
                                       crop: true,
@@ -425,17 +369,11 @@ class _HomePageState extends State<HomePage> {
                             );
                           },
                         ),
-                        _buildVerticalSpacingAndHeader(
-                            "address_of_clinic", fonts, "all", () {
-                          context
-                              .read<BottomNavBarController>()
-                              .changeNavBar(true);
+                        _buildVerticalSpacingAndHeader("address_of_clinic", fonts, "all", () {
+                          context.read<BottomNavBarController>().changeNavBar(true);
 
-                          Navigator.push(context, AppRoutes.getMapPage())
-                              .then((_) {
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(false);
+                          Navigator.push(context, AppRoutes.getMapPage()).then((_) {
+                            context.read<BottomNavBarController>().changeNavBar(false);
                           });
                         }),
                         BlocBuilder<HomeBloc, HomeState>(
@@ -443,8 +381,7 @@ class _HomePageState extends State<HomePage> {
                             if (state.loading) {
                               return _buildAddressShimmer();
                             }
-                            return _buildAddressSection(
-                                context, colors, fonts, icons);
+                            return _buildAddressSection(context, colors, fonts, icons);
                           },
                         ),
                         80.h.verticalSpace,
@@ -499,8 +436,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildDirectionsShimmer(fonts) {
     return Column(
       children: [
-        _buildVerticalSpacingAndHeader(
-            "directions_of_medion_clinic", fonts, "all", () {}),
+        _buildVerticalSpacingAndHeader("directions_of_medion_clinic", fonts, "all", () {}),
         ListView.builder(
           padding: EdgeInsets.zero,
           shrinkWrap: true,
@@ -524,8 +460,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildDoctorsShimmer(fonts) {
     return Column(
       children: [
-        _buildVerticalSpacingAndHeader(
-            "doctors", fonts, "see_all_doctors", () {}),
+        _buildVerticalSpacingAndHeader("doctors", fonts, "see_all_doctors", () {}),
         SizedBox(
           height: 350.h,
           child: ListView.builder(
@@ -625,8 +560,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildVerticalSpacingAndHeader(
-      String titleKey, fonts, String title, VoidCallback onTap) {
+  Widget _buildVerticalSpacingAndHeader(String titleKey, fonts, String title, VoidCallback onTap) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -687,9 +621,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ).then((_) {
-                        context
-                            .read<BottomNavBarController>()
-                            .changeNavBar(false);
+                        context.read<BottomNavBarController>().changeNavBar(false);
                       });
                     },
                     url: location.icon,
@@ -705,6 +637,8 @@ class _HomePageState extends State<HomePage> {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
         final limitedDoctors = doctors.take(10).toList();
+        if (limitedDoctors.isEmpty) return const SizedBox.shrink();
+
         return SizedBox(
           height: 350.h,
           child: ListView.builder(
@@ -741,8 +675,7 @@ class _HomePageState extends State<HomePage> {
                 experience: "experience".tr(
                   namedArgs: {"count": doctor['work_experience'].toString()},
                 ),
-                academicRank: doctor['academic_rank']?.toString() ??
-                    "", // Add academicRank
+                academicRank: doctor['academic_rank']?.toString() ?? "", // Add academicRank
               );
             },
           ),

@@ -14,11 +14,13 @@ import 'package:medion/application/selected_provider.dart';
 import 'package:medion/application/service_page_provider.dart';
 import 'package:medion/application/services/time_select_provider.dart';
 import 'package:medion/application/visit/visit_bloc.dart';
+import 'package:medion/domain/abstract_repo/company/i_company.dart';
 import 'package:medion/domain/models/currency_change.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/booking_repository.dart';
+import 'package:medion/infrastructure/repository/company_service.dart';
 import 'package:medion/infrastructure/repository/content_service.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
@@ -47,6 +49,7 @@ class MyApp extends StatelessWidget {
   final DBService dbService;
   final bool connectivityX;
   final Function(BuildContext context)? onGetContext;
+
   const MyApp({
     super.key,
     required this.dbService,
@@ -58,102 +61,103 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => SelectedServicesProvider()),
-          ChangeNotifierProvider(create: (_) => SelectedServiceIdsProvider()),
-          ChangeNotifierProvider(create: (_) => TimeSelectionProvider()),
-          ChangeNotifierProvider(create: (_) => CurrencyChangeProvider()),
-          ChangeNotifierProvider(create: (_) => ServicesPageProvider()),
-          ChangeNotifierProvider(create: (_) => PaymentProvider()),
-          BlocProvider(
-            child: const PaymentPage(),
-            create: (context) {
-              DBService dbService = context.read<DBService>();
-              return AuthBloc(
-                AuthRepository(
-                    dbService,
-                    AuthService.create(dbService),
-                    PatientService.create(dbService),
-                    RefreshService.create(dbService)),
-                dbService,
+      providers: [
+        ChangeNotifierProvider(create: (_) => SelectedServicesProvider()),
+        ChangeNotifierProvider(create: (_) => SelectedServiceIdsProvider()),
+        ChangeNotifierProvider(create: (_) => TimeSelectionProvider()),
+        ChangeNotifierProvider(create: (_) => CurrencyChangeProvider()),
+        ChangeNotifierProvider(create: (_) => ServicesPageProvider()),
+        ChangeNotifierProvider(create: (_) => PaymentProvider()),
+        Provider<DBService>(create: (_) => dbService),
+        BlocProvider(create: (context) => HomeBloc(HomeRepository(HomePageService.create(dbService)))),
+        BlocProvider(create: (context) => VisitBloc(VisitRepository(VisitCreateService.create(dbService)))),
+        ChangeNotifierProvider(create: (_) => GlobalController.create(dbService)),
+        ChangeNotifierProvider(create: (_) => BottomNavBarController.create()),
+        BlocProvider(create: (context) => DoctorBloc(DoctorRepository(DoctorService.create(dbService)))),
+        BlocProvider(
+          create: (context) => ContentBloc(
+            ContentServiceRepo(ContentService.create(dbService)),
+            CompanyServiceRepo(CompanyService.create(dbService)),
+          ),
+        ),
+        BlocProvider(
+          child: const PaymentPage(),
+          create: (context) {
+            DBService dbService = context.read<DBService>();
+            return AuthBloc(
+              AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService),
+                  RefreshService.create(dbService)),
+              dbService,
+            );
+          },
+        ),
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc(
+            AuthRepository(
+              dbService,
+              AuthService.create(dbService),
+              PatientService.create(dbService),
+              RefreshService.create(dbService),
+            ),
+            dbService,
+          ),
+        ),
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc(
+            AuthRepository(
+              dbService,
+              AuthService.create(dbService),
+              PatientService.create(dbService),
+              RefreshService.create(dbService),
+            ),
+            dbService,
+          ),
+        ),
+        BlocProvider<BookingBloc>(
+          create: (context) => BookingBloc(
+            BookingRepository(
+              BookingService.create(dbService),
+            ),
+          ),
+        ),
+      ],
+      child: OnUnFocusTap(
+        child: BlocProvider<ProfileBloc>(
+          create: (_) => ProfileBloc(
+
+              // ImageUploadRepo(UploadImage.create(dbService)),
+              ),
+          child: MaterialApp(
+            navigatorKey: alice.getNavigatorKey(),
+            debugShowCheckedModeBanner: false,
+            builder: (context, child) {
+              child = FlutterSmartDialog.init()(context, child);
+              return FlavorBanner(
+                child: child,
+              );
+            },
+            navigatorObservers: [
+              FlutterSmartDialog.observer,
+              // AnalyticsService().getAnalyticsObserver(),
+              SentryNavigatorObserver(),
+            ],
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            onGenerateRoute: (_) {
+              if (onGetContext != null) {
+                onGetContext!(context);
+              }
+              return AppRoutes.onGenerateRoute(
+                context: context,
+                notConnection: !connectivityX,
+                isLang: dbService.getLang ?? true,
               );
             },
           ),
-          BlocProvider(
-              create: (context) =>
-                  HomeBloc(HomeRepository(HomePageService.create(dbService)))),
-          BlocProvider<AuthBloc>(
-            create: (context) => AuthBloc(
-                AuthRepository(
-                    dbService,
-                    AuthService.create(dbService),
-                    PatientService.create(dbService),
-                    RefreshService.create(dbService)),
-                dbService),
-          ),
-          BlocProvider(
-              create: (context) => VisitBloc(
-                  VisitRepository(VisitCreateService.create(dbService)))),
-          BlocProvider<AuthBloc>(
-            create: (context) => AuthBloc(
-                AuthRepository(
-                    dbService,
-                    AuthService.create(dbService),
-                    PatientService.create(dbService),
-                    RefreshService.create(dbService)),
-                dbService),
-          ),
-          BlocProvider(
-              create: (context) => DoctorBloc(
-                  DoctorRepository(DoctorService.create(dbService)))),
-          BlocProvider<BookingBloc>(
-            create: (context) => BookingBloc(
-                BookingRepository(BookingService.create(dbService))),
-          ),
-          ChangeNotifierProvider(
-              create: (_) => GlobalController.create(dbService)),
-          ChangeNotifierProvider(
-              create: (_) => BottomNavBarController.create()),
-          Provider<DBService>(create: (_) => dbService),
-          BlocProvider(
-              create: (context) => ContentBloc(
-                  ContentServiceRepo(ContentService.create(dbService)))),
-        ],
-        child: OnUnFocusTap(
-          child: BlocProvider<ProfileBloc>(
-              create: (_) => ProfileBloc(
-
-                  // ImageUploadRepo(UploadImage.create(dbService)),
-                  ),
-              child: MaterialApp(
-                navigatorKey: alice.getNavigatorKey(),
-                debugShowCheckedModeBanner: false,
-                builder: (context, child) {
-                  child = FlutterSmartDialog.init()(context, child);
-                  return FlavorBanner(
-                    child: child,
-                  );
-                },
-                navigatorObservers: [
-                  FlutterSmartDialog.observer,
-                  // AnalyticsService().getAnalyticsObserver(),
-                  SentryNavigatorObserver(),
-                ],
-                localizationsDelegates: context.localizationDelegates,
-                supportedLocales: context.supportedLocales,
-                locale: context.locale,
-                onGenerateRoute: (_) {
-                  if (onGetContext != null) {
-                    onGetContext!(context);
-                  }
-                  return AppRoutes.onGenerateRoute(
-                    context: context,
-                    notConnection: !connectivityX,
-                    isLang: dbService.getLang ?? true,
-                  );
-                },
-              )),
-        ));
+        ),
+      ),
+    );
   }
 }
 

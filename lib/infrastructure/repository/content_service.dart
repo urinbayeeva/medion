@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/domain/abstract_repo/content/i_content_service.dart';
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
+import 'package:medion/domain/models/team/team_model.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 
@@ -12,8 +13,7 @@ class ContentServiceRepo implements IContentService {
   ContentServiceRepo(this._apiService);
 
   @override
-  Future<Either<ResponseFailure, List<ContentModel>>> fetchContents(
-      {required String type}) async {
+  Future<Either<ResponseFailure, List<ContentModel>>> fetchContents({required String type}) async {
     try {
       final response = await _apiService.getContentType(type);
       LogService.d('Response Status: ${response.statusCode}');

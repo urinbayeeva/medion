@@ -50,13 +50,10 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   void initState() {
     super.initState();
     _initializeDBService();
-    context
-        .read<BookingBloc>()
-        .add(BookingEvent.fetchHomePageServiceDoctors(id: widget.id));
+    context.read<BookingBloc>().add(BookingEvent.fetchHomePageServiceDoctors(id: widget.id));
   }
 
-  void _showPhoneCallbackDialog(BuildContext context, dynamic colors,
-      dynamic fonts, List<int> serviceIds) {
+  void _showPhoneCallbackDialog(BuildContext context, dynamic colors, dynamic fonts, List<int> serviceIds) {
     showDialog(
       context: context,
       builder: (context) => PhoneCallbackDialog(serviceIds: serviceIds),
@@ -157,8 +154,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                 if (selectedServiceIds.isEmpty || state.medicalModel == null) {
                   return const SizedBox.shrink();
                 }
-                return _buildSelectedServicesContainer(
-                    context, state, colors, fonts);
+                return _buildSelectedServicesContainer(context, state, colors, fonts);
               },
             ),
             24.h.verticalSpace,
@@ -200,7 +196,8 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                 mainAxisSpacing: 12.h,
                 childAspectRatio: 0.48,
               ),
-              itemCount: 4, // Show 4 placeholders
+              itemCount: 4,
+              // Show 4 placeholders
               itemBuilder: (_, __) => ShimmerContainer(
                 height: 200.h,
                 borderRadius: 8.r,
@@ -211,7 +208,8 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
               physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
               shrinkWrap: true,
-              itemCount: 3, // Show 3 placeholders
+              itemCount: 3,
+              // Show 3 placeholders
               itemBuilder: (_, __) => ShimmerContainer(
                 height: 80.h,
                 borderRadius: 8.r,
@@ -253,21 +251,18 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
           SizedBox(
             width: double.infinity,
             child: CustomToggle(
-              iconList:
-                  ['all_informations'.tr(), 'doctors'.tr(), 'services'.tr()]
-                      .asMap()
-                      .entries
-                      .map((entry) => Text(
-                            entry.value,
-                            style: fonts.xSmallLink.copyWith(
-                              color: selectedIndex == entry.key
-                                  ? colors.shade0
-                                  : colors.primary900,
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ))
-                      .toList(),
+              iconList: ['all_informations'.tr(), 'doctors'.tr(), 'services'.tr()]
+                  .asMap()
+                  .entries
+                  .map((entry) => Text(
+                        entry.value,
+                        style: fonts.xSmallLink.copyWith(
+                          color: selectedIndex == entry.key ? colors.shade0 : colors.primary900,
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ))
+                  .toList(),
               onChanged: (value) => setState(() => selectedIndex = value),
               current: selectedIndex,
               values: const [0, 1, 2],
@@ -327,8 +322,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                   ),
                   itemBuilder: (context, index) {
                     final discount = state.medicalModel!.discount[index];
-                    final endDateFormatted = _formatDiscountDate(
-                        discount.discountEndDate?.toString());
+                    final endDateFormatted = _formatDiscountDate(discount.discountEndDate?.toString());
 
                     return ArticleCardWidget(
                       onTap: () {
@@ -434,8 +428,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
           },
           name: doctor.name ?? '',
           profession: doctor.jobName ?? "No profession",
-          experience: "experience"
-              .tr(namedArgs: {"count": doctor.experienceYears.toString()}),
+          experience: "experience".tr(namedArgs: {"count": doctor.experienceYears.toString()}),
           doctorID: doctor.id!,
           home: false,
         );
@@ -496,15 +489,12 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
         children: [
           // Debugging: Add a hardcoded text to verify visibility
           GestureDetector(
-            onTap: () =>
-                _showSelectedServicesBottomSheet(context, state, colors, fonts),
+            onTap: () => _showSelectedServicesBottomSheet(context, state, colors, fonts),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "count_services_selected".tr(namedArgs: {
-                    "count": selectedServiceIds.length.toString()
-                  }),
+                  "count_services_selected".tr(namedArgs: {"count": selectedServiceIds.length.toString()}),
                   style: fonts.regularSemLink.copyWith(
                     fontSize: 14.sp,
                     color: colors.primary900, // Ensure contrast with background
@@ -549,9 +539,8 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
     dynamic colors,
     dynamic fonts,
   ) {
-    final selectedServices = state.medicalModel!.services
-        .where((service) => selectedServiceIds.contains(service.id ?? -1))
-        .toList();
+    final selectedServices =
+        state.medicalModel!.services.where((service) => selectedServiceIds.contains(service.id ?? -1)).toList();
 
     showModalBottomSheet(
       backgroundColor: colors.shade0,
@@ -562,86 +551,75 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
       builder: (context) {
         return Container(
             padding: EdgeInsets.all(16.w),
-            child: Column(
-                mainAxisSize: MainAxisSize.min,
+            child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                "count_services_selected".tr(namedArgs: {"count": selectedServiceIds.length.toString()}),
+                style: fonts.regularSemLink.copyWith(
+                  fontSize: 14.sp,
+                  color: colors.primary900, // Ensure contrast with background
+                ),
+              ),
+              SizedBox(height: 10.h),
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "count_services_selected".tr(namedArgs: {
-                      "count": selectedServiceIds.length.toString()
-                    }),
-                    style: fonts.regularSemLink.copyWith(
-                      fontSize: 14.sp,
-                      color:
-                          colors.primary900, // Ensure contrast with background
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: selectedServices.length,
-                        itemBuilder: (context, index) {
-                          final service = selectedServices[index];
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: 4.h),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        service.name ?? "No service name",
-                                        style: fonts.xSmallLink.copyWith(
-                                          color: colors.primary900,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      4.h.verticalSpace,
-                                      Text(
-                                        "sum".tr(namedArgs: {
-                                          "amount":
-                                              formatNumber(service.priceUzs)
-                                        }),
-                                        style: fonts.smallLink.copyWith(
-                                          color: colors.primary900,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 13.sp,
-                                        ),
-                                      ),
-                                    ],
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: selectedServices.length,
+                    itemBuilder: (context, index) {
+                      final service = selectedServices[index];
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 4.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    service.name ?? "No service name",
+                                    style: fonts.xSmallLink.copyWith(
+                                      color: colors.primary900,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      selectedServiceIds
-                                          .remove(service.id ?? -1);
-                                    });
-                                    Navigator.pop(context);
-                                  },
-                                  child: Image.asset(
-                                    "assets/images/trash.png",
-                                    width: 35,
-                                    height: 35,
+                                  4.h.verticalSpace,
+                                  Text(
+                                    "sum".tr(namedArgs: {"amount": formatNumber(service.priceUzs)}),
+                                    style: fonts.smallLink.copyWith(
+                                      color: colors.primary900,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 13.sp,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          );
-                        },
-                        separatorBuilder: (context, index) => CDivider(),
-                      ),
-                    ],
-                  )
-                ]));
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedServiceIds.remove(service.id ?? -1);
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: Image.asset(
+                                "assets/images/trash.png",
+                                width: 35,
+                                height: 35,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) => CDivider(),
+                  ),
+                ],
+              )
+            ]));
       },
     );
   }

@@ -11,7 +11,9 @@ import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 
 part 'booking_bloc.freezed.dart';
+
 part 'booking_event.dart';
+
 part 'booking_state.dart';
 
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
@@ -67,8 +69,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
 
         res.fold(
           (error) {
-            LogService.e(
-                "Error refreshing category services: ${error.message}");
+            LogService.e("Error refreshing category services: ${error.message}");
             emit(state.copyWith(loading: false, error: true));
             // EasyLoading.showError(error.message);
           },
@@ -205,10 +206,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     }
   }
 
-  FutureOr<void> _onFetchHomePageServiceDoctors(
-    _FetchHomePageServiceDoctors event,
-    Emitter<BookingState> emit,
-  ) async {
+  FutureOr<void> _onFetchHomePageServiceDoctors(_FetchHomePageServiceDoctors event, Emitter<BookingState> emit) async {
     // Step 1: Emit a loading state with medicalModel cleared
     emit(state.copyWith(
       loading: true,
@@ -309,7 +307,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       loading: true,
       error: false,
       success: false,
-      doctorServices: [], // Clear previous data
+      doctorServices: [],
+      // Clear previous data
       selectedDoctorId: event.doctorId,
     ));
 

@@ -43,8 +43,7 @@ class _AwardsPageState extends State<AwardsPage> {
             ),
             Expanded(
               // Wrap the BlocBuilder in Expanded to take full height
-              child: BlocBuilder<BranchBloc, BranchState>(
-                  builder: (context, state) {
+              child: BlocBuilder<BranchBloc, BranchState>(builder: (context, state) {
                 if (state.awards.isEmpty) {
                   return Center(
                     child: Column(
@@ -52,8 +51,7 @@ class _AwardsPageState extends State<AwardsPage> {
                       children: [
                         icons.emojiSad.svg(width: 80.w, height: 80.h),
                         4.h.verticalSpace,
-                        Text('no_result_found'.tr(),
-                            style: fonts.regularSemLink),
+                        Text('no_result_found'.tr(), style: fonts.regularSemLink),
                       ],
                     ),
                   );
@@ -67,23 +65,14 @@ class _AwardsPageState extends State<AwardsPage> {
                   },
                   itemBuilder: (int index, item) {
                     final data = state.awards[index];
-                    return ItemAboutHealth(
-                      imageSize: 279.h,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          AppRoutes.getInfoViewAboutHealth(
-                            discountCondition: "",
-                            imagePath: [data.image!],
-                            title: data.decodedTitle!,
-                            desc: data.decodedDescription,
-                            date: "2025-02-24",
-                          ),
-                        );
-                      },
-                      title: state.awards[index].decodedTitle,
-                      desc: state.awards[index].decodedDescription,
-                      imagePath: state.awards[index].image,
+                    return IgnorePointer(
+                      ignoring: true,
+                      child: ItemAboutHealth(
+                        imageSize: 279.h,
+                        title: data.decodedTitle,
+                        desc: data.decodedDescription,
+                        imagePath: data.image ?? '',
+                      ),
                     );
                   },
                   data: state.awards,

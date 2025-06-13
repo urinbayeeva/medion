@@ -6,18 +6,13 @@ import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class ItemAboutHealth extends StatelessWidget {
-  final String? title;
-  final String? desc;
-  final String? imagePath;
+  final String title;
+  final String desc;
+  final String imagePath;
   final VoidCallback? onTap;
   final double? imageSize;
-  const ItemAboutHealth(
-      {super.key,
-      this.title,
-      this.desc,
-      this.imagePath,
-      this.onTap,
-      this.imageSize});
+
+  const ItemAboutHealth({super.key, this.title = '', this.desc = '', this.imagePath = '', this.onTap, this.imageSize});
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +33,7 @@ class ItemAboutHealth extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8.r),
-                        topRight: Radius.circular(8.r)),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8.r), topRight: Radius.circular(8.r)),
                     child: imagePath == null
                         ? SvgPicture.asset("assets/icons/picture.svg")
                         : CachedImageComponent(
@@ -51,15 +44,13 @@ class ItemAboutHealth extends StatelessWidget {
                           ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.w),
+                    padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.w),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         12.h.verticalSpace,
-                        Text(title!, style: fonts.regularMain),
+                        Text(title, style: fonts.regularMain),
                         4.h.verticalSpace,
-                        Text(desc!, style: fonts.smallLink, maxLines: 4),
                       ],
                     ),
                   )

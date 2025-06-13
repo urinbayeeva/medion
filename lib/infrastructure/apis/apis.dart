@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +15,7 @@ import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/recruitment/recruitment_model.dart';
 import 'package:medion/domain/models/search/search_model.dart';
+import 'package:medion/domain/models/team/team_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
@@ -51,8 +51,7 @@ abstract class AuthService extends ChopperService {
     @Body() required CreateInfoReq request,
   });
 
-  static AuthService create(DBService dbService) =>
-      _$AuthService(_Client(Constants.baseUrlP, true, dbService));
+  static AuthService create(DBService dbService) => _$AuthService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "")
@@ -62,8 +61,7 @@ abstract class RefreshService extends ChopperService {
     @Body() required RefreshTokenModel request,
   });
 
-  static RefreshService create(DBService dbService) =>
-      _$RefreshService(_Client(Constants.baseUrlP, true, dbService));
+  static RefreshService create(DBService dbService) => _$RefreshService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "")
@@ -85,8 +83,7 @@ abstract class BookingService extends ChopperService {
   Future<Response<BuiltList<BookingTypeModel>>> bookingTypes();
 
   @Get(path: 'category_services/{service_type_id}')
-  Future<Response<BuiltList<Category>>> getServiceId(
-      @Path('service_type_id') int id);
+  Future<Response<BuiltList<Category>>> getServiceId(@Path('service_type_id') int id);
 
   @Post(path: 'doctors')
   Future<Response<BuiltList<ThirdBookingService>>> fetchDoctors({
@@ -96,22 +93,18 @@ abstract class BookingService extends ChopperService {
   });
 
   @Get(path: "categories")
-  Future<Response<BuiltList<HomepageBookingCategory>>>
-      getHomePageBookingCategory();
+  Future<Response<BuiltList<HomepageBookingCategory>>> getHomePageBookingCategory();
 
   @Get(path: 'category_doctors_services/{category_id}')
-  Future<Response<MedicalModel>> getHomePageBookingDoctors(
-      @Path('category_id') int id);
+  Future<Response<MedicalModel>> getHomePageBookingDoctors(@Path('category_id') int id);
 
   @Post(path: "doctor/day")
-  static BookingService create(DBService dbService) =>
-      _$BookingService(_Client(Constants.baseUrlP, true, dbService));
+  static BookingService create(DBService dbService) => _$BookingService(_Client(Constants.baseUrlP, true, dbService));
 
   @Get(path: 'services_by_doctor/{doctor_id }')
-  Future<Response<MedicalServiceCategory>> getHomePageBookingDoctorsByID(
-      @Path('doctor_id ') int id);
+  Future<Response<MedicalServiceCategory>> getHomePageBookingDoctorsByID(@Path('doctor_id ') int id);
 
-  //MedicalServiceCategory
+//MedicalServiceCategory
 }
 
 //Home Page
@@ -132,8 +125,7 @@ abstract class HomePageService extends ChopperService {
   @Get(path: "company_location")
   Future<Response<BuiltList<LocationModel>>> getCompanyLocatiom();
 
-  static HomePageService create(DBService dbService) =>
-      _$HomePageService(_Client(Constants.baseUrlP, true, dbService));
+  static HomePageService create(DBService dbService) => _$HomePageService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 //Doctors
@@ -149,8 +141,7 @@ abstract class DoctorService extends ChopperService {
   @Get(path: 'doctor-jobs')
   Future<Response<BuiltList<DoctorsJob>>> getDoctorsJob();
 
-  static DoctorService create(DBService dbService) =>
-      _$DoctorService(_Client(Constants.baseUrlP, true, dbService));
+  static DoctorService create(DBService dbService) => _$DoctorService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 // main
@@ -159,13 +150,11 @@ abstract class DoctorService extends ChopperService {
 abstract class UploadImage extends ChopperService {
   @Post(path: '')
   @multipart
-  Future<Response<ImageUploadResponseModel>> imageUpload(
-      @PartFile('file') MultipartFile file,
+  Future<Response<ImageUploadResponseModel>> imageUpload(@PartFile('file') MultipartFile file,
       {@Header('Content-Type') String contentType = 'multipart/form-data',
       @Header('requires-token') String requiresToken = 'true'});
 
-  static UploadImage create(DBService dbService) =>
-      _$UploadImage(_Client("", true, dbService, timeout: 300));
+  static UploadImage create(DBService dbService) => _$UploadImage(_Client("", true, dbService, timeout: 300));
 }
 
 @ChopperApi(baseUrl: "/profile")
@@ -195,8 +184,7 @@ abstract class PatientService extends ChopperService {
     @Header('requires-token') String requiresToken = "true",
   });
 
-  static PatientService create(DBService dbService) =>
-      _$PatientService(_Client(Constants.baseUrlP, true, dbService));
+  static PatientService create(DBService dbService) => _$PatientService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "/branch")
@@ -207,8 +195,7 @@ abstract class BranchService extends ChopperService {
   @Get(path: "/awards")
   Future<Response<BuiltList<AwardsModel>>> getAwards();
 
-  static BranchService create(DBService dbService) =>
-      _$BranchService(_Client(Constants.baseUrlP, true, dbService));
+  static BranchService create(DBService dbService) => _$BranchService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "")
@@ -218,8 +205,7 @@ abstract class SearchService extends ChopperService {
     @Body() SearchReqModel request,
   );
 
-  static SearchService create(DBService dbService) =>
-      _$SearchService(_Client(Constants.baseUrlP, true, dbService));
+  static SearchService create(DBService dbService) => _$SearchService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "")
@@ -227,18 +213,15 @@ abstract class StudyService extends ChopperService {
   @Get(path: "/study")
   Future<Response<EducationModel>> getStudy();
 
-  static StudyService create(DBService dbService) =>
-      _$StudyService(_Client(Constants.baseUrlP, true, dbService));
+  static StudyService create(DBService dbService) => _$StudyService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "")
 abstract class HelpCallService extends ChopperService {
   @Post(path: "/help/call")
-  Future<Response<ServiceResponse>> serviceReqCall(
-      {@Body() required ServiceRequest request});
+  Future<Response<ServiceResponse>> serviceReqCall({@Body() required ServiceRequest request});
 
-  static StudyService create(DBService dbService) =>
-      _$StudyService(_Client(Constants.baseUrlP, true, dbService));
+  static StudyService create(DBService dbService) => _$StudyService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "/company/")
@@ -252,18 +235,18 @@ abstract class CompanyService extends ChopperService {
   @Get(path: "privacy")
   Future<Response<PrivacyModel>> getPrivacy();
 
-  static CompanyService create(DBService dbService) =>
-      _$CompanyService(_Client(Constants.baseUrlP, true, dbService));
+  @Get(path: "team")
+  Future<Response<Map<String, dynamic>>> getTeam();
+
+  static CompanyService create(DBService dbService) => _$CompanyService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "")
 abstract class ContentService extends ChopperService {
   @Get(path: "/content/{type}")
-  Future<Response<BuiltList<ContentModel>>> getContentType(
-      @Path('type') String type);
+  Future<Response<BuiltList<ContentModel>>> getContentType(@Path('type') String type);
 
-  static ContentService create(DBService dbService) =>
-      _$ContentService(_Client(Constants.baseUrlP, true, dbService));
+  static ContentService create(DBService dbService) => _$ContentService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "recruitment")
@@ -276,11 +259,9 @@ abstract class RecruitmentService extends ChopperService {
 }
 
 base class _Client extends ChopperClient {
-  _Client(String baseUrl, bool useInterceptors, DBService dbService,
-      {int timeout = 5})
+  _Client(String baseUrl, bool useInterceptors, DBService dbService, {int timeout = 5})
       : super(
-            client: TimeoutHttpClient(Client(),
-                timeout: Duration(seconds: timeout)),
+            client: TimeoutHttpClient(Client(), timeout: Duration(seconds: timeout)),
             baseUrl: Uri.parse(baseUrl),
             interceptors: useInterceptors
                 ? [
@@ -290,8 +271,7 @@ base class _Client extends ChopperClient {
                     HtmlDecodeInterceptor(),
                     CurlInterceptor(),
                     NetworkInterceptor(),
-                    RetryInterceptor(
-                        maxRetries: 5, retryDelay: const Duration(seconds: 1)),
+                    RetryInterceptor(maxRetries: 5, retryDelay: const Duration(seconds: 1)),
                     BackendInterceptor(),
                   ]
                 : const [],
@@ -306,8 +286,7 @@ class MyAuthenticator extends Authenticator {
   MyAuthenticator(this.dbService);
 
   @override
-  FutureOr<Request?> authenticate(Request request, Response response,
-      [Request? originalRequest]) async {
+  FutureOr<Request?> authenticate(Request request, Response response, [Request? originalRequest]) async {
     if (response.statusCode == 401) {
       final refreshToken = dbService.token.refreshToken;
       LogService.d("Attempting refresh with token: $refreshToken");
@@ -318,8 +297,12 @@ class MyAuthenticator extends Authenticator {
         return null;
       }
 
-      final authRepo = AuthRepository(dbService, AuthService.create(dbService),
-          PatientService.create(dbService), RefreshService.create(dbService));
+      final authRepo = AuthRepository(
+        dbService,
+        AuthService.create(dbService),
+        PatientService.create(dbService),
+        RefreshService.create(dbService),
+      );
       final result = await authRepo.refreshToken(refreshToken);
 
       print("REFRESH TOKEN AUTH$refreshToken");
@@ -339,8 +322,7 @@ class MyAuthenticator extends Authenticator {
           ));
 
           final updatedHeaders = Map<String, String>.of(request.headers);
-          updatedHeaders['Authorization'] =
-              '${data.tokenType} ${data.accessToken}';
+          updatedHeaders['Authorization'] = '${data.tokenType} ${data.accessToken}';
           return request.copyWith(headers: updatedHeaders);
         },
       );

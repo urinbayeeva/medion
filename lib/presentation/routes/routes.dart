@@ -10,6 +10,7 @@ import 'package:medion/application/search/search_bloc.dart';
 import 'package:medion/application/vacancy_bloc/vacancy_bloc.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/branch_repo.dart';
+import 'package:medion/infrastructure/repository/company_service.dart';
 import 'package:medion/infrastructure/repository/content_service.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
@@ -136,9 +137,7 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getSignUpWithPhone(
-      {Function(dynamic)? onClose,
-      bool additionalPhone = false,
-      List<String>? phoneNumbers}) {
+      {Function(dynamic)? onClose, bool additionalPhone = false, List<String>? phoneNumbers}) {
     // AnalyticsService().analyzeScreenView('singUp');
     return MaterialPageRoute(
         builder: (_) => BlocProvider(
@@ -176,10 +175,7 @@ class AppRoutes {
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
-                AuthRepository(
-                    dbService,
-                    AuthService.create(dbService),
-                    PatientService.create(dbService),
+                AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService),
                     RefreshService.create(dbService)),
                 dbService,
               );
@@ -198,10 +194,7 @@ class AppRoutes {
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
-                AuthRepository(
-                    dbService,
-                    AuthService.create(dbService),
-                    PatientService.create(dbService),
+                AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService),
                     RefreshService.create(dbService)),
                 dbService,
               );
@@ -215,39 +208,29 @@ class AppRoutes {
 
   static MaterialPageRoute getHomePage(index) {
     return MaterialPageRoute(
-        builder: (_) => BlocProvider(
-            create: (context) {
-              DBService dbService = context.read<DBService>();
-              return HomeBloc(
-                  HomeRepository(HomePageService.create(dbService)));
-            },
-            child: const HomePage()));
+      builder: (_) => BlocProvider(
+        create: (context) {
+          DBService dbService = context.read<DBService>();
+          return HomeBloc(HomeRepository(HomePageService.create(dbService)));
+        },
+        child: const HomePage(),
+      ),
+    );
   }
 
   // static MaterialPageRoute getAppoinmentPage(index) {
   //   return MaterialPageRoute(builder: (_) => const StepFirst());
   // }
 
-  static MaterialPageRoute getMyVisitsPage() {
-    return MaterialPageRoute(builder: (_) => const MyVisitsPage());
+  static MaterialPageRoute getMyVisitsPage() => MaterialPageRoute(builder: (_) => const MyVisitsPage());
+
+  static MaterialPageRoute getDiresctionPage() => MaterialPageRoute(builder: (_) => const DirectionsPage());
+
+  static MaterialPageRoute getDirectionInfoPage({required int id, required String name}) {
+    return MaterialPageRoute(builder: (_) => DirectionInfoPage(id: id, name: name));
   }
 
-  static MaterialPageRoute getDiresctionPage() {
-    return MaterialPageRoute(builder: (_) => const DirectionsPage());
-  }
-
-  static MaterialPageRoute getDirectionInfoPage(
-      {required int id, required String name}) {
-    return MaterialPageRoute(
-      builder: (_) => DirectionInfoPage(id: id, name: name),
-    );
-  }
-
-  static MaterialPageRoute getServicesPage() {
-    return MaterialPageRoute(
-      builder: (_) => const ServicesPage(),
-    );
-  }
+  static MaterialPageRoute getServicesPage() => MaterialPageRoute(builder: (_) => const ServicesPage());
 
   // static MaterialPageRoute getDoctorAppointmentPage({
   //   required BuildContext context,
@@ -272,53 +255,58 @@ class AppRoutes {
 
   static MaterialPageRoute getAllDoctorsPage() {
     return MaterialPageRoute(
-        builder: (_) => BlocProvider(
-            create: (context) {
-              DBService dbService = context.read<DBService>();
-              return DoctorBloc(
-                  DoctorRepository(DoctorService.create(dbService)));
-            },
-            child: const AllDoctorsPage()));
+      builder: (_) => BlocProvider(
+        create: (context) {
+          DBService dbService = context.read<DBService>();
+          return DoctorBloc(DoctorRepository(DoctorService.create(dbService)));
+        },
+        child: const AllDoctorsPage(),
+      ),
+    );
   }
 
-  static MaterialPageRoute getSettingsPage() {
-    return MaterialPageRoute(builder: (_) => const SettingPage());
-  }
+  static MaterialPageRoute getSettingsPage() => MaterialPageRoute(builder: (_) => const SettingPage());
 
   static MaterialPageRoute getWalletPage() {
     return MaterialPageRoute(
-        builder: (_) => BlocProvider(
-            create: (context) {
-              DBService dbService = context.read<DBService>();
-              return AuthBloc(
-                  AuthRepository(
-                      dbService,
-                      AuthService.create(dbService),
-                      PatientService.create(dbService),
-                      RefreshService.create(dbService)),
-                  dbService);
-            },
-            child: const WalletPage()));
+      builder: (_) => BlocProvider(
+        create: (context) {
+          DBService dbService = context.read<DBService>();
+          return AuthBloc(
+            AuthRepository(
+              dbService,
+              AuthService.create(dbService),
+              PatientService.create(dbService),
+              RefreshService.create(dbService),
+            ),
+            dbService,
+          );
+        },
+        child: const WalletPage(),
+      ),
+    );
   }
 
-  static MaterialPageRoute getRecipesPage() {
-    return MaterialPageRoute(builder: (_) => const RecipesPage());
-  }
+  static MaterialPageRoute getRecipesPage() => MaterialPageRoute(builder: (_) => const RecipesPage());
 
   static MaterialPageRoute getResultsPage() {
     return MaterialPageRoute(
-        builder: (_) => BlocProvider(
-            create: (context) {
-              DBService dbService = context.read<DBService>();
-              return AuthBloc(
-                  AuthRepository(
-                      dbService,
-                      AuthService.create(dbService),
-                      PatientService.create(dbService),
-                      RefreshService.create(dbService)),
-                  dbService);
-            },
-            child: const ResultsPage()));
+      builder: (_) => BlocProvider(
+        create: (context) {
+          DBService dbService = context.read<DBService>();
+          return AuthBloc(
+            AuthRepository(
+              dbService,
+              AuthService.create(dbService),
+              PatientService.create(dbService),
+              RefreshService.create(dbService),
+            ),
+            dbService,
+          );
+        },
+        child: const ResultsPage(),
+      ),
+    );
   }
 
   static MaterialPageRoute getUserDetailsPage() {
@@ -327,10 +315,7 @@ class AppRoutes {
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
-                AuthRepository(
-                    dbService,
-                    AuthService.create(dbService),
-                    PatientService.create(dbService),
+                AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService),
                     RefreshService.create(dbService)),
                 dbService,
               );
@@ -342,17 +327,13 @@ class AppRoutes {
     return MaterialPageRoute(builder: (_) => const MapPage());
   }
 
-  static MaterialPageRoute getAboutDoctorPage(
-      String name, String profession, String status, String image, int id) {
+  static MaterialPageRoute getAboutDoctorPage(String name, String profession, String status, String image, int id) {
     return MaterialPageRoute(
         builder: (_) => BlocProvider(
             create: (context) {
               DBService dbService = context.read<DBService>();
               return AuthBloc(
-                AuthRepository(
-                    dbService,
-                    AuthService.create(dbService),
-                    PatientService.create(dbService),
+                AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService),
                     RefreshService.create(dbService)),
                 dbService,
               );
@@ -528,7 +509,9 @@ class AppRoutes {
         create: (context) {
           DBService dbService = context.read<DBService>();
           return ContentBloc(
-              ContentServiceRepo(ContentService.create(dbService)));
+            ContentServiceRepo(ContentService.create(dbService)),
+            CompanyServiceRepo(CompanyService.create(dbService)),
+          );
         },
         child: const PartnersPage(),
       ),
@@ -541,7 +524,9 @@ class AppRoutes {
         create: (context) {
           DBService dbService = context.read<DBService>();
           return ContentBloc(
-              ContentServiceRepo(ContentService.create(dbService)));
+            ContentServiceRepo(ContentService.create(dbService)),
+            CompanyServiceRepo(CompanyService.create(dbService)),
+          );
         },
         child: const ArticlePage(),
       ),
@@ -580,9 +565,7 @@ class AppRoutes {
               create: (context) {
                 DBService dbService = context.read<DBService>();
                 return BranchBloc(BranchRepository(
-                    BranchService.create(dbService),
-                    StudyService.create(dbService),
-                    CompanyService.create(dbService)));
+                    BranchService.create(dbService), StudyService.create(dbService), CompanyService.create(dbService)));
               },
               child: const AboutHealthPage(),
             ));
@@ -641,9 +624,7 @@ class AppRoutes {
               create: (context) {
                 DBService dbService = context.read<DBService>();
                 return BranchBloc(BranchRepository(
-                    BranchService.create(dbService),
-                    StudyService.create(dbService),
-                    CompanyService.create(dbService)));
+                    BranchService.create(dbService), StudyService.create(dbService), CompanyService.create(dbService)));
               },
               child: const EquipmentPage(),
             ));
@@ -655,9 +636,7 @@ class AppRoutes {
               create: (context) {
                 DBService dbService = context.read<DBService>();
                 return BranchBloc(BranchRepository(
-                    BranchService.create(dbService),
-                    StudyService.create(dbService),
-                    CompanyService.create(dbService)));
+                    BranchService.create(dbService), StudyService.create(dbService), CompanyService.create(dbService)));
               },
               child: const AwardsPage(),
             ));
@@ -673,9 +652,7 @@ class AppRoutes {
               create: (context) {
                 DBService dbService = context.read<DBService>();
                 return BranchBloc(BranchRepository(
-                    BranchService.create(dbService),
-                    StudyService.create(dbService),
-                    CompanyService.create(dbService)));
+                    BranchService.create(dbService), StudyService.create(dbService), CompanyService.create(dbService)));
               },
               child: const EducationPage(),
             ));
@@ -687,9 +664,7 @@ class AppRoutes {
               create: (context) {
                 DBService dbService = context.read<DBService>();
                 return BranchBloc(BranchRepository(
-                    BranchService.create(dbService),
-                    StudyService.create(dbService),
-                    CompanyService.create(dbService)));
+                    BranchService.create(dbService), StudyService.create(dbService), CompanyService.create(dbService)));
               },
               child: const DiscountPage(),
             ));

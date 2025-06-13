@@ -159,11 +159,8 @@ class _AboutDoctorState extends State<AboutDoctor> {
     );
   }
 
-  Widget _buildAboutDoctorTab(
-      ModelDoctor doctor, dynamic colors, dynamic fonts, icons) {
-    return doctor.education.isEmpty &&
-            doctor.experience.isEmpty &&
-            doctor.workSchedule == null
+  Widget _buildAboutDoctorTab(ModelDoctor doctor, dynamic colors, dynamic fonts, icons) {
+    return doctor.education.isEmpty && doctor.experience.isEmpty && doctor.workSchedule == null
         ? SizedBox.shrink()
         : SingleChildScrollView(
             child: Column(
@@ -202,24 +199,23 @@ class _AboutDoctorState extends State<AboutDoctor> {
                   itemCount: doctor.discount.length,
                   itemBuilder: (context, index) {
                     final discount = doctor.discount[index];
-                    final endDateFormatted = _formatDiscountDate(
-                        discount.discountEndDate?.toString());
+                    final endDateFormatted = _formatDiscountDate(discount.discountEndDate?.toString());
 
                     return ArticleCardWidget(
                       onTap: () {
                         print("${discount.id}");
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DiscountPage(
-                                      discountId: discount.id,
-                                    )));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DiscountPage(
+                              discountId: discount.id,
+                            ),
+                          ),
+                        );
                       },
                       title: discount.title,
-                      description: "Акция до {date}".tr(namedArgs: {
-                        "date": endDateFormatted,
-                      }),
                       image: discount.image,
+                      description: "Акция до {date}".tr(namedArgs: {"date": endDateFormatted}),
                     );
                   },
                 ),
@@ -229,8 +225,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
           );
   }
 
-  Widget _buildExperienceTab(
-      ModelDoctor doctor, dynamic colors, dynamic fonts, dynamic icons) {
+  Widget _buildExperienceTab(ModelDoctor doctor, dynamic colors, dynamic fonts, dynamic icons) {
     if (doctor.experience.isEmpty) {
       return _buildEmptyState(colors, fonts, icons);
     }
@@ -246,13 +241,11 @@ class _AboutDoctorState extends State<AboutDoctor> {
             children: doctor.experience.map((exp) {
               final dateParts = exp.date.toString().split(" - ");
               final startDate = DateTime.parse(dateParts[0]);
-              final formattedStartDate =
-                  DateFormat('d MMM yyyy').format(startDate);
+              final formattedStartDate = DateFormat('d MMM yyyy').format(startDate);
 
               final endDate = dateParts.length > 1 && dateParts[1] == 'current'
                   ? 'current'
-                  : DateFormat('d MMM yyyy')
-                      .format(DateTime.parse(dateParts[1]));
+                  : DateFormat('d MMM yyyy').format(DateTime.parse(dateParts[1]));
 
               return Padding(
                 padding: EdgeInsets.only(bottom: 8.h),
@@ -268,8 +261,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
                     children: [
                       Text(
                         exp.title.toString(),
-                        style: fonts.xSmallText
-                            .copyWith(fontWeight: FontWeight.bold),
+                        style: fonts.xSmallText.copyWith(fontWeight: FontWeight.bold),
                       ),
                       Text(
                         '- $formattedStartDate - $endDate',
@@ -293,8 +285,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
     );
   }
 
-  Widget _buildEducationTab(
-      ModelDoctor doctor, dynamic colors, dynamic fonts, dynamic icons) {
+  Widget _buildEducationTab(ModelDoctor doctor, dynamic colors, dynamic fonts, dynamic icons) {
     if (doctor.education.isEmpty) {
       return _buildEmptyState(colors, fonts, icons);
     }
@@ -310,13 +301,11 @@ class _AboutDoctorState extends State<AboutDoctor> {
             children: doctor.education.map((edu) {
               final dateParts = edu.date.toString().split(" - ");
               final startDate = DateTime.parse(dateParts[0]);
-              final formattedStartDate =
-                  DateFormat('d MMM yyyy').format(startDate);
+              final formattedStartDate = DateFormat('d MMM yyyy').format(startDate);
 
               final endDate = dateParts.length > 1 && dateParts[1] == 'current'
                   ? 'current'
-                  : DateFormat('d MMM yyyy')
-                      .format(DateTime.parse(dateParts[1]));
+                  : DateFormat('d MMM yyyy').format(DateTime.parse(dateParts[1]));
 
               return Padding(
                 padding: EdgeInsets.only(bottom: 8.h),
@@ -332,8 +321,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
                     children: [
                       Text(
                         edu.title.toString(),
-                        style: fonts.xSmallLink
-                            .copyWith(fontWeight: FontWeight.bold),
+                        style: fonts.xSmallLink.copyWith(fontWeight: FontWeight.bold),
                       ),
                       Text(
                         '- $formattedStartDate - $endDate',
@@ -355,8 +343,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
     );
   }
 
-  Widget _buildWorkingHoursTab(
-      ModelDoctor doctor, dynamic colors, dynamic fonts) {
+  Widget _buildWorkingHoursTab(ModelDoctor doctor, dynamic colors, dynamic fonts) {
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: Column(

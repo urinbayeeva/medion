@@ -32,6 +32,8 @@ class OthersPage extends StatelessWidget {
                     children: [
                       _sectionHeader("about_the_company".tr(), fonts),
                       _sectionContent(othersData),
+                      _sectionHeader("others".tr(), fonts),
+                      _sectionContentSecond(othersDataSecond),
                       60.h.verticalSpace,
                     ],
                   ),

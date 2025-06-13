@@ -9,6 +9,7 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/pages/others/about_health/component/item_about_health.dart';
 import 'package:medion/presentation/pages/others/about_health/sources/about_healt_data.dart';
+import 'package:medion/presentation/pages/others/equipment/equipment_detail_page.dart';
 import 'package:medion/presentation/pages/others/equipment/sources/data_equipment.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
@@ -29,9 +30,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<ContentBloc>()
-        .add(const ContentEvent.fetchContent(type: "equipment"));
+    context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "equipment"));
   }
 
   @override
@@ -41,9 +40,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
   }
 
   void _onRefresh() {
-    context
-        .read<ContentBloc>()
-        .add(const ContentEvent.fetchContent(type: "equipment"));
+    context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "equipment"));
     _refreshController.refreshCompleted();
   }
 
@@ -81,8 +78,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
                     );
                   }
 
-                  final equipmentContent =
-                      state.contentByType["equipment"] ?? [];
+                  final equipmentContent = state.contentByType["equipment"] ?? [];
 
                   if (equipmentContent.isEmpty) {
                     return Center(
@@ -116,14 +112,9 @@ class _EquipmentPageState extends State<EquipmentPage> {
                               final data = equipmentContent[index];
                               return ItemAboutHealth(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    AppRoutes.getInfoViewAboutHealth(
-                                      discountCondition: "",
-                                      date: data.createDate,
-                                      imagePath: data.images.toList(),
-                                      title: data.decodedTitle,
-                                      desc: data.decodedDescription,
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => EquipmentDetailPage(content: data),
                                     ),
                                   );
                                 },
@@ -133,39 +124,6 @@ class _EquipmentPageState extends State<EquipmentPage> {
                               );
                             },
                           ),
-
-                          // Child equipment items
-                          if (equipmentContent.isNotEmpty &&
-                              equipmentContent[0].children.isNotEmpty)
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              itemCount: equipmentContent[0].children.length,
-                              itemBuilder: (context, index) {
-                                final childData =
-                                    equipmentContent[0].children[index];
-                                return ItemAboutHealth(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      AppRoutes.getInfoViewAboutHealth(
-                                        discountCondition: "",
-                                        imagePath: equipmentContent[index]
-                                            .images
-                                            .toList(),
-                                        date: childData.createDate,
-                                        title: childData.decodedTitle,
-                                        desc: childData.decodedDescription,
-                                      ),
-                                    );
-                                  },
-                                  imagePath: childData.primaryImage,
-                                  title: childData.decodedTitle,
-                                  desc: childData.decodedDescription,
-                                );
-                              },
-                            ),
                         ],
                       ),
                     ),
