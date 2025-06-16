@@ -3,7 +3,7 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:provider/provider.dart';
 
 class ThemeWrapper extends StatelessWidget {
-  final Function(
+  final Widget Function(
     BuildContext context,
     CustomColorSet colors,
     FontSet fonts,

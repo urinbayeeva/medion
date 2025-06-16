@@ -9,8 +9,7 @@ part 'branch_model.g.dart';
 abstract class BranchModel implements Built<BranchModel, BranchModelBuilder> {
   BranchModel._();
 
-  factory BranchModel([void Function(BranchModelBuilder) updates]) =
-      _$BranchModel;
+  factory BranchModel([void Function(BranchModelBuilder) updates]) = _$BranchModel;
 
   @BuiltValueField(wireName: 'id')
   int get id;
@@ -45,11 +44,14 @@ abstract class BranchModel implements Built<BranchModel, BranchModelBuilder> {
   @BuiltValueField(wireName: 'title')
   String? get title;
 
+  @BuiltValueField(wireName: 'working_all_days')
+  bool? get workingAllDays;
+
   @BuiltValueField(wireName: 'extra_description')
   String? get extraDescription;
 
-  @BuiltValueField(wireName: 'our_offer')
-  String? get ourOffer;
+  @BuiltValueField(wireName: 'offers')
+  BuiltList<OfferModel>? get ourOffer;
 
   @BuiltValueField(wireName: 'icon')
   String? get icon;
@@ -58,6 +60,53 @@ abstract class BranchModel implements Built<BranchModel, BranchModelBuilder> {
   BuiltList<String>? get licenses;
 
   static Serializer<BranchModel> get serializer => _$branchModelSerializer;
+}
+
+abstract class BranchDetailModel implements Built<BranchDetailModel, BranchDetailModelBuilder> {
+  BranchDetailModel._();
+
+  factory BranchDetailModel([void Function(BranchDetailModelBuilder) updates]) = _$BranchDetailModel;
+
+  @BuiltValueField(wireName: 'id')
+  int get id;
+
+  @BuiltValueField(wireName: 'name')
+  String? get name;
+
+  @BuiltValueField(wireName: 'address')
+  String? get address;
+
+  @BuiltValueField(wireName: 'phone')
+  String? get phone;
+
+  @BuiltValueField(wireName: 'work_time')
+  String? get workTime;
+
+  @BuiltValueField(wireName: 'description')
+  String? get description;
+
+  @BuiltValueField(wireName: 'working_all_days')
+  bool? get workingAllDays;
+
+  @BuiltValueField(wireName: 'licenses')
+  BuiltList<String>? get licenses;
+
+  @BuiltValueField(wireName: 'image')
+  BuiltList<String>? get images;
+
+  @BuiltValueField(wireName: 'latitude')
+  double get latitude;
+
+  @BuiltValueField(wireName: 'longitude')
+  double get longitude;
+
+  @BuiltValueField(wireName: 'video')
+  BuiltList<dynamic>? get video;
+
+  @BuiltValueField(wireName: 'work_days')
+  BuiltList<String>? get workDays;
+
+  static Serializer<BranchDetailModel> get serializer => _$branchDetailModelSerializer;
 }
 
 abstract class AwardsModel implements Built<AwardsModel, AwardsModelBuilder> {
@@ -79,18 +128,16 @@ abstract class AwardsModel implements Built<AwardsModel, AwardsModelBuilder> {
   String? get image;
 
   String get decodedTitle => decodeHtml(title);
+
   String get decodedDescription => decodeHtml(description);
 
   AwardsModel._();
 
-  factory AwardsModel([void Function(AwardsModelBuilder) updates]) =
-      _$AwardsModel;
+  factory AwardsModel([void Function(AwardsModelBuilder) updates]) = _$AwardsModel;
 }
 
-abstract class EducationModel
-    implements Built<EducationModel, EducationModelBuilder> {
-  static Serializer<EducationModel> get serializer =>
-      _$educationModelSerializer;
+abstract class EducationModel implements Built<EducationModel, EducationModelBuilder> {
+  static Serializer<EducationModel> get serializer => _$educationModelSerializer;
 
   @BuiltValueField(wireName: 'name')
   String? get name;
@@ -126,16 +173,20 @@ abstract class EducationModel
   String? get bannerImage;
 
   String get decodedDescription => decodeHtml(description);
+
   String get decodedAudience => decodeHtml(audience);
+
   String get decodedValues => decodeHtml(values);
+
   String get decodedGoals => decodeHtml(goals);
+
   String get decodedWhyUs => decodeHtml(whyUs);
+
   String get decodedMission => decodeHtml(mission);
 
   EducationModel._();
 
-  factory EducationModel([void Function(EducationModelBuilder) updates]) =
-      _$EducationModel;
+  factory EducationModel([void Function(EducationModelBuilder) updates]) = _$EducationModel;
 }
 
 abstract class Course implements Built<Course, CourseBuilder> {
@@ -158,12 +209,10 @@ abstract class Course implements Built<Course, CourseBuilder> {
   factory Course([void Function(CourseBuilder) updates]) = _$Course;
 }
 
-abstract class ContentModel
-    implements Built<ContentModel, ContentModelBuilder> {
+abstract class ContentModel implements Built<ContentModel, ContentModelBuilder> {
   ContentModel._();
 
-  factory ContentModel([void Function(ContentModelBuilder) updates]) =
-      _$ContentModel;
+  factory ContentModel([void Function(ContentModelBuilder) updates]) = _$ContentModel;
 
   @BuiltValueField(wireName: 'type')
   String get type;
@@ -211,13 +260,13 @@ abstract class ContentModel
   JsonObject? get phoneNumberShort;
 
   String get decodedTitle => decodeHtml(title);
+
   String get decodedDescription => decodeHtml(description);
 
   static Serializer<ContentModel> get serializer => _$contentModelSerializer;
 }
 
-abstract class ChildContentModel
-    implements Built<ChildContentModel, ChildContentModelBuilder> {
+abstract class ChildContentModel implements Built<ChildContentModel, ChildContentModelBuilder> {
   @BuiltValueField(wireName: 'id')
   int get id;
 
@@ -235,19 +284,19 @@ abstract class ChildContentModel
 
   // Add decoded getters
   String get decodedTitle => decodeHtml(title);
+
   String get decodedDescription => decodeHtml(description);
 
   ChildContentModel._();
-  factory ChildContentModel([void Function(ChildContentModelBuilder) updates]) =
-      _$ChildContentModel;
 
-  static Serializer<ChildContentModel> get serializer =>
-      _$childContentModelSerializer;
+  factory ChildContentModel([void Function(ChildContentModelBuilder) updates]) = _$ChildContentModel;
+
+  static Serializer<ChildContentModel> get serializer => _$childContentModelSerializer;
 }
 
 abstract class MedionModel implements Built<MedionModel, MedionModelBuilder> {
   @BuiltValueField(wireName: 'name')
-  String get name;
+  String? get name;
 
   @BuiltValueField(wireName: 'description')
   String get description;
@@ -262,21 +311,30 @@ abstract class MedionModel implements Built<MedionModel, MedionModelBuilder> {
   String get mission;
 
   @BuiltValueField(wireName: 'licenses')
-  BuiltList<String> get licenses;
+  BuiltList<String>? get licenses;
 
   MedionModel._();
-  factory MedionModel([void Function(MedionModelBuilder) updates]) =
-      _$MedionModel;
+
+  factory MedionModel([void Function(MedionModelBuilder) updates]) = _$MedionModel;
 
   static Serializer<MedionModel> get serializer => _$medionModelSerializer;
 }
 
 abstract class OfferModel implements Built<OfferModel, OfferModelBuilder> {
   @BuiltValueField(wireName: "offerta")
-  String get offerta;
+  String? get offerta;
 
   @BuiltValueField(wireName: "company_name")
-  String get companyName;
+  String? get companyName;
+
+  @BuiltValueField(wireName: "name")
+  String? get name;
+
+  @BuiltValueField(wireName: "description")
+  String? get description;
+
+  @BuiltValueField(wireName: "icon")
+  String? get icon;
 
   OfferModel._();
 
@@ -285,8 +343,7 @@ abstract class OfferModel implements Built<OfferModel, OfferModelBuilder> {
   static Serializer<OfferModel> get serializer => _$offerModelSerializer;
 }
 
-abstract class PrivacyModel
-    implements Built<PrivacyModel, PrivacyModelBuilder> {
+abstract class PrivacyModel implements Built<PrivacyModel, PrivacyModelBuilder> {
   @BuiltValueField(wireName: "privacy")
   String? get privacy;
 
@@ -295,6 +352,5 @@ abstract class PrivacyModel
 
   PrivacyModel._();
 
-  factory PrivacyModel([void Function(PrivacyModelBuilder) updates]) =
-      _$PrivacyModel;
+  factory PrivacyModel([void Function(PrivacyModelBuilder) updates]) = _$PrivacyModel;
 }

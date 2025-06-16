@@ -8,9 +8,13 @@ class BranchState with _$BranchState {
     @Default(false) bool loading,
     @Default(false) bool error,
     @Default(false) bool success,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus activityStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus branchDetailStatus,
     @Default([]) List<BranchModel> branches,
     @Default([]) List<AwardsModel> awards,
     @Default(null) EducationModel? study,
+    @Default(null) BranchDetailModel? branchDetail,
     @Default(null) OfferModel? offerta,
+    @Default(null) MedionModel? medionActivity,
   }) = _BranchState;
 }

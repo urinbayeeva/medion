@@ -8,7 +8,9 @@ import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 
 part 'doctors_bloc.freezed.dart';
+
 part 'doctors_event.dart';
+
 part 'doctors_state.dart';
 
 class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
@@ -24,12 +26,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     _FetchDoctors event,
     Emitter<DoctorState> emit,
   ) async {
-    emit(state.copyWith(
-      loading: true,
-      error: false,
-      success: false,
-      doctorDetailsLoading: false,
-    ));
+    emit(state.copyWith(loading: true, error: false, success: false, doctorDetailsLoading: false));
 
     final res = await _repository.fetchDoctors();
     res.fold(
@@ -41,19 +38,12 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
       (data) {
         LogService.i("Fetched doctors: ${data.doctorData}");
         EasyLoading.dismiss();
-        emit(state.copyWith(
-          loading: false,
-          success: true,
-          doctors: data,
-        ));
+        emit(state.copyWith(loading: false, success: true, doctors: data));
       },
     );
   }
 
-  FutureOr<void> _fetchDoctorDetails(
-    _FetchDoctorDetails event,
-    Emitter<DoctorState> emit,
-  ) async {
+  FutureOr<void> _fetchDoctorDetails(_FetchDoctorDetails event, Emitter<DoctorState> emit) async {
     emit(state.copyWith(
       doctorDetailsLoading: true,
       doctorDetailsError: false,

@@ -32,7 +32,7 @@ class _DiscountPageState extends State<DiscountPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.discountId != null) {
+    if (widget.discountId == null) {
       // Fetch single discount by ID if provided
       _fetchDiscountById(widget.discountId!);
     } else {
@@ -52,6 +52,7 @@ class _DiscountPageState extends State<DiscountPage> {
       context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "discount"));
       _refreshController.refreshCompleted();
     }
+    return;
   }
 
   String _formatDiscountDate(String? date) {
@@ -84,29 +85,29 @@ class _DiscountPageState extends State<DiscountPage> {
         final endDateFormatted = _formatDiscountDate(discount.discountEndDate?.toString());
 
         // Navigate to the details page
-        if (mounted) {
-          await Navigator.push(
-            context,
-            AppRoutes.getInfoViewAboutHealth(
-              discountCondition: "",
-              imagePath: discount.images,
-              title: discount.decodedTitle.toCapitalized(),
-              desc: discount.decodedDescription.toCapitalized(),
-              date: discount.createDate,
-              isDiscount: true,
-              discountAddress: discount.discountLocation ?? '',
-              discountDuration: discount.discountStartDate != null
-                  ? "${_formatDiscountDate(discount.discountStartDate?.toString())} - $endDateFormatted"
-                  : endDateFormatted,
-              phoneShortNumber: discount.phoneNumberShort ?? '',
-              phoneNumber: discount.phoneNumber ?? '',
-            ),
-          );
-          // Pop twice to go back two screens
-          if (mounted && Navigator.canPop(context)) {
-            Navigator.pop(context);
-          }
-        }
+        // if (mounted) {
+        //   await Navigator.push(
+        //     context,
+        //     AppRoutes.getInfoViewAboutHealth(
+        //       discountCondition: "",
+        //       imagePath: discount.images,
+        //       title: discount.decodedTitle.toCapitalized(),
+        //       desc: discount.decodedDescription.toCapitalized(),
+        //       date: discount.createDate,
+        //       isDiscount: true,
+        //       discountAddress: discount.discountLocation ?? '',
+        //       discountDuration: discount.discountStartDate != null
+        //           ? "${_formatDiscountDate(discount.discountStartDate?.toString())} - $endDateFormatted"
+        //           : endDateFormatted,
+        //       phoneShortNumber: discount.phoneNumberShort ?? '',
+        //       phoneNumber: discount.phoneNumber ?? '',
+        //     ),
+        //   );
+        // Pop twice to go back two screens
+        // if (mounted && Navigator.canPop(context)) {
+        //   Navigator.pop(context);
+        // }
+        // }
       } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -138,7 +139,7 @@ class _DiscountPageState extends State<DiscountPage> {
             ),
             Expanded(
               child:
-                  widget.discountId != null ? _buildLoadingView(colors) : _buildDiscountListView(colors, fonts, icons),
+                  widget.discountId == null ? _buildLoadingView(colors) : _buildDiscountListView(colors, fonts, icons),
             ),
           ],
         ),
@@ -204,7 +205,7 @@ class _DiscountPageState extends State<DiscountPage> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
-                    childAspectRatio: 0.53,
+                    childAspectRatio: 0.7,
                   ),
                   itemCount: discountContent.length,
                   itemBuilder: (context, index) {

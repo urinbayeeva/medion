@@ -1,47 +1,31 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
-import 'package:medion/domain/models/booking/booking_type_model.dart';
-import 'package:medion/domain/sources/med_service.dart';
-import 'package:medion/presentation/component/c_bottom_icon.dart';
+import 'package:medion/application/home/home_bloc.dart';
+import 'package:medion/presentation/component/animation_effect.dart';
+import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
+import 'package:medion/presentation/component/custom_pagination.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
-import 'package:medion/presentation/pages/appointment/appointment_page.dart';
-import 'package:medion/presentation/pages/home/med_services/med_service_choose.dart';
-import 'package:medion/presentation/pages/home/news/news_page.dart';
+import 'package:medion/presentation/pages/home/ads.dart';
+import 'package:medion/presentation/pages/home/widgets/adress_item.dart';
+import 'package:medion/presentation/pages/home/widgets/problem_slidebale_card.dart';
 import 'package:medion/presentation/pages/home/yandex_on_tap.dart';
-import 'package:medion/presentation/pages/map/map_page.dart';
 import 'package:medion/presentation/pages/map/map_with_polylines.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
+import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/helpers/decode_html.dart';
-import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
-
-import '../../../application/home/home_bloc.dart';
-import '../../../presentation/component/animation_effect.dart';
-import '../../../presentation/component/c_appbar.dart';
-import '../../../presentation/component/custom_pagination.dart';
-import '../../../presentation/component/un_focus_widget.dart';
-import '../../../presentation/pages/home/ads.dart';
-import '../../../presentation/pages/home/directions/widgets/medical_direction_item.dart';
-import '../../../presentation/pages/home/doctors/widget/doctors_item.dart';
-import '../../../presentation/pages/home/news/widgets/news_item.dart';
-import '../../../presentation/pages/home/widgets/adress_item.dart';
-import '../../../presentation/pages/home/widgets/problem_slidebale_card.dart';
-import '../../../presentation/routes/routes.dart';
-import '../../../presentation/styles/style.dart';
-import '../../../presentation/styles/theme_wrapper.dart';
+import 'directions/widgets/medical_direction_item.dart';
+import 'doctors/widget/doctors_item.dart';
+import 'news/widgets/news_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -167,7 +151,9 @@ class _HomePageState extends State<HomePage> {
                                         Navigator.push(
                                           context,
                                           AppRoutes.getDirectionInfoPage(
-                                              id: medicalService.categoryId!, name: medicalService.title),
+                                            id: medicalService.categoryId!,
+                                            name: medicalService.title,
+                                          ),
                                         ).then((_) {
                                           context.read<BottomNavBarController>().changeNavBar(false);
                                         });
@@ -640,7 +626,7 @@ class _HomePageState extends State<HomePage> {
         if (limitedDoctors.isEmpty) return const SizedBox.shrink();
 
         return SizedBox(
-          height: 350.h,
+          height: 366.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.zero,

@@ -25,14 +25,13 @@ class ImageUploadRepo implements IImageUpload {
       urls = await Future.wait(uploadFutures);
       return Right(urls);
     } catch (e) {
-      LogService.e(" ----> error on repo  : ${e.toString()}");
+      //LogService.e(" ----> error on repo  : ${e.toString()}");
       return left(handleError(e));
     }
   }
 
-  Future<ImageUploadResponseModel?> getImageUpload(
-      {required String path}) async {
-    LogService.i("$path ${lookupMimeType(path)}");
+  Future<ImageUploadResponseModel?> getImageUpload({required String path}) async {
+    //LogService.i("$path ${lookupMimeType(path)}");
     try {
       MultipartFile multipartFile = await MultipartFile.fromPath(
         "file",
@@ -46,7 +45,7 @@ class ImageUploadRepo implements IImageUpload {
         return null;
       }
     } catch (e) {
-      LogService.e(" ----> error on repo  : ${e.toString()}");
+      //LogService.e(" ----> error on repo  : ${e.toString()}");
       rethrow;
     }
   }

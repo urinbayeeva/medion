@@ -13,33 +13,31 @@ class SearchRepository implements ISearchRepository {
   SearchRepository(this.searchService);
 
   @override
-  Future<Either<ResponseFailure, List<MedionResponseSearchText>>> searchData(
-      SearchReqModel request) async {
+  Future<Either<ResponseFailure, List<MedionResponseSearchText>>> searchData(SearchReqModel request) async {
     try {
       final response = await searchService.getBranchInfo(request);
 
       if (response == null) {
-        LogService.e('Search response is null');
+        //LogService.e('Search response is null');
         return left(InvalidCredentials(message: 'empty_response'.tr()));
       }
 
-      LogService.d('Search Response Status: ${response.statusCode}');
-      LogService.d('Search Response Body: ${response.body}');
+      //LogService.d('Search Response Status: ${response.statusCode}');
+      //LogService.d('Search Response Body: ${response.body}');
 
       if (response.isSuccessful) {
         if (response.body == null) {
-          LogService.w('Search response body is null');
+          //LogService.w('Search response body is null');
           return right([]); // Return empty list for null response
         }
         // Wrap the single object in a list
         return right([response.body!]);
       } else {
-        LogService.e(
-            'Search request failed with status: ${response.statusCode}');
+        //LogService.e('Search request failed with status: ${response.statusCode}');
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on search repo  : ${e.toString()}");
+      //LogService.e(" ----> error on search repo  : ${e.toString()}");
       return left(handleError(e));
     }
   }

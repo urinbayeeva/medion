@@ -240,12 +240,24 @@ class _$MedionResponseSearchTextSerializer
               BuiltList, const [const FullType(CategorySearchText)])),
       'news',
       serializers.serialize(object.news,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(dynamic)])),
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(CategorySearchText)])),
       'articles',
       serializers.serialize(object.articles,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(dynamic)])),
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(CategorySearchText)])),
+      'discounts',
+      serializers.serialize(object.discounts,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(CategorySearchText)])),
+      'services',
+      serializers.serialize(object.services,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(CategorySearchText)])),
+      'branches',
+      serializers.serialize(object.branches,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(CategorySearchText)])),
     ];
 
     return result;
@@ -278,13 +290,31 @@ class _$MedionResponseSearchTextSerializer
         case 'news':
           result.news.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(dynamic)]))!
+                      BuiltList, const [const FullType(CategorySearchText)]))!
               as BuiltList<Object?>);
           break;
         case 'articles':
           result.articles.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(dynamic)]))!
+                      BuiltList, const [const FullType(CategorySearchText)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'discounts':
+          result.discounts.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(CategorySearchText)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'services':
+          result.services.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(CategorySearchText)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'branches':
+          result.branches.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(CategorySearchText)]))!
               as BuiltList<Object?>);
           break;
       }
@@ -617,9 +647,15 @@ class _$MedionResponseSearchText extends MedionResponseSearchText {
   @override
   final BuiltList<CategorySearchText> categories;
   @override
-  final BuiltList<dynamic> news;
+  final BuiltList<CategorySearchText> news;
   @override
-  final BuiltList<dynamic> articles;
+  final BuiltList<CategorySearchText> articles;
+  @override
+  final BuiltList<CategorySearchText> discounts;
+  @override
+  final BuiltList<CategorySearchText> services;
+  @override
+  final BuiltList<CategorySearchText> branches;
 
   factory _$MedionResponseSearchText(
           [void Function(MedionResponseSearchTextBuilder)? updates]) =>
@@ -629,7 +665,10 @@ class _$MedionResponseSearchText extends MedionResponseSearchText {
       {required this.doctors,
       required this.categories,
       required this.news,
-      required this.articles})
+      required this.articles,
+      required this.discounts,
+      required this.services,
+      required this.branches})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         doctors, r'MedionResponseSearchText', 'doctors');
@@ -639,6 +678,12 @@ class _$MedionResponseSearchText extends MedionResponseSearchText {
         news, r'MedionResponseSearchText', 'news');
     BuiltValueNullFieldError.checkNotNull(
         articles, r'MedionResponseSearchText', 'articles');
+    BuiltValueNullFieldError.checkNotNull(
+        discounts, r'MedionResponseSearchText', 'discounts');
+    BuiltValueNullFieldError.checkNotNull(
+        services, r'MedionResponseSearchText', 'services');
+    BuiltValueNullFieldError.checkNotNull(
+        branches, r'MedionResponseSearchText', 'branches');
   }
 
   @override
@@ -657,7 +702,10 @@ class _$MedionResponseSearchText extends MedionResponseSearchText {
         doctors == other.doctors &&
         categories == other.categories &&
         news == other.news &&
-        articles == other.articles;
+        articles == other.articles &&
+        discounts == other.discounts &&
+        services == other.services &&
+        branches == other.branches;
   }
 
   @override
@@ -667,6 +715,9 @@ class _$MedionResponseSearchText extends MedionResponseSearchText {
     _$hash = $jc(_$hash, categories.hashCode);
     _$hash = $jc(_$hash, news.hashCode);
     _$hash = $jc(_$hash, articles.hashCode);
+    _$hash = $jc(_$hash, discounts.hashCode);
+    _$hash = $jc(_$hash, services.hashCode);
+    _$hash = $jc(_$hash, branches.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -677,7 +728,10 @@ class _$MedionResponseSearchText extends MedionResponseSearchText {
           ..add('doctors', doctors)
           ..add('categories', categories)
           ..add('news', news)
-          ..add('articles', articles))
+          ..add('articles', articles)
+          ..add('discounts', discounts)
+          ..add('services', services)
+          ..add('branches', branches))
         .toString();
   }
 }
@@ -699,14 +753,34 @@ class MedionResponseSearchTextBuilder
   set categories(ListBuilder<CategorySearchText>? categories) =>
       _$this._categories = categories;
 
-  ListBuilder<dynamic>? _news;
-  ListBuilder<dynamic> get news => _$this._news ??= new ListBuilder<dynamic>();
-  set news(ListBuilder<dynamic>? news) => _$this._news = news;
+  ListBuilder<CategorySearchText>? _news;
+  ListBuilder<CategorySearchText> get news =>
+      _$this._news ??= new ListBuilder<CategorySearchText>();
+  set news(ListBuilder<CategorySearchText>? news) => _$this._news = news;
 
-  ListBuilder<dynamic>? _articles;
-  ListBuilder<dynamic> get articles =>
-      _$this._articles ??= new ListBuilder<dynamic>();
-  set articles(ListBuilder<dynamic>? articles) => _$this._articles = articles;
+  ListBuilder<CategorySearchText>? _articles;
+  ListBuilder<CategorySearchText> get articles =>
+      _$this._articles ??= new ListBuilder<CategorySearchText>();
+  set articles(ListBuilder<CategorySearchText>? articles) =>
+      _$this._articles = articles;
+
+  ListBuilder<CategorySearchText>? _discounts;
+  ListBuilder<CategorySearchText> get discounts =>
+      _$this._discounts ??= new ListBuilder<CategorySearchText>();
+  set discounts(ListBuilder<CategorySearchText>? discounts) =>
+      _$this._discounts = discounts;
+
+  ListBuilder<CategorySearchText>? _services;
+  ListBuilder<CategorySearchText> get services =>
+      _$this._services ??= new ListBuilder<CategorySearchText>();
+  set services(ListBuilder<CategorySearchText>? services) =>
+      _$this._services = services;
+
+  ListBuilder<CategorySearchText>? _branches;
+  ListBuilder<CategorySearchText> get branches =>
+      _$this._branches ??= new ListBuilder<CategorySearchText>();
+  set branches(ListBuilder<CategorySearchText>? branches) =>
+      _$this._branches = branches;
 
   MedionResponseSearchTextBuilder();
 
@@ -717,6 +791,9 @@ class MedionResponseSearchTextBuilder
       _categories = $v.categories.toBuilder();
       _news = $v.news.toBuilder();
       _articles = $v.articles.toBuilder();
+      _discounts = $v.discounts.toBuilder();
+      _services = $v.services.toBuilder();
+      _branches = $v.branches.toBuilder();
       _$v = null;
     }
     return this;
@@ -745,6 +822,9 @@ class MedionResponseSearchTextBuilder
             categories: categories.build(),
             news: news.build(),
             articles: articles.build(),
+            discounts: discounts.build(),
+            services: services.build(),
+            branches: branches.build(),
           );
     } catch (_) {
       late String _$failedField;
@@ -757,6 +837,12 @@ class MedionResponseSearchTextBuilder
         news.build();
         _$failedField = 'articles';
         articles.build();
+        _$failedField = 'discounts';
+        discounts.build();
+        _$failedField = 'services';
+        services.build();
+        _$failedField = 'branches';
+        branches.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'MedionResponseSearchText', _$failedField, e.toString());

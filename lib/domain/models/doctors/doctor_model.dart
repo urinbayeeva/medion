@@ -6,17 +6,15 @@ import 'package:medion/utils/helpers/decode_html.dart';
 
 part 'doctor_model.g.dart';
 
-abstract class DoctorCategory
-    implements Built<DoctorCategory, DoctorCategoryBuilder> {
+abstract class DoctorCategory implements Built<DoctorCategory, DoctorCategoryBuilder> {
   @BuiltValueField(wireName: "doctors")
   BuiltList<DoctorData>? get doctorData;
 
   DoctorCategory._();
-  factory DoctorCategory([void Function(DoctorCategoryBuilder) updates]) =
-      _$DoctorCategory;
 
-  static Serializer<DoctorCategory> get serializer =>
-      _$doctorCategorySerializer;
+  factory DoctorCategory([void Function(DoctorCategoryBuilder) updates]) = _$DoctorCategory;
+
+  static Serializer<DoctorCategory> get serializer => _$doctorCategorySerializer;
 }
 
 abstract class DoctorData implements Built<DoctorData, DoctorDataBuilder> {
@@ -57,6 +55,7 @@ abstract class DoctorData implements Built<DoctorData, DoctorDataBuilder> {
   bool? get hasDiscount;
 
   DoctorData._();
+
   factory DoctorData([void Function(DoctorDataBuilder) updates]) = _$DoctorData;
 
   static Serializer<DoctorData> get serializer => _$doctorDataSerializer;
@@ -65,8 +64,10 @@ abstract class DoctorData implements Built<DoctorData, DoctorDataBuilder> {
 abstract class Discount implements Built<Discount, DiscountBuilder> {
   @BuiltValueField(wireName: 'id')
   int? get id;
+
   @BuiltValueField(wireName: 'title')
   String? get title;
+
   @BuiltValueField(wireName: 'image')
   String? get image;
 
@@ -74,6 +75,7 @@ abstract class Discount implements Built<Discount, DiscountBuilder> {
   String? get discountEndDate;
 
   Discount._();
+
   factory Discount([void Function(DiscountBuilder) updates]) = _$Discount;
 
   static Serializer<Discount> get serializer => _$discountSerializer;
@@ -127,12 +129,11 @@ abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
   JsonObject get academicRank;
 
   ModelDoctor._();
-  factory ModelDoctor([void Function(ModelDoctorBuilder) updates]) =
-      _$ModelDoctor;
+
+  factory ModelDoctor([void Function(ModelDoctorBuilder) updates]) = _$ModelDoctor;
 }
 
-abstract class WorkSchedule
-    implements Built<WorkSchedule, WorkScheduleBuilder> {
+abstract class WorkSchedule implements Built<WorkSchedule, WorkScheduleBuilder> {
   static Serializer<WorkSchedule> get serializer => _$workScheduleSerializer;
 
   @BuiltValueField(wireName: 'Monday')
@@ -154,12 +155,11 @@ abstract class WorkSchedule
   BuiltList<ScheduleItem> get saturday;
 
   WorkSchedule._();
-  factory WorkSchedule([void Function(WorkScheduleBuilder) updates]) =
-      _$WorkSchedule;
+
+  factory WorkSchedule([void Function(WorkScheduleBuilder) updates]) = _$WorkSchedule;
 }
 
-abstract class ScheduleItem
-    implements Built<ScheduleItem, ScheduleItemBuilder> {
+abstract class ScheduleItem implements Built<ScheduleItem, ScheduleItemBuilder> {
   static Serializer<ScheduleItem> get serializer => _$scheduleItemSerializer;
 
   @BuiltValueField(wireName: 'company')
@@ -169,8 +169,8 @@ abstract class ScheduleItem
   JsonObject get time;
 
   ScheduleItem._();
-  factory ScheduleItem([void Function(ScheduleItemBuilder) updates]) =
-      _$ScheduleItem;
+
+  factory ScheduleItem([void Function(ScheduleItemBuilder) updates]) = _$ScheduleItem;
 }
 
 abstract class Experience implements Built<Experience, ExperienceBuilder> {
@@ -186,6 +186,7 @@ abstract class Experience implements Built<Experience, ExperienceBuilder> {
   JsonObject get description;
 
   Experience._();
+
   factory Experience([void Function(ExperienceBuilder) updates]) = _$Experience;
 }
 
@@ -202,6 +203,7 @@ abstract class Education implements Built<Education, EducationBuilder> {
   JsonObject get description;
 
   Education._();
+
   factory Education([void Function(EducationBuilder) updates]) = _$Education;
 }
 
@@ -209,6 +211,7 @@ abstract class Award implements Built<Award, AwardBuilder> {
   static Serializer<Award> get serializer => _$awardSerializer;
 
   Award._();
+
   factory Award([void Function(AwardBuilder) updates]) = _$Award;
 }
 
@@ -243,11 +246,13 @@ abstract class PriceItem implements Built<PriceItem, PriceItemBuilder> {
   JsonObject get age;
 
   PriceItem._();
+
   factory PriceItem([void Function(PriceItemBuilder) updates]) = _$PriceItem;
 }
 
 abstract class DoctorsJob implements Built<DoctorsJob, DoctorsJobBuilder> {
   DoctorsJob._();
+
   factory DoctorsJob([void Function(DoctorsJobBuilder) updates]) = _$DoctorsJob;
 
   @BuiltValueField(wireName: 'name')
@@ -255,5 +260,6 @@ abstract class DoctorsJob implements Built<DoctorsJob, DoctorsJobBuilder> {
 
   @BuiltValueField(wireName: 'id')
   int get id;
+
   static Serializer<DoctorsJob> get serializer => _$doctorsJobSerializer;
 }

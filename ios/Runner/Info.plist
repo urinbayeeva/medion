@@ -27,16 +27,18 @@
 		<string>????</string>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false/>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
 		<key>Medion</key>
 		<string>${PRODUCT_NAME}</string>
 		<key>NSCameraUsageDescription</key>
 		<string>This app requires access to your camera to take photos.</string>
+		<key>NSDocumentsFolderUsageDescription</key>
+		<string>Need to access downloaded files</string>
 		<key>NSDownloadsFolderUsageDescription</key>
-        <string>Need to download PDF files</string>
-        <key>NSDocumentsFolderUsageDescription</key>
-        <string>Need to access downloaded files</string>
+		<string>Need to download PDF files</string>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 		<string>This app needs to access your location for navigation and map features.</string>
 		<key>NSLocationAlwaysUsageDescription</key>
@@ -50,7 +52,6 @@
 		<key>NSUserTrackingUsageDescription</key>
 		<string>This app uses tracking for personalized content and ads.</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
-		
 		<true/>
 		<key>UIBackgroundModes</key>
 		<array>
@@ -62,8 +63,6 @@
 		<key>UIMainStoryboardFile</key>
 		<string>Main</string>
 		<key>UIStatusBarHidden</key>
-		<false/>
-		<key>ITSAppUsesNonExemptEncryption</key>
 		<false/>
 		<key>UISupportedInterfaceOrientations</key>
 		<array>

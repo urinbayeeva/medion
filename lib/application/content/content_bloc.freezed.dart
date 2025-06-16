@@ -392,7 +392,9 @@ mixin _$ContentState {
   Map<String, List<ContentModel>> get contentByType =>
       throw _privateConstructorUsedError;
   Map<String, Team> get team => throw _privateConstructorUsedError;
-  FormzSubmissionStatus get teamStatus => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get teamStatus =>
+      throw _privateConstructorUsedError; // @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus activityStatus,
+// @Default() MedionModel medionModel,
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
   bool get success => throw _privateConstructorUsedError;
@@ -587,6 +589,8 @@ class _$ContentStateImpl extends _ContentState {
   @override
   @JsonKey()
   final FormzSubmissionStatus teamStatus;
+// @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus activityStatus,
+// @Default() MedionModel medionModel,
   @override
   @JsonKey()
   final bool loading;
@@ -662,7 +666,9 @@ abstract class _ContentState extends ContentState {
   @override
   Map<String, Team> get team;
   @override
-  FormzSubmissionStatus get teamStatus;
+  FormzSubmissionStatus
+      get teamStatus; // @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus activityStatus,
+// @Default() MedionModel medionModel,
   @override
   bool get loading;
   @override

@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:built_collection/built_collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/common/token_ext.dart';
@@ -37,8 +35,7 @@ class AuthRepository implements IAuthFacade {
     this._refreshService,
   );
 
-  Future<Either<ResponseFailure, RefreshTokenResponseModel>> refreshToken(
-      String refresh) async {
+  Future<Either<ResponseFailure, RefreshTokenResponseModel>> refreshToken(String refresh) async {
     try {
       final response = await _refreshService.refreshToken(
         request: RefreshTokenModel((b) => b..token = refresh),
@@ -46,19 +43,18 @@ class AuthRepository implements IAuthFacade {
 
       if (response.isSuccessful) {
         if (response.body != null) {
-          LogService.d("Refresh succeeded: ${response.body!.accessToken}");
+          // //LogService.d("Refresh succeeded: ${response.body!.accessToken}");
           return right(response.body!);
         } else {
-          LogService.e("Response successful but body is null");
+          // //LogService.e("Response successful but body is null");
           return left(InvalidCredentials(message: 'Response body is null'));
         }
       } else {
-        LogService.e(
-            "Refresh failed: ${response.statusCode} - ${response.error}");
+        // LogService.e("Refresh failed: ${response.statusCode} - ${response.error}");
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e, stackTrace) {
-      LogService.e("Refresh error: $e\nStackTrace: $stackTrace");
+      // LogService.e("Refresh error: $e\nStackTrace: $stackTrace");
       return left(handleError(e));
     }
   }
@@ -113,7 +109,7 @@ class AuthRepository implements IAuthFacade {
         return left(InvalidCredentials(message: errorMessage));
       }
     } catch (e) {
-      LogService.e("Register error: $e");
+      //LogService.e("Register error: $e");
 
       // Handle specific exception cases
       if (e.toString().toLowerCase().contains('incorrect code')) {
@@ -131,8 +127,8 @@ class AuthRepository implements IAuthFacade {
     try {
       final response = await _authService.phoneNumberSend(request: request);
 
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful) {
         final body = response.body;
@@ -155,9 +151,7 @@ class AuthRepository implements IAuthFacade {
         return left(InvalidCredentials(message: errorMessage));
       }
     } catch (e, stackTrace) {
-      LogService.e(
-        "Error in sendPhoneNumber: ${e.toString()} \nStackTrace: $stackTrace",
-      );
+      //LogService.e("Error in sendPhoneNumber: ${e.toString()} \nStackTrace: $stackTrace");
       return left(
         InvalidCredentials(message: 'too_many_attempts'.tr()),
       );
@@ -165,8 +159,7 @@ class AuthRepository implements IAuthFacade {
   }
 
   @override
-  Future<Either<ResponseFailure, CreatePatientInfoResponse>> sendUserInfo(
-      {required CreateInfoReq request}) async {
+  Future<Either<ResponseFailure, CreatePatientInfoResponse>> sendUserInfo({required CreateInfoReq request}) async {
     try {
       final res = await _authService.createUserInfo(request: request);
       if (res.isSuccessful) {
@@ -181,7 +174,7 @@ class AuthRepository implements IAuthFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on repo  : ${e.toString()}");
+      //LogService.e(" ----> error on repo  : ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -190,21 +183,21 @@ class AuthRepository implements IAuthFacade {
   Future<Either<ResponseFailure, PatientInfo>> getPatientInfo() async {
     try {
       final token = _dbService.token.toBearerToken;
-      LogService.d("Fetching patient info with token: $token");
+      //LogService.d("Fetching patient info with token: $token");
       if (token == null) {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
       final service = PatientService.create(_dbService);
       final res = await service.getPatientInfo();
       if (res.isSuccessful && res.body != null) {
-        LogService.d("Patient info: ${res.body}");
+        //LogService.d("Patient info: ${res.body}");
         return right(res.body!);
       } else {
-        LogService.e("Server error: ${res.statusCode} - ${res.error}");
+        //LogService.e("Server error: ${res.statusCode} - ${res.error}");
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e("----> error fetching patient info: $e");
+      //LogService.e("----> error fetching patient info: $e");
       return left(handleError(e));
     }
   }
@@ -215,17 +208,16 @@ class AuthRepository implements IAuthFacade {
       final res = await _patientService.getPatientVisitsMobile();
 
       if (res.isSuccessful && res.body != null) {
-        LogService.d('Response Status: ${res.statusCode}');
-        LogService.d('Response Body: ${res.body}');
+        //LogService.d('Response Status: ${res.statusCode}');
+        //LogService.d('Response Body: ${res.body}');
         return right(res.body!.toList());
       } else {
         return left(InvalidCredentials(
-          message:
-              'Failed to fetch patient visits: ${res.statusCode}, ${res.body.toString()}',
+          message: 'Failed to fetch patient visits: ${res.statusCode}, ${res.body.toString()}',
         ));
       }
     } catch (e) {
-      LogService.e(" ----> error fetching patient visits: ${e.toString()}");
+      //LogService.e(" ----> error fetching patient visits: ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -238,20 +230,19 @@ class AuthRepository implements IAuthFacade {
       final res = await _patientService.getPatientAnalyze();
 
       if (res.isSuccessful && res.body != null) {
-        LogService.d('Response Status: ${res.statusCode}');
-        LogService.d('Response Body: ${res.body}');
+        //LogService.d('Response Status: ${res.statusCode}');
+        //LogService.d('Response Body: ${res.body}');
         EasyLoading.dismiss();
         return right(res.body!);
       } else {
         EasyLoading.dismiss();
         return left(InvalidCredentials(
-          message:
-              'Failed to fetch patient analyze: ${res.statusCode}, ${res.body.toString()}',
+          message: 'Failed to fetch patient analyze: ${res.statusCode}, ${res.body.toString()}',
         ));
       }
     } catch (e) {
       EasyLoading.dismiss();
-      LogService.e(" ----> error fetching patient analyze: ${e.toString()}");
+      //LogService.e(" ----> error fetching patient analyze: ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -262,12 +253,11 @@ class AuthRepository implements IAuthFacade {
   }) async {
     try {
       final response = await _patientService.patientImageUpload(
-        image:
-            ImageUploadResponseModel((b) => b..imageBase64 = image.imageBase64),
+        image: ImageUploadResponseModel((b) => b..imageBase64 = image.imageBase64),
       );
 
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         return right(response.body!); // Use response.body directly
@@ -275,7 +265,7 @@ class AuthRepository implements IAuthFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on repo : ${e.toString()}");
+      //LogService.e(" ----> error on repo : ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -285,26 +275,24 @@ class AuthRepository implements IAuthFacade {
     try {
       final response = await _patientService.getMyWallet();
 
-      LogService.d('Wallet Response Status: ${response.statusCode}');
-      LogService.d('Wallet Response Body: ${response.body}');
+      //LogService.d('Wallet Response Status: ${response.statusCode}');
+      //LogService.d('Wallet Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         return right(response.body!);
       } else {
-        final errorMsg =
-            response.error?.toString() ?? 'wallet_fetch_failed'.tr();
+        final errorMsg = response.error?.toString() ?? 'wallet_fetch_failed'.tr();
         return left(InvalidCredentials(message: errorMsg));
       }
     } catch (e, stackTrace) {
-      LogService.e("getMyWallet() error: $e\nStackTrace: $stackTrace");
+      //LogService.e("getMyWallet() error: $e\nStackTrace: $stackTrace");
       return left(handleError(e));
     }
   }
 
   ///
   Future<List<dynamic>> fetchServiceData() async {
-    final response =
-        await http.get(Uri.parse('${Constants.baseUrlP}/booking/doctors'));
+    final response = await http.get(Uri.parse('${Constants.baseUrlP}/booking/doctors'));
 
     if (response.statusCode == 200) {
       // Parse the JSON response

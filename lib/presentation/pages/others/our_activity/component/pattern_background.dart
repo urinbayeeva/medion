@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:medion/presentation/styles/theme.dart';
+import 'package:medion/presentation/component/w_html/w_html.dart';
+import 'package:medion/presentation/pages/others/our_activity/component/our_company.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class PatternBackground extends StatelessWidget {
@@ -22,10 +23,14 @@ class PatternBackground extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w).copyWith(bottom: 10.h),
-            child: Text(
-              patternTitle,
-              style: fonts.regularMain.copyWith(fontSize: 14.sp),
+            child: WHtml(
+              data: patternTitle,
+              textColor: colors.darkMode900,
             ),
+            // child: Text(
+            //   patternTitle,
+            //   style: fonts.regularMain.copyWith(fontSize: 14.sp),
+            // ),
           ),
         );
       },

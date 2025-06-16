@@ -1,6 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
+import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';
@@ -15,10 +16,8 @@ import 'package:medion/domain/models/third_service_model/third_service_model.dar
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/models/visit/visit_new_model.dart';
 import 'package:medion/domain/success_model/response_model.dart';
-
 import 'package:medion/domain/success_model/success_model.dart';
 import 'package:medion/domain/upload_image/upload_image.dart';
-import '../models/auth/auth.dart';
 
 part 'serializer.g.dart';
 
@@ -81,11 +80,15 @@ part 'serializer.g.dart';
   //Branches
 
   BranchModel,
+  BranchDetailModel,
   AwardsModel,
   EducationModel,
   Course,
   ContentModel,
   ChildContentModel,
+  OfferModel,
+  MedionModel,
+  PrivacyModel,
 
   RefreshTokenModel,
   RefreshTokenResponseModel,
@@ -135,5 +138,4 @@ part 'serializer.g.dart';
   DoctorCategory,
   DoctorData,
 ])
-final Serializers serializers =
-    (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();
+final Serializers serializers = (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

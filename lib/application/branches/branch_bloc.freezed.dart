@@ -22,6 +22,8 @@ mixin _$BranchEvent {
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function() fetchOfferta,
+    required TResult Function() fetchActivity,
+    required TResult Function(int id) getBranchDetail,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +32,8 @@ mixin _$BranchEvent {
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function()? fetchOfferta,
+    TResult? Function()? fetchActivity,
+    TResult? Function(int id)? getBranchDetail,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +42,8 @@ mixin _$BranchEvent {
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function()? fetchOfferta,
+    TResult Function()? fetchActivity,
+    TResult Function(int id)? getBranchDetail,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -47,6 +53,8 @@ mixin _$BranchEvent {
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_FetchOfferta value) fetchOfferta,
+    required TResult Function(_FetchActivity value) fetchActivity,
+    required TResult Function(_GetBranchDetail value) getBranchDetail,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,6 +63,8 @@ mixin _$BranchEvent {
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
+    TResult? Function(_FetchActivity value)? fetchActivity,
+    TResult? Function(_GetBranchDetail value)? getBranchDetail,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,6 +73,8 @@ mixin _$BranchEvent {
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_FetchOfferta value)? fetchOfferta,
+    TResult Function(_FetchActivity value)? fetchActivity,
+    TResult Function(_GetBranchDetail value)? getBranchDetail,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -134,6 +146,8 @@ class _$FetchBranchesImpl implements _FetchBranches {
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function() fetchOfferta,
+    required TResult Function() fetchActivity,
+    required TResult Function(int id) getBranchDetail,
   }) {
     return fetchBranches();
   }
@@ -145,6 +159,8 @@ class _$FetchBranchesImpl implements _FetchBranches {
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function()? fetchOfferta,
+    TResult? Function()? fetchActivity,
+    TResult? Function(int id)? getBranchDetail,
   }) {
     return fetchBranches?.call();
   }
@@ -156,6 +172,8 @@ class _$FetchBranchesImpl implements _FetchBranches {
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function()? fetchOfferta,
+    TResult Function()? fetchActivity,
+    TResult Function(int id)? getBranchDetail,
     required TResult orElse(),
   }) {
     if (fetchBranches != null) {
@@ -171,6 +189,8 @@ class _$FetchBranchesImpl implements _FetchBranches {
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_FetchOfferta value) fetchOfferta,
+    required TResult Function(_FetchActivity value) fetchActivity,
+    required TResult Function(_GetBranchDetail value) getBranchDetail,
   }) {
     return fetchBranches(this);
   }
@@ -182,6 +202,8 @@ class _$FetchBranchesImpl implements _FetchBranches {
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
+    TResult? Function(_FetchActivity value)? fetchActivity,
+    TResult? Function(_GetBranchDetail value)? getBranchDetail,
   }) {
     return fetchBranches?.call(this);
   }
@@ -193,6 +215,8 @@ class _$FetchBranchesImpl implements _FetchBranches {
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_FetchOfferta value)? fetchOfferta,
+    TResult Function(_FetchActivity value)? fetchActivity,
+    TResult Function(_GetBranchDetail value)? getBranchDetail,
     required TResult orElse(),
   }) {
     if (fetchBranches != null) {
@@ -251,6 +275,8 @@ class _$FetchAwardsImpl implements _FetchAwards {
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function() fetchOfferta,
+    required TResult Function() fetchActivity,
+    required TResult Function(int id) getBranchDetail,
   }) {
     return fetchAwards();
   }
@@ -262,6 +288,8 @@ class _$FetchAwardsImpl implements _FetchAwards {
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function()? fetchOfferta,
+    TResult? Function()? fetchActivity,
+    TResult? Function(int id)? getBranchDetail,
   }) {
     return fetchAwards?.call();
   }
@@ -273,6 +301,8 @@ class _$FetchAwardsImpl implements _FetchAwards {
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function()? fetchOfferta,
+    TResult Function()? fetchActivity,
+    TResult Function(int id)? getBranchDetail,
     required TResult orElse(),
   }) {
     if (fetchAwards != null) {
@@ -288,6 +318,8 @@ class _$FetchAwardsImpl implements _FetchAwards {
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_FetchOfferta value) fetchOfferta,
+    required TResult Function(_FetchActivity value) fetchActivity,
+    required TResult Function(_GetBranchDetail value) getBranchDetail,
   }) {
     return fetchAwards(this);
   }
@@ -299,6 +331,8 @@ class _$FetchAwardsImpl implements _FetchAwards {
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
+    TResult? Function(_FetchActivity value)? fetchActivity,
+    TResult? Function(_GetBranchDetail value)? getBranchDetail,
   }) {
     return fetchAwards?.call(this);
   }
@@ -310,6 +344,8 @@ class _$FetchAwardsImpl implements _FetchAwards {
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_FetchOfferta value)? fetchOfferta,
+    TResult Function(_FetchActivity value)? fetchActivity,
+    TResult Function(_GetBranchDetail value)? getBranchDetail,
     required TResult orElse(),
   }) {
     if (fetchAwards != null) {
@@ -368,6 +404,8 @@ class _$FetchStudyImpl implements _FetchStudy {
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function() fetchOfferta,
+    required TResult Function() fetchActivity,
+    required TResult Function(int id) getBranchDetail,
   }) {
     return fetchStudy();
   }
@@ -379,6 +417,8 @@ class _$FetchStudyImpl implements _FetchStudy {
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function()? fetchOfferta,
+    TResult? Function()? fetchActivity,
+    TResult? Function(int id)? getBranchDetail,
   }) {
     return fetchStudy?.call();
   }
@@ -390,6 +430,8 @@ class _$FetchStudyImpl implements _FetchStudy {
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function()? fetchOfferta,
+    TResult Function()? fetchActivity,
+    TResult Function(int id)? getBranchDetail,
     required TResult orElse(),
   }) {
     if (fetchStudy != null) {
@@ -405,6 +447,8 @@ class _$FetchStudyImpl implements _FetchStudy {
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_FetchOfferta value) fetchOfferta,
+    required TResult Function(_FetchActivity value) fetchActivity,
+    required TResult Function(_GetBranchDetail value) getBranchDetail,
   }) {
     return fetchStudy(this);
   }
@@ -416,6 +460,8 @@ class _$FetchStudyImpl implements _FetchStudy {
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
+    TResult? Function(_FetchActivity value)? fetchActivity,
+    TResult? Function(_GetBranchDetail value)? getBranchDetail,
   }) {
     return fetchStudy?.call(this);
   }
@@ -427,6 +473,8 @@ class _$FetchStudyImpl implements _FetchStudy {
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_FetchOfferta value)? fetchOfferta,
+    TResult Function(_FetchActivity value)? fetchActivity,
+    TResult Function(_GetBranchDetail value)? getBranchDetail,
     required TResult orElse(),
   }) {
     if (fetchStudy != null) {
@@ -485,6 +533,8 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function() fetchOfferta,
+    required TResult Function() fetchActivity,
+    required TResult Function(int id) getBranchDetail,
   }) {
     return fetchOfferta();
   }
@@ -496,6 +546,8 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function()? fetchOfferta,
+    TResult? Function()? fetchActivity,
+    TResult? Function(int id)? getBranchDetail,
   }) {
     return fetchOfferta?.call();
   }
@@ -507,6 +559,8 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function()? fetchOfferta,
+    TResult Function()? fetchActivity,
+    TResult Function(int id)? getBranchDetail,
     required TResult orElse(),
   }) {
     if (fetchOfferta != null) {
@@ -522,6 +576,8 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_FetchOfferta value) fetchOfferta,
+    required TResult Function(_FetchActivity value) fetchActivity,
+    required TResult Function(_GetBranchDetail value) getBranchDetail,
   }) {
     return fetchOfferta(this);
   }
@@ -533,6 +589,8 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
+    TResult? Function(_FetchActivity value)? fetchActivity,
+    TResult? Function(_GetBranchDetail value)? getBranchDetail,
   }) {
     return fetchOfferta?.call(this);
   }
@@ -544,6 +602,8 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_FetchOfferta value)? fetchOfferta,
+    TResult Function(_FetchActivity value)? fetchActivity,
+    TResult Function(_GetBranchDetail value)? getBranchDetail,
     required TResult orElse(),
   }) {
     if (fetchOfferta != null) {
@@ -558,14 +618,315 @@ abstract class _FetchOfferta implements BranchEvent {
 }
 
 /// @nodoc
+abstract class _$$FetchActivityImplCopyWith<$Res> {
+  factory _$$FetchActivityImplCopyWith(
+          _$FetchActivityImpl value, $Res Function(_$FetchActivityImpl) then) =
+      __$$FetchActivityImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FetchActivityImplCopyWithImpl<$Res>
+    extends _$BranchEventCopyWithImpl<$Res, _$FetchActivityImpl>
+    implements _$$FetchActivityImplCopyWith<$Res> {
+  __$$FetchActivityImplCopyWithImpl(
+      _$FetchActivityImpl _value, $Res Function(_$FetchActivityImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BranchEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$FetchActivityImpl implements _FetchActivity {
+  const _$FetchActivityImpl();
+
+  @override
+  String toString() {
+    return 'BranchEvent.fetchActivity()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$FetchActivityImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBranches,
+    required TResult Function() fetchAwards,
+    required TResult Function() fetchStudy,
+    required TResult Function() fetchOfferta,
+    required TResult Function() fetchActivity,
+    required TResult Function(int id) getBranchDetail,
+  }) {
+    return fetchActivity();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBranches,
+    TResult? Function()? fetchAwards,
+    TResult? Function()? fetchStudy,
+    TResult? Function()? fetchOfferta,
+    TResult? Function()? fetchActivity,
+    TResult? Function(int id)? getBranchDetail,
+  }) {
+    return fetchActivity?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBranches,
+    TResult Function()? fetchAwards,
+    TResult Function()? fetchStudy,
+    TResult Function()? fetchOfferta,
+    TResult Function()? fetchActivity,
+    TResult Function(int id)? getBranchDetail,
+    required TResult orElse(),
+  }) {
+    if (fetchActivity != null) {
+      return fetchActivity();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_FetchAwards value) fetchAwards,
+    required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_FetchOfferta value) fetchOfferta,
+    required TResult Function(_FetchActivity value) fetchActivity,
+    required TResult Function(_GetBranchDetail value) getBranchDetail,
+  }) {
+    return fetchActivity(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_FetchAwards value)? fetchAwards,
+    TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_FetchOfferta value)? fetchOfferta,
+    TResult? Function(_FetchActivity value)? fetchActivity,
+    TResult? Function(_GetBranchDetail value)? getBranchDetail,
+  }) {
+    return fetchActivity?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_FetchAwards value)? fetchAwards,
+    TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_FetchOfferta value)? fetchOfferta,
+    TResult Function(_FetchActivity value)? fetchActivity,
+    TResult Function(_GetBranchDetail value)? getBranchDetail,
+    required TResult orElse(),
+  }) {
+    if (fetchActivity != null) {
+      return fetchActivity(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchActivity implements BranchEvent {
+  const factory _FetchActivity() = _$FetchActivityImpl;
+}
+
+/// @nodoc
+abstract class _$$GetBranchDetailImplCopyWith<$Res> {
+  factory _$$GetBranchDetailImplCopyWith(_$GetBranchDetailImpl value,
+          $Res Function(_$GetBranchDetailImpl) then) =
+      __$$GetBranchDetailImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class __$$GetBranchDetailImplCopyWithImpl<$Res>
+    extends _$BranchEventCopyWithImpl<$Res, _$GetBranchDetailImpl>
+    implements _$$GetBranchDetailImplCopyWith<$Res> {
+  __$$GetBranchDetailImplCopyWithImpl(
+      _$GetBranchDetailImpl _value, $Res Function(_$GetBranchDetailImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BranchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$GetBranchDetailImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetBranchDetailImpl implements _GetBranchDetail {
+  const _$GetBranchDetailImpl({required this.id});
+
+  @override
+  final int id;
+
+  @override
+  String toString() {
+    return 'BranchEvent.getBranchDetail(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetBranchDetailImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  /// Create a copy of BranchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetBranchDetailImplCopyWith<_$GetBranchDetailImpl> get copyWith =>
+      __$$GetBranchDetailImplCopyWithImpl<_$GetBranchDetailImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBranches,
+    required TResult Function() fetchAwards,
+    required TResult Function() fetchStudy,
+    required TResult Function() fetchOfferta,
+    required TResult Function() fetchActivity,
+    required TResult Function(int id) getBranchDetail,
+  }) {
+    return getBranchDetail(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBranches,
+    TResult? Function()? fetchAwards,
+    TResult? Function()? fetchStudy,
+    TResult? Function()? fetchOfferta,
+    TResult? Function()? fetchActivity,
+    TResult? Function(int id)? getBranchDetail,
+  }) {
+    return getBranchDetail?.call(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBranches,
+    TResult Function()? fetchAwards,
+    TResult Function()? fetchStudy,
+    TResult Function()? fetchOfferta,
+    TResult Function()? fetchActivity,
+    TResult Function(int id)? getBranchDetail,
+    required TResult orElse(),
+  }) {
+    if (getBranchDetail != null) {
+      return getBranchDetail(id);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_FetchAwards value) fetchAwards,
+    required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_FetchOfferta value) fetchOfferta,
+    required TResult Function(_FetchActivity value) fetchActivity,
+    required TResult Function(_GetBranchDetail value) getBranchDetail,
+  }) {
+    return getBranchDetail(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_FetchAwards value)? fetchAwards,
+    TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_FetchOfferta value)? fetchOfferta,
+    TResult? Function(_FetchActivity value)? fetchActivity,
+    TResult? Function(_GetBranchDetail value)? getBranchDetail,
+  }) {
+    return getBranchDetail?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_FetchAwards value)? fetchAwards,
+    TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_FetchOfferta value)? fetchOfferta,
+    TResult Function(_FetchActivity value)? fetchActivity,
+    TResult Function(_GetBranchDetail value)? getBranchDetail,
+    required TResult orElse(),
+  }) {
+    if (getBranchDetail != null) {
+      return getBranchDetail(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetBranchDetail implements BranchEvent {
+  const factory _GetBranchDetail({required final int id}) =
+      _$GetBranchDetailImpl;
+
+  int get id;
+
+  /// Create a copy of BranchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GetBranchDetailImplCopyWith<_$GetBranchDetailImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$BranchState {
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
   bool get success => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get activityStatus =>
+      throw _privateConstructorUsedError;
+  FormzSubmissionStatus get branchDetailStatus =>
+      throw _privateConstructorUsedError;
   List<BranchModel> get branches => throw _privateConstructorUsedError;
   List<AwardsModel> get awards => throw _privateConstructorUsedError;
   EducationModel? get study => throw _privateConstructorUsedError;
+  BranchDetailModel? get branchDetail => throw _privateConstructorUsedError;
   OfferModel? get offerta => throw _privateConstructorUsedError;
+  MedionModel? get medionActivity => throw _privateConstructorUsedError;
 
   /// Create a copy of BranchState
   /// with the given fields replaced by the non-null parameter values.
@@ -584,10 +945,14 @@ abstract class $BranchStateCopyWith<$Res> {
       {bool loading,
       bool error,
       bool success,
+      FormzSubmissionStatus activityStatus,
+      FormzSubmissionStatus branchDetailStatus,
       List<BranchModel> branches,
       List<AwardsModel> awards,
       EducationModel? study,
-      OfferModel? offerta});
+      BranchDetailModel? branchDetail,
+      OfferModel? offerta,
+      MedionModel? medionActivity});
 }
 
 /// @nodoc
@@ -608,10 +973,14 @@ class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
     Object? loading = null,
     Object? error = null,
     Object? success = null,
+    Object? activityStatus = null,
+    Object? branchDetailStatus = null,
     Object? branches = null,
     Object? awards = null,
     Object? study = freezed,
+    Object? branchDetail = freezed,
     Object? offerta = freezed,
+    Object? medionActivity = freezed,
   }) {
     return _then(_value.copyWith(
       loading: null == loading
@@ -626,6 +995,14 @@ class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
+      activityStatus: null == activityStatus
+          ? _value.activityStatus
+          : activityStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      branchDetailStatus: null == branchDetailStatus
+          ? _value.branchDetailStatus
+          : branchDetailStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       branches: null == branches
           ? _value.branches
           : branches // ignore: cast_nullable_to_non_nullable
@@ -638,10 +1015,18 @@ class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
           ? _value.study
           : study // ignore: cast_nullable_to_non_nullable
               as EducationModel?,
+      branchDetail: freezed == branchDetail
+          ? _value.branchDetail
+          : branchDetail // ignore: cast_nullable_to_non_nullable
+              as BranchDetailModel?,
       offerta: freezed == offerta
           ? _value.offerta
           : offerta // ignore: cast_nullable_to_non_nullable
               as OfferModel?,
+      medionActivity: freezed == medionActivity
+          ? _value.medionActivity
+          : medionActivity // ignore: cast_nullable_to_non_nullable
+              as MedionModel?,
     ) as $Val);
   }
 }
@@ -658,10 +1043,14 @@ abstract class _$$BranchStateImplCopyWith<$Res>
       {bool loading,
       bool error,
       bool success,
+      FormzSubmissionStatus activityStatus,
+      FormzSubmissionStatus branchDetailStatus,
       List<BranchModel> branches,
       List<AwardsModel> awards,
       EducationModel? study,
-      OfferModel? offerta});
+      BranchDetailModel? branchDetail,
+      OfferModel? offerta,
+      MedionModel? medionActivity});
 }
 
 /// @nodoc
@@ -680,10 +1069,14 @@ class __$$BranchStateImplCopyWithImpl<$Res>
     Object? loading = null,
     Object? error = null,
     Object? success = null,
+    Object? activityStatus = null,
+    Object? branchDetailStatus = null,
     Object? branches = null,
     Object? awards = null,
     Object? study = freezed,
+    Object? branchDetail = freezed,
     Object? offerta = freezed,
+    Object? medionActivity = freezed,
   }) {
     return _then(_$BranchStateImpl(
       loading: null == loading
@@ -698,6 +1091,14 @@ class __$$BranchStateImplCopyWithImpl<$Res>
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
+      activityStatus: null == activityStatus
+          ? _value.activityStatus
+          : activityStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      branchDetailStatus: null == branchDetailStatus
+          ? _value.branchDetailStatus
+          : branchDetailStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       branches: null == branches
           ? _value._branches
           : branches // ignore: cast_nullable_to_non_nullable
@@ -710,10 +1111,18 @@ class __$$BranchStateImplCopyWithImpl<$Res>
           ? _value.study
           : study // ignore: cast_nullable_to_non_nullable
               as EducationModel?,
+      branchDetail: freezed == branchDetail
+          ? _value.branchDetail
+          : branchDetail // ignore: cast_nullable_to_non_nullable
+              as BranchDetailModel?,
       offerta: freezed == offerta
           ? _value.offerta
           : offerta // ignore: cast_nullable_to_non_nullable
               as OfferModel?,
+      medionActivity: freezed == medionActivity
+          ? _value.medionActivity
+          : medionActivity // ignore: cast_nullable_to_non_nullable
+              as MedionModel?,
     ));
   }
 }
@@ -725,10 +1134,14 @@ class _$BranchStateImpl extends _BranchState {
       {this.loading = false,
       this.error = false,
       this.success = false,
+      this.activityStatus = FormzSubmissionStatus.initial,
+      this.branchDetailStatus = FormzSubmissionStatus.initial,
       final List<BranchModel> branches = const [],
       final List<AwardsModel> awards = const [],
       this.study = null,
-      this.offerta = null})
+      this.branchDetail = null,
+      this.offerta = null,
+      this.medionActivity = null})
       : _branches = branches,
         _awards = awards,
         super._();
@@ -742,6 +1155,12 @@ class _$BranchStateImpl extends _BranchState {
   @override
   @JsonKey()
   final bool success;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus activityStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus branchDetailStatus;
   final List<BranchModel> _branches;
   @override
   @JsonKey()
@@ -765,11 +1184,17 @@ class _$BranchStateImpl extends _BranchState {
   final EducationModel? study;
   @override
   @JsonKey()
+  final BranchDetailModel? branchDetail;
+  @override
+  @JsonKey()
   final OfferModel? offerta;
+  @override
+  @JsonKey()
+  final MedionModel? medionActivity;
 
   @override
   String toString() {
-    return 'BranchState(loading: $loading, error: $error, success: $success, branches: $branches, awards: $awards, study: $study, offerta: $offerta)';
+    return 'BranchState(loading: $loading, error: $error, success: $success, activityStatus: $activityStatus, branchDetailStatus: $branchDetailStatus, branches: $branches, awards: $awards, study: $study, branchDetail: $branchDetail, offerta: $offerta, medionActivity: $medionActivity)';
   }
 
   @override
@@ -780,10 +1205,18 @@ class _$BranchStateImpl extends _BranchState {
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.success, success) || other.success == success) &&
+            (identical(other.activityStatus, activityStatus) ||
+                other.activityStatus == activityStatus) &&
+            (identical(other.branchDetailStatus, branchDetailStatus) ||
+                other.branchDetailStatus == branchDetailStatus) &&
             const DeepCollectionEquality().equals(other._branches, _branches) &&
             const DeepCollectionEquality().equals(other._awards, _awards) &&
             (identical(other.study, study) || other.study == study) &&
-            (identical(other.offerta, offerta) || other.offerta == offerta));
+            (identical(other.branchDetail, branchDetail) ||
+                other.branchDetail == branchDetail) &&
+            (identical(other.offerta, offerta) || other.offerta == offerta) &&
+            (identical(other.medionActivity, medionActivity) ||
+                other.medionActivity == medionActivity));
   }
 
   @override
@@ -792,10 +1225,14 @@ class _$BranchStateImpl extends _BranchState {
       loading,
       error,
       success,
+      activityStatus,
+      branchDetailStatus,
       const DeepCollectionEquality().hash(_branches),
       const DeepCollectionEquality().hash(_awards),
       study,
-      offerta);
+      branchDetail,
+      offerta,
+      medionActivity);
 
   /// Create a copy of BranchState
   /// with the given fields replaced by the non-null parameter values.
@@ -811,10 +1248,14 @@ abstract class _BranchState extends BranchState {
       {final bool loading,
       final bool error,
       final bool success,
+      final FormzSubmissionStatus activityStatus,
+      final FormzSubmissionStatus branchDetailStatus,
       final List<BranchModel> branches,
       final List<AwardsModel> awards,
       final EducationModel? study,
-      final OfferModel? offerta}) = _$BranchStateImpl;
+      final BranchDetailModel? branchDetail,
+      final OfferModel? offerta,
+      final MedionModel? medionActivity}) = _$BranchStateImpl;
   const _BranchState._() : super._();
 
   @override
@@ -824,13 +1265,21 @@ abstract class _BranchState extends BranchState {
   @override
   bool get success;
   @override
+  FormzSubmissionStatus get activityStatus;
+  @override
+  FormzSubmissionStatus get branchDetailStatus;
+  @override
   List<BranchModel> get branches;
   @override
   List<AwardsModel> get awards;
   @override
   EducationModel? get study;
   @override
+  BranchDetailModel? get branchDetail;
+  @override
   OfferModel? get offerta;
+  @override
+  MedionModel? get medionActivity;
 
   /// Create a copy of BranchState
   /// with the given fields replaced by the non-null parameter values.

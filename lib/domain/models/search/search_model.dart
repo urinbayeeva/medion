@@ -4,21 +4,18 @@ import 'package:built_collection/built_collection.dart';
 
 part 'search_model.g.dart';
 
-abstract class SearchReqModel
-    implements Built<SearchReqModel, SearchReqModelBuilder> {
+abstract class SearchReqModel implements Built<SearchReqModel, SearchReqModelBuilder> {
   @BuiltValueField(wireName: "text")
   String? get text;
 
   SearchReqModel._();
-  factory SearchReqModel([void Function(SearchReqModelBuilder) updates]) =
-      _$SearchReqModel;
 
-  static Serializer<SearchReqModel> get serializer =>
-      _$searchReqModelSerializer;
+  factory SearchReqModel([void Function(SearchReqModelBuilder) updates]) = _$SearchReqModel;
+
+  static Serializer<SearchReqModel> get serializer => _$searchReqModelSerializer;
 }
 
-abstract class DoctorSearchText
-    implements Built<DoctorSearchText, DoctorSearchTextBuilder> {
+abstract class DoctorSearchText implements Built<DoctorSearchText, DoctorSearchTextBuilder> {
   @BuiltValueField(wireName: 'id')
   int? get id;
 
@@ -32,14 +29,13 @@ abstract class DoctorSearchText
   String? get image;
 
   DoctorSearchText._();
-  factory DoctorSearchText([void Function(DoctorSearchTextBuilder) updates]) =
-      _$DoctorSearchText;
-  static Serializer<DoctorSearchText> get serializer =>
-      _$doctorSearchTextSerializer;
+
+  factory DoctorSearchText([void Function(DoctorSearchTextBuilder) updates]) = _$DoctorSearchText;
+
+  static Serializer<DoctorSearchText> get serializer => _$doctorSearchTextSerializer;
 }
 
-abstract class CategorySearchText
-    implements Built<CategorySearchText, CategorySearchTextBuilder> {
+abstract class CategorySearchText implements Built<CategorySearchText, CategorySearchTextBuilder> {
   @BuiltValueField(wireName: 'id')
   int? get id;
 
@@ -53,16 +49,13 @@ abstract class CategorySearchText
   String? get description;
 
   CategorySearchText._();
-  factory CategorySearchText(
-          [void Function(CategorySearchTextBuilder) updates]) =
-      _$CategorySearchText;
-  static Serializer<CategorySearchText> get serializer =>
-      _$categorySearchTextSerializer;
+
+  factory CategorySearchText([void Function(CategorySearchTextBuilder) updates]) = _$CategorySearchText;
+
+  static Serializer<CategorySearchText> get serializer => _$categorySearchTextSerializer;
 }
 
-abstract class MedionResponseSearchText
-    implements
-        Built<MedionResponseSearchText, MedionResponseSearchTextBuilder> {
+abstract class MedionResponseSearchText implements Built<MedionResponseSearchText, MedionResponseSearchTextBuilder> {
   @BuiltValueField(wireName: 'doctors')
   BuiltList<DoctorSearchText> get doctors;
 
@@ -70,15 +63,24 @@ abstract class MedionResponseSearchText
   BuiltList<CategorySearchText> get categories;
 
   @BuiltValueField(wireName: 'news')
-  BuiltList<dynamic> get news;
+  BuiltList<CategorySearchText> get news;
 
   @BuiltValueField(wireName: 'articles')
-  BuiltList<dynamic> get articles;
+  BuiltList<CategorySearchText> get articles;
+
+  @BuiltValueField(wireName: 'discounts')
+  BuiltList<CategorySearchText> get discounts;
+
+  @BuiltValueField(wireName: 'services')
+  BuiltList<CategorySearchText> get services;
+
+  @BuiltValueField(wireName: 'branches')
+  BuiltList<CategorySearchText> get branches;
 
   MedionResponseSearchText._();
-  factory MedionResponseSearchText(
-          [void Function(MedionResponseSearchTextBuilder) updates]) =
+
+  factory MedionResponseSearchText([void Function(MedionResponseSearchTextBuilder) updates]) =
       _$MedionResponseSearchText;
-  static Serializer<MedionResponseSearchText> get serializer =>
-      _$medionResponseSearchTextSerializer;
+
+  static Serializer<MedionResponseSearchText> get serializer => _$medionResponseSearchTextSerializer;
 }

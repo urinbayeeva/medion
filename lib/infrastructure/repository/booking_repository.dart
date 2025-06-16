@@ -21,8 +21,8 @@ class BookingRepository implements IBookingFacade {
   Future<Either<ResponseFailure, List<BookingTypeModel>>> fetchBookingTypes() async {
     try {
       final response = await _bookingService.bookingTypes();
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         final bookingTypes = response.body!.toList();
@@ -31,7 +31,7 @@ class BookingRepository implements IBookingFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on repo  : ${e.toString()}");
+      //LogService.e(" ----> error on repo  : ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -41,8 +41,8 @@ class BookingRepository implements IBookingFacade {
   Future<Either<ResponseFailure, BuiltList<Category>>> fetchCategoryServices(int id) async {
     try {
       final response = await _bookingService.getServiceId(id);
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         return right(response.body as BuiltList<Category>);
@@ -50,7 +50,7 @@ class BookingRepository implements IBookingFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on repo  : ${e.toString()}");
+      //LogService.e(" ----> error on repo  : ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -59,8 +59,8 @@ class BookingRepository implements IBookingFacade {
   Future<Either<ResponseFailure, List<HomepageBookingCategory>>> fetchHomePageBookingCategories() async {
     try {
       final response = await _bookingService.getHomePageBookingCategory();
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         return right(response.body!.toList());
@@ -68,7 +68,7 @@ class BookingRepository implements IBookingFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on repo  : ${e.toString()}");
+      //LogService.e(" ----> error on repo  : ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -79,8 +79,8 @@ class BookingRepository implements IBookingFacade {
   Future<Either<ResponseFailure, MedicalModel>> fetchHomePageBookingDoctors(int id) async {
     try {
       final response = await _bookingService.getHomePageBookingDoctors(id);
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         return right(response.body!);
@@ -88,7 +88,7 @@ class BookingRepository implements IBookingFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on repo: ${e.toString()}");
+      //LogService.e(" ----> error on repo: ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -103,8 +103,8 @@ class BookingRepository implements IBookingFacade {
       final response = await _bookingService.fetchDoctors(requiresToken: "true", request: request, days: 10);
 
       // Logging
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       // Handle response
       if (response.isSuccessful && response.body != null) {
@@ -113,7 +113,7 @@ class BookingRepository implements IBookingFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> Error on repo: ${e.toString()}");
+      //LogService.e(" ----> Error on repo: ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -127,8 +127,8 @@ class BookingRepository implements IBookingFacade {
 
       final response = await _bookingService.getHomePageBookingDoctorsByID(numericDoctorId);
 
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful) {
         if (response.body != null) {
@@ -146,7 +146,7 @@ class BookingRepository implements IBookingFacade {
     } on FormatException {
       return left(InvalidCredentials(message: 'invalid_doctor_id_format'.tr()));
     } catch (e) {
-      LogService.e("Error fetching services by doctor ID: ${e.toString()}");
+      //LogService.e("Error fetching services by doctor ID: ${e.toString()}");
       return left(handleError(e));
     }
   }

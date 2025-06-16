@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,8 +33,7 @@ class CareerPage extends StatefulWidget {
 }
 
 class _CareerPageState extends State<CareerPage> {
-  final CarouselSliderController _carouselController =
-      CarouselSliderController();
+  final CarouselSliderController _carouselController = CarouselSliderController();
 
   final List<String> whyUsTexts = [
     "понятная система оплаты, конкурентная заработная плата, своевременные выплаты и бонусы;",
@@ -77,23 +77,20 @@ class _CareerPageState extends State<CareerPage> {
                     child: ListView(
                       padding: EdgeInsets.zero,
                       children: [
-                        Text("Мы внимательны к тому, что важно, и предлагаем: ",
-                            style: fonts.regularMain),
+                        Text("Мы внимательны к тому, что важно, и предлагаем: ", style: fonts.regularMain),
                         12.h.verticalSpace,
                         const Text(
                           "Мы в сети многопрофильных клиник «Medion» всегда ждем в своей команде новых специалистов. У нас врачи растут, развиваются и постоянно повышают свой профессиональный уровень, участвуя в российских и международных конференциях",
                         ),
                         40.h.verticalSpace,
-                        Text("Вот почему стоит выбрать нас:",
-                            style: fonts.regularMain),
+                        Text("Вот почему стоит выбрать нас:", style: fonts.regularMain),
                         8.h.verticalSpace,
                         GridView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: whyUsTexts.length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             mainAxisSpacing: 12.h,
                             crossAxisSpacing: 12.w,
@@ -104,10 +101,9 @@ class _CareerPageState extends State<CareerPage> {
                           },
                         ),
                         20.h.verticalSpace,
-                        Text("Врачи", style: fonts.regularMain),
+                        Text("doctors".tr(), style: fonts.regularMain),
                         8.h.verticalSpace,
-                        BlocBuilder<DoctorBloc, DoctorState>(
-                            builder: (context, state) {
+                        BlocBuilder<DoctorBloc, DoctorState>(builder: (context, state) {
                           return ListView.builder(
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,
@@ -116,15 +112,30 @@ class _CareerPageState extends State<CareerPage> {
                             itemBuilder: (context, index) {
                               final data = state.doctorsJob[index];
                               return CustomExpansionListTile(
-                                  title: data.name,
-                                  description: data.id.toString(),
-                                  children: []);
+                                title: data.name,
+                                description: data.name + data.name,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            data.id.toString(),
+                                            style: fonts.smallMain,
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
                             },
                           );
                         }),
                         20.h.verticalSpace,
-                        Text("Работа в Medion — это работа по любви!",
-                            style: fonts.regularMain),
+                        Text("Работа в Medion — это работа по любви!", style: fonts.regularMain),
                         8.h.verticalSpace,
                         CButton(
                             title: "get_more_medion".tr(),
@@ -149,8 +160,7 @@ class _CareerPageState extends State<CareerPage> {
                                 items: carouselImages
                                     .map(
                                       (imagePath) => ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(12.r),
+                                        borderRadius: BorderRadius.circular(12.r),
                                         child: Image.asset(
                                           imagePath,
                                           fit: BoxFit.cover,
@@ -188,8 +198,7 @@ class _CareerPageState extends State<CareerPage> {
                             if (state.loading) {
                               return _buildAddressShimmer();
                             }
-                            return _buildAddressSection(
-                                context, colors, fonts, icons);
+                            return _buildAddressSection(context, colors, fonts, icons);
                           },
                         ),
                       ],
@@ -312,9 +321,7 @@ Widget _buildAddressSection(BuildContext context, colors, fonts, icons) {
                         ),
                       ),
                     ).then((_) {
-                      context
-                          .read<BottomNavBarController>()
-                          .changeNavBar(false);
+                      context.read<BottomNavBarController>().changeNavBar(false);
                     });
                   },
                   url: location.icon,
@@ -324,4 +331,33 @@ Widget _buildAddressSection(BuildContext context, colors, fonts, icons) {
       );
     },
   );
+}
+
+class Vacancies extends StatelessWidget {
+  const Vacancies({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<VacancyBloc, VacancyState>(
+      builder: (context, state) {
+        return state.when(
+          initial: () => const Center(child: Text("No data yet.")),
+          loading: () => const Center(child: CupertinoActivityIndicator()),
+          loaded: (vacancies) {
+            return ListView.builder(
+              itemCount: vacancies.length,
+              itemBuilder: (context, index) {
+                final vacancy = vacancies[index];
+                return ListTile(
+                  title: Text(vacancy.companyName), // adjust based on your model
+                  subtitle: Text(vacancy.medicineVacancies[index] ?? ''),
+                );
+              },
+            );
+          },
+          error: (message) => Center(child: Text('Error: $message')),
+        );
+      },
+    );
+  }
 }

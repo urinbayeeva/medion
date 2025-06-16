@@ -67,12 +67,10 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 16.h),
+                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                       child: Column(
                         children: selectedList
-                            .map((appointment) => _buildAppointmentItem(
-                                appointment, colors, fonts, context))
+                            .map((appointment) => _buildAppointmentItem(appointment, colors, fonts, context))
                             .toList(),
                       ),
                     ),
@@ -96,8 +94,7 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                     onTap: () async {
                       if (selectedList.isNotEmpty) {
                         final appointment = selectedList.first;
-                        final success =
-                            await sendVisitRequest(appointment, context);
+                        final success = await sendVisitRequest(appointment, context);
                         print("VISIT DATA: ${appointment}");
                         if (success) {
                           if (widget.isHome) {
@@ -124,8 +121,7 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
     });
   }
 
-  Widget _buildAppointmentItem(
-      Map<String, String> appointment, colors, fonts, BuildContext context) {
+  Widget _buildAppointmentItem(Map<String, String> appointment, colors, fonts, BuildContext context) {
     return VerifyAppointmentItem(
       hasImage: true,
       diagnosis: appointment['serviceName'] ?? '',
@@ -143,8 +139,7 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
   }
 }
 
-Future<bool> sendVisitRequest(
-    Map<String, String> appointment, BuildContext context) async {
+Future<bool> sendVisitRequest(Map<String, String> appointment, BuildContext context) async {
   final dbService = await DBService.create;
   final token = dbService.token.accessToken;
 
@@ -203,8 +198,7 @@ Future<bool> sendVisitRequest(
       }
 
       // Store payment URLs in the provider
-      Provider.of<PaymentProvider>(context, listen: false)
-          .setPaymentUrls(paymeUrl, clickUrl, multicardUrl);
+      Provider.of<PaymentProvider>(context, listen: false).setPaymentUrls(paymeUrl, clickUrl, multicardUrl);
 
       Future.delayed(Duration.zero, () {
         showAppointmentConfirmedDialog(context);
@@ -224,8 +218,7 @@ Future<bool> sendVisitRequest(
             errorResponse is Map<String, dynamic> &&
             errorResponse["detail"] == specificMessage) {
           EasyLoading.showError('visit_already_exists'.tr());
-        } else if (errorResponse is Map<String, dynamic> &&
-            errorResponse.containsKey("detail")) {
+        } else if (errorResponse is Map<String, dynamic> && errorResponse.containsKey("detail")) {
           EasyLoading.showError(errorResponse["detail"].toString());
         } else {
           EasyLoading.showError("Failed to create visit");

@@ -24,7 +24,7 @@ class CompanyServiceRepo implements ICompany {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on company service : ${e.toString()}");
+      //LogService.e(" ----> error on company service : ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -41,7 +41,7 @@ class CompanyServiceRepo implements ICompany {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on company service : ${e.toString()}");
+      //LogService.e(" ----> error on company service : ${e.toString()}");
       return left(handleError(e));
     }
   }

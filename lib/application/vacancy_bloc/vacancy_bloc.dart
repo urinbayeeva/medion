@@ -10,7 +10,9 @@ import 'package:medion/domain/models/recruitment/recruitment_model.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 
 part 'vacancy_bloc.freezed.dart';
+
 part 'vacancy_event.dart';
+
 part 'vacancy_state.dart';
 
 class VacancyBloc extends Bloc<VacancyEvent, VacancyState> {
@@ -20,8 +22,7 @@ class VacancyBloc extends Bloc<VacancyEvent, VacancyState> {
     on<_FetchVacancies>(_onFetchVacancies);
   }
 
-  Future<void> _onFetchVacancies(
-      _FetchVacancies event, Emitter<VacancyState> emit) async {
+  Future<void> _onFetchVacancies(_FetchVacancies event, Emitter<VacancyState> emit) async {
     EasyLoading.show(status: 'loading...'.tr());
 
     emit(const VacancyState.loading());

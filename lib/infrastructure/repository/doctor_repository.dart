@@ -14,8 +14,8 @@ class DoctorRepository {
   Future<Either<ResponseFailure, DoctorCategory>> fetchDoctors() async {
     try {
       final response = await apiService.getDoctorsInfo();
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         final doctors = response.body!;
@@ -24,17 +24,16 @@ class DoctorRepository {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on repo  : ${e.toString()}");
+      //LogService.e(" ----> error on repo  : ${e.toString()}");
       return left(handleError(e));
     }
   }
 
-  Future<Either<ResponseFailure, ModelDoctor>> getDoctorDetailInfo(
-      int id) async {
+  Future<Either<ResponseFailure, ModelDoctor>> getDoctorDetailInfo(int id) async {
     try {
       final response = await apiService.getDoctorDetailInfo(id);
-      LogService.d('Doctor Detail Response Status: ${response.statusCode}');
-      LogService.d('Doctor Detail Response Body: ${response.body}');
+      //LogService.d('Doctor Detail Response Status: ${response.statusCode}');
+      //LogService.d('Doctor Detail Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         return right(response.body!);
@@ -45,7 +44,7 @@ class DoctorRepository {
         ));
       }
     } catch (e) {
-      LogService.e("Error fetching doctor details: ${e.toString()}");
+      //LogService.e("Error fetching doctor details: ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -53,8 +52,8 @@ class DoctorRepository {
   Future<Either<ResponseFailure, BuiltList<DoctorsJob>>> getDoctorsJob() async {
     try {
       final response = await apiService.getDoctorsJob();
-      LogService.d('Doctor Job Response Status: ${response.statusCode}');
-      LogService.d('Doctor Job Response Body: ${response.body}');
+      //LogService.d('Doctor Job Response Status: ${response.statusCode}');
+      //LogService.d('Doctor Job Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         return right(response.body!.toBuiltList());
@@ -65,7 +64,7 @@ class DoctorRepository {
         ));
       }
     } catch (e) {
-      LogService.e("Error fetching doctor details: ${e.toString()}");
+      //LogService.e("Error fetching doctor details: ${e.toString()}");
       return left(handleError(e));
     }
   }

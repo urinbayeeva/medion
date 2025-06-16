@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ import 'package:medion/domain/serializers/built_value_convertor.dart';
 import 'package:medion/domain/success_model/response_model.dart';
 import 'package:medion/domain/success_model/success_model.dart';
 import 'package:medion/domain/upload_image/upload_image.dart';
+import 'package:medion/infrastructure/apis/interseptor.dart';
 import 'package:medion/infrastructure/core/exceptions.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
@@ -195,15 +197,16 @@ abstract class BranchService extends ChopperService {
   @Get(path: "/awards")
   Future<Response<BuiltList<AwardsModel>>> getAwards();
 
+  @Get(path: "/detail/{branch_id}")
+  Future<Response<BranchDetailModel>> getBranchDetail(@Path('branch_id') int id);
+
   static BranchService create(DBService dbService) => _$BranchService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "")
 abstract class SearchService extends ChopperService {
   @Post(path: "/his-web-search")
-  Future<Response<MedionResponseSearchText>> getBranchInfo(
-    @Body() SearchReqModel request,
-  );
+  Future<Response<MedionResponseSearchText>> getBranchInfo(@Body() SearchReqModel request);
 
   static SearchService create(DBService dbService) => _$SearchService(_Client(Constants.baseUrlP, true, dbService));
 }
@@ -261,23 +264,25 @@ abstract class RecruitmentService extends ChopperService {
 base class _Client extends ChopperClient {
   _Client(String baseUrl, bool useInterceptors, DBService dbService, {int timeout = 5})
       : super(
-            client: TimeoutHttpClient(Client(), timeout: Duration(seconds: timeout)),
-            baseUrl: Uri.parse(baseUrl),
-            interceptors: useInterceptors
-                ? [
-                    CoreInterceptor(dbService, alice.getNavigatorKey()!),
-                    if (AppConfig.shared.flavor == Flavor.dev) ...[],
-                    HttpLoggingInterceptor(),
-                    HtmlDecodeInterceptor(),
-                    CurlInterceptor(),
-                    NetworkInterceptor(),
-                    RetryInterceptor(maxRetries: 5, retryDelay: const Duration(seconds: 1)),
-                    BackendInterceptor(),
-                  ]
-                : const [],
-            converter: BuiltValueConverter(),
-            errorConverter: ErrorMyConverter(),
-            authenticator: MyAuthenticator(dbService));
+          client: TimeoutHttpClient(Client(), timeout: Duration(seconds: timeout)),
+          baseUrl: Uri.parse(baseUrl),
+          interceptors: useInterceptors
+              ? [
+                  CoreInterceptor(dbService, alice.getNavigatorKey()!),
+                  if (AppConfig.shared.flavor == Flavor.dev) ...[],
+                  HttpLoggingInterceptor(),
+                  HtmlDecodeInterceptor(),
+                  CurlInterceptor(),
+                  NetworkInterceptor(),
+                  RetryInterceptor(maxRetries: 5, retryDelay: const Duration(seconds: 1)),
+                  BackendInterceptor(),
+                  const CustomInterceptor(),
+                ]
+              : [const CustomInterceptor()],
+          converter: BuiltValueConverter(),
+          errorConverter: ErrorMyConverter(),
+          authenticator: MyAuthenticator(dbService),
+        );
 }
 
 class MyAuthenticator extends Authenticator {
@@ -309,7 +314,7 @@ class MyAuthenticator extends Authenticator {
 
       return result.fold(
         (failure) {
-          LogService.e("Refresh failed: $failure");
+          LogService.e("Refresh failed: $failure \n ${failure.message}");
           dbService.signOut();
           return null;
         },

@@ -11,6 +11,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Award.serializer)
       ..add(AwardsModel.serializer)
       ..add(BookingTypeModel.serializer)
+      ..add(BranchDetailModel.serializer)
       ..add(BranchModel.serializer)
       ..add(Category.serializer)
       ..add(CategorySearchText.serializer)
@@ -46,9 +47,11 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ImageModel.serializer)
       ..add(LocationModel.serializer)
       ..add(MedicalModel.serializer)
+      ..add(MedionModel.serializer)
       ..add(MedionResponseSearchText.serializer)
       ..add(ModelDoctor.serializer)
       ..add(News.serializer)
+      ..add(OfferModel.serializer)
       ..add(OrderVisit.serializer)
       ..add(PatientAnalysis.serializer)
       ..add(PatientInfo.serializer)
@@ -95,11 +98,20 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(CategorySearchText)]),
           () => new ListBuilder<CategorySearchText>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(dynamic)]),
-          () => new ListBuilder<dynamic>())
+          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
+          () => new ListBuilder<CategorySearchText>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(dynamic)]),
-          () => new ListBuilder<dynamic>())
+          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
+          () => new ListBuilder<CategorySearchText>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
+          () => new ListBuilder<CategorySearchText>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
+          () => new ListBuilder<CategorySearchText>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
+          () => new ListBuilder<CategorySearchText>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Experience)]),
           () => new ListBuilder<Experience>())
@@ -170,11 +182,29 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ChildContentModel)]),
           () => new ListBuilder<ChildContentModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(OfferModel)]),
+          () => new ListBuilder<OfferModel>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(dynamic)]),
+          () => new ListBuilder<dynamic>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

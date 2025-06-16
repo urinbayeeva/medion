@@ -97,15 +97,13 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                       Text(
                         'Мои приемы'.tr(),
                         style: fonts.xSmallLink.copyWith(
-                          color:
-                              _showVisits ? colors.shade0 : colors.primary900,
+                          color: _showVisits ? colors.shade0 : colors.primary900,
                         ),
                       ),
                       Text(
                         'Мои счета'.tr(),
                         style: fonts.xSmallLink.copyWith(
-                          color:
-                              !_showVisits ? colors.shade0 : colors.primary900,
+                          color: !_showVisits ? colors.shade0 : colors.primary900,
                         ),
                       ),
                     ],
@@ -148,20 +146,20 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
       padding: EdgeInsets.zero,
       itemBuilder: (_, index) {
         final order = orders[index];
-        final service = order.saleOrderLines.isNotEmpty
-            ? order.saleOrderLines.first.service
-            : '';
-        final formattedDate = order.saleOrderLines.isNotEmpty
-            ? order.saleOrderLines.first.formattedDate
-            : '';
+        final service = order.saleOrderLines.isNotEmpty ? order.saleOrderLines.first.service : '';
+        final formattedDate = order.saleOrderLines.isNotEmpty ? order.saleOrderLines.first.formattedDate : '';
 
         return VisitsNewDesignCard(
           onTap: () => _navigateToOrderDetails(order),
-          doctorName: '', // Not available in orders
-          doctorJob: '', // Not available in orders
+          doctorName: '',
+          // Not available in orders
+          doctorJob: '',
+          // Not available in orders
           serviceName: service,
-          location: '', // Not available in orders
-          timaAndDate: formattedDate, // Use the formatted date
+          location: '',
+          // Not available in orders
+          timaAndDate: formattedDate,
+          // Use the formatted date
           paymentStatus: order.saleOrderPaymentStatus,
           doctorImage: '', // Not available in orders
         );
@@ -234,20 +232,24 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
               );
             }
           },
-          longitude: 0.0, // Not available in orders
-          latitude: 0.0, // Not available in orders
-          image: '', // Not available in orders
-          doctorName: '', // Not available in orders
-          categoryName: '', // Not available in orders
-          visitDate: order.saleOrderLines.isNotEmpty
-              ? order.saleOrderLines.first.createDate.split(' ').first
-              : '',
-          visitLocation: '', // Not available in orders
-          visitPaymentByWhom: '', // Not available in orders
-          visitStatus: '', // Not available in orders
-          serviceName: order.saleOrderLines.isNotEmpty
-              ? order.saleOrderLines.first.service
-              : '',
+          longitude: 0.0,
+          // Not available in orders
+          latitude: 0.0,
+          // Not available in orders
+          image: '',
+          // Not available in orders
+          doctorName: '',
+          // Not available in orders
+          categoryName: '',
+          // Not available in orders
+          visitDate: order.saleOrderLines.isNotEmpty ? order.saleOrderLines.first.createDate.split(' ').first : '',
+          visitLocation: '',
+          // Not available in orders
+          visitPaymentByWhom: '',
+          // Not available in orders
+          visitStatus: '',
+          // Not available in orders
+          serviceName: order.saleOrderLines.isNotEmpty ? order.saleOrderLines.first.service : '',
           servicePrice: order.saleOrderPrice,
           paymentMethod: '', // Not available in orders
         ),

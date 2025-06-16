@@ -5,6 +5,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
@@ -20,6 +21,7 @@ import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/booking_repository.dart';
+import 'package:medion/infrastructure/repository/branch_repo.dart';
 import 'package:medion/infrastructure/repository/company_service.dart';
 import 'package:medion/infrastructure/repository/content_service.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
@@ -78,6 +80,15 @@ class MyApp extends StatelessWidget {
           create: (context) => ContentBloc(
             ContentServiceRepo(ContentService.create(dbService)),
             CompanyServiceRepo(CompanyService.create(dbService)),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => BranchBloc(
+            BranchRepository(
+              BranchService.create(dbService),
+              StudyService.create(dbService),
+              CompanyService.create(dbService),
+            ),
           ),
         ),
         BlocProvider(

@@ -26,8 +26,8 @@ class HomeRepository implements INewsFacade {
   Future<Either<ResponseFailure, List<News>>> getNews() async {
     try {
       final response = await _homePageService.getNews();
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         final bookingTypes = response.body!.toList();
@@ -36,7 +36,7 @@ class HomeRepository implements INewsFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on repo  : ${e.toString()}");
+      //LogService.e(" ----> error on repo  : ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -45,8 +45,8 @@ class HomeRepository implements INewsFacade {
   Future<Either<ResponseFailure, List<DiseaseModle>>> getDiseases() async {
     try {
       final response = await _homePageService.getDisease();
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         final diseases = response.body!.toList();
@@ -55,7 +55,7 @@ class HomeRepository implements INewsFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on repo : ${e.toString()}");
+      //LogService.e(" ----> error on repo : ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -64,8 +64,8 @@ class HomeRepository implements INewsFacade {
   Future<Either<ResponseFailure, List<AdModel>>> getAds() async {
     try {
       final response = await _homePageService.getAds();
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         final ads = response.body!.toList();
@@ -74,7 +74,7 @@ class HomeRepository implements INewsFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on repo : ${e.toString()}");
+      //LogService.e(" ----> error on repo : ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -83,9 +83,9 @@ class HomeRepository implements INewsFacade {
   Future<Either<ResponseFailure, List<DiagnosticsModel>>> getDiagnosis() async {
     try {
       final response = await _homePageService.getMedicalServices();
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
-      LogService.d('Response Error: ${response.error}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Error: ${response.error}');
 
       if (response.isSuccessful && response.body != null) {
         final medicalServices = response.body!.toList();
@@ -94,20 +94,19 @@ class HomeRepository implements INewsFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e, stackTrace) {
-      LogService.e(" ----> error on repo : ${e.toString()}");
-      LogService.e(" ----> Stack Trace: ${stackTrace.toString()}");
+      //LogService.e(" ----> error on repo : ${e.toString()}");
+      //LogService.e(" ----> Stack Trace: ${stackTrace.toString()}");
       return left(handleError(e));
     }
   }
 
   @override
-  Future<Either<ResponseFailure, List<LocationModel>>>
-      getCompanyLocation() async {
+  Future<Either<ResponseFailure, List<LocationModel>>> getCompanyLocation() async {
     try {
       final response = await _homePageService.getCompanyLocatiom();
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
-      LogService.d('Response Error: ${response.error}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Error: ${response.error}');
 
       if (response.isSuccessful && response.body != null) {
         final companyLocation = response.body;
@@ -116,8 +115,8 @@ class HomeRepository implements INewsFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e, stackTrace) {
-      LogService.e(" ----> error on repo : ${e.toString()}");
-      LogService.e(" ----> Stack Trace: ${stackTrace.toString()}");
+      //LogService.e(" ----> error on repo : ${e.toString()}");
+      //LogService.e(" ----> Stack Trace: ${stackTrace.toString()}");
       return left(handleError(e));
     }
   }

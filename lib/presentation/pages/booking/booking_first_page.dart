@@ -22,8 +22,7 @@ class BookingFirstPage extends StatefulWidget {
 }
 
 class _BookingFirstPageState extends State<BookingFirstPage> {
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -39,7 +38,7 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+    return ThemeWrapper(builder: (ctx, colors, fonts, icons, controller) {
       return Scaffold(
         backgroundColor: colors.backgroundColor,
         body: Column(
@@ -57,19 +56,14 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'step'
-                              .tr(namedArgs: {"count": "1", "total": "5"}),
-                          style: fonts.xSmallLink.copyWith(
-                              color: colors.neutral600,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w600),
+                          text: 'step'.tr(namedArgs: {"count": "1", "total": "5"}),
+                          style: fonts.xSmallLink
+                              .copyWith(color: colors.neutral600, fontSize: 13.sp, fontWeight: FontWeight.w600),
                         ),
                         TextSpan(
                           text: "  ${"selecting_service_type".tr()}",
-                          style: fonts.xSmallLink.copyWith(
-                              color: colors.primary900,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w600),
+                          style: fonts.xSmallLink
+                              .copyWith(color: colors.primary900, fontSize: 13.sp, fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
@@ -83,13 +77,14 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
             ),
             BlocBuilder<BookingBloc, BookingState>(
               buildWhen: (previous, current) {
-                return previous.selectedServiceId !=
-                        current.selectedServiceId ||
-                    previous.bookingTypes != current.bookingTypes ||
-                    previous.loading != current.loading ||
-                    previous.error != current.error;
+                final selectedService = previous.selectedServiceId != current.selectedServiceId;
+                final booking = previous.bookingTypes != current.bookingTypes;
+                final loading = previous.loading != current.loading;
+                final error = previous.error != current.error;
+
+                return selectedService || booking || loading || error;
               },
-              builder: (context, state) {
+              builder: (_, state) {
                 if (state.loading) {
                   return Expanded(
                     child: ShimmerView(
@@ -99,8 +94,7 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                         itemBuilder: (context, index) {
                           return ShimmerContainer(
                             margin: EdgeInsets.symmetric(vertical: 8.h),
-                            height: 80
-                                .h, // Approximate height of MedicalDirectionItem
+                            height: 80.h, // Approximate height of MedicalDirectionItem
                             borderRadius: 12.r,
                             child: Row(
                               children: [
@@ -113,8 +107,7 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                                 Expanded(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       ShimmerContainer(
                                         width: 150.w,
@@ -143,20 +136,16 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                   child: ListView.builder(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     itemCount: state.bookingTypes.length,
-                    itemBuilder: (context, index) {
+                    itemBuilder: (__, index) {
                       final BookingTypeModel item = state.bookingTypes[index];
                       return MedicalDirectionItem(
                         title: item.name,
                         subtitle: "",
                         iconPath: item.icon,
                         onTap: () {
-                          context
-                              .read<BottomNavBarController>()
-                              .changeNavBar(true);
+                          context.read<BottomNavBarController>().changeNavBar(true);
 
-                          context
-                              .read<BookingBloc>()
-                              .add(BookingEvent.selectService(id: item.id));
+                          context.read<BookingBloc>().add(BookingEvent.selectService(id: item.id));
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -165,9 +154,7 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                                         serviceId: item.id,
                                         show: true,
                                       ))).then((_) {
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(false);
+                            context.read<BottomNavBarController>().changeNavBar(false);
                           });
                         },
                       );

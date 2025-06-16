@@ -116,12 +116,8 @@ class DoctorsItem extends StatelessWidget {
                             fit: BoxFit.cover,
                           )
                         : gender == "female"
-                            ? icons.nonUser.svg(width: 175.w, height: 175.h)
-                            : icons.nonUser.svg(
-                                color: colors.neutral500,
-                                width: 175.w,
-                                height: 165.h,
-                              ),
+                            ? icons.nonUser.svg(width: 175.w, height: 165.h)
+                            : icons.nonUser.svg(color: colors.neutral500, width: 175.w, height: 165.h),
                     if (hasDiscount)
                       Positioned(
                         top: 8.w,
@@ -143,32 +139,33 @@ class DoctorsItem extends StatelessWidget {
                 ),
               ),
               // Display academic rank if not empty
-              if (academicRank.isNotEmpty) ...[
-                Center(
-                  child: SizedBox(
-                    width: 164.w,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
-                      margin: EdgeInsets.only(top: 8.h),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6.r),
-                        color: colors.error500,
-                      ),
-                      child: Center(
-                        child: Text(
-                          academicRank.toString() != 'null' ? academicRank : '',
-                          style: fonts.xSmallLink.copyWith(
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.w500,
-                            color: colors.shade0,
-                          ),
-                          overflow: TextOverflow.ellipsis,
+
+              Center(
+                child: SizedBox(
+                  width: 164.w,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+                    margin: EdgeInsets.only(top: 8.h),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.r),
+                      color: academicRank.toString() != 'null' && academicRank.toString().length > 3
+                          ? colors.error500
+                          : colors.shade0,
+                    ),
+                    child: Center(
+                      child: Text(
+                        academicRank.toString() != 'null' && academicRank.toString().length > 3 ? academicRank : '',
+                        style: fonts.xSmallLink.copyWith(
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w500,
+                          color: colors.shade0,
                         ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
                 ),
-              ]
+              ),
             ],
           );
         },

@@ -13,7 +13,6 @@ import 'package:medion/presentation/component/custom_list_view/custom_list_view.
 import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/appointment/verify_appointment.dart';
 import 'package:medion/presentation/pages/appointment/widget/doctors_appointment_widget.dart';
-import 'package:medion/presentation/pages/home/med_services/med_service_verify.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -28,17 +27,14 @@ class MedServiceDoctorChose extends StatefulWidget {
     this.servicesID,
     this.doctorsID,
     this.isHome = false,
-  }) : assert(
-          servicesID != null || doctorsID != null,
-        );
+  }) : assert(servicesID != null || doctorsID != null);
 
   @override
   State<MedServiceDoctorChose> createState() => _MedServiceDoctorChoseState();
 }
 
 class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
-  ValueNotifier<List<Map<String, String>>> selectedAppointments =
-      ValueNotifier([]);
+  ValueNotifier<List<Map<String, String>>> selectedAppointments = ValueNotifier([]);
   Future<List<Service>>? _servicesFuture;
   List<Service>? _services;
   int _selectedDay = 1; // Start with day 1
@@ -85,14 +81,9 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
       'diagnosis': service?.serviceName ?? 'Unknown Diagnosis',
     };
 
-    selectedAppointments.value = selectedAppointments.value
-        .where((a) => a['serviceId'] != serviceId)
-        .toList();
+    selectedAppointments.value = selectedAppointments.value.where((a) => a['serviceId'] != serviceId).toList();
 
-    selectedAppointments.value = [
-      ...selectedAppointments.value,
-      updatedAppointment
-    ];
+    selectedAppointments.value = [...selectedAppointments.value, updatedAppointment];
   }
 
   void removeAppointment(Map<String, String> appointment) {
@@ -107,9 +98,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
 
   void removeAppointmentForService(String serviceId) {
     if (!mounted) return;
-    selectedAppointments.value = selectedAppointments.value
-        .where((a) => a['serviceId'] != serviceId)
-        .toList();
+    selectedAppointments.value = selectedAppointments.value.where((a) => a['serviceId'] != serviceId).toList();
   }
 
   @override
@@ -138,19 +127,14 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'step'.tr(
-                                      namedArgs: {"count": "3", "total": "5"}),
-                                  style: fonts.xSmallLink.copyWith(
-                                      color: colors.neutral600,
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w600),
+                                  text: 'step'.tr(namedArgs: {"count": "3", "total": "5"}),
+                                  style: fonts.xSmallLink
+                                      .copyWith(color: colors.neutral600, fontSize: 13.sp, fontWeight: FontWeight.w600),
                                 ),
                                 TextSpan(
                                   text: "  ${"select_doctor_time".tr()}",
-                                  style: fonts.xSmallLink.copyWith(
-                                      color: colors.primary900,
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w600),
+                                  style: fonts.xSmallLink
+                                      .copyWith(color: colors.primary900, fontSize: 13.sp, fontWeight: FontWeight.w600),
                                 ),
                               ],
                             ),
@@ -195,13 +179,10 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                     _services = snapshot.data;
 
                     // Check if ALL services have no available doctors
-                    bool allServicesHaveNoDoctors =
-                        snapshot.data!.every((service) {
+                    bool allServicesHaveNoDoctors = snapshot.data!.every((service) {
                       return service.companiesDoctors
                           .expand((company) => company.doctors)
-                          .where((doctor) =>
-                              doctor.schedules != null &&
-                              doctor.schedules!.isNotEmpty)
+                          .where((doctor) => doctor.schedules != null && doctor.schedules!.isNotEmpty)
                           .isEmpty;
                     });
 
@@ -227,9 +208,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
 
                         final availableDoctors = service.companiesDoctors
                             .expand((company) => company.doctors)
-                            .where((doctor) =>
-                                doctor.schedules != null &&
-                                doctor.schedules!.isNotEmpty)
+                            .where((doctor) => doctor.schedules != null && doctor.schedules!.isNotEmpty)
                             .toList();
 
                         if (availableDoctors.isEmpty) {
@@ -239,13 +218,8 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 if (service.companiesDoctors.isNotEmpty &&
-                                    service.companiesDoctors.first
-                                            .companyName !=
-                                        null)
-                                  Text(
-                                      service
-                                          .companiesDoctors.first.companyName!,
-                                      style: fonts.regularMain),
+                                    service.companiesDoctors.first.companyName != null)
+                                  Text(service.companiesDoctors.first.companyName!, style: fonts.regularMain),
                                 8.h.verticalSpace,
                                 CustomExpansionListTile(
                                   title: service.serviceName,
@@ -253,12 +227,10 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                   children: [
                                     Center(
                                       child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 16.h),
+                                        padding: EdgeInsets.symmetric(vertical: 16.h),
                                         child: Text(
                                           "no_result_found".tr(),
-                                          style: fonts.regularMain
-                                              .copyWith(fontSize: 16.sp),
+                                          style: fonts.regularMain.copyWith(fontSize: 16.sp),
                                         ),
                                       ),
                                     ),
@@ -275,17 +247,13 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               if (service.companiesDoctors.isNotEmpty &&
-                                  service.companiesDoctors.first.companyName !=
-                                      null)
-                                Text(
-                                    service.companiesDoctors.first.companyName!,
-                                    style: fonts.regularMain),
+                                  service.companiesDoctors.first.companyName != null)
+                                Text(service.companiesDoctors.first.companyName!, style: fonts.regularMain),
                               8.h.verticalSpace,
                               CustomExpansionListTile(
                                 title: service.serviceName,
                                 description: "${service.serviceId}",
-                                children:
-                                    service.companiesDoctors.expand((company) {
+                                children: service.companiesDoctors.expand((company) {
                                   return company.doctors.map(
                                     (doctor) {
                                       return DoctorAppointmentWidget(
@@ -299,8 +267,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                           if (appointment != null) {
                                             addAppointment(appointment);
                                           } else {
-                                            removeAppointmentForService(
-                                                service.serviceId.toString());
+                                            removeAppointmentForService(service.serviceId.toString());
                                           }
                                         },
                                       );
@@ -322,13 +289,11 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                 valueListenable: selectedAppointments,
                 builder: (context, selectedList, _) {
                   // Get all service IDs from selected appointments
-                  final selectedServiceIds =
-                      selectedList.map((e) => e['serviceId']).toSet();
+                  final selectedServiceIds = selectedList.map((e) => e['serviceId']).toSet();
 
                   // Get all services that don't have any selected appointments
                   final unselectedServices = _services
-                          ?.where((service) => !selectedServiceIds
-                              .contains(service.serviceId.toString()))
+                          ?.where((service) => !selectedServiceIds.contains(service.serviceId.toString()))
                           .toList() ??
                       [];
 
@@ -346,41 +311,29 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                         topRight: Radius.circular(8.r),
                       ),
                     ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                     child: GestureDetector(
-                      onTap: () => _showAppointmentsBottomSheet(
-                          context, selectedList, colors, fonts),
+                      onTap: () => _showAppointmentsBottomSheet(context, selectedList, colors, fonts),
                       child: Column(
                         children: [
                           Row(
                             children: [
                               Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 4.h, horizontal: 8.w),
+                                padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.r),
                                   color: colors.neutral400,
                                 ),
                                 child: Text(
                                   "${servicesWithSessions}/${totalSelectedServices}",
-                                  style: fonts.xSmallText.copyWith(
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w600),
+                                  style: fonts.xSmallText.copyWith(fontSize: 11.sp, fontWeight: FontWeight.w600),
                                 ),
                               ),
                               4.w.horizontalSpace,
-                              Text(
-                                  "count_session_selected".tr(namedArgs: {
-                                    "count": selectedList.length.toString()
-                                  }),
-                                  style: fonts.headlineMain
-                                      .copyWith(fontSize: 16.sp)),
+                              Text("count_session_selected".tr(namedArgs: {"count": selectedList.length.toString()}),
+                                  style: fonts.headlineMain.copyWith(fontSize: 16.sp)),
                               Spacer(),
-                              icons.right.svg(
-                                  color: colors.neutral600,
-                                  width: 20.w,
-                                  height: 20.h),
+                              icons.right.svg(color: colors.neutral600, width: 20.w, height: 20.h),
                             ],
                           ),
                           12.h.verticalSpace,
@@ -388,8 +341,6 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                             title: 'continue'.tr(),
                             onTap: () {
                               if (selectedList.isNotEmpty) {
-                                ;
-
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -402,8 +353,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content:
-                                        Text('No appointment selected'.tr()),
+                                    content: Text('No appointment selected'.tr()),
                                   ),
                                 );
                               }
@@ -423,239 +373,193 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
     );
   }
 
-  void _showAppointmentsBottomSheet(BuildContext context,
-      List<Map<String, String>> selectedList, dynamic colors, dynamic fonts) {
+  void _showAppointmentsBottomSheet(
+      BuildContext context, List<Map<String, String>> selectedList, dynamic colors, dynamic fonts) {
     showModalBottomSheet(
       backgroundColor: colors.shade0,
       context: context,
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16.r))),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16.r))),
       builder: (context) {
         // Get all service IDs from selected appointments
-        final selectedServiceIds =
-            selectedList.map((e) => e['serviceId']).toSet();
+        final selectedServiceIds = selectedList.map((e) => e['serviceId']).toSet();
 
         // Get all services that don't have any selected appointments
-        final unselectedServices = _services
-                ?.where((service) =>
-                    !selectedServiceIds.contains(service.serviceId.toString()))
-                .toList() ??
-            [];
+        final unselectedServices =
+            _services?.where((service) => !selectedServiceIds.contains(service.serviceId.toString())).toList() ?? [];
 
         final totalSelectedServices = _services?.length ?? 0;
         final servicesWithSessions = selectedServiceIds.length;
 
-        return DraggableScrollableSheet(
-          expand: false,
-          initialChildSize: 0.43,
-          minChildSize: 0.3,
-          maxChildSize: 0.9,
-          builder: (context, scrollController) {
-            return SingleChildScrollView(
-              controller: scrollController,
-              child: Container(
-                padding: EdgeInsets.all(16.w),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(8.w),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: colors.neutral400,
-                          ),
-                          child: Text(
-                            "${servicesWithSessions}/${totalSelectedServices}",
-                            style: fonts.xSmallText.copyWith(),
-                          ),
-                        ),
-                        4.w.horizontalSpace,
-                        Text(
-                            "count_session_selected".tr(namedArgs: {
-                              "count": selectedList.length.toString()
-                            }),
-                            style:
-                                fonts.headlineMain.copyWith(fontSize: 16.sp)),
-                      ],
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0.w).copyWith(top: 10.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8.w),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.r),
+                      color: colors.neutral400,
                     ),
-                    SizedBox(height: 10.h),
+                    child: Text("$servicesWithSessions/$totalSelectedServices", style: fonts.xSmallText.copyWith()),
+                  ),
+                  4.w.horizontalSpace,
+                  Text(
+                    "count_session_selected".tr(namedArgs: {"count": selectedList.length.toString()}),
+                    style: fonts.headlineMain.copyWith(fontSize: 16.sp),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10.h),
 
-                    // Show selected appointments
-                    if (selectedList.isNotEmpty)
-                      Column(
-                        children: List.generate(selectedList.length, (index) {
-                          final appointment = selectedList[index];
-                          String timeString = appointment['time'] ?? '00:00';
-                          List<String> parts = timeString.split(':');
-                          int hour = int.tryParse(parts[0]) ?? 0;
-                          int minute = int.tryParse(parts[1]) ?? 0;
+              // Show selected appointments
+              if (selectedList.isNotEmpty) ...[
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: List.generate(selectedList.length, (index) {
+                    final appointment = selectedList[index];
+                    String timeString = appointment['time'] ?? '00:00';
+                    List<String> parts = timeString.split(':');
+                    int hour = int.tryParse(parts[0]) ?? 0;
+                    int minute = int.tryParse(parts[1]) ?? 0;
 
-                          DateTime startTime = DateTime(0, 1, 1, hour, minute);
-                          DateTime endTime =
-                              startTime.add(const Duration(minutes: 30));
+                    DateTime startTime = DateTime(0, 1, 1, hour, minute);
+                    DateTime endTime = startTime.add(const Duration(minutes: 30));
 
-                          // Use diagnosis or serviceName
-                          String serviceName =
-                              appointment['diagnosis'] ?? 'Unknown Service';
+                    // Use diagnosis or serviceName
+                    String serviceName = appointment['diagnosis'] ?? 'Unknown Service';
 
-                          return Column(
-                            children: [
-                              Row(
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: colors.neutral500,
+                              radius: 34.r,
+                              child: ClipOval(
+                                child: CachedImageComponent(
+                                  height: 68.h,
+                                  width: 68.w,
+                                  imageUrl: appointment['doctorPhoto'] ?? '',
+                                ),
+                              ),
+                            ),
+                            10.w.horizontalSpace,
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CircleAvatar(
-                                    backgroundColor: colors.neutral500,
-                                    radius: 34.r,
-                                    child: ClipOval(
-                                      child: CachedImageComponent(
-                                        height: 68.h,
-                                        width: 68.w,
-                                        imageUrl:
-                                            appointment['doctorPhoto'] ?? '',
-                                      ),
-                                    ),
+                                  Text(
+                                    appointment['doctorName'] ?? 'Unknown',
+                                    style: fonts.xSmallLink.copyWith(
+                                        color: colors.primary900, fontSize: 14.sp, fontWeight: FontWeight.w600),
                                   ),
-                                  10.w.horizontalSpace,
-                                  Flexible(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          appointment['doctorName'] ??
-                                              'Unknown',
-                                          style: fonts.xSmallLink.copyWith(
-                                              color: colors.primary900,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        4.h.verticalSpace,
-                                        Container(
-                                            padding: EdgeInsets.all(4.w),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(30.r),
-                                                color: const Color(0xff0E73F6)
-                                                    .withOpacity(0.3)),
-                                            child: Text(
-                                              "${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} - "
-                                              "${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}",
-                                              style: fonts.xSmallLink.copyWith(
-                                                  fontSize: 12.sp,
-                                                  color:
-                                                      const Color(0xFF0E73F6)),
-                                            )),
-                                        4.h.verticalSpace,
-                                        Text(
-                                          serviceName,
-                                          style: fonts.xSmallLink.copyWith(
-                                            color: colors.neutral500,
-                                            fontSize: 14.sp,
-                                          ),
-                                        ),
-                                      ],
+                                  4.h.verticalSpace,
+                                  Container(
+                                      padding: EdgeInsets.all(4.w),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(30.r),
+                                          color: const Color(0xff0E73F6).withOpacity(0.3)),
+                                      child: Text(
+                                        "${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} - "
+                                        "${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}",
+                                        style:
+                                            fonts.xSmallLink.copyWith(fontSize: 12.sp, color: const Color(0xFF0E73F6)),
+                                      )),
+                                  4.h.verticalSpace,
+                                  Text(
+                                    serviceName,
+                                    style: fonts.xSmallLink.copyWith(
+                                      color: colors.neutral500,
+                                      fontSize: 14.sp,
                                     ),
                                   ),
                                 ],
                               ),
-                              // Divider after each appointment
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10.h),
-                                child: Divider(
-                                  height: 1,
-                                  color: colors.neutral200,
-                                ),
-                              ),
-                            ],
-                          );
-                        }),
-                      ),
+                            ),
+                          ],
+                        ),
+                        // Divider after each appointment
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Divider(
+                            height: 1,
+                            color: colors.neutral200,
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+                ),
+              ],
 
-                    // Show unselected services if any exist
-                    if (unselectedServices.isNotEmpty) ...[
-                      SizedBox(height: 8.h),
-                      ...unselectedServices
-                          .map((service) => Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+              // Show unselected services if any exist
+              if (unselectedServices.isNotEmpty) ...[
+                SizedBox(height: 8.h),
+                ...unselectedServices
+                    .map((service) => Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: colors.neutral500,
+                                  radius: 34.r,
+                                  child: ClipOval(child: IconSet.create.nonUser.svg()),
+                                ),
+                                10.w.horizontalSpace,
+                                Flexible(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      CircleAvatar(
-                                        backgroundColor: colors.neutral500,
-                                        radius: 34.r,
-                                        child: ClipOval(
-                                            child:
-                                                IconSet.create.nonUser.svg()),
+                                      Text(
+                                        "choose_seans_for_this".tr(),
+                                        style: fonts.xSmallLink.copyWith(
+                                            color: colors.primary900, fontSize: 14.sp, fontWeight: FontWeight.w600),
                                       ),
-                                      10.w.horizontalSpace,
-                                      Flexible(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "choose_seans_for_this".tr(),
-                                              style: fonts.xSmallLink.copyWith(
-                                                  color: colors.primary900,
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            4.h.verticalSpace,
-                                            Container(
-                                                padding: EdgeInsets.all(4.w),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30.r),
-                                                    color:
-                                                        const Color(0xffD90506)
-                                                            .withOpacity(0.3)),
-                                                child: Text(
-                                                  "session_is_not_selected"
-                                                      .tr(),
-                                                  style: fonts.xSmallLink
-                                                      .copyWith(
-                                                          fontSize: 12.sp,
-                                                          color: const Color(
-                                                              0xFFD90506)),
-                                                )),
-                                            4.h.verticalSpace,
-                                            Text(
-                                              service.serviceName,
-                                              style: fonts.xSmallLink.copyWith(
-                                                color: colors.neutral500,
-                                                fontSize: 14.sp,
-                                              ),
-                                            ),
-                                          ],
+                                      4.h.verticalSpace,
+                                      Container(
+                                          padding: EdgeInsets.all(4.w),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(30.r),
+                                              color: const Color(0xffD90506).withOpacity(0.3)),
+                                          child: Text(
+                                            "session_is_not_selected".tr(),
+                                            style: fonts.xSmallLink
+                                                .copyWith(fontSize: 12.sp, color: const Color(0xFFD90506)),
+                                          )),
+                                      4.h.verticalSpace,
+                                      Text(
+                                        service.serviceName,
+                                        style: fonts.xSmallLink.copyWith(
+                                          color: colors.neutral500,
+                                          fontSize: 14.sp,
                                         ),
                                       ),
                                     ],
                                   ),
-                                  // Divider after each appointment
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 10.h),
-                                    child: Divider(
-                                      height: 1,
-                                      color: colors.neutral200,
-                                    ),
-                                  ),
-                                ],
-                              ))
-                          .toList(),
-                    ],
-
-                    SizedBox(height: 10.h),
-                  ],
-                ),
-              ),
-            );
-          },
+                                ),
+                              ],
+                            ),
+                            // Divider after each appointment
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10.h),
+                              child: Divider(
+                                height: 1,
+                                color: colors.neutral200,
+                              ),
+                            ),
+                          ],
+                        ))
+                    .toList(),
+              ],
+            ],
+          ),
         );
       },
     );

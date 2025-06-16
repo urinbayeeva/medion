@@ -1,6 +1,6 @@
 name: medion
 description: "A new Flutter project."
-publish_to: 'none' 
+publish_to: 'none'
 version: 1.0.1+16
 
 environment:
@@ -76,7 +76,7 @@ dependencies:
   animations: ^2.0.11
   time_slot: ^1.0.0
 
-    #image
+  #image
   image: ^4.0.17
   cached_network_image: ^3.2.3
   path: ^1.9.1
@@ -114,7 +114,7 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   flutter_launcher_icons:
 
-  
+
 
 flutter:
   uses-material-design: true
@@ -138,14 +138,14 @@ flutter:
 flutter_native_splash:
   color: "#FFFFFF"
   color_dark: "#FFFFFF"
-  image: assets/images/medion_logo_text.png
+  image: assets/images/medion_app_logo.png
   android_gravity: center
   ios_content_mode: center
 
   android_12:
-    image: assets/images/medion_logo_text.png
+    image: assets/images/medion_app_logo.png
     icon_background_color: "#FFFFFF"
-    image_dark: assets/images/medion_logo_text.png
+    image_dark: assets/images/medion_app_logo.png
     icon_background_color_dark: "#FFFFFF"
     android_gravity: center
   android: true

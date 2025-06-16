@@ -16,7 +16,7 @@ class CustomExpansionListTile extends StatefulWidget {
     super.key,
     required this.title,
     this.subtitle,
-    required this.description,
+    this.description = '',
     this.price,
     required this.children,
     this.onExpansionChanged,
@@ -24,13 +24,11 @@ class CustomExpansionListTile extends StatefulWidget {
   });
 
   @override
-  State<CustomExpansionListTile> createState() =>
-      _CustomExpansionListTileState();
+  State<CustomExpansionListTile> createState() => _CustomExpansionListTileState();
 }
 
 class _CustomExpansionListTileState extends State<CustomExpansionListTile> {
-  final GlobalKey<_CustomExpansionListTileState> _expansionTileKey =
-      GlobalKey();
+  final GlobalKey<_CustomExpansionListTileState> _expansionTileKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {

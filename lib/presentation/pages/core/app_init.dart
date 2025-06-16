@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,8 +39,7 @@ class AppInit {
     await EasyLocalization.ensureInitialized();
 
     /// Device Orientation
-    await SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     SystemChrome.setSystemUIOverlayStyle(Style.dark);
     _setupLogging();
@@ -84,7 +82,7 @@ class LogBlocObserver extends BlocObserver {
   void onCreate(BlocBase bloc) {
     super.onCreate(bloc);
     if (kDebugMode) {
-      print("$bloc created---------------------");
+      LogService.d("$bloc created---------------------");
     }
   }
 
@@ -100,7 +98,7 @@ class LogBlocObserver extends BlocObserver {
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
     super.onError(bloc, error, stackTrace);
     if (kDebugMode) {
-      print('---------Error------------${bloc.runtimeType} $error');
+      LogService.d('---------Error------------${bloc.runtimeType} $error');
     }
   }
 
@@ -121,8 +119,7 @@ class MyHttpOverrides extends HttpOverrides {
       // ..findProxy = (uri) {
       //   return "PROXY  192.168.101.22:8888";
       // }
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
 

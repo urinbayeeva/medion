@@ -12,6 +12,7 @@ class AdressItem extends StatelessWidget {
   final String url;
   final String name;
   final VoidCallback yandexOnTap;
+
   const AdressItem({
     super.key,
     required this.address,
@@ -53,8 +54,7 @@ class AdressItem extends StatelessWidget {
                       width: 40.w,
                       height: 40.h,
                       fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) =>
-                          Image.asset(icons.medionIcon),
+                      errorBuilder: (context, error, stackTrace) => Image.asset(icons.medionIcon),
                     ),
                   ),
                 ),
@@ -88,7 +88,7 @@ class AdressItem extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: CButtomIcon(
+              child: CButtonIcon(
                 title: "show_address".tr(),
                 onTap: onTap,
                 iconPath: icons.location,

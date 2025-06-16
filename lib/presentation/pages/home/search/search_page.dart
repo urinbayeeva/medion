@@ -1,22 +1,18 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/application/search/search_bloc.dart';
 import 'package:medion/domain/models/search/search_model.dart';
-import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
-import 'package:medion/presentation/pages/booking/booking_second_page.dart';
-import 'package:medion/presentation/pages/home/directions/component/home_list_tile.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
-import 'package:medion/presentation/pages/home/med_services/med_service_choose.dart';
 import 'package:medion/presentation/pages/home/search/component/no_search_found.dart';
 import 'package:medion/presentation/pages/home/search/component/searching_design_lottie.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:medion/application/search/search_bloc.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -99,17 +95,14 @@ class _SearchPageState extends State<SearchPage> {
                     }
 
                     return ListView(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 16.h, horizontal: 16.w),
+                      padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
                       children: [
                         if (hasDoctors) ...[
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8.w, vertical: 8.h),
+                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
                             child: Text(
                               "doctors".tr(),
-                              style:
-                                  fonts.regularMain.copyWith(fontSize: 18.sp),
+                              style: fonts.regularMain.copyWith(fontSize: 18.sp),
                             ),
                           ),
                           GridView.builder(
@@ -117,8 +110,7 @@ class _SearchPageState extends State<SearchPage> {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: results.doctors.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 8.w,
                               mainAxisSpacing: 8.h,
@@ -133,22 +125,14 @@ class _SearchPageState extends State<SearchPage> {
                                 candidateScience: false,
                                 isInnerPageUsed: true,
                                 onTap: () {
-                                  context
-                                      .read<BottomNavBarController>()
-                                      .changeNavBar(true);
+                                  context.read<BottomNavBarController>().changeNavBar(true);
 
                                   Navigator.push(
                                     context,
-                                    AppRoutes.getAboutDoctorPage(
-                                        doctor.name.toString(),
-                                        doctor.job.toString(),
-                                        "",
-                                        doctor.image.toString(),
-                                        doctor.id ?? 32),
+                                    AppRoutes.getAboutDoctorPage(doctor.name.toString(), doctor.job.toString(), "",
+                                        doctor.image.toString(), doctor.id ?? 32),
                                   ).then((_) {
-                                    context
-                                        .read<BottomNavBarController>()
-                                        .changeNavBar(false);
+                                    context.read<BottomNavBarController>().changeNavBar(false);
                                   });
                                 },
                                 doctorID: doctor.id ?? 0,
@@ -161,12 +145,10 @@ class _SearchPageState extends State<SearchPage> {
                         ],
                         if (hasServices) ...[
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8.w, vertical: 8.h),
+                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
                             child: Text(
                               "services".tr(),
-                              style:
-                                  fonts.regularMain.copyWith(fontSize: 18.sp),
+                              style: fonts.regularMain.copyWith(fontSize: 18.sp),
                             ),
                           ),
                           // ...List.generate(results.categories.length, (index) {
@@ -215,18 +197,12 @@ class _SearchPageState extends State<SearchPage> {
 
                               return MedicalDirectionItem(
                                 onTap: () {
-                                  context
-                                      .read<BottomNavBarController>()
-                                      .changeNavBar(true);
+                                  context.read<BottomNavBarController>().changeNavBar(true);
                                   Navigator.push(
                                     context,
-                                    AppRoutes.getDirectionInfoPage(
-                                        id: service.id!,
-                                        name: service.name ?? ""),
+                                    AppRoutes.getDirectionInfoPage(id: service.id!, name: service.name ?? ""),
                                   ).then((_) {
-                                    context
-                                        .read<BottomNavBarController>()
-                                        .changeNavBar(false);
+                                    context.read<BottomNavBarController>().changeNavBar(false);
                                   });
                                 },
                                 title: service.name ?? "",
@@ -239,18 +215,16 @@ class _SearchPageState extends State<SearchPage> {
                         ],
                         if (hasArticles) ...[
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8.w, vertical: 8.h),
+                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
                             child: Text(
                               "Articles",
-                              style:
-                                  fonts.regularLink.copyWith(fontSize: 18.sp),
+                              style: fonts.regularLink.copyWith(fontSize: 18.sp),
                             ),
                           ),
                           ...results.articles.map(
                             (article) => ListTile(
-                              title: Text(article.title ?? "Untitled Article"),
-                              subtitle: Text(article.summary ?? "No Summary"),
+                              title: Text(article.name ?? "Untitled Article"),
+                              subtitle: Text(article.description ?? "No Summary"),
                             ),
                           ),
                           const Divider(),

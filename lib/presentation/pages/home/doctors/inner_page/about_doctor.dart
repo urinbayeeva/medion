@@ -10,6 +10,7 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_container.dart';
 import 'package:medion/presentation/component/custom_tabbar.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
+import 'package:medion/presentation/pages/home/doctors/inner_page/doctor_discount.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/about_doctor_widget.dart';
 import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
 import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
@@ -43,7 +44,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
   @override
   void initState() {
     super.initState();
-    LogService.d("Fetching details for doctor ID: ${widget.id}");
+    print("Fetching details for doctor ID: ${widget.id}");
     context.read<DoctorBloc>().add(DoctorEvent.fetchDoctorDetails(widget.id));
   }
 
@@ -160,69 +161,77 @@ class _AboutDoctorState extends State<AboutDoctor> {
   }
 
   Widget _buildAboutDoctorTab(ModelDoctor doctor, dynamic colors, dynamic fonts, icons) {
-    return doctor.education.isEmpty && doctor.experience.isEmpty && doctor.workSchedule == null
-        ? SizedBox.shrink()
-        : SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                8.h.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Text(
-                    "about_the_doctor".tr(),
-                    style: fonts.regularSemLink,
-                  ),
-                ),
-                8.h.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: CContainer(
-                    text: doctor.decodedDescription is String
-                        ? doctor.decodedDescription.replaceAll('\n', '').trim()
-                        : '',
-                  ),
-                ),
-                _buildExperienceTab(doctor, colors, fonts, icons),
-                _buildEducationTab(doctor, colors, fonts, icons),
-                _buildWorkingHoursTab(doctor, colors, fonts),
-                GridView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 0.54,
-                  ),
-                  itemCount: doctor.discount.length,
-                  itemBuilder: (context, index) {
-                    final discount = doctor.discount[index];
-                    final endDateFormatted = _formatDiscountDate(discount.discountEndDate?.toString());
-
-                    return ArticleCardWidget(
-                      onTap: () {
-                        print("${discount.id}");
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DiscountPage(
-                              discountId: discount.id,
-                            ),
-                          ),
-                        );
-                      },
-                      title: discount.title,
-                      image: discount.image,
-                      description: "Акция до {date}".tr(namedArgs: {"date": endDateFormatted}),
-                    );
-                  },
-                ),
-                60.h.verticalSpace,
-              ],
+    if (doctor.education.isEmpty && doctor.experience.isEmpty && doctor.workSchedule == null) {
+      return const SizedBox.shrink();
+    }
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          8.h.verticalSpace,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Text(
+              "about_the_doctor".tr(),
+              style: fonts.regularSemLink,
             ),
-          );
+          ),
+          8.h.verticalSpace,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: CContainer(
+              text: doctor.decodedDescription is String ? doctor.decodedDescription.replaceAll('\n', '').trim() : '',
+            ),
+          ),
+          _buildExperienceTab(doctor, colors, fonts, icons),
+          _buildEducationTab(doctor, colors, fonts, icons),
+          _buildWorkingHoursTab(doctor, colors, fonts),
+          GridView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+              childAspectRatio: 0.7,
+            ),
+            itemCount: doctor.discount.length,
+            itemBuilder: (context, index) {
+              final discount = doctor.discount[index];
+              final endDateFormatted = _formatDiscountDate(discount.discountEndDate?.toString());
+
+              return ArticleCardWidget(
+                onTap: () {
+                  print("${discount.id}  ArticleCardWidget on tap 205 about_doctor");
+                  Navigator.of(context, rootNavigator: true).push(
+                    MaterialPageRoute(
+                      builder: (context) => DoctorDiscountScreen(
+                        discount: discount,
+                        doctor: doctor,
+                      ),
+                    ),
+                  );
+
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => DiscountPage(
+                  //       discountId: discount.id,
+                  //     ),
+                  //   ),
+                  // );
+                },
+                title: discount.title,
+                image: discount.image,
+                description: "Акция до {date}".tr(namedArgs: {"date": endDateFormatted}),
+              );
+            },
+          ),
+          60.h.verticalSpace,
+        ],
+      ),
+    );
   }
 
   Widget _buildExperienceTab(ModelDoctor doctor, dynamic colors, dynamic fonts, dynamic icons) {
@@ -267,13 +276,12 @@ class _AboutDoctorState extends State<AboutDoctor> {
                         '- $formattedStartDate - $endDate',
                         style: fonts.xSmallText,
                       ),
-                      // 8.h.verticalSpace,
-                      exp.description.toString().isEmpty
-                          ? const SizedBox.shrink()
-                          : Text(
-                              exp.description.toString(),
-                              style: fonts.xSmallText,
-                            ),
+                      if (exp.description.toString().isNotEmpty) ...[
+                        Text(
+                          exp.description.toString(),
+                          style: fonts.xSmallText,
+                        ),
+                      ],
                     ],
                   ),
                 ),

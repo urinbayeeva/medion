@@ -14,12 +14,11 @@ class RecruitmentRepository implements IRecruitmentFacade {
 
   /// Fetch all vacancies
   @override
-  Future<Either<ResponseFailure, BuiltList<VacancyModel>>>
-      fetchVacancies() async {
+  Future<Either<ResponseFailure, BuiltList<VacancyModel>>> fetchVacancies() async {
     try {
       final response = await _recruitmentService.getVacancies();
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         return right(response.body!);
@@ -27,7 +26,7 @@ class RecruitmentRepository implements IRecruitmentFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on repo: ${e.toString()}");
+      //LogService.e(" ----> error on repo: ${e.toString()}");
       return left(handleError(e));
     }
   }

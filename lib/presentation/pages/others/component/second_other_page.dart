@@ -60,7 +60,7 @@ class SecondOthersPage extends StatelessWidget {
                                         CAppBar(
                                           title: item['title'],
                                           centerTitle: true,
-                                          isBack: false,
+                                          isBack: true,
                                           trailing: 24.w.horizontalSpace,
                                         ),
                                       ],

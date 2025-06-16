@@ -110,8 +110,10 @@ class IconSet {
   final String recipeFive;
   final String recipeSix;
   final String resumeFile;
+  final String mapPin;
 
   IconSet._({
+    required this.mapPin,
     required this.resumeFile,
     required this.medicalHistoryFirst,
     required this.calendarFirst,
@@ -229,6 +231,7 @@ class IconSet {
 
   static IconSet get create {
     return IconSet._(
+      mapPin: "assets/icons/map-pin.svg",
       medicalHistoryFirst: "assets/icons/medical_history_1.svg",
       calendarFirst: "assets/icons/calendar_1.svg",
       folderFirst: "assets/icons/folder_1.svg",
@@ -350,8 +353,7 @@ extension SvgExt on String {
   }) {
     return SvgPicture.asset(
       this,
-      colorFilter:
-          color != null ? ColorFilter.mode(color, BlendMode.srcIn) : null,
+      colorFilter: color != null ? ColorFilter.mode(color, BlendMode.srcIn) : null,
       width: width,
       height: height,
     );

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
+import 'package:medion/presentation/component/w_html/w_html_has_readmore.dart';
 import 'package:medion/presentation/pages/others/component/common_image.dart';
-import 'package:medion/presentation/pages/others/component/w_html.dart';
+
 import 'package:medion/presentation/styles/theme.dart';
 
 class EquipmentCarouselCard extends StatefulWidget {

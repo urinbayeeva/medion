@@ -16,8 +16,8 @@ class ContentServiceRepo implements IContentService {
   Future<Either<ResponseFailure, List<ContentModel>>> fetchContents({required String type}) async {
     try {
       final response = await _apiService.getContentType(type);
-      LogService.d('Response Status: ${response.statusCode}');
-      LogService.d('Response Body: ${response.body}');
+      //LogService.d('Response Status: ${response.statusCode}');
+      //LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         final content = response.body!;
@@ -26,7 +26,7 @@ class ContentServiceRepo implements IContentService {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      LogService.e(" ----> error on branch repo  : ${e.toString()}");
+      //LogService.e(" ----> error on branch repo  : ${e.toString()}");
       return left(handleError(e));
     }
   }

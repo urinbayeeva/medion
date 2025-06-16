@@ -380,7 +380,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 12.0,
                   mainAxisSpacing: 12.0,
-                  childAspectRatio: 1,
+                  childAspectRatio: 0.45,
                 ),
                 itemBuilder: (context, index) {
                   final doctor = searchResults[index];
@@ -480,6 +480,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               'status': doctor.specialty?.toString() ?? 'N/A',
               'candidateScience': false,
               'work_experience': doctor.workExperience,
+              'academic_rank': doctor.academicRank,
             })
         .toList();
 
@@ -543,6 +544,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
           'status': 'N/A',
           'candidateScience': false,
           'work_experience': 0,
+          'academic_rank': "Профессор",
         });
       }
     }
@@ -563,7 +565,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               crossAxisCount: 2,
               crossAxisSpacing: 12.0,
               mainAxisSpacing: 12.0,
-              childAspectRatio: 0.47,
+              childAspectRatio: 0.45,
             ),
             itemBuilder: (context, index) {
               final doctor = allDoctors[index];

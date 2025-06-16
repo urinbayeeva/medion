@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
+import 'package:medion/presentation/component/w_html/w_html_has_ellipsis.dart';
 import 'package:medion/presentation/pages/others/dicsount/widgets/condition_of_discount_widget.dart';
 import 'package:medion/presentation/pages/others/dicsount/widgets/discount_duration_widget.dart';
 import 'package:medion/presentation/pages/visits/widgets/visit_info_detail_card.dart';
@@ -49,152 +50,157 @@ class CInfoView extends StatefulWidget {
 
 class _CInfoViewState extends State<CInfoView> {
   int _currentIndex = 0;
+  late final List<String> images;
+
+  @override
+  void initState() {
+    images = widget.imagePaths ?? [];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final images = widget.imagePaths ?? [];
-
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Scaffold(
-        backgroundColor: colors.shade0,
-        body: Column(
-          children: [
-            Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                CarouselSlider(
-                  options: CarouselOptions(
-                    height: 264.h,
-                    viewportFraction: 1.0,
-                    enableInfiniteScroll: true,
-                    autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 4),
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _currentIndex = index;
-                      });
-                    },
-                  ),
-                  items: images.map((url) {
-                    return CachedNetworkImage(
-                      imageUrl: url,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    );
-                  }).toList(),
-                ),
-                // Navigation & Share Buttons
-                Positioned(
-                  top: 60,
-                  left: 0,
-                  right: 0,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AnimationButtonEffect(
-                          onTap: () => Navigator.pop(context),
-                          child: CircleAvatar(
-                            radius: 20.r,
-                            backgroundColor: colors.shade0,
-                            child: icons.left.svg(
-                              color: colors.primary900,
-                            ),
-                          ),
-                        ),
-                        AnimationButtonEffect(
-                          onTap: () {
-                            Share.share(
-                                "${widget.title ?? ''}: https://www.instagram.com/");
-                          },
-                          child: CircleAvatar(
-                            radius: 20.r,
-                            backgroundColor: colors.shade0,
-                            child: icons.share.svg(
-                              width: 24.w,
-                              height: 24.h,
-                              color: colors.primary900,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                // Dot Indicators
-                if (images.length > 1)
-                  Positioned(
-                    bottom: 12.h,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: images.asMap().entries.map((entry) {
-                        final isActive = _currentIndex == entry.key;
-                        return Container(
-                          width: isActive ? 10.w : 8.w,
-                          height: isActive ? 10.w : 8.w,
-                          margin: EdgeInsets.symmetric(horizontal: 4.w),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color:
-                                isActive ? colors.error500 : colors.neutral200,
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-              ],
-            ),
-            // Content
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return Scaffold(
+          backgroundColor: colors.shade0,
+          body: Column(
+            children: [
+              Stack(
+                alignment: Alignment.bottomCenter,
                 children: [
-                  12.h.verticalSpace,
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Text(widget.title ?? '', style: fonts.mediumMain),
-                  ),
-                  ListTile(
-                    leading: icons.calendarActive.svg(color: colors.neutral800),
-                    title: Text(
-                      DateUtilsEx.formatDate(context, widget.date!)
-                          .toCapitalized(),
-                      style: fonts.xSmallText,
+                  CarouselSlider(
+                    options: CarouselOptions(
+                      height: 264.h,
+                      viewportFraction: 1.0,
+                      enableInfiniteScroll: true,
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 4),
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _currentIndex = index;
+                        });
+                      },
                     ),
+                    items: images.map((url) {
+                      return CachedNetworkImage(
+                        imageUrl: url,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      );
+                    }).toList(),
                   ),
-                  4.h.verticalSpace,
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Text(widget.desc ?? '', style: fonts.smallLink),
-                  ),
-                  if (widget.isDiscount != null &&
-                      widget.discountCondition.isNotEmpty) ...[
-                    24.h.verticalSpace,
-                    Padding(
+                  // Navigation & Share Buttons
+                  Positioned(
+                    top: 60,
+                    left: 0,
+                    right: 0,
+                    child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: ConditionOfDiscountWidget(
-                        discountCondition: widget.discountCondition,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AnimationButtonEffect(
+                            onTap: () => Navigator.pop(context),
+                            child: CircleAvatar(
+                              radius: 20.r,
+                              backgroundColor: colors.shade0,
+                              child: icons.left.svg(
+                                color: colors.primary900,
+                              ),
+                            ),
+                          ),
+                          AnimationButtonEffect(
+                            onTap: () {
+                              Share.share("${widget.title ?? ''}: https://www.instagram.com/");
+                            },
+                            child: CircleAvatar(
+                              radius: 20.r,
+                              backgroundColor: colors.shade0,
+                              child: icons.share.svg(
+                                width: 24.w,
+                                height: 24.h,
+                                color: colors.primary900,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    24.h.verticalSpace,
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: DiscountDurationWidget(
-                        discountAddress: widget.discountAddress ?? "",
-                        discountDuration: widget.discountDuration ?? "",
-                        phoneNumber: widget.phoneNumber ?? "",
-                        phoneShortNumber: widget.phoneShortNumber ?? "",
+                  ),
+                  // Dot Indicators
+                  if (images.length > 1)
+                    Positioned(
+                      bottom: 12.h,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: images.asMap().entries.map((entry) {
+                          final isActive = _currentIndex == entry.key;
+                          return Container(
+                            width: isActive ? 10.w : 8.w,
+                            height: isActive ? 10.w : 8.w,
+                            margin: EdgeInsets.symmetric(horizontal: 4.w),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: isActive ? colors.error500 : colors.neutral200,
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ),
-                    24.h.verticalSpace,
-                  ],
                 ],
               ),
-            ),
-          ],
-        ),
-      );
-    });
+              // Content
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    12.h.verticalSpace,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Text(widget.title ?? '', style: fonts.mediumMain),
+                    ),
+                    ListTile(
+                      leading: icons.calendarActive.svg(color: colors.neutral800),
+                      title: Text(
+                        DateUtilsEx.formatDate(context, widget.date!).toCapitalized(),
+                        style: fonts.xSmallText,
+                      ),
+                    ),
+                    4.h.verticalSpace,
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    //   child: Text(widget.desc ?? '', style: fonts.smallLink),
+                    // ),
+
+                    WHtmlFull(data: widget.desc ?? '', hasEllipsis: false),
+                    if (widget.isDiscount != null && widget.discountCondition.isNotEmpty) ...[
+                      24.h.verticalSpace,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: ConditionOfDiscountWidget(
+                          discountCondition: widget.discountCondition,
+                        ),
+                      ),
+                      24.h.verticalSpace,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: DiscountDurationWidget(
+                          discountAddress: widget.discountAddress ?? "",
+                          discountDuration: widget.discountDuration ?? "",
+                          phoneNumber: widget.phoneNumber ?? "",
+                          phoneShortNumber: widget.phoneShortNumber ?? "",
+                        ),
+                      ),
+                      24.h.verticalSpace,
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
