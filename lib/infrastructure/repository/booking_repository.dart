@@ -94,9 +94,7 @@ class BookingRepository implements IBookingFacade {
   }
 
   @override
-  Future<Either<ResponseFailure, BuiltList<ThirdBookingService>>> getDoctors({
-    required List<int> serviceIds,
-  }) async {
+  Future<Either<ResponseFailure, BuiltList<ThirdBookingService>>> getDoctors({required List<int> serviceIds}) async {
     try {
       final request = DoctorsRequest((b) => b..serviceIds = ListBuilder<int>(serviceIds));
 

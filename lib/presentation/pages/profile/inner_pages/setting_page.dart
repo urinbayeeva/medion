@@ -34,11 +34,7 @@ class _SettingPageState extends State<SettingPage> {
         backgroundColor: colors.backgroundColor,
         body: Column(
           children: [
-            CAppBar(
-                title: "settings".tr(),
-                isBack: true,
-                centerTitle: true,
-                trailing: 24.w.horizontalSpace),
+            CAppBar(title: "settings".tr(), isBack: true, centerTitle: true, trailing: 24.w.horizontalSpace),
             16.h.verticalSpace,
             Expanded(
               child: ListView(
@@ -63,26 +59,18 @@ class _SettingPageState extends State<SettingPage> {
                             iconList: [
                               Text(
                                 "РУ",
-                                style: fonts.captionSemiBold.copyWith(
-                                    color: isRu
-                                        ? colors.shade0
-                                        : colors.neutral700),
+                                style: fonts.captionSemiBold.copyWith(color: isRu ? colors.shade0 : colors.neutral700),
                                 semanticsLabel: "РУ",
                               ),
                               Text(
                                 "UZ",
-                                style: fonts.captionSemiBold.copyWith(
-                                    color: !isRu
-                                        ? colors.shade0
-                                        : colors.neutral700),
+                                style: fonts.captionSemiBold.copyWith(color: !isRu ? colors.shade0 : colors.neutral700),
                                 semanticsLabel: "UZ",
                               ),
                             ],
                             onChanged: (bool value) {
                               EasyLocalization.of(context)!.setLocale(
-                                value
-                                    ? const Locale('ru', 'RU')
-                                    : const Locale('uz', 'UZ'),
+                                value ? const Locale('ru', 'RU') : const Locale('uz', 'UZ'),
                               );
                               setState(() {});
                             },

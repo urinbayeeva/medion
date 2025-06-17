@@ -39,8 +39,7 @@ Future<void> main() async {
     await initializeDateFormatting('ru', null);
     await SentryFlutter.init(
       (options) {
-        options.dsn =
-            'https://cd927ec80e2acd5006fb11c41b42a0ff@o482110.ingest.us.sentry.io/4508839849689088';
+        options.dsn = 'https://cd927ec80e2acd5006fb11c41b42a0ff@o482110.ingest.us.sentry.io/4508839849689088';
         options.tracesSampleRate = 1.0;
         options.profilesSampleRate = 1.0;
       },
@@ -57,7 +56,7 @@ Future<void> main() async {
       flavor: Flavor.prod,
     );
 
-    await AppInit.create;
+    // await AppInit.create;
     Locale defaultLocale = const Locale('uz', 'UZ');
 
     try {

@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' show Client, MultipartFile;
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
@@ -16,14 +14,17 @@ import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/recruitment/recruitment_model.dart';
 import 'package:medion/domain/models/search/search_model.dart';
-import 'package:medion/domain/models/team/team_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
 import 'package:medion/domain/success_model/response_model.dart';
 import 'package:medion/domain/success_model/success_model.dart';
 import 'package:medion/domain/upload_image/upload_image.dart';
-import 'package:medion/infrastructure/apis/interseptor.dart';
+import 'package:medion/infrastructure/apis/interceptors/html_decode_interceptor.dart';
+import 'package:medion/infrastructure/apis/interceptors/log_interceptor.dart';
+import 'package:medion/infrastructure/apis/interceptors/re_try_interceptor.dart';
+import 'package:medion/infrastructure/apis/interceptors/server_crash_interceptor.dart';
+import 'package:medion/infrastructure/apis/interceptors/time_out_http_client.dart';
 import 'package:medion/infrastructure/core/exceptions.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
@@ -32,6 +33,9 @@ import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:medion/presentation/pages/core/my_app.dart';
 import 'package:medion/utils/app_config.dart';
 import 'package:medion/utils/constants.dart';
+
+import 'interceptors/network_exception_interceptor.dart';
+import 'interceptors/token_interceptor.dart';
 
 part 'apis.chopper.dart';
 
@@ -276,15 +280,14 @@ base class _Client extends ChopperClient {
               ? [
                   CoreInterceptor(dbService, alice.getNavigatorKey()!),
                   if (AppConfig.shared.flavor == Flavor.dev) ...[],
-                  HttpLoggingInterceptor(),
                   HtmlDecodeInterceptor(),
                   CurlInterceptor(),
                   NetworkInterceptor(),
                   RetryInterceptor(maxRetries: 5, retryDelay: const Duration(seconds: 1)),
                   BackendInterceptor(),
-                  const CustomInterceptor(),
+                  const LogInterceptor(),
                 ]
-              : [const CustomInterceptor()],
+              : [const LogInterceptor()],
           converter: BuiltValueConverter(),
           errorConverter: ErrorMyConverter(),
           authenticator: MyAuthenticator(dbService),

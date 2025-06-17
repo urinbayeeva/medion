@@ -20,41 +20,31 @@ class CAppBar extends StatefulWidget {
   final bool bordered;
   final bool centerTitle;
   final bool blur;
-  final bool? hasToggle;
   final bool? hasSearch;
   final VoidCallback? onTap;
   final bool? hasCalendar;
-  final bool? hasProgressBar;
-  final int? count;
-  final int? allCount;
-  final String? toggleFirstText;
-  final String? toggleSecondText;
+
   final Function(String)? onSearchChanged;
   final bool showBottomBar;
 
-  const CAppBar(
-      {super.key,
-      this.title,
-      this.isBack = true,
-      this.leading,
-      this.trailing,
-      this.padding,
-      this.bordered = false,
-      this.bottom,
-      this.centerTitle = false,
-      this.blur = true,
-      this.titleWidget,
-      this.hasToggle,
-      this.hasSearch,
-      this.onTap,
-      this.hasCalendar,
-      this.hasProgressBar,
-      this.count,
-      this.allCount,
-      this.toggleFirstText,
-      this.toggleSecondText,
-      this.showBottomBar = false,
-      this.onSearchChanged});
+  const CAppBar({
+    super.key,
+    this.title,
+    this.isBack = true,
+    this.leading,
+    this.trailing,
+    this.padding,
+    this.bordered = false,
+    this.bottom,
+    this.centerTitle = false,
+    this.blur = true,
+    this.titleWidget,
+    this.hasSearch,
+    this.onTap,
+    this.hasCalendar,
+    this.showBottomBar = false,
+    this.onSearchChanged,
+  });
 
   @override
   State<CAppBar> createState() => _CAppBarState();
@@ -73,19 +63,14 @@ class _CAppBarState extends State<CAppBar> {
             filter: widget.blur ? ImageFilter.blur(sigmaX: 50, sigmaY: 50) : ImageFilter.blur(),
             child: Container(
               width: double.infinity,
-              // height: 58.h,
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: widget.bordered
-                      ? const Border(
-                          bottom: BorderSide(width: 1, color: Color(0xFFEDEDED)),
-                        )
-                      : null),
+                color: Colors.white,
+                border: widget.bordered ? const Border(bottom: BorderSide(width: 1, color: Color(0xFFEDEDED))) : null,
+              ),
               padding: widget.padding ?? EdgeInsets.symmetric(horizontal: 12.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // const SafeArea(bottom: false, child: SizedBox.shrink()),
                   widget.title == null ? 50.h.verticalSpace : 40.h.verticalSpace,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -134,11 +119,7 @@ class _CAppBarState extends State<CAppBar> {
                         ),
                     ],
                   ),
-                  if (widget.bottom != null) ...[
-                    // 16.h.verticalSpace,
-                    widget.bottom!,
-                    // 12.h.verticalSpace,
-                  ],
+                  if (widget.bottom != null) ...[widget.bottom!],
                   if (widget.hasSearch == true) ...[
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.w),

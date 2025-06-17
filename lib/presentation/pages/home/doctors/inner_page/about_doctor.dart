@@ -160,7 +160,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
     );
   }
 
-  Widget _buildAboutDoctorTab(ModelDoctor doctor, dynamic colors, dynamic fonts, icons) {
+  Widget _buildAboutDoctorTab(ModelDoctor doctor, dynamic colors, FontSet fonts, icons) {
     if (doctor.education.isEmpty && doctor.experience.isEmpty && doctor.workSchedule == null) {
       return const SizedBox.shrink();
     }
@@ -179,13 +179,15 @@ class _AboutDoctorState extends State<AboutDoctor> {
           8.h.verticalSpace,
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: CContainer(
-              text: doctor.decodedDescription is String ? doctor.decodedDescription.replaceAll('\n', '').trim() : '',
-            ),
+            child: CContainer(text: doctor.decodedDescription.replaceAll('\n', '').trim()),
           ),
           _buildExperienceTab(doctor, colors, fonts, icons),
           _buildEducationTab(doctor, colors, fonts, icons),
           _buildWorkingHoursTab(doctor, colors, fonts),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+            child: Text("discounts".tr(), style: fonts.regularMain),
+          ),
           GridView.builder(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             shrinkWrap: true,
@@ -203,7 +205,6 @@ class _AboutDoctorState extends State<AboutDoctor> {
 
               return ArticleCardWidget(
                 onTap: () {
-                  print("${discount.id}  ArticleCardWidget on tap 205 about_doctor");
                   Navigator.of(context, rootNavigator: true).push(
                     MaterialPageRoute(
                       builder: (context) => DoctorDiscountScreen(
@@ -359,16 +360,16 @@ class _AboutDoctorState extends State<AboutDoctor> {
         children: [
           Text("working_hours".tr(), style: fonts.regularSemLink),
           8.h.verticalSpace,
-          doctor.workSchedule != null &&
-                  (doctor.workSchedule.monday.isNotEmpty ||
-                      doctor.workSchedule.tuesday.isNotEmpty ||
-                      doctor.workSchedule.wednesday.isNotEmpty ||
-                      doctor.workSchedule.thursday.isNotEmpty ||
-                      doctor.workSchedule.friday.isNotEmpty ||
-                      doctor.workSchedule.saturday.isNotEmpty)
-              ? _buildSchedule(doctor.workSchedule, colors, fonts)
-              : SizedBox.shrink(),
-          20.h.verticalSpace,
+          if ((doctor.workSchedule.monday.isNotEmpty ||
+              doctor.workSchedule.tuesday.isNotEmpty ||
+              doctor.workSchedule.wednesday.isNotEmpty ||
+              doctor.workSchedule.thursday.isNotEmpty ||
+              doctor.workSchedule.friday.isNotEmpty ||
+              doctor.workSchedule.saturday.isNotEmpty)) ...[
+            _buildSchedule(doctor.workSchedule, colors, fonts)
+          ] else ...[
+            const SizedBox.shrink()
+          ],
         ],
       ),
     );

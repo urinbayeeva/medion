@@ -36,7 +36,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
         emit(state.copyWith(loading: false, error: true));
       },
       (data) {
-        LogService.i("Fetched doctors: ${data.doctorData}");
+        // LogService.i("Fetched doctors: ${data.doctorData}");
         EasyLoading.dismiss();
         emit(state.copyWith(loading: false, success: true, doctors: data));
       },

@@ -51,11 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: colors.backgroundColor,
           body: BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
-              if (state.patientInfo == null && isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+              if (state.patientInfo == null && isLoading) return const Center(child: CircularProgressIndicator());
 
               return Column(
                 children: [
@@ -73,28 +69,19 @@ class _ProfilePageState extends State<ProfilePage> {
                         Center(
                           child: BlocBuilder<ProfileBloc, ProfileState>(
                             builder: (context, profileState) {
-                              String? backendImageUrl =
-                                  state.patientInfo?.image;
-                              String? pickedImagePath =
-                                  profileState.pickedImagePath;
+                              String? backendImageUrl = state.patientInfo?.image;
+                              String? pickedImagePath = profileState.pickedImagePath;
 
                               return CircleAvatar(
                                 radius: 70.r,
                                 backgroundColor: colors.neutral200,
-                                backgroundImage: backendImageUrl != null &&
-                                        backendImageUrl.isNotEmpty
+                                backgroundImage: backendImageUrl != null && backendImageUrl.isNotEmpty
                                     ? NetworkImage(backendImageUrl)
                                     : pickedImagePath != null
-                                        ? FileImage(File(pickedImagePath))
-                                            as ImageProvider
+                                        ? FileImage(File(pickedImagePath)) as ImageProvider
                                         : null,
-                                child: (backendImageUrl == null ||
-                                            backendImageUrl.isEmpty) &&
-                                        pickedImagePath == null
-                                    ? icons.nonUser.svg(
-                                        height: 110.h,
-                                        color: colors.neutral500,
-                                      )
+                                child: (backendImageUrl == null || backendImageUrl.isEmpty) && pickedImagePath == null
+                                    ? icons.nonUser.svg(height: 110.h, color: colors.neutral500)
                                     : null,
                               );
                             },
@@ -122,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   24.h.verticalSpace,
-                  const NavListWidget(),
+                  NavListWidget(context: context),
                   Expanded(
                     flex: 3,
                     child: Center(

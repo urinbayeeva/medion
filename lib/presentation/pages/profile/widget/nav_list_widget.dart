@@ -13,7 +13,9 @@ import 'package:medion/presentation/component/c_bottomsheet_profile.dart';
 class NavListWidget extends StatefulWidget {
   final List? data;
   final List? routes;
-  const NavListWidget({super.key, this.data, this.routes});
+  final BuildContext context;
+
+  const NavListWidget({super.key, this.data, this.routes, required this.context});
 
   @override
   State<NavListWidget> createState() => _NavListWidgetState();
@@ -33,27 +35,23 @@ class _NavListWidgetState extends State<NavListWidget> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext x) {
     final resolvedData = widget.data ?? navListData;
 
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
+    return ThemeWrapper(builder: (ct, colors, fonts, icons, controller) {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 16.w),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.r),
-          color: colors.shade0,
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: colors.shade0),
         child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           shrinkWrap: true,
           itemCount: resolvedData.length,
-          itemBuilder: (context, index) {
+          itemBuilder: (ctx, index) {
             return _buildNavItem(
-              context: context,
               data: resolvedData[index],
               isLastItem: index == resolvedData.length - 1,
-              onTap: () => _handleNavTap(context, index, resolvedData.length),
+              onTap: () => _handleNavTap(widget.context, index, resolvedData.length),
             );
           },
         ),
@@ -62,34 +60,31 @@ class _NavListWidgetState extends State<NavListWidget> {
   }
 
   Widget _buildNavItem({
-    required BuildContext context,
     required Map<String, dynamic> data,
     required bool isLastItem,
     required VoidCallback onTap,
   }) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Column(
-        children: [
-          AnimationButtonEffect(
-            onTap: onTap,
-            child: ListTile(
-              leading: SvgPicture.asset(data['icon']),
-              title: Text(data['title'], style: fonts.regularLink),
-              trailing: icons.right.svg(
-                width: 20.w,
-                height: 20.h,
-                color: const Color(0xFFDEDEDE),
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return Column(
+          children: [
+            AnimationButtonEffect(
+              onTap: onTap,
+              child: ListTile(
+                leading: SvgPicture.asset(data['icon']),
+                title: Text(data['title'], style: fonts.regularLink),
+                trailing: icons.right.svg(
+                  width: 20.w,
+                  height: 20.h,
+                  color: const Color(0xFFDEDEDE),
+                ),
               ),
             ),
-          ),
-          if (!isLastItem)
-            Divider(
-              color: colors.neutral400,
-              height: 1,
-            ),
-        ],
-      );
-    });
+            if (!isLastItem) Divider(color: colors.neutral400, height: 1),
+          ],
+        );
+      },
+    );
   }
 
   void _handleNavTap(BuildContext context, int index, int totalItems) {
@@ -97,6 +92,7 @@ class _NavListWidgetState extends State<NavListWidget> {
       context.read<BottomNavBarController>().changeNavBar(true);
       _showProfileBottomSheet(context);
     } else {
+      context.read<BottomNavBarController>().changeNavBar(true);
       final resolvedRoutes = widget.routes ??
           [
             AppRoutes.getUserDetailsPage(),
@@ -107,7 +103,9 @@ class _NavListWidgetState extends State<NavListWidget> {
           ];
 
       if (index < resolvedRoutes.length) {
-        Navigator.push(context, resolvedRoutes[index]);
+        Navigator.push(context, resolvedRoutes[index]).then((_) {
+          context.read<BottomNavBarController>().changeNavBar(false);
+        });
       }
     }
   }
@@ -124,15 +122,14 @@ class _NavListWidgetState extends State<NavListWidget> {
           await dbService.signOut();
 
           Navigator.of(context, rootNavigator: true)
-              .pushAndRemoveUntil(
-            AppRoutes.getLangPage(),
-            (Route<dynamic> route) => false,
-          )
+              .pushAndRemoveUntil(AppRoutes.getLangPage(), (Route<dynamic> route) => false)
               .then((_) {
             context.read<BottomNavBarController>().changeNavBar(false);
           });
         },
       ),
-    );
+    ).then((_) {
+      context.read<BottomNavBarController>().changeNavBar(false);
+    });
   }
 }

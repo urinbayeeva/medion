@@ -79,32 +79,39 @@ class _HomePageState extends State<HomePage> {
                   isBack: false,
                   title: "main".tr(),
                   centerTitle: true,
-                  trailing: Row(
-                    children: [
-                      AnimationButtonEffect(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            AppRoutes.getNotificationPage(),
-                          );
-                        },
-                        child: icons.notification.svg(color: colors.primary900, width: 24.w, height: 24.h),
-                      ),
-                      8.w.horizontalSpace,
-                      AnimationButtonEffect(
-                        onTap: () {
-                          context.read<BottomNavBarController>().changeNavBar(true);
-                          Navigator.push(
-                            context,
-                            AppRoutes.getSearchPage(),
-                          ).then((_) {
-                            context.read<BottomNavBarController>().changeNavBar(false);
-                          });
-                        },
-                        child: icons.search.svg(color: colors.primary900, width: 22.w, height: 22.h),
-                      ),
-                    ],
+                  trailing: AnimationButtonEffect(
+                    onTap: () {
+                      context.read<BottomNavBarController>().changeNavBar(true);
+                      Navigator.push(context, AppRoutes.getNotificationPage()).then((value) {
+                        context.read<BottomNavBarController>().changeNavBar(false);
+                      });
+                    },
+                    child: icons.notification.svg(color: colors.primary900, width: 24.w, height: 24.h),
                   ),
+
+                  // trailing: Row(
+                  //   children: [
+                  //     AnimationButtonEffect(
+                  //       onTap: () {
+                  //         context.read<BottomNavBarController>().changeNavBar(true);
+                  //         Navigator.push(context, AppRoutes.getNotificationPage()).then((value) {
+                  //           context.read<BottomNavBarController>().changeNavBar(false);
+                  //         });
+                  //       },
+                  //       child: icons.notification.svg(color: colors.primary900, width: 24.w, height: 24.h),
+                  //     ),
+                  //     8.w.horizontalSpace,
+                  //     AnimationButtonEffect(
+                  //       onTap: () {
+                  //         context.read<BottomNavBarController>().changeNavBar(true);
+                  //         Navigator.push(context, AppRoutes.getSearchPage()).then((_) {
+                  //           context.read<BottomNavBarController>().changeNavBar(false);
+                  //         });
+                  //       },
+                  //       child: icons.search.svg(color: colors.primary900, width: 22.w, height: 22.h),
+                  //     ),
+                  //   ],
+                  // ),
                 ),
                 Expanded(
                   child: Padding(

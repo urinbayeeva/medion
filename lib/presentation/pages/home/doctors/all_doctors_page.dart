@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -66,7 +65,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
   String searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
   List<Map<String, dynamic>> recentSearches = [];
-  FocusNode _searchFocusNode = FocusNode();
+  final FocusNode _searchFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -124,13 +123,10 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               CAppBar(
                 title: "\t\t\t\t\t\t\t\t\t ${"doctors".tr()}",
                 isBack: true,
-                hasToggle: true,
                 centerTitle: true,
-                toggleFirstText: "doctors_of_medion".tr(),
-                toggleSecondText: "foreign_doctors".tr(),
                 trailing: Row(
+                  spacing: 16,
                   children: [
-                    24.w.horizontalSpace,
                     AnimationButtonEffect(
                       onTap: () async {
                         final result = await showModalBottomSheet<Category>(
@@ -145,43 +141,11 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                           });
                         }
                       },
-                      child: icons.filter.svg(width: 24.w, height: 24.h),
+                      child: icons.filter.svg(width: 20.w, height: 20.h),
                     ),
-                  ],
-                ),
-                bottom: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CustomTextField(
-                              focusNode: _searchFocusNode,
-                              prefixIcon: SvgPicture.asset("assets/icons/search.svg", color: colors.neutral500),
-                              controller: _searchController,
-                              onChanged: (value) {
-                                setState(() {
-                                  searchQuery = value.toLowerCase();
-                                  isSearchActive = value.isNotEmpty || _searchFocusNode.hasFocus;
-                                });
-                              },
-                              hintText: 'search_doctors'.tr(),
-                            ),
-                          ),
-                          if (searchQuery.isNotEmpty) ...[
-                            8.w.horizontalSpace,
-                            AnimationButtonEffect(
-                              onTap: _clearSearch,
-                              child: Icon(
-                                Icons.close,
-                                size: 24.w,
-                                color: colors.neutral600,
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
+                    AnimationButtonEffect(
+                      onTap: () => Navigator.push(context, AppRoutes.getSearchPage()),
+                      child: icons.search.svg(color: colors.primary900, width: 20.w, height: 20.h),
                     ),
                   ],
                 ),

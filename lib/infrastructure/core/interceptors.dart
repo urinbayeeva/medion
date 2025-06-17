@@ -57,8 +57,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
     aliceCore.addCall(
       AliceHttpCall(requestId)
         ..method = chain.request.method
-        ..endpoint =
-            chain.request.url.path.isEmpty ? '/' : chain.request.url.path
+        ..endpoint = chain.request.url.path.isEmpty ? '/' : chain.request.url.path
         ..server = chain.request.url.host
         ..secure = chain.request.url.scheme == 'https'
         ..uri = chain.request.url.toString()
@@ -73,8 +72,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
           ..body = chain.request.body ?? ''
           ..time = DateTime.now()
           ..headers = chain.request.headers
-          ..contentType =
-              chain.request.headers[HttpHeaders.contentTypeHeader] ?? 'unknown'
+          ..contentType = chain.request.headers[HttpHeaders.contentTypeHeader] ?? 'unknown'
           ..queryParameters = chain.request.parameters)
         ..response = AliceHttpResponse(),
     );
@@ -92,9 +90,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
           }
           ..time = DateTime.now()
           ..headers = <String, String>{
-            for (final MapEntry<String, String> entry
-                in response.headers.entries)
-              entry.key: entry.value
+            for (final MapEntry<String, String> entry in response.headers.entries) entry.key: entry.value
           },
         requestId,
       );
@@ -130,9 +126,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
             }
             ..time = DateTime.now()
             ..headers = <String, String>{
-              for (final MapEntry<String, String> entry
-                  in response.headers.entries)
-                entry.key: entry.value
+              for (final MapEntry<String, String> entry in response.headers.entries) entry.key: entry.value
             },
           requestId,
         );
@@ -148,174 +142,5 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
       /// Rethrow error
       rethrow;
     }
-  }
-}
-
-class NetworkInterceptor implements Interceptor {
-  @override
-  FutureOr<Response<T>> intercept<T>(Chain<T> chain) async {
-    final connectivity = await ConnectivityX().create();
-
-    if (!connectivity) {
-      throw NetworkException();
-    }
-    return chain.proceed(chain.request);
-  }
-}
-
-class BackendInterceptor implements Interceptor {
-  @override
-  FutureOr<Response<T>> intercept<T>(Chain<T> chain) async {
-    final response = await chain.proceed(chain.request);
-    if (response.statusCode >= 500) {
-      throw BackendException();
-    }
-    return response;
-  }
-}
-
-class CoreInterceptor implements Interceptor {
-  final DBService dbService;
-  final GlobalKey<NavigatorState> navigatorKey;
-
-  CoreInterceptor(this.dbService, this.navigatorKey);
-
-  @override
-  FutureOr<Response<T>> intercept<T>(Chain<T> chain) async {
-    // 1. Get current locale
-    final locale = _getCurrentLocale();
-    final languageCode = locale.languageCode; // e.g., 'uz'
-    final fullLocale = locale.toString(); // e.g., 'uz_UZ'
-
-    // 2. Modify request
-    var request = chain.request;
-
-    // Add Accept-Language header
-    final headers = Map<String, String>.from(request.headers);
-    headers['Accept-Language'] = languageCode;
-
-    // Add lang query parameter
-    final url = request.url.replace(queryParameters: {
-      ...request.url.queryParameters,
-      'lang': fullLocale,
-    });
-
-    // Create new request with updated URL and headers
-    final newRequest = Request(
-      request.method,
-      url,
-      request.uri,
-      body: request.body,
-      headers: headers,
-      parameters: request.parameters,
-    );
-
-    // 3. Add UUID
-    newRequest.headers['uuid'] = dbService.getUid ?? "";
-
-    // 4. Handle token
-    final requiresToken = newRequest.headers['requires-token'] == 'true' ||
-        newRequest.headers['requires-token'] == 'optional';
-
-    if (requiresToken) {
-      if (dbService.token.toBearerToken != null) {
-        newRequest.headers['Authorization'] = dbService.token.toBearerToken!;
-      } else if (newRequest.headers['requires-token'] != 'optional') {
-        throw Exception('invalid_credential'.tr());
-      }
-    }
-
-    return chain.proceed(newRequest);
-  }
-
-  Locale _getCurrentLocale() {
-    final context = navigatorKey.currentContext;
-    if (context != null) {
-      return EasyLocalization.of(context)?.locale ?? const Locale('en', 'US');
-    }
-    return const Locale('en', 'US'); // Fallback
-  }
-}
-
-class RetryInterceptor implements Interceptor {
-  final int maxRetries;
-  final Duration retryDelay;
-
-  RetryInterceptor(
-      {this.maxRetries = 3, this.retryDelay = const Duration(seconds: 2)});
-
-  @override
-  FutureOr<Response<T>> intercept<T>(Chain<T> chain) async {
-    final request = chain.request;
-    for (int attempt = 0; attempt < maxRetries; attempt++) {
-      try {
-        return chain.proceed(request);
-      } catch (e) {
-        if (attempt < maxRetries - 1) {
-          await Future.delayed(retryDelay);
-        } else {
-          rethrow;
-        }
-      }
-    }
-    return chain.proceed(request);
-  }
-}
-
-class TimeoutHttpClient extends http.BaseClient {
-  final http.Client _inner;
-  final Duration timeout;
-
-  TimeoutHttpClient(this._inner, {required this.timeout});
-
-  @override
-  Future<http.StreamedResponse> send(http.BaseRequest request) {
-    return _inner.send(request).timeout(timeout);
-  }
-}
-
-class HtmlDecodeInterceptor implements Interceptor {
-  @override
-  FutureOr<Response<BodyType>> intercept<BodyType>(
-      Chain<BodyType> chain) async {
-    final request = chain.request;
-    final response = await chain.proceed(request);
-
-    if (response.isSuccessful) {
-      final body = response.body;
-
-      if (body is Map<String, dynamic>) {
-        final decodedBody = _decodeHtmlInMap(body);
-        return response.copyWith(body: decodedBody as BodyType);
-      } else if (body is List) {
-        final decodedBody = body.map((item) {
-          if (item is Map<String, dynamic>) {
-            return _decodeHtmlInMap(item);
-          }
-          return item;
-        }).toList();
-        return response.copyWith(body: decodedBody as BodyType);
-      }
-    }
-    return response;
-  }
-
-  Map<String, dynamic> _decodeHtmlInMap(Map<String, dynamic> map) {
-    final decodedMap = Map<String, dynamic>.from(map);
-    decodedMap.forEach((key, value) {
-      if (value is String && _containsHtml(value)) {
-        decodedMap[key] = _decodeHtml(value);
-      }
-    });
-    return decodedMap;
-  }
-
-  String _decodeHtml(String htmlString) {
-    var document = parse(htmlString);
-    return parse(document.body!.text).documentElement!.text;
-  }
-
-  bool _containsHtml(String input) {
-    return RegExp(r'<[^>]*>').hasMatch(input);
   }
 }

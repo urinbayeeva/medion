@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -41,10 +42,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 final AliceChopperAdapter aliceChopperAdapter = AliceChopperAdapter();
 Alice alice = Alice(
-  configuration: AliceConfiguration(
-    showNotification: true,
-    showInspectorOnShake: false,
-  ),
+  configuration: AliceConfiguration(showNotification: true, showInspectorOnShake: false),
 )..addAdapter(aliceChopperAdapter);
 
 class MyApp extends StatelessWidget {
@@ -134,13 +132,10 @@ class MyApp extends StatelessWidget {
       ],
       child: OnUnFocusTap(
         child: BlocProvider<ProfileBloc>(
-          create: (_) => ProfileBloc(
-
-              // ImageUploadRepo(UploadImage.create(dbService)),
-              ),
+          create: (_) => ProfileBloc(),
           child: MaterialApp(
             navigatorKey: alice.getNavigatorKey(),
-            debugShowCheckedModeBanner: false,
+            debugShowCheckedModeBanner: kDebugMode,
             builder: (context, child) {
               child = FlutterSmartDialog.init()(context, child);
               return FlavorBanner(
