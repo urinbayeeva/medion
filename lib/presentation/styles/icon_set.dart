@@ -111,8 +111,10 @@ class IconSet {
   final String recipeSix;
   final String resumeFile;
   final String mapPin;
+  final String callCenter;
 
   IconSet._({
+    required this.callCenter,
     required this.mapPin,
     required this.resumeFile,
     required this.medicalHistoryFirst,
@@ -231,6 +233,7 @@ class IconSet {
 
   static IconSet get create {
     return IconSet._(
+      callCenter: "assets/icons/call_center.svg",
       mapPin: "assets/icons/map-pin.svg",
       medicalHistoryFirst: "assets/icons/medical_history_1.svg",
       calendarFirst: "assets/icons/calendar_1.svg",

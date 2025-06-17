@@ -15,6 +15,7 @@ class CButton extends StatelessWidget {
   final double borderRadius;
   final VoidCallback onTap;
   final String? iconPath;
+  final Widget? child;
 
   const CButton({
     super.key,
@@ -27,6 +28,7 @@ class CButton extends StatelessWidget {
     this.hasBorderRadius = true,
     this.borderRadius = 8.0,
     this.iconPath,
+    this.child,
   });
 
   @override
@@ -42,32 +44,33 @@ class CButton extends StatelessWidget {
             borderRadius: hasBorderRadius ? BorderRadius.circular(borderRadius.r) : null,
           ),
           padding: EdgeInsets.symmetric(horizontal: iconPath != null ? 16.w : 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center, // Center the content horizontally
-            crossAxisAlignment: CrossAxisAlignment.center, // Center the content vertically
-            children: [
-              Flexible(
-                child: Text(
-                  title,
-                  style: Style.smallMain(
-                    color: textColor ?? Colors.white,
-                    size: 14.sp,
+          child: child ??
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center, // Center the content horizontally
+                crossAxisAlignment: CrossAxisAlignment.center, // Center the content vertically
+                children: [
+                  Flexible(
+                    child: Text(
+                      title,
+                      style: Style.smallMain(
+                        color: textColor ?? Colors.white,
+                        size: 14.sp,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  textAlign: TextAlign.center,
-                ),
+                  if (iconPath != null) 4.w.horizontalSpace,
+                  if (iconPath != null)
+                    SvgPicture.asset(
+                      iconPath!,
+                      height: 20.h,
+                      width: 20.w,
+                      // color: colors.shade0,
+                    ),
+                ],
               ),
-              if (iconPath != null) 4.w.horizontalSpace,
-              if (iconPath != null)
-                SvgPicture.asset(
-                  iconPath!,
-                  height: 20.h,
-                  width: 20.w,
-                  // color: colors.shade0,
-                ),
-            ],
-          ),
         ),
       );
     });

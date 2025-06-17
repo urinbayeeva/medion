@@ -1,29 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
-import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/application/vacancy_bloc/vacancy_bloc.dart';
-import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/presentation/component/c_button.dart';
-import 'package:medion/presentation/component/c_expension_listtile.dart';
-import 'package:medion/presentation/component/resume_container.dart';
-import 'package:medion/presentation/component/shimmer_view.dart';
-import 'package:medion/presentation/pages/home/widgets/adress_item.dart';
-import 'package:medion/presentation/pages/home/yandex_on_tap.dart';
-import 'package:medion/presentation/pages/map/map_with_polylines.dart';
+import 'package:medion/presentation/pages/others/career/widgets/resume_filling.dart';
+import 'package:medion/presentation/pages/others/career/widgets/vacancy_card.dart';
 import 'package:medion/presentation/pages/others/career/widgets/why_us_widget.dart';
-import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class CareerPage extends StatefulWidget {
   const CareerPage({super.key});
@@ -33,6 +19,7 @@ class CareerPage extends StatefulWidget {
 }
 
 class _CareerPageState extends State<CareerPage> {
+  final ValueNotifier<int> _tabIndex = ValueNotifier<int>(0);
   final CarouselSliderController _carouselController = CarouselSliderController();
 
   final List<String> whyUsTexts = [
@@ -40,12 +27,6 @@ class _CareerPageState extends State<CareerPage> {
     "возможность карьерного роста и профессионального развития;",
     "дружный коллектив и комфортные условия труда;",
     "современное оборудование и инновационные технологии;",
-  ];
-
-  final List<String> carouselImages = [
-    'assets/images/medion_inno_second.jpg',
-    'assets/images/medion_inno_third.jpg',
-    'assets/images/medion_inno.jpg',
   ];
 
   @override
@@ -63,6 +44,8 @@ class _CareerPageState extends State<CareerPage> {
           child: Scaffold(
             backgroundColor: colors.backgroundColor,
             body: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CAppBar(
                   bordered: true,
@@ -71,291 +54,150 @@ class _CareerPageState extends State<CareerPage> {
                   isBack: true,
                   trailing: SizedBox(width: 24.w),
                 ),
+                TabBar(
+                  onTap: (index) => _tabIndex.value = index,
+                  labelColor: colors.error500,
+                  indicatorColor: colors.error500,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  unselectedLabelColor: Colors.black,
+                  tabs: [Tab(text: "med".tr()), Tab(text: "office".tr())],
+                ),
                 Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.w),
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      children: [
-                        Text("Мы внимательны к тому, что важно, и предлагаем: ", style: fonts.regularMain),
-                        12.h.verticalSpace,
-                        const Text(
-                          "Мы в сети многопрофильных клиник «Medion» всегда ждем в своей команде новых специалистов. У нас врачи растут, развиваются и постоянно повышают свой профессиональный уровень, участвуя в российских и международных конференциях",
-                        ),
-                        40.h.verticalSpace,
-                        Text("Вот почему стоит выбрать нас:", style: fonts.regularMain),
-                        8.h.verticalSpace,
-                        GridView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: whyUsTexts.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 12.h,
-                            crossAxisSpacing: 12.w,
-                            childAspectRatio: 1,
-                          ),
-                          itemBuilder: (context, index) {
-                            return WhyUsWidget(text: whyUsTexts[index]);
-                          },
-                        ),
-                        20.h.verticalSpace,
-                        Text("doctors".tr(), style: fonts.regularMain),
-                        8.h.verticalSpace,
-                        BlocBuilder<DoctorBloc, DoctorState>(builder: (context, state) {
-                          return ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: state.doctorsJob.length,
-                            itemBuilder: (context, index) {
-                              final data = state.doctorsJob[index];
-                              return CustomExpansionListTile(
-                                title: data.name,
-                                description: data.name + data.name,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            data.id.toString(),
-                                            style: fonts.smallMain,
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }),
-                        20.h.verticalSpace,
-                        Text("Работа в Medion — это работа по любви!", style: fonts.regularMain),
-                        8.h.verticalSpace,
-                        CButton(
-                            title: "get_more_medion".tr(),
-                            onTap: () {
-                              launchUrl(Uri.parse("https://medion.uz/"));
-                            }),
-                        20.h.verticalSpace,
-                        Row(
+                  child: BlocBuilder<VacancyBloc, VacancyState>(
+                    builder: (context, state) {
+                      return SingleChildScrollView(
+                        padding: EdgeInsets.zero,
+                        child: Column(
                           children: [
-                            AnimationButtonEffect(
-                              onTap: () {
-                                _carouselController.previousPage();
-                              },
-                              child: CircleAvatar(
-                                radius: 20.r,
-                                backgroundColor: colors.neutral200,
-                                child: icons.left.svg(),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Мы внимательны к тому, что важно, и предлагаем: ", style: fonts.regularMain),
+                                  12.h.verticalSpace,
+                                  const Text(
+                                    "Мы в сети многопрофильных клиник «Medion» всегда ждем в своей команде новых специалистов. У нас врачи растут, развиваются и постоянно повышают свой профессиональный уровень, участвуя в российских и международных конференциях",
+                                  ),
+                                  12.h.verticalSpace,
+                                  ValueListenableBuilder(
+                                    valueListenable: _tabIndex,
+                                    builder: (BuildContext context, int value, Widget? child) {
+                                      return VacanciesCards(
+                                        index: _tabIndex.value,
+                                        fonts: fonts,
+                                        icons: icons,
+                                        colors: colors,
+                                        state: state,
+                                        bloc: context.read<VacancyBloc>(),
+                                      );
+                                    },
+                                  ),
+                                  12.h.verticalSpace,
+                                  Text("Вот почему стоит выбрать нас:", style: fonts.regularMain),
+                                  8.h.verticalSpace,
+                                  GridView.builder(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: whyUsTexts.length,
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 12.h,
+                                      crossAxisSpacing: 12.w,
+                                      childAspectRatio: 1,
+                                    ),
+                                    itemBuilder: (context, index) {
+                                      return WhyUsWidget(text: whyUsTexts[index]);
+                                    },
+                                  ),
+                                  20.h.verticalSpace,
+                                ],
                               ),
                             ),
-                            Expanded(
-                              child: CarouselSlider(
-                                items: carouselImages
-                                    .map(
-                                      (imagePath) => ClipRRect(
-                                        borderRadius: BorderRadius.circular(12.r),
-                                        child: Image.asset(
-                                          imagePath,
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                                carouselController: _carouselController,
-                                options: CarouselOptions(
-                                  height: 180.h,
-                                  autoPlay: true,
-                                  enlargeCenterPage: true,
-                                  viewportFraction: 0.85,
-                                ),
-                              ),
+
+                            // Text("doctors".tr(), style: fonts.regularMain),
+                            // 8.h.verticalSpace,
+                            // BlocBuilder<DoctorBloc, DoctorState>(
+                            //   builder: (context, state) {
+                            //     return ListView.builder(
+                            //       padding: EdgeInsets.zero,
+                            //       shrinkWrap: true,
+                            //       physics: const NeverScrollableScrollPhysics(),
+                            //       itemCount: state.doctorsJob.length,
+                            //       itemBuilder: (context, index) {
+                            //         final data = state.doctorsJob[index];
+                            //         return CustomExpansionListTile(
+                            //           title: data.name,
+                            //           description: data.name + data.name,
+                            //           children: [
+                            //             Row(
+                            //               children: [
+                            //                 Column(
+                            //                   mainAxisSize: MainAxisSize.min,
+                            //                   crossAxisAlignment: CrossAxisAlignment.start,
+                            //                   children: [
+                            //                     Text(
+                            //                       data.id.toString(),
+                            //                       style: fonts.smallMain,
+                            //                     )
+                            //                   ],
+                            //                 ),
+                            //               ],
+                            //             ),
+                            //           ],
+                            //         );
+                            //       },
+                            //     );
+                            //   },
+                            // ),
+                            // 20.h.verticalSpace,
+
+                            ResumeFilling(
+                              bloc: context.read<VacancyBloc>(),
+                              jobId: -1,
+                              compId: -1,
                             ),
-                            AnimationButtonEffect(
-                              onTap: () {
-                                _carouselController.nextPage();
-                              },
-                              child: CircleAvatar(
-                                radius: 20.r,
-                                backgroundColor: colors.neutral200,
-                                child: icons.right.svg(),
-                              ),
-                            ),
+
+                            // Padding(
+                            //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                            //   child: Column(
+                            //     mainAxisSize: MainAxisSize.min,
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: [
+                            //       Text("Работа в Medion — это работа по любви!", style: fonts.regularMain),
+                            //       8.h.verticalSpace,
+                            //       CButton(
+                            //         title: "reply".tr(),
+                            //         onTap: () {},
+                            //         // onTap: () => launchUrl(
+                            //         //   Uri.parse("https://medion.uz/"),
+                            //         //   mode: LaunchMode.externalApplication,
+                            //         // ),
+                            //       ),
+                            //       20.h.verticalSpace,
+                            //     ],
+                            //   ),
+                            // ),
+                            // Text("Наши отделения", style: fonts.regularMain),
+                            // 8.h.verticalSpace,
+                            // BlocBuilder<HomeBloc, HomeState>(
+                            //   builder: (context, state) {
+                            //     if (state.loading) return _buildAddressShimmer();
+                            //     return _buildAddressSection(context, colors, fonts, icons);
+                            //   },
+                            // ),
                           ],
                         ),
-                        20.h.verticalSpace,
-                        Text("Наши отделения", style: fonts.regularMain),
-                        8.h.verticalSpace,
-                        BlocBuilder<HomeBloc, HomeState>(
-                          builder: (context, state) {
-                            if (state.loading) {
-                              return _buildAddressShimmer();
-                            }
-                            return _buildAddressSection(context, colors, fonts, icons);
-                          },
-                        ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                 ),
               ],
             ),
           ),
-        );
-      },
-    );
-  }
-
-  Widget _buildAddressShimmer() {
-    return Column(
-      children: List.generate(
-        3,
-        (index) => ShimmerView(
-          child: ShimmerContainer(
-            height: 100.h,
-            width: double.infinity,
-            margin: EdgeInsets.only(bottom: 12.h),
-            borderRadius: 12.r,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNoResultView(icons, fonts) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Spacer(),
-        ResumeContainer(
-          fileUploadOnTap: () async {
-            try {
-              var status = await Permission.storage.status;
-              if (!status.isGranted) {
-                status = await Permission.storage.request();
-              }
-
-              if (status.isGranted) {
-                FilePickerResult? result = await FilePicker.platform.pickFiles(
-                  type: FileType.custom,
-                  allowedExtensions: ['pdf', 'doc', 'docx'],
-                );
-
-                if (result != null && result.files.isNotEmpty) {
-                  final file = result.files.first;
-                  if (file.path != null) {
-                    return file.name;
-                  }
-                }
-              } else if (status.isPermanentlyDenied) {
-                await openAppSettings();
-              }
-            } catch (e) {
-              print("Exception in file picking: $e");
-            }
-            return null;
-          },
-        ),
-        const Spacer(),
-        const Spacer(),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: CButton(title: "submit".tr(), onTap: () {}),
-        ),
-        28.h.verticalSpace,
-      ],
-    );
-  }
-
-  Widget _buildResult() {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return BlocBuilder<VacancyBloc, VacancyState>(builder: (context, state) {
-        return const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [],
-        );
-      });
-    });
-  }
-}
-
-Widget _buildAddressSection(BuildContext context, colors, fonts, icons) {
-  return BlocBuilder<HomeBloc, HomeState>(
-    builder: (context, state) {
-      if (state.companyLocations.isEmpty) {
-        return const SizedBox.shrink();
-      }
-
-      return Column(
-        children: state.companyLocations
-            .map((location) => AdressItem(
-                  yandexOnTap: () {
-                    launchYandexTaxi(
-                      context,
-                      location.position.latitude,
-                      location.position.longitude,
-                    );
-                  },
-                  address: location.address,
-                  onTap: () {
-                    context.read<BottomNavBarController>().changeNavBar(true);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MapWithPolylines(
-                          name: location.address,
-                          workingHours: location.workHours,
-                          image: location.icon,
-                          destination: Point(
-                            latitude: location.position.latitude,
-                            longitude: location.position.longitude,
-                          ),
-                        ),
-                      ),
-                    ).then((_) {
-                      context.read<BottomNavBarController>().changeNavBar(false);
-                    });
-                  },
-                  url: location.icon,
-                  name: location.fullName.toString(),
-                ))
-            .toList(),
-      );
-    },
-  );
-}
-
-class Vacancies extends StatelessWidget {
-  const Vacancies({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<VacancyBloc, VacancyState>(
-      builder: (context, state) {
-        return state.when(
-          initial: () => const Center(child: Text("No data yet.")),
-          loading: () => const Center(child: CupertinoActivityIndicator()),
-          loaded: (vacancies) {
-            return ListView.builder(
-              itemCount: vacancies.length,
-              itemBuilder: (context, index) {
-                final vacancy = vacancies[index];
-                return ListTile(
-                  title: Text(vacancy.companyName), // adjust based on your model
-                  subtitle: Text(vacancy.medicineVacancies[index] ?? ''),
-                );
-              },
-            );
-          },
-          error: (message) => Center(child: Text('Error: $message')),
         );
       },
     );

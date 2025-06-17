@@ -255,7 +255,13 @@ abstract class ContentService extends ChopperService {
 @ChopperApi(baseUrl: "recruitment")
 abstract class RecruitmentService extends ChopperService {
   @Get(path: "/vacancies")
-  Future<Response<BuiltList<VacancyModel>>> getVacancies();
+  Future<Response<VacancyModel>> getVacancies();
+
+  @Get(path: "/vacancies")
+  Future<Response<JobApplicationModel>> getVacancySingle({@Query('vacancy_id') int? id});
+
+  @Post(path: "/apply")
+  Future<Response<ResultVacancyModel>> uploadVacancy({@Body() required UploadVacancyModel vacancy});
 
   static RecruitmentService create(DBService dbService) =>
       _$RecruitmentService(_Client(Constants.baseUrlP, true, dbService));

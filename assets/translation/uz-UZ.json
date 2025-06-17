@@ -258,7 +258,7 @@
   "file_max_size": "Fayl hajmi 15 MB gacha",
   "upload_resume": "Rezyumeni yuklash",
   "reply": "Javob berish",
-  "vacancy_money": "{count} so‘mgacha qo‘lga olish",
+  "vacancy_money": "{count} {som}gacha qo‘lga olish",
   "required_experience": "Talab qilinadigan tajriba: {years} yil",
   "full_time": "To‘liq bandlik, to‘liq ish kuni",
   "you_have_to": "Sizga kerak bo‘ladi",

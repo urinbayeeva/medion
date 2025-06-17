@@ -670,13 +670,40 @@ final class _$RecruitmentService extends RecruitmentService {
   final Type definitionType = RecruitmentService;
 
   @override
-  Future<Response<BuiltList<VacancyModel>>> getVacancies() {
+  Future<Response<VacancyModel>> getVacancies() {
     final Uri $url = Uri.parse('recruitment/vacancies');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<BuiltList<VacancyModel>, VacancyModel>($request);
+    return client.send<VacancyModel, VacancyModel>($request);
+  }
+
+  @override
+  Future<Response<JobApplicationModel>> getVacancySingle({int? id}) {
+    final Uri $url = Uri.parse('recruitment/vacancies');
+    final Map<String, dynamic> $params = <String, dynamic>{'vacancy_id': id};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<JobApplicationModel, JobApplicationModel>($request);
+  }
+
+  @override
+  Future<Response<ResultVacancyModel>> uploadVacancy(
+      {required UploadVacancyModel vacancy}) {
+    final Uri $url = Uri.parse('recruitment/apply');
+    final $body = vacancy;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<ResultVacancyModel, ResultVacancyModel>($request);
   }
 }

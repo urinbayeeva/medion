@@ -45,6 +45,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(HomeServiceBooking.serializer)
       ..add(HomepageBookingCategory.serializer)
       ..add(ImageModel.serializer)
+      ..add(JobApplicationModel.serializer)
       ..add(LocationModel.serializer)
       ..add(MedicalModel.serializer)
       ..add(MedionModel.serializer)
@@ -64,7 +65,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(RefreshTokenResponseModel.serializer)
       ..add(RegisterReq.serializer)
       ..add(RegistrationResponse.serializer)
+      ..add(RequirementsModel.serializer)
       ..add(ResponseModel.serializer)
+      ..add(ResultVacancyModel.serializer)
       ..add(Schedule.serializer)
       ..add(ScheduleItem.serializer)
       ..add(ScheduleTime.serializer)
@@ -75,7 +78,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ThirdBookingDoctor.serializer)
       ..add(ThirdBookingDoctorSchedule.serializer)
       ..add(ThirdBookingService.serializer)
+      ..add(UploadVacancyModel.serializer)
       ..add(User.serializer)
+      ..add(VacancyDetailModel.serializer)
+      ..add(VacancyModel.serializer)
       ..add(Visit.serializer)
       ..add(VisitModel.serializer)
       ..add(VisitOrder.serializer)
@@ -185,6 +191,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ChildContentModel)]),
           () => new ListBuilder<ChildContentModel>())
       ..addBuilderFactory(
@@ -222,6 +231,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(User)]),
           () => new ListBuilder<User>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(VacancyDetailModel)]),
+          () => new ListBuilder<VacancyDetailModel>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(VacancyDetailModel)]),
+          () => new ListBuilder<VacancyDetailModel>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(RequirementsModel)]),
+          () => new ListBuilder<RequirementsModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Visit)]),
           () => new ListBuilder<Visit>())

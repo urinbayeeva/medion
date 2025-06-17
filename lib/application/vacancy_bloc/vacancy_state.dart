@@ -2,11 +2,15 @@ part of 'vacancy_bloc.dart';
 
 @freezed
 class VacancyState with _$VacancyState {
-  const factory VacancyState.initial() = _Initial;
+  const VacancyState._();
 
-  const factory VacancyState.loading() = _Loading;
-
-  const factory VacancyState.loaded(BuiltList<VacancyModel> vacancies) = _Loaded;
-
-  const factory VacancyState.error(String message) = _Error;
+  const factory VacancyState({
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus vacancyStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus vacancySingleStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus uploadStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus selectPdf,
+    @Default(FileInfo()) FileInfo base64Pdf,
+    @Default(null) VacancyModel? vacancies,
+    @Default(null) JobApplicationModel? vacancySingle,
+  }) = _VacansyState;
 }

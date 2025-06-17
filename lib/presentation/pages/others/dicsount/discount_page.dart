@@ -32,7 +32,7 @@ class _DiscountPageState extends State<DiscountPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.discountId == null) {
+    if (widget.discountId != null) {
       // Fetch single discount by ID if provided
       _fetchDiscountById(widget.discountId!);
     } else {
@@ -126,25 +126,28 @@ class _DiscountPageState extends State<DiscountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Scaffold(
-        backgroundColor: colors.backgroundColor,
-        body: Column(
-          children: [
-            CAppBar(
-              title: "discounts".tr(),
-              centerTitle: true,
-              isBack: true,
-              trailing: 28.w.horizontalSpace,
-            ),
-            Expanded(
-              child:
-                  widget.discountId == null ? _buildLoadingView(colors) : _buildDiscountListView(colors, fonts, icons),
-            ),
-          ],
-        ),
-      );
-    });
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return Scaffold(
+          backgroundColor: colors.backgroundColor,
+          body: Column(
+            children: [
+              CAppBar(
+                title: "discounts".tr(),
+                centerTitle: true,
+                isBack: true,
+                trailing: 28.w.horizontalSpace,
+              ),
+              if (widget.discountId != null) ...[
+                Expanded(child: _buildLoadingView(colors)),
+              ] else ...[
+                Expanded(child: _buildDiscountListView(colors, fonts, icons)),
+              ],
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildLoadingView(colors) {

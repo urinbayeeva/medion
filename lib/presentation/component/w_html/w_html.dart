@@ -11,11 +11,13 @@ class WHtml extends StatefulWidget {
     required this.data,
     this.textColor = Colors.black,
     this.backgroundColor = Colors.transparent,
+    this.margin,
   });
 
   final String data;
   final Color textColor;
   final Color backgroundColor;
+  final Margins? margin;
 
   @override
   State<WHtml> createState() => _WHtmlState();
@@ -38,10 +40,9 @@ class _WHtmlState extends State<WHtml> {
         }
       },
       style: {
-        // Umumiy uslublar
         '*': Style(
           backgroundColor: widget.backgroundColor,
-          margin: Margins.zero,
+          margin: widget.margin ?? Margins.zero,
         ),
         'p': Style(
           color: widget.textColor,

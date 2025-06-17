@@ -32,6 +32,7 @@ dependencies:
   connectivity_plus: ^6.1.1
   app_links: ^6.3.2
   upgrader: ^11.2.0
+  top_snackbar_flutter: ^3.1.0
 
   sentry_flutter: ^8.9.0
   device_info_plus: ^11.1.0

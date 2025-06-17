@@ -194,6 +194,7 @@ class _CInfoViewState extends State<CInfoView> {
                       ),
                       24.h.verticalSpace,
                     ],
+                    24.h.verticalSpace,
                   ],
                 ),
               ),

@@ -121,6 +121,10 @@ part 'serializer.g.dart';
 
   VacancyModel,
   JobApplicationModel,
+  VacancyDetailModel,
+  RequirementsModel,
+  UploadVacancyModel,
+  ResultVacancyModel,
 
   //Search
   SearchReqModel,

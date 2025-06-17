@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -7,15 +6,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_bottom_icon.dart';
-import 'package:medion/presentation/pages/others/branches/widget/what_we_offer_card.dart';
-import 'package:medion/presentation/pages/others/our_activity/component/license.dart';
-import 'package:medion/presentation/styles/theme.dart';
+import 'package:medion/presentation/pages/others/branches/component/license.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
@@ -38,16 +34,6 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
 
   bool get _hasValidCoordinates =>
       widget.branch.latitude.toString().isNotEmpty && widget.branch.longitude.toString().isNotEmpty;
-
-  bool get _hasValidImageUrl =>
-      widget.branch.image != null &&
-      widget.branch.image!.isNotEmpty &&
-      Uri.tryParse(widget.branch.image!)?.isAbsolute == true;
-
-  bool get _hasLicense =>
-      widget.branch.licenses != null &&
-      widget.branch.licenses!.isNotEmpty &&
-      Uri.tryParse(widget.branch.licenses!.first)?.isAbsolute == true;
 
   @override
   void initState() {
@@ -306,76 +292,6 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
           Icons.map_outlined,
           color: colors.neutral500,
           size: 40.w,
-        ),
-      ),
-    );
-  }
-}
-
-class Licenses extends StatelessWidget {
-  const Licenses({
-    super.key,
-    required this.available,
-    required this.fonts,
-    required this.state,
-    required this.colors,
-  });
-
-  final bool available;
-  final FontSet fonts;
-  final BranchState state;
-  final CustomColorSet colors;
-
-  @override
-  Widget build(BuildContext context) {
-    if (!available) return const SizedBox.shrink();
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        12.h.verticalSpace,
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "license".tr(),
-              style: fonts.regularMain.copyWith(
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ),
-        8.h.verticalSpace,
-        Row(
-          children: state.branchDetail!.licenses!.map((licenseUrl) {
-            final length = state.branchDetail!.licenses!.length;
-            return Padding(
-              padding: EdgeInsets.only(right: 8.w, left: length == 1 ? 16 : 0),
-              child: DecoratedBox(
-                decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 0)),
-                child: CachedNetworkImage(
-                  imageUrl: licenseUrl,
-                  width: 150.w,
-                  errorWidget: (context, url, error) => _buildLicensePlaceholder(colors, fonts),
-                ),
-              ),
-            );
-          }).toList(),
-        )
-      ],
-    );
-  }
-
-  Widget _buildLicensePlaceholder(colors, fonts) {
-    return Container(
-      width: 150.w,
-      height: 100.h,
-      color: colors.neutral200,
-      child: Center(
-        child: Text(
-          "no_result_found".tr(),
-          style: fonts.smallLink,
         ),
       ),
     );

@@ -404,7 +404,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
         crossAxisCount: 2,
         crossAxisSpacing: 12.w,
         mainAxisSpacing: 12.h,
-        childAspectRatio: 0.48,
+        childAspectRatio: 0.46,
       ),
       itemCount: state.medicalModel!.doctors.length,
       itemBuilder: (_, index) {

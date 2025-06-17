@@ -14,19 +14,43 @@ class RecruitmentRepository implements IRecruitmentFacade {
 
   /// Fetch all vacancies
   @override
-  Future<Either<ResponseFailure, BuiltList<VacancyModel>>> fetchVacancies() async {
+  Future<Either<ResponseFailure, VacancyModel>> fetchVacancies() async {
     try {
       final response = await _recruitmentService.getVacancies();
-      //LogService.d('Response Status: ${response.statusCode}');
-      //LogService.d('Response Body: ${response.body}');
-
       if (response.isSuccessful && response.body != null) {
         return right(response.body!);
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      //LogService.e(" ----> error on repo: ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, JobApplicationModel>> fetchVacancySingle({int? id}) async {
+    try {
+      final response = await _recruitmentService.getVacancySingle(id: id);
+      if (response.isSuccessful && response.body != null) {
+        return right(response.body!);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, ResultVacancyModel>> uploadVacancy({required UploadVacancyModel vacancy}) async {
+    try {
+      final response = await _recruitmentService.uploadVacancy(vacancy: vacancy);
+      if (response.isSuccessful && (response.statusCode > 199 && response.statusCode < 300)) {
+        return right(response.body!);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
       return left(handleError(e));
     }
   }

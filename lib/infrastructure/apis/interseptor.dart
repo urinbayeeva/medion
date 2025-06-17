@@ -8,10 +8,10 @@ class CustomInterceptor implements Interceptor {
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
     final request = chain.request;
 
-    print('1***************************************************');
+    print('\n\n1***************************************************');
     print('📤 REQUEST → [${request.method}] ${request.url}');
-    print('🔹 Headers: ${request.headers}');
-    print('🔹 Body: ${request.body}');
+    print('🔹 REQUEST Headers: ${request.headers}');
+    print('🔹 REQUEST Body: ${request.body}');
 
     try {
       final response = await chain.proceed(request);
@@ -24,14 +24,14 @@ class CustomInterceptor implements Interceptor {
         print('🔹 Response Body: ${response.body}');
       }
 
-      print('2***************************************************');
+      print('\n\n2***************************************************\n\n');
       return response;
     } catch (error) {
       print('❌ EXCEPTION ↯ [${request.method}] ${request.url}');
       print('🔹 Headers: ${request.headers}');
       print('🔹 Body: ${request.body}');
       print('🔹 Error: $error');
-      print('3***************************************************');
+      print('\n\n3***************************************************\n\n');
       rethrow;
     }
   }
