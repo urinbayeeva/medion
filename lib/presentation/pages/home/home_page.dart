@@ -331,6 +331,8 @@ class _HomePageState extends State<HomePage> {
                                 _buildDoctorCategoryList(
                                   state.doctors!.doctorData!
                                       .map((category) => {
+                                            "academicRank":
+                                                category.academicRank,
                                             'name': category.name,
                                             'profession':
                                                 category.specialty.toString(),
@@ -701,7 +703,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
+  Widget _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
         final limitedDoctors = doctors.take(10).toList();
@@ -714,36 +716,35 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               final doctor = limitedDoctors[index];
               return DoctorsItem(
-                onTap: () {
-                  context.read<BottomNavBarController>().changeNavBar(true);
-                  Navigator.push(
-                    context,
-                    AppRoutes.getAboutDoctorPage(
-                      doctor['name'].toString(),
-                      doctor['profession'].toString(),
-                      doctor['name'].toString(),
-                      doctor['image'].toString(),
-                      doctor['id'],
-                    ),
-                  ).then((_) {
-                    context.read<BottomNavBarController>().changeNavBar(false);
-                  });
-                },
-                hasDiscount: doctor['has_discount'] ?? false,
-                imagePath: doctor['image'].toString(),
-                name: doctor['name'].toString(),
-                profession: doctor['profession'].toString(),
-                status: doctor['profession'].toString(),
-                gender: doctor['gender'].toString(),
-                candidateScience: false,
-                isInnerPageUsed: true,
-                doctorID: doctor['id'],
-                experience: "experience".tr(
-                  namedArgs: {"count": doctor['work_experience'].toString()},
-                ),
-                academicRank: doctor['academic_rank']?.toString() ??
-                    "", // Add academicRank
-              );
+                  onTap: () {
+                    context.read<BottomNavBarController>().changeNavBar(true);
+                    Navigator.push(
+                      context,
+                      AppRoutes.getAboutDoctorPage(
+                        doctor['name'].toString(),
+                        doctor['profession'].toString(),
+                        doctor['name'].toString(),
+                        doctor['image'].toString(),
+                        doctor['id'],
+                      ),
+                    ).then((_) {
+                      context
+                          .read<BottomNavBarController>()
+                          .changeNavBar(false);
+                    });
+                  },
+                  hasDiscount: doctor['has_discount'] ?? false,
+                  imagePath: doctor['image'].toString(),
+                  name: doctor['name'].toString(),
+                  profession: doctor['profession'].toString(),
+                  status: doctor['profession'].toString(),
+                  gender: doctor['gender'].toString(),
+                  isInnerPageUsed: true,
+                  doctorID: doctor['id'],
+                  experience: "experience".tr(
+                    namedArgs: {"count": doctor['work_experience'].toString()},
+                  ),
+                  academicRank: doctor['academicRank']);
             },
           ),
         );

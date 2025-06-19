@@ -17,6 +17,7 @@ import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart'
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/helpers/decode_html.dart';
 
 enum Category {
   all,
@@ -268,6 +269,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
             'status': doctor.specialty?.toString() ?? 'N/A',
             'candidateScience': false,
             'work_experience': doctor.workExperience,
+            'academicRank': decodeHtml(doctor.academicRank?.toString() ?? ''),
           };
         }).toList() ??
         [];
@@ -401,10 +403,11 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 itemBuilder: (context, index) {
                   final doctor = searchResults[index];
                   return DoctorsItem(
-                    academicRank: doctor["academic_rank"].toString(),
+                    academicRank: doctor['academicRank'],
                     home: false,
                     isInnerPageUsed: true,
                     onTap: () {
+                      _addToRecentSearches(searchQuery);
                       Navigator.push(
                         context,
                         AppRoutes.getAboutDoctorPage(
@@ -412,7 +415,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                           doctor['profession'],
                           doctor['name'].toString(),
                           doctor['image'].toString(),
-                          doctor['id'],
+                          int.parse(doctor['id']),
                         ),
                       ).then((_) {
                         context
@@ -425,12 +428,11 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                     name: doctor['name'].toString(),
                     profession: doctor['profession'].toString(),
                     status: doctor['status']?.toString() ?? 'N/A',
-                    candidateScience: false,
-                    doctorID: int.parse(doctor['id']),
+                    doctorID: int.parse(doctor['id'].toString()),
                   );
                 },
               ),
-            ),
+            )
           ] else ...[
             Expanded(
               child: Center(
@@ -500,6 +502,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               'status': doctor.specialty?.toString() ?? 'N/A',
               'candidateScience': false,
               'work_experience': doctor.workExperience,
+              'academicRank': decodeHtml(doctor.academicRank?.toString() ?? ''),
             })
         .toList();
 
@@ -563,6 +566,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
           'status': 'N/A',
           'candidateScience': false,
           'work_experience': 0,
+          'academicRank': '',
         });
       }
     }
@@ -589,7 +593,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               final doctor = allDoctors[index];
               if (doctor['name'] == 'Placeholder Doctor') {
                 return DoctorsItem(
-                  academicRank: doctor["academic_rank"].toString(),
+                  academicRank: '',
                   home: false,
                   isInnerPageUsed: true,
                   onTap: () {},
@@ -599,15 +603,15 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                   name: 'N/A',
                   profession: 'N/A',
                   status: 'N/A',
-                  candidateScience: false,
                   doctorID: int.parse(doctor['id'].toString().split('_').last),
                 );
               }
               return DoctorsItem(
-                academicRank: doctor["academic_rank"].toString(),
+                academicRank: doctor['academicRank'],
                 home: false,
                 isInnerPageUsed: true,
                 onTap: () {
+                  _addToRecentSearches(doctor['name']);
                   Navigator.push(
                     context,
                     AppRoutes.getAboutDoctorPage(
@@ -628,7 +632,6 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 name: doctor['name'].toString(),
                 profession: doctor['profession'].toString(),
                 status: doctor['status']?.toString() ?? 'N/A',
-                candidateScience: false,
                 doctorID: int.parse(doctor['id']),
               );
             },

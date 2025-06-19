@@ -127,10 +127,8 @@ class _SearchPageState extends State<SearchPage> {
                             itemBuilder: (context, index) {
                               final doctor = results.doctors[index];
                               return DoctorsItem(
-                                academicRank: "",
                                 home: true,
                                 categoryType: "",
-                                candidateScience: false,
                                 isInnerPageUsed: true,
                                 onTap: () {
                                   context

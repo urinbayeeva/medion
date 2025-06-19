@@ -48,7 +48,7 @@ abstract class DoctorData implements Built<DoctorData, DoctorDataBuilder> {
   JsonObject? get image;
 
   @BuiltValueField(wireName: "academic_rank")
-  JsonObject? get academicRank;
+  String? get academicRank;
 
   @BuiltValueField(wireName: "work_experience")
   JsonObject? get workExperience;

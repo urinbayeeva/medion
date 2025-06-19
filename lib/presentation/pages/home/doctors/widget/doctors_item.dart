@@ -13,7 +13,6 @@ class DoctorsItem extends StatelessWidget {
   final String? profession;
   final String? status;
   final String? imagePath;
-  final bool? candidateScience;
   final String? experience;
   final bool? isInnerPageUsed;
   final bool? isCategoried;
@@ -23,7 +22,7 @@ class DoctorsItem extends StatelessWidget {
   final int doctorID;
   final bool home;
   final bool hasDiscount;
-  final String academicRank;
+  final String? academicRank;
 
   const DoctorsItem({
     super.key,
@@ -31,7 +30,6 @@ class DoctorsItem extends StatelessWidget {
     this.name,
     this.profession,
     this.status,
-    this.candidateScience,
     this.experience,
     this.isInnerPageUsed = false,
     this.isCategoried = false,
@@ -41,7 +39,7 @@ class DoctorsItem extends StatelessWidget {
     required this.doctorID,
     this.home = true,
     this.hasDiscount = false,
-    required this.academicRank, // Ensure academicRank is required or handle nullability
+    this.academicRank,
   });
 
   @override
@@ -102,6 +100,7 @@ class DoctorsItem extends StatelessWidget {
                 color: colors.shade0,
               ),
               child: Stack(
+                clipBehavior: Clip.none,
                 children: [
                   imagePath != "" && imagePath!.startsWith("http")
                       ? CachedNetworkImage(
@@ -134,68 +133,37 @@ class DoctorsItem extends StatelessWidget {
                         ),
                       ),
                     ),
+                  if (academicRank != null && academicRank!.isNotEmpty)
+                    Positioned(
+                      bottom: -12.h,
+                      left: (164.w - 100.w) / 3, // Center the container
+                      child: Container(
+                        width: 100.w,
+                        padding: EdgeInsets.symmetric(
+                            vertical: 4.h, horizontal: 8.w),
+                        decoration: BoxDecoration(
+                          color: colors.error500,
+                          borderRadius: BorderRadius.circular(6.r),
+                        ),
+                        child: Text(
+                          academicRank!,
+                          style: fonts.headlineMain.copyWith(
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w400,
+                            color: colors.shade0,
+                          ),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
-            // Display academic rank if not empty
-            if (academicRank.isNotEmpty)
-              Center(
-                child: SizedBox(
-                  width: 164.w,
-                  child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
-                    margin: EdgeInsets.only(top: 8.h),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.r),
-                      color: colors.error500,
-                    ),
-                    child: Center(
-                      child: Text(
-                        academicRank,
-                        style: fonts.xSmallLink.copyWith(
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w500,
-                          color: colors.shade0,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
           ],
         );
       }),
-      if (candidateScience ?? false) ...[
-        Center(
-          child: ThemeWrapper(
-              builder: (context, colors, fonts, icons, controller) {
-            return SizedBox(
-              width: 164.w,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
-                margin: EdgeInsets.only(top: 8.h),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6.r),
-                  color: colors.error500,
-                ),
-                child: Center(
-                  child: Text(
-                    "candidate_of_state".tr(),
-                    style: fonts.xSmallLink.copyWith(
-                      fontSize: 11.sp,
-                      fontWeight: FontWeight.w500,
-                      color: colors.shade0,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            );
-          }),
-        ),
-      ],
       10.h.verticalSpace,
       ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
         return SizedBox(

@@ -26,6 +26,7 @@ import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/format_currency.dart';
+import 'package:medion/utils/helpers/decode_html.dart';
 
 class DirectionInfoPage extends StatefulWidget {
   final int id;
@@ -416,7 +417,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
       itemBuilder: (_, index) {
         final doctor = state.medicalModel!.doctors[index];
         return DoctorsItem(
-          academicRank: "",
+          // academicRank: decodeHtml(doctor.academicRank?.toString() ?? ''),
           gender: "male",
           isInnerPageUsed: true,
           imagePath: doctor.image,
@@ -494,7 +495,6 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Debugging: Add a hardcoded text to verify visibility
           GestureDetector(
             onTap: () =>
                 _showSelectedServicesBottomSheet(context, state, colors, fonts),
@@ -507,7 +507,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                   }),
                   style: fonts.regularSemLink.copyWith(
                     fontSize: 14.sp,
-                    color: colors.primary900, // Ensure contrast with background
+                    color: colors.primary900,
                   ),
                 ),
                 Icon(
@@ -572,8 +572,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                     }),
                     style: fonts.regularSemLink.copyWith(
                       fontSize: 14.sp,
-                      color:
-                          colors.primary900, // Ensure contrast with background
+                      color: colors.primary900,
                     ),
                   ),
                   SizedBox(height: 10.h),

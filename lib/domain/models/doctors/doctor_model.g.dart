@@ -145,7 +145,7 @@ class _$DoctorDataSerializer implements StructuredSerializer<DoctorData> {
       result
         ..add('academic_rank')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(JsonObject)));
+            specifiedType: const FullType(String)));
     }
     value = object.workExperience;
     if (value != null) {
@@ -215,7 +215,7 @@ class _$DoctorDataSerializer implements StructuredSerializer<DoctorData> {
           break;
         case 'academic_rank':
           result.academicRank = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject)) as JsonObject?;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'work_experience':
           result.workExperience = serializers.deserialize(value,
@@ -987,7 +987,7 @@ class _$DoctorData extends DoctorData {
   @override
   final JsonObject? image;
   @override
-  final JsonObject? academicRank;
+  final String? academicRank;
   @override
   final JsonObject? workExperience;
   @override
@@ -1119,10 +1119,9 @@ class DoctorDataBuilder implements Builder<DoctorData, DoctorDataBuilder> {
   JsonObject? get image => _$this._image;
   set image(JsonObject? image) => _$this._image = image;
 
-  JsonObject? _academicRank;
-  JsonObject? get academicRank => _$this._academicRank;
-  set academicRank(JsonObject? academicRank) =>
-      _$this._academicRank = academicRank;
+  String? _academicRank;
+  String? get academicRank => _$this._academicRank;
+  set academicRank(String? academicRank) => _$this._academicRank = academicRank;
 
   JsonObject? _workExperience;
   JsonObject? get workExperience => _$this._workExperience;

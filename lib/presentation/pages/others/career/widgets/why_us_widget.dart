@@ -5,37 +5,29 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class WhyUsWidget extends StatelessWidget {
   final String text;
-  const WhyUsWidget({super.key, required this.text});
+  final String? iconUrl;
+
+  const WhyUsWidget({required this.text, this.iconUrl, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Container(
-        padding: EdgeInsets.all(8.w),
-        decoration: BoxDecoration(
-          color: colors.shade0,
-          borderRadius: BorderRadius.circular(8.r),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SvgPicture.asset(
-              "assets/icons/chart.svg",
-              color: colors.error500,
-              width: 24.w,
-              height: 24.w,
-            ),
-            8.w.horizontalSpace,
-            Expanded(
-              child: Text(
-                text,
-                style: fonts.regularMain
-                    .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
-              ),
-            ),
-          ],
-        ),
-      );
-    });
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [BoxShadow(blurRadius: 6, color: Colors.black12)],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (iconUrl != null)
+            Image.network(iconUrl!, width: 40.w, height: 40.h),
+          SizedBox(height: 8.h),
+          Text(text,
+              style: TextStyle(fontSize: 14.sp), textAlign: TextAlign.center),
+        ],
+      ),
+    );
   }
 }

@@ -49,7 +49,6 @@ class _ResumeContainerState extends State<ResumeContainer> {
         decoration: BoxDecoration(
             color: colors.shade0, borderRadius: BorderRadius.circular(8.r)),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        margin: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +72,12 @@ class _ResumeContainerState extends State<ResumeContainer> {
             12.h.verticalSpace,
             CustomTextField(
               controller: _nameController,
-              hintText: "enter_full_name".tr(),
+              hintText: "name".tr(),
+            ),
+            12.h.verticalSpace,
+            CustomTextField(
+              controller: _nameController,
+              hintText: "second_name".tr(),
             ),
             12.h.verticalSpace,
             Form(
