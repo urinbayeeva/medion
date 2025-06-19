@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -55,11 +56,9 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
       return;
     }
 
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
+    if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
       permission = await Geolocator.requestPermission();
-      if (permission != LocationPermission.whileInUse &&
-          permission != LocationPermission.always) {
+      if (permission != LocationPermission.whileInUse && permission != LocationPermission.always) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Location permission denied'.tr())),
         );
@@ -98,8 +97,7 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
       if (data['status'] != 'success') {
         print('Error: ${data['error']}');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('Failed to fetch route: ${data['error']}'.tr())),
+          SnackBar(content: Text('Failed to fetch route: ${data['error']}'.tr())),
         );
         return;
       }
@@ -220,94 +218,94 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Scaffold(
-        body: _currentPosition == null
-            ? Center(child: CircularProgressIndicator(color: colors.error500))
-            : Stack(
-                children: [
-                  YandexMap(
-                    onMapCreated: (controller) async {
-                      _mapController = controller;
-                      await controller.toggleUserLayer(
-                        visible: true,
-                        autoZoomEnabled: true,
-                      );
-                    },
-                    mapObjects: _mapObjects,
-                    onCameraPositionChanged: (position, reason, finished) {},
-                  ),
-                  Positioned(
-                    top: 60,
-                    right: 20,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: IconButton(
-                        icon: const Icon(Icons.close, color: Colors.black),
-                        onPressed: () {
-                          context
-                              .read<BottomNavBarController>()
-                              .changeNavBar(false);
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  ),
-                  if (_distanceInKm > 0)
-                    Positioned(
-                      top: 60,
-                      left: 20,
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 6,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('${_distanceInKm.toStringAsFixed(1)} km',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16)),
-                            const SizedBox(height: 4),
-                            Text(_travelTime,
-                                style: const TextStyle(
-                                    fontSize: 14, color: Colors.grey)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: MapPolylinesWidget(
-                      yandexTap: () {
-                        print(
-                            "Yandex Tap triggered for destination: ${widget.destination}");
-                        launchYandexTaxi(
-                          context,
-                          widget.destination.latitude,
-                          widget.destination.longitude,
-                        );
-                      },
-                      name: widget.name,
-                      workingHours: widget.workingHours,
-                      image: widget.image,
-                      distanceKm: _distanceInKm,
-                      travelTime: _travelTime,
-                    ),
-                  ),
-                ],
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        if (_currentPosition == null) {
+          return Scaffold(body: Center(child: CupertinoActivityIndicator(color: colors.error500)));
+        }
+
+        return Scaffold(
+          body: Stack(
+            children: [
+              YandexMap(
+                onMapCreated: (controller) async {
+                  _mapController = controller;
+                  await controller.toggleUserLayer(
+                    visible: true,
+                    autoZoomEnabled: true,
+                  );
+                },
+                mapObjects: _mapObjects,
+                onCameraPositionChanged: (position, reason, finished) {},
               ),
-      );
-    });
+              Positioned(
+                top: 60,
+                right: 20,
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: IconButton(
+                    icon: const Icon(Icons.close, color: Colors.black),
+                    onPressed: () {
+                      context.read<BottomNavBarController>().changeNavBar(false);
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ),
+              if (_distanceInKm > 0)
+                Positioned(
+                  top: 60,
+                  left: 20,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${_distanceInKm.toStringAsFixed(1)} km',
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(_travelTime, style: const TextStyle(fontSize: 14, color: Colors.grey)),
+                      ],
+                    ),
+                  ),
+                ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: MapPolylinesWidget(
+                  yandexTap: () {
+                    print("Yandex Tap triggered for destination: ${widget.destination}");
+                    launchYandexTaxi(
+                      context,
+                      widget.destination.latitude,
+                      widget.destination.longitude,
+                    );
+                  },
+                  name: widget.name,
+                  workingHours: widget.workingHours,
+                  image: widget.image,
+                  distanceKm: _distanceInKm,
+                  travelTime: _travelTime,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

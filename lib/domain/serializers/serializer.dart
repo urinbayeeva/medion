@@ -89,6 +89,8 @@ part 'serializer.g.dart';
   OfferModel,
   MedionModel,
   PrivacyModel,
+  GetReviewModel,
+  PostReviewModel,
 
   RefreshTokenModel,
   RefreshTokenResponseModel,
@@ -118,7 +120,6 @@ part 'serializer.g.dart';
   ServiceRequest,
 
   //Vacancy
-
   VacancyModel,
   JobApplicationModel,
   VacancyDetailModel,

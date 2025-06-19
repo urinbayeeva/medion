@@ -7,8 +7,9 @@ class AuthState with _$AuthState {
 
   const factory AuthState({
     @Default(false) bool proceedToHome,
+    @Default(UserStatus.unknown) UserStatus userStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus verifyStatus,
     @Default(false) bool proceedToLogin,
-    //
     @Default(false) bool successSendCode,
     @Default(false) bool successVerifyCode,
     @Default(false) bool successUpdatePhone,
@@ -29,7 +30,6 @@ class AuthState with _$AuthState {
     @Default(false) bool isFetchingPaymentUrls,
     @Default(false) bool errorFetchingPaymentUrls,
     @Default(null) PaymentResponse? myWallet,
-    @Default(null)
-    RegistrationResponse? registrationResponse, // Added this line
+    @Default(null) RegistrationResponse? registrationResponse, // Added this line
   }) = _AuthState;
 }

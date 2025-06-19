@@ -14,4 +14,8 @@ abstract class IBranchRepository {
   Future<Either<ResponseFailure, OfferModel>> getOfferta();
 
   Future<Either<ResponseFailure, MedionModel>> getMedionActivity();
+
+  Future<Either<ResponseFailure, List<GetReviewModel>>> getReview();
+
+  Future<Either<ResponseFailure, void>> postReview({required PostReviewModel review});
 }

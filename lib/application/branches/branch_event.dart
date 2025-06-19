@@ -12,5 +12,9 @@ abstract class BranchEvent with _$BranchEvent {
 
   const factory BranchEvent.fetchActivity() = _FetchActivity;
 
+  const factory BranchEvent.getReviews() = _GetReviews;
+
+  const factory BranchEvent.postReviews({required PostReviewModel review}) = _PostReviews;
+
   const factory BranchEvent.getBranchDetail({required int id}) = _GetBranchDetail;
 }

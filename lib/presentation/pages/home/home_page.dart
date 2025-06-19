@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -274,9 +276,7 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 _buildVerticalSpacingAndHeader("doctors", fonts, "see_all_doctors", () {
                                   context.read<BottomNavBarController>().changeNavBar(true);
-
                                   Navigator.push(context, AppRoutes.getAllDoctorsPage()).then((_) {
-                                    // ignore: use_build_context_synchronously
                                     context.read<BottomNavBarController>().changeNavBar(false);
                                   });
                                 }),
@@ -293,6 +293,7 @@ class _HomePageState extends State<HomePage> {
                                               'info_description': decodeHtml(category.infoDescription.toString()),
                                               'gender': category.gender.toString(),
                                               'has_discount': category.hasDiscount,
+                                              'academic_rank': category.academicRank,
                                             },
                                           )
                                           .toList()
@@ -369,14 +370,7 @@ class _HomePageState extends State<HomePage> {
                             context.read<BottomNavBarController>().changeNavBar(false);
                           });
                         }),
-                        BlocBuilder<HomeBloc, HomeState>(
-                          builder: (context, state) {
-                            if (state.loading) {
-                              return _buildAddressShimmer();
-                            }
-                            return _buildAddressSection(context, colors, fonts, icons);
-                          },
-                        ),
+                        _buildAddressSection(context, colors, fonts, icons),
                         80.h.verticalSpace,
                       ],
                     ),
@@ -583,43 +577,48 @@ class _HomePageState extends State<HomePage> {
   Widget _buildAddressSection(BuildContext context, colors, fonts, icons) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
+        if (state.loading) {
+          return _buildAddressShimmer();
+        }
         if (state.companyLocations.isEmpty) {
           return const SizedBox.shrink();
         }
 
         return Column(
           children: state.companyLocations
-              .map((location) => AdressItem(
-                    yandexOnTap: () {
-                      launchYandexTaxi(
-                        context,
-                        location.position.latitude,
-                        location.position.longitude,
-                      );
-                    },
-                    address: location.address,
-                    onTap: () {
-                      context.read<BottomNavBarController>().changeNavBar(true);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MapWithPolylines(
-                            name: location.address,
-                            workingHours: location.workHours,
-                            image: location.icon,
-                            destination: Point(
-                              latitude: location.position.latitude,
-                              longitude: location.position.longitude,
-                            ),
+              .map(
+                (location) => AdressItem(
+                  yandexOnTap: () {
+                    launchYandexTaxi(
+                      context,
+                      location.position.latitude,
+                      location.position.longitude,
+                    );
+                  },
+                  address: location.address,
+                  onTap: () {
+                    context.read<BottomNavBarController>().changeNavBar(true);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MapWithPolylines(
+                          name: location.address,
+                          workingHours: location.workHours,
+                          image: location.icon,
+                          destination: Point(
+                            latitude: location.position.latitude,
+                            longitude: location.position.longitude,
                           ),
                         ),
-                      ).then((_) {
-                        context.read<BottomNavBarController>().changeNavBar(false);
-                      });
-                    },
-                    url: location.icon,
-                    name: location.fullName.toString(),
-                  ))
+                      ),
+                    ).then((_) {
+                      context.read<BottomNavBarController>().changeNavBar(false);
+                    });
+                  },
+                  url: location.icon,
+                  name: location.fullName.toString(),
+                ),
+              )
               .toList(),
         );
       },

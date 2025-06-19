@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:medion/domain/common/token.dart';
@@ -45,6 +46,11 @@ class DBService {
 
   /// Token
   Future<void> setToken(Token token) async {
+    log("\n\n\n ***********Token*************");
+    log("*Access ${token.accessToken}");
+    log("*Refresh ${token.refreshToken}");
+    log("\n\n\n ************************");
+
     await _box?.put(_accessToken, token.accessToken ?? '');
     await _box?.put(_refreshToken, token.refreshToken ?? '');
   }
@@ -57,6 +63,12 @@ class DBService {
       refreshToken: refreshToken,
       tokenType: "Bearer",
     );
+  }
+
+  Future<void> _deleteToken() async {
+    await _box?.delete(_accessToken);
+    await _box?.delete(_refreshToken);
+    log("✅ Tokenlar muvaffaqiyatli o‘chirildi.");
   }
 
   /// UID
@@ -90,7 +102,7 @@ class DBService {
 
   Future<void> signOut() async {
     bool? langSaved = getLang;
-    // await clearAllData();
+    await _deleteToken();
     setLang(isSaved: langSaved ?? false);
   }
 
@@ -127,10 +139,11 @@ class DBService {
 
   bool isTokenExpired(String accessToken) {
     final payload = accessToken.split('.')[1];
-    final decodedPayload =
-        utf8.decode(base64Url.decode(base64.normalize(payload)));
+    final decodedPayload = utf8.decode(base64Url.decode(base64.normalize(payload)));
     final exp = jsonDecode(decodedPayload)['exp'];
     final expiryDate = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
+
+    log("Token Expire date: ${expiryDate.toString()}");
     return DateTime.now().isAfter(expiryDate);
   }
 }

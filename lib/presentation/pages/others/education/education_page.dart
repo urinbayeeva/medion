@@ -3,14 +3,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:formz/formz.dart';
 import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
-import 'package:medion/presentation/component/c_outlined_button.dart';
 import 'package:medion/presentation/pages/others/education/widgets/study_info_card.dart';
-import 'package:medion/presentation/pages/others/our_activity/component/pattern_background.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -157,23 +154,21 @@ class _EducationPageState extends State<EducationPage> {
                         ],
                         12.h.verticalSpace,
                         if ((state.study?.courses?.length ?? 0) != 0) ...[
-                          Expanded(
-                            child: ListView.builder(
-                              itemCount: state.study?.courses?.length ?? 0,
-                              padding: EdgeInsets.zero,
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                final studyInfo = state.study?.courses?[index];
-                                return StudyInfoCard(
-                                  title: studyInfo?.name ?? "",
-                                  description: studyInfo?.description ?? "No Description",
-                                  imagePath: studyInfo?.image ?? "",
-                                  moreInfoOnTap: () {},
-                                  applyOnTap: () {},
-                                );
-                              },
-                            ),
+                          ListView.builder(
+                            itemCount: state.study?.courses?.length ?? 0,
+                            padding: EdgeInsets.zero,
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              final studyInfo = state.study?.courses?[index];
+                              return StudyInfoCard(
+                                title: studyInfo?.name ?? "",
+                                description: studyInfo?.description ?? "No Description",
+                                imagePath: studyInfo?.image ?? "",
+                                moreInfoOnTap: () {},
+                                applyOnTap: () {},
+                              );
+                            },
                           ),
                         ],
                         24.h.verticalSpace,

@@ -87,8 +87,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   color: colors.neutral200,
                   size: const Size.square(9.0),
                   activeSize: const Size(18.0, 9.0),
-                  activeShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0)),
+                  activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
                 ),
               ),
               16.h.verticalSpace,
@@ -100,16 +99,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         curve: Curves.easeInOut,
                       );
                     } else {
-                      context
-                          .read<DBService>()
-                          .setBool(isSaved: true, key: DBService.intro);
-                      context.read<DBService>().setLang(isSaved: true);
+                      context.read<DBService>().setBool(isSaved: true, key: DBService.intro);
+                      // context.read<DBService>().setLang(isSaved: true);
 
                       Navigator.push(context, AppRoutes.getSignUpPage());
                     }
                   },
-                  title:
-                      currentIndexPage < 2 ? "next".tr() : "lets_start".tr()),
+                  title: currentIndexPage < 2 ? "next".tr() : "lets_start".tr()),
               14.h.verticalSpace,
             ],
           ),
@@ -127,10 +123,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
             Navigator.push(context, AppRoutes.getSignUpPage());
           },
           child: Text("skip".tr(),
-              style: fonts.smallText.copyWith(
-                  color: colors.neutral600,
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500)),
+              style: fonts.smallText.copyWith(color: colors.neutral600, fontSize: 15.sp, fontWeight: FontWeight.w500)),
         ),
       );
     });

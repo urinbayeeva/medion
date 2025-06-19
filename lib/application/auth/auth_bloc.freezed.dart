@@ -1803,7 +1803,9 @@ abstract class _FetchMyWallet implements AuthEvent {
 /// @nodoc
 mixin _$AuthState {
   bool get proceedToHome => throw _privateConstructorUsedError;
-  bool get proceedToLogin => throw _privateConstructorUsedError; //
+  UserStatus get userStatus => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get verifyStatus => throw _privateConstructorUsedError;
+  bool get proceedToLogin => throw _privateConstructorUsedError;
   bool get successSendCode => throw _privateConstructorUsedError;
   bool get successVerifyCode => throw _privateConstructorUsedError;
   bool get successUpdatePhone => throw _privateConstructorUsedError;
@@ -1841,6 +1843,8 @@ abstract class $AuthStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool proceedToHome,
+      UserStatus userStatus,
+      FormzSubmissionStatus verifyStatus,
       bool proceedToLogin,
       bool successSendCode,
       bool successVerifyCode,
@@ -1881,6 +1885,8 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   @override
   $Res call({
     Object? proceedToHome = null,
+    Object? userStatus = null,
+    Object? verifyStatus = null,
     Object? proceedToLogin = null,
     Object? successSendCode = null,
     Object? successVerifyCode = null,
@@ -1909,6 +1915,14 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.proceedToHome
           : proceedToHome // ignore: cast_nullable_to_non_nullable
               as bool,
+      userStatus: null == userStatus
+          ? _value.userStatus
+          : userStatus // ignore: cast_nullable_to_non_nullable
+              as UserStatus,
+      verifyStatus: null == verifyStatus
+          ? _value.verifyStatus
+          : verifyStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       proceedToLogin: null == proceedToLogin
           ? _value.proceedToLogin
           : proceedToLogin // ignore: cast_nullable_to_non_nullable
@@ -2011,6 +2025,8 @@ abstract class _$$AuthStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool proceedToHome,
+      UserStatus userStatus,
+      FormzSubmissionStatus verifyStatus,
       bool proceedToLogin,
       bool successSendCode,
       bool successVerifyCode,
@@ -2049,6 +2065,8 @@ class __$$AuthStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? proceedToHome = null,
+    Object? userStatus = null,
+    Object? verifyStatus = null,
     Object? proceedToLogin = null,
     Object? successSendCode = null,
     Object? successVerifyCode = null,
@@ -2077,6 +2095,14 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.proceedToHome
           : proceedToHome // ignore: cast_nullable_to_non_nullable
               as bool,
+      userStatus: null == userStatus
+          ? _value.userStatus
+          : userStatus // ignore: cast_nullable_to_non_nullable
+              as UserStatus,
+      verifyStatus: null == verifyStatus
+          ? _value.verifyStatus
+          : verifyStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       proceedToLogin: null == proceedToLogin
           ? _value.proceedToLogin
           : proceedToLogin // ignore: cast_nullable_to_non_nullable
@@ -2174,6 +2200,8 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 class _$AuthStateImpl extends _AuthState {
   const _$AuthStateImpl(
       {this.proceedToHome = false,
+      this.userStatus = UserStatus.unknown,
+      this.verifyStatus = FormzSubmissionStatus.initial,
       this.proceedToLogin = false,
       this.successSendCode = false,
       this.successVerifyCode = false,
@@ -2204,8 +2232,13 @@ class _$AuthStateImpl extends _AuthState {
   final bool proceedToHome;
   @override
   @JsonKey()
+  final UserStatus userStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus verifyStatus;
+  @override
+  @JsonKey()
   final bool proceedToLogin;
-//
   @override
   @JsonKey()
   final bool successSendCode;
@@ -2278,7 +2311,7 @@ class _$AuthStateImpl extends _AuthState {
 
   @override
   String toString() {
-    return 'AuthState(proceedToHome: $proceedToHome, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, registrationResponse: $registrationResponse)';
+    return 'AuthState(proceedToHome: $proceedToHome, userStatus: $userStatus, verifyStatus: $verifyStatus, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, registrationResponse: $registrationResponse)';
   }
 
   @override
@@ -2288,6 +2321,10 @@ class _$AuthStateImpl extends _AuthState {
             other is _$AuthStateImpl &&
             (identical(other.proceedToHome, proceedToHome) ||
                 other.proceedToHome == proceedToHome) &&
+            (identical(other.userStatus, userStatus) ||
+                other.userStatus == userStatus) &&
+            (identical(other.verifyStatus, verifyStatus) ||
+                other.verifyStatus == verifyStatus) &&
             (identical(other.proceedToLogin, proceedToLogin) ||
                 other.proceedToLogin == proceedToLogin) &&
             (identical(other.successSendCode, successSendCode) ||
@@ -2340,6 +2377,8 @@ class _$AuthStateImpl extends _AuthState {
   int get hashCode => Object.hashAll([
         runtimeType,
         proceedToHome,
+        userStatus,
+        verifyStatus,
         proceedToLogin,
         successSendCode,
         successVerifyCode,
@@ -2376,6 +2415,8 @@ class _$AuthStateImpl extends _AuthState {
 abstract class _AuthState extends AuthState {
   const factory _AuthState(
       {final bool proceedToHome,
+      final UserStatus userStatus,
+      final FormzSubmissionStatus verifyStatus,
       final bool proceedToLogin,
       final bool successSendCode,
       final bool successVerifyCode,
@@ -2403,7 +2444,11 @@ abstract class _AuthState extends AuthState {
   @override
   bool get proceedToHome;
   @override
-  bool get proceedToLogin; //
+  UserStatus get userStatus;
+  @override
+  FormzSubmissionStatus get verifyStatus;
+  @override
+  bool get proceedToLogin;
   @override
   bool get successSendCode;
   @override

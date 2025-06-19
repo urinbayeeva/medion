@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/branches/branch_bloc.dart';
@@ -16,7 +20,6 @@ import 'package:medion/application/selected_provider.dart';
 import 'package:medion/application/service_page_provider.dart';
 import 'package:medion/application/services/time_select_provider.dart';
 import 'package:medion/application/visit/visit_bloc.dart';
-import 'package:medion/domain/abstract_repo/company/i_company.dart';
 import 'package:medion/domain/models/currency_change.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
@@ -28,14 +31,12 @@ import 'package:medion/infrastructure/repository/content_service.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
 import 'package:medion/infrastructure/repository/visit_create_repo.dart';
-import 'package:medion/infrastructure/services/alice/model/alice_configuration.dart';
 import 'package:medion/infrastructure/services/alice/alice.dart';
+import 'package:medion/infrastructure/services/alice/model/alice_configuration.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/un_focus_widget.dart';
-import 'package:medion/presentation/pages/appointment/payment_page.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
-
 import 'package:medion/utils/app_config.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -62,13 +63,13 @@ class MyApp extends StatelessWidget {
     FlutterNativeSplash.remove();
     return MultiProvider(
       providers: [
+        Provider<DBService>(create: (_) => dbService),
         ChangeNotifierProvider(create: (_) => SelectedServicesProvider()),
         ChangeNotifierProvider(create: (_) => SelectedServiceIdsProvider()),
         ChangeNotifierProvider(create: (_) => TimeSelectionProvider()),
         ChangeNotifierProvider(create: (_) => CurrencyChangeProvider()),
         ChangeNotifierProvider(create: (_) => ServicesPageProvider()),
         ChangeNotifierProvider(create: (_) => PaymentProvider()),
-        Provider<DBService>(create: (_) => dbService),
         BlocProvider(create: (context) => HomeBloc(HomeRepository(HomePageService.create(dbService)))),
         BlocProvider(create: (context) => VisitBloc(VisitRepository(VisitCreateService.create(dbService)))),
         ChangeNotifierProvider(create: (_) => GlobalController.create(dbService)),
@@ -89,17 +90,6 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        BlocProvider(
-          child: const PaymentPage(),
-          create: (context) {
-            DBService dbService = context.read<DBService>();
-            return AuthBloc(
-              AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService),
-                  RefreshService.create(dbService)),
-              dbService,
-            );
-          },
-        ),
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(
             AuthRepository(
@@ -109,18 +99,7 @@ class MyApp extends StatelessWidget {
               RefreshService.create(dbService),
             ),
             dbService,
-          ),
-        ),
-        BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(
-            AuthRepository(
-              dbService,
-              AuthService.create(dbService),
-              PatientService.create(dbService),
-              RefreshService.create(dbService),
-            ),
-            dbService,
-          ),
+          )..add(const AuthEvent.checkAuth()),
         ),
         BlocProvider<BookingBloc>(
           create: (context) => BookingBloc(
@@ -133,31 +112,71 @@ class MyApp extends StatelessWidget {
       child: OnUnFocusTap(
         child: BlocProvider<ProfileBloc>(
           create: (_) => ProfileBloc(),
-          child: MaterialApp(
-            navigatorKey: alice.getNavigatorKey(),
-            debugShowCheckedModeBanner: kDebugMode,
-            builder: (context, child) {
-              child = FlutterSmartDialog.init()(context, child);
-              return FlavorBanner(
-                child: child,
-              );
-            },
-            navigatorObservers: [
-              FlutterSmartDialog.observer,
-              // AnalyticsService().getAnalyticsObserver(),
-              SentryNavigatorObserver(),
-            ],
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            onGenerateRoute: (_) {
-              if (onGetContext != null) {
-                onGetContext!(context);
+          child: BlocBuilder<AuthBloc, AuthState>(
+            buildWhen: (o, n) => o.userStatus.name != n.userStatus.name,
+            builder: (ctx, bState) {
+              if (bState.userStatus.isUnknown) {
+                return MaterialApp(
+                  debugShowCheckedModeBanner: kDebugMode,
+                  localizationsDelegates: context.localizationDelegates,
+                  supportedLocales: context.supportedLocales,
+                  locale: context.locale,
+                  home: Scaffold(
+                    backgroundColor: Color(0xffffffff),
+                    body: Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          spacing: 12,
+                          children: [
+                            SvgPicture.asset("assets/icons/fammedion.svg", height: 120),
+                            LinearProgressIndicator(
+                              color: Colors.red,
+                              backgroundColor: Colors.red.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
               }
-              return AppRoutes.onGenerateRoute(
-                context: context,
-                notConnection: !connectivityX,
-                isLang: dbService.getLang ?? true,
+
+              return MaterialApp(
+                navigatorKey: alice.getNavigatorKey(),
+                debugShowCheckedModeBanner: kDebugMode,
+                builder: (context, child) {
+                  child = FlutterSmartDialog.init()(context, child);
+                  return FlavorBanner(
+                    child: child,
+                  );
+                },
+                navigatorObservers: [
+                  FlutterSmartDialog.observer,
+                  // AnalyticsService().getAnalyticsObserver(),
+                  SentryNavigatorObserver(),
+                ],
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                onGenerateRoute: (_) {
+                  if (onGetContext != null) {
+                    onGetContext!(context);
+                  }
+                  // log("User status authRequired value: ${authRequired.value}");
+                  log("User status authRequired status name: ${bState.userStatus.name}");
+                  log("User status authRequired status bool: ${bState.userStatus.isUnAuthed}");
+                  return AppRoutes.onGenerateRoute(
+                    authRequired: bState.userStatus.isUnAuthed,
+                    context: context,
+                    notConnection: !connectivityX,
+                    isLang: dbService.getLang ?? true,
+                  );
+                },
               );
             },
           ),

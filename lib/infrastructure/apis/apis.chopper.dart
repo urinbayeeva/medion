@@ -551,6 +551,31 @@ final class _$StudyService extends StudyService {
     );
     return client.send<EducationModel, EducationModel>($request);
   }
+
+  @override
+  Future<Response<BuiltList<GetReviewModel>>> getReviews() {
+    final Uri $url = Uri.parse('/get-reviews');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<BuiltList<GetReviewModel>, GetReviewModel>($request);
+  }
+
+  @override
+  Future<Response<PostReviewModel>> postReviews(
+      {required PostReviewModel review}) {
+    final Uri $url = Uri.parse('/send-review');
+    final $body = review;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<PostReviewModel, PostReviewModel>($request);
+  }
 }
 
 // coverage:ignore-file

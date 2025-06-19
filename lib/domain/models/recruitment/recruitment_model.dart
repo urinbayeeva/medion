@@ -152,10 +152,10 @@ abstract class UploadVacancyModel implements Built<UploadVacancyModel, UploadVac
 
 abstract class ResultVacancyModel implements Built<ResultVacancyModel, ResultVacancyModelBuilder> {
   @BuiltValueField(wireName: 'status')
-  String get status;
+  String? get status;
 
   @BuiltValueField(wireName: 'message')
-  String get message;
+  String? get message;
 
   ResultVacancyModel._();
 

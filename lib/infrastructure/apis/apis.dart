@@ -220,6 +220,12 @@ abstract class StudyService extends ChopperService {
   @Get(path: "/study")
   Future<Response<EducationModel>> getStudy();
 
+  @Get(path: "/get-reviews")
+  Future<Response<BuiltList<GetReviewModel>>> getReviews();
+
+  @Post(path: "/send-review")
+  Future<Response<PostReviewModel>> postReviews({@Body() required PostReviewModel review});
+
   static StudyService create(DBService dbService) => _$StudyService(_Client(Constants.baseUrlP, true, dbService));
 }
 

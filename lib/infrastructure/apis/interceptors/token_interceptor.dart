@@ -53,6 +53,7 @@ class CoreInterceptor implements Interceptor {
     if (requiresToken) {
       if (dbService.token.toBearerToken != null) {
         log("\n\n\n**********TOKENS******** ");
+        log("Request Url: $url");
         log("Access Token: ${dbService.token.accessToken}");
         log("Refresh Token: ${dbService.token.refreshToken}");
         log("Token type: ${dbService.token.tokenType}");

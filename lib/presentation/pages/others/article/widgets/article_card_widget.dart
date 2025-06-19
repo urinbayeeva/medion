@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
+import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class ArticleCardWidget extends StatelessWidget {
@@ -38,12 +39,11 @@ class ArticleCardWidget extends StatelessWidget {
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(8.r), topRight: Radius.circular(8.r)),
                   child: _buildImageSection(colors, fonts),
                 ),
-                4.h.verticalSpace,
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.w),
                   child: Text(
                     title ?? "",
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: fonts.xSmallLink.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w600),
                   ),
@@ -76,14 +76,14 @@ class ArticleCardWidget extends StatelessWidget {
         "assets/icons/picture.svg",
         color: colors.neutral400,
         width: double.infinity,
-        height: 250,
+        height: 164.h,
       );
     } else {
       return CachedImageComponent(
-        height: 164.h,
+        height: 120.h,
         width: double.infinity,
         imageUrl: image!,
-        fit: BoxFit.cover,
+        fit: BoxFit.fill,
       );
     }
   }

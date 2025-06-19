@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/pages/profile/widget/nav_list_data.dart';
@@ -31,7 +32,8 @@ class _NavListWidgetState extends State<NavListWidget> {
   }
 
   Future<void> _initDbService() async {
-    dbService = await DBService.create;
+    dbService = context.read<DBService>();
+    // dbService = await DBService.create;
   }
 
   @override
@@ -120,6 +122,7 @@ class _NavListWidgetState extends State<NavListWidget> {
         },
         onTapLogOut: () async {
           await dbService.signOut();
+          context.read<AuthBloc>().add(const AuthEvent.checkAuth());
 
           Navigator.of(context, rootNavigator: true)
               .pushAndRemoveUntil(AppRoutes.getLangPage(), (Route<dynamic> route) => false)

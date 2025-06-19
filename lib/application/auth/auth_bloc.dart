@@ -1,25 +1,28 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
-
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:medion/domain/common/token.dart';
+import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/upload_image/upload_image.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
-
-import '../../domain/models/auth/auth.dart';
-import '../../infrastructure/services/log_service.dart';
+import 'package:medion/utils/enums/user_status_enum.dart';
 
 part 'auth_bloc.freezed.dart';
+
 part 'auth_event.dart';
+
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -37,13 +40,41 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_FetchPatientVisits>(_fetchPatientVisitsHandler);
     on<_FetchPatientAnalyze>(_fetchPatientAnalyze);
     on<_FetchMyWallet>(_fetchMyWallet);
+    on<_CheckAuth>(_checkAuth);
   }
 
-  FutureOr<void> _verificationSendHandler(
-    _VerificationSend event,
-    Emitter<AuthState> emit,
-  ) async {
+  FutureOr<void> _checkAuth(_CheckAuth event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(userStatus: UserStatus.unknown));
+    final res = await _repository.getPatientInfo();
+
+    final token = _dbService.token;
+    final access = token.accessToken;
+    final refresh = token.refreshToken;
+
+    if (access != null && access.isNotEmpty && refresh != null && refresh.isNotEmpty) {
+      res.fold(
+        (failure) {
+          if (failure.message.contains("invalid") || failure.message.contains("credential")) {
+            emit(state.copyWith(userStatus: UserStatus.unAuthed));
+            log("auth check user get IF INIT FUNCTION USER STATUS: ${state.userStatus.name}");
+          }
+
+          log("auth check user get patient res fail data ${failure.message} \n user status:: ${state.userStatus.name}");
+        },
+        (success) {
+          emit(state.copyWith(userStatus: UserStatus.authed));
+          log("auth check user get patient res success data ${success.phoneNumber}   user status ${state.userStatus.name}");
+        },
+      );
+    } else {
+      log("auth check user get token null");
+      emit(state.copyWith(userStatus: UserStatus.unAuthed));
+    }
+  }
+
+  FutureOr<void> _verificationSendHandler(_VerificationSend event, Emitter<AuthState> emit) async {
     emit(state.copyWith(
+      verifyStatus: FormzSubmissionStatus.inProgress,
       successSendCode: false,
       phoneNumber: null,
       successVerifyCode: false,
@@ -57,6 +88,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       LogService.e(" ----> error on bloc  : $error");
       EasyLoading.showError(error.message);
       emit(state.copyWith(
+        verifyStatus: FormzSubmissionStatus.failure,
         successSendCode: false,
         errorSendCode: true,
       ));
@@ -65,6 +97,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       if (data.multiUser) {
         emit(state.copyWith(
+          verifyStatus: FormzSubmissionStatus.success,
           registrationResponse: data,
           successSendCode: true,
           phoneNumber: event.request.phoneNumber,
@@ -79,6 +112,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
 
         emit(state.copyWith(
+          verifyStatus: FormzSubmissionStatus.success,
           successSendCode: true,
           successVerifyCode: true,
           phoneNumber: event.request.phoneNumber,
@@ -89,15 +123,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
-  FutureOr<void> _sendPhoneNumberHandler(
-    _SendPhoneNumber event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(state.copyWith(
-      successSendCode: false,
-      phoneNumber: null,
-      successVerifyCode: false,
-    ));
+  FutureOr<void> _sendPhoneNumberHandler(_SendPhoneNumber event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(successSendCode: false, phoneNumber: null, successVerifyCode: false));
     EasyLoading.show();
 
     final res = await _repository.sendPhoneNumber(request: event.request);

@@ -29,7 +29,6 @@ class AppInit {
   }
 
   static Future<void> appInitialized() async {
-    WidgetsFlutterBinding.ensureInitialized();
     await Hive.initFlutter();
 
     /// LogService Create

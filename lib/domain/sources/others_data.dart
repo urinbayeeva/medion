@@ -73,6 +73,14 @@ List<Map<String, dynamic>> othersData = [
     "title": "team".tr(),
     "icon": IconSet.create.group,
   },
+  {
+    "title": "customers_reviews".tr(),
+    "icon": IconSet.create.readFeedbacks,
+  },
+  {
+    "title": "leave_feedback".tr(),
+    "icon": IconSet.create.leaveFeedbacks,
+  },
 ];
 
 List<Map<String, dynamic>> othersDataSecond = [

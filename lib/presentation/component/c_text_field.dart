@@ -99,9 +99,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     semanticsLabel: widget.title,
                     widget.title,
                     style: fonts.xSmallMain.copyWith(
-                        color: widget.error == null
-                            ? colors.primary900
-                            : colors.error500,
+                        color: widget.error == null ? colors.primary900 : colors.error500,
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500),
                   )
@@ -116,10 +114,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     ),
                   )
                 : const SizedBox(),
-            widget.titleHintText.isNotEmpty
-                ? SizedBox(height: 6.h)
-                : const SizedBox(),
+            widget.titleHintText.isNotEmpty ? SizedBox(height: 6.h) : const SizedBox(),
             TextFormField(
+              onTapOutside: (v) {
+                widget.focusNode?.unfocus();
+              },
               textCapitalization: widget.textCapitalization,
               autofocus: widget.autoFocus ?? false,
               initialValue: widget.initialValue,
@@ -136,22 +135,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
               maxLines: widget.maxLines,
               cursorColor: widget.cursorColor,
               controller: widget.controller,
-              style: fonts.regularText
-                  .copyWith(color: colors.primary900, fontSize: 17.sp),
+              style: fonts.regularText.copyWith(color: colors.primary900, fontSize: 17.sp),
               obscureText: widget.obscureText,
               keyboardType: widget.keyboardType,
               validator: widget.validator,
               decoration: InputDecoration(
                 counterText: widget.maxLength == 500 ? null : '',
                 suffixIcon: widget.suffixIcon != null
-                    ? IconButton(
-                        icon: widget.suffixIcon!,
-                        onPressed: widget.onsuffixIconPressed ?? () {})
+                    ? IconButton(icon: widget.suffixIcon!, onPressed: widget.onsuffixIconPressed ?? () {})
                     : null,
                 prefixIcon: widget.prefixIcon != null
-                    ? IconButton(
-                        icon: widget.prefixIcon!,
-                        onPressed: widget.onprefixIconPressed ?? () {})
+                    ? IconButton(icon: widget.prefixIcon!, onPressed: widget.onprefixIconPressed ?? () {})
                     : null,
                 focusColor: colors.primary500,
                 fillColor: widget.fillColor ?? colors.transparent,
@@ -160,39 +154,28 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 border: widget.border ??
                     OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.r),
-                      borderSide:
-                          const BorderSide(color: Color(0xDDDDDDDD), width: 1),
+                      borderSide: const BorderSide(color: Color(0xDDDDDDDD), width: 1),
                     ),
                 enabledBorder: widget.border ??
                     OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(widget.borderRadius ?? 12.r),
+                      borderRadius: BorderRadius.circular(widget.borderRadius ?? 12.r),
                       borderSide: BorderSide(
-                          color: widget.enableBorderColor ??
-                              const Color(0xDDDDDDDD),
-                          width: widget.borderWidth ?? 1),
+                          color: widget.enableBorderColor ?? const Color(0xDDDDDDDD), width: widget.borderWidth ?? 1),
                     ),
                 focusedBorder: widget.border ??
                     OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(widget.borderRadius ?? 12.r),
-                      borderSide: BorderSide(
-                          color: const Color(0xFFDDDDDD),
-                          width: widget.borderWidth ?? 1),
+                      borderRadius: BorderRadius.circular(widget.borderRadius ?? 12.r),
+                      borderSide: BorderSide(color: const Color(0xFFDDDDDD), width: widget.borderWidth ?? 1),
                     ),
                 hintText: widget.hintText,
                 semanticCounterText: widget.hintText,
-                hintStyle: fonts.regularText
-                    .copyWith(color: const Color(0xFFAFAFAF), fontSize: 17.sp),
+                hintStyle: fonts.regularText.copyWith(color: const Color(0xFFAFAFAF), fontSize: 17.sp),
                 errorText: widget.error,
                 errorStyle: fonts.headlineMain.copyWith(color: colors.error500),
-                contentPadding: EdgeInsets.only(
-                    left: 16.w, top: 12.h, right: 12.w, bottom: 12.h),
+                contentPadding: EdgeInsets.only(left: 16.w, top: 12.h, right: 12.w, bottom: 12.h),
               ),
             ),
-            widget.subTitle.isNotEmpty
-                ? SizedBox(height: 6.h)
-                : const SizedBox(),
+            widget.subTitle.isNotEmpty ? SizedBox(height: 6.h) : const SizedBox(),
             widget.subTitle.isNotEmpty
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -202,10 +185,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         widget.subTitle,
                         maxLines: 2,
                         style: fonts.smallText.copyWith(
-                            color: widget.error == null
-                                ? colors.neutral700
-                                : colors.error500,
-                            fontSize: 12.sp),
+                            color: widget.error == null ? colors.neutral700 : colors.error500, fontSize: 12.sp),
                       ),
                     ],
                   )

@@ -78,9 +78,13 @@ class AppRoutes {
     required BuildContext context,
     required bool notConnection,
     required bool isLang,
+    required bool authRequired,
     Uri? initLink,
   }) {
     ScreenUtil.init(context, designSize: const Size(390, 846));
+    if (authRequired) {
+      return getSignUpPage();
+    }
 
     if (notConnection) {
       return getNetworkNotFound();
@@ -171,21 +175,13 @@ class AppRoutes {
       bool additionalPhone = false}) {
     // AnalyticsService().analyzeScreenView('getFillSmsCode');
     return MaterialPageRoute(
-        builder: (_) => BlocProvider(
-            create: (context) {
-              DBService dbService = context.read<DBService>();
-              return AuthBloc(
-                AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService),
-                    RefreshService.create(dbService)),
-                dbService,
-              );
-            },
-            child: VerifyCodePage(
-              additionalPhone: additionalPhone,
-              phoneNumber: phoneNumber,
-              password: password,
-              autofill: autofill,
-            )));
+      builder: (_) => VerifyCodePage(
+        additionalPhone: additionalPhone,
+        phoneNumber: phoneNumber,
+        password: password,
+        autofill: autofill,
+      ),
+    );
   }
 
   static MaterialPageRoute getDataEntryPage(String phoneNumber) {

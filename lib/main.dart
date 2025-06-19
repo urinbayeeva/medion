@@ -1,34 +1,26 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:medion/firebase_options.dart';
-
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:medion/presentation/pages/core/app_init.dart';
 import 'package:medion/presentation/pages/core/my_app.dart';
 import 'package:medion/utils/app_config.dart';
 import 'package:medion/utils/constants.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:yandex_mapkit/yandex_mapkit.dart';
+
+import 'firebase_options.dart';
 
 Future<void> main() async {
   debugDisableShadows = true;
-  if (kDebugMode) {
-    Bloc.observer = LogBlocObserver();
-  }
 
   HttpOverrides.global = MyHttpOverrides();
 
   runZonedGuarded(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,

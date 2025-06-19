@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_bottom_icon.dart';
 import 'package:medion/presentation/component/c_icon_button.dart';
+import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class AdressItem extends StatelessWidget {
@@ -27,6 +28,7 @@ class AdressItem extends StatelessWidget {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Container(
         margin: EdgeInsets.only(bottom: 8.h),
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.r),
@@ -42,19 +44,14 @@ class AdressItem extends StatelessWidget {
                   height: 64.h,
                   width: 64.h,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.r),
-                      bottomLeft: Radius.circular(8.r),
-                    ),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8.r), bottomLeft: Radius.circular(8.r)),
                     color: colors.shade0,
                   ),
                   child: Center(
-                    child: Image.network(
-                      url,
-                      width: 40.w,
+                    child: CommonImage(
+                      imageUrl: url,
                       height: 40.h,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) => Image.asset(icons.medionIcon),
+                      width: 40.h,
                     ),
                   ),
                 ),
@@ -66,20 +63,14 @@ class AdressItem extends StatelessWidget {
                         name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: fonts.smallLink.copyWith(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: fonts.smallLink.copyWith(fontSize: 14.sp, fontWeight: FontWeight.w600),
                       ),
                       4.h.verticalSpace,
                       Text(
                         address,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: fonts.smallLink.copyWith(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
+                        style: fonts.smallLink.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w400),
                       ),
                     ],
                   ),

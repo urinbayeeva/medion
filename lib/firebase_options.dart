@@ -50,20 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBtB8vD9Z_vWR_2rAt2Vr7go1nR0MU-kzg',
-    appId: '1:742595836910:android:c3c07e00b8bf95b49cecff',
-    messagingSenderId: '742595836910',
-    projectId: 'save-smth',
-    storageBucket: 'save-smth.firebasestorage.app',
+    apiKey: 'AIzaSyCT_ioYGrSvYTKkSdJTtM7Qqga9_p7an_s',
+    appId: '1:851602102294:android:ef65fa572f1673ee687d37',
+    messagingSenderId: '851602102294',
+    projectId: 'aurora-aa792',
+    storageBucket: 'aurora-aa792.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDZdQ_bgQB81KD1UwrTy_MvPeL9J2iKKOk',
-    appId: '1:742595836910:ios:aeaa7b73aa74726e9cecff',
-    messagingSenderId: '742595836910',
-    projectId: 'save-smth',
-    storageBucket: 'save-smth.firebasestorage.app',
+    apiKey: 'AIzaSyAH8QhO2yLFUzEgo6jAIU_8TmjNLAjvBOA',
+    appId: '1:851602102294:ios:1bbfdca0a6f3afd1687d37',
+    messagingSenderId: '851602102294',
+    projectId: 'aurora-aa792',
+    storageBucket: 'aurora-aa792.firebasestorage.app',
     iosBundleId: 'com.example.medion',
   );
-
 }

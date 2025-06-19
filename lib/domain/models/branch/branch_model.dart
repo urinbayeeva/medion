@@ -2,6 +2,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
+import 'package:chopper/chopper.dart';
 import 'package:medion/utils/helpers/decode_html.dart';
 
 part 'branch_model.g.dart';
@@ -353,4 +354,56 @@ abstract class PrivacyModel implements Built<PrivacyModel, PrivacyModelBuilder> 
   PrivacyModel._();
 
   factory PrivacyModel([void Function(PrivacyModelBuilder) updates]) = _$PrivacyModel;
+}
+
+abstract class GetReviewModel implements Built<GetReviewModel, GetReviewModelBuilder> {
+  @BuiltValueField(wireName: "id")
+  int? get id;
+
+  @BuiltValueField(wireName: "ratings")
+  String? get ratings;
+
+  @BuiltValueField(wireName: "review")
+  String? get review;
+
+  @BuiltValueField(wireName: "company_id")
+  int? get companyId;
+
+  @BuiltValueField(wireName: "doctor_id")
+  int? get doctorId;
+
+  @BuiltValueField(wireName: "service_id")
+  int? get serviceId;
+
+  @BuiltValueField(wireName: "partner_id")
+  int? get partnerId;
+
+  GetReviewModel._();
+
+  factory GetReviewModel([void Function(GetReviewModelBuilder) updates]) = _$GetReviewModel;
+
+  static Serializer<GetReviewModel> get serializer => _$getReviewModelSerializer;
+}
+
+abstract class PostReviewModel implements Built<PostReviewModel, PostReviewModelBuilder> {
+  @BuiltValueField(wireName: "ratings")
+  String? get ratings;
+
+  @BuiltValueField(wireName: "review")
+  String? get review;
+
+  @BuiltValueField(wireName: "company_id")
+  int? get companyId;
+
+  @BuiltValueField(wireName: "patient_id")
+  int? get patientId;
+
+  @BuiltValueField(wireName: "is_anonym")
+  bool? get isAnonym;
+
+  PostReviewModel._();
+
+  factory PostReviewModel([void Function(PostReviewModelBuilder) updates]) = _$PostReviewModel;
+
+  static Serializer<PostReviewModel> get serializer => _$postReviewModelSerializer;
 }

@@ -5,11 +5,7 @@ import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/utils/constants.dart';
 
 class ApiService {
-  static Future<List<Service>> fetchServices({
-    List<int>? serviceIds,
-    int? doctorId,
-    int? days,
-  }) async {
+  static Future<List<Service>> fetchServices({List<int>? serviceIds, int? doctorId, int? days}) async {
     final dbService = await DBService.create;
     final token = dbService.token;
 
@@ -21,8 +17,7 @@ class ApiService {
     }
 
     // Use the correct endpoint (update to /booking/doctor/day if required)
-    final uri = Uri.parse('${Constants.baseUrlP}/booking/doctors')
-        .replace(queryParameters: {
+    final uri = Uri.parse('${Constants.baseUrlP}/booking/doctors').replace(queryParameters: {
       'days': days?.toString() ?? '1', // Default to 1 if days is null
     });
 
@@ -57,8 +52,7 @@ class ApiService {
         throw Exception('Unexpected response format: $responseData');
       }
     } else {
-      throw Exception(
-          'Failed to load data. Status code: ${response.statusCode}, Response: ${response.body}');
+      throw Exception('Failed to load data. Status code: ${response.statusCode}, Response: ${response.body}');
     }
   }
 }

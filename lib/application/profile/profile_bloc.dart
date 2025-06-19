@@ -14,7 +14,9 @@ import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/utils/constants.dart';
 
 part 'profile_bloc.freezed.dart';
+
 part 'profile_event.dart';
+
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
@@ -27,8 +29,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Future<void> _pickImage(_PickImage event, Emitter<ProfileState> emit) async {
-    final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       final croppedFile = await _cropImage(File(pickedFile.path));
@@ -59,8 +60,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     return croppedFile != null ? File(croppedFile.path) : null;
   }
 
-  Future<void> _uploadImage(
-      _UploadImage event, Emitter<ProfileState> emit) async {
+  Future<void> _uploadImage(_UploadImage event, Emitter<ProfileState> emit) async {
     EasyLoading.show(status: "Loading..".tr());
     if (state.pickedImagePath == null) return;
 

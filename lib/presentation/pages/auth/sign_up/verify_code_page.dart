@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
@@ -85,8 +86,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
               ),
               titlePadding: const EdgeInsets.only(top: 16),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-              insetPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
               title: const Center(
                 child: Column(
                   children: [
@@ -109,10 +109,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                     return ListTile(
                       contentPadding: EdgeInsets.zero,
                       title: Text(user.name),
-                      trailing: isSelected
-                          ? const Icon(Icons.check_circle,
-                              color: Style.error500)
-                          : null,
+                      trailing: isSelected ? const Icon(Icons.check_circle, color: Style.error500) : null,
                       onTap: () {
                         setState(() => selectedUser = user);
                       },
@@ -169,6 +166,11 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
     return Unfocuser(
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
+          if (state.verifyStatus.isSuccess) {
+            context.read<DBService>().setBool(isSaved: true, key: DBService.intro);
+            context.read<DBService>().setLang(isSaved: true);
+          }
+
           if (state.registrationResponse != null) {
             final response = state.registrationResponse!;
 
@@ -182,8 +184,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                   AppRoutes.getMainPage(0),
                   (route) => false,
                 );
-              } else if (state.errorSendCode != true &&
-                  state.isNewPatient == true) {
+              } else if (state.errorSendCode != true && state.isNewPatient == true) {
                 Navigator.pushAndRemoveUntil(
                   context,
                   AppRoutes.getDataEntryPage(widget.phoneNumber),
@@ -213,18 +214,14 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("enter_verification_code".tr(),
-                                style: fonts.displaySecond),
+                            Text("enter_verification_code".tr(), style: fonts.displaySecond),
                             8.h.verticalSpace,
                             Text("to_enter_make_appoints".tr(),
-                                style: fonts.smallText.copyWith(
-                                    color: colors.neutral700,
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w400)),
+                                style: fonts.smallText
+                                    .copyWith(color: colors.neutral700, fontSize: 15.sp, fontWeight: FontWeight.w400)),
                             16.h.verticalSpace,
                             Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 24.h, horizontal: 12.w),
+                              padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 12.w),
                               child: SizedBox(
                                 height: 52.h,
                                 child: FocusScope(
@@ -283,24 +280,19 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                               onTap: () {
                                 if (_smsController.text.length != 4) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            'please_enter_full_code'.tr())),
+                                    SnackBar(content: Text('please_enter_full_code'.tr())),
                                   );
                                   return;
                                 }
                                 context.read<AuthBloc>().add(
                                       AuthEvent.verificationSend(
-                                        request: RegisterReq((p0) => p0
-                                          ..phoneNumber = widget.phoneNumber
-                                          ..code = _smsController.text),
+                                        request: RegisterReq(
+                                          (p0) => p0
+                                            ..phoneNumber = widget.phoneNumber
+                                            ..code = _smsController.text,
+                                        ),
                                       ),
                                     );
-                                context.read<DBService>().setBool(
-                                    isSaved: true, key: DBService.intro);
-                                context
-                                    .read<DBService>()
-                                    .setLang(isSaved: true);
                               },
                             ),
                             27.h.verticalSpace,
@@ -346,6 +338,5 @@ class CustomColorBuilder extends ColorBuilder {
           maxIndex == other.maxIndex;
 
   @override
-  int get hashCode =>
-      enteredColor.hashCode ^ notEnteredColor.hashCode ^ maxIndex.hashCode;
+  int get hashCode => enteredColor.hashCode ^ notEnteredColor.hashCode ^ maxIndex.hashCode;
 }

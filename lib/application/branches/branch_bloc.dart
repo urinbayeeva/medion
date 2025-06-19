@@ -24,6 +24,41 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
     on<_FetchOfferta>(_fetchOfferta);
     on<_FetchActivity>(_fetchActivity);
     on<_GetBranchDetail>(_getBranchDetail);
+    on<_GetReviews>(_getReview);
+    on<_PostReviews>(_postReview);
+  }
+
+  FutureOr<void> _getReview(_GetReviews event, Emitter<BranchState> emit) async {
+    emit(state.copyWith(getReviewStatus: FormzSubmissionStatus.inProgress));
+    final res = await _repository.getReview();
+
+    res.fold(
+      (failure) {
+        emit(state.copyWith(getReviewStatus: FormzSubmissionStatus.failure));
+      },
+      (res) {
+        emit(state.copyWith(
+          reviews: res,
+          getReviewStatus: FormzSubmissionStatus.success,
+        ));
+      },
+    );
+  }
+
+  FutureOr<void> _postReview(_PostReviews event, Emitter<BranchState> emit) async {
+    emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.inProgress));
+    final res = await _repository.postReview(review: event.review);
+
+    res.fold(
+      (failure) {
+        emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.failure));
+      },
+      (res) {
+        emit(state.copyWith(
+          postReviewStatus: FormzSubmissionStatus.success,
+        ));
+      },
+    );
   }
 
   FutureOr<void> _getBranchDetail(_GetBranchDetail event, Emitter<BranchState> emit) async {

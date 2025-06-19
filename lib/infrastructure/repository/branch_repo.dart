@@ -121,4 +121,33 @@ class BranchRepository implements IBranchRepository {
       return left(handleError(e));
     }
   }
+
+  @override
+  Future<Either<ResponseFailure, void>> postReview({required PostReviewModel review}) async {
+    try {
+      final res = await studyService.postReviews(review: review);
+      if (res.isSuccessful && res.body != null) {
+        return right(null);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, List<GetReviewModel>>> getReview() async {
+    try {
+      final res = await studyService.getReviews();
+      if (res.isSuccessful && res.body != null) {
+        List<GetReviewModel> model = (res.body?.toList()) ?? <GetReviewModel>[];
+        return right(model);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      return left(handleError(e));
+    }
+  }
 }

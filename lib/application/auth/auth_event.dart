@@ -4,17 +4,11 @@ part of 'auth_bloc.dart';
 abstract class AuthEvent with _$AuthEvent {
   const factory AuthEvent.checkAuth() = _CheckAuth;
 
-  const factory AuthEvent.verificationSend({
-    required RegisterReq request,
-  }) = _VerificationSend;
+  const factory AuthEvent.verificationSend({required RegisterReq request}) = _VerificationSend;
 
-  const factory AuthEvent.sendPhoneNumber({
-    required PhoneNumberSendReq request,
-  }) = _SendPhoneNumber;
+  const factory AuthEvent.sendPhoneNumber({required PhoneNumberSendReq request}) = _SendPhoneNumber;
 
-  const factory AuthEvent.sendUserInfo({
-    required CreateInfoReq request,
-  }) = _SendUserInfo;
+  const factory AuthEvent.sendUserInfo({required CreateInfoReq request}) = _SendUserInfo;
 
   const factory AuthEvent.fetchPatientInfo() = _FetchPatientInfo;
 
@@ -25,5 +19,6 @@ abstract class AuthEvent with _$AuthEvent {
   const factory AuthEvent.fetchPaymentUrls() = _FetchPaymentUrls;
 
   const factory AuthEvent.fetchPatientAnalyze() = _FetchPatientAnalyze;
+
   const factory AuthEvent.fetchMyWallet() = _FetchMyWallet;
 }

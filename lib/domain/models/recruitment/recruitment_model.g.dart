@@ -425,15 +425,22 @@ class _$ResultVacancyModelSerializer
   Iterable<Object?> serialize(
       Serializers serializers, ResultVacancyModel object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'status',
-      serializers.serialize(object.status,
-          specifiedType: const FullType(String)),
-      'message',
-      serializers.serialize(object.message,
-          specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.status;
+    if (value != null) {
+      result
+        ..add('status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.message;
+    if (value != null) {
+      result
+        ..add('message')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -451,11 +458,11 @@ class _$ResultVacancyModelSerializer
       switch (key) {
         case 'status':
           result.status = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'message':
           result.message = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -1318,21 +1325,15 @@ class UploadVacancyModelBuilder
 
 class _$ResultVacancyModel extends ResultVacancyModel {
   @override
-  final String status;
+  final String? status;
   @override
-  final String message;
+  final String? message;
 
   factory _$ResultVacancyModel(
           [void Function(ResultVacancyModelBuilder)? updates]) =>
       (new ResultVacancyModelBuilder()..update(updates))._build();
 
-  _$ResultVacancyModel._({required this.status, required this.message})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        status, r'ResultVacancyModel', 'status');
-    BuiltValueNullFieldError.checkNotNull(
-        message, r'ResultVacancyModel', 'message');
-  }
+  _$ResultVacancyModel._({this.status, this.message}) : super._();
 
   @override
   ResultVacancyModel rebuild(
@@ -1410,10 +1411,8 @@ class ResultVacancyModelBuilder
   _$ResultVacancyModel _build() {
     final _$result = _$v ??
         new _$ResultVacancyModel._(
-          status: BuiltValueNullFieldError.checkNotNull(
-              status, r'ResultVacancyModel', 'status'),
-          message: BuiltValueNullFieldError.checkNotNull(
-              message, r'ResultVacancyModel', 'message'),
+          status: status,
+          message: message,
         );
     replace(_$result);
     return _$result;

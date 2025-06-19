@@ -214,19 +214,19 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
     );
   }
 
-  Widget _buildSearchResults(state, colors, fonts, icons) {
-    final allDoctors = state.doctors?.doctorData.map((doctor) {
-          return {
-            'name': doctor.name.toString(),
-            'profession': doctor.specialty?.toString() ?? 'N/A',
-            'image': doctor.image?.toString() ?? '',
-            'id': doctor.id.toString(),
-            'status': doctor.specialty?.toString() ?? 'N/A',
-            'candidateScience': false,
-            'work_experience': doctor.workExperience,
-          };
-        }).toList() ??
-        [];
+  Widget _buildSearchResults(DoctorState state, colors, fonts, icons) {
+    final allDoctors = (state.doctors?.doctorData?.toList() ?? []).map((doctor) {
+      return {
+        'name': doctor.name.toString(),
+        'profession': doctor.specialty?.toString() ?? 'N/A',
+        'image': doctor.image?.toString() ?? '',
+        'id': doctor.id.toString(),
+        'status': doctor.specialty?.toString() ?? 'N/A',
+        'candidateScience': false,
+        'work_experience': doctor.workExperience,
+        'academic_rank': doctor.academicRank,
+      };
+    }).toList();
 
     final searchResults = searchQuery.isEmpty
         ? []
