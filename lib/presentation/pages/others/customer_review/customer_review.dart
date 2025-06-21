@@ -11,6 +11,7 @@ import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/customer_review/review_card.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -36,81 +37,52 @@ class _CustomerReviewState extends State<CustomerReview> {
   Widget build(BuildContext context) {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
-        return BlocBuilder<BranchBloc, BranchState>(
-          builder: (context, state) {
-            return Scaffold(
-              backgroundColor: colors.backgroundColor,
-              body: SingleChildScrollView(
-                child: Column(
-                  spacing: 1.h,
-                  children: [
-                    CAppBar(
-                      title: "customers_reviews".tr(),
-                      isBack: true,
-                      showBottomBar: true,
-                      centerTitle: true,
-                      trailing: AnimationButtonEffect(
-                        onTap: () {},
-                        child: icons.filter.svg(width: 20.w, height: 20.h),
-                      ),
-                    ),
-                    BlocBuilder<BranchBloc, BranchState>(
-                      builder: (context, state) {
-                        if (state.getReviewStatus.isFailure) {
-                          return const Padding(
-                            padding: EdgeInsets.only(top: 120),
-                            child: Center(child: CupertinoActivityIndicator(color: Colors.green)),
-                          );
-                        }
-                        if (state.getReviewStatus.isInProgress || state.getReviewStatus.isInitial) {
-                          return const Padding(
-                            padding: EdgeInsets.only(top: 120),
-                            child: Center(child: CupertinoActivityIndicator(color: Colors.green)),
-                          );
-                        }
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            DecoratedBox(
-                              decoration: BoxDecoration(color: colors.shade0),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    spacing: 12,
-                                    children: [
-                                      Text("customers_reviews".tr(), style: fonts.regularMain),
-                                      CustomTextField(
-                                        controller: _controller,
-                                        onChanged: (value) {},
-                                        hintText: 'search_for_doctors'.tr(),
-                                      ),
-                                      const SizedBox.shrink(),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            ...List.generate(
-                              reviews.length,
-                              (i) {
-                                final review = reviews[i];
-                                return ReviewCard(review: review, colors: colors, icons: icons, fonts: fonts);
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    )
-                  ],
+        return Scaffold(
+          backgroundColor: colors.backgroundColor,
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: colors.shade0,
+            foregroundColor: colors.darkMode900,
+            scrolledUnderElevation: 0,
+            leading: WScaleAnimation(
+              child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+              onTap: () => Navigator.of(context).pop(),
+            ),
+            title: Text("customers_reviews".tr(), style: fonts.regularMain),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: WScaleAnimation(
+                  child: icons.filter.svg(width: 20.w, height: 20.h),
+                  onTap: () => Navigator.of(context).pop(),
                 ),
               ),
-            );
-          },
+            ],
+          ),
+          body: BlocBuilder<BranchBloc, BranchState>(
+            builder: (context, state) {
+              if (state.getReviewStatus.isFailure) {
+                return const Padding(
+                  padding: EdgeInsets.only(top: 120),
+                  child: Center(child: CupertinoActivityIndicator(color: Colors.green)),
+                );
+              }
+              if (state.getReviewStatus.isInProgress || state.getReviewStatus.isInitial) {
+                return const Padding(
+                  padding: EdgeInsets.only(top: 120),
+                  child: Center(child: CupertinoActivityIndicator(color: Colors.green)),
+                );
+              }
+              return ListView.builder(
+                itemCount: reviews.length,
+                itemBuilder: (context, index) {
+                  final review = reviews[index];
+                  return ReviewCard(review: review, colors: colors, icons: icons, fonts: fonts);
+                },
+              );
+            },
+          ),
         );
       },
     );
@@ -122,6 +94,30 @@ class _CustomerReviewState extends State<CustomerReview> {
     super.dispose();
   }
 }
+
+Widget tf(colors, controller, fonts) => DecoratedBox(
+      decoration: BoxDecoration(color: colors.shade0),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 12,
+            children: [
+              Text("customers_reviews".tr(), style: fonts.regularMain),
+              CustomTextField(
+                controller: controller,
+                onChanged: (value) {},
+                hintText: 'search_for_doctors'.tr(),
+              ),
+              const SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
+    );
 
 const reviews = <CustomerReviewModel>[
   CustomerReviewModel(

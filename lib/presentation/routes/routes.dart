@@ -78,13 +78,9 @@ class AppRoutes {
     required BuildContext context,
     required bool notConnection,
     required bool isLang,
-    required bool authRequired,
     Uri? initLink,
   }) {
     ScreenUtil.init(context, designSize: const Size(390, 846));
-    if (authRequired) {
-      return getSignUpPage();
-    }
 
     if (notConnection) {
       return getNetworkNotFound();

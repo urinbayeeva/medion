@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:built_collection/built_collection.dart';
+
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:http/http.dart' as http;
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/common/token_ext.dart';
@@ -12,13 +12,10 @@ import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
-import 'package:medion/domain/success_model/response_model.dart';
 import 'package:medion/domain/success_model/success_model.dart';
 import 'package:medion/domain/upload_image/upload_image.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
-import 'package:medion/infrastructure/services/log_service.dart';
-import 'package:http/http.dart' as http;
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/utils/constants.dart';
 
@@ -53,8 +50,8 @@ class AuthRepository implements IAuthFacade {
         // LogService.e("Refresh failed: ${response.statusCode} - ${response.error}");
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
-    } catch (e, stackTrace) {
-      // LogService.e("Refresh error: $e\nStackTrace: $stackTrace");
+    } catch (e) {
+      // LogService.e("Refresh error: $e\nStackTrace:");
       return left(handleError(e));
     }
   }
@@ -150,8 +147,8 @@ class AuthRepository implements IAuthFacade {
 
         return left(InvalidCredentials(message: errorMessage));
       }
-    } catch (e, stackTrace) {
-      //LogService.e("Error in sendPhoneNumber: ${e.toString()} \nStackTrace: $stackTrace");
+    } catch (e) {
+      //LogService.e("Error in sendPhoneNumber: ${e.toString()} \nStackTrace:");
       return left(
         InvalidCredentials(message: 'too_many_attempts'.tr()),
       );
@@ -284,8 +281,8 @@ class AuthRepository implements IAuthFacade {
         final errorMsg = response.error?.toString() ?? 'wallet_fetch_failed'.tr();
         return left(InvalidCredentials(message: errorMsg));
       }
-    } catch (e, stackTrace) {
-      //LogService.e("getMyWallet() error: $e\nStackTrace: $stackTrace");
+    } catch (e) {
+      //LogService.e("getMyWallet() error: $e\nStackTrace:");
       return left(handleError(e));
     }
   }

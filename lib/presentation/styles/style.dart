@@ -89,6 +89,8 @@ class Style {
   static const Color transparent = Colors.transparent;
   static const Color med1BoxColor = Color(0xFFA6D9E8);
 
+  static const Color green = Color(0xFF1CB57A);
+
   static const BoxShadow blueIconShadow = BoxShadow(
     color: Color(0x20696A6F),
     blurRadius: 12,

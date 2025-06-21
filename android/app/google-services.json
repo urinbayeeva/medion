@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "851602102294",
+    "project_id": "aurora-aa792",
+    "storage_bucket": "aurora-aa792.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851602102294:android:ef65fa572f1673ee687d37",
+        "android_client_info": {
+          "package_name": "com.example.medion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT_ioYGrSvYTKkSdJTtM7Qqga9_p7an_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

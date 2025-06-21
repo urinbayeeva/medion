@@ -56,6 +56,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (failure) {
           if (failure.message.contains("invalid") || failure.message.contains("credential")) {
             emit(state.copyWith(userStatus: UserStatus.unAuthed));
+            _dbService.setLang(isSaved: false);
             log("auth check user get IF INIT FUNCTION USER STATUS: ${state.userStatus.name}");
           }
 
@@ -161,10 +162,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
-  FutureOr<void> _fetchPatientInfoHandler(
-    _FetchPatientInfo event,
-    Emitter<AuthState> emit,
-  ) async {
+  FutureOr<void> _fetchPatientInfoHandler(_FetchPatientInfo event, Emitter<AuthState> emit) async {
     if (state.patientInfo != null) {
       return;
     }

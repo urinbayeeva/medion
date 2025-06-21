@@ -16,30 +16,26 @@ class OthersPage extends StatelessWidget {
       builder: (context, colors, fonts, icons, controller) {
         return Scaffold(
           backgroundColor: colors.backgroundColor,
-          body: Column(
-            children: [
-              CAppBar(
-                title: "more".tr(),
-                centerTitle: true,
-                isBack: false,
-                trailing: 24.w.horizontalSpace,
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _sectionHeader("about_the_company".tr(), fonts),
-                      _sectionContent(othersData),
-                      // _sectionHeader("others".tr(), fonts),
-                      // _sectionContentSecond(othersDataSecond),
-                      60.h.verticalSpace,
-                    ],
-                  ),
-                ),
-              ),
-            ],
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: colors.shade0,
+            foregroundColor: colors.darkMode900,
+            scrolledUnderElevation: 0,
+            title: Text("more".tr(), style: fonts.regularMain),
+          ),
+          body: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _sectionHeader("about_the_company".tr(), fonts),
+                _sectionContent(othersData),
+                // _sectionHeader("others".tr(), fonts),
+                // _sectionContentSecond(othersDataSecond),
+                60.h.verticalSpace,
+              ],
+            ),
           ),
         );
       },

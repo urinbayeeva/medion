@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/pages/others/customer_review/customer_review.dart';
+import 'package:medion/presentation/pages/others/docs/docs_page.dart';
 import 'package:medion/presentation/pages/others/feedbacks/feedback_view.dart';
 import 'package:medion/presentation/pages/others/team/team_page.dart';
 import 'package:medion/presentation/routes/routes.dart';
@@ -82,6 +83,8 @@ class OthersPageComp extends StatelessWidget {
                           navigateTo(MaterialPageRoute(builder: (context) => const CustomerReview()));
                         case 14:
                           navigateTo(MaterialPageRoute(builder: (context) => const FeedbackView()));
+                        case 15:
+                          navigateTo(MaterialPageRoute(builder: (context) => const DocsPage()));
 
                         default:
                           navigateTo(AppRoutes.getUnderDevPage(appBarTitle: item["title"]));

@@ -2,107 +2,70 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:formz/formz.dart';
-import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
-import 'package:medion/presentation/component/animation_effect.dart'
-    show AnimationButtonEffect;
-import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/presentation/component/cached_image_component.dart';
-import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
-import 'package:medion/presentation/pages/appointment/appointment_page.dart';
-import 'package:medion/presentation/pages/appointment/component/service_selection_model.dart';
-import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
-import 'package:medion/presentation/pages/home/med_services/med_service_choose.dart';
+import 'package:medion/presentation/pages/others/component/common_image.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
-class MedServicesPage extends StatefulWidget {
+class MedServicesPage extends StatelessWidget {
   const MedServicesPage({super.key});
 
   @override
-  State<MedServicesPage> createState() => _MedServicesPageState();
-}
-
-class _MedServicesPageState extends State<MedServicesPage> {
-  Set<int>? selectedServiceIds;
-  int chose = 0;
-
-  @override
-  void initState() {
-    context.read<HomeBloc>().add(const HomeEvent.fetchMedicalServices());
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Scaffold(
-        backgroundColor: colors.backgroundColor,
-        body: Column(
-          children: [
-            CAppBar(
-              title: "med_services".tr(),
-              isBack: true,
-              centerTitle: true,
-              trailing: 24.w.horizontalSpace,
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return Scaffold(
+          backgroundColor: colors.backgroundColor,
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: colors.shade0,
+            foregroundColor: colors.darkMode900,
+            scrolledUnderElevation: 0,
+            leading: WScaleAnimation(
+              child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+              onTap: () => Navigator.of(context).pop(),
             ),
-            Expanded(
-              child: BlocBuilder<HomeBloc, HomeState>(
-                builder: (context, state) {
-                  print("Medical services: ${state.medicalServices}");
-                  if (state.loading || state.medicalServices.isEmpty) {
-                    return _buildShimmerView(colors);
-                  }
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          itemCount: state.medicalServices.length,
-                          itemBuilder: (context, index) {
-                            return MedicalDirectionItem(
-                              title: state.medicalServices[index].title,
-                              subtitle: state.medicalServices[index].info,
-                              iconPath: state.medicalServices[index].image,
-                              onTap: () {
-                                final categoryId =
-                                    state.medicalServices[index].categoryId;
-                                final intId = categoryId is int
-                                    ? categoryId
-                                    : int.parse(categoryId.toString());
-                                print("MEDICAL SERVICE ID $intId");
-                                context
-                                    .read<BottomNavBarController>()
-                                    .changeNavBar(true);
-                                Navigator.push(
-                                  context,
-                                  AppRoutes.getDirectionInfoPage(
-                                    id: intId,
-                                    name: state.medicalServices[index].title,
-                                  ),
-                                ).then((_) {
-                                  context
-                                      .read<BottomNavBarController>()
-                                      .changeNavBar(false);
-                                });
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                      60.h.verticalSpace,
-                    ],
+            title: Text("med_services".tr(), style: fonts.regularMain),
+          ),
+          body: BlocBuilder<HomeBloc, HomeState>(
+            buildWhen: (o, n) {
+              final service = o.medicalServices != n.medicalServices;
+              final length = o.medicalServices.length != n.medicalServices.length;
+              return service || length;
+            },
+            builder: (context, state) {
+              if (state.loading || state.medicalServices.isEmpty) {
+                return _buildShimmerView(colors);
+              }
+              return ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                itemCount: state.medicalServices.length,
+                itemBuilder: (context, index) {
+                  return MedServicesCard(
+                    title: state.medicalServices[index].title,
+                    subtitle: state.medicalServices[index].info,
+                    iconPath: state.medicalServices[index].image,
+                    onTap: () {
+                      final categoryId = state.medicalServices[index].categoryId;
+                      final intId = categoryId is int ? categoryId : int.parse(categoryId.toString());
+
+                      Navigator.push(
+                        context,
+                        AppRoutes.getDirectionInfoPage(id: intId, name: state.medicalServices[index].title),
+                      );
+                    },
                   );
                 },
-              ),
-            ),
-          ],
-        ),
-      );
-    });
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildShimmerView(dynamic colors) {
@@ -112,12 +75,90 @@ class _MedServicesPageState extends State<MedServicesPage> {
         itemCount: 5, // Show 5 placeholders
         itemBuilder: (context, index) {
           return ShimmerContainer(
-            height: 100.h, // Adjust to match MedicalDirectionItem height
+            height: 100.h,
             borderRadius: 8.r,
             margin: EdgeInsets.only(bottom: 12.h),
           );
         },
       ),
+    );
+  }
+}
+
+class MedServicesCard extends StatelessWidget {
+  final String? title;
+  final String? subtitle;
+  final String? iconPath;
+  final VoidCallback onTap;
+
+  const MedServicesCard({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.iconPath,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return GestureDetector(
+          onTap: onTap,
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 4.h),
+            decoration: BoxDecoration(
+              color: colors.shade0,
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            child: ListTile(
+              leading: ClipRRect(
+                borderRadius: BorderRadius.circular(8.r),
+                child: iconPath == null || iconPath == ""
+                    ? Container(
+                        padding: EdgeInsets.all(4.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          color: colors.error500.withValues(alpha: 0.05),
+                        ),
+                        child: icons.stethoscope.svg(
+                          color: colors.error500,
+                          width: 50.w,
+                          height: 50.h,
+                        ),
+                      )
+                    : Container(
+                        padding: EdgeInsets.all(4.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          color: colors.error500.withValues(alpha: 0.05),
+                        ),
+                        child: CommonImage(
+                          imageUrl: iconPath!,
+                          width: 50.w,
+                          height: 50.h,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+              ),
+              title: Text(
+                title ?? "Unknown Service",
+                style: fonts.smallSemLink.copyWith(fontSize: 15.sp, fontWeight: FontWeight.w600),
+              ),
+              subtitle: Text(
+                subtitle == "null" ? "" : subtitle!,
+                maxLines: 6,
+                overflow: TextOverflow.ellipsis,
+                style: fonts.xSmallText.copyWith(
+                  color: colors.neutral600,
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

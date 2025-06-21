@@ -26,6 +26,7 @@ import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   final int? index;
+
   const MainPage({super.key, this.index});
 
   @override
@@ -37,8 +38,7 @@ class _MainPageState extends State<MainPage> {
   late final List<Widget> pageList;
   late final PersistentTabController _controller;
   late final DynamicLinkService dynamicLinkService;
-  late final StreamSubscription<List<ConnectivityResult>>
-      _connectivitySubscription;
+  late final StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
   final Connectivity _connectivity = Connectivity();
 
   @override
@@ -53,21 +53,7 @@ class _MainPageState extends State<MainPage> {
       const HomePage(),
       const BookingFirstPage(),
       const MyVisitsPage(),
-      BlocProvider(
-        create: (context) {
-          final dbService = context.read<DBService>();
-          return AuthBloc(
-            AuthRepository(
-              dbService,
-              AuthService.create(dbService),
-              PatientService.create(dbService),
-              RefreshService.create(dbService),
-            ),
-            dbService,
-          );
-        },
-        child: const ProfilePage(),
-      ),
+      const ProfilePage(),
       const OthersPage(),
     ];
   }

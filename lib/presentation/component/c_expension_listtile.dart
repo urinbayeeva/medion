@@ -32,56 +32,58 @@ class _CustomExpansionListTileState extends State<CustomExpansionListTile> {
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Container(
-        margin: EdgeInsets.only(bottom: 8.h),
-        decoration: BoxDecoration(
-          color: colors.shade0,
-          borderRadius: BorderRadius.circular(8.r),
-        ),
-        child: Theme(
-          data: Theme.of(context).copyWith(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            dividerColor: Colors.transparent,
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return Container(
+          margin: EdgeInsets.only(bottom: 8.h),
+          decoration: BoxDecoration(
+            color: colors.shade0,
+            borderRadius: BorderRadius.circular(8.r),
           ),
-          child: ExpansionTile(
-            iconColor: colors.error500,
-            // initiallyExpanded: true,
-            key: _expansionTileKey,
-            childrenPadding: EdgeInsets.symmetric(horizontal: 16.w),
-            collapsedBackgroundColor: Colors.transparent,
-            backgroundColor: Colors.transparent,
-            controlAffinity: ListTileControlAffinity.trailing,
-            title: widget.hasIcon != null
-                ? Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset(widget.hasIcon!),
-                      6.w.horizontalSpace,
-                      Text(
-                        widget.title,
-                        style: fonts.smallSemLink.copyWith(
-                          color: colors.primary900,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13.sp,
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              dividerColor: Colors.transparent,
+            ),
+            child: ExpansionTile(
+              iconColor: colors.error500,
+              // initiallyExpanded: true,
+              key: _expansionTileKey,
+              childrenPadding: EdgeInsets.symmetric(horizontal: 16.w),
+              collapsedBackgroundColor: Colors.transparent,
+              backgroundColor: Colors.transparent,
+              controlAffinity: ListTileControlAffinity.trailing,
+              title: widget.hasIcon != null
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(widget.hasIcon!),
+                        6.w.horizontalSpace,
+                        Text(
+                          widget.title,
+                          style: fonts.smallSemLink.copyWith(
+                            color: colors.primary900,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13.sp,
+                          ),
                         ),
+                      ],
+                    )
+                  : Text(
+                      widget.title,
+                      style: fonts.smallSemLink.copyWith(
+                        color: colors.primary900,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13.sp,
                       ),
-                    ],
-                  )
-                : Text(
-                    widget.title,
-                    style: fonts.smallSemLink.copyWith(
-                      color: colors.primary900,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13.sp,
                     ),
-                  ),
-            subtitle: widget.subtitle != null ? Text(widget.subtitle!) : null,
-            children: widget.children, // Correctly passing the list of widgets
+              subtitle: widget.subtitle != null ? Text(widget.subtitle!) : null,
+              children: widget.children, // Correctly passing the list of widgets
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

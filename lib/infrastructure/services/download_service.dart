@@ -5,7 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:dio/dio.dart';
 
 class FileDownloadService {
-  final Dio _dio = Dio();
+  final Dio _dio = Dio(BaseOptions())..interceptors.add(LogInterceptor());
 
   Future<void> downloadPDFWithProgress(
     BuildContext context,
@@ -97,8 +97,7 @@ class FileDownloadService {
           context: context,
           builder: (context) => AlertDialog(
             title: Text("Permission Required"),
-            content: Text(
-                "Storage permission is required to save the file. Please enable it in settings."),
+            content: Text("Storage permission is required to save the file. Please enable it in settings."),
             actions: [
               TextButton(
                 onPressed: () {

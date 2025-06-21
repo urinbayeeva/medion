@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +12,14 @@ import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
+import 'package:medion/application/notification/notification_bloc.dart';
 import 'package:medion/application/payment_provider.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
 import 'package:medion/application/selected_provider.dart';
 import 'package:medion/application/service_page_provider.dart';
 import 'package:medion/application/services/time_select_provider.dart';
 import 'package:medion/application/visit/visit_bloc.dart';
+import 'package:medion/domain/abstract_repo/notification/notification_repository.dart';
 import 'package:medion/domain/models/currency_change.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
@@ -30,6 +30,7 @@ import 'package:medion/infrastructure/repository/company_service.dart';
 import 'package:medion/infrastructure/repository/content_service.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
+import 'package:medion/infrastructure/repository/notification_repo_impl.dart';
 import 'package:medion/infrastructure/repository/visit_create_repo.dart';
 import 'package:medion/infrastructure/services/alice/alice.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_configuration.dart';
@@ -103,80 +104,41 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<BookingBloc>(
           create: (context) => BookingBloc(
-            BookingRepository(
-              BookingService.create(dbService),
-            ),
+            BookingRepository(BookingService.create(dbService)),
+          ),
+        ),
+        BlocProvider<NotificationBloc>(
+          create: (context) => NotificationBloc(
+            NotificationRepoImpl(service: NotificationService.create(dbService)),
           ),
         ),
       ],
       child: OnUnFocusTap(
         child: BlocProvider<ProfileBloc>(
           create: (_) => ProfileBloc(),
-          child: BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (o, n) => o.userStatus.name != n.userStatus.name,
-            builder: (ctx, bState) {
-              if (bState.userStatus.isUnknown) {
-                return MaterialApp(
-                  debugShowCheckedModeBanner: kDebugMode,
-                  localizationsDelegates: context.localizationDelegates,
-                  supportedLocales: context.supportedLocales,
-                  locale: context.locale,
-                  home: Scaffold(
-                    backgroundColor: Color(0xffffffff),
-                    body: Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          spacing: 12,
-                          children: [
-                            SvgPicture.asset("assets/icons/fammedion.svg", height: 120),
-                            LinearProgressIndicator(
-                              color: Colors.red,
-                              backgroundColor: Colors.red.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
+          child: MaterialApp(
+            navigatorKey: alice.getNavigatorKey(),
+            debugShowCheckedModeBanner: kDebugMode,
+            builder: (context, child) {
+              child = FlutterSmartDialog.init()(context, child);
+              return FlavorBanner(child: child);
+            },
+            navigatorObservers: [
+              FlutterSmartDialog.observer,
+              // AnalyticsService().getAnalyticsObserver(),
+              SentryNavigatorObserver(),
+            ],
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            onGenerateRoute: (_) {
+              if (onGetContext != null) {
+                onGetContext!(context);
               }
-
-              return MaterialApp(
-                navigatorKey: alice.getNavigatorKey(),
-                debugShowCheckedModeBanner: kDebugMode,
-                builder: (context, child) {
-                  child = FlutterSmartDialog.init()(context, child);
-                  return FlavorBanner(
-                    child: child,
-                  );
-                },
-                navigatorObservers: [
-                  FlutterSmartDialog.observer,
-                  // AnalyticsService().getAnalyticsObserver(),
-                  SentryNavigatorObserver(),
-                ],
-                localizationsDelegates: context.localizationDelegates,
-                supportedLocales: context.supportedLocales,
-                locale: context.locale,
-                onGenerateRoute: (_) {
-                  if (onGetContext != null) {
-                    onGetContext!(context);
-                  }
-                  // log("User status authRequired value: ${authRequired.value}");
-                  log("User status authRequired status name: ${bState.userStatus.name}");
-                  log("User status authRequired status bool: ${bState.userStatus.isUnAuthed}");
-                  return AppRoutes.onGenerateRoute(
-                    authRequired: bState.userStatus.isUnAuthed,
-                    context: context,
-                    notConnection: !connectivityX,
-                    isLang: dbService.getLang ?? true,
-                  );
-                },
+              return AppRoutes.onGenerateRoute(
+                context: context,
+                notConnection: !connectivityX,
+                isLang: dbService.getLang ?? true,
               );
             },
           ),

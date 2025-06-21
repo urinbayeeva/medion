@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,8 @@ import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
+import 'package:medion/presentation/component/w_html/w_html.dart';
+import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/pages/others/education/widgets/study_info_card.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:shimmer/shimmer.dart';
@@ -33,6 +37,7 @@ class _EducationPageState extends State<EducationPage> {
         return Scaffold(
           backgroundColor: colors.backgroundColor,
           body: Column(
+            spacing: 1,
             children: [
               CAppBar(
                 title: "education".tr(),
@@ -74,76 +79,84 @@ class _EducationPageState extends State<EducationPage> {
                     }
 
                     // Show shimmer when loading
-                    if (state.loading) {
-                      return _buildShimmerLoading(colors, fonts);
-                    }
+                    if (state.loading) return _buildShimmerLoading(colors, fonts);
 
                     final studyItems = _getStudyItems(state);
-
-                    // if (state.study == null ||
-                    //     state.study!.courses == null ||
-                    //     state.study!.courses!.isEmpty) {
-                    //   return Center(
-                    //     child: Text(
-                    //       "no_result_found".tr(),
-                    //       style: fonts.regularMain,
-                    //     ),
-                    //   );
-                    // }
 
                     return ListView(
                       padding: EdgeInsets.zero,
                       children: [
-                        if (state.study?.bannerImage != null && state.study!.bannerImage!.isNotEmpty) ...[
+                        if (state.study?.decodedDescription != null && state.study!.decodedDescription.isNotEmpty) ...{
+                          Container(
+                            decoration: BoxDecoration(
+                              color: colors.shade0,
+                              image: DecorationImage(
+                                alignment: Alignment.centerLeft,
+                                colorFilter: const ColorFilter.mode(Colors.red, BlendMode.srcIn),
+                                fit: BoxFit.contain,
+                                image: AssetImage(icons.pattern),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  state.study?.decodedDescription ?? '',
+                                  style: fonts.xSmallMain,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ),
+                        },
+                        if (state.study?.name != null && state.study!.name!.isNotEmpty) ...[
                           Stack(
                             children: [
-                              // Background image
-                              CachedNetworkImage(
-                                imageUrl: state.study?.bannerImage ?? '',
+                              CommonImage(
+                                imageUrl: state.study!.bannerLink!,
                                 fit: BoxFit.cover,
+                                errorImageAsset: icons.medionIcon,
                                 width: double.infinity,
-                                height: 250.h, // Adjust as needed
                               ),
-
-                              // Black blur overlay
-                              Container(
-                                width: double.infinity,
-                                height: 250.h,
-                                color: Colors.black.withOpacity(0.5),
-                              ),
-
-                              // Centered text
-                              Positioned.fill(
-                                child: Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              Positioned(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withValues(alpha: 0.3),
+                                  ),
+                                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                                  height: MediaQuery.of(context).size.height * 0.7,
+                                  child: Center(
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
                                           state.study?.name ?? "",
-                                          style: fonts.regularMain.copyWith(
-                                            color: Colors.white,
-                                          ),
+                                          style: fonts.regularMain.copyWith(color: Colors.white),
                                           textAlign: TextAlign.center,
                                         ),
                                         8.h.verticalSpace,
                                         Text(
                                           state.study?.decodedDescription ?? "",
-                                          style: fonts.regularLink.copyWith(
-                                            color: Colors.white70,
-                                          ),
+                                          style: fonts.regularLink.copyWith(color: Colors.white70),
                                           textAlign: TextAlign.center,
+                                          maxLines: 15,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        8.h.verticalSpace,
+                                        const Spacer(),
                                         CButton(
                                           backgroundColor: colors.neutral400,
                                           textColor: colors.primary900,
                                           onTap: () async {
-                                            await launchUrl(Uri.parse(state.study!.bannerLink ?? ""));
+                                            final link =
+                                                (state.study?.bannerLink != null || state.study!.bannerLink!.isNotEmpty)
+                                                    ? state.study!.bannerLink!
+                                                    : "https://medion.uz";
+                                            await launchUrl(Uri.parse(link));
                                           },
                                           title: "open_our_web".tr(),
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -152,7 +165,6 @@ class _EducationPageState extends State<EducationPage> {
                             ],
                           ),
                         ],
-                        12.h.verticalSpace,
                         if ((state.study?.courses?.length ?? 0) != 0) ...[
                           ListView.builder(
                             itemCount: state.study?.courses?.length ?? 0,
@@ -239,28 +251,26 @@ class _EducationPageState extends State<EducationPage> {
           ),
         ),
         12.h.verticalSpace,
-        Expanded(
-          child: ListView.builder(
-            itemCount: 3,
-            // Show 3 shimmer cards for courses
-            padding: EdgeInsets.zero,
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Shimmer.fromColors(
-                baseColor: colors.neutral200,
-                highlightColor: colors.neutral100,
-                child: Container(
-                  height: 120.h,
-                  margin: EdgeInsets.only(bottom: 12.h),
-                  decoration: BoxDecoration(
-                    color: colors.neutral200,
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
+        ListView.builder(
+          itemCount: 3,
+          // Show 3 shimmer cards for courses
+          padding: EdgeInsets.zero,
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return Shimmer.fromColors(
+              baseColor: colors.neutral200,
+              highlightColor: colors.neutral100,
+              child: Container(
+                height: 120.h,
+                margin: EdgeInsets.only(bottom: 12.h),
+                decoration: BoxDecoration(
+                  color: colors.neutral200,
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
         24.h.verticalSpace,
         ListView.builder(

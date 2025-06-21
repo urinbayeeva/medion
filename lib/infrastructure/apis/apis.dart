@@ -10,6 +10,7 @@ import 'package:medion/domain/models/doctors/doctor_model.dart';
 import 'package:medion/domain/models/map/map_model.dart';
 import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
+import 'package:medion/domain/models/notification/notification_model.dart';
 import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/recruitment/recruitment_model.dart';
@@ -213,6 +214,18 @@ abstract class SearchService extends ChopperService {
   Future<Response<MedionResponseSearchText>> getBranchInfo(@Body() SearchReqModel request);
 
   static SearchService create(DBService dbService) => _$SearchService(_Client(Constants.baseUrlP, true, dbService));
+}
+
+@ChopperApi(baseUrl: "/notifications")
+abstract class NotificationService extends ChopperService {
+  @Get(path: "")
+  Future<Response<BuiltList<NotificationModel>>> getNotifications();
+
+  @Put(path: "/{notification_id}/read")
+  Future<Response<BuiltList<NotificationModel>>> readNotification(@Path('notification_id') int notificationId);
+
+  static NotificationService create(DBService dbService) =>
+      _$NotificationService(_Client(Constants.baseUrlP, true, dbService));
 }
 
 @ChopperApi(baseUrl: "")

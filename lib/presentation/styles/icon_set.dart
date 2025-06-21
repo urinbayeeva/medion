@@ -113,8 +113,10 @@ class IconSet {
   final String mapPin;
   final String callCenter;
   final String star;
+  final String notificationBadge;
 
   IconSet._({
+    required this.notificationBadge,
     required this.star,
     required this.callCenter,
     required this.mapPin,
@@ -235,6 +237,7 @@ class IconSet {
 
   static IconSet get create {
     return IconSet._(
+      notificationBadge: "assets/icons/notifications_badge.svg",
       star: "assets/icons/star.svg",
       callCenter: "assets/icons/call_center.svg",
       mapPin: "assets/icons/map-pin.svg",

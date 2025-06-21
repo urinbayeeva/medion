@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medion/utils/constants.dart';
 
-
 enum Flavor { prod, dev, beta }
 
 class AppConfig {

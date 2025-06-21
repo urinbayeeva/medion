@@ -23,6 +23,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   String aboutApp = "Version loading...";
   bool isLoading = true;
+  late final AuthBloc _bloc;
 
   @override
   void initState() {
@@ -31,7 +32,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> init() async {
-    context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
+    _bloc = context.read<AuthBloc>();
+    _bloc.add(const AuthEvent.fetchPatientInfo());
 
     final result = await PackageInfo.fromPlatform();
     if (mounted) {
@@ -48,7 +50,27 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (context, colors, fonts, icons, controller) {
         return Scaffold(
           backgroundColor: colors.backgroundColor,
-          body: BlocBuilder<AuthBloc, AuthState>(
+          body: BlocConsumer<AuthBloc, AuthState>(
+            listenWhen: (o, n) {
+              final info = o.patientInfo != n.patientInfo;
+              final error = o.errorFetchingPatientInfo != n.errorFetchingPatientInfo;
+
+              return info || error;
+            },
+            listener: (context, lState) {
+              final patientInfo = lState.patientInfo == null;
+
+              if (patientInfo || lState.errorFetchingPatientInfo) {
+                _bloc.add(const AuthEvent.checkAuth());
+              }
+
+              if (lState.userStatus.isUnAuthed) {
+                Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                  AppRoutes.getLangPage(),
+                  (route) => false,
+                );
+              }
+            },
             builder: (context, state) {
               if (state.patientInfo == null && isLoading) return const Center(child: CircularProgressIndicator());
 
@@ -56,12 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   const Spacer(),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        AppRoutes.getUserDetailsPage(),
-                      );
-                    },
+                    onTap: () => Navigator.push(context, AppRoutes.getUserDetailsPage()),
                     child: Stack(
                       clipBehavior: Clip.none,
                       children: [

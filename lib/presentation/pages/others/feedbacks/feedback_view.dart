@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -33,60 +34,59 @@ class _FeedbackViewState extends State<FeedbackView> {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
         return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: colors.shade0,
+            foregroundColor: colors.darkMode900,
+            scrolledUnderElevation: 0,
+            leading: WScaleAnimation(
+              child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+              onTap: () => Navigator.of(context).pop(),
+            ),
+            title: Text("leave_feedback".tr(), style: fonts.regularMain),
+          ),
           backgroundColor: colors.shade0,
-          body: SingleChildScrollView(
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
-              spacing: 1.h,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CAppBar(
-                  title: "leave_feedback".tr(),
-                  isBack: true,
-                  showBottomBar: true,
-                  centerTitle: true,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "send_to_us_feedbacks".tr(),
-                          style: fonts.regularText,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      12.verticalSpace,
-                      Text("branches".tr(), style: fonts.regularMain),
-                      DropDownWidget(
-                        items: list,
-                        onChange: (String val) {
-                          _selectedLocation = val;
-                        },
-                      ),
-                      12.verticalSpace,
-                      Text("give_stars".tr(), style: fonts.regularMain),
-                      6.verticalSpace,
-                      RankWidget(
-                        icons: icons,
-                        colors: colors,
-                        onTap: (val) {
-                          _rank = val;
-                        },
-                      ),
-                      20.verticalSpace,
-                      Text("feedback".tr(), style: fonts.regularMain),
-                      CustomTextField(
-                        controller: _controller,
-                        onChanged: (value) {},
-                        hintText: 'leave_feedback'.tr(),
-                        maxLines: 6,
-                        keyboardType: TextInputType.multiline,
-                      ),
-                    ],
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "send_to_us_feedbacks".tr(),
+                    style: fonts.regularText,
+                    textAlign: TextAlign.center,
                   ),
+                ),
+                12.verticalSpace,
+                Text("branches".tr(), style: fonts.regularMain),
+                DropDownWidget(
+                  items: list,
+                  onChange: (String val) {
+                    _selectedLocation = val;
+                  },
+                ),
+                12.verticalSpace,
+                Text("give_stars".tr(), style: fonts.regularMain),
+                6.verticalSpace,
+                RankWidget(
+                  icons: icons,
+                  colors: colors,
+                  onTap: (val) {
+                    _rank = val;
+                  },
+                ),
+                20.verticalSpace,
+                Text("feedback".tr(), style: fonts.regularMain),
+                CustomTextField(
+                  controller: _controller,
+                  onChanged: (value) {},
+                  hintText: 'leave_feedback'.tr(),
+                  maxLines: 6,
+                  keyboardType: TextInputType.multiline,
                 ),
               ],
             ),
