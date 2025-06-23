@@ -20,9 +20,9 @@ class PushNotification {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   static Future _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-    print('==== messagemessage data: ${message.data}');
-    print('==== messagemessage title: ${message.notification?.title}');
-    print('==== messagemessage body: ${message.notification?.body}');
+    debugPrint('==== messagemessage data: ${message.data}');
+    debugPrint('==== messagemessage title: ${message.notification?.title}');
+    debugPrint('==== messagemessage body: ${message.notification?.body}');
     _notificationStreamController.add(1);
   }
 
@@ -96,13 +96,13 @@ class PushNotification {
         }
       },
       onError: (error) {
-        print("Error in receiving message: $error");
+        debugPrint("Error in receiving message: $error");
       },
     );
   }
 
   static void initializeAndListenFirebaseMessaging(BuildContext context, [int? sdk]) async {
-    print('call initializeAndListenFirebaseMessaging');
+    debugPrint('call initializeAndListenFirebaseMessaging');
     initializeFlutterLocalNotificationsPlugin(context, sdk);
     configurationFirebaseNotification();
     listenFireBaseOnMessage();

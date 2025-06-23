@@ -18,7 +18,8 @@ final class _$AuthService extends AuthService {
   final Type definitionType = AuthService;
 
   @override
-  Future<Response<SuccessModel>> phoneNumberSend({required PhoneNumberSendReq request}) {
+  Future<Response<SuccessModel>> phoneNumberSend(
+      {required PhoneNumberSendReq request}) {
     final Uri $url = Uri.parse('/patient/phone-number');
     final $body = request;
     final Request $request = Request(
@@ -31,7 +32,8 @@ final class _$AuthService extends AuthService {
   }
 
   @override
-  Future<Response<RegistrationResponse>> registerUser({required RegisterReq request}) {
+  Future<Response<RegistrationResponse>> registerUser(
+      {required RegisterReq request}) {
     final Uri $url = Uri.parse('/patient/registration');
     final $body = request;
     final Request $request = Request(
@@ -44,7 +46,8 @@ final class _$AuthService extends AuthService {
   }
 
   @override
-  Future<Response<CreatePatientInfoResponse>> createUserInfo({required CreateInfoReq request}) {
+  Future<Response<CreatePatientInfoResponse>> createUserInfo(
+      {required CreateInfoReq request}) {
     final Uri $url = Uri.parse('/patient/create');
     final $body = request;
     final Request $request = Request(
@@ -53,7 +56,8 @@ final class _$AuthService extends AuthService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<CreatePatientInfoResponse, CreatePatientInfoResponse>($request);
+    return client
+        .send<CreatePatientInfoResponse, CreatePatientInfoResponse>($request);
   }
 }
 
@@ -69,7 +73,8 @@ final class _$RefreshService extends RefreshService {
   final Type definitionType = RefreshService;
 
   @override
-  Future<Response<RefreshTokenResponseModel>> refreshToken({required RefreshTokenModel request}) {
+  Future<Response<RefreshTokenResponseModel>> refreshToken(
+      {required RefreshTokenModel request}) {
     final Uri $url = Uri.parse('refresh');
     final $body = request;
     final Request $request = Request(
@@ -78,7 +83,8 @@ final class _$RefreshService extends RefreshService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<RefreshTokenResponseModel, RefreshTokenResponseModel>($request);
+    return client
+        .send<RefreshTokenResponseModel, RefreshTokenResponseModel>($request);
   }
 }
 
@@ -167,18 +173,21 @@ final class _$BookingService extends BookingService {
       parameters: $params,
       headers: $headers,
     );
-    return client.send<BuiltList<ThirdBookingService>, ThirdBookingService>($request);
+    return client
+        .send<BuiltList<ThirdBookingService>, ThirdBookingService>($request);
   }
 
   @override
-  Future<Response<BuiltList<HomepageBookingCategory>>> getHomePageBookingCategory() {
+  Future<Response<BuiltList<HomepageBookingCategory>>>
+      getHomePageBookingCategory() {
     final Uri $url = Uri.parse('/booking/categories');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<BuiltList<HomepageBookingCategory>, HomepageBookingCategory>($request);
+    return client.send<BuiltList<HomepageBookingCategory>,
+        HomepageBookingCategory>($request);
   }
 
   @override
@@ -193,14 +202,16 @@ final class _$BookingService extends BookingService {
   }
 
   @override
-  Future<Response<MedicalServiceCategory>> getHomePageBookingDoctorsByID(int id) {
+  Future<Response<MedicalServiceCategory>> getHomePageBookingDoctorsByID(
+      int id) {
     final Uri $url = Uri.parse('/booking/services_by_doctor/${id}');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<MedicalServiceCategory, MedicalServiceCategory>($request);
+    return client
+        .send<MedicalServiceCategory, MedicalServiceCategory>($request);
   }
 }
 
@@ -352,7 +363,8 @@ final class _$UploadImage extends UploadImage {
       multipart: true,
       headers: $headers,
     );
-    return client.send<ImageUploadResponseModel, ImageUploadResponseModel>($request);
+    return client
+        .send<ImageUploadResponseModel, ImageUploadResponseModel>($request);
   }
 }
 
@@ -368,7 +380,8 @@ final class _$PatientService extends PatientService {
   final Type definitionType = PatientService;
 
   @override
-  Future<Response<PatientInfo>> getPatientInfo({String requiresToken = "true"}) {
+  Future<Response<PatientInfo>> getPatientInfo(
+      {String requiresToken = "true"}) {
     final Uri $url = Uri.parse('/profile/patient_info');
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
@@ -383,7 +396,8 @@ final class _$PatientService extends PatientService {
   }
 
   @override
-  Future<Response<SuccessModel>> patientImageUpload({required ImageUploadResponseModel image}) {
+  Future<Response<SuccessModel>> patientImageUpload(
+      {required ImageUploadResponseModel image}) {
     final Uri $url = Uri.parse('/profile/patient_image');
     final $body = image;
     final Request $request = Request(
@@ -396,7 +410,8 @@ final class _$PatientService extends PatientService {
   }
 
   @override
-  Future<Response<BuiltList<VisitOrder>>> getPatientVisitsMobile({String requiresToken = "true"}) {
+  Future<Response<BuiltList<VisitOrder>>> getPatientVisitsMobile(
+      {String requiresToken = "true"}) {
     final Uri $url = Uri.parse('/profile/patient_visits_mobile');
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
@@ -411,7 +426,8 @@ final class _$PatientService extends PatientService {
   }
 
   @override
-  Future<Response<PatientDocuments>> getPatientAnalyze({String requiresToken = "true"}) {
+  Future<Response<PatientDocuments>> getPatientAnalyze(
+      {String requiresToken = "true"}) {
     final Uri $url = Uri.parse('/profile/patient_analysis_mobile');
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
@@ -426,7 +442,8 @@ final class _$PatientService extends PatientService {
   }
 
   @override
-  Future<Response<PaymentResponse>> getMyWallet({String requiresToken = "true"}) {
+  Future<Response<PaymentResponse>> getMyWallet(
+      {String requiresToken = "true"}) {
     final Uri $url = Uri.parse('/profile/my_wallet');
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
@@ -498,7 +515,8 @@ final class _$SearchService extends SearchService {
   final Type definitionType = SearchService;
 
   @override
-  Future<Response<MedionResponseSearchText>> getBranchInfo(SearchReqModel request) {
+  Future<Response<MedionResponseSearchText>> getBranchInfo(
+      SearchReqModel request) {
     final Uri $url = Uri.parse('/his-web-search');
     final $body = request;
     final Request $request = Request(
@@ -507,7 +525,8 @@ final class _$SearchService extends SearchService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<MedionResponseSearchText, MedionResponseSearchText>($request);
+    return client
+        .send<MedionResponseSearchText, MedionResponseSearchText>($request);
   }
 }
 
@@ -530,14 +549,21 @@ final class _$NotificationService extends NotificationService {
       $url,
       client.baseUrl,
     );
-    return client.send<BuiltList<NotificationModel>, NotificationModel>($request);
+    return client
+        .send<BuiltList<NotificationModel>, NotificationModel>($request);
   }
 
   @override
-  Future<Response<BuiltList<NotificationModel>>> readNotification(int notificationId) {
+  Future<Response<BuiltList<NotificationModel>>> readNotification(
+      int notificationId) {
     final Uri $url = Uri.parse('/notifications/${notificationId}/read');
-    final Request $request = Request('PUT', $url, client.baseUrl);
-    return client.send<BuiltList<NotificationModel>, NotificationModel>($request);
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+    );
+    return client
+        .send<BuiltList<NotificationModel>, NotificationModel>($request);
   }
 }
 
@@ -575,10 +601,16 @@ final class _$StudyService extends StudyService {
   }
 
   @override
-  Future<Response<PostReviewModel>> postReviews({required PostReviewModel review}) {
+  Future<Response<PostReviewModel>> postReviews(
+      {required PostReviewModel review}) {
     final Uri $url = Uri.parse('/send-review');
     final $body = review;
-    final Request $request = Request('POST', $url, client.baseUrl, body: $body);
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
     return client.send<PostReviewModel, PostReviewModel>($request);
   }
 }
@@ -595,10 +627,16 @@ final class _$HelpCallService extends HelpCallService {
   final Type definitionType = HelpCallService;
 
   @override
-  Future<Response<ServiceResponse>> serviceReqCall({required ServiceRequest request}) {
+  Future<Response<ServiceResponse>> serviceReqCall(
+      {required ServiceRequest request}) {
     final Uri $url = Uri.parse('/help/call');
     final $body = request;
-    final Request $request = Request('POST', $url, client.baseUrl, body: $body);
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
     return client.send<ServiceResponse, ServiceResponse>($request);
   }
 }
@@ -617,28 +655,44 @@ final class _$CompanyService extends CompanyService {
   @override
   Future<Response<MedionModel>> getMedionActivity() {
     final Uri $url = Uri.parse('/company/activity');
-    final Request $request = Request('GET', $url, client.baseUrl);
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
     return client.send<MedionModel, MedionModel>($request);
   }
 
   @override
   Future<Response<OfferModel>> getOfferta() {
     final Uri $url = Uri.parse('/company/offerta');
-    final Request $request = Request('GET', $url, client.baseUrl);
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
     return client.send<OfferModel, OfferModel>($request);
   }
 
   @override
   Future<Response<PrivacyModel>> getPrivacy() {
     final Uri $url = Uri.parse('/company/privacy');
-    final Request $request = Request('GET', $url, client.baseUrl);
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
     return client.send<PrivacyModel, PrivacyModel>($request);
   }
 
   @override
   Future<Response<Map<String, dynamic>>> getTeam() {
     final Uri $url = Uri.parse('/company/team');
-    final Request $request = Request('GET', $url, client.baseUrl);
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
     return client.send<Map<String, dynamic>, Map<String, dynamic>>($request);
   }
 }
@@ -657,7 +711,11 @@ final class _$ContentService extends ContentService {
   @override
   Future<Response<BuiltList<ContentModel>>> getContentType(String type) {
     final Uri $url = Uri.parse('/content/${type}');
-    final Request $request = Request('GET', $url, client.baseUrl);
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
     return client.send<BuiltList<ContentModel>, ContentModel>($request);
   }
 }
@@ -676,7 +734,11 @@ final class _$RecruitmentService extends RecruitmentService {
   @override
   Future<Response<VacancyModel>> getVacancies() {
     final Uri $url = Uri.parse('recruitment/vacancies');
-    final Request $request = Request('GET', $url, client.baseUrl);
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
     return client.send<VacancyModel, VacancyModel>($request);
   }
 
@@ -684,15 +746,26 @@ final class _$RecruitmentService extends RecruitmentService {
   Future<Response<JobApplicationModel>> getVacancySingle({int? id}) {
     final Uri $url = Uri.parse('recruitment/vacancies');
     final Map<String, dynamic> $params = <String, dynamic>{'vacancy_id': id};
-    final Request $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
     return client.send<JobApplicationModel, JobApplicationModel>($request);
   }
 
   @override
-  Future<Response<ResultVacancyModel>> uploadVacancy({required UploadVacancyModel vacancy}) {
+  Future<Response<ResultVacancyModel>> uploadVacancy(
+      {required UploadVacancyModel vacancy}) {
     final Uri $url = Uri.parse('recruitment/apply');
     final $body = vacancy;
-    final Request $request = Request('POST', $url, client.baseUrl, body: $body);
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
     return client.send<ResultVacancyModel, ResultVacancyModel>($request);
   }
 }

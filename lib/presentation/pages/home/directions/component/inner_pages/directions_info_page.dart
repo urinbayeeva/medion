@@ -106,6 +106,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
               },
               isBack: true,
               trailing: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   AnimatedRotation(
                     turns: turns,
@@ -121,21 +122,21 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                       child: icons.valyutaChange.svg(width: 20.w, height: 20.h),
                     ),
                   ),
-                  6.w.horizontalSpace,
-                  AnimationButtonEffect(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CFilter(
-                            currentFilter: _currentFilter,
-                            onFilterChanged: _onFilterChanged,
-                          );
-                        },
-                      );
-                    },
-                    child: icons.filter.svg(width: 20.w, height: 20.h),
-                  ),
+                  // 6.w.horizontalSpace,
+                  // AnimationButtonEffect(
+                  //   onTap: () {
+                  //     showModalBottomSheet(
+                  //       context: context,
+                  //       builder: (BuildContext context) {
+                  //         return CFilter(
+                  //           currentFilter: _currentFilter,
+                  //           onFilterChanged: _onFilterChanged,
+                  //         );
+                  //       },
+                  //     );
+                  //   },
+                  //   child: icons.filter.svg(width: 20.w, height: 20.h),
+                  // ),
                 ],
               ),
             ),

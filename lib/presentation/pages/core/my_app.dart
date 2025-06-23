@@ -12,6 +12,7 @@ import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
+import 'package:medion/application/locale_bloc/locale_bloc.dart';
 import 'package:medion/application/notification/notification_bloc.dart';
 import 'package:medion/application/payment_provider.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
@@ -71,6 +72,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CurrencyChangeProvider()),
         ChangeNotifierProvider(create: (_) => ServicesPageProvider()),
         ChangeNotifierProvider(create: (_) => PaymentProvider()),
+        BlocProvider(create: (context) => LocaleBloc()..add(const LocaleEvent.initialize()), lazy: false),
         BlocProvider(create: (context) => HomeBloc(HomeRepository(HomePageService.create(dbService)))),
         BlocProvider(create: (context) => VisitBloc(VisitRepository(VisitCreateService.create(dbService)))),
         ChangeNotifierProvider(create: (_) => GlobalController.create(dbService)),
@@ -100,7 +102,9 @@ class MyApp extends StatelessWidget {
               RefreshService.create(dbService),
             ),
             dbService,
-          )..add(const AuthEvent.checkAuth()),
+          )
+            ..add(const AuthEvent.checkAuth())
+            ..add(const AuthEvent.fetchPatientInfo()),
         ),
         BlocProvider<BookingBloc>(
           create: (context) => BookingBloc(

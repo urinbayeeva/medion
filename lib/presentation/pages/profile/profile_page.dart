@@ -32,9 +32,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> init() async {
-    _bloc = context.read<AuthBloc>();
-    _bloc.add(const AuthEvent.fetchPatientInfo());
-
     final result = await PackageInfo.fromPlatform();
     if (mounted) {
       setState(() {
@@ -50,27 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (context, colors, fonts, icons, controller) {
         return Scaffold(
           backgroundColor: colors.backgroundColor,
-          body: BlocConsumer<AuthBloc, AuthState>(
-            listenWhen: (o, n) {
-              final info = o.patientInfo != n.patientInfo;
-              final error = o.errorFetchingPatientInfo != n.errorFetchingPatientInfo;
-
-              return info || error;
-            },
-            listener: (context, lState) {
-              final patientInfo = lState.patientInfo == null;
-
-              if (patientInfo || lState.errorFetchingPatientInfo) {
-                _bloc.add(const AuthEvent.checkAuth());
-              }
-
-              if (lState.userStatus.isUnAuthed) {
-                Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-                  AppRoutes.getLangPage(),
-                  (route) => false,
-                );
-              }
-            },
+          body: BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
               if (state.patientInfo == null && isLoading) return const Center(child: CircularProgressIndicator());
 

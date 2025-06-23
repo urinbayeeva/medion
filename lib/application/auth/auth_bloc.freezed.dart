@@ -1803,6 +1803,7 @@ abstract class _FetchMyWallet implements AuthEvent {
 /// @nodoc
 mixin _$AuthState {
   bool get proceedToHome => throw _privateConstructorUsedError;
+  bool get haveToken => throw _privateConstructorUsedError;
   UserStatus get userStatus => throw _privateConstructorUsedError;
   FormzSubmissionStatus get verifyStatus => throw _privateConstructorUsedError;
   bool get proceedToLogin => throw _privateConstructorUsedError;
@@ -1843,6 +1844,7 @@ abstract class $AuthStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool proceedToHome,
+      bool haveToken,
       UserStatus userStatus,
       FormzSubmissionStatus verifyStatus,
       bool proceedToLogin,
@@ -1885,6 +1887,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   @override
   $Res call({
     Object? proceedToHome = null,
+    Object? haveToken = null,
     Object? userStatus = null,
     Object? verifyStatus = null,
     Object? proceedToLogin = null,
@@ -1914,6 +1917,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
       proceedToHome: null == proceedToHome
           ? _value.proceedToHome
           : proceedToHome // ignore: cast_nullable_to_non_nullable
+              as bool,
+      haveToken: null == haveToken
+          ? _value.haveToken
+          : haveToken // ignore: cast_nullable_to_non_nullable
               as bool,
       userStatus: null == userStatus
           ? _value.userStatus
@@ -2025,6 +2032,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool proceedToHome,
+      bool haveToken,
       UserStatus userStatus,
       FormzSubmissionStatus verifyStatus,
       bool proceedToLogin,
@@ -2065,6 +2073,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? proceedToHome = null,
+    Object? haveToken = null,
     Object? userStatus = null,
     Object? verifyStatus = null,
     Object? proceedToLogin = null,
@@ -2094,6 +2103,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
       proceedToHome: null == proceedToHome
           ? _value.proceedToHome
           : proceedToHome // ignore: cast_nullable_to_non_nullable
+              as bool,
+      haveToken: null == haveToken
+          ? _value.haveToken
+          : haveToken // ignore: cast_nullable_to_non_nullable
               as bool,
       userStatus: null == userStatus
           ? _value.userStatus
@@ -2200,6 +2213,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 class _$AuthStateImpl extends _AuthState {
   const _$AuthStateImpl(
       {this.proceedToHome = false,
+      this.haveToken = false,
       this.userStatus = UserStatus.unknown,
       this.verifyStatus = FormzSubmissionStatus.initial,
       this.proceedToLogin = false,
@@ -2230,6 +2244,9 @@ class _$AuthStateImpl extends _AuthState {
   @override
   @JsonKey()
   final bool proceedToHome;
+  @override
+  @JsonKey()
+  final bool haveToken;
   @override
   @JsonKey()
   final UserStatus userStatus;
@@ -2311,7 +2328,7 @@ class _$AuthStateImpl extends _AuthState {
 
   @override
   String toString() {
-    return 'AuthState(proceedToHome: $proceedToHome, userStatus: $userStatus, verifyStatus: $verifyStatus, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, registrationResponse: $registrationResponse)';
+    return 'AuthState(proceedToHome: $proceedToHome, haveToken: $haveToken, userStatus: $userStatus, verifyStatus: $verifyStatus, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, registrationResponse: $registrationResponse)';
   }
 
   @override
@@ -2321,6 +2338,8 @@ class _$AuthStateImpl extends _AuthState {
             other is _$AuthStateImpl &&
             (identical(other.proceedToHome, proceedToHome) ||
                 other.proceedToHome == proceedToHome) &&
+            (identical(other.haveToken, haveToken) ||
+                other.haveToken == haveToken) &&
             (identical(other.userStatus, userStatus) ||
                 other.userStatus == userStatus) &&
             (identical(other.verifyStatus, verifyStatus) ||
@@ -2377,6 +2396,7 @@ class _$AuthStateImpl extends _AuthState {
   int get hashCode => Object.hashAll([
         runtimeType,
         proceedToHome,
+        haveToken,
         userStatus,
         verifyStatus,
         proceedToLogin,
@@ -2415,6 +2435,7 @@ class _$AuthStateImpl extends _AuthState {
 abstract class _AuthState extends AuthState {
   const factory _AuthState(
       {final bool proceedToHome,
+      final bool haveToken,
       final UserStatus userStatus,
       final FormzSubmissionStatus verifyStatus,
       final bool proceedToLogin,
@@ -2443,6 +2464,8 @@ abstract class _AuthState extends AuthState {
 
   @override
   bool get proceedToHome;
+  @override
+  bool get haveToken;
   @override
   UserStatus get userStatus;
   @override

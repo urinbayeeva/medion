@@ -1,18 +1,15 @@
 import 'dart:async';
-import 'dart:developer';
-import 'dart:io';
-import 'package:built_collection/built_collection.dart';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:medion/domain/common/token.dart';
 import 'package:medion/domain/models/auth/auth.dart';
 import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
-import 'package:medion/domain/upload_image/upload_image.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
@@ -43,6 +40,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_CheckAuth>(_checkAuth);
   }
 
+  FutureOr<void> _hasToken(Emitter<AuthState> emit) async {
+    final token = _dbService.token;
+    final access = token.accessToken;
+    final refresh = token.refreshToken;
+    if (access != null && access.isNotEmpty || refresh != null && refresh.isNotEmpty) {
+      emit(state.copyWith(haveToken: true));
+    } else {
+      emit(state.copyWith(haveToken: false));
+    }
+  }
+
+  FutureOr<void> _setFirebaseToken() async {
+    final newFcm = await FirebaseMessaging.instance.getToken();
+    final fcm = _dbService.getFcmToken;
+
+    if (fcm != newFcm && newFcm != null && newFcm.length > 5) {
+      _dbService.setFcmToken(newFcm ?? '');
+      //  send back this token
+    }
+  }
+
   FutureOr<void> _checkAuth(_CheckAuth event, Emitter<AuthState> emit) async {
     emit(state.copyWith(userStatus: UserStatus.unknown));
     final res = await _repository.getPatientInfo();
@@ -57,20 +75,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           if (failure.message.contains("invalid") || failure.message.contains("credential")) {
             emit(state.copyWith(userStatus: UserStatus.unAuthed));
             _dbService.setLang(isSaved: false);
-            log("auth check user get IF INIT FUNCTION USER STATUS: ${state.userStatus.name}");
           }
-
-          log("auth check user get patient res fail data ${failure.message} \n user status:: ${state.userStatus.name}");
         },
         (success) {
           emit(state.copyWith(userStatus: UserStatus.authed));
-          log("auth check user get patient res success data ${success.phoneNumber}   user status ${state.userStatus.name}");
         },
       );
     } else {
-      log("auth check user get token null");
       emit(state.copyWith(userStatus: UserStatus.unAuthed));
     }
+    _hasToken(emit);
   }
 
   FutureOr<void> _verificationSendHandler(_VerificationSend event, Emitter<AuthState> emit) async {
@@ -163,6 +177,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> _fetchPatientInfoHandler(_FetchPatientInfo event, Emitter<AuthState> emit) async {
+    _setFirebaseToken();
+    _hasToken(emit);
     if (state.patientInfo != null) {
       return;
     }

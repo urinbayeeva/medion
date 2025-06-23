@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
+import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_filter.dart';
@@ -28,9 +31,7 @@ class _DirectionsPageState extends State<DirectionsPage> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<BookingBloc>()
-        .add(const BookingEvent.fetchHomePageServicesBooking());
+    context.read<BookingBloc>().add(const BookingEvent.fetchHomePageServicesBooking());
   }
 
   @override
@@ -77,9 +78,7 @@ class _DirectionsPageState extends State<DirectionsPage> {
                         );
                       },
                     ).then((_) {
-                      context
-                          .read<BottomNavBarController>()
-                          .changeNavBar(false);
+                      context.read<BottomNavBarController>().changeNavBar(false);
                     });
                   },
                   child: icons.filter.svg(width: 20.w, height: 20.h),
@@ -90,9 +89,8 @@ class _DirectionsPageState extends State<DirectionsPage> {
                 child: BlocBuilder<BookingBloc, BookingState>(
                   builder: (context, state) {
                     // Filter out items with null required fields
-                    final validItems = state.homePageBookingCategory
-                        .where((item) => item.name != null && item.id != null)
-                        .toList();
+                    final validItems =
+                        state.homePageBookingCategory.where((item) => item.name != null && item.id != null).toList();
 
                     if (validItems.isEmpty) {
                       return Center(
@@ -105,10 +103,8 @@ class _DirectionsPageState extends State<DirectionsPage> {
                         .where((item) =>
                             item.name!.toLowerCase().contains(_searchQuery) &&
                             (_currentFilter == "All" ||
-                                (_currentFilter == "Adults" &&
-                                    item.isChild != "Children") ||
-                                (_currentFilter == "Children" &&
-                                    item.isChild == "Children")))
+                                (_currentFilter == "Adults" && item.isChild != "Children") ||
+                                (_currentFilter == "Children" && item.isChild == "Children")))
                         .toList();
 
                     if (filteredItems.isEmpty) {
@@ -116,21 +112,16 @@ class _DirectionsPageState extends State<DirectionsPage> {
                     }
 
                     return ListView.builder(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                       physics: const AlwaysScrollableScrollPhysics(),
                       itemCount: filteredItems.length + 1,
                       itemBuilder: (context, index) {
-                        if (index == filteredItems.length) {
-                          return SizedBox(height: 60.h);
-                        }
+                        if (index == filteredItems.length) return SizedBox(height: 60.h);
 
                         final item = filteredItems[index];
                         return MedicalDirectionItem(
                           onTap: () {
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(true);
+                            context.read<BottomNavBarController>().changeNavBar(true);
                             Navigator.push(
                               context,
                               AppRoutes.getDirectionInfoPage(
@@ -138,9 +129,7 @@ class _DirectionsPageState extends State<DirectionsPage> {
                                 name: item.name!,
                               ),
                             ).then((_) {
-                              context
-                                  .read<BottomNavBarController>()
-                                  .changeNavBar(false);
+                              context.read<BottomNavBarController>().changeNavBar(false);
                             });
                           },
                           title: item.name!,

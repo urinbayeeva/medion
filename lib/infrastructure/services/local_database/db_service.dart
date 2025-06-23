@@ -22,6 +22,7 @@ class DBService {
   static const auctionConsumer = 'auction_consumer';
   static const diagnostics = 'diagnostics';
   static const _tokenType = "token_type";
+  static const fcmToken = "fcm_token";
 
   static Box? _box;
 
@@ -46,13 +47,23 @@ class DBService {
 
   /// Token
   Future<void> setToken(Token token) async {
-    log("\n\n\n ***********Token*************");
-    log("*Access ${token.accessToken}");
-    log("*Refresh ${token.refreshToken}");
-    log("\n\n\n ************************");
-
     await _box?.put(_accessToken, token.accessToken ?? '');
     await _box?.put(_refreshToken, token.refreshToken ?? '');
+  }
+
+  Future<void> setFcmToken(String token) async {
+    if (token.isNotEmpty || token.length > 4) {
+      await _box?.put(fcmToken, token);
+    }
+  }
+
+  String get getFcmToken {
+    final String fcm = _box?.get(fcmToken);
+    if (fcm.isNotEmpty && fcm.length > 5) {
+      return fcm;
+    } else {
+      return '';
+    }
   }
 
   Token get token {
