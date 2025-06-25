@@ -8,4 +8,6 @@ abstract class NotificationRepository {
   Future<Either<ResponseFailure, List<NotificationModel>>> getNotifications();
 
   Future<Either<ResponseFailure, void>> readNotifications({required int id});
+
+  Future<Either<ResponseFailure, void>> setFcmToken({required String id, required String token});
 }

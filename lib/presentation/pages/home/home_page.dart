@@ -1,7 +1,6 @@
 import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +10,7 @@ import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
-import 'package:medion/domain/models/notification/notification_model.dart';
+import 'package:medion/application/notification/notification_bloc.dart';
 import 'package:medion/infrastructure/services/push_notification.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
@@ -31,7 +30,6 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/helpers/decode_html.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
-
 import 'directions/widgets/medical_direction_item.dart';
 import 'doctors/widget/doctors_item.dart';
 import 'news/widgets/news_item.dart';
@@ -57,6 +55,7 @@ class _HomePageState extends State<HomePage> {
     context.read<HomeBloc>().add(const HomeEvent.fetchCompanyLocation());
     context.read<HomeBloc>().add(const HomeEvent.fetchAds());
     context.read<HomeBloc>().add(const HomeEvent.fetchDiseases());
+    context.read<NotificationBloc>().add(const NotificationEvent.setFCMToken());
     initializeNotification(context);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       subscribeToNotifications(context);
@@ -94,25 +93,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void openMessageApp({required Map<String, dynamic> data, required BuildContext context}) async {
-    final notification = NotificationModel(
-      (b) => b
-        ..id = 0
-        ..type = ''
-        ..title = 'Medion Innovation'
-        ..bodyLink = ''
-        ..body = ''
-        ..objType = ''
-        ..objId = ''
-        ..image = ''
-        ..isRead = false
-        ..createdAt = ''
-        ..buttonLabel = '',
-    );
-
     log("Open message Application Navigator.of context");
     Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute(
-        builder: (context) => SingleNotification(notification: notification),
+        builder: (context) => SingleNotification(id: data["id"]),
       ),
     );
   }
@@ -130,13 +114,15 @@ class _HomePageState extends State<HomePage> {
             return info || error || token;
           },
           listener: (context, lState) {
+            log("User Status: ${lState.userStatus.name}");
+            log("User have Token: ${lState.haveToken}");
             final patientInfo = lState.patientInfo == null;
 
             if (patientInfo || lState.errorFetchingPatientInfo) {
               context.read<AuthBloc>().add(const AuthEvent.checkAuth());
             }
 
-            if (lState.userStatus.isUnAuthed || (lState.haveToken == false)) {
+            if ((lState.haveToken.isEmpty)) {
               Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                 AppRoutes.getLangPage(),
                 (route) => false,
@@ -637,13 +623,10 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildAddressSection(BuildContext context, colors, fonts, icons) {
     return BlocBuilder<HomeBloc, HomeState>(
+      buildWhen: (o, n) => o.companyLocations != n.companyLocations,
       builder: (context, state) {
-        if (state.loading) {
-          return _buildAddressShimmer();
-        }
-        if (state.companyLocations.isEmpty) {
-          return const SizedBox.shrink();
-        }
+        if (state.loading) return _buildAddressShimmer();
+        if (state.companyLocations.isEmpty) return const SizedBox.shrink();
 
         return Column(
           children: state.companyLocations

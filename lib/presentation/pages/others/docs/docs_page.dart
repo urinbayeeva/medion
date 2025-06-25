@@ -97,7 +97,7 @@ class FullPdfCard extends StatelessWidget {
                           spacing: 6,
                           children: [
                             Text(
-                              "${List.generate(16, (count) => branch.docs[i]["title"]!)}",
+                              branch.docs[i]["title"]!,
                               style: fonts.xSmallMain,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 4,

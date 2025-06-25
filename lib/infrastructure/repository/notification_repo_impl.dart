@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/domain/abstract_repo/notification/notification_repository.dart';
@@ -34,6 +36,27 @@ class NotificationRepoImpl extends NotificationRepository {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, void>> setFcmToken({required String id, required String token}) async {
+    try {
+      final body = SetFcmTokenBody(
+        (b) => b
+          ..deviceId = id
+          ..token = token,
+      );
+
+      final res = await service.setFcmToken(fcm: body);
+      if (res.isSuccessful && res.bodyString != null) {
+        return right(null);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      log("res error: $e");
       return left(handleError(e));
     }
   }

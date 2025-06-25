@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/w_html/w_html.dart';
-import 'package:medion/presentation/pages/others/our_activity/component/our_company.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class PatternBackground extends StatelessWidget {

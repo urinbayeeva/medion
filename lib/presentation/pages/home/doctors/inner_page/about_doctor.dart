@@ -59,11 +59,22 @@ class _AboutDoctorState extends State<AboutDoctor> {
     }
   }
 
+  List<String> tabs = [
+    "about_the_doctor".tr(),
+    "working_experience".tr(),
+    "education".tr(),
+    "working_hours".tr(),
+    // "achievments".tr(),
+    // "gallery".tr(),
+    // "reviews".tr(),
+    // "articles".tr(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return DefaultTabController(
-        length: 4,
+        length: tabs.length,
         child: Scaffold(
           backgroundColor: colors.backgroundColor,
           body: Column(
@@ -83,12 +94,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
                       image: widget.image,
                     ),
                     16.h.verticalSpace,
-                    CustomTabbarBlack(tabs: [
-                      "about_the_doctor".tr(),
-                      "working_experience".tr(),
-                      "education".tr(),
-                      "working_hours".tr(),
-                    ]),
+                    CustomTabbarBlack(tabs: tabs),
                   ],
                 ),
               ),
@@ -106,6 +112,10 @@ class _AboutDoctorState extends State<AboutDoctor> {
                         _buildExperienceTab(doctor, colors, fonts, icons),
                         _buildEducationTab(doctor, colors, fonts, icons),
                         _buildWorkingHoursTab(doctor, colors, fonts),
+                        // Center(child: Text("achievments".tr())),
+                        // Center(child: Text("gallery".tr())),
+                        // Center(child: Text("reviews".tr())),
+                        // Center(child: Text("articles".tr())),
                       ],
                     ),
                   );
@@ -184,10 +194,12 @@ class _AboutDoctorState extends State<AboutDoctor> {
           _buildExperienceTab(doctor, colors, fonts, icons),
           _buildEducationTab(doctor, colors, fonts, icons),
           _buildWorkingHoursTab(doctor, colors, fonts),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-            child: Text("discounts".tr(), style: fonts.regularMain),
-          ),
+          if (doctor.discount.isNotEmpty) ...{
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+              child: Text("discounts".tr(), style: fonts.regularMain),
+            ),
+          },
           GridView.builder(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             shrinkWrap: true,

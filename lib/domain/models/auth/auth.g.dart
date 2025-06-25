@@ -320,6 +320,34 @@ class _$CreateInfoReqSerializer implements StructuredSerializer<CreateInfoReq> {
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[];
     Object? value;
+    value = object.deviceId;
+    if (value != null) {
+      result
+        ..add('device_id')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.deviceName;
+    if (value != null) {
+      result
+        ..add('device_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.os;
+    if (value != null) {
+      result
+        ..add('os')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.appVersion;
+    if (value != null) {
+      result
+        ..add('app_version')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.firstName;
     if (value != null) {
       result
@@ -391,6 +419,22 @@ class _$CreateInfoReqSerializer implements StructuredSerializer<CreateInfoReq> {
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
+        case 'device_id':
+          result.deviceId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'device_name':
+          result.deviceName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'os':
+          result.os = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'app_version':
+          result.appVersion = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'first_name':
           result.firstName = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
@@ -1137,6 +1181,14 @@ class RegistrationResponseBuilder
 
 class _$CreateInfoReq extends CreateInfoReq {
   @override
+  final String? deviceId;
+  @override
+  final String? deviceName;
+  @override
+  final String? os;
+  @override
+  final String? appVersion;
+  @override
   final String? firstName;
   @override
   final String? lastName;
@@ -1157,7 +1209,11 @@ class _$CreateInfoReq extends CreateInfoReq {
       (new CreateInfoReqBuilder()..update(updates))._build();
 
   _$CreateInfoReq._(
-      {this.firstName,
+      {this.deviceId,
+      this.deviceName,
+      this.os,
+      this.appVersion,
+      this.firstName,
       this.lastName,
       this.middleName,
       this.phoneNumber,
@@ -1178,6 +1234,10 @@ class _$CreateInfoReq extends CreateInfoReq {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is CreateInfoReq &&
+        deviceId == other.deviceId &&
+        deviceName == other.deviceName &&
+        os == other.os &&
+        appVersion == other.appVersion &&
         firstName == other.firstName &&
         lastName == other.lastName &&
         middleName == other.middleName &&
@@ -1191,6 +1251,10 @@ class _$CreateInfoReq extends CreateInfoReq {
   @override
   int get hashCode {
     var _$hash = 0;
+    _$hash = $jc(_$hash, deviceId.hashCode);
+    _$hash = $jc(_$hash, deviceName.hashCode);
+    _$hash = $jc(_$hash, os.hashCode);
+    _$hash = $jc(_$hash, appVersion.hashCode);
     _$hash = $jc(_$hash, firstName.hashCode);
     _$hash = $jc(_$hash, lastName.hashCode);
     _$hash = $jc(_$hash, middleName.hashCode);
@@ -1206,6 +1270,10 @@ class _$CreateInfoReq extends CreateInfoReq {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'CreateInfoReq')
+          ..add('deviceId', deviceId)
+          ..add('deviceName', deviceName)
+          ..add('os', os)
+          ..add('appVersion', appVersion)
           ..add('firstName', firstName)
           ..add('lastName', lastName)
           ..add('middleName', middleName)
@@ -1221,6 +1289,22 @@ class _$CreateInfoReq extends CreateInfoReq {
 class CreateInfoReqBuilder
     implements Builder<CreateInfoReq, CreateInfoReqBuilder> {
   _$CreateInfoReq? _$v;
+
+  String? _deviceId;
+  String? get deviceId => _$this._deviceId;
+  set deviceId(String? deviceId) => _$this._deviceId = deviceId;
+
+  String? _deviceName;
+  String? get deviceName => _$this._deviceName;
+  set deviceName(String? deviceName) => _$this._deviceName = deviceName;
+
+  String? _os;
+  String? get os => _$this._os;
+  set os(String? os) => _$this._os = os;
+
+  String? _appVersion;
+  String? get appVersion => _$this._appVersion;
+  set appVersion(String? appVersion) => _$this._appVersion = appVersion;
 
   String? _firstName;
   String? get firstName => _$this._firstName;
@@ -1260,6 +1344,10 @@ class CreateInfoReqBuilder
   CreateInfoReqBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
+      _deviceId = $v.deviceId;
+      _deviceName = $v.deviceName;
+      _os = $v.os;
+      _appVersion = $v.appVersion;
       _firstName = $v.firstName;
       _lastName = $v.lastName;
       _middleName = $v.middleName;
@@ -1290,6 +1378,10 @@ class CreateInfoReqBuilder
   _$CreateInfoReq _build() {
     final _$result = _$v ??
         new _$CreateInfoReq._(
+          deviceId: deviceId,
+          deviceName: deviceName,
+          os: os,
+          appVersion: appVersion,
           firstName: firstName,
           lastName: lastName,
           middleName: middleName,

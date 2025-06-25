@@ -319,7 +319,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
-                    childAspectRatio: 0.68,
+                    childAspectRatio: 0.2,
                   ),
                   itemBuilder: (context, index) {
                     final discount = state.medicalModel!.discount[index];

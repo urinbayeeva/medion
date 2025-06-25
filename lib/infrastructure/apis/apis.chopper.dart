@@ -565,6 +565,26 @@ final class _$NotificationService extends NotificationService {
     return client
         .send<BuiltList<NotificationModel>, NotificationModel>($request);
   }
+
+  @override
+  Future<Response<void>> setFcmToken({
+    required SetFcmTokenBody fcm,
+    String requiresToken = "true",
+  }) {
+    final Uri $url = Uri.parse('https://his.uicgroup.tech/firebase/token');
+    final Map<String, String> $headers = {
+      'requires-token': requiresToken,
+    };
+    final $body = fcm;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      headers: $headers,
+    );
+    return client.send<void, void>($request);
+  }
 }
 
 // coverage:ignore-file

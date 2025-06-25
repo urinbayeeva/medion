@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/presentation/pages/others/customer_review/customer_review.dart';
 import 'package:medion/presentation/pages/others/customer_review/generate_star.dart';
 import 'package:medion/presentation/styles/theme.dart';

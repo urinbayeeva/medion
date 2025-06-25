@@ -7,7 +7,7 @@ class AuthState with _$AuthState {
 
   const factory AuthState({
     @Default(false) bool proceedToHome,
-    @Default(false) bool haveToken,
+    @Default("false") String haveToken,
     @Default(UserStatus.unknown) UserStatus userStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus verifyStatus,
     @Default(false) bool proceedToLogin,

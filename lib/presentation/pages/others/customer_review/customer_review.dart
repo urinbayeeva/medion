@@ -50,15 +50,15 @@ class _CustomerReviewState extends State<CustomerReview> {
               onTap: () => Navigator.of(context).pop(),
             ),
             title: Text("customers_reviews".tr(), style: fonts.regularMain),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: WScaleAnimation(
-                  child: icons.filter.svg(width: 20.w, height: 20.h),
-                  onTap: () => Navigator.of(context).pop(),
-                ),
-              ),
-            ],
+            // actions: [
+            //   Padding(
+            //     padding: const EdgeInsets.only(right: 16.0),
+            //     child: WScaleAnimation(
+            //       child: icons.filter.svg(width: 20.w, height: 20.h),
+            //       onTap: () => Navigator.of(context).pop(),
+            //     ),
+            //   ),
+            // ],
           ),
           body: BlocBuilder<BranchBloc, BranchState>(
             builder: (context, state) {
@@ -78,6 +78,7 @@ class _CustomerReviewState extends State<CustomerReview> {
                 itemCount: reviews.length,
                 itemBuilder: (context, index) {
                   final review = reviews[index];
+
                   return ReviewCard(review: review, colors: colors, icons: icons, fonts: fonts);
                 },
               );

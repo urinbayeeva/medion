@@ -1,7 +1,10 @@
 import 'dart:convert';
-
+import 'dart:developer';
+import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:hive/hive.dart';
+import 'package:html/dom.dart' as dom;
 import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,19 +15,21 @@ class WHtml extends StatefulWidget {
     this.textColor = Colors.black,
     this.backgroundColor = Colors.transparent,
     this.margin,
+    this.videoMargin = EdgeInsets.zero,
   });
 
   final String data;
   final Color textColor;
   final Color backgroundColor;
   final Margins? margin;
+  final EdgeInsetsGeometry videoMargin;
 
   @override
   State<WHtml> createState() => _WHtmlState();
 }
 
 class _WHtmlState extends State<WHtml> {
-  bool isError = false;
+  ValueNotifier<bool> isError = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -79,98 +84,6 @@ class _WHtmlState extends State<WHtml> {
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: SizedBox(),
           ),
-        ),
-        // ul tegi uchun (optimallashtirilgan)
-        TagExtension(
-          tagsToExtend: {'ul'},
-          builder: (details) {
-            try {
-              return SizedBox(
-                height: isError ? 0 : 200,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    try {
-                      final src = details.elementChildren[index].children.first.children.first.attributes['src'] ?? '';
-                      return Container(
-                        color: widget.backgroundColor,
-                        child: CommonImage(
-                          imageUrl: src,
-                          height: 200,
-                          width: 200,
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    } catch (e) {
-                      setState(() => isError = true);
-                      return const SizedBox.shrink();
-                    }
-                  },
-                  separatorBuilder: (context, index) => const SizedBox(width: 16),
-                  itemCount: details.elementChildren.length,
-                ),
-              );
-            } catch (e) {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
-        // video tegi uchun
-        TagExtension(
-          tagsToExtend: {'video'},
-          builder: (details) {
-            try {
-              final thumbnailSrc = details.attributes['poster'] ?? '';
-              return GestureDetector(
-                onTap: () {
-                  final videoSrc = details.attributes['src'];
-                  if (videoSrc != null) {
-                    launchUrl(
-                      Uri.parse(videoSrc),
-                      mode: LaunchMode.externalApplication,
-                    );
-                  }
-                },
-                child: SizedBox(
-                  height: 210,
-                  width: MediaQuery.of(context).size.width,
-                  child: Stack(
-                    children: [
-                      CommonImage(
-                        radius: const BorderRadius.vertical(top: Radius.circular(12)),
-                        height: 210,
-                        width: MediaQuery.of(context).size.width,
-                        imageUrl: thumbnailSrc,
-                        fit: BoxFit.cover,
-                      ),
-                      Positioned(
-                        top: 12,
-                        left: 12,
-                        child: Container(
-                          width: 28,
-                          height: 28,
-                          padding: const EdgeInsets.all(6),
-                          decoration: ShapeDecoration(
-                            color: Colors.lightBlue.withValues(alpha: 0.5),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: const Icon(
-                            Icons.play_arrow,
-                            color: Colors.white,
-                            size: 16,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            } catch (e) {
-              return const SizedBox.shrink();
-            }
-          },
         ),
         TagExtension(
           tagsToExtend: {'ol'},
@@ -346,7 +259,263 @@ class _WHtmlState extends State<WHtml> {
             }
           },
         ),
+        // video tegi uchun
+        TagExtension(
+          tagsToExtend: {'video'},
+          builder: (details) {
+            if (details.elementChildren.isNotEmpty) {
+              try {
+                final sourceTag = details.elementChildren
+                    .firstWhere((el) => el.localName == 'source' && el.attributes.containsKey('src'));
+
+                final videoSrc = sourceTag.attributes['src'];
+                if (videoSrc == null || videoSrc.isEmpty || !Uri.parse(videoSrc).isAbsolute) {
+                  return const SizedBox.shrink();
+                }
+
+                return ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                  child: VideoPlay(url: videoSrc, margin: widget.videoMargin),
+                );
+              } catch (e) {
+                debugPrint('Error rendering video tag: $e');
+                return const SizedBox.shrink();
+              }
+            }
+            return const SizedBox.shrink();
+          },
+        ),
+        // ul tegi uchun (optimallashtirilgan)
+        TagExtension(
+          tagsToExtend: {'ul'},
+          builder: (ExtensionContext details) {
+            final children = details.elementChildren;
+
+            String determineContentType(List<dom.Element> children) {
+              if (children.isEmpty) return 'empty';
+              bool hasOnlyVideos = true;
+              bool hasOnlyImages = true;
+              bool hasOnlyText = true;
+
+              for (var li in children) {
+                if (li.localName != 'li') continue;
+                final liChildren = li.children;
+
+                if (liChildren.isEmpty) {
+                  if (li.text.trim().isNotEmpty) {
+                    hasOnlyVideos = false;
+                    hasOnlyImages = false;
+                  } else {
+                    hasOnlyText = false;
+                  }
+                } else {
+                  final hasVideo = liChildren.any((el) => el.localName == 'video');
+                  final hasImage = liChildren.any((el) => el.localName == 'img');
+                  final hasOther = liChildren.any((el) => el.localName != 'video' && el.localName != 'img');
+
+                  if (hasVideo) {
+                    hasOnlyImages = false;
+                    hasOnlyText = false;
+                  }
+                  if (hasImage) {
+                    hasOnlyVideos = false;
+                    hasOnlyText = false;
+                  }
+                  if (hasOther || li.text.trim().isNotEmpty) {
+                    hasOnlyVideos = false;
+                    hasOnlyImages = false;
+                  }
+                }
+              }
+
+              if (hasOnlyVideos) return 'videos';
+              if (hasOnlyImages) return 'images';
+              if (hasOnlyText) return 'text';
+              return 'mixed';
+            }
+
+            final contentType = determineContentType(children);
+
+            log("Content type: $contentType");
+
+            if (contentType == 'empty') {
+              return const SizedBox.shrink();
+            } else if (contentType == 'videos') {
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: children.length,
+                itemBuilder: (context, index) {
+                  final li = children[index];
+                  final video = li.children.firstWhere(
+                    (el) => el.localName == 'video',
+                  );
+                  if (video.className.isEmpty) return const Text("Empty");
+
+                  final sourceTag = video.children.firstWhere(
+                    (el) => el.localName == 'source' && el.attributes.containsKey('src'),
+                  );
+                  final videoSrc = sourceTag.attributes['src'];
+                  if (videoSrc == null || videoSrc.isEmpty || !Uri.parse(videoSrc).isAbsolute) {
+                    return const Text("data");
+                  }
+
+                  return ClipRRect(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                    child: Container(
+                      margin: EdgeInsets.zero,
+                      child: VideoPlay(url: videoSrc),
+                    ),
+                  );
+                },
+              );
+            } else if (contentType == 'images') {
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: children.length,
+                itemBuilder: (context, index) {
+                  final li = children[index];
+                  final img = li.children.firstWhere(
+                    (el) => el.localName == 'img',
+                  );
+                  final imgSrc = img.attributes['src'];
+                  if (imgSrc == null || imgSrc.isEmpty) return const SizedBox.shrink();
+
+                  return Container(
+                    margin: EdgeInsets.zero,
+                    child: Image.network(
+                      imgSrc,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
+                    ),
+                  );
+                },
+              );
+            } else if (contentType == 'text') {
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: children.length,
+                itemBuilder: (context, index) {
+                  final li = children[index];
+                  final text = li.text.trim();
+                  if (text.isEmpty) return const SizedBox.shrink();
+
+                  return Container(
+                    margin: EdgeInsets.zero,
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Text(
+                      text,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  );
+                },
+              );
+            } else {
+              return const Text("Mixed");
+            }
+          },
+        ),
       ],
+    );
+  }
+}
+
+class VideoPlay extends StatefulWidget {
+  const VideoPlay({
+    super.key,
+    required this.url,
+    this.margin = EdgeInsets.zero,
+  });
+
+  final String url;
+  final EdgeInsetsGeometry margin;
+
+  @override
+  State<VideoPlay> createState() => _VideoPlayState();
+}
+
+class _VideoPlayState extends State<VideoPlay> {
+  late CachedVideoPlayerPlusController controller;
+  static const List<String> imageExtensions = ['png', 'jpg', 'jpeg', 'webp'];
+  late final bool isImage;
+  ValueNotifier<bool> isInitialized = ValueNotifier(false);
+
+  @override
+  void initState() {
+    super.initState();
+
+    log("Video");
+    isImage = imageExtensions.any(
+      (ext) => widget.url.toLowerCase().endsWith(ext),
+    );
+
+    if (!isImage) {
+      controller = CachedVideoPlayerPlusController.networkUrl(Uri.parse(widget.url))
+        ..addListener(() async {
+          final position = await controller.position;
+          if ((position?.inMilliseconds ?? 0) >= controller.value.duration.inMilliseconds) {
+            // Video tugadi
+            debugPrint("Video completed: ${widget.url}");
+          }
+        })
+        ..initialize().then((_) {
+          controller.setLooping(true);
+          controller.play(); // Auto-play
+          debugPrint("Video started: ${widget.url}");
+          if (mounted) {
+            isInitialized.value = true;
+          }
+        });
+    }
+  }
+
+  @override
+  void dispose() {
+    if (!isImage) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: isInitialized,
+      builder: (c, val, chi) {
+        if (isImage) {
+          return Image.network(
+            widget.url,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+            loadingBuilder: (context, child, progress) {
+              if (progress == null) return child;
+              return const Center(child: CircularProgressIndicator());
+            },
+            errorBuilder: (context, error, stackTrace) => const Center(child: Icon(Icons.broken_image)),
+          );
+        } else {
+          if (!isInitialized.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return Container(
+            margin: widget.margin,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.black),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: AspectRatio(
+                aspectRatio: controller.value.aspectRatio,
+                child: CachedVideoPlayerPlus(controller),
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }

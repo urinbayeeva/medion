@@ -27,10 +27,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<_FetchCompanyLocation>(_fetchCompanyLocation);
   }
 
-  FutureOr<void> _fetchCompanyLocation(
-    _FetchCompanyLocation event,
-    Emitter<HomeState> emit,
-  ) async {
+  FutureOr<void> _fetchCompanyLocation(_FetchCompanyLocation event, Emitter<HomeState> emit) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
     // EasyLoading.show();
@@ -54,10 +51,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
   }
 
-  FutureOr<void> _fetchNews(
-    _FetchNews event,
-    Emitter<HomeState> emit,
-  ) async {
+  FutureOr<void> _fetchNews(_FetchNews event, Emitter<HomeState> emit) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
     // EasyLoading.show();
@@ -81,10 +75,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
   }
 
-  FutureOr<void> _fetchDiseases(
-    _FetchDiseases event,
-    Emitter<HomeState> emit,
-  ) async {
+  FutureOr<void> _fetchDiseases(_FetchDiseases event, Emitter<HomeState> emit) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
     final res = await _repository.getDiseases();
@@ -106,10 +97,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
   }
 
-  FutureOr<void> _fetchAds(
-    _FetchAds event,
-    Emitter<HomeState> emit,
-  ) async {
+  FutureOr<void> _fetchAds(_FetchAds event, Emitter<HomeState> emit) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
     // EasyLoading.show();
@@ -133,10 +121,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
   }
 
-  FutureOr<void> _fetchMedicalServices(
-    _FetchMedicalServices event,
-    Emitter<HomeState> emit,
-  ) async {
+  FutureOr<void> _fetchMedicalServices(_FetchMedicalServices event, Emitter<HomeState> emit) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
     // EasyLoading.show();

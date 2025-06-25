@@ -1,21 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
-import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/presentation/component/cached_image_component.dart';
-import 'package:medion/presentation/component/w_html/w_html_has_ellipsis.dart';
+import 'package:medion/presentation/component/w_html/w_html.dart';
 import 'package:medion/presentation/pages/others/dicsount/widgets/condition_of_discount_widget.dart';
 import 'package:medion/presentation/pages/others/dicsount/widgets/discount_duration_widget.dart';
-import 'package:medion/presentation/pages/visits/widgets/visit_info_detail_card.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/date_util.dart';
 import 'package:medion/utils/extensions.dart';
 import 'package:share_plus/share_plus.dart';
-
-import 'package:carousel_slider/carousel_slider.dart';
 // ... other imports
 
 class CInfoView extends StatefulWidget {
@@ -87,6 +82,8 @@ class _CInfoViewState extends State<CInfoView> {
                         imageUrl: url,
                         width: double.infinity,
                         fit: BoxFit.cover,
+                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => const Center(child: Icon(Icons.broken_image_rounded)),
                       );
                     }).toList(),
                   ),
@@ -129,7 +126,7 @@ class _CInfoViewState extends State<CInfoView> {
                     ),
                   ),
                   // Dot Indicators
-                  if (images.length > 1)
+                  if (images.length > 1) ...{
                     Positioned(
                       bottom: 12.h,
                       child: Row(
@@ -148,6 +145,7 @@ class _CInfoViewState extends State<CInfoView> {
                         }).toList(),
                       ),
                     ),
+                  }
                 ],
               ),
               // Content
@@ -168,12 +166,10 @@ class _CInfoViewState extends State<CInfoView> {
                       ),
                     ),
                     4.h.verticalSpace,
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    //   child: Text(widget.desc ?? '', style: fonts.smallLink),
-                    // ),
-
-                    WHtmlFull(data: widget.desc ?? '', hasEllipsis: false),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: WHtml(data: widget.desc ?? ''),
+                    ),
                     if (widget.isDiscount != null && widget.discountCondition.isNotEmpty) ...[
                       24.h.verticalSpace,
                       Padding(

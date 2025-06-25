@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'aurora-aa792.firebasestorage.app',
     iosBundleId: 'com.example.medion',
   );
+
 }

@@ -24,6 +24,12 @@ class DBService {
   static const _tokenType = "token_type";
   static const fcmToken = "fcm_token";
 
+  static const version = "version";
+  static const deviceName = "device_name";
+  static const userAgent = "user_agent";
+  static const platform = "platform";
+  static const udId = "ud_id";
+
   static Box? _box;
 
   DBService._();
@@ -45,12 +51,73 @@ class DBService {
     await _box?.clear();
   }
 
+  /// device Information
+  Future<void> setUserAgent(String agent) async {
+    if (agent.isNotEmpty) {
+      await _box?.put(userAgent, agent);
+    }
+  }
+
+  Future<void> setPlatform(String p) async {
+    await _box?.put(platform, p);
+  }
+
+  Future<void> setVersion(String v) async {
+    await _box?.put(version, v);
+  }
+
+  Future<void> setDeviceName(String name) async {
+    if (name.isNotEmpty) {
+      await _box?.put(deviceName, name);
+    }
+  }
+
+  Future<void> setDeviceId(String id) async {
+    await _box?.put(udId, id);
+  }
+
+  String get getUserAgent {
+    final String? value = _box?.get(userAgent);
+    return (value != null && value.isNotEmpty && value.length > 2) ? value : '';
+  }
+
+  String get getPlatform {
+    final String? value = _box?.get(platform);
+    return (value != null && value.isNotEmpty && value.length > 2) ? value : '';
+  }
+
+  String get getVersion {
+    final String? value = _box?.get(version);
+    return (value != null && value.isNotEmpty && value.length > 1) ? value : '';
+  }
+
+  String get getDeviceName {
+    final String? value = _box?.get(deviceName);
+    return (value != null && value.isNotEmpty && value.length > 1) ? value : '';
+  }
+
+  String get getDeviceId {
+    final String? value = _box?.get(udId);
+    return (value != null && value.isNotEmpty && value.length > 4) ? value : '';
+  }
+
   /// Token
   Future<void> setToken(Token token) async {
     await _box?.put(_accessToken, token.accessToken ?? '');
     await _box?.put(_refreshToken, token.refreshToken ?? '');
   }
 
+  Token get token {
+    final accessToken = _box?.get(_accessToken);
+    final refreshToken = _box?.get(_refreshToken);
+    return Token(
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      tokenType: "Bearer",
+    );
+  }
+
+  /// FCM token
   Future<void> setFcmToken(String token) async {
     if (token.isNotEmpty || token.length > 4) {
       await _box?.put(fcmToken, token);
@@ -64,16 +131,6 @@ class DBService {
     } else {
       return '';
     }
-  }
-
-  Token get token {
-    final accessToken = _box?.get(_accessToken);
-    final refreshToken = _box?.get(_refreshToken);
-    return Token(
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-      tokenType: "Bearer",
-    );
   }
 
   Future<void> _deleteToken() async {

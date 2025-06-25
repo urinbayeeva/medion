@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -84,11 +85,15 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
 
     final origin = _currentPosition!;
     final destination = widget.destination;
+    const _key = 'a8ce6127-69d7-438e-bf1c-c7ea7bb81310';
+    const _keyOld = '3f886df1-7552-4a91-8dc7-3511e772780d';
 
     final url =
-        'https://api.routing.yandex.net/v2/route?waypoints=${origin.latitude},${origin.longitude}|${destination.latitude},${destination.longitude}&apikey=3f886df1-7552-4a91-8dc7-3511e772780d';
+        'https://api.routing.yandex.net/v2/route?waypoints=${origin.latitude},${origin.longitude}|${destination.latitude},${destination.longitude}&apikey=$_keyOld';
 
     final response = await http.get(Uri.parse(url));
+    log("APi Url: $url\n\n");
+    log("APi response status code: ${response.statusCode}");
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);

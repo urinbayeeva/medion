@@ -23,12 +23,13 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   String aboutApp = "Version loading...";
   bool isLoading = true;
-  late final AuthBloc _bloc;
 
   @override
   void initState() {
     super.initState();
+
     init();
+    context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
   }
 
   Future<void> init() async {
@@ -52,6 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
               if (state.patientInfo == null && isLoading) return const Center(child: CircularProgressIndicator());
 
               return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const Spacer(),
                   GestureDetector(

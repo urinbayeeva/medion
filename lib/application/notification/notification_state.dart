@@ -7,10 +7,13 @@ class NotificationState with _$NotificationState {
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus notificationStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus markAllNotificationStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus readOnlyStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus singleStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus setFcmTokenStatus,
     @Default('') String markAsReadErrorMsg,
     @Default('') String notificationsErrorMessage,
     @Default('') String notificationNext,
     @Default([]) List<NotificationModel> notifications,
+    NotificationModel? singleNotification,
   }) = _NotificationState;
 
   const NotificationState._();

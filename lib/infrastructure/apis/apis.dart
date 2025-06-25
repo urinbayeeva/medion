@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' show Client, MultipartFile;
@@ -54,9 +55,7 @@ abstract class AuthService extends ChopperService {
   });
 
   @Post(path: "create")
-  Future<Response<CreatePatientInfoResponse>> createUserInfo({
-    @Body() required CreateInfoReq request,
-  });
+  Future<Response<CreatePatientInfoResponse>> createUserInfo({@Body() required CreateInfoReq request});
 
   static AuthService create(DBService dbService) => _$AuthService(_Client(Constants.baseUrlP, true, dbService));
 }
@@ -64,9 +63,7 @@ abstract class AuthService extends ChopperService {
 @ChopperApi(baseUrl: "")
 abstract class RefreshService extends ChopperService {
   @Post(path: "refresh")
-  Future<Response<RefreshTokenResponseModel>> refreshToken({
-    @Body() required RefreshTokenModel request,
-  });
+  Future<Response<RefreshTokenResponseModel>> refreshToken({@Body() required RefreshTokenModel request});
 
   static RefreshService create(DBService dbService) => _$RefreshService(_Client(Constants.baseUrlP, true, dbService));
 }
@@ -216,13 +213,19 @@ abstract class SearchService extends ChopperService {
   static SearchService create(DBService dbService) => _$SearchService(_Client(Constants.baseUrlP, true, dbService));
 }
 
-@ChopperApi(baseUrl: "/notifications")
+@ChopperApi(baseUrl: "")
 abstract class NotificationService extends ChopperService {
-  @Get(path: "")
+  @Get(path: "/notifications")
   Future<Response<BuiltList<NotificationModel>>> getNotifications();
 
-  @Put(path: "/{notification_id}/read")
+  @Put(path: "/notifications/{notification_id}/read")
   Future<Response<BuiltList<NotificationModel>>> readNotification(@Path('notification_id') int notificationId);
+
+  @Post(path: "https://his.uicgroup.tech/firebase/token")
+  Future<Response<void>> setFcmToken({
+    @Body() required SetFcmTokenBody fcm,
+    @Header('requires-token') String requiresToken = "true",
+  });
 
   static NotificationService create(DBService dbService) =>
       _$NotificationService(_Client(Constants.baseUrlP, true, dbService));

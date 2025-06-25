@@ -7,24 +7,29 @@ class CustomTabbarBlack extends StatelessWidget {
   const CustomTabbarBlack({
     super.key,
     required this.tabs,
+    this.isScrollable = true,
   });
 
   final List<String> tabs;
+  final bool isScrollable;
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Container(
-        height: 50.h,
-        width: double.infinity,
-        child: TabBar(
-          overlayColor: const WidgetStatePropertyAll(Colors.transparent),
-          indicatorPadding: EdgeInsets.zero,
-          labelPadding: EdgeInsets.zero,
-          padding: EdgeInsets.zero,
-          indicatorColor: colors.error500,
-          tabs: tabs
-              .map((title) => Tab(
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return SizedBox(
+          height: 50.h,
+          width: double.infinity,
+          child: TabBar(
+            overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+            labelPadding: EdgeInsets.only(right: 12.w),
+            padding: EdgeInsets.only(right: 12.w),
+            indicatorColor: colors.error500,
+            isScrollable: isScrollable,
+            tabAlignment: isScrollable ? TabAlignment.start : null,
+            tabs: tabs
+                .map(
+                  (title) => Tab(
                     child: Center(
                       child: Text(
                         title,
@@ -32,10 +37,12 @@ class CustomTabbarBlack extends StatelessWidget {
                         style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
                       ),
                     ),
-                  ))
-              .toList(),
-        ),
-      );
-    });
+                  ),
+                )
+                .toList(),
+          ),
+        );
+      },
+    );
   }
 }

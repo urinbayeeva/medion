@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:chopper/chopper.dart';
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +17,7 @@ import 'package:medion/domain/success_model/success_model.dart';
 import 'package:medion/domain/upload_image/upload_image.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/utils/constants.dart';
 
@@ -33,25 +35,25 @@ class AuthRepository implements IAuthFacade {
   );
 
   Future<Either<ResponseFailure, RefreshTokenResponseModel>> refreshToken(String refresh) async {
-    try {
-      final response = await _refreshService.refreshToken(
-        request: RefreshTokenModel((b) => b..token = refresh),
-      );
+    Response<RefreshTokenResponseModel>? response;
 
-      if (response.isSuccessful) {
-        if (response.body != null) {
-          // //LogService.d("Refresh succeeded: ${response.body!.accessToken}");
-          return right(response.body!);
-        } else {
-          // //LogService.e("Response successful but body is null");
-          return left(InvalidCredentials(message: 'Response body is null'));
-        }
+    try {
+      response = await _refreshService.refreshToken(request: RefreshTokenModel((b) => b..token = refresh));
+
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        return right(response.body!);
       } else {
-        // LogService.e("Refresh failed: ${response.statusCode} - ${response.error}");
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
-    } catch (e) {
-      // LogService.e("Refresh error: $e\nStackTrace:");
+    } catch (e, stack) {
+      LogService.e('❌ Exception: ${e.toString()}');
+      if (response != null) {
+        LogService.e('❌ Error Response Status: ${response.statusCode}');
+        LogService.e('❌ Error Response Body: ${response.body}');
+      }
       return left(handleError(e));
     }
   }
@@ -63,9 +65,7 @@ class AuthRepository implements IAuthFacade {
   }
 
   @override
-  Future<Either<ResponseFailure, RegistrationResponse>> registerUser({
-    required RegisterReq request,
-  }) async {
+  Future<Either<ResponseFailure, RegistrationResponse>> registerUser({required RegisterReq request}) async {
     try {
       final res = await _authService.registerUser(request: request);
 
@@ -106,7 +106,7 @@ class AuthRepository implements IAuthFacade {
         return left(InvalidCredentials(message: errorMessage));
       }
     } catch (e) {
-      //LogService.e("Register error: $e");
+      LogService.e("Register error: $e");
 
       // Handle specific exception cases
       if (e.toString().toLowerCase().contains('incorrect code')) {
@@ -124,8 +124,8 @@ class AuthRepository implements IAuthFacade {
     try {
       final response = await _authService.phoneNumberSend(request: request);
 
-      //LogService.d('Response Status: ${response.statusCode}');
-      //LogService.d('Response Body: ${response.body}');
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful) {
         final body = response.body;
@@ -148,7 +148,7 @@ class AuthRepository implements IAuthFacade {
         return left(InvalidCredentials(message: errorMessage));
       }
     } catch (e) {
-      //LogService.e("Error in sendPhoneNumber: ${e.toString()} \nStackTrace:");
+      LogService.e("Error in sendPhoneNumber: ${e.toString()} \nStackTrace:");
       return left(
         InvalidCredentials(message: 'too_many_attempts'.tr()),
       );
@@ -157,21 +157,26 @@ class AuthRepository implements IAuthFacade {
 
   @override
   Future<Either<ResponseFailure, CreatePatientInfoResponse>> sendUserInfo({required CreateInfoReq request}) async {
-    try {
-      final res = await _authService.createUserInfo(request: request);
-      if (res.isSuccessful) {
-        _dbService.setToken(Token(
-          tokenType: res.body?.tokenType,
-          accessToken: res.body?.accesstoken,
-          refreshToken: res.body?.refreshtoken,
-        ));
+    Response<CreatePatientInfoResponse>? response;
 
-        return right(res.body!);
+    try {
+      response = await _authService.createUserInfo(request: request);
+
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        return right(response.body!);
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      //LogService.e(" ----> error on repo  : ${e.toString()}");
+      LogService.e('❌ Exception: ${e.toString()}');
+      if (response != null) {
+        LogService.e('❌ Error Response Status: ${response.statusCode}');
+        LogService.e('❌ Error Response Body: ${response.body}');
+        LogService.e('❌ Error Response Error: ${response.error}');
+      }
       return left(handleError(e));
     }
   }
@@ -180,21 +185,21 @@ class AuthRepository implements IAuthFacade {
   Future<Either<ResponseFailure, PatientInfo>> getPatientInfo() async {
     try {
       final token = _dbService.token.toBearerToken;
-      //LogService.d("Fetching patient info with token: $token");
+      LogService.d("Fetching patient info with token: $token");
       if (token == null) {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
       final service = PatientService.create(_dbService);
       final res = await service.getPatientInfo();
       if (res.isSuccessful && res.body != null) {
-        //LogService.d("Patient info: ${res.body}");
+        LogService.d("Patient info: ${res.body}");
         return right(res.body!);
       } else {
-        //LogService.e("Server error: ${res.statusCode} - ${res.error}");
+        LogService.e("Server error: ${res.statusCode} - ${res.error}");
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      //LogService.e("----> error fetching patient info: $e");
+      LogService.e("----> error fetching patient info: $e");
       return left(handleError(e));
     }
   }
@@ -205,8 +210,8 @@ class AuthRepository implements IAuthFacade {
       final res = await _patientService.getPatientVisitsMobile();
 
       if (res.isSuccessful && res.body != null) {
-        //LogService.d('Response Status: ${res.statusCode}');
-        //LogService.d('Response Body: ${res.body}');
+        LogService.d('Response Status: ${res.statusCode}');
+        LogService.d('Response Body: ${res.body}');
         return right(res.body!.toList());
       } else {
         return left(InvalidCredentials(
@@ -214,7 +219,7 @@ class AuthRepository implements IAuthFacade {
         ));
       }
     } catch (e) {
-      //LogService.e(" ----> error fetching patient visits: ${e.toString()}");
+      LogService.e(" ----> error fetching patient visits: ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -227,8 +232,8 @@ class AuthRepository implements IAuthFacade {
       final res = await _patientService.getPatientAnalyze();
 
       if (res.isSuccessful && res.body != null) {
-        //LogService.d('Response Status: ${res.statusCode}');
-        //LogService.d('Response Body: ${res.body}');
+        LogService.d('Response Status: ${res.statusCode}');
+        LogService.d('Response Body: ${res.body}');
         EasyLoading.dismiss();
         return right(res.body!);
       } else {
@@ -239,7 +244,7 @@ class AuthRepository implements IAuthFacade {
       }
     } catch (e) {
       EasyLoading.dismiss();
-      //LogService.e(" ----> error fetching patient analyze: ${e.toString()}");
+      LogService.e(" ----> error fetching patient analyze: ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -253,8 +258,8 @@ class AuthRepository implements IAuthFacade {
         image: ImageUploadResponseModel((b) => b..imageBase64 = image.imageBase64),
       );
 
-      //LogService.d('Response Status: ${response.statusCode}');
-      //LogService.d('Response Body: ${response.body}');
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         return right(response.body!); // Use response.body directly
@@ -262,7 +267,7 @@ class AuthRepository implements IAuthFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e) {
-      //LogService.e(" ----> error on repo : ${e.toString()}");
+      LogService.e(" ----> error on repo : ${e.toString()}");
       return left(handleError(e));
     }
   }
@@ -272,8 +277,8 @@ class AuthRepository implements IAuthFacade {
     try {
       final response = await _patientService.getMyWallet();
 
-      //LogService.d('Wallet Response Status: ${response.statusCode}');
-      //LogService.d('Wallet Response Body: ${response.body}');
+      LogService.d('Wallet Response Status: ${response.statusCode}');
+      LogService.d('Wallet Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
         return right(response.body!);
@@ -282,7 +287,7 @@ class AuthRepository implements IAuthFacade {
         return left(InvalidCredentials(message: errorMsg));
       }
     } catch (e) {
-      //LogService.e("getMyWallet() error: $e\nStackTrace:");
+      LogService.e("getMyWallet() error: $e\nStackTrace:");
       return left(handleError(e));
     }
   }

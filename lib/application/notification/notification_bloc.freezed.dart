@@ -23,6 +23,7 @@ mixin _$NotificationEvent {
     required TResult Function() getMoreNotifications,
     required TResult Function() markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
+    required TResult Function() setFCMToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -32,6 +33,7 @@ mixin _$NotificationEvent {
     TResult? Function()? getMoreNotifications,
     TResult? Function()? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
+    TResult? Function()? setFCMToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -41,6 +43,7 @@ mixin _$NotificationEvent {
     TResult Function()? getMoreNotifications,
     TResult Function()? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
+    TResult Function()? setFCMToken,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -52,6 +55,7 @@ mixin _$NotificationEvent {
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
     required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_SetFCMToken value) setFCMToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -62,6 +66,7 @@ mixin _$NotificationEvent {
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_SetFCMToken value)? setFCMToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -72,6 +77,7 @@ mixin _$NotificationEvent {
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_SetFCMToken value)? setFCMToken,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -144,6 +150,7 @@ class _$StartedImpl implements _Started {
     required TResult Function() getMoreNotifications,
     required TResult Function() markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
+    required TResult Function() setFCMToken,
   }) {
     return started();
   }
@@ -156,6 +163,7 @@ class _$StartedImpl implements _Started {
     TResult? Function()? getMoreNotifications,
     TResult? Function()? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
+    TResult? Function()? setFCMToken,
   }) {
     return started?.call();
   }
@@ -168,6 +176,7 @@ class _$StartedImpl implements _Started {
     TResult Function()? getMoreNotifications,
     TResult Function()? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
+    TResult Function()? setFCMToken,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -185,6 +194,7 @@ class _$StartedImpl implements _Started {
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
     required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_SetFCMToken value) setFCMToken,
   }) {
     return started(this);
   }
@@ -198,6 +208,7 @@ class _$StartedImpl implements _Started {
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_SetFCMToken value)? setFCMToken,
   }) {
     return started?.call(this);
   }
@@ -211,6 +222,7 @@ class _$StartedImpl implements _Started {
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_SetFCMToken value)? setFCMToken,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -270,6 +282,7 @@ class _$GetNotificationImpl implements _GetNotification {
     required TResult Function() getMoreNotifications,
     required TResult Function() markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
+    required TResult Function() setFCMToken,
   }) {
     return getNotifications();
   }
@@ -282,6 +295,7 @@ class _$GetNotificationImpl implements _GetNotification {
     TResult? Function()? getMoreNotifications,
     TResult? Function()? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
+    TResult? Function()? setFCMToken,
   }) {
     return getNotifications?.call();
   }
@@ -294,6 +308,7 @@ class _$GetNotificationImpl implements _GetNotification {
     TResult Function()? getMoreNotifications,
     TResult Function()? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
+    TResult Function()? setFCMToken,
     required TResult orElse(),
   }) {
     if (getNotifications != null) {
@@ -311,6 +326,7 @@ class _$GetNotificationImpl implements _GetNotification {
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
     required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_SetFCMToken value) setFCMToken,
   }) {
     return getNotifications(this);
   }
@@ -324,6 +340,7 @@ class _$GetNotificationImpl implements _GetNotification {
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_SetFCMToken value)? setFCMToken,
   }) {
     return getNotifications?.call(this);
   }
@@ -337,6 +354,7 @@ class _$GetNotificationImpl implements _GetNotification {
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_SetFCMToken value)? setFCMToken,
     required TResult orElse(),
   }) {
     if (getNotifications != null) {
@@ -397,6 +415,7 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
     required TResult Function() getMoreNotifications,
     required TResult Function() markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
+    required TResult Function() setFCMToken,
   }) {
     return getMoreNotifications();
   }
@@ -409,6 +428,7 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
     TResult? Function()? getMoreNotifications,
     TResult? Function()? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
+    TResult? Function()? setFCMToken,
   }) {
     return getMoreNotifications?.call();
   }
@@ -421,6 +441,7 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
     TResult Function()? getMoreNotifications,
     TResult Function()? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
+    TResult Function()? setFCMToken,
     required TResult orElse(),
   }) {
     if (getMoreNotifications != null) {
@@ -438,6 +459,7 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
     required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_SetFCMToken value) setFCMToken,
   }) {
     return getMoreNotifications(this);
   }
@@ -451,6 +473,7 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_SetFCMToken value)? setFCMToken,
   }) {
     return getMoreNotifications?.call(this);
   }
@@ -464,6 +487,7 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_SetFCMToken value)? setFCMToken,
     required TResult orElse(),
   }) {
     if (getMoreNotifications != null) {
@@ -527,6 +551,7 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
     required TResult Function() getMoreNotifications,
     required TResult Function() markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
+    required TResult Function() setFCMToken,
   }) {
     return markAllNotificationAsRead();
   }
@@ -539,6 +564,7 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
     TResult? Function()? getMoreNotifications,
     TResult? Function()? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
+    TResult? Function()? setFCMToken,
   }) {
     return markAllNotificationAsRead?.call();
   }
@@ -551,6 +577,7 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
     TResult Function()? getMoreNotifications,
     TResult Function()? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
+    TResult Function()? setFCMToken,
     required TResult orElse(),
   }) {
     if (markAllNotificationAsRead != null) {
@@ -568,6 +595,7 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
     required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_SetFCMToken value) setFCMToken,
   }) {
     return markAllNotificationAsRead(this);
   }
@@ -581,6 +609,7 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_SetFCMToken value)? setFCMToken,
   }) {
     return markAllNotificationAsRead?.call(this);
   }
@@ -594,6 +623,7 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_SetFCMToken value)? setFCMToken,
     required TResult orElse(),
   }) {
     if (markAllNotificationAsRead != null) {
@@ -681,6 +711,7 @@ class _$ReadNotificationImpl implements _ReadNotification {
     required TResult Function() getMoreNotifications,
     required TResult Function() markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
+    required TResult Function() setFCMToken,
   }) {
     return readNotification(index);
   }
@@ -693,6 +724,7 @@ class _$ReadNotificationImpl implements _ReadNotification {
     TResult? Function()? getMoreNotifications,
     TResult? Function()? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
+    TResult? Function()? setFCMToken,
   }) {
     return readNotification?.call(index);
   }
@@ -705,6 +737,7 @@ class _$ReadNotificationImpl implements _ReadNotification {
     TResult Function()? getMoreNotifications,
     TResult Function()? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
+    TResult Function()? setFCMToken,
     required TResult orElse(),
   }) {
     if (readNotification != null) {
@@ -722,6 +755,7 @@ class _$ReadNotificationImpl implements _ReadNotification {
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
     required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_SetFCMToken value) setFCMToken,
   }) {
     return readNotification(this);
   }
@@ -735,6 +769,7 @@ class _$ReadNotificationImpl implements _ReadNotification {
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_SetFCMToken value)? setFCMToken,
   }) {
     return readNotification?.call(this);
   }
@@ -748,6 +783,7 @@ class _$ReadNotificationImpl implements _ReadNotification {
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_SetFCMToken value)? setFCMToken,
     required TResult orElse(),
   }) {
     if (readNotification != null) {
@@ -771,6 +807,138 @@ abstract class _ReadNotification implements NotificationEvent {
 }
 
 /// @nodoc
+abstract class _$$SetFCMTokenImplCopyWith<$Res> {
+  factory _$$SetFCMTokenImplCopyWith(
+          _$SetFCMTokenImpl value, $Res Function(_$SetFCMTokenImpl) then) =
+      __$$SetFCMTokenImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$SetFCMTokenImplCopyWithImpl<$Res>
+    extends _$NotificationEventCopyWithImpl<$Res, _$SetFCMTokenImpl>
+    implements _$$SetFCMTokenImplCopyWith<$Res> {
+  __$$SetFCMTokenImplCopyWithImpl(
+      _$SetFCMTokenImpl _value, $Res Function(_$SetFCMTokenImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$SetFCMTokenImpl implements _SetFCMToken {
+  const _$SetFCMTokenImpl();
+
+  @override
+  String toString() {
+    return 'NotificationEvent.setFCMToken()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$SetFCMTokenImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() getNotifications,
+    required TResult Function() getMoreNotifications,
+    required TResult Function() markAllNotificationAsRead,
+    required TResult Function(int index) readNotification,
+    required TResult Function() setFCMToken,
+  }) {
+    return setFCMToken();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? getNotifications,
+    TResult? Function()? getMoreNotifications,
+    TResult? Function()? markAllNotificationAsRead,
+    TResult? Function(int index)? readNotification,
+    TResult? Function()? setFCMToken,
+  }) {
+    return setFCMToken?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? getNotifications,
+    TResult Function()? getMoreNotifications,
+    TResult Function()? markAllNotificationAsRead,
+    TResult Function(int index)? readNotification,
+    TResult Function()? setFCMToken,
+    required TResult orElse(),
+  }) {
+    if (setFCMToken != null) {
+      return setFCMToken();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_GetNotification value) getNotifications,
+    required TResult Function(_GetMoreNotification value) getMoreNotifications,
+    required TResult Function(_MarkAllNotificationAsRead value)
+        markAllNotificationAsRead,
+    required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_SetFCMToken value) setFCMToken,
+  }) {
+    return setFCMToken(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_GetNotification value)? getNotifications,
+    TResult? Function(_GetMoreNotification value)? getMoreNotifications,
+    TResult? Function(_MarkAllNotificationAsRead value)?
+        markAllNotificationAsRead,
+    TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_SetFCMToken value)? setFCMToken,
+  }) {
+    return setFCMToken?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_GetNotification value)? getNotifications,
+    TResult Function(_GetMoreNotification value)? getMoreNotifications,
+    TResult Function(_MarkAllNotificationAsRead value)?
+        markAllNotificationAsRead,
+    TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_SetFCMToken value)? setFCMToken,
+    required TResult orElse(),
+  }) {
+    if (setFCMToken != null) {
+      return setFCMToken(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SetFCMToken implements NotificationEvent {
+  const factory _SetFCMToken() = _$SetFCMTokenImpl;
+}
+
+/// @nodoc
 mixin _$NotificationState {
   bool get notificationsFetchMore => throw _privateConstructorUsedError;
   FormzSubmissionStatus get notificationStatus =>
@@ -779,10 +947,15 @@ mixin _$NotificationState {
       throw _privateConstructorUsedError;
   FormzSubmissionStatus get readOnlyStatus =>
       throw _privateConstructorUsedError;
+  FormzSubmissionStatus get singleStatus => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get setFcmTokenStatus =>
+      throw _privateConstructorUsedError;
   String get markAsReadErrorMsg => throw _privateConstructorUsedError;
   String get notificationsErrorMessage => throw _privateConstructorUsedError;
   String get notificationNext => throw _privateConstructorUsedError;
   List<NotificationModel> get notifications =>
+      throw _privateConstructorUsedError;
+  NotificationModel? get singleNotification =>
       throw _privateConstructorUsedError;
 
   /// Create a copy of NotificationState
@@ -803,10 +976,13 @@ abstract class $NotificationStateCopyWith<$Res> {
       FormzSubmissionStatus notificationStatus,
       FormzSubmissionStatus markAllNotificationStatus,
       FormzSubmissionStatus readOnlyStatus,
+      FormzSubmissionStatus singleStatus,
+      FormzSubmissionStatus setFcmTokenStatus,
       String markAsReadErrorMsg,
       String notificationsErrorMessage,
       String notificationNext,
-      List<NotificationModel> notifications});
+      List<NotificationModel> notifications,
+      NotificationModel? singleNotification});
 }
 
 /// @nodoc
@@ -828,10 +1004,13 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
     Object? notificationStatus = null,
     Object? markAllNotificationStatus = null,
     Object? readOnlyStatus = null,
+    Object? singleStatus = null,
+    Object? setFcmTokenStatus = null,
     Object? markAsReadErrorMsg = null,
     Object? notificationsErrorMessage = null,
     Object? notificationNext = null,
     Object? notifications = null,
+    Object? singleNotification = freezed,
   }) {
     return _then(_value.copyWith(
       notificationsFetchMore: null == notificationsFetchMore
@@ -850,6 +1029,14 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
           ? _value.readOnlyStatus
           : readOnlyStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      singleStatus: null == singleStatus
+          ? _value.singleStatus
+          : singleStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      setFcmTokenStatus: null == setFcmTokenStatus
+          ? _value.setFcmTokenStatus
+          : setFcmTokenStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       markAsReadErrorMsg: null == markAsReadErrorMsg
           ? _value.markAsReadErrorMsg
           : markAsReadErrorMsg // ignore: cast_nullable_to_non_nullable
@@ -866,6 +1053,10 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
           ? _value.notifications
           : notifications // ignore: cast_nullable_to_non_nullable
               as List<NotificationModel>,
+      singleNotification: freezed == singleNotification
+          ? _value.singleNotification
+          : singleNotification // ignore: cast_nullable_to_non_nullable
+              as NotificationModel?,
     ) as $Val);
   }
 }
@@ -883,10 +1074,13 @@ abstract class _$$NotificationStateImplCopyWith<$Res>
       FormzSubmissionStatus notificationStatus,
       FormzSubmissionStatus markAllNotificationStatus,
       FormzSubmissionStatus readOnlyStatus,
+      FormzSubmissionStatus singleStatus,
+      FormzSubmissionStatus setFcmTokenStatus,
       String markAsReadErrorMsg,
       String notificationsErrorMessage,
       String notificationNext,
-      List<NotificationModel> notifications});
+      List<NotificationModel> notifications,
+      NotificationModel? singleNotification});
 }
 
 /// @nodoc
@@ -906,10 +1100,13 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
     Object? notificationStatus = null,
     Object? markAllNotificationStatus = null,
     Object? readOnlyStatus = null,
+    Object? singleStatus = null,
+    Object? setFcmTokenStatus = null,
     Object? markAsReadErrorMsg = null,
     Object? notificationsErrorMessage = null,
     Object? notificationNext = null,
     Object? notifications = null,
+    Object? singleNotification = freezed,
   }) {
     return _then(_$NotificationStateImpl(
       notificationsFetchMore: null == notificationsFetchMore
@@ -928,6 +1125,14 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
           ? _value.readOnlyStatus
           : readOnlyStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      singleStatus: null == singleStatus
+          ? _value.singleStatus
+          : singleStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      setFcmTokenStatus: null == setFcmTokenStatus
+          ? _value.setFcmTokenStatus
+          : setFcmTokenStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       markAsReadErrorMsg: null == markAsReadErrorMsg
           ? _value.markAsReadErrorMsg
           : markAsReadErrorMsg // ignore: cast_nullable_to_non_nullable
@@ -944,6 +1149,10 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
           ? _value._notifications
           : notifications // ignore: cast_nullable_to_non_nullable
               as List<NotificationModel>,
+      singleNotification: freezed == singleNotification
+          ? _value.singleNotification
+          : singleNotification // ignore: cast_nullable_to_non_nullable
+              as NotificationModel?,
     ));
   }
 }
@@ -956,10 +1165,13 @@ class _$NotificationStateImpl extends _NotificationState {
       this.notificationStatus = FormzSubmissionStatus.initial,
       this.markAllNotificationStatus = FormzSubmissionStatus.initial,
       this.readOnlyStatus = FormzSubmissionStatus.initial,
+      this.singleStatus = FormzSubmissionStatus.initial,
+      this.setFcmTokenStatus = FormzSubmissionStatus.initial,
       this.markAsReadErrorMsg = '',
       this.notificationsErrorMessage = '',
       this.notificationNext = '',
-      final List<NotificationModel> notifications = const []})
+      final List<NotificationModel> notifications = const [],
+      this.singleNotification})
       : _notifications = notifications,
         super._();
 
@@ -975,6 +1187,12 @@ class _$NotificationStateImpl extends _NotificationState {
   @override
   @JsonKey()
   final FormzSubmissionStatus readOnlyStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus singleStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus setFcmTokenStatus;
   @override
   @JsonKey()
   final String markAsReadErrorMsg;
@@ -994,8 +1212,11 @@ class _$NotificationStateImpl extends _NotificationState {
   }
 
   @override
+  final NotificationModel? singleNotification;
+
+  @override
   String toString() {
-    return 'NotificationState(notificationsFetchMore: $notificationsFetchMore, notificationStatus: $notificationStatus, markAllNotificationStatus: $markAllNotificationStatus, readOnlyStatus: $readOnlyStatus, markAsReadErrorMsg: $markAsReadErrorMsg, notificationsErrorMessage: $notificationsErrorMessage, notificationNext: $notificationNext, notifications: $notifications)';
+    return 'NotificationState(notificationsFetchMore: $notificationsFetchMore, notificationStatus: $notificationStatus, markAllNotificationStatus: $markAllNotificationStatus, readOnlyStatus: $readOnlyStatus, singleStatus: $singleStatus, setFcmTokenStatus: $setFcmTokenStatus, markAsReadErrorMsg: $markAsReadErrorMsg, notificationsErrorMessage: $notificationsErrorMessage, notificationNext: $notificationNext, notifications: $notifications, singleNotification: $singleNotification)';
   }
 
   @override
@@ -1012,6 +1233,10 @@ class _$NotificationStateImpl extends _NotificationState {
                 other.markAllNotificationStatus == markAllNotificationStatus) &&
             (identical(other.readOnlyStatus, readOnlyStatus) ||
                 other.readOnlyStatus == readOnlyStatus) &&
+            (identical(other.singleStatus, singleStatus) ||
+                other.singleStatus == singleStatus) &&
+            (identical(other.setFcmTokenStatus, setFcmTokenStatus) ||
+                other.setFcmTokenStatus == setFcmTokenStatus) &&
             (identical(other.markAsReadErrorMsg, markAsReadErrorMsg) ||
                 other.markAsReadErrorMsg == markAsReadErrorMsg) &&
             (identical(other.notificationsErrorMessage,
@@ -1020,7 +1245,9 @@ class _$NotificationStateImpl extends _NotificationState {
             (identical(other.notificationNext, notificationNext) ||
                 other.notificationNext == notificationNext) &&
             const DeepCollectionEquality()
-                .equals(other._notifications, _notifications));
+                .equals(other._notifications, _notifications) &&
+            (identical(other.singleNotification, singleNotification) ||
+                other.singleNotification == singleNotification));
   }
 
   @override
@@ -1030,10 +1257,13 @@ class _$NotificationStateImpl extends _NotificationState {
       notificationStatus,
       markAllNotificationStatus,
       readOnlyStatus,
+      singleStatus,
+      setFcmTokenStatus,
       markAsReadErrorMsg,
       notificationsErrorMessage,
       notificationNext,
-      const DeepCollectionEquality().hash(_notifications));
+      const DeepCollectionEquality().hash(_notifications),
+      singleNotification);
 
   /// Create a copy of NotificationState
   /// with the given fields replaced by the non-null parameter values.
@@ -1051,10 +1281,13 @@ abstract class _NotificationState extends NotificationState {
       final FormzSubmissionStatus notificationStatus,
       final FormzSubmissionStatus markAllNotificationStatus,
       final FormzSubmissionStatus readOnlyStatus,
+      final FormzSubmissionStatus singleStatus,
+      final FormzSubmissionStatus setFcmTokenStatus,
       final String markAsReadErrorMsg,
       final String notificationsErrorMessage,
       final String notificationNext,
-      final List<NotificationModel> notifications}) = _$NotificationStateImpl;
+      final List<NotificationModel> notifications,
+      final NotificationModel? singleNotification}) = _$NotificationStateImpl;
   const _NotificationState._() : super._();
 
   @override
@@ -1066,6 +1299,10 @@ abstract class _NotificationState extends NotificationState {
   @override
   FormzSubmissionStatus get readOnlyStatus;
   @override
+  FormzSubmissionStatus get singleStatus;
+  @override
+  FormzSubmissionStatus get setFcmTokenStatus;
+  @override
   String get markAsReadErrorMsg;
   @override
   String get notificationsErrorMessage;
@@ -1073,6 +1310,8 @@ abstract class _NotificationState extends NotificationState {
   String get notificationNext;
   @override
   List<NotificationModel> get notifications;
+  @override
+  NotificationModel? get singleNotification;
 
   /// Create a copy of NotificationState
   /// with the given fields replaced by the non-null parameter values.

@@ -341,9 +341,6 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
       serializers.serialize(object.award,
           specifiedType:
               const FullType(BuiltList, const [const FullType(Award)])),
-      'job_id',
-      serializers.serialize(object.jobId,
-          specifiedType: const FullType(String)),
       'image',
       serializers.serialize(object.image,
           specifiedType: const FullType(JsonObject)),
@@ -372,6 +369,13 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
         ..add('gender')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(JsonObject)));
+    }
+    value = object.jobId;
+    if (value != null) {
+      result
+        ..add('job_id')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
@@ -433,7 +437,7 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
           break;
         case 'job_id':
           result.jobId = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'image':
           result.image = serializers.deserialize(value,
@@ -1339,7 +1343,7 @@ class _$ModelDoctor extends ModelDoctor {
   @override
   final JsonObject? gender;
   @override
-  final String jobId;
+  final String? jobId;
   @override
   final JsonObject image;
   @override
@@ -1362,7 +1366,7 @@ class _$ModelDoctor extends ModelDoctor {
       required this.discount,
       required this.award,
       this.gender,
-      required this.jobId,
+      this.jobId,
       required this.image,
       required this.priceList,
       required this.servicePriceList,
@@ -1378,7 +1382,6 @@ class _$ModelDoctor extends ModelDoctor {
         education, r'ModelDoctor', 'education');
     BuiltValueNullFieldError.checkNotNull(discount, r'ModelDoctor', 'discount');
     BuiltValueNullFieldError.checkNotNull(award, r'ModelDoctor', 'award');
-    BuiltValueNullFieldError.checkNotNull(jobId, r'ModelDoctor', 'jobId');
     BuiltValueNullFieldError.checkNotNull(image, r'ModelDoctor', 'image');
     BuiltValueNullFieldError.checkNotNull(
         priceList, r'ModelDoctor', 'priceList');
@@ -1580,8 +1583,7 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
             discount: discount.build(),
             award: award.build(),
             gender: gender,
-            jobId: BuiltValueNullFieldError.checkNotNull(
-                jobId, r'ModelDoctor', 'jobId'),
+            jobId: jobId,
             image: BuiltValueNullFieldError.checkNotNull(
                 image, r'ModelDoctor', 'image'),
             priceList: priceList.build(),

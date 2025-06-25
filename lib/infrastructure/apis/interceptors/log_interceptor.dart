@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:chopper/chopper.dart';
+import 'package:medion/infrastructure/core/exceptions.dart';
 
 class LogInterceptor implements Interceptor {
   const LogInterceptor();
@@ -8,14 +9,14 @@ class LogInterceptor implements Interceptor {
   @override
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
     final request = chain.request;
+    Response<BodyType>? response;
 
-    log('\n\n1***************************************************');
-    log('📤 REQUEST → [${request.method}] ${request.url}');
-    log('🔹 REQUEST Headers: ${request.headers}');
-    log('🔹 REQUEST Body: ${request.body}');
+    log('\n\n🟡 [REQUEST] → [${request.method}] ${request.url}');
+    log('🔹 Headers: ${request.headers}');
+    log('🔹 Body: ${request.body}');
 
     try {
-      final response = await chain.proceed(request);
+      response = await chain.proceed(request);
 
       if (!response.isSuccessful) {
         log('⚠️ NON-SUCCESS RESPONSE ← [${response.statusCode}] ${request.url}');
@@ -25,14 +26,18 @@ class LogInterceptor implements Interceptor {
         log('🔹 Response Body: ${response.body}');
       }
 
-      log('\n\n2***************************************************\n\n');
+      log('🟢 [REQUEST END]\n');
       return response;
     } catch (error) {
       log('❌ EXCEPTION ↯ [${request.method}] ${request.url}');
       log('🔹 Headers: ${request.headers}');
       log('🔹 Body: ${request.body}');
       log('🔹 Error: $error');
-      log('\n\n3***************************************************\n\n');
+      log('🔹 Response Error : ${(error as BackendExceptionForSentry).response.error}');
+      log('🔹 Error Response Body: ${(error as BackendExceptionForSentry).response.body}');
+      log('🔹 Error Response BodyString: ${(error as BackendExceptionForSentry).response.bodyString}');
+
+      log('🔴 [EXCEPTION END]\n');
       rethrow;
     }
   }

@@ -114,6 +114,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<NotificationBloc>(
           create: (context) => NotificationBloc(
             NotificationRepoImpl(service: NotificationService.create(dbService)),
+            dbService,
           ),
         ),
       ],

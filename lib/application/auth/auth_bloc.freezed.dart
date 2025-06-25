@@ -1803,7 +1803,7 @@ abstract class _FetchMyWallet implements AuthEvent {
 /// @nodoc
 mixin _$AuthState {
   bool get proceedToHome => throw _privateConstructorUsedError;
-  bool get haveToken => throw _privateConstructorUsedError;
+  String get haveToken => throw _privateConstructorUsedError;
   UserStatus get userStatus => throw _privateConstructorUsedError;
   FormzSubmissionStatus get verifyStatus => throw _privateConstructorUsedError;
   bool get proceedToLogin => throw _privateConstructorUsedError;
@@ -1844,7 +1844,7 @@ abstract class $AuthStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool proceedToHome,
-      bool haveToken,
+      String haveToken,
       UserStatus userStatus,
       FormzSubmissionStatus verifyStatus,
       bool proceedToLogin,
@@ -1921,7 +1921,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
       haveToken: null == haveToken
           ? _value.haveToken
           : haveToken // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as String,
       userStatus: null == userStatus
           ? _value.userStatus
           : userStatus // ignore: cast_nullable_to_non_nullable
@@ -2032,7 +2032,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool proceedToHome,
-      bool haveToken,
+      String haveToken,
       UserStatus userStatus,
       FormzSubmissionStatus verifyStatus,
       bool proceedToLogin,
@@ -2107,7 +2107,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
       haveToken: null == haveToken
           ? _value.haveToken
           : haveToken // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as String,
       userStatus: null == userStatus
           ? _value.userStatus
           : userStatus // ignore: cast_nullable_to_non_nullable
@@ -2213,7 +2213,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 class _$AuthStateImpl extends _AuthState {
   const _$AuthStateImpl(
       {this.proceedToHome = false,
-      this.haveToken = false,
+      this.haveToken = "false",
       this.userStatus = UserStatus.unknown,
       this.verifyStatus = FormzSubmissionStatus.initial,
       this.proceedToLogin = false,
@@ -2246,7 +2246,7 @@ class _$AuthStateImpl extends _AuthState {
   final bool proceedToHome;
   @override
   @JsonKey()
-  final bool haveToken;
+  final String haveToken;
   @override
   @JsonKey()
   final UserStatus userStatus;
@@ -2435,7 +2435,7 @@ class _$AuthStateImpl extends _AuthState {
 abstract class _AuthState extends AuthState {
   const factory _AuthState(
       {final bool proceedToHome,
-      final bool haveToken,
+      final String haveToken,
       final UserStatus userStatus,
       final FormzSubmissionStatus verifyStatus,
       final bool proceedToLogin,
@@ -2465,7 +2465,7 @@ abstract class _AuthState extends AuthState {
   @override
   bool get proceedToHome;
   @override
-  bool get haveToken;
+  String get haveToken;
   @override
   UserStatus get userStatus;
   @override

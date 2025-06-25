@@ -114,7 +114,7 @@ abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
   JsonObject? get gender;
 
   @BuiltValueField(wireName: 'job_id')
-  String get jobId;
+  String? get jobId;
 
   @BuiltValueField(wireName: 'image')
   JsonObject get image;

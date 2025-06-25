@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -13,6 +12,7 @@ import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
+import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/utils/enums/user_status_enum.dart';
 
@@ -45,23 +45,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final access = token.accessToken;
     final refresh = token.refreshToken;
     if (access != null && access.isNotEmpty || refresh != null && refresh.isNotEmpty) {
-      emit(state.copyWith(haveToken: true));
+      emit(state.copyWith(haveToken: access!.substring(0, 5)));
     } else {
-      emit(state.copyWith(haveToken: false));
-    }
-  }
-
-  FutureOr<void> _setFirebaseToken() async {
-    final newFcm = await FirebaseMessaging.instance.getToken();
-    final fcm = _dbService.getFcmToken;
-
-    if (fcm != newFcm && newFcm != null && newFcm.length > 5) {
-      _dbService.setFcmToken(newFcm ?? '');
-      //  send back this token
+      emit(state.copyWith(haveToken: ''));
     }
   }
 
   FutureOr<void> _checkAuth(_CheckAuth event, Emitter<AuthState> emit) async {
+    MyFunctions.initDeviceInfo(_dbService);
+    _hasToken(emit);
     emit(state.copyWith(userStatus: UserStatus.unknown));
     final res = await _repository.getPatientInfo();
 
@@ -84,7 +76,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else {
       emit(state.copyWith(userStatus: UserStatus.unAuthed));
     }
-    _hasToken(emit);
   }
 
   FutureOr<void> _verificationSendHandler(_VerificationSend event, Emitter<AuthState> emit) async {
@@ -157,14 +148,34 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
-  FutureOr<void> _sendUserInfoHandler(
-    _SendUserInfo event,
-    Emitter<AuthState> emit,
-  ) async {
+  FutureOr<void> _sendUserInfoHandler(_SendUserInfo event, Emitter<AuthState> emit) async {
+    final patient = event.request;
+    final id = _dbService.getUid;
+    final os = _dbService.getPlatform;
+    final name = _dbService.getDeviceName;
+    final version = _dbService.getVersion;
+
+    final user = CreateInfoReq(
+      (b) => b
+        ..deviceId = id
+        ..deviceName = name
+        ..appVersion = version
+        ..os = os.toLowerCase()
+        ..firstName = patient.firstName
+        ..lastName = patient.lastName
+        ..middleName = patient.middleName
+        ..phoneNumber = patient.phoneNumber
+        ..gender = patient.gender
+        ..offerta = patient.offerta
+        ..dateOfBirth = patient.dateOfBirth
+        ..passportSerial = patient.passportSerial,
+    );
+
+    /// id name os app version
     emit(state.copyWith(successSendCode: false));
     EasyLoading.show();
 
-    final res = await _repository.sendUserInfo(request: event.request);
+    final res = await _repository.sendUserInfo(request: user);
 
     res.fold((error) async {
       LogService.e(" ----> error on send user info bloc: $error");
@@ -177,7 +188,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> _fetchPatientInfoHandler(_FetchPatientInfo event, Emitter<AuthState> emit) async {
-    _setFirebaseToken();
     _hasToken(emit);
     if (state.patientInfo != null) {
       return;
@@ -208,10 +218,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  FutureOr<void> _fetchPatientVisitsHandler(
-    _FetchPatientVisits event,
-    Emitter<AuthState> emit,
-  ) async {
+  FutureOr<void> _fetchPatientVisitsHandler(_FetchPatientVisits event, Emitter<AuthState> emit) async {
     emit(state.copyWith(isLoadingVisits: true, errorFetchingVisits: false));
 
     final result = await _repository.getPatientVisits();
@@ -234,10 +241,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  FutureOr<void> _fetchPatientAnalyze(
-    _FetchPatientAnalyze event,
-    Emitter<AuthState> emit,
-  ) async {
+  FutureOr<void> _fetchPatientAnalyze(_FetchPatientAnalyze event, Emitter<AuthState> emit) async {
     emit(state.copyWith());
 
     final res = await _repository.getPatientAnalyze();
@@ -257,10 +261,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  FutureOr<void> _fetchMyWallet(
-    _FetchMyWallet event,
-    Emitter<AuthState> emit,
-  ) async {
+  FutureOr<void> _fetchMyWallet(_FetchMyWallet event, Emitter<AuthState> emit) async {
     emit(state.copyWith(
       isFetchingPatientInfo: true,
       errorFetchingPatientInfo: false,

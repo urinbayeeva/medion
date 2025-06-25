@@ -1,4 +1,5 @@
 import 'package:built_collection/built_collection.dart';
+import 'package:chopper/chopper.dart';
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/domain/common/failure.dart';
@@ -19,19 +20,25 @@ class BookingRepository implements IBookingFacade {
   /// Fetch booking types
   @override
   Future<Either<ResponseFailure, List<BookingTypeModel>>> fetchBookingTypes() async {
+    Response<BuiltList<BookingTypeModel>>? response;
+
     try {
-      final response = await _bookingService.bookingTypes();
-      //LogService.d('Response Status: ${response.statusCode}');
-      //LogService.d('Response Body: ${response.body}');
+      response = await _bookingService.bookingTypes();
+
+      LogService.d('Response Status: ${response.statusCode}');
+      LogService.d('Response Body: ${response.body}');
 
       if (response.isSuccessful && response.body != null) {
-        final bookingTypes = response.body!.toList();
-        return right(bookingTypes);
+        return right(response.body!.toList());
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
-    } catch (e) {
-      //LogService.e(" ----> error on repo  : ${e.toString()}");
+    } catch (e, stack) {
+      LogService.e('❌ Exception: ${e.toString()}');
+      if (response != null) {
+        LogService.e('❌ Error Response Status: ${response.statusCode}');
+        LogService.e('❌ Error Response Body: ${response.body}');
+      }
       return left(handleError(e));
     }
   }

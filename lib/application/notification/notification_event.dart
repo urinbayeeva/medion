@@ -11,4 +11,6 @@ class NotificationEvent with _$NotificationEvent {
   const factory NotificationEvent.markAllNotificationAsRead() = _MarkAllNotificationAsRead;
 
   const factory NotificationEvent.readNotification({required int index}) = _ReadNotification;
+
+  const factory NotificationEvent.setFCMToken() = _SetFCMToken;
 }

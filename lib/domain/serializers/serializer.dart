@@ -80,6 +80,7 @@ part 'serializer.g.dart';
 
   // Notification
   NotificationModel,
+  SetFcmTokenBody,
 
   //Branches
 

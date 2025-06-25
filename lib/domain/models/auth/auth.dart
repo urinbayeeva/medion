@@ -89,6 +89,18 @@ abstract class CreateInfoReq implements Built<CreateInfoReq, CreateInfoReqBuilde
 
   factory CreateInfoReq([Function(CreateInfoReqBuilder b) updates]) = _$CreateInfoReq;
 
+  @BuiltValueField(wireName: "device_id")
+  String? get deviceId;
+
+  @BuiltValueField(wireName: "device_name")
+  String? get deviceName;
+
+  @BuiltValueField(wireName: "os")
+  String? get os;
+
+  @BuiltValueField(wireName: "app_version")
+  String? get appVersion;
+
   @BuiltValueField(wireName: "first_name")
   String? get firstName;
 

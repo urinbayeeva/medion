@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_outlined_button.dart';
+import 'package:medion/presentation/component/w_html/w_html.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -12,26 +12,21 @@ class EasyLoading {
     String? status,
   }) async {
     await SmartDialog.dismiss();
-    SmartDialog.showLoading(
-        msg: status ?? "Загрузка...", backType: SmartBackType.block);
+    SmartDialog.showLoading(msg: status ?? "Загрузка...", backType: SmartBackType.block);
   }
 
   static Future<void> showWidget({
     required Widget Function(BuildContext context) builder,
   }) async {
     await SmartDialog.dismiss();
-    await SmartDialog.show(
-        builder: builder,
-        alignment: Alignment.topCenter,
-        backType: SmartBackType.block);
+    await SmartDialog.show(builder: builder, alignment: Alignment.topCenter, backType: SmartBackType.block);
   }
 
   static Future<void> dismiss() async {
     SmartDialog.dismiss();
   }
 
-  static Future<void> showToast(String status,
-      {Widget? widget, Duration? duration}) async {
+  static Future<void> showToast(String status, {Widget? widget, Duration? duration}) async {
     SmartDialog.showToast(status,
         alignment: Alignment.topCenter,
         displayTime: duration,
@@ -42,14 +37,12 @@ class EasyLoading {
             : null);
   }
 
-  static Future<void> showError(String status,
-      {String? description, VoidCallback? retry}) async {
+  static Future<void> showError(String status, {String? description, VoidCallback? retry}) async {
     await SmartDialog.dismiss();
     await SmartDialog.show(
         keepSingle: true,
         builder: (_) {
-          return ThemeWrapper(
-              builder: (context, colors, fonts, icons, controller) {
+          return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
             return AlertDialog(
               backgroundColor: colors.shade0,
               surfaceTintColor: colors.transparent,
@@ -68,8 +61,7 @@ class EasyLoading {
                       SmartDialog.dismiss();
                     },
                     child: Container(
-                      padding:
-                          EdgeInsets.only(top: 16.h, right: 16.w, left: 16.w),
+                      padding: EdgeInsets.only(top: 16.h, right: 16.w, left: 16.w),
                       color: Colors.transparent,
                       child: icons.medion.svg(
                         color: colors.neutral500,
@@ -81,47 +73,40 @@ class EasyLoading {
               ),
               content: SizedBox(
                 width: 1.sw - 32.w,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      icons.emojiSad.svg(height: 48.h, width: 48.w),
-                      16.verticalSpace,
+                child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisSize: MainAxisSize.min, children: [
+                  icons.emojiSad.svg(height: 48.h, width: 48.w),
+                  16.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: status.contains("html>")
+                        ? Center(child: WHtml(data: status))
+                        : Text(
+                            status,
+                            textAlign: TextAlign.center,
+                            style: fonts.mediumMain,
+                          ),
+                  ),
+                  if (description != null)
+                    Column(children: [
+                      4.verticalSpace,
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: status.contains("html>")
-                            ? Center(child: HtmlWidget(status))
-                            : Text(
-                                status,
-                                textAlign: TextAlign.center,
-                                style: fonts.mediumMain,
-                              ),
-                      ),
-                      if (description != null)
-                        Column(children: [
-                          4.verticalSpace,
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: Text(
-                              semanticsLabel: description,
-                              description,
-                              textAlign: TextAlign.center,
-                              style: fonts.mediumMain.copyWith(
-                                  color: colors.neutral700.withOpacity(0.5)),
-                            ),
-                          ),
-                        ]),
-                      if (retry != null)
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.h),
-                          child: CustomOutlinedButton(
-                              horizontalPadding: 16.w,
-                              borderColor: colors.neutral200,
-                              onPressed: retry,
-                              title: "restart"),
+                        child: Text(
+                          semanticsLabel: description,
+                          description,
+                          textAlign: TextAlign.center,
+                          style: fonts.mediumMain.copyWith(color: colors.neutral700.withOpacity(0.5)),
                         ),
-                      36.verticalSpace,
+                      ),
                     ]),
+                  if (retry != null)
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      child: CustomOutlinedButton(
+                          horizontalPadding: 16.w, borderColor: colors.neutral200, onPressed: retry, title: "restart"),
+                    ),
+                  36.verticalSpace,
+                ]),
               ),
             );
           });
@@ -201,8 +186,7 @@ class EasyLoading {
                                 semanticsLabel: description,
                                 description,
                                 textAlign: TextAlign.center,
-                                style: fonts.smallLink.copyWith(
-                                    color: colors.neutral700.withOpacity(0.5)),
+                                style: fonts.smallLink.copyWith(color: colors.neutral700.withOpacity(0.5)),
                               ),
                             ),
                           ],

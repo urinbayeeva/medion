@@ -84,7 +84,7 @@ class NotificationPage extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context, rootNavigator: true).push(
                         MaterialPageRoute(
-                          builder: (context) => SingleNotification(notification: notification),
+                          builder: (context) => SingleNotification(id: notification.id ?? 0),
                         ),
                       );
                     },
