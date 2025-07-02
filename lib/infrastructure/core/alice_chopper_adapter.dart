@@ -3,18 +3,16 @@ import 'dart:convert' show utf8;
 import 'dart:io' show HttpHeaders;
 
 import 'package:chopper/chopper.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:medion/domain/common/token_ext.dart';
-import 'package:medion/infrastructure/connectivity.dart';
 import 'package:medion/infrastructure/core/exceptions.dart';
-
 import 'package:medion/infrastructure/services/alice/core/alice_adapter.dart';
 import 'package:medion/infrastructure/services/alice/core/alice_utils.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_call.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_error.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_request.dart';
 import 'package:medion/infrastructure/services/alice/model/alice_http_response.dart';
+import 'package:medion/infrastructure/services/connectivity.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -50,8 +48,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
     aliceCore.addCall(
       AliceHttpCall(requestId)
         ..method = chain.request.method
-        ..endpoint =
-            chain.request.url.path.isEmpty ? '/' : chain.request.url.path
+        ..endpoint = chain.request.url.path.isEmpty ? '/' : chain.request.url.path
         ..server = chain.request.url.host
         ..secure = chain.request.url.scheme == 'https'
         ..uri = chain.request.url.toString()
@@ -66,8 +63,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
           ..body = chain.request.body ?? ''
           ..time = DateTime.now()
           ..headers = chain.request.headers
-          ..contentType =
-              chain.request.headers[HttpHeaders.contentTypeHeader] ?? 'unknown'
+          ..contentType = chain.request.headers[HttpHeaders.contentTypeHeader] ?? 'unknown'
           ..queryParameters = chain.request.parameters)
         ..response = AliceHttpResponse(),
     );
@@ -85,9 +81,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
           }
           ..time = DateTime.now()
           ..headers = <String, String>{
-            for (final MapEntry<String, String> entry
-                in response.headers.entries)
-              entry.key: entry.value
+            for (final MapEntry<String, String> entry in response.headers.entries) entry.key: entry.value
           },
         requestId,
       );
@@ -123,9 +117,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
             }
             ..time = DateTime.now()
             ..headers = <String, String>{
-              for (final MapEntry<String, String> entry
-                  in response.headers.entries)
-                entry.key: entry.value
+              for (final MapEntry<String, String> entry in response.headers.entries) entry.key: entry.value
             },
           requestId,
         );
@@ -176,12 +168,11 @@ class CoreInterceptor implements Interceptor {
   FutureOr<Response<T>> intercept<T>(Chain<T> chain) async {
     final request = applyHeader(chain.request, 'Accept-Language', 'app_lang');
     final request1 = applyHeader(request, 'uuid', dbService.getUid ?? "");
-    final requiresToken = request.headers['requires-token'] == 'true' ||
-        request.headers['requires-token'] == 'optional';
+    final requiresToken =
+        request.headers['requires-token'] == 'true' || request.headers['requires-token'] == 'optional';
     if (requiresToken) {
       if (dbService.token.toBearerToken != null) {
-        final request2 = applyHeader(
-            request1, 'Authorization', dbService.token.toBearerToken!);
+        final request2 = applyHeader(request1, 'Authorization', dbService.token.toBearerToken!);
         return chain.proceed(request2);
       } else {
         final requiresToken = request.headers['requires-token'] == 'optional';
@@ -201,8 +192,7 @@ class RetryInterceptor implements Interceptor {
   final int maxRetries;
   final Duration retryDelay;
 
-  RetryInterceptor(
-      {this.maxRetries = 3, this.retryDelay = const Duration(seconds: 2)});
+  RetryInterceptor({this.maxRetries = 3, this.retryDelay = const Duration(seconds: 2)});
 
   @override
   FutureOr<Response<T>> intercept<T>(Chain<T> chain) async {

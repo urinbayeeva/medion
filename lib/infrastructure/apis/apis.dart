@@ -16,6 +16,7 @@ import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/recruitment/recruitment_model.dart';
 import 'package:medion/domain/models/search/search_model.dart';
+import 'package:medion/domain/models/team/team_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/serializers/built_value_convertor.dart';
@@ -50,9 +51,7 @@ abstract class AuthService extends ChopperService {
   });
 
   @Post(path: 'registration')
-  Future<Response<RegistrationResponse>> registerUser({
-    @Body() required RegisterReq request,
-  });
+  Future<Response<RegistrationResponse>> registerUser({@Body() required RegisterReq request});
 
   @Post(path: "create")
   Future<Response<CreatePatientInfoResponse>> createUserInfo({@Body() required CreateInfoReq request});
@@ -174,8 +173,14 @@ abstract class PatientService extends ChopperService {
   });
 
   @Get(path: "patient_visits_mobile")
-  Future<Response<BuiltList<VisitOrder>>> getPatientVisitsMobile({
+  Future<Response<PatientAnalyse>> getPatientVisitsMobile({
     @Header('requires-token') String requiresToken = "true",
+  });
+
+  @Get(path: "patient_visit_mobile_detail/{visit_id}")
+  Future<Response<PatientVisitSingleModel>> getPatientVisitSingle({
+    @Header('requires-token') String requiresToken = "true",
+    @Path("visit_id") required int visitId,
   });
 
   @Get(path: "patient_analysis_mobile")
@@ -218,7 +223,7 @@ abstract class NotificationService extends ChopperService {
   @Get(path: "/notifications")
   Future<Response<BuiltList<NotificationModel>>> getNotifications();
 
-  @Put(path: "/notifications/{notification_id}/read")
+  @Put(path: "/notifications/{notification_id}/read", optionalBody: true)
   Future<Response<BuiltList<NotificationModel>>> readNotification(@Path('notification_id') int notificationId);
 
   @Post(path: "https://his.uicgroup.tech/firebase/token")
@@ -265,7 +270,7 @@ abstract class CompanyService extends ChopperService {
   Future<Response<PrivacyModel>> getPrivacy();
 
   @Get(path: "team")
-  Future<Response<Map<String, dynamic>>> getTeam();
+  Future<Response<BuiltList<Team>>> getTeam();
 
   static CompanyService create(DBService dbService) => _$CompanyService(_Client(Constants.baseUrlP, true, dbService));
 }

@@ -90,25 +90,20 @@ class _NavListWidgetState extends State<NavListWidget> {
   }
 
   void _handleNavTap(BuildContext context, int index, int totalItems) {
-    if (index == totalItems - 1) {
-      context.read<BottomNavBarController>().changeNavBar(true);
-      _showProfileBottomSheet(context);
-    } else {
-      context.read<BottomNavBarController>().changeNavBar(true);
-      final resolvedRoutes = widget.routes ??
-          [
-            AppRoutes.getUserDetailsPage(),
-            AppRoutes.getResultsPage(),
-            AppRoutes.getRecipesPage(),
-            AppRoutes.getWalletPage(),
-            AppRoutes.getSettingsPage(),
-          ];
+    context.read<BottomNavBarController>().changeNavBar(true);
+    final resolvedRoutes = widget.routes ??
+        [
+          AppRoutes.getUserDetailsPage(),
+          AppRoutes.getResultsPage(),
+          AppRoutes.getRecipesPage(),
+          AppRoutes.getWalletPage(),
+          AppRoutes.getSettingsPage(),
+        ];
 
-      if (index < resolvedRoutes.length) {
-        Navigator.push(context, resolvedRoutes[index]).then((_) {
-          context.read<BottomNavBarController>().changeNavBar(false);
-        });
-      }
+    if (index < resolvedRoutes.length) {
+      Navigator.push(context, resolvedRoutes[index]).then((_) {
+        context.read<BottomNavBarController>().changeNavBar(false);
+      });
     }
   }
 
@@ -122,6 +117,7 @@ class _NavListWidgetState extends State<NavListWidget> {
         },
         onTapLogOut: () async {
           await dbService.signOut();
+          await dbService.setLang(isSaved: false);
           context.read<AuthBloc>().add(const AuthEvent.checkAuth());
 
           Navigator.of(context, rootNavigator: true)

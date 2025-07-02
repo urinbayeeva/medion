@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:math';
 
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -15,6 +17,7 @@ import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/utils/enums/user_status_enum.dart';
+import 'package:medion/utils/enums/visits_enum.dart';
 
 part 'auth_bloc.freezed.dart';
 
@@ -35,6 +38,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_SendUserInfo>(_sendUserInfoHandler);
     on<_FetchPatientInfo>(_fetchPatientInfoHandler);
     on<_FetchPatientVisits>(_fetchPatientVisitsHandler);
+    on<_FetchPatientVisitsDetail>(_fetchPatientVisitsSingle);
     on<_FetchPatientAnalyze>(_fetchPatientAnalyze);
     on<_FetchMyWallet>(_fetchMyWallet);
     on<_CheckAuth>(_checkAuth);
@@ -219,40 +223,57 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> _fetchPatientVisitsHandler(_FetchPatientVisits event, Emitter<AuthState> emit) async {
-    emit(state.copyWith(isLoadingVisits: true, errorFetchingVisits: false));
+    emit(state.copyWith(fetchPatientVisitStatus: FormzSubmissionStatus.inProgress));
 
     final result = await _repository.getPatientVisits();
 
     result.fold(
       (failure) {
         LogService.e(" ----> error fetching patient visits: $failure");
+        emit(state.copyWith(fetchPatientVisitStatus: FormzSubmissionStatus.failure));
+      },
+      (res) {
         emit(state.copyWith(
-          isLoadingVisits: false,
-          errorFetchingVisits: true,
+          fetchPatientVisitStatus: FormzSubmissionStatus.success,
+          moves: res.orders?.toList() ?? [],
+          visits: res.visits?.toList() ?? [],
         ));
       },
-      (visits) {
+    );
+  }
+
+  FutureOr<void> _fetchPatientVisitsSingle(_FetchPatientVisitsDetail event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(fetchPatientVisitSingleStatus: FormzSubmissionStatus.inProgress));
+
+    final result = await _repository.getPatientVisitSingle(id: event.id);
+
+    result.fold(
+      (failure) {
+        LogService.e(" ----> error fetching patient visits: $failure");
+        emit(state.copyWith(fetchPatientVisitSingleStatus: FormzSubmissionStatus.failure));
+      },
+      (single) {
         emit(state.copyWith(
-          isLoadingVisits: false,
-          errorFetchingVisits: false,
-          patientVisits: visits,
+          fetchPatientVisitSingleStatus: FormzSubmissionStatus.success,
+          patientVisitSingle: single,
         ));
       },
     );
   }
 
   FutureOr<void> _fetchPatientAnalyze(_FetchPatientAnalyze event, Emitter<AuthState> emit) async {
-    emit(state.copyWith());
+    emit(state.copyWith(fetchPatientAnalyseStatus: FormzSubmissionStatus.inProgress));
 
     final res = await _repository.getPatientAnalyze();
 
     res.fold(
       (error) {
         LogService.e(" ----> error fetching patient info: $error");
-        emit(state.copyWith());
+        emit(state.copyWith(fetchPatientAnalyseStatus: FormzSubmissionStatus.inProgress));
       },
       (patientAnalyze) {
         emit(state.copyWith(
+          fetchPatientAnalyseStatus: FormzSubmissionStatus.success,
           isFetchingPatientInfo: false,
           errorFetchingPatientInfo: false,
           patientAnalyze: patientAnalyze,

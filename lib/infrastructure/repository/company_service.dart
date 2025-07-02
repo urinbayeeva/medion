@@ -30,13 +30,13 @@ class CompanyServiceRepo implements ICompany {
   }
 
   @override
-  Future<Either<ResponseFailure, Map<String, dynamic>>> getTeams({required String type}) async {
+  Future<Either<ResponseFailure, List<Team>>> getTeams({required String type}) async {
     try {
       final response = await _companyRepository.getTeam();
       log("res data: ${response.statusCode}");
       log("res data: ${response.body}");
       if (response.isSuccessful || response.body != null) {
-        return right(response.body!);
+        return right(response.body?.toList() ?? []);
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }

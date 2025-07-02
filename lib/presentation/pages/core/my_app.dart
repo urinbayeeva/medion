@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -137,6 +139,8 @@ class MyApp extends StatelessWidget {
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             onGenerateRoute: (_) {
+              log("Languageee: ${dbService.getLang}");
+
               if (onGetContext != null) {
                 onGetContext!(context);
               }

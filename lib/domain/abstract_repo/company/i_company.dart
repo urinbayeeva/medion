@@ -6,5 +6,5 @@ import 'package:medion/domain/models/team/team_model.dart';
 abstract class ICompany {
   Future<Either<ResponseFailure, MedionModel>> getMedionActivity();
 
-  Future<Either<ResponseFailure, Map<String, dynamic>>> getTeams({required String type});
+  Future<Either<ResponseFailure, List<Team>>> getTeams({required String type});
 }

@@ -33,12 +33,13 @@ class _GenderSelectionState extends State<GenderSelection> {
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
       return Row(
+        spacing: 8,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: Gender.values.map((gender) {
           final isChecked = selectedGender == gender;
           return Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
+              padding: EdgeInsets.zero,
               child: AnimationButtonEffect(
                 onTap: () {
                   setState(() {
@@ -48,7 +49,7 @@ class _GenderSelectionState extends State<GenderSelection> {
                 },
                 child: Container(
                   height: 50.h, // Set a fixed height
-                  padding: EdgeInsets.all(12.w),
+                  padding: EdgeInsets.only(left: 12.w),
                   decoration: BoxDecoration(
                     color: colors.secondary800,
                     borderRadius: BorderRadius.circular(8.r),
@@ -57,15 +58,15 @@ class _GenderSelectionState extends State<GenderSelection> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(gender == Gender.men ? 'man'.tr() : 'woman'.tr(),
-                          style: fonts.regularText.copyWith(
-                            color: colors.primary900,
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          semanticsLabel: gender == Gender.men
-                              ? 'Men selected'
-                              : 'Women selected'),
+                      Text(
+                        gender == Gender.men ? 'man'.tr() : 'woman'.tr(),
+                        style: fonts.regularText.copyWith(
+                          color: colors.primary900,
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        semanticsLabel: gender == Gender.men ? 'Men selected' : 'Women selected',
+                      ),
                       Checkbox(
                         value: isChecked,
                         onChanged: (bool? value) {

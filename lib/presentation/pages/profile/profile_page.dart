@@ -2,16 +2,17 @@
 
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
+import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/pages/profile/widget/nav_list_widget.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -21,25 +22,14 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String aboutApp = "Version loading...";
-  bool isLoading = true;
+  static const String aboutApp = "Version loading...";
+  final ValueNotifier<String> _version = ValueNotifier(aboutApp);
 
   @override
   void initState() {
     super.initState();
-
-    init();
     context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
-  }
-
-  Future<void> init() async {
-    final result = await PackageInfo.fromPlatform();
-    if (mounted) {
-      setState(() {
-        aboutApp = "Version ${result.version}";
-        isLoading = false;
-      });
-    }
+    _version.value = "${"version".tr()} ${context.read<DBService>().getVersion}";
   }
 
   @override
@@ -50,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: colors.backgroundColor,
           body: BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
-              if (state.patientInfo == null && isLoading) return const Center(child: CircularProgressIndicator());
+              if (state.patientInfo == null) return const Center(child: CircularProgressIndicator());
 
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -108,14 +98,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   Expanded(
                     flex: 3,
                     child: Center(
-                      child: Text(
-                        aboutApp,
-                        style: fonts.regularLink.copyWith(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: colors.primary900,
-                        ),
-                      ),
+                      child: ValueListenableBuilder(
+                          valueListenable: _version,
+                          builder: (context, val, child) {
+                            return Text(
+                              _version.value,
+                              style: fonts.regularLink.copyWith(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: colors.primary900,
+                              ),
+                            );
+                          }),
                     ),
                   ),
                 ],

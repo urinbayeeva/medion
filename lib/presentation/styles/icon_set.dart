@@ -114,8 +114,10 @@ class IconSet {
   final String callCenter;
   final String star;
   final String notificationBadge;
+  final String emptyCalendar;
 
-  IconSet._({
+  const IconSet._({
+    required this.emptyCalendar,
     required this.notificationBadge,
     required this.star,
     required this.callCenter,
@@ -236,7 +238,8 @@ class IconSet {
   });
 
   static IconSet get create {
-    return IconSet._(
+    return const IconSet._(
+      emptyCalendar: "assets/icons/empty_calendar.svg",
       notificationBadge: "assets/icons/notifications_badge.svg",
       star: "assets/icons/star.svg",
       callCenter: "assets/icons/call_center.svg",

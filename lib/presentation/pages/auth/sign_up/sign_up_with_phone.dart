@@ -11,6 +11,7 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_outlined_button.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/component/phone_number_component.dart';
+import 'package:medion/presentation/pages/auth/sign_up/verify_code_page.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';

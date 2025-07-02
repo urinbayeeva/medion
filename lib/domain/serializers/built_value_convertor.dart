@@ -20,8 +20,7 @@ class BuiltValueConverter extends JsonConverter {
       ),
     );
     if (request.body is List<http.MultipartFile>) {
-      final List<http.MultipartFile> files =
-          request.body as List<http.MultipartFile>;
+      final List<http.MultipartFile> files = request.body as List<http.MultipartFile>;
       final newRequest = http.MultipartRequest(request.method, request.url)
         ..fields.addAll(Map<String, String>.from(request.parameters))
         ..files.addAll(files);
@@ -71,11 +70,11 @@ class BuiltValueConverter extends JsonConverter {
 class ErrorMyConverter implements ErrorConverter {
   @override
   FutureOr<Response> convertError<Detail, PaymentResult>(Response response) {
-    BackendExceptionForSentry exceptionForSentry =
-        BackendExceptionForSentry(response);
+    BackendExceptionForSentry exceptionForSentry = BackendExceptionForSentry(response);
     errorHandle(exceptionForSentry);
     // throw exceptionForSentry;
-    return response;
+    // return response;
+    throw exceptionForSentry;
   }
 
   Future<void> errorHandle(BackendExceptionForSentry response) async {

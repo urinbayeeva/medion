@@ -102,8 +102,7 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
       }
 
       final directory = await getApplicationDocumentsDirectory();
-      final fileName =
-          'Document_${DateFormat('yyyyMMdd_HHmmss').format(DateTime.now())}.pdf';
+      final fileName = 'Document_${DateFormat('yyyyMMdd_HHmmss').format(DateTime.now())}.pdf';
       final filePath = '${directory.path}/$fileName';
 
       final dio = Dio();
@@ -198,7 +197,7 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
           );
         }
 
-        if (documents.isEmpty) {
+        if (!documents.isEmpty) {
           return Center(
             child: Text(
               'Нет данных для отображения',
@@ -248,8 +247,7 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
                         icon: icons.download,
                         onTap: () async {
                           if (document['document_url'] != null) {
-                            await downloadPdf(document['document_url'])
-                                .then((_) {
+                            await downloadPdf(document['document_url']).then((_) {
                               Navigator.of(context, rootNavigator: true).pop();
                             });
                           }
@@ -262,8 +260,7 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
                         onTap: () {
                           Share.share(
                             document['document_url']!,
-                            subject:
-                                document['document_name'] ?? 'Medical document',
+                            subject: document['document_name'] ?? 'Medical document',
                           );
                         },
                         color: colors.neutral200,

@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
-import 'package:medion/infrastructure/connectivity.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/deep_link/deep_link_handle.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';

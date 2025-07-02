@@ -10,6 +10,11 @@ class AuthState with _$AuthState {
     @Default("false") String haveToken,
     @Default(UserStatus.unknown) UserStatus userStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus verifyStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus fetchPatientAnalyseStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus fetchPatientVisitStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus fetchPatientVisitSingleStatus,
+    @Default([]) List<PatientOrder> moves,
+    @Default([]) List<PatientVisit> visits,
     @Default(false) bool proceedToLogin,
     @Default(false) bool successSendCode,
     @Default(false) bool successVerifyCode,
@@ -31,6 +36,7 @@ class AuthState with _$AuthState {
     @Default(false) bool isFetchingPaymentUrls,
     @Default(false) bool errorFetchingPaymentUrls,
     @Default(null) PaymentResponse? myWallet,
+    @Default(null) PatientVisitSingleModel? patientVisitSingle,
     @Default(null) RegistrationResponse? registrationResponse, // Added this line
   }) = _AuthState;
 }

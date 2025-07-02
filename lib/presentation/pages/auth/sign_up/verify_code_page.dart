@@ -15,8 +15,8 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/pages/auth/sign_up/component/count_down.dart';
 import 'package:medion/presentation/pages/auth/sign_up/component/custom_pin_put.dart';
+import 'package:medion/presentation/pages/auth/sign_up/privacy_page/multi_user_selection.dart';
 import 'package:medion/presentation/routes/routes.dart';
-import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -72,91 +72,47 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
   }
 
   Future<void> _handleMultiUserCase(List<User> users) async {
-    User? selectedUser = users.first;
-
-    await showDialog<User>(
+    showDialog<User>(
       context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              backgroundColor: Style.shade0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              titlePadding: const EdgeInsets.only(top: 16),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-              insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              title: const Center(
-                child: Column(
-                  children: [
-                    Text(
-                      'Select User',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Style.primary900,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              content: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: users.map((user) {
-                    final isSelected = user == selectedUser;
-                    return ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(user.name),
-                      trailing: isSelected ? const Icon(Icons.check_circle, color: Style.error500) : null,
-                      onTap: () {
-                        setState(() => selectedUser = user);
-                      },
-                    );
-                  }).toList(),
-                ),
-              ),
-              actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 40),
-              actions: [
-                SizedBox(
-                  width: double.infinity,
-                  child: CButton(
-                    title: "next".tr(),
-                    onTap: () {
-                      Navigator.pop(context, selectedUser);
-                    },
-                  ),
-                ),
-              ],
-            );
-          },
+      barrierDismissible: false,
+      barrierColor: Colors.black.withValues(alpha: 0.5),
+      useSafeArea: true,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: Colors.white,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.6),
+              child: MultiUserSelection(users: users),
+            ),
+          ),
         );
       },
     ).then((User? selected) {
       if (selected != null) {
-        context.read<DBService>().setToken(Token(
-              accessToken: selected.accessToken,
-              refreshToken: selected.refreshToken,
-              tokenType: selected.tokenType,
-            ));
+        context.read<DBService>().setToken(
+              Token(
+                accessToken: selected.accessToken,
+                refreshToken: selected.refreshToken,
+                tokenType: selected.tokenType,
+              ),
+            );
 
-        final isNewPatient = !selected.offerta;
-        if (isNewPatient) {
-          context.read<BottomNavBarController>().changeNavBar(false);
-
-          Navigator.pushAndRemoveUntil(
-            context,
-            AppRoutes.getDataEntryPage(widget.phoneNumber),
-            (route) => false,
-          );
-        } else {
-          Navigator.pushAndRemoveUntil(
-            context,
-            AppRoutes.getMainPage(0),
-            (route) => false,
-          );
-        }
+        Navigator.pushAndRemoveUntil(context, AppRoutes.getMainPage(0), (route) => false);
+        // if (isNewPatient) {
+        //   context.read<BottomNavBarController>().changeNavBar(false);
+        //
+        //   Navigator.pushAndRemoveUntil(
+        //     context,
+        //     AppRoutes.getDataEntryPage(widget.phoneNumber),
+        //     (route) => false,
+        //   );
+        // } else {
+        //
+        // }
       }
     });
   }
@@ -168,7 +124,6 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
         listener: (context, state) {
           if (state.verifyStatus.isSuccess) {
             context.read<DBService>().setBool(isSaved: true, key: DBService.intro);
-            context.read<DBService>().setLang(isSaved: true);
           }
 
           if (state.registrationResponse != null) {
@@ -178,6 +133,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
               _handleMultiUserCase(response.users.toList());
             } else {
               if (state.isNewPatient == false) {
+                context.read<DBService>().setLang(isSaved: true);
                 context.read<BottomNavBarController>().changeNavBar(false);
                 Navigator.pushAndRemoveUntil(
                   context,
@@ -185,10 +141,9 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                   (route) => false,
                 );
               } else if (state.errorSendCode != true && state.isNewPatient == true) {
-                Navigator.pushAndRemoveUntil(
+                Navigator.push(
                   context,
                   AppRoutes.getDataEntryPage(widget.phoneNumber),
-                  (route) => false,
                 );
               }
             }

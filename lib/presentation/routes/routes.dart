@@ -662,41 +662,6 @@ class AppRoutes {
             ));
   }
 
-  static MaterialPageRoute getVisitDetailPage({
-    required String? categoryName,
-    required String? serviceName,
-    required String? doctorName,
-    required double? servicePrice,
-    required String? visitDate,
-    required String? visitLocation,
-    required String? visitStatus,
-    required String? visitPaymentByWhom,
-    required String? paymentMethod,
-    required dynamic data,
-    required String? image,
-    required double? longitude,
-    required double? latitude,
-  }) {
-    return MaterialPageRoute(
-      builder: (_) => VisitDetailPage(
-        onTap: () {},
-        categoryName: categoryName,
-        serviceName: serviceName,
-        doctorName: doctorName,
-        servicePrice: servicePrice,
-        visitDate: visitDate,
-        visitLocation: visitLocation,
-        visitStatus: visitStatus,
-        visitPaymentByWhom: visitPaymentByWhom,
-        paymentMethod: paymentMethod,
-        data: data,
-        longitude: longitude!,
-        latitude: latitude!,
-        image: image!,
-      ),
-    );
-  }
-
   static MaterialPageRoute getVisitDetailCard({
     required String? categoryName,
     required String? serviceName,

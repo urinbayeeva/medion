@@ -391,14 +391,16 @@ abstract class _GetTeams implements ContentEvent {
 mixin _$ContentState {
   Map<String, List<ContentModel>> get contentByType =>
       throw _privateConstructorUsedError;
-  Map<String, Team> get team => throw _privateConstructorUsedError;
-  FormzSubmissionStatus get teamStatus =>
-      throw _privateConstructorUsedError; // @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus activityStatus,
-// @Default() MedionModel medionModel,
+  List<Team> get team => throw _privateConstructorUsedError;
+  List<String> get jobTypes => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get teamStatus => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get activityStatus =>
+      throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
   bool get success => throw _privateConstructorUsedError;
   List<ContentModel> get content => throw _privateConstructorUsedError;
+  MedionModel? get medionModel => throw _privateConstructorUsedError;
 
   /// Create a copy of ContentState
   /// with the given fields replaced by the non-null parameter values.
@@ -415,12 +417,15 @@ abstract class $ContentStateCopyWith<$Res> {
   @useResult
   $Res call(
       {Map<String, List<ContentModel>> contentByType,
-      Map<String, Team> team,
+      List<Team> team,
+      List<String> jobTypes,
       FormzSubmissionStatus teamStatus,
+      FormzSubmissionStatus activityStatus,
       bool loading,
       bool error,
       bool success,
-      List<ContentModel> content});
+      List<ContentModel> content,
+      MedionModel? medionModel});
 }
 
 /// @nodoc
@@ -440,11 +445,14 @@ class _$ContentStateCopyWithImpl<$Res, $Val extends ContentState>
   $Res call({
     Object? contentByType = null,
     Object? team = null,
+    Object? jobTypes = null,
     Object? teamStatus = null,
+    Object? activityStatus = null,
     Object? loading = null,
     Object? error = null,
     Object? success = null,
     Object? content = null,
+    Object? medionModel = freezed,
   }) {
     return _then(_value.copyWith(
       contentByType: null == contentByType
@@ -454,10 +462,18 @@ class _$ContentStateCopyWithImpl<$Res, $Val extends ContentState>
       team: null == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
-              as Map<String, Team>,
+              as List<Team>,
+      jobTypes: null == jobTypes
+          ? _value.jobTypes
+          : jobTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       teamStatus: null == teamStatus
           ? _value.teamStatus
           : teamStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      activityStatus: null == activityStatus
+          ? _value.activityStatus
+          : activityStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
       loading: null == loading
           ? _value.loading
@@ -475,6 +491,10 @@ class _$ContentStateCopyWithImpl<$Res, $Val extends ContentState>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as List<ContentModel>,
+      medionModel: freezed == medionModel
+          ? _value.medionModel
+          : medionModel // ignore: cast_nullable_to_non_nullable
+              as MedionModel?,
     ) as $Val);
   }
 }
@@ -489,12 +509,15 @@ abstract class _$$ContentStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {Map<String, List<ContentModel>> contentByType,
-      Map<String, Team> team,
+      List<Team> team,
+      List<String> jobTypes,
       FormzSubmissionStatus teamStatus,
+      FormzSubmissionStatus activityStatus,
       bool loading,
       bool error,
       bool success,
-      List<ContentModel> content});
+      List<ContentModel> content,
+      MedionModel? medionModel});
 }
 
 /// @nodoc
@@ -512,11 +535,14 @@ class __$$ContentStateImplCopyWithImpl<$Res>
   $Res call({
     Object? contentByType = null,
     Object? team = null,
+    Object? jobTypes = null,
     Object? teamStatus = null,
+    Object? activityStatus = null,
     Object? loading = null,
     Object? error = null,
     Object? success = null,
     Object? content = null,
+    Object? medionModel = freezed,
   }) {
     return _then(_$ContentStateImpl(
       contentByType: null == contentByType
@@ -526,10 +552,18 @@ class __$$ContentStateImplCopyWithImpl<$Res>
       team: null == team
           ? _value._team
           : team // ignore: cast_nullable_to_non_nullable
-              as Map<String, Team>,
+              as List<Team>,
+      jobTypes: null == jobTypes
+          ? _value._jobTypes
+          : jobTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       teamStatus: null == teamStatus
           ? _value.teamStatus
           : teamStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      activityStatus: null == activityStatus
+          ? _value.activityStatus
+          : activityStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
       loading: null == loading
           ? _value.loading
@@ -547,6 +581,10 @@ class __$$ContentStateImplCopyWithImpl<$Res>
           ? _value._content
           : content // ignore: cast_nullable_to_non_nullable
               as List<ContentModel>,
+      medionModel: freezed == medionModel
+          ? _value.medionModel
+          : medionModel // ignore: cast_nullable_to_non_nullable
+              as MedionModel?,
     ));
   }
 }
@@ -557,14 +595,18 @@ class _$ContentStateImpl extends _ContentState {
   const _$ContentStateImpl(
       {final Map<String, List<ContentModel>> contentByType =
           const <String, List<ContentModel>>{},
-      final Map<String, Team> team = const <String, Team>{},
+      final List<Team> team = const <Team>[],
+      final List<String> jobTypes = const <String>[],
       this.teamStatus = FormzSubmissionStatus.initial,
+      this.activityStatus = FormzSubmissionStatus.initial,
       this.loading = false,
       this.error = false,
       this.success = false,
-      final List<ContentModel> content = const []})
+      final List<ContentModel> content = const [],
+      this.medionModel})
       : _contentByType = contentByType,
         _team = team,
+        _jobTypes = jobTypes,
         _content = content,
         super._();
 
@@ -577,20 +619,30 @@ class _$ContentStateImpl extends _ContentState {
     return EqualUnmodifiableMapView(_contentByType);
   }
 
-  final Map<String, Team> _team;
+  final List<Team> _team;
   @override
   @JsonKey()
-  Map<String, Team> get team {
-    if (_team is EqualUnmodifiableMapView) return _team;
+  List<Team> get team {
+    if (_team is EqualUnmodifiableListView) return _team;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_team);
+    return EqualUnmodifiableListView(_team);
+  }
+
+  final List<String> _jobTypes;
+  @override
+  @JsonKey()
+  List<String> get jobTypes {
+    if (_jobTypes is EqualUnmodifiableListView) return _jobTypes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_jobTypes);
   }
 
   @override
   @JsonKey()
   final FormzSubmissionStatus teamStatus;
-// @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus activityStatus,
-// @Default() MedionModel medionModel,
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus activityStatus;
   @override
   @JsonKey()
   final bool loading;
@@ -610,8 +662,11 @@ class _$ContentStateImpl extends _ContentState {
   }
 
   @override
+  final MedionModel? medionModel;
+
+  @override
   String toString() {
-    return 'ContentState(contentByType: $contentByType, team: $team, teamStatus: $teamStatus, loading: $loading, error: $error, success: $success, content: $content)';
+    return 'ContentState(contentByType: $contentByType, team: $team, jobTypes: $jobTypes, teamStatus: $teamStatus, activityStatus: $activityStatus, loading: $loading, error: $error, success: $success, content: $content, medionModel: $medionModel)';
   }
 
   @override
@@ -622,12 +677,17 @@ class _$ContentStateImpl extends _ContentState {
             const DeepCollectionEquality()
                 .equals(other._contentByType, _contentByType) &&
             const DeepCollectionEquality().equals(other._team, _team) &&
+            const DeepCollectionEquality().equals(other._jobTypes, _jobTypes) &&
             (identical(other.teamStatus, teamStatus) ||
                 other.teamStatus == teamStatus) &&
+            (identical(other.activityStatus, activityStatus) ||
+                other.activityStatus == activityStatus) &&
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.success, success) || other.success == success) &&
-            const DeepCollectionEquality().equals(other._content, _content));
+            const DeepCollectionEquality().equals(other._content, _content) &&
+            (identical(other.medionModel, medionModel) ||
+                other.medionModel == medionModel));
   }
 
   @override
@@ -635,11 +695,14 @@ class _$ContentStateImpl extends _ContentState {
       runtimeType,
       const DeepCollectionEquality().hash(_contentByType),
       const DeepCollectionEquality().hash(_team),
+      const DeepCollectionEquality().hash(_jobTypes),
       teamStatus,
+      activityStatus,
       loading,
       error,
       success,
-      const DeepCollectionEquality().hash(_content));
+      const DeepCollectionEquality().hash(_content),
+      medionModel);
 
   /// Create a copy of ContentState
   /// with the given fields replaced by the non-null parameter values.
@@ -653,22 +716,27 @@ class _$ContentStateImpl extends _ContentState {
 abstract class _ContentState extends ContentState {
   const factory _ContentState(
       {final Map<String, List<ContentModel>> contentByType,
-      final Map<String, Team> team,
+      final List<Team> team,
+      final List<String> jobTypes,
       final FormzSubmissionStatus teamStatus,
+      final FormzSubmissionStatus activityStatus,
       final bool loading,
       final bool error,
       final bool success,
-      final List<ContentModel> content}) = _$ContentStateImpl;
+      final List<ContentModel> content,
+      final MedionModel? medionModel}) = _$ContentStateImpl;
   const _ContentState._() : super._();
 
   @override
   Map<String, List<ContentModel>> get contentByType;
   @override
-  Map<String, Team> get team;
+  List<Team> get team;
   @override
-  FormzSubmissionStatus
-      get teamStatus; // @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus activityStatus,
-// @Default() MedionModel medionModel,
+  List<String> get jobTypes;
+  @override
+  FormzSubmissionStatus get teamStatus;
+  @override
+  FormzSubmissionStatus get activityStatus;
   @override
   bool get loading;
   @override
@@ -677,6 +745,8 @@ abstract class _ContentState extends ContentState {
   bool get success;
   @override
   List<ContentModel> get content;
+  @override
+  MedionModel? get medionModel;
 
   /// Create a copy of ContentState
   /// with the given fields replaced by the non-null parameter values.

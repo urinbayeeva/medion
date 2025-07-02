@@ -410,7 +410,7 @@ final class _$PatientService extends PatientService {
   }
 
   @override
-  Future<Response<BuiltList<VisitOrder>>> getPatientVisitsMobile(
+  Future<Response<PatientAnalyse>> getPatientVisitsMobile(
       {String requiresToken = "true"}) {
     final Uri $url = Uri.parse('/profile/patient_visits_mobile');
     final Map<String, String> $headers = {
@@ -422,7 +422,27 @@ final class _$PatientService extends PatientService {
       client.baseUrl,
       headers: $headers,
     );
-    return client.send<BuiltList<VisitOrder>, VisitOrder>($request);
+    return client.send<PatientAnalyse, PatientAnalyse>($request);
+  }
+
+  @override
+  Future<Response<PatientVisitSingleModel>> getPatientVisitSingle({
+    String requiresToken = "true",
+    required int visitId,
+  }) {
+    final Uri $url =
+        Uri.parse('/profile/patient_visit_mobile_detail/${visitId}');
+    final Map<String, String> $headers = {
+      'requires-token': requiresToken,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      headers: $headers,
+    );
+    return client
+        .send<PatientVisitSingleModel, PatientVisitSingleModel>($request);
   }
 
   @override
@@ -706,14 +726,14 @@ final class _$CompanyService extends CompanyService {
   }
 
   @override
-  Future<Response<Map<String, dynamic>>> getTeam() {
+  Future<Response<BuiltList<Team>>> getTeam() {
     final Uri $url = Uri.parse('/company/team');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<Map<String, dynamic>, Map<String, dynamic>>($request);
+    return client.send<BuiltList<Team>, Team>($request);
   }
 }
 

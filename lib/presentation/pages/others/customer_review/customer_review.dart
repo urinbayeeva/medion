@@ -1,20 +1,15 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:formz/formz.dart';
+import 'package:lottie/lottie.dart';
 import 'package:medion/application/branches/branch_bloc.dart';
-import 'package:medion/presentation/component/animation_effect.dart';
-import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/customer_review/review_card.dart';
-import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/enums/feedback_status_enum.dart';
 
 class CustomerReview extends StatefulWidget {
   const CustomerReview({super.key});
@@ -50,36 +45,37 @@ class _CustomerReviewState extends State<CustomerReview> {
               onTap: () => Navigator.of(context).pop(),
             ),
             title: Text("customers_reviews".tr(), style: fonts.regularMain),
-            // actions: [
-            //   Padding(
-            //     padding: const EdgeInsets.only(right: 16.0),
-            //     child: WScaleAnimation(
-            //       child: icons.filter.svg(width: 20.w, height: 20.h),
-            //       onTap: () => Navigator.of(context).pop(),
-            //     ),
-            //   ),
-            // ],
           ),
           body: BlocBuilder<BranchBloc, BranchState>(
             builder: (context, state) {
               if (state.getReviewStatus.isFailure) {
-                return const Padding(
-                  padding: EdgeInsets.only(top: 120),
-                  child: Center(child: CupertinoActivityIndicator(color: Colors.green)),
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Lottie.asset("assets/anim/404.json"),
+                      Text("no_result_found".tr(), style: fonts.regularMain),
+                    ],
+                  ),
                 );
               }
+
               if (state.getReviewStatus.isInProgress || state.getReviewStatus.isInitial) {
-                return const Padding(
-                  padding: EdgeInsets.only(top: 120),
-                  child: Center(child: CupertinoActivityIndicator(color: Colors.green)),
-                );
+                return const Center(child: CupertinoActivityIndicator());
               }
               return ListView.builder(
                 itemCount: reviews.length,
                 itemBuilder: (context, index) {
                   final review = reviews[index];
-
-                  return ReviewCard(review: review, colors: colors, icons: icons, fonts: fonts);
+                  return ReviewCard(
+                    review: review,
+                    colors: colors,
+                    icons: icons,
+                    fonts: fonts,
+                    status: FeedBackStatus.none,
+                  );
                 },
               );
             },
@@ -95,30 +91,6 @@ class _CustomerReviewState extends State<CustomerReview> {
     super.dispose();
   }
 }
-
-Widget tf(colors, controller, fonts) => DecoratedBox(
-      decoration: BoxDecoration(color: colors.shade0),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: SizedBox(
-          width: double.infinity,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 12,
-            children: [
-              Text("customers_reviews".tr(), style: fonts.regularMain),
-              CustomTextField(
-                controller: controller,
-                onChanged: (value) {},
-                hintText: 'search_for_doctors'.tr(),
-              ),
-              const SizedBox.shrink(),
-            ],
-          ),
-        ),
-      ),
-    );
 
 const reviews = <CustomerReviewModel>[
   CustomerReviewModel(

@@ -85,6 +85,8 @@ class _OurActivityPageState extends State<OurActivityPage> {
                     PatternBackground(patternTitle: state.medionActivity?.description ?? ''),
                     const CDivider(padding: false),
                     CustomTabbarBlack(
+                      padding: EdgeInsets.zero,
+                      labelPadding: EdgeInsets.zero,
                       isScrollable: false,
                       tabs: ["about_the_company".tr(), "history".tr(), "mission".tr()],
                     ),

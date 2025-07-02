@@ -1,7 +1,7 @@
 name: medion
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.1+22
+version: 1.0.1+23
 
 environment:
   sdk: ^3.5.4
@@ -108,6 +108,7 @@ dependencies:
   http: ^1.4.0
   yandex_mapkit: ^4.1.0
   fluttertoast: ^8.2.12
+  flutter_pdfview: ^1.4.1+1
 
 
 

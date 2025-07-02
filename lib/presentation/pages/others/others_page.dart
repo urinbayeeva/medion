@@ -15,6 +15,7 @@ class OthersPage extends StatelessWidget {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
         return Scaffold(
+          resizeToAvoidBottomInset: true,
           backgroundColor: colors.backgroundColor,
           appBar: AppBar(
             centerTitle: true,

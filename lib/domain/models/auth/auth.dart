@@ -40,6 +40,12 @@ abstract class User implements Built<User, UserBuilder> {
   @BuiltValueField(wireName: 'access_token')
   String get accessToken;
 
+  @BuiltValueField(wireName: 'image')
+  String? get image;
+
+  @BuiltValueField(wireName: 'date')
+  String? get date;
+
   @BuiltValueField(wireName: 'refresh_token')
   String get refreshToken;
 

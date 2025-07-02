@@ -17,4 +17,10 @@ abstract class BranchEvent with _$BranchEvent {
   const factory BranchEvent.postReviews({required PostReviewModel review}) = _PostReviews;
 
   const factory BranchEvent.getBranchDetail({required int id}) = _GetBranchDetail;
+
+  const factory BranchEvent.fillingReviewData({
+    @Default(-1) int rank,
+    @Default('') String branch,
+    @Default('') String comment,
+  }) = _FillingReviewData;
 }

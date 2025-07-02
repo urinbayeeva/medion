@@ -22,6 +22,7 @@ mixin _$ResponseFailure {
     required TResult Function(String message) invalidCredential,
     required TResult Function(String message) noAdminAccess,
     required TResult Function(String message) networkFailure,
+    required TResult Function(String message) parsingFailure,
     required TResult Function(String message) unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -30,6 +31,7 @@ mixin _$ResponseFailure {
     TResult? Function(String message)? invalidCredential,
     TResult? Function(String message)? noAdminAccess,
     TResult? Function(String message)? networkFailure,
+    TResult? Function(String message)? parsingFailure,
     TResult? Function(String message)? unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -38,6 +40,7 @@ mixin _$ResponseFailure {
     TResult Function(String message)? invalidCredential,
     TResult Function(String message)? noAdminAccess,
     TResult Function(String message)? networkFailure,
+    TResult Function(String message)? parsingFailure,
     TResult Function(String message)? unknown,
     required TResult orElse(),
   }) =>
@@ -47,6 +50,7 @@ mixin _$ResponseFailure {
     required TResult Function(InvalidCredentials value) invalidCredential,
     required TResult Function(NoAdminAccess value) noAdminAccess,
     required TResult Function(NetworkFailure value) networkFailure,
+    required TResult Function(ParsingFailure value) parsingFailure,
     required TResult Function(Unknown value) unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -55,6 +59,7 @@ mixin _$ResponseFailure {
     TResult? Function(InvalidCredentials value)? invalidCredential,
     TResult? Function(NoAdminAccess value)? noAdminAccess,
     TResult? Function(NetworkFailure value)? networkFailure,
+    TResult? Function(ParsingFailure value)? parsingFailure,
     TResult? Function(Unknown value)? unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -63,6 +68,7 @@ mixin _$ResponseFailure {
     TResult Function(InvalidCredentials value)? invalidCredential,
     TResult Function(NoAdminAccess value)? noAdminAccess,
     TResult Function(NetworkFailure value)? networkFailure,
+    TResult Function(ParsingFailure value)? parsingFailure,
     TResult Function(Unknown value)? unknown,
     required TResult orElse(),
   }) =>
@@ -184,6 +190,7 @@ class _$InvalidCredentialsImpl implements InvalidCredentials {
     required TResult Function(String message) invalidCredential,
     required TResult Function(String message) noAdminAccess,
     required TResult Function(String message) networkFailure,
+    required TResult Function(String message) parsingFailure,
     required TResult Function(String message) unknown,
   }) {
     return invalidCredential(message);
@@ -195,6 +202,7 @@ class _$InvalidCredentialsImpl implements InvalidCredentials {
     TResult? Function(String message)? invalidCredential,
     TResult? Function(String message)? noAdminAccess,
     TResult? Function(String message)? networkFailure,
+    TResult? Function(String message)? parsingFailure,
     TResult? Function(String message)? unknown,
   }) {
     return invalidCredential?.call(message);
@@ -206,6 +214,7 @@ class _$InvalidCredentialsImpl implements InvalidCredentials {
     TResult Function(String message)? invalidCredential,
     TResult Function(String message)? noAdminAccess,
     TResult Function(String message)? networkFailure,
+    TResult Function(String message)? parsingFailure,
     TResult Function(String message)? unknown,
     required TResult orElse(),
   }) {
@@ -221,6 +230,7 @@ class _$InvalidCredentialsImpl implements InvalidCredentials {
     required TResult Function(InvalidCredentials value) invalidCredential,
     required TResult Function(NoAdminAccess value) noAdminAccess,
     required TResult Function(NetworkFailure value) networkFailure,
+    required TResult Function(ParsingFailure value) parsingFailure,
     required TResult Function(Unknown value) unknown,
   }) {
     return invalidCredential(this);
@@ -232,6 +242,7 @@ class _$InvalidCredentialsImpl implements InvalidCredentials {
     TResult? Function(InvalidCredentials value)? invalidCredential,
     TResult? Function(NoAdminAccess value)? noAdminAccess,
     TResult? Function(NetworkFailure value)? networkFailure,
+    TResult? Function(ParsingFailure value)? parsingFailure,
     TResult? Function(Unknown value)? unknown,
   }) {
     return invalidCredential?.call(this);
@@ -243,6 +254,7 @@ class _$InvalidCredentialsImpl implements InvalidCredentials {
     TResult Function(InvalidCredentials value)? invalidCredential,
     TResult Function(NoAdminAccess value)? noAdminAccess,
     TResult Function(NetworkFailure value)? networkFailure,
+    TResult Function(ParsingFailure value)? parsingFailure,
     TResult Function(Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -341,6 +353,7 @@ class _$NoAdminAccessImpl implements NoAdminAccess {
     required TResult Function(String message) invalidCredential,
     required TResult Function(String message) noAdminAccess,
     required TResult Function(String message) networkFailure,
+    required TResult Function(String message) parsingFailure,
     required TResult Function(String message) unknown,
   }) {
     return noAdminAccess(message);
@@ -352,6 +365,7 @@ class _$NoAdminAccessImpl implements NoAdminAccess {
     TResult? Function(String message)? invalidCredential,
     TResult? Function(String message)? noAdminAccess,
     TResult? Function(String message)? networkFailure,
+    TResult? Function(String message)? parsingFailure,
     TResult? Function(String message)? unknown,
   }) {
     return noAdminAccess?.call(message);
@@ -363,6 +377,7 @@ class _$NoAdminAccessImpl implements NoAdminAccess {
     TResult Function(String message)? invalidCredential,
     TResult Function(String message)? noAdminAccess,
     TResult Function(String message)? networkFailure,
+    TResult Function(String message)? parsingFailure,
     TResult Function(String message)? unknown,
     required TResult orElse(),
   }) {
@@ -378,6 +393,7 @@ class _$NoAdminAccessImpl implements NoAdminAccess {
     required TResult Function(InvalidCredentials value) invalidCredential,
     required TResult Function(NoAdminAccess value) noAdminAccess,
     required TResult Function(NetworkFailure value) networkFailure,
+    required TResult Function(ParsingFailure value) parsingFailure,
     required TResult Function(Unknown value) unknown,
   }) {
     return noAdminAccess(this);
@@ -389,6 +405,7 @@ class _$NoAdminAccessImpl implements NoAdminAccess {
     TResult? Function(InvalidCredentials value)? invalidCredential,
     TResult? Function(NoAdminAccess value)? noAdminAccess,
     TResult? Function(NetworkFailure value)? networkFailure,
+    TResult? Function(ParsingFailure value)? parsingFailure,
     TResult? Function(Unknown value)? unknown,
   }) {
     return noAdminAccess?.call(this);
@@ -400,6 +417,7 @@ class _$NoAdminAccessImpl implements NoAdminAccess {
     TResult Function(InvalidCredentials value)? invalidCredential,
     TResult Function(NoAdminAccess value)? noAdminAccess,
     TResult Function(NetworkFailure value)? networkFailure,
+    TResult Function(ParsingFailure value)? parsingFailure,
     TResult Function(Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -499,6 +517,7 @@ class _$NetworkFailureImpl implements NetworkFailure {
     required TResult Function(String message) invalidCredential,
     required TResult Function(String message) noAdminAccess,
     required TResult Function(String message) networkFailure,
+    required TResult Function(String message) parsingFailure,
     required TResult Function(String message) unknown,
   }) {
     return networkFailure(message);
@@ -510,6 +529,7 @@ class _$NetworkFailureImpl implements NetworkFailure {
     TResult? Function(String message)? invalidCredential,
     TResult? Function(String message)? noAdminAccess,
     TResult? Function(String message)? networkFailure,
+    TResult? Function(String message)? parsingFailure,
     TResult? Function(String message)? unknown,
   }) {
     return networkFailure?.call(message);
@@ -521,6 +541,7 @@ class _$NetworkFailureImpl implements NetworkFailure {
     TResult Function(String message)? invalidCredential,
     TResult Function(String message)? noAdminAccess,
     TResult Function(String message)? networkFailure,
+    TResult Function(String message)? parsingFailure,
     TResult Function(String message)? unknown,
     required TResult orElse(),
   }) {
@@ -536,6 +557,7 @@ class _$NetworkFailureImpl implements NetworkFailure {
     required TResult Function(InvalidCredentials value) invalidCredential,
     required TResult Function(NoAdminAccess value) noAdminAccess,
     required TResult Function(NetworkFailure value) networkFailure,
+    required TResult Function(ParsingFailure value) parsingFailure,
     required TResult Function(Unknown value) unknown,
   }) {
     return networkFailure(this);
@@ -547,6 +569,7 @@ class _$NetworkFailureImpl implements NetworkFailure {
     TResult? Function(InvalidCredentials value)? invalidCredential,
     TResult? Function(NoAdminAccess value)? noAdminAccess,
     TResult? Function(NetworkFailure value)? networkFailure,
+    TResult? Function(ParsingFailure value)? parsingFailure,
     TResult? Function(Unknown value)? unknown,
   }) {
     return networkFailure?.call(this);
@@ -558,6 +581,7 @@ class _$NetworkFailureImpl implements NetworkFailure {
     TResult Function(InvalidCredentials value)? invalidCredential,
     TResult Function(NoAdminAccess value)? noAdminAccess,
     TResult Function(NetworkFailure value)? networkFailure,
+    TResult Function(ParsingFailure value)? parsingFailure,
     TResult Function(Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -580,6 +604,170 @@ abstract class NetworkFailure implements ResponseFailure {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NetworkFailureImplCopyWith<_$NetworkFailureImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ParsingFailureImplCopyWith<$Res>
+    implements $ResponseFailureCopyWith<$Res> {
+  factory _$$ParsingFailureImplCopyWith(_$ParsingFailureImpl value,
+          $Res Function(_$ParsingFailureImpl) then) =
+      __$$ParsingFailureImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$ParsingFailureImplCopyWithImpl<$Res>
+    extends _$ResponseFailureCopyWithImpl<$Res, _$ParsingFailureImpl>
+    implements _$$ParsingFailureImplCopyWith<$Res> {
+  __$$ParsingFailureImplCopyWithImpl(
+      _$ParsingFailureImpl _value, $Res Function(_$ParsingFailureImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ResponseFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$ParsingFailureImpl(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ParsingFailureImpl implements ParsingFailure {
+  const _$ParsingFailureImpl({required this.message});
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'ResponseFailure.parsingFailure(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ParsingFailureImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of ResponseFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ParsingFailureImplCopyWith<_$ParsingFailureImpl> get copyWith =>
+      __$$ParsingFailureImplCopyWithImpl<_$ParsingFailureImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String message) invalidCredential,
+    required TResult Function(String message) noAdminAccess,
+    required TResult Function(String message) networkFailure,
+    required TResult Function(String message) parsingFailure,
+    required TResult Function(String message) unknown,
+  }) {
+    return parsingFailure(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String message)? invalidCredential,
+    TResult? Function(String message)? noAdminAccess,
+    TResult? Function(String message)? networkFailure,
+    TResult? Function(String message)? parsingFailure,
+    TResult? Function(String message)? unknown,
+  }) {
+    return parsingFailure?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message)? invalidCredential,
+    TResult Function(String message)? noAdminAccess,
+    TResult Function(String message)? networkFailure,
+    TResult Function(String message)? parsingFailure,
+    TResult Function(String message)? unknown,
+    required TResult orElse(),
+  }) {
+    if (parsingFailure != null) {
+      return parsingFailure(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(InvalidCredentials value) invalidCredential,
+    required TResult Function(NoAdminAccess value) noAdminAccess,
+    required TResult Function(NetworkFailure value) networkFailure,
+    required TResult Function(ParsingFailure value) parsingFailure,
+    required TResult Function(Unknown value) unknown,
+  }) {
+    return parsingFailure(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(InvalidCredentials value)? invalidCredential,
+    TResult? Function(NoAdminAccess value)? noAdminAccess,
+    TResult? Function(NetworkFailure value)? networkFailure,
+    TResult? Function(ParsingFailure value)? parsingFailure,
+    TResult? Function(Unknown value)? unknown,
+  }) {
+    return parsingFailure?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(InvalidCredentials value)? invalidCredential,
+    TResult Function(NoAdminAccess value)? noAdminAccess,
+    TResult Function(NetworkFailure value)? networkFailure,
+    TResult Function(ParsingFailure value)? parsingFailure,
+    TResult Function(Unknown value)? unknown,
+    required TResult orElse(),
+  }) {
+    if (parsingFailure != null) {
+      return parsingFailure(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ParsingFailure implements ResponseFailure {
+  const factory ParsingFailure({required final String message}) =
+      _$ParsingFailureImpl;
+
+  @override
+  String get message;
+
+  /// Create a copy of ResponseFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ParsingFailureImplCopyWith<_$ParsingFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -656,6 +844,7 @@ class _$UnknownImpl implements Unknown {
     required TResult Function(String message) invalidCredential,
     required TResult Function(String message) noAdminAccess,
     required TResult Function(String message) networkFailure,
+    required TResult Function(String message) parsingFailure,
     required TResult Function(String message) unknown,
   }) {
     return unknown(message);
@@ -667,6 +856,7 @@ class _$UnknownImpl implements Unknown {
     TResult? Function(String message)? invalidCredential,
     TResult? Function(String message)? noAdminAccess,
     TResult? Function(String message)? networkFailure,
+    TResult? Function(String message)? parsingFailure,
     TResult? Function(String message)? unknown,
   }) {
     return unknown?.call(message);
@@ -678,6 +868,7 @@ class _$UnknownImpl implements Unknown {
     TResult Function(String message)? invalidCredential,
     TResult Function(String message)? noAdminAccess,
     TResult Function(String message)? networkFailure,
+    TResult Function(String message)? parsingFailure,
     TResult Function(String message)? unknown,
     required TResult orElse(),
   }) {
@@ -693,6 +884,7 @@ class _$UnknownImpl implements Unknown {
     required TResult Function(InvalidCredentials value) invalidCredential,
     required TResult Function(NoAdminAccess value) noAdminAccess,
     required TResult Function(NetworkFailure value) networkFailure,
+    required TResult Function(ParsingFailure value) parsingFailure,
     required TResult Function(Unknown value) unknown,
   }) {
     return unknown(this);
@@ -704,6 +896,7 @@ class _$UnknownImpl implements Unknown {
     TResult? Function(InvalidCredentials value)? invalidCredential,
     TResult? Function(NoAdminAccess value)? noAdminAccess,
     TResult? Function(NetworkFailure value)? networkFailure,
+    TResult? Function(ParsingFailure value)? parsingFailure,
     TResult? Function(Unknown value)? unknown,
   }) {
     return unknown?.call(this);
@@ -715,6 +908,7 @@ class _$UnknownImpl implements Unknown {
     TResult Function(InvalidCredentials value)? invalidCredential,
     TResult Function(NoAdminAccess value)? noAdminAccess,
     TResult Function(NetworkFailure value)? networkFailure,
+    TResult Function(ParsingFailure value)? parsingFailure,
     TResult Function(Unknown value)? unknown,
     required TResult orElse(),
   }) {

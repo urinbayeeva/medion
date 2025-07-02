@@ -94,7 +94,11 @@ class _AboutDoctorState extends State<AboutDoctor> {
                       image: widget.image,
                     ),
                     16.h.verticalSpace,
-                    CustomTabbarBlack(tabs: tabs),
+                    CustomTabbarBlack(
+                      tabs: tabs,
+                      padding: EdgeInsets.only(right: 12.w),
+                      labelPadding: EdgeInsets.only(right: 16.w),
+                    ),
                   ],
                 ),
               ),

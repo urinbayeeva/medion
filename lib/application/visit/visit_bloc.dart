@@ -9,7 +9,9 @@ import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 
 part 'visit_bloc.freezed.dart';
+
 part 'visit_event.dart';
+
 part 'visit_state.dart';
 
 class VisitBloc extends Bloc<VisitEvent, VisitState> {
@@ -19,24 +21,19 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     on<_CreateVisit>(_createVisitHandler);
   }
 
-  Future<void> _createVisitHandler(
-    _CreateVisit event,
-    Emitter<VisitState> emit,
-  ) async {
+  Future<void> _createVisitHandler(_CreateVisit event, Emitter<VisitState> emit) async {
     emit(state.copyWith(loading: true, error: false, success: false));
 
     try {
       EasyLoading.show();
-      final Either<ResponseFailure, List<VisitOrder>> result =
-          await _repository.createVisit(event.request);
+      final Either<ResponseFailure, List<VisitOrder>> result = await _repository.createVisit(event.request);
 
       if (isClosed) return;
 
       result.fold(
         (failure) {
           LogService.e("Error creating visit: ${failure.message}");
-          emit(state.copyWith(
-              loading: false, error: true, errorMessage: failure.message));
+          emit(state.copyWith(loading: false, error: true, errorMessage: failure.message));
           EasyLoading.showError(failure.message);
         },
         (data) {
@@ -50,10 +47,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     } catch (e) {
       LogService.e("Unexpected error in _createVisitHandler: $e");
       if (!isClosed) {
-        emit(state.copyWith(
-            loading: false,
-            error: true,
-            errorMessage: 'Unexpected error occurred'));
+        emit(state.copyWith(loading: false, error: true, errorMessage: 'Unexpected error occurred'));
         EasyLoading.showError('Unexpected error occurred');
       }
     } finally {

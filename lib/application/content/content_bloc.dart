@@ -1,16 +1,14 @@
 import 'dart:async';
-import 'dart:developer';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/team/team_model.dart';
-import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/repository/company_service.dart';
 import 'package:medion/infrastructure/repository/content_service.dart';
-import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
+import 'package:medion/presentation/component/easy_loading.dart';
 
 part 'content_bloc.freezed.dart';
 
@@ -27,21 +25,20 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     on<_GetTeams>(_getTeams);
   }
 
-  FutureOr<void> _ourActivity(_GetTeams event, Emitter<ContentState> emit) async {}
-
   FutureOr<void> _getTeams(_GetTeams event, Emitter<ContentState> emit) async {
-    log("init get team");
     emit(state.copyWith(teamStatus: FormzSubmissionStatus.inProgress));
     final result = await _companyService.getTeams(type: event.type);
     result.fold(
       (failure) {
-        log("failure get team");
         emit(state.copyWith(teamStatus: FormzSubmissionStatus.failure));
       },
       (result) {
-        log("success get team");
+        final jobTypes = result.map((e) => e.type).toSet().toList();
+
         emit(state.copyWith(
           teamStatus: FormzSubmissionStatus.success,
+          team: result,
+          jobTypes: jobTypes,
         ));
       },
     );

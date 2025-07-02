@@ -13,6 +13,7 @@ import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/domain/models/recruitment/recruitment_model.dart';
 import 'package:medion/domain/models/search/search_model.dart';
+import 'package:medion/domain/models/team/team_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/models/visit/visit_new_model.dart';
@@ -37,7 +38,6 @@ part 'serializer.g.dart';
   DiagnosticsModel,
   DiseaseModle,
   AdModel,
-  PatientInfo,
   GiveSelectedId,
   CreatePatientInfoResponse,
   DoctorCategory,
@@ -60,6 +60,7 @@ part 'serializer.g.dart';
   Education,
   Award,
   PriceItem,
+  Team,
 
   //Third Service Models
 
@@ -75,7 +76,6 @@ part 'serializer.g.dart';
 
   CreatePatientRequest,
   CreatePatientResponse,
-  CreatePatientBookingReq,
   CreatePatientServiceResponse,
 
   // Notification
@@ -99,11 +99,18 @@ part 'serializer.g.dart';
 
   RefreshTokenModel,
   RefreshTokenResponseModel,
-  CreatePatientInfoResponse,
   RegistrationResponse,
 
   //Visit
   VisitModel,
+  PatientDocuments,
+  PatientOrder,
+  PatientVisit,
+  SaleOrderLine,
+  PatientVisitModel,
+  PatientVisitSingleModel,
+  VisitSingleResultModel,
+  PatientReviewModel,
 
   //Analyse
   PatientAnalysis,
@@ -115,6 +122,8 @@ part 'serializer.g.dart';
   OrderVisit,
   VisitResponse,
   Visit,
+  PatientAnalyse,
+  PaymentUrlModels,
 
   //Map
   Position,

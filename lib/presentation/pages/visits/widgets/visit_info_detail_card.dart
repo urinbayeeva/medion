@@ -1,8 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_divider.dart';
-import 'package:medion/presentation/component/cached_image_component.dart';
+import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/extensions.dart';
@@ -39,174 +38,228 @@ class VisitInfoDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        padding: EdgeInsets.all(8.w),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.r),
-          color: colors.shade0,
-        ),
-        child: Container(
-          padding: EdgeInsets.all(8.w),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.r),
-            color: colors.shade0,
-            border: Border.all(width: 1, color: const Color(0xFFEDEDED)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return ConstrainedBox(
+          constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height * 0.3),
+          child: Container(
+            margin: EdgeInsets.fromLTRB(16, 8.h, 16, 1.h),
+            padding: EdgeInsets.all(8.w),
+            decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: colors.neutral300)),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(8.r)),
+              color: colors.shade0,
+            ),
+            child: Container(
+              padding: EdgeInsets.all(8.w),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.r),
+                color: colors.shade0,
+                border: Border.all(width: 1, color: const Color(0xFFEDEDED)),
+              ),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                spacing: 12,
                 children: [
-                  (image == null || image!.isEmpty)
-                      ? icons.nonUser.svg(
-                          height: 138.h, width: 118.w, color: colors.neutral500)
-                      : CachedImageComponent(
-                          height: 138.h, width: 118.w, imageUrl: image!),
-                  8.w.horizontalSpace,
-                  Expanded(
+                  CommonImage(
+                    height: 138.h,
+                    width: 118.w,
+                    imageUrl: image ?? "",
+                  ),
+                  SingleChildScrollView(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      spacing: 4.h,
                       children: [
-                        _buildOverflowText(
-                            categoryName ?? "N/A", fonts, colors),
-                        _buildOverflowTextGrey(
-                            serviceName ?? "N/A", fonts, colors),
-                        const CDivider(),
-                        _buildOverflowText(doctorName ?? "N/A", fonts, colors),
-                        _buildOverflowTextGrey("N/A", fonts, colors),
-                        const CDivider(),
+                        _buildOverflowText(categoryName ?? "N/A", fonts, colors, context,
+                            size: 13.sp, fontWeight: FontWeight.w600),
+                        _buildOverflowText(serviceName ?? "N/A", fonts, colors, context,
+                            size: 11.sp, fontWeight: FontWeight.w500),
+                        DecoratedBox(
+                          decoration: BoxDecoration(color: colors.neutral300),
+                          child: SizedBox(width: MediaQuery.of(context).size.width * 0.46.w, height: 1),
+                        ),
+                        _buildOverflowText(doctorName ?? "N/A", fonts, colors, context,
+                            size: 13.sp, fontWeight: FontWeight.w600),
+                        _buildOverflowText("$servicePrice UZS", fonts, colors, context,
+                            size: 11.sp, fontWeight: FontWeight.w500),
+                        DecoratedBox(
+                          decoration: BoxDecoration(color: colors.neutral300),
+                          child: SizedBox(width: MediaQuery.of(context).size.width * 0.46.w, height: 1),
+                        ),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 4.w,
                           children: [
-                            icons.clock.svg(width: 12.w, height: 12.h),
-                            4.w.horizontalSpace,
-                            Expanded(
-                              child: _buildOverflowText(
-                                visitDate?.toCapitalized() ?? "N/A",
-                                fonts,
-                                colors,
-                              ),
+                            icons.clock.svg(width: 13.w, height: 13.h),
+                            _buildOverflowText(
+                              visitDate?.toCapitalized() ?? "N/A",
+                              fonts,
+                              colors,
+                              context,
+                              size: 11.sp,
+                              fontWeight: FontWeight.w400,
                             ),
                           ],
                         ),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 4.w,
                           children: [
-                            icons.location.svg(width: 12.w, height: 12.h),
-                            4.w.horizontalSpace,
-                            Expanded(
-                              // Prevents overflow by wrapping text
-                              child: _buildOverflowTextGrey(
-                                visitLocation ?? "N/A",
-                                fonts,
-                                colors,
-                              ),
+                            icons.location.svg(width: 13.w, height: 13.h),
+                            _buildOverflowText(
+                              visitLocation ?? "N/A",
+                              maxLine: 2,
+                              fonts,
+                              colors,
+                              context,
+                              size: 11.sp,
+                              fontWeight: FontWeight.w400,
                             ),
                           ],
-                        ),
-                        const CDivider(),
+                        )
                       ],
                     ),
-                  ),
+                  )
+                  // SingleChildScrollView(
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+
+                  // _buildOverflowText(serviceName ?? "N/A", fonts, colors, size: 11.sp, fontWeight: FontWeight.w500),
+                  // const CDivider(),
+                  // _buildOverflowText(doctorName ?? "N/A", fonts, colors, size: 13.sp, fontWeight: FontWeight.w600),
+                  // _buildOverflowText("$servicePrice UZS", fonts, colors, size: 11.sp, fontWeight: FontWeight.w500),
+                  // const CDivider(),
+                  // SizedBox(
+                  //   height: 16,
+                  //   child: Row(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     children: [
+                  //       icons.clock.svg(width: 12.w, height: 12.h),
+                  //       4.w.horizontalSpace,
+                  //       Expanded(
+                  //         child: _buildOverflowText(
+                  //           visitDate?.toCapitalized() ?? "N/A",
+                  //           fonts,
+                  //           colors,
+                  //           size: 13.sp,
+                  //           fontWeight: FontWeight.w600,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   height: 16,
+                  //   child: Row(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     children: [
+                  //       icons.location.svg(width: 12.w, height: 12.h),
+                  //       4.w.horizontalSpace,
+                  //       Expanded(
+                  //         child: _buildOverflowText(
+                  //           visitLocation ?? "N/A",
+                  //           fonts,
+                  //           colors,
+                  //           size: 11.sp,
+                  //           fontWeight: FontWeight.w500,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const CDivider(),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
-              20.h.verticalSpace,
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("${"status".tr()} : ",
-                      style: fonts.smallLink.copyWith(
-                          color: colors.primary900,
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w500)),
-                  4.w.horizontalSpace,
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(60.r),
-                        color: visitStatus! == "paid"
-                            ? const Color(0xFF0E73F6).withOpacity(0.3)
-                            : const Color(0xFFFFA41B).withOpacity(0.3)),
-                    child: Text(
-                      visitStatus!,
-                      style: fonts.xSmallMain.copyWith(
-                          color: visitStatus! == "paid"
-                              ? const Color(0xFF0E73F6)
-                              : const Color(0xFFFFA41B)),
-                    ),
-                  ),
-                ],
-              ),
-              10.h.verticalSpace,
-              Text("pays_the_appoinment".tr(namedArgs: {"name": "N/A"}),
-                  style: fonts.smallLink.copyWith(
-                      color: colors.primary900,
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500)),
-              10.h.verticalSpace,
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      "${"payment_method".tr()} : ${paymentMethod == "" ? "N/A" : paymentMethod} ",
-                      style: fonts.smallLink.copyWith(
-                          color: colors.primary900,
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w500)),
-                  4.w.horizontalSpace,
-                  Text(paymentMethod!,
-                      style: fonts.smallLink.copyWith(
-                          color: colors.primary900,
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w600)),
-                ],
-              ),
-              10.h.verticalSpace,
-            ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildOverflowText(String text, fonts, colors, BuildContext context,
+      {required double size, required FontWeight fontWeight, int maxLine = 1}) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.4,
+        child: Text(
+          text,
+          maxLines: maxLine,
+          overflow: TextOverflow.clip,
+          style: fonts.smallMain.copyWith(
+            color: colors.primary900,
+            fontSize: size,
+            fontWeight: fontWeight,
           ),
         ),
-      );
-    });
-  }
-
-  Widget _buildOverflowText(String text, fonts, colors) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        text,
-        style: fonts.smallMain.copyWith(
-          color: colors.primary900,
-          fontSize: 13.sp,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildOverflowTextGrey(String text, fonts, colors) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        text,
-        style: fonts.smallMain.copyWith(
-          color: colors.neutral600,
-          fontSize: 11.sp,
-          fontWeight: FontWeight.w500,
-        ),
       ),
     );
   }
 }
 
-String formatVisitDate(BuildContext context, String? visitDate) {
-  DateTime dateTime = DateFormat("yyyy-MM-dd, HH:mm - HH:mm").parse(visitDate!);
-
-  final locale = Localizations.localeOf(context).toString();
-  final formattedDate =
-      DateFormat('EEEE, d MMMM, HH:mm', locale).format(dateTime);
-  return formattedDate.toCapitalized();
-}
+///          // 20.h.verticalSpace,
+//               // Row(
+//               //   crossAxisAlignment: CrossAxisAlignment.start,
+//               //   children: [
+//               //     Text("${"status".tr()} : ",
+//               //         style: fonts.smallLink.copyWith(
+//               //             color: colors.primary900,
+//               //             fontSize: 15.sp,
+//               //             fontWeight: FontWeight.w500)),
+//               //     4.w.horizontalSpace,
+//               //     Container(
+//               //       padding:
+//               //           EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+//               //       decoration: BoxDecoration(
+//               //           borderRadius: BorderRadius.circular(60.r),
+//               //           color: visitStatus! == "paid"
+//               //               ? const Color(0xFF0E73F6).withOpacity(0.3)
+//               //               : const Color(0xFFFFA41B).withOpacity(0.3)),
+//               //       child: Text(
+//               //         visitStatus!,
+//               //         style: fonts.xSmallMain.copyWith(
+//               //             color: visitStatus! == "paid"
+//               //                 ? const Color(0xFF0E73F6)
+//               //                 : const Color(0xFFFFA41B)),
+//               //       ),
+//               //     ),
+//               //   ],
+//               // ),
+//               // 10.h.verticalSpace,
+//               // Text("pays_the_appoinment".tr(namedArgs: {"name": "N/A"}),
+//               //     style: fonts.smallLink.copyWith(
+//               //         color: colors.primary900,
+//               //         fontSize: 15.sp,
+//               //         fontWeight: FontWeight.w500)),
+//               // 10.h.verticalSpace,
+//               // Row(
+//               //   crossAxisAlignment: CrossAxisAlignment.start,
+//               //   children: [
+//               //     Text(
+//               //         "${"payment_method".tr()} : ${paymentMethod == "" ? "N/A" : paymentMethod} ",
+//               //         style: fonts.smallLink.copyWith(
+//               //             color: colors.primary900,
+//               //             fontSize: 15.sp,
+//               //             fontWeight: FontWeight.w500)),
+//               //     4.w.horizontalSpace,
+//               //     Text(paymentMethod!,
+//               //         style: fonts.smallLink.copyWith(
+//               //             color: colors.primary900,
+//               //             fontSize: 15.sp,
+//               //             fontWeight: FontWeight.w600)),
+//               //   ],
+//               // ),
+//               // 10.h.verticalSpace,

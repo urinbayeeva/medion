@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:medion/infrastructure/services/download_service.dart';
+import 'package:medion/presentation/component/download_button.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -109,7 +109,7 @@ class FullPdfCard extends StatelessWidget {
                           ],
                         ),
                       ),
-                      WScaleAnimation(
+                      DownloadButton(
                         onTap: () {
                           // if (branch.docs[i]["title"]!.length < 8) {
                           //   FileDownloadService().downloadPDFWithProgress(
@@ -129,18 +129,6 @@ class FullPdfCard extends StatelessWidget {
                           //   );
                           // }
                         },
-                        child: Container(
-                          height: 35.h,
-                          width: 35.w,
-                          decoration: BoxDecoration(
-                            color: colors.neutral200,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: icons.download.svg(),
-                          ),
-                        ),
                       )
                     ],
                   ),

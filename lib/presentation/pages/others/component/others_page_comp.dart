@@ -36,7 +36,7 @@ class OthersPageComp extends StatelessWidget {
               return Column(
                 children: [
                   AnimationButtonEffect(
-                    onTap: () {
+                    onTap: () async {
                       final bottomNavBarController = context.read<BottomNavBarController>();
                       bottomNavBarController.changeNavBar(true);
 
@@ -82,7 +82,27 @@ class OthersPageComp extends StatelessWidget {
                         case 13:
                           navigateTo(MaterialPageRoute(builder: (context) => const CustomerReview()));
                         case 14:
-                          navigateTo(MaterialPageRoute(builder: (context) => const FeedbackView()));
+                          {
+                            // navigateTo(MaterialPageRoute(builder: (context) => const FeedbackView()));
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                  insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                                  // dialog margin
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      maxHeight: MediaQuery.of(context).size.height * 0.52,
+                                    ),
+                                    child: const FeedbackView(),
+                                  ),
+                                );
+                              },
+                            ).then((v) {
+                              bottomNavBarController.changeNavBar(false);
+                            });
+                          }
                         case 15:
                           navigateTo(MaterialPageRoute(builder: (context) => const DocsPage()));
 

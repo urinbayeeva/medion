@@ -56,10 +56,18 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(NotificationModel.serializer)
       ..add(OfferModel.serializer)
       ..add(OrderVisit.serializer)
+      ..add(PatientAnalyse.serializer)
       ..add(PatientAnalysis.serializer)
+      ..add(PatientDocuments.serializer)
       ..add(PatientInfo.serializer)
+      ..add(PatientOrder.serializer)
+      ..add(PatientReviewModel.serializer)
+      ..add(PatientVisit.serializer)
+      ..add(PatientVisitModel.serializer)
+      ..add(PatientVisitSingleModel.serializer)
       ..add(Payment.serializer)
       ..add(PaymentResponse.serializer)
+      ..add(PaymentUrlModels.serializer)
       ..add(PhoneNumberSendReq.serializer)
       ..add(Position.serializer)
       ..add(PostReviewModel.serializer)
@@ -71,6 +79,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(RequirementsModel.serializer)
       ..add(ResponseModel.serializer)
       ..add(ResultVacancyModel.serializer)
+      ..add(SaleOrderLine.serializer)
       ..add(Schedule.serializer)
       ..add(ScheduleItem.serializer)
       ..add(ScheduleTime.serializer)
@@ -78,6 +87,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Service.serializer)
       ..add(SetFcmTokenBody.serializer)
       ..add(SuccessModel.serializer)
+      ..add(Team.serializer)
       ..add(ThirdBookingCompanyDoctor.serializer)
       ..add(ThirdBookingDoctor.serializer)
       ..add(ThirdBookingDoctorSchedule.serializer)
@@ -91,6 +101,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(VisitOrder.serializer)
       ..add(VisitRequest.serializer)
       ..add(VisitResponse.serializer)
+      ..add(VisitSingleResultModel.serializer)
       ..add(WorkSchedule.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Course)]),
@@ -150,8 +161,44 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(OrderVisit)]),
           () => new ListBuilder<OrderVisit>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
+          () => new ListBuilder<PatientAnalysis>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
+          () => new ListBuilder<PatientAnalysis>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
+          () => new ListBuilder<PatientAnalysis>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
+          () => new ListBuilder<PatientAnalysis>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
+          () => new ListBuilder<PatientAnalysis>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
+          () => new ListBuilder<PatientAnalysis>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
+          () => new ListBuilder<PatientAnalysis>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
+          () => new ListBuilder<PatientAnalysis>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PatientOrder)]),
+          () => new ListBuilder<PatientOrder>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PatientVisit)]),
+          () => new ListBuilder<PatientVisit>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Payment)]),
           () => new ListBuilder<Payment>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(SaleOrderLine)]),
+          () => new ListBuilder<SaleOrderLine>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PaymentUrlModels)]),
+          () => new ListBuilder<PaymentUrlModels>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Schedule)]),
           () => new ListBuilder<Schedule>())

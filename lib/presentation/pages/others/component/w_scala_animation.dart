@@ -74,9 +74,6 @@ class _WScaleAnimationState extends State<WScaleAnimation> with SingleTickerProv
             _controller.reverse();
           }
         },
-        child: ScaleTransition(
-          scale: _scaleAnimation,
-          child: widget.child,
-        ),
+        child: ScaleTransition(scale: _scaleAnimation, child: widget.child),
       );
 }

@@ -6,8 +6,7 @@ import 'package:built_value/serializer.dart';
 
 part 'visit_new_model.g.dart';
 
-abstract class VisitResponse
-    implements Built<VisitResponse, VisitResponseBuilder> {
+abstract class VisitResponse implements Built<VisitResponse, VisitResponseBuilder> {
   @BuiltValueField(wireName: 'status')
   String get status;
 
@@ -15,8 +14,8 @@ abstract class VisitResponse
   BuiltList<Visit> get visits;
 
   VisitResponse._();
-  factory VisitResponse([void Function(VisitResponseBuilder) updates]) =
-      _$VisitResponse;
+
+  factory VisitResponse([void Function(VisitResponseBuilder) updates]) = _$VisitResponse;
 
   static Serializer<VisitResponse> get serializer => _$visitResponseSerializer;
 }
@@ -44,6 +43,7 @@ abstract class Visit implements Built<Visit, VisitBuilder> {
   String? get pdfUrl;
 
   Visit._();
+
   factory Visit([void Function(VisitBuilder) updates]) = _$Visit;
 
   static Serializer<Visit> get serializer => _$visitSerializer;

@@ -25,6 +25,8 @@ mixin _$AuthEvent {
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
     required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
@@ -39,6 +41,8 @@ mixin _$AuthEvent {
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
     TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
@@ -53,6 +57,8 @@ mixin _$AuthEvent {
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
     TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
@@ -68,6 +74,10 @@ mixin _$AuthEvent {
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
@@ -82,6 +92,9 @@ mixin _$AuthEvent {
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
@@ -96,6 +109,8 @@ mixin _$AuthEvent {
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
@@ -172,6 +187,8 @@ class _$CheckAuthImpl implements _CheckAuth {
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
     required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
@@ -189,6 +206,8 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
     TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
@@ -206,6 +225,8 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
     TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
@@ -227,6 +248,10 @@ class _$CheckAuthImpl implements _CheckAuth {
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
@@ -244,6 +269,9 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
@@ -261,6 +289,8 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
@@ -353,6 +383,8 @@ class _$VerificationSendImpl implements _VerificationSend {
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
     required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
@@ -370,6 +402,8 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
     TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
@@ -387,6 +421,8 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
     TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
@@ -408,6 +444,10 @@ class _$VerificationSendImpl implements _VerificationSend {
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
@@ -425,6 +465,9 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
@@ -442,6 +485,8 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
@@ -543,6 +588,8 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
     required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
@@ -560,6 +607,8 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
     TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
@@ -577,6 +626,8 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
     TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
@@ -598,6 +649,10 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
@@ -615,6 +670,9 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
@@ -632,6 +690,8 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
@@ -732,6 +792,8 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
     required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
@@ -749,6 +811,8 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
     TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
@@ -766,6 +830,8 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
     TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
@@ -787,6 +853,10 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
@@ -804,6 +874,9 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
@@ -821,6 +894,8 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
@@ -894,6 +969,8 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
     required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
@@ -911,6 +988,8 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
     TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
@@ -928,6 +1007,8 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
     TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
@@ -949,6 +1030,10 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
@@ -966,6 +1051,9 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
@@ -983,6 +1071,8 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
@@ -1074,6 +1164,8 @@ class _$PickImageImpl implements _PickImage {
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
     required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
@@ -1091,6 +1183,8 @@ class _$PickImageImpl implements _PickImage {
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
     TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
@@ -1108,6 +1202,8 @@ class _$PickImageImpl implements _PickImage {
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
     TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
@@ -1129,6 +1225,10 @@ class _$PickImageImpl implements _PickImage {
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
@@ -1146,6 +1246,9 @@ class _$PickImageImpl implements _PickImage {
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
@@ -1163,6 +1266,8 @@ class _$PickImageImpl implements _PickImage {
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
@@ -1235,6 +1340,8 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
     required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
@@ -1252,6 +1359,8 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
     TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
@@ -1269,6 +1378,8 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
     TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
@@ -1290,6 +1401,10 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
@@ -1307,6 +1422,9 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
@@ -1324,6 +1442,8 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
@@ -1338,6 +1458,420 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
 
 abstract class _FetchPatientVisits implements AuthEvent {
   const factory _FetchPatientVisits() = _$FetchPatientVisitsImpl;
+}
+
+/// @nodoc
+abstract class _$$FetchPatientSingleVisitsImplCopyWith<$Res> {
+  factory _$$FetchPatientSingleVisitsImplCopyWith(
+          _$FetchPatientSingleVisitsImpl value,
+          $Res Function(_$FetchPatientSingleVisitsImpl) then) =
+      __$$FetchPatientSingleVisitsImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class __$$FetchPatientSingleVisitsImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$FetchPatientSingleVisitsImpl>
+    implements _$$FetchPatientSingleVisitsImplCopyWith<$Res> {
+  __$$FetchPatientSingleVisitsImplCopyWithImpl(
+      _$FetchPatientSingleVisitsImpl _value,
+      $Res Function(_$FetchPatientSingleVisitsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$FetchPatientSingleVisitsImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
+  const _$FetchPatientSingleVisitsImpl({required this.id});
+
+  @override
+  final int id;
+
+  @override
+  String toString() {
+    return 'AuthEvent.fetchPatientVisitSingle(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FetchPatientSingleVisitsImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FetchPatientSingleVisitsImplCopyWith<_$FetchPatientSingleVisitsImpl>
+      get copyWith => __$$FetchPatientSingleVisitsImplCopyWithImpl<
+          _$FetchPatientSingleVisitsImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() checkAuth,
+    required TResult Function(RegisterReq request) verificationSend,
+    required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
+    required TResult Function(CreateInfoReq request) sendUserInfo,
+    required TResult Function() fetchPatientInfo,
+    required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
+    required TResult Function() fetchPaymentUrls,
+    required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
+  }) {
+    return fetchPatientVisitSingle(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? checkAuth,
+    TResult? Function(RegisterReq request)? verificationSend,
+    TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult? Function(CreateInfoReq request)? sendUserInfo,
+    TResult? Function()? fetchPatientInfo,
+    TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
+    TResult? Function()? fetchPaymentUrls,
+    TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
+  }) {
+    return fetchPatientVisitSingle?.call(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? checkAuth,
+    TResult Function(RegisterReq request)? verificationSend,
+    TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult Function(CreateInfoReq request)? sendUserInfo,
+    TResult Function()? fetchPatientInfo,
+    TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
+    TResult Function()? fetchPaymentUrls,
+    TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
+    required TResult orElse(),
+  }) {
+    if (fetchPatientVisitSingle != null) {
+      return fetchPatientVisitSingle(id);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_VerificationSend value) verificationSend,
+    required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
+    required TResult Function(_SendUserInfo value) sendUserInfo,
+    required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
+    required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
+    required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
+    required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
+  }) {
+    return fetchPatientVisitSingle(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_VerificationSend value)? verificationSend,
+    TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult? Function(_SendUserInfo value)? sendUserInfo,
+    TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
+    TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+  }) {
+    return fetchPatientVisitSingle?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_VerificationSend value)? verificationSend,
+    TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult Function(_SendUserInfo value)? sendUserInfo,
+    TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
+    TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    required TResult orElse(),
+  }) {
+    if (fetchPatientVisitSingle != null) {
+      return fetchPatientVisitSingle(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchPatientSingleVisits implements AuthEvent {
+  const factory _FetchPatientSingleVisits({required final int id}) =
+      _$FetchPatientSingleVisitsImpl;
+
+  int get id;
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FetchPatientSingleVisitsImplCopyWith<_$FetchPatientSingleVisitsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FetchPatientVisitsDetailImplCopyWith<$Res> {
+  factory _$$FetchPatientVisitsDetailImplCopyWith(
+          _$FetchPatientVisitsDetailImpl value,
+          $Res Function(_$FetchPatientVisitsDetailImpl) then) =
+      __$$FetchPatientVisitsDetailImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class __$$FetchPatientVisitsDetailImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$FetchPatientVisitsDetailImpl>
+    implements _$$FetchPatientVisitsDetailImplCopyWith<$Res> {
+  __$$FetchPatientVisitsDetailImplCopyWithImpl(
+      _$FetchPatientVisitsDetailImpl _value,
+      $Res Function(_$FetchPatientVisitsDetailImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$FetchPatientVisitsDetailImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
+  const _$FetchPatientVisitsDetailImpl({required this.id});
+
+  @override
+  final int id;
+
+  @override
+  String toString() {
+    return 'AuthEvent.fetchPatientVisitsDetail(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FetchPatientVisitsDetailImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FetchPatientVisitsDetailImplCopyWith<_$FetchPatientVisitsDetailImpl>
+      get copyWith => __$$FetchPatientVisitsDetailImplCopyWithImpl<
+          _$FetchPatientVisitsDetailImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() checkAuth,
+    required TResult Function(RegisterReq request) verificationSend,
+    required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
+    required TResult Function(CreateInfoReq request) sendUserInfo,
+    required TResult Function() fetchPatientInfo,
+    required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
+    required TResult Function() fetchPaymentUrls,
+    required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
+  }) {
+    return fetchPatientVisitsDetail(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? checkAuth,
+    TResult? Function(RegisterReq request)? verificationSend,
+    TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult? Function(CreateInfoReq request)? sendUserInfo,
+    TResult? Function()? fetchPatientInfo,
+    TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
+    TResult? Function()? fetchPaymentUrls,
+    TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
+  }) {
+    return fetchPatientVisitsDetail?.call(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? checkAuth,
+    TResult Function(RegisterReq request)? verificationSend,
+    TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult Function(CreateInfoReq request)? sendUserInfo,
+    TResult Function()? fetchPatientInfo,
+    TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
+    TResult Function()? fetchPaymentUrls,
+    TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
+    required TResult orElse(),
+  }) {
+    if (fetchPatientVisitsDetail != null) {
+      return fetchPatientVisitsDetail(id);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_VerificationSend value) verificationSend,
+    required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
+    required TResult Function(_SendUserInfo value) sendUserInfo,
+    required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
+    required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
+    required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
+    required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
+  }) {
+    return fetchPatientVisitsDetail(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_VerificationSend value)? verificationSend,
+    TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult? Function(_SendUserInfo value)? sendUserInfo,
+    TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
+    TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+  }) {
+    return fetchPatientVisitsDetail?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_VerificationSend value)? verificationSend,
+    TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult Function(_SendUserInfo value)? sendUserInfo,
+    TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
+    TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    required TResult orElse(),
+  }) {
+    if (fetchPatientVisitsDetail != null) {
+      return fetchPatientVisitsDetail(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchPatientVisitsDetail implements AuthEvent {
+  const factory _FetchPatientVisitsDetail({required final int id}) =
+      _$FetchPatientVisitsDetailImpl;
+
+  int get id;
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FetchPatientVisitsDetailImplCopyWith<_$FetchPatientVisitsDetailImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1388,6 +1922,8 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
     required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
@@ -1405,6 +1941,8 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
     TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
@@ -1422,6 +1960,8 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
     TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
@@ -1443,6 +1983,10 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
@@ -1460,6 +2004,9 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
@@ -1477,6 +2024,8 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
@@ -1542,6 +2091,8 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
     required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
@@ -1559,6 +2110,8 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
     TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
@@ -1576,6 +2129,8 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
     TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
@@ -1597,6 +2152,10 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
@@ -1614,6 +2173,9 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
@@ -1631,6 +2193,8 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
@@ -1695,6 +2259,8 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
     required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
@@ -1712,6 +2278,8 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
     TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
@@ -1729,6 +2297,8 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
     TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
@@ -1750,6 +2320,10 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
     required TResult Function(_PickImage value) pickImage,
     required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
@@ -1767,6 +2341,9 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult? Function(_PickImage value)? pickImage,
     TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
@@ -1784,6 +2361,8 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
     TResult Function(_PickImage value)? pickImage,
     TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
@@ -1806,6 +2385,14 @@ mixin _$AuthState {
   String get haveToken => throw _privateConstructorUsedError;
   UserStatus get userStatus => throw _privateConstructorUsedError;
   FormzSubmissionStatus get verifyStatus => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get fetchPatientAnalyseStatus =>
+      throw _privateConstructorUsedError;
+  FormzSubmissionStatus get fetchPatientVisitStatus =>
+      throw _privateConstructorUsedError;
+  FormzSubmissionStatus get fetchPatientVisitSingleStatus =>
+      throw _privateConstructorUsedError;
+  List<PatientOrder> get moves => throw _privateConstructorUsedError;
+  List<PatientVisit> get visits => throw _privateConstructorUsedError;
   bool get proceedToLogin => throw _privateConstructorUsedError;
   bool get successSendCode => throw _privateConstructorUsedError;
   bool get successVerifyCode => throw _privateConstructorUsedError;
@@ -1827,6 +2414,8 @@ mixin _$AuthState {
   bool get isFetchingPaymentUrls => throw _privateConstructorUsedError;
   bool get errorFetchingPaymentUrls => throw _privateConstructorUsedError;
   PaymentResponse? get myWallet => throw _privateConstructorUsedError;
+  PatientVisitSingleModel? get patientVisitSingle =>
+      throw _privateConstructorUsedError;
   RegistrationResponse? get registrationResponse =>
       throw _privateConstructorUsedError;
 
@@ -1847,6 +2436,11 @@ abstract class $AuthStateCopyWith<$Res> {
       String haveToken,
       UserStatus userStatus,
       FormzSubmissionStatus verifyStatus,
+      FormzSubmissionStatus fetchPatientAnalyseStatus,
+      FormzSubmissionStatus fetchPatientVisitStatus,
+      FormzSubmissionStatus fetchPatientVisitSingleStatus,
+      List<PatientOrder> moves,
+      List<PatientVisit> visits,
       bool proceedToLogin,
       bool successSendCode,
       bool successVerifyCode,
@@ -1868,6 +2462,7 @@ abstract class $AuthStateCopyWith<$Res> {
       bool isFetchingPaymentUrls,
       bool errorFetchingPaymentUrls,
       PaymentResponse? myWallet,
+      PatientVisitSingleModel? patientVisitSingle,
       RegistrationResponse? registrationResponse});
 }
 
@@ -1890,6 +2485,11 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? haveToken = null,
     Object? userStatus = null,
     Object? verifyStatus = null,
+    Object? fetchPatientAnalyseStatus = null,
+    Object? fetchPatientVisitStatus = null,
+    Object? fetchPatientVisitSingleStatus = null,
+    Object? moves = null,
+    Object? visits = null,
     Object? proceedToLogin = null,
     Object? successSendCode = null,
     Object? successVerifyCode = null,
@@ -1911,6 +2511,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? isFetchingPaymentUrls = null,
     Object? errorFetchingPaymentUrls = null,
     Object? myWallet = freezed,
+    Object? patientVisitSingle = freezed,
     Object? registrationResponse = freezed,
   }) {
     return _then(_value.copyWith(
@@ -1930,6 +2531,26 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.verifyStatus
           : verifyStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      fetchPatientAnalyseStatus: null == fetchPatientAnalyseStatus
+          ? _value.fetchPatientAnalyseStatus
+          : fetchPatientAnalyseStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      fetchPatientVisitStatus: null == fetchPatientVisitStatus
+          ? _value.fetchPatientVisitStatus
+          : fetchPatientVisitStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      fetchPatientVisitSingleStatus: null == fetchPatientVisitSingleStatus
+          ? _value.fetchPatientVisitSingleStatus
+          : fetchPatientVisitSingleStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      moves: null == moves
+          ? _value.moves
+          : moves // ignore: cast_nullable_to_non_nullable
+              as List<PatientOrder>,
+      visits: null == visits
+          ? _value.visits
+          : visits // ignore: cast_nullable_to_non_nullable
+              as List<PatientVisit>,
       proceedToLogin: null == proceedToLogin
           ? _value.proceedToLogin
           : proceedToLogin // ignore: cast_nullable_to_non_nullable
@@ -2014,6 +2635,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.myWallet
           : myWallet // ignore: cast_nullable_to_non_nullable
               as PaymentResponse?,
+      patientVisitSingle: freezed == patientVisitSingle
+          ? _value.patientVisitSingle
+          : patientVisitSingle // ignore: cast_nullable_to_non_nullable
+              as PatientVisitSingleModel?,
       registrationResponse: freezed == registrationResponse
           ? _value.registrationResponse
           : registrationResponse // ignore: cast_nullable_to_non_nullable
@@ -2035,6 +2660,11 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       String haveToken,
       UserStatus userStatus,
       FormzSubmissionStatus verifyStatus,
+      FormzSubmissionStatus fetchPatientAnalyseStatus,
+      FormzSubmissionStatus fetchPatientVisitStatus,
+      FormzSubmissionStatus fetchPatientVisitSingleStatus,
+      List<PatientOrder> moves,
+      List<PatientVisit> visits,
       bool proceedToLogin,
       bool successSendCode,
       bool successVerifyCode,
@@ -2056,6 +2686,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       bool isFetchingPaymentUrls,
       bool errorFetchingPaymentUrls,
       PaymentResponse? myWallet,
+      PatientVisitSingleModel? patientVisitSingle,
       RegistrationResponse? registrationResponse});
 }
 
@@ -2076,6 +2707,11 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? haveToken = null,
     Object? userStatus = null,
     Object? verifyStatus = null,
+    Object? fetchPatientAnalyseStatus = null,
+    Object? fetchPatientVisitStatus = null,
+    Object? fetchPatientVisitSingleStatus = null,
+    Object? moves = null,
+    Object? visits = null,
     Object? proceedToLogin = null,
     Object? successSendCode = null,
     Object? successVerifyCode = null,
@@ -2097,6 +2733,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? isFetchingPaymentUrls = null,
     Object? errorFetchingPaymentUrls = null,
     Object? myWallet = freezed,
+    Object? patientVisitSingle = freezed,
     Object? registrationResponse = freezed,
   }) {
     return _then(_$AuthStateImpl(
@@ -2116,6 +2753,26 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.verifyStatus
           : verifyStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      fetchPatientAnalyseStatus: null == fetchPatientAnalyseStatus
+          ? _value.fetchPatientAnalyseStatus
+          : fetchPatientAnalyseStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      fetchPatientVisitStatus: null == fetchPatientVisitStatus
+          ? _value.fetchPatientVisitStatus
+          : fetchPatientVisitStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      fetchPatientVisitSingleStatus: null == fetchPatientVisitSingleStatus
+          ? _value.fetchPatientVisitSingleStatus
+          : fetchPatientVisitSingleStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      moves: null == moves
+          ? _value._moves
+          : moves // ignore: cast_nullable_to_non_nullable
+              as List<PatientOrder>,
+      visits: null == visits
+          ? _value._visits
+          : visits // ignore: cast_nullable_to_non_nullable
+              as List<PatientVisit>,
       proceedToLogin: null == proceedToLogin
           ? _value.proceedToLogin
           : proceedToLogin // ignore: cast_nullable_to_non_nullable
@@ -2200,6 +2857,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.myWallet
           : myWallet // ignore: cast_nullable_to_non_nullable
               as PaymentResponse?,
+      patientVisitSingle: freezed == patientVisitSingle
+          ? _value.patientVisitSingle
+          : patientVisitSingle // ignore: cast_nullable_to_non_nullable
+              as PatientVisitSingleModel?,
       registrationResponse: freezed == registrationResponse
           ? _value.registrationResponse
           : registrationResponse // ignore: cast_nullable_to_non_nullable
@@ -2216,6 +2877,11 @@ class _$AuthStateImpl extends _AuthState {
       this.haveToken = "false",
       this.userStatus = UserStatus.unknown,
       this.verifyStatus = FormzSubmissionStatus.initial,
+      this.fetchPatientAnalyseStatus = FormzSubmissionStatus.initial,
+      this.fetchPatientVisitStatus = FormzSubmissionStatus.initial,
+      this.fetchPatientVisitSingleStatus = FormzSubmissionStatus.initial,
+      final List<PatientOrder> moves = const [],
+      final List<PatientVisit> visits = const [],
       this.proceedToLogin = false,
       this.successSendCode = false,
       this.successVerifyCode = false,
@@ -2237,8 +2903,11 @@ class _$AuthStateImpl extends _AuthState {
       this.isFetchingPaymentUrls = false,
       this.errorFetchingPaymentUrls = false,
       this.myWallet = null,
+      this.patientVisitSingle = null,
       this.registrationResponse = null})
-      : _patientVisits = patientVisits,
+      : _moves = moves,
+        _visits = visits,
+        _patientVisits = patientVisits,
         super._();
 
   @override
@@ -2253,6 +2922,33 @@ class _$AuthStateImpl extends _AuthState {
   @override
   @JsonKey()
   final FormzSubmissionStatus verifyStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus fetchPatientAnalyseStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus fetchPatientVisitStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus fetchPatientVisitSingleStatus;
+  final List<PatientOrder> _moves;
+  @override
+  @JsonKey()
+  List<PatientOrder> get moves {
+    if (_moves is EqualUnmodifiableListView) return _moves;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_moves);
+  }
+
+  final List<PatientVisit> _visits;
+  @override
+  @JsonKey()
+  List<PatientVisit> get visits {
+    if (_visits is EqualUnmodifiableListView) return _visits;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_visits);
+  }
+
   @override
   @JsonKey()
   final bool proceedToLogin;
@@ -2324,11 +3020,14 @@ class _$AuthStateImpl extends _AuthState {
   final PaymentResponse? myWallet;
   @override
   @JsonKey()
+  final PatientVisitSingleModel? patientVisitSingle;
+  @override
+  @JsonKey()
   final RegistrationResponse? registrationResponse;
 
   @override
   String toString() {
-    return 'AuthState(proceedToHome: $proceedToHome, haveToken: $haveToken, userStatus: $userStatus, verifyStatus: $verifyStatus, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, registrationResponse: $registrationResponse)';
+    return 'AuthState(proceedToHome: $proceedToHome, haveToken: $haveToken, userStatus: $userStatus, verifyStatus: $verifyStatus, fetchPatientAnalyseStatus: $fetchPatientAnalyseStatus, fetchPatientVisitStatus: $fetchPatientVisitStatus, fetchPatientVisitSingleStatus: $fetchPatientVisitSingleStatus, moves: $moves, visits: $visits, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, patientVisitSingle: $patientVisitSingle, registrationResponse: $registrationResponse)';
   }
 
   @override
@@ -2344,6 +3043,15 @@ class _$AuthStateImpl extends _AuthState {
                 other.userStatus == userStatus) &&
             (identical(other.verifyStatus, verifyStatus) ||
                 other.verifyStatus == verifyStatus) &&
+            (identical(other.fetchPatientAnalyseStatus, fetchPatientAnalyseStatus) ||
+                other.fetchPatientAnalyseStatus == fetchPatientAnalyseStatus) &&
+            (identical(other.fetchPatientVisitStatus, fetchPatientVisitStatus) ||
+                other.fetchPatientVisitStatus == fetchPatientVisitStatus) &&
+            (identical(other.fetchPatientVisitSingleStatus, fetchPatientVisitSingleStatus) ||
+                other.fetchPatientVisitSingleStatus ==
+                    fetchPatientVisitSingleStatus) &&
+            const DeepCollectionEquality().equals(other._moves, _moves) &&
+            const DeepCollectionEquality().equals(other._visits, _visits) &&
             (identical(other.proceedToLogin, proceedToLogin) ||
                 other.proceedToLogin == proceedToLogin) &&
             (identical(other.successSendCode, successSendCode) ||
@@ -2362,8 +3070,7 @@ class _$AuthStateImpl extends _AuthState {
                 other.patientInfo == patientInfo) &&
             (identical(other.isFetchingPatientInfo, isFetchingPatientInfo) ||
                 other.isFetchingPatientInfo == isFetchingPatientInfo) &&
-            (identical(
-                    other.errorFetchingPatientInfo, errorFetchingPatientInfo) ||
+            (identical(other.errorFetchingPatientInfo, errorFetchingPatientInfo) ||
                 other.errorFetchingPatientInfo == errorFetchingPatientInfo) &&
             (identical(other.pickedImagePath, pickedImagePath) ||
                 other.pickedImagePath == pickedImagePath) &&
@@ -2377,19 +3084,13 @@ class _$AuthStateImpl extends _AuthState {
                 other.patientAnalyze == patientAnalyze) &&
             (identical(other.isNewPatient, isNewPatient) ||
                 other.isNewPatient == isNewPatient) &&
-            (identical(other.paymeUrl, paymeUrl) ||
-                other.paymeUrl == paymeUrl) &&
-            (identical(other.clickUrl, clickUrl) ||
-                other.clickUrl == clickUrl) &&
-            (identical(other.isFetchingPaymentUrls, isFetchingPaymentUrls) ||
-                other.isFetchingPaymentUrls == isFetchingPaymentUrls) &&
-            (identical(
-                    other.errorFetchingPaymentUrls, errorFetchingPaymentUrls) ||
-                other.errorFetchingPaymentUrls == errorFetchingPaymentUrls) &&
-            (identical(other.myWallet, myWallet) ||
-                other.myWallet == myWallet) &&
-            (identical(other.registrationResponse, registrationResponse) ||
-                other.registrationResponse == registrationResponse));
+            (identical(other.paymeUrl, paymeUrl) || other.paymeUrl == paymeUrl) &&
+            (identical(other.clickUrl, clickUrl) || other.clickUrl == clickUrl) &&
+            (identical(other.isFetchingPaymentUrls, isFetchingPaymentUrls) || other.isFetchingPaymentUrls == isFetchingPaymentUrls) &&
+            (identical(other.errorFetchingPaymentUrls, errorFetchingPaymentUrls) || other.errorFetchingPaymentUrls == errorFetchingPaymentUrls) &&
+            (identical(other.myWallet, myWallet) || other.myWallet == myWallet) &&
+            (identical(other.patientVisitSingle, patientVisitSingle) || other.patientVisitSingle == patientVisitSingle) &&
+            (identical(other.registrationResponse, registrationResponse) || other.registrationResponse == registrationResponse));
   }
 
   @override
@@ -2399,6 +3100,11 @@ class _$AuthStateImpl extends _AuthState {
         haveToken,
         userStatus,
         verifyStatus,
+        fetchPatientAnalyseStatus,
+        fetchPatientVisitStatus,
+        fetchPatientVisitSingleStatus,
+        const DeepCollectionEquality().hash(_moves),
+        const DeepCollectionEquality().hash(_visits),
         proceedToLogin,
         successSendCode,
         successVerifyCode,
@@ -2420,6 +3126,7 @@ class _$AuthStateImpl extends _AuthState {
         isFetchingPaymentUrls,
         errorFetchingPaymentUrls,
         myWallet,
+        patientVisitSingle,
         registrationResponse
       ]);
 
@@ -2438,6 +3145,11 @@ abstract class _AuthState extends AuthState {
       final String haveToken,
       final UserStatus userStatus,
       final FormzSubmissionStatus verifyStatus,
+      final FormzSubmissionStatus fetchPatientAnalyseStatus,
+      final FormzSubmissionStatus fetchPatientVisitStatus,
+      final FormzSubmissionStatus fetchPatientVisitSingleStatus,
+      final List<PatientOrder> moves,
+      final List<PatientVisit> visits,
       final bool proceedToLogin,
       final bool successSendCode,
       final bool successVerifyCode,
@@ -2459,6 +3171,7 @@ abstract class _AuthState extends AuthState {
       final bool isFetchingPaymentUrls,
       final bool errorFetchingPaymentUrls,
       final PaymentResponse? myWallet,
+      final PatientVisitSingleModel? patientVisitSingle,
       final RegistrationResponse? registrationResponse}) = _$AuthStateImpl;
   const _AuthState._() : super._();
 
@@ -2470,6 +3183,16 @@ abstract class _AuthState extends AuthState {
   UserStatus get userStatus;
   @override
   FormzSubmissionStatus get verifyStatus;
+  @override
+  FormzSubmissionStatus get fetchPatientAnalyseStatus;
+  @override
+  FormzSubmissionStatus get fetchPatientVisitStatus;
+  @override
+  FormzSubmissionStatus get fetchPatientVisitSingleStatus;
+  @override
+  List<PatientOrder> get moves;
+  @override
+  List<PatientVisit> get visits;
   @override
   bool get proceedToLogin;
   @override
@@ -2512,6 +3235,8 @@ abstract class _AuthState extends AuthState {
   bool get errorFetchingPaymentUrls;
   @override
   PaymentResponse? get myWallet;
+  @override
+  PatientVisitSingleModel? get patientVisitSingle;
   @override
   RegistrationResponse? get registrationResponse;
 

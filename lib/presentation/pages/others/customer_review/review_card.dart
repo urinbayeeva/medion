@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/presentation/pages/others/customer_review/customer_review.dart';
 import 'package:medion/presentation/pages/others/customer_review/generate_star.dart';
 import 'package:medion/presentation/styles/theme.dart';
+import 'package:medion/utils/enums/feedback_status_enum.dart';
 
 class ReviewCard extends StatelessWidget {
-  const ReviewCard({super.key, required this.review, required this.colors, required this.icons, required this.fonts});
+  const ReviewCard({
+    super.key,
+    required this.review,
+    required this.colors,
+    required this.icons,
+    required this.fonts,
+    required this.status,
+  });
 
   final CustomerReviewModel review;
   final CustomColorSet colors;
   final IconSet icons;
   final FontSet fonts;
+  final FeedBackStatus status;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +101,25 @@ class ReviewCard extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text(review.dateTime, style: fonts.xSmallMain),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(review.dateTime, style: fonts.xSmallMain),
+                const Spacer(),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  spacing: 4,
+                  children: [
+                    if (!status.isNone) ...{
+                      if (status.icon.isNotEmpty) ...{status.icon.svg(height: 16.h, width: 16.w)},
+                      Text(status.title, style: fonts.xSmallText.copyWith(color: colors.error500)),
+                    }
+                  ],
+                )
+              ],
+            ),
           ),
           10.verticalSpace,
         ],

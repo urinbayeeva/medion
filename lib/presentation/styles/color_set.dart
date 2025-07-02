@@ -84,7 +84,7 @@ class CustomColorSet {
   final Color darkMode800;
   final Color darkMode900;
   final Color med1BoxColor;
-
+  final Color blue;
 
   final List<BoxShadow> shadowS;
   final List<BoxShadow> shadowM;
@@ -177,12 +177,12 @@ class CustomColorSet {
     required this.darkMode800,
     required this.darkMode900,
     required this.iconGreyColor,
- 
     required this.shadowS,
     required this.shadowSSSS,
     required this.shadowM,
     required this.shadowMM,
     required this.shadowMMMM,
+    required this.blue,
   });
 
   factory CustomColorSet._create(CustomThemeMode mode) {
@@ -269,8 +269,7 @@ class CustomColorSet {
     const darkMode800 = Style.darkMode800;
     const darkMode900 = Style.darkMode900;
     const iconGreyColor = Style.iconGreyColor;
-
-
+    const blue = Style.blue;
 
     const shadowS = Style.shadowS;
     const shadowSSSS = Style.shadowSSSS;
@@ -279,6 +278,7 @@ class CustomColorSet {
     const shadowMMMM = Style.shadowMMMM;
 
     return CustomColorSet._(
+      blue: blue,
       med1BoxColor: med1BoxColor,
       transparent: transparent,
       neutral50: neutral50,
@@ -359,7 +359,8 @@ class CustomColorSet {
       darkMode600: darkMode600,
       darkMode700: darkMode700,
       darkMode800: darkMode800,
-      darkMode900: darkMode900, backgroundColor: backgroundColor,
+      darkMode900: darkMode900,
+      backgroundColor: backgroundColor,
       iconGreyColor: iconGreyColor,
       //
 
@@ -367,7 +368,7 @@ class CustomColorSet {
       shadowSSSS: shadowSSSS,
       shadowM: shadowM,
       shadowMM: shadowMM,
-      shadowMMMM: shadowMMMM, 
+      shadowMMMM: shadowMMMM,
     );
   }
 

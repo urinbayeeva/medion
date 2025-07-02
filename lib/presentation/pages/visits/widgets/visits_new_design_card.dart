@@ -1,147 +1,148 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'package:medion/presentation/component/animation_effect.dart';
-import 'package:medion/presentation/component/c_divider.dart';
-import 'package:medion/presentation/component/cached_image_component.dart';
-import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/enums/visits_enum.dart';
 
-class VisitsNewDesignCard extends StatefulWidget {
+class VisitsNewDesignCard extends StatelessWidget {
+  final VisitListEnum listEnum;
+  final BorderRadius radius;
+  final EdgeInsetsGeometry padding;
   final String doctorName;
   final String doctorJob;
   final String doctorImage;
   final String serviceName;
   final String location;
   final String timaAndDate;
-  final String paymentStatus;
-  final VoidCallback onTap;
+  final String visitTime;
+  final bool paymentStatus;
+  final VoidCallback? onTap;
 
   const VisitsNewDesignCard({
     super.key,
+    this.radius = BorderRadius.zero,
+    this.padding = EdgeInsets.zero,
     required this.doctorName,
     required this.doctorJob,
     required this.serviceName,
     required this.location,
     required this.timaAndDate,
+    required this.visitTime,
     required this.paymentStatus,
     required this.doctorImage,
-    required this.onTap,
+    required this.listEnum,
+    this.onTap,
   });
 
   @override
-  State<VisitsNewDesignCard> createState() => _VisitsNewDesignCardState();
-}
-
-class _VisitsNewDesignCardState extends State<VisitsNewDesignCard> {
-  @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
-        padding: EdgeInsets.all(8.w),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.r),
-          color: colors.shade0,
-          boxShadow: colors.shadowSSSS,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                widget.doctorImage.isEmpty
-                    ? CircleAvatar(
-                        radius: 38.r,
-                        backgroundColor: colors.neutral400,
-                        child: icons.nonUser.svg(),
-                      )
-                    : ClipOval(
-                        child: CachedImageComponent(
-                          fit: BoxFit.cover,
-                          height: 76.h,
-                          width: 76.w,
-                          imageUrl: widget.doctorImage,
-                        ),
-                      ),
-                8.w.horizontalSpace,
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.doctorName,
-                        style: fonts.regularMain.copyWith(fontSize: 14.5.sp),
-                      ),
-                      Text(
-                        widget.doctorJob,
-                        style:
-                            fonts.smallLink.copyWith(color: colors.neutral600),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            10.h.verticalSpace,
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                icons.document
-                    .svg(color: colors.primary900, width: 24.w, height: 24.h),
-                4.w.horizontalSpace,
-                Expanded(
-                  child: Text(
-                    widget.serviceName,
-                    style: fonts.regularMain
-                        .copyWith(fontWeight: FontWeight.w500, fontSize: 14.sp),
-                  ),
-                ),
-              ],
-            ),
-            6.h.verticalSpace,
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                icons.location
-                    .svg(color: colors.primary900, width: 22.w, height: 22.h),
-                4.w.horizontalSpace,
-                Expanded(
-                  child: Text(
-                    widget.location,
-                    style: fonts.regularMain
-                        .copyWith(fontWeight: FontWeight.w500, fontSize: 14.sp),
-                  ),
-                ),
-              ],
-            ),
-            10.h.verticalSpace,
-            const CDivider(),
-            4.h.verticalSpace,
-            Row(
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return GestureDetector(
+          onTap: onTap,
+          child: Container(
+            height: 142,
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: radius, color: colors.shade0),
+            margin: padding,
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+            child: Row(
+              spacing: 8.w,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Text(
-                    widget.timaAndDate,
-                    style: fonts.regularMain
-                        .copyWith(color: colors.neutral600, fontSize: 14.sp),
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: listEnum.color,
+                    borderRadius: const BorderRadius.all(Radius.circular(99)),
                   ),
+                  child: SizedBox(width: 3.w, height: double.infinity),
                 ),
-                AnimationButtonEffect(
-                  onTap: widget.onTap,
-                  child: Text(
-                    "Подробнее",
-                    style: fonts.regularMain
-                        .copyWith(color: colors.error500, fontSize: 14.sp),
-                  ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Text(
+                        serviceName.isNotEmpty ? serviceName : "\n",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: fonts.regularMain,
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Text(
+                        doctorName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: fonts.xSmallText,
+                      ),
+                    ),
+                    Text(
+                      doctorJob,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: fonts.xSmallText.copyWith(color: colors.neutral300),
+                    ),
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: listEnum.color.withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 4.h),
+                        child: Text(
+                          listEnum.title.tr(),
+                          style: fonts.xSmallText.copyWith(color: listEnum.color.withValues(alpha: 0.8)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      timaAndDate,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: fonts.regularMain,
+                    ),
+                    Text(
+                      visitTime,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: fonts.xSmallMain.copyWith(fontSize: 14),
+                    ),
+                    const Spacer(),
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: paymentStatus
+                            ? colors.success500.withValues(alpha: 0.08)
+                            : colors.error500.withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 4.h),
+                        child: Text(
+                          paymentStatus ? "recommendations_paid".tr() : "recommendations_not_paid".tr(),
+                          style: fonts.xSmallText.copyWith(
+                            color: paymentStatus ? colors.success500 : colors.error500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-            10.h.verticalSpace
-          ],
-        ),
-      );
-    });
+          ),
+        );
+      },
+    );
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:chopper/chopper.dart';
-import 'package:medion/infrastructure/connectivity.dart';
 import 'package:medion/infrastructure/core/exceptions.dart';
+import 'package:medion/infrastructure/services/connectivity.dart';
 
 class NetworkInterceptor implements Interceptor {
   @override

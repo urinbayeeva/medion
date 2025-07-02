@@ -22,5 +22,4 @@ List<Map<String, dynamic>> navListData = [
     "title": "settings".tr(),
     "icon": IconSet.create.settings,
   },
-  {"title": "logout".tr(), "icon": IconSet.create.logOut}
 ];

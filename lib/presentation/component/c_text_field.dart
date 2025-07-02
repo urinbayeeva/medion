@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../styles/theme_wrapper.dart';
+import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class CustomTextField extends StatefulWidget {
   final String title;
@@ -117,6 +116,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
             widget.titleHintText.isNotEmpty ? SizedBox(height: 6.h) : const SizedBox(),
             TextFormField(
               onTapOutside: (v) {
+                widget.focusNode?.unfocus();
+              },
+              onTapUpOutside: (v) {
                 widget.focusNode?.unfocus();
               },
               textCapitalization: widget.textCapitalization,

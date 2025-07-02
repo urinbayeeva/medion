@@ -16,6 +16,10 @@ abstract class AuthEvent with _$AuthEvent {
 
   const factory AuthEvent.fetchPatientVisits() = _FetchPatientVisits;
 
+  const factory AuthEvent.fetchPatientVisitSingle({required int id}) = _FetchPatientSingleVisits;
+
+  const factory AuthEvent.fetchPatientVisitsDetail({required int id}) = _FetchPatientVisitsDetail;
+
   const factory AuthEvent.fetchPaymentUrls() = _FetchPaymentUrls;
 
   const factory AuthEvent.fetchPatientAnalyze() = _FetchPatientAnalyze;

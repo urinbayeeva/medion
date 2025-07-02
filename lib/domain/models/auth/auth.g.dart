@@ -146,7 +146,21 @@ class _$UserSerializer implements StructuredSerializer<User> {
       serializers.serialize(object.offerta,
           specifiedType: const FullType(bool)),
     ];
-
+    Object? value;
+    value = object.image;
+    if (value != null) {
+      result
+        ..add('image')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.date;
+    if (value != null) {
+      result
+        ..add('date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -168,6 +182,14 @@ class _$UserSerializer implements StructuredSerializer<User> {
         case 'access_token':
           result.accessToken = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
+          break;
+        case 'image':
+          result.image = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'date':
+          result.date = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'refresh_token':
           result.refreshToken = serializers.deserialize(value,
@@ -832,6 +854,10 @@ class _$User extends User {
   @override
   final String accessToken;
   @override
+  final String? image;
+  @override
+  final String? date;
+  @override
   final String refreshToken;
   @override
   final String tokenType;
@@ -844,6 +870,8 @@ class _$User extends User {
   _$User._(
       {required this.name,
       required this.accessToken,
+      this.image,
+      this.date,
       required this.refreshToken,
       required this.tokenType,
       required this.offerta})
@@ -869,6 +897,8 @@ class _$User extends User {
     return other is User &&
         name == other.name &&
         accessToken == other.accessToken &&
+        image == other.image &&
+        date == other.date &&
         refreshToken == other.refreshToken &&
         tokenType == other.tokenType &&
         offerta == other.offerta;
@@ -879,6 +909,8 @@ class _$User extends User {
     var _$hash = 0;
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, accessToken.hashCode);
+    _$hash = $jc(_$hash, image.hashCode);
+    _$hash = $jc(_$hash, date.hashCode);
     _$hash = $jc(_$hash, refreshToken.hashCode);
     _$hash = $jc(_$hash, tokenType.hashCode);
     _$hash = $jc(_$hash, offerta.hashCode);
@@ -891,6 +923,8 @@ class _$User extends User {
     return (newBuiltValueToStringHelper(r'User')
           ..add('name', name)
           ..add('accessToken', accessToken)
+          ..add('image', image)
+          ..add('date', date)
           ..add('refreshToken', refreshToken)
           ..add('tokenType', tokenType)
           ..add('offerta', offerta))
@@ -908,6 +942,14 @@ class UserBuilder implements Builder<User, UserBuilder> {
   String? _accessToken;
   String? get accessToken => _$this._accessToken;
   set accessToken(String? accessToken) => _$this._accessToken = accessToken;
+
+  String? _image;
+  String? get image => _$this._image;
+  set image(String? image) => _$this._image = image;
+
+  String? _date;
+  String? get date => _$this._date;
+  set date(String? date) => _$this._date = date;
 
   String? _refreshToken;
   String? get refreshToken => _$this._refreshToken;
@@ -928,6 +970,8 @@ class UserBuilder implements Builder<User, UserBuilder> {
     if ($v != null) {
       _name = $v.name;
       _accessToken = $v.accessToken;
+      _image = $v.image;
+      _date = $v.date;
       _refreshToken = $v.refreshToken;
       _tokenType = $v.tokenType;
       _offerta = $v.offerta;
@@ -956,6 +1000,8 @@ class UserBuilder implements Builder<User, UserBuilder> {
           name: BuiltValueNullFieldError.checkNotNull(name, r'User', 'name'),
           accessToken: BuiltValueNullFieldError.checkNotNull(
               accessToken, r'User', 'accessToken'),
+          image: image,
+          date: date,
           refreshToken: BuiltValueNullFieldError.checkNotNull(
               refreshToken, r'User', 'refreshToken'),
           tokenType: BuiltValueNullFieldError.checkNotNull(

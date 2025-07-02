@@ -16,27 +16,21 @@ abstract class IAuthFacade {
   /// Check if user exists
   Option<AuthFailure> checkUser();
 
-  Future<Either<ResponseFailure, RegistrationResponse>> registerUser({
-    required RegisterReq request,
-  });
+  Future<Either<ResponseFailure, RegistrationResponse>> registerUser({required RegisterReq request});
 
-  Future<Either<ResponseFailure, SuccessModel>> sendPhoneNumber({
-    required PhoneNumberSendReq request,
-  });
+  Future<Either<ResponseFailure, SuccessModel>> sendPhoneNumber({required PhoneNumberSendReq request});
 
-  Future<Either<ResponseFailure, CreatePatientInfoResponse>> sendUserInfo({
-    required CreateInfoReq request,
-  });
+  Future<Either<ResponseFailure, CreatePatientInfoResponse>> sendUserInfo({required CreateInfoReq request});
 
   Future<Either<ResponseFailure, PatientInfo>> getPatientInfo();
 
-  Future<Either<ResponseFailure, List<VisitOrder>>> getPatientVisits();
+  Future<Either<ResponseFailure, PatientAnalyse>> getPatientVisits();
+
+  Future<Either<ResponseFailure, PatientVisitSingleModel>> getPatientVisitSingle({required int id});
 
   Future<Either<ResponseFailure, PatientDocuments>> getPatientAnalyze();
 
-  Future<Either<ResponseFailure, SuccessModel>> postPatientPhoto({
-    required ImageUploadResponseModel image,
-  });
+  Future<Either<ResponseFailure, SuccessModel>> postPatientPhoto({required ImageUploadResponseModel image});
 
   Future<Either<ResponseFailure, PaymentResponse>> getMyWallet();
 }

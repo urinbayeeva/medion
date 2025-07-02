@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -26,6 +27,22 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
     on<_GetBranchDetail>(_getBranchDetail);
     on<_GetReviews>(_getReview);
     on<_PostReviews>(_postReview);
+    on<_FillingReviewData>(_filling);
+  }
+
+  FutureOr<void> _filling(_FillingReviewData event, Emitter<BranchState> emit) async {
+    if (event.rank != -1) {
+      emit(state.copyWith(reviewRank: event.rank));
+    }
+    if (event.comment.isNotEmpty) {
+      emit(state.copyWith(reviewComment: event.comment));
+    }
+    if (event.branch.isNotEmpty) {
+      emit(state.copyWith(reviewBranch: event.branch));
+    }
+    if (event.rank == -1) {
+      emit(state.copyWith(reviewRank: event.rank, reviewBranch: event.branch, reviewComment: event.comment));
+    }
   }
 
   FutureOr<void> _getReview(_GetReviews event, Emitter<BranchState> emit) async {
@@ -47,18 +64,25 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
 
   FutureOr<void> _postReview(_PostReviews event, Emitter<BranchState> emit) async {
     emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.inProgress));
-    final res = await _repository.postReview(review: event.review);
+    // final res = await _repository.postReview(review: event.review);
+    //
+    // res.fold(
+    //   (failure) {
+    //     emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.failure));
+    //   },
+    //   (res) {
+    //     emit(state.copyWith(
+    //       postReviewStatus: FormzSubmissionStatus.success,
+    //     ));
+    //   },
+    // );
+    emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.inProgress));
 
-    res.fold(
-      (failure) {
-        emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.failure));
-      },
-      (res) {
-        emit(state.copyWith(
-          postReviewStatus: FormzSubmissionStatus.success,
-        ));
-      },
-    );
+    await Future.delayed(Duration(seconds: 2));
+    emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.failure));
+
+    await Future.delayed(Duration(seconds: 2));
+    emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.success));
   }
 
   FutureOr<void> _getBranchDetail(_GetBranchDetail event, Emitter<BranchState> emit) async {
@@ -93,21 +117,17 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
   }
 
   FutureOr<void> _fetchBranches(_FetchBranches event, Emitter<BranchState> emit) async {
-    emit(state.copyWith(loading: true, error: false, success: false));
-    EasyLoading.show();
+    emit(state.copyWith(getBranchesStatus: FormzSubmissionStatus.inProgress));
 
     final res = await _repository.fetchBranches();
     res.fold(
       (error) {
         LogService.e("Error in fetching branches: $error");
-        EasyLoading.showError(error.message);
-        emit(state.copyWith(loading: false, error: true));
+        emit(state.copyWith(getBranchesStatus: FormzSubmissionStatus.inProgress));
       },
       (data) {
-        EasyLoading.dismiss();
         emit(state.copyWith(
-          loading: false,
-          success: true,
+          getBranchesStatus: FormzSubmissionStatus.success,
           branches: data,
         ));
       },

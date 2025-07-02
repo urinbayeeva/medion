@@ -118,9 +118,7 @@ class AuthRepository implements IAuthFacade {
   }
 
   @override
-  Future<Either<ResponseFailure, SuccessModel>> sendPhoneNumber({
-    required PhoneNumberSendReq request,
-  }) async {
+  Future<Either<ResponseFailure, SuccessModel>> sendPhoneNumber({required PhoneNumberSendReq request}) async {
     try {
       final response = await _authService.phoneNumberSend(request: request);
 
@@ -205,20 +203,43 @@ class AuthRepository implements IAuthFacade {
   }
 
   @override
-  Future<Either<ResponseFailure, List<VisitOrder>>> getPatientVisits() async {
+  Future<Either<ResponseFailure, PatientAnalyse>> getPatientVisits() async {
     try {
       final res = await _patientService.getPatientVisitsMobile();
 
       if (res.isSuccessful && res.body != null) {
         LogService.d('Response Status: ${res.statusCode}');
         LogService.d('Response Body: ${res.body}');
-        return right(res.body!.toList());
+        return right(res.body!);
       } else {
         return left(InvalidCredentials(
           message: 'Failed to fetch patient visits: ${res.statusCode}, ${res.body.toString()}',
         ));
       }
     } catch (e) {
+      LogService.e(" ----> error fetching patient visits: ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, PatientVisitSingleModel>> getPatientVisitSingle({required int id}) async {
+    try {
+      final res = await _patientService.getPatientVisitSingle(visitId: id);
+
+      if (res.isSuccessful && res.body != null) {
+        LogService.d('Response Status: ${res.statusCode}');
+        LogService.d('Response Body: ${res.body}');
+        return right(res.body!);
+      } else {
+        return left(InvalidCredentials(
+          message: 'Failed to fetch patient visits: ${res.statusCode}, ${res.body.toString()}',
+        ));
+      }
+    } catch (e) {
+      // if (e is DeserializationError || e is TypeError || e is CastError) {
+      //   return left(ParsingFailure(message: "JSON parsing error: ${e.toString()}"));
+      // }
       LogService.e(" ----> error fetching patient visits: ${e.toString()}");
       return left(handleError(e));
     }
