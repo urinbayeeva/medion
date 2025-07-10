@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/domain/abstract_repo/notification/notification_repository.dart';
 import 'package:medion/domain/common/failure.dart';
+import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/notification/notification_model.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 
@@ -57,6 +58,35 @@ class NotificationRepoImpl extends NotificationRepository {
       }
     } catch (e) {
       log("res error: $e");
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, List<NotificationModel>>> filterNotification({required String type}) async {
+    try {
+      final res = await service.getNotifications(type: type);
+      if (res.isSuccessful && res.body != null) {
+        return right(res.body?.toList() ?? []);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, NotificationSendReview>> postNotificationReview(
+      {required PostVisitReviewModel review}) async {
+    try {
+      final res = await service.postNotificationReview(visitReview: review);
+      if (res.isSuccessful && res.body != null) {
+        return right(res.body!);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
       return left(handleError(e));
     }
   }

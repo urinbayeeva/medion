@@ -1,13 +1,12 @@
 import 'dart:async';
-import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/infrastructure/repository/branch_repo.dart';
-import 'package:medion/infrastructure/repository/company_service.dart';
-import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
+import 'package:medion/presentation/component/easy_loading.dart';
 
 part 'branch_bloc.freezed.dart';
 
@@ -40,8 +39,8 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
     if (event.branch.isNotEmpty) {
       emit(state.copyWith(reviewBranch: event.branch));
     }
-    if (event.rank == -1) {
-      emit(state.copyWith(reviewRank: event.rank, reviewBranch: event.branch, reviewComment: event.comment));
+    if (event.rank == 99) {
+      emit(state.copyWith(reviewRank: -4, reviewBranch: event.branch, reviewComment: event.comment));
     }
   }
 
@@ -78,10 +77,10 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
     // );
     emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.inProgress));
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.failure));
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.success));
   }
 

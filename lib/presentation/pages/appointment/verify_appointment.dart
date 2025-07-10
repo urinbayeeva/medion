@@ -45,80 +45,86 @@ class VerifyAppointment extends StatefulWidget {
 class _VerifyAppointmentState extends State<VerifyAppointment> {
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return ValueListenableBuilder<List<Map<String, String>>>(
-        valueListenable: AppointmentState.selectedAppointments,
-        builder: (context, selectedList, _) {
-          if (selectedList.isEmpty) {
-            Navigator.pop(context);
-          }
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return ValueListenableBuilder<List<Map<String, String>>>(
+          valueListenable: AppointmentState.selectedAppointments,
+          builder: (context, selectedList, _) {
+            if (selectedList.isEmpty) {
+              Navigator.pop(context);
+            }
 
-          return BlocBuilder<VisitBloc, VisitState>(builder: (context, state) {
-            return Column(
-              children: [
-                if (widget.isHome) ...[
-                  CAppBar(
-                    title: "verify_selected".tr(),
-                    centerTitle: true,
-                    isBack: true,
-                    trailing: 24.w.horizontalSpace,
-                  ),
-                ],
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                      child: Column(
-                        children: selectedList
-                            .map((appointment) => _buildAppointmentItem(appointment, colors, fonts, context))
-                            .toList(),
+            return BlocBuilder<VisitBloc, VisitState>(
+              builder: (context, state) {
+                return Scaffold(
+                  backgroundColor: colors.backgroundColor,
+                  body: Column(
+                    children: [
+                      if (widget.isHome) ...[
+                        CAppBar(
+                          title: "verify_selected".tr(),
+                          centerTitle: true,
+                          isBack: true,
+                          trailing: 24.w.horizontalSpace,
+                        ),
+                      ] else
+                        const SafeArea(child: SizedBox.shrink()),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                            child: Column(
+                              children: selectedList
+                                  .map((appointment) => _buildAppointmentItem(
+                                        appointment,
+                                        colors,
+                                        fonts,
+                                        context,
+                                      ))
+                                  .toList(),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 16.h,
-                  ),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: colors.shade0,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24.r),
-                      topRight: Radius.circular(24.r),
-                    ),
-                  ),
-                  child: CButton(
-                    title: 'next'.tr(),
-                    onTap: () async {
-                      if (selectedList.isNotEmpty) {
-                        final appointment = selectedList.first;
-                        final success = await sendVisitRequest(appointment, context);
-                        print("VISIT DATA: ${appointment}");
-                        if (success) {
-                          if (widget.isHome) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const PaymentPage(
+                      DecoratedBox(
+                        decoration: BoxDecoration(color: colors.shade0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0).copyWith(top: 10.h),
+                          child: CButton(
+                            title: 'next'.tr(),
+                            onTap: () async {
+                              if (selectedList.isNotEmpty) {
+                                final appointment = selectedList.first;
+                                final success = await sendVisitRequest(appointment, context);
+                                print("VISIT DATA: ${appointment}");
+                                if (success) {
+                                  if (widget.isHome) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const PaymentPage(
                                           isHome: true,
-                                        )));
-                          } else {
-                            widget.onTap();
-                          }
-                        }
-                      }
-                    },
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    widget.onTap();
+                                  }
+                                }
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                6.h.verticalSpace,
-              ],
+                );
+              },
             );
-          });
-        },
-      );
-    });
+          },
+        );
+      },
+    );
   }
 
   Widget _buildAppointmentItem(Map<String, String> appointment, colors, fonts, BuildContext context) {

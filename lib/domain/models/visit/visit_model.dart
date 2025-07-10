@@ -177,6 +177,9 @@ abstract class PatientVisit implements Built<PatientVisit, PatientVisitBuilder> 
   @BuiltValueField(wireName: 'service_name')
   String? get serviceName;
 
+  @BuiltValueField(wireName: 'service_type')
+  String? get serviceType;
+
   @BuiltValueField(wireName: 'category_name')
   String? get categoryName;
 
@@ -227,8 +230,20 @@ abstract class SaleOrderLine implements Built<SaleOrderLine, SaleOrderLineBuilde
   @BuiltValueField(wireName: 'service')
   String? get service;
 
+  @BuiltValueField(wireName: 'service_type')
+  String? get serviceType;
+
   @BuiltValueField(wireName: 'create_date')
   String? get createDate;
+
+  @BuiltValueField(wireName: 'patient_status')
+  String? get patientStatus;
+
+  @BuiltValueField(wireName: 'payment_status')
+  String? get paymentStatus;
+
+  @BuiltValueField(wireName: 'doctor_full_name')
+  String? get doctorFullName;
 
   @BuiltValueField(wireName: 'is_done')
   bool? get isDone;
@@ -304,6 +319,9 @@ abstract class PatientVisitSingleModel implements Built<PatientVisitSingleModel,
 
   @BuiltValueField(wireName: 'category_name')
   String? get categoryName;
+
+  @BuiltValueField(wireName: 'service_type')
+  String? get serviceType;
 
   @BuiltValueField(wireName: 'service_name')
   String? get serviceName;

@@ -33,4 +33,8 @@ abstract class IAuthFacade {
   Future<Either<ResponseFailure, SuccessModel>> postPatientPhoto({required ImageUploadResponseModel image});
 
   Future<Either<ResponseFailure, PaymentResponse>> getMyWallet();
+
+  Future<Either<ResponseFailure, List<Recommendation>>> getRecommendation();
+
+  Future<Either<ResponseFailure, List<RecipeModel>>> getRecipes();
 }

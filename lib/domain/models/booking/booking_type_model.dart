@@ -9,19 +9,20 @@ import 'package:medion/utils/helpers/decode_html.dart';
 
 part 'booking_type_model.g.dart';
 
-abstract class BookingTypeModel
-    implements Built<BookingTypeModel, BookingTypeModelBuilder> {
+abstract class BookingTypeModel implements Built<BookingTypeModel, BookingTypeModelBuilder> {
   int get id;
+
   String get name;
+
   String? get icon;
+
   BuiltList<String> get categories;
 
   BookingTypeModel._();
-  factory BookingTypeModel([void Function(BookingTypeModelBuilder) updates]) =
-      _$BookingTypeModel;
 
-  static Serializer<BookingTypeModel> get serializer =>
-      _$bookingTypeModelSerializer;
+  factory BookingTypeModel([void Function(BookingTypeModelBuilder) updates]) = _$BookingTypeModel;
+
+  static Serializer<BookingTypeModel> get serializer => _$bookingTypeModelSerializer;
 }
 
 abstract class Service implements Built<Service, ServiceBuilder> {
@@ -57,8 +58,7 @@ abstract class Service implements Built<Service, ServiceBuilder> {
   }
 
   static Service? fromJson(String jsonString) {
-    return serializers.deserializeWith(
-        Service.serializer, json.decode(jsonString));
+    return serializers.deserializeWith(Service.serializer, json.decode(jsonString));
   }
 
   static Serializer<Service> get serializer => _$serviceSerializer;
@@ -80,31 +80,26 @@ abstract class Category implements Built<Category, CategoryBuilder> {
   }
 
   static Category? fromJson(String jsonString) {
-    return serializers.deserializeWith(
-        Category.serializer, json.decode(jsonString));
+    return serializers.deserializeWith(Category.serializer, json.decode(jsonString));
   }
 
   static Serializer<Category> get serializer => _$categorySerializer;
 }
 
-abstract class GiveSelectedId
-    implements Built<GiveSelectedId, GiveSelectedIdBuilder> {
+abstract class GiveSelectedId implements Built<GiveSelectedId, GiveSelectedIdBuilder> {
   BuiltList<int> get serviceIds;
 
   GiveSelectedId._();
 
-  factory GiveSelectedId([void Function(GiveSelectedIdBuilder) updates]) =
-      _$GiveSelectedId;
+  factory GiveSelectedId([void Function(GiveSelectedIdBuilder) updates]) = _$GiveSelectedId;
 
-  static Serializer<GiveSelectedId> get serializer =>
-      _$giveSelectedIdSerializer;
+  static Serializer<GiveSelectedId> get serializer => _$giveSelectedIdSerializer;
 }
 
 ///BOOKING THIRD PAGE
 
 /// Top-level Service model
-abstract class BookingThirdService
-    implements Built<BookingThirdService, BookingThirdServiceBuilder> {
+abstract class BookingThirdService implements Built<BookingThirdService, BookingThirdServiceBuilder> {
   @BuiltValueField(wireName: "service_id")
   int? get serviceId;
 
@@ -115,17 +110,14 @@ abstract class BookingThirdService
   BuiltList<CompanyDoctor> get companiesDoctors;
 
   BookingThirdService._();
-  factory BookingThirdService(
-          [void Function(BookingThirdServiceBuilder) updates]) =
-      _$BookingThirdService;
 
-  static Serializer<BookingThirdService> get serializer =>
-      _$bookingThirdServiceSerializer;
+  factory BookingThirdService([void Function(BookingThirdServiceBuilder) updates]) = _$BookingThirdService;
+
+  static Serializer<BookingThirdService> get serializer => _$bookingThirdServiceSerializer;
 }
 
 /// CompanyDoctor model
-abstract class CompanyDoctor
-    implements Built<CompanyDoctor, CompanyDoctorBuilder> {
+abstract class CompanyDoctor implements Built<CompanyDoctor, CompanyDoctorBuilder> {
   @BuiltValueField(wireName: "company_id")
   int? get companyId;
 
@@ -135,8 +127,8 @@ abstract class CompanyDoctor
   BuiltList<Doctor> get doctor;
 
   CompanyDoctor._();
-  factory CompanyDoctor([void Function(CompanyDoctorBuilder) updates]) =
-      _$CompanyDoctor;
+
+  factory CompanyDoctor([void Function(CompanyDoctorBuilder) updates]) = _$CompanyDoctor;
 
   static Serializer<CompanyDoctor> get serializer => _$companyDoctorSerializer;
 }
@@ -174,6 +166,7 @@ abstract class Doctor implements Built<Doctor, DoctorBuilder> {
   int? get workExperience;
 
   Doctor._();
+
   factory Doctor([void Function(DoctorBuilder) updates]) = _$Doctor;
 
   static Serializer<Doctor> get serializer => _$doctorSerializer;
@@ -188,14 +181,14 @@ abstract class Schedule implements Built<Schedule, ScheduleBuilder> {
   BuiltList<ScheduleTime> get times;
 
   Schedule._();
+
   factory Schedule([void Function(ScheduleBuilder) updates]) = _$Schedule;
 
   static Serializer<Schedule> get serializer => _$scheduleSerializer;
 }
 
 /// ScheduleTime model
-abstract class ScheduleTime
-    implements Built<ScheduleTime, ScheduleTimeBuilder> {
+abstract class ScheduleTime implements Built<ScheduleTime, ScheduleTimeBuilder> {
   @BuiltValueField(wireName: "time")
   String? get time;
 
@@ -206,16 +199,15 @@ abstract class ScheduleTime
   int? get duration;
 
   ScheduleTime._();
-  factory ScheduleTime([void Function(ScheduleTimeBuilder) updates]) =
-      _$ScheduleTime;
+
+  factory ScheduleTime([void Function(ScheduleTimeBuilder) updates]) = _$ScheduleTime;
 
   static Serializer<ScheduleTime> get serializer => _$scheduleTimeSerializer;
 }
 
 //HOME PAGE BOOKING GASTROENTROLOGIYA
 
-abstract class HomepageBookingCategory
-    implements Built<HomepageBookingCategory, HomepageBookingCategoryBuilder> {
+abstract class HomepageBookingCategory implements Built<HomepageBookingCategory, HomepageBookingCategoryBuilder> {
   @BuiltValueField(wireName: "id")
   int? get id;
 
@@ -231,24 +223,29 @@ abstract class HomepageBookingCategory
   @BuiltValueField(wireName: "has_discount")
   bool? get hasDiscount;
 
-  static Serializer<HomepageBookingCategory> get serializer =>
-      _$homepageBookingCategorySerializer;
+  static Serializer<HomepageBookingCategory> get serializer => _$homepageBookingCategorySerializer;
 
-  factory HomepageBookingCategory(
-          [void Function(HomepageBookingCategoryBuilder) updates]) =
-      _$HomepageBookingCategory;
+  factory HomepageBookingCategory([void Function(HomepageBookingCategoryBuilder) updates]) = _$HomepageBookingCategory;
 
   HomepageBookingCategory._();
 }
 
 //HOME PAGE BOOKING GASTROENTROLOGIYA GET DOCTORS
-abstract class MedicalModel
-    implements Built<MedicalModel, MedicalModelBuilder> {
+abstract class MedicalModel implements Built<MedicalModel, MedicalModelBuilder> {
   @BuiltValueField(wireName: 'id')
   int? get id;
 
   @BuiltValueField(wireName: 'description')
   String? get description;
+
+  @BuiltValueField(wireName: 'category_name')
+  String? get categoryName;
+
+  @BuiltValueField(wireName: 'background_image_url')
+  String? get backgroundImageUrl;
+
+  @BuiltValueField(wireName: 'icon')
+  String? get icon;
 
   @BuiltValueField(wireName: 'doctors')
   BuiltList<HomeMedicalDoctor> get doctors;
@@ -260,17 +257,17 @@ abstract class MedicalModel
   BuiltList<DiscountModel> get discount;
 
   String get decodedTitle => decodeHtml(description);
+
   String get cleanedDescription => cleanDescription(decodedTitle);
 
   MedicalModel._();
-  factory MedicalModel([void Function(MedicalModelBuilder) updates]) =
-      _$MedicalModel;
+
+  factory MedicalModel([void Function(MedicalModelBuilder) updates]) = _$MedicalModel;
 
   static Serializer<MedicalModel> get serializer => _$medicalModelSerializer;
 }
 
-abstract class DiscountModel
-    implements Built<DiscountModel, DiscountModelBuilder> {
+abstract class DiscountModel implements Built<DiscountModel, DiscountModelBuilder> {
   @BuiltValueField(wireName: 'id')
   int get id;
 
@@ -285,14 +282,12 @@ abstract class DiscountModel
 
   DiscountModel._();
 
-  factory DiscountModel([void Function(DiscountModelBuilder) updates]) =
-      _$DiscountModel;
+  factory DiscountModel([void Function(DiscountModelBuilder) updates]) = _$DiscountModel;
 
   static Serializer<DiscountModel> get serializer => _$discountModelSerializer;
 }
 
-abstract class HomeMedicalDoctor
-    implements Built<HomeMedicalDoctor, HomeMedicalDoctorBuilder> {
+abstract class HomeMedicalDoctor implements Built<HomeMedicalDoctor, HomeMedicalDoctorBuilder> {
   @BuiltValueField(wireName: 'id')
   int? get id;
 
@@ -305,19 +300,20 @@ abstract class HomeMedicalDoctor
   @BuiltValueField(wireName: 'job_name')
   String? get jobName;
 
+  @BuiltValueField(wireName: 'academic_rank')
+  String? get academicRank;
+
   @BuiltValueField(wireName: 'experience_years')
   int? get experienceYears;
 
   HomeMedicalDoctor._();
-  factory HomeMedicalDoctor([void Function(HomeMedicalDoctorBuilder) updates]) =
-      _$HomeMedicalDoctor;
 
-  static Serializer<HomeMedicalDoctor> get serializer =>
-      _$homeMedicalDoctorSerializer;
+  factory HomeMedicalDoctor([void Function(HomeMedicalDoctorBuilder) updates]) = _$HomeMedicalDoctor;
+
+  static Serializer<HomeMedicalDoctor> get serializer => _$homeMedicalDoctorSerializer;
 }
 
-abstract class HomeServiceBooking
-    implements Built<HomeServiceBooking, HomeServiceBookingBuilder> {
+abstract class HomeServiceBooking implements Built<HomeServiceBooking, HomeServiceBookingBuilder> {
   @BuiltValueField(wireName: 'id')
   int? get id;
 
@@ -334,16 +330,13 @@ abstract class HomeServiceBooking
   bool? get canReceiveCallBack;
 
   HomeServiceBooking._();
-  factory HomeServiceBooking(
-          [void Function(HomeServiceBookingBuilder) updates]) =
-      _$HomeServiceBooking;
 
-  static Serializer<HomeServiceBooking> get serializer =>
-      _$homeServiceBookingSerializer;
+  factory HomeServiceBooking([void Function(HomeServiceBookingBuilder) updates]) = _$HomeServiceBooking;
+
+  static Serializer<HomeServiceBooking> get serializer => _$homeServiceBookingSerializer;
 }
 
-abstract class CreatePatientBookingReq
-    implements Built<CreatePatientBookingReq, CreatePatientBookingReqBuilder> {
+abstract class CreatePatientBookingReq implements Built<CreatePatientBookingReq, CreatePatientBookingReqBuilder> {
   @BuiltValueField(wireName: 'service_id')
   int get serviceId;
 
@@ -364,16 +357,12 @@ abstract class CreatePatientBookingReq
 
   CreatePatientBookingReq._();
 
-  static Serializer<CreatePatientBookingReq> get serializer =>
-      _$createPatientBookingReqSerializer;
+  static Serializer<CreatePatientBookingReq> get serializer => _$createPatientBookingReqSerializer;
 
-  factory CreatePatientBookingReq(
-          [void Function(CreatePatientBookingReqBuilder) updates]) =
-      _$CreatePatientBookingReq;
+  factory CreatePatientBookingReq([void Function(CreatePatientBookingReqBuilder) updates]) = _$CreatePatientBookingReq;
 }
 
-abstract class CreatePatientResponse
-    implements Built<CreatePatientResponse, CreatePatientResponseBuilder> {
+abstract class CreatePatientResponse implements Built<CreatePatientResponse, CreatePatientResponseBuilder> {
   @BuiltValueField(wireName: 'services')
   BuiltList<Service>? get services;
 
@@ -387,18 +376,14 @@ abstract class CreatePatientResponse
   String? get multicardUrl;
 
   CreatePatientResponse._();
-  factory CreatePatientResponse(
-          [void Function(CreatePatientResponseBuilder) updates]) =
-      _$CreatePatientResponse;
 
-  static Serializer<CreatePatientResponse> get serializer =>
-      _$createPatientResponseSerializer;
+  factory CreatePatientResponse([void Function(CreatePatientResponseBuilder) updates]) = _$CreatePatientResponse;
+
+  static Serializer<CreatePatientResponse> get serializer => _$createPatientResponseSerializer;
 }
 
 abstract class CreatePatientServiceResponse
-    implements
-        Built<CreatePatientServiceResponse,
-            CreatePatientServiceResponseBuilder> {
+    implements Built<CreatePatientServiceResponse, CreatePatientServiceResponseBuilder> {
   @BuiltValueField(wireName: 'id')
   int? get id;
 
@@ -436,16 +421,14 @@ abstract class CreatePatientServiceResponse
   String? get startTime;
 
   CreatePatientServiceResponse._();
-  factory CreatePatientServiceResponse(
-          [void Function(CreatePatientServiceResponseBuilder) updates]) =
+
+  factory CreatePatientServiceResponse([void Function(CreatePatientServiceResponseBuilder) updates]) =
       _$CreatePatientServiceResponse;
 
-  static Serializer<CreatePatientServiceResponse> get serializer =>
-      _$createPatientServiceResponseSerializer;
+  static Serializer<CreatePatientServiceResponse> get serializer => _$createPatientServiceResponseSerializer;
 }
 
-abstract class CreatePatientRequest
-    implements Built<CreatePatientRequest, CreatePatientRequestBuilder> {
+abstract class CreatePatientRequest implements Built<CreatePatientRequest, CreatePatientRequestBuilder> {
   @BuiltValueField(wireName: 'service_id')
   int get serviceId;
 
@@ -465,28 +448,24 @@ abstract class CreatePatientRequest
   String get date;
 
   CreatePatientRequest._();
-  factory CreatePatientRequest(
-          [void Function(CreatePatientRequestBuilder) updates]) =
-      _$CreatePatientRequest;
 
-  static Serializer<CreatePatientRequest> get serializer =>
-      _$createPatientRequestSerializer;
+  factory CreatePatientRequest([void Function(CreatePatientRequestBuilder) updates]) = _$CreatePatientRequest;
+
+  static Serializer<CreatePatientRequest> get serializer => _$createPatientRequestSerializer;
 }
 
-abstract class MedicalServiceCategory
-    implements Built<MedicalServiceCategory, MedicalServiceCategoryBuilder> {
+abstract class MedicalServiceCategory implements Built<MedicalServiceCategory, MedicalServiceCategoryBuilder> {
   @BuiltValueField(wireName: 'category_name')
   String get categoryName;
+
   BuiltList<MedicalService> get services;
 
   MedicalServiceCategory._();
-  factory MedicalServiceCategory(
-          [void Function(MedicalServiceCategoryBuilder) updates]) =
-      _$MedicalServiceCategory;
+
+  factory MedicalServiceCategory([void Function(MedicalServiceCategoryBuilder) updates]) = _$MedicalServiceCategory;
 }
 
-abstract class MedicalService
-    implements Built<MedicalService, MedicalServiceBuilder> {
+abstract class MedicalService implements Built<MedicalService, MedicalServiceBuilder> {
   @BuiltValueField(wireName: 'id')
   int get id;
 
@@ -506,12 +485,11 @@ abstract class MedicalService
   bool get isChild;
 
   MedicalService._();
-  factory MedicalService([void Function(MedicalServiceBuilder) updates]) =
-      _$MedicalService;
+
+  factory MedicalService([void Function(MedicalServiceBuilder) updates]) = _$MedicalService;
 }
 
-abstract class ServiceRequest
-    implements Built<ServiceRequest, ServiceRequestBuilder> {
+abstract class ServiceRequest implements Built<ServiceRequest, ServiceRequestBuilder> {
   @BuiltValueField(wireName: 'phone')
   String get phone;
 
@@ -520,6 +498,5 @@ abstract class ServiceRequest
 
   ServiceRequest._();
 
-  factory ServiceRequest([void Function(ServiceRequestBuilder) updates]) =
-      _$ServiceRequest;
+  factory ServiceRequest([void Function(ServiceRequestBuilder) updates]) = _$ServiceRequest;
 }

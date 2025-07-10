@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/application/notification/notification_bloc.dart';
+import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/infrastructure/services/push_notification.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
@@ -20,17 +22,17 @@ import 'package:medion/presentation/pages/home/ads.dart';
 import 'package:medion/presentation/pages/home/notifications/notification_badge.dart';
 import 'package:medion/presentation/pages/home/notifications/single_notification.dart';
 import 'package:medion/presentation/pages/home/widgets/adress_item.dart';
+import 'package:medion/presentation/pages/home/widgets/build_doctors.dart';
 import 'package:medion/presentation/pages/home/widgets/problem_slidebale_card.dart';
 import 'package:medion/presentation/pages/home/yandex_on_tap.dart';
 import 'package:medion/presentation/pages/map/map_with_polylines.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:medion/utils/helpers/decode_html.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
+
 import 'directions/widgets/medical_direction_item.dart';
-import 'doctors/widget/doctors_item.dart';
 import 'news/widgets/news_item.dart';
 
 class HomePage extends StatefulWidget {
@@ -43,6 +45,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final RefreshController _refreshController = RefreshController();
   bool isChildren = false;
+  bool _isSingleNotificationScreenOpen = false;
 
   @override
   void initState() {
@@ -92,12 +95,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   void openMessageApp({required Map<String, dynamic> data, required BuildContext context}) async {
-    log("Open message Application Navigator.of context");
-    Navigator.of(context, rootNavigator: true).push(
+    if (_isSingleNotificationScreenOpen) {
+      log("Notification screen already open. Skipping...");
+      return;
+    }
+
+    _isSingleNotificationScreenOpen = true;
+
+    log("Navigating to SingleNotification screen...");
+    Navigator.of(context, rootNavigator: true)
+        .push(
       MaterialPageRoute(
-        builder: (context) => SingleNotification(id: data["id"]),
+        builder: (context) => SingleNotification(id: data["id"], type: MyFunctions.getNotificationType(data['type'])),
       ),
-    );
+    )
+        .then((_) {
+      _isSingleNotificationScreenOpen = false;
+      log("SingleNotification screen closed. Resetting flag.");
+    });
   }
 
   @override
@@ -226,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                                               fit: BoxFit.cover,
                                               width: 135.w,
                                               height: 100.h,
-                                              imageUrl: medicalService.image ?? '',
+                                              imageUrl: medicalService.image,
                                             ),
                                           ),
                                           5.h.verticalSpace,
@@ -234,12 +249,8 @@ class _HomePageState extends State<HomePage> {
                                             width: 135.w,
                                             alignment: Alignment.center,
                                             child: Text(
-                                              medicalService.title ?? '',
-                                              style: fonts.xSmallLink.copyWith(
-                                                fontSize: 13.sp,
-                                                fontWeight: FontWeight.w500,
-                                                color: colors.primary900,
-                                              ),
+                                              medicalService.title,
+                                              style: fonts.xSmallLink.copyWith(color: colors.primary900),
                                               textAlign: TextAlign.center,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
@@ -305,46 +316,13 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       12.h.verticalSpace,
-                      BlocBuilder<DoctorBloc, DoctorState>(
-                        buildWhen: (o, n) => o.doctors != n.doctors,
-                        builder: (context, state) {
-                          if (state.error || state.doctors?.doctorData == null || state.doctors!.doctorData!.isEmpty) {
-                            return const SizedBox.shrink();
-                          }
-                          if (!state.success) {
-                            return _buildDoctorsShimmer(fonts);
-                          }
-
-                          return Column(
-                            children: [
-                              _buildVerticalSpacingAndHeader("doctors", fonts, "see_all_doctors", () {
-                                context.read<BottomNavBarController>().changeNavBar(true);
-                                Navigator.push(context, AppRoutes.getAllDoctorsPage()).then((_) {
-                                  context.read<BottomNavBarController>().changeNavBar(false);
-                                });
-                              }),
-                              _buildDoctorCategoryList(
-                                (state.doctors?.doctorData != null)
-                                    ? state.doctors!.doctorData!
-                                        .map(
-                                          (category) => {
-                                            'name': category.name,
-                                            'profession': category.specialty.toString(),
-                                            'image': category.image,
-                                            'id': category.id,
-                                            'work_experience': category.workExperience.toString(),
-                                            'info_description': decodeHtml(category.infoDescription.toString()),
-                                            'gender': category.gender.toString(),
-                                            'has_discount': category.hasDiscount,
-                                            'academic_rank': category.academicRank,
-                                          },
-                                        )
-                                        .toList()
-                                    : [],
-                              ),
-                            ],
-                          );
-                        },
+                      BuildDoctorsCategory(
+                        titleAndAction: _buildVerticalSpacingAndHeader("doctors", fonts, "see_all_doctors", () {
+                          context.read<BottomNavBarController>().changeNavBar(true);
+                          Navigator.push(context, AppRoutes.getAllDoctorsPage()).then((_) {
+                            context.read<BottomNavBarController>().changeNavBar(false);
+                          });
+                        }),
                       ),
                       12.h.verticalSpace,
                       _buildVerticalSpacingAndHeader("news", fonts, "all", () {
@@ -490,34 +468,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildDoctorsShimmer(fonts) {
-    return Column(
-      children: [
-        _buildVerticalSpacingAndHeader("doctors", fonts, "see_all_doctors", () {}),
-        SizedBox(
-          height: 350.h,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.zero,
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.only(right: 12.w),
-                child: ShimmerView(
-                  child: ShimmerContainer(
-                    height: 350.h,
-                    width: 200.w,
-                    borderRadius: 12.r,
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildNewsShimmer() {
     return SizedBox(
       height: 260.h,
@@ -594,30 +544,32 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildVerticalSpacingAndHeader(String titleKey, fonts, String title, VoidCallback onTap) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _buildSectionHeader(titleKey, fonts),
-          TextButton(
-            onPressed: onTap,
-            child: Row(
-              children: [
-                Text(
-                  title.tr(),
-                  style: fonts.smallLink.copyWith(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildSectionHeader(titleKey, fonts),
+            TextButton(
+              onPressed: onTap,
+              child: Row(
+                children: [
+                  Text(
+                    title.tr(),
+                    style: fonts.smallLink.copyWith(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                3.w.horizontalSpace,
-                icons.right.svg(),
-              ],
+                  3.w.horizontalSpace,
+                  icons.right.svg(),
+                ],
+              ),
             ),
-          ),
-        ],
-      );
-    });
+          ],
+        );
+      },
+    );
   }
 
   Widget _buildAddressSection(BuildContext context, colors, fonts, icons) {
@@ -663,57 +615,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               )
               .toList(),
-        );
-      },
-    );
-  }
-
-  _buildDoctorCategoryList(List<Map<String, dynamic>> doctors) {
-    return ThemeWrapper(
-      builder: (context, colors, fonts, icons, controller) {
-        final limitedDoctors = doctors.take(10).toList();
-        if (limitedDoctors.isEmpty) return const SizedBox.shrink();
-
-        return SizedBox(
-          height: 366.h,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.zero,
-            itemCount: limitedDoctors.length,
-            itemBuilder: (context, index) {
-              final doctor = limitedDoctors[index];
-              return DoctorsItem(
-                onTap: () {
-                  context.read<BottomNavBarController>().changeNavBar(true);
-                  Navigator.push(
-                    context,
-                    AppRoutes.getAboutDoctorPage(
-                      doctor['name'].toString(),
-                      doctor['profession'].toString(),
-                      doctor['name'].toString(),
-                      doctor['image'].toString(),
-                      doctor['id'],
-                    ),
-                  ).then((_) {
-                    context.read<BottomNavBarController>().changeNavBar(false);
-                  });
-                },
-                hasDiscount: doctor['has_discount'] ?? false,
-                imagePath: doctor['image'].toString(),
-                name: doctor['name'].toString(),
-                profession: doctor['profession'].toString(),
-                status: doctor['profession'].toString(),
-                gender: doctor['gender'].toString(),
-                candidateScience: false,
-                isInnerPageUsed: true,
-                doctorID: doctor['id'],
-                experience: "experience".tr(
-                  namedArgs: {"count": doctor['work_experience'].toString()},
-                ),
-                academicRank: doctor['academic_rank']?.toString() ?? "", // Add academicRank
-              );
-            },
-          ),
         );
       },
     );

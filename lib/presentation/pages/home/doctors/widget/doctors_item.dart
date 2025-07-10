@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -48,23 +50,25 @@ class DoctorsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
-        return isInnerPageUsed!
-            ? Container(
-                padding: EdgeInsets.symmetric(horizontal: 4.w),
-                margin: EdgeInsets.only(right: 8.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.r),
-                  color: colors.shade0,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: _buildDoctorInfo(context),
-                ),
-              )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: _buildDoctorInfo(context),
-              );
+        if (isInnerPageUsed!) {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
+            margin: EdgeInsets.only(right: 8.w),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.r),
+              color: colors.shade0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _buildDoctorInfo(context),
+            ),
+          );
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _buildDoctorInfo(context),
+          );
+        }
       },
     );
   }
@@ -100,25 +104,26 @@ class DoctorsItem extends StatelessWidget {
                 ),
               ],
               Container(
-                margin: EdgeInsets.only(right: 12.w),
-                width: 164.w,
+                width: 180.w,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),
                   color: colors.shade0,
                 ),
                 child: Stack(
                   children: [
-                    imagePath != "" && imagePath!.startsWith("http")
-                        ? CachedNetworkImage(
-                            width: 175.w,
-                            height: 165.h,
-                            imageUrl: imagePath!,
-                            fit: BoxFit.cover,
-                          )
-                        : gender == "female"
-                            ? icons.nonUser.svg(width: 175.w, height: 165.h)
-                            : icons.nonUser.svg(color: colors.neutral500, width: 175.w, height: 165.h),
-                    if (hasDiscount)
+                    if (imagePath != "" && imagePath!.startsWith("http")) ...{
+                      CachedNetworkImage(
+                        width: 180.w,
+                        height: 165.h,
+                        imageUrl: imagePath!,
+                        fit: BoxFit.cover,
+                      )
+                    } else if (gender == "female") ...{
+                      icons.girlNonUser.svg(width: 180.w, height: 165.h, color: colors.neutral500)
+                    } else ...{
+                      icons.nonUser.svg(color: colors.neutral500, width: 180.w, height: 165.h),
+                    },
+                    if (hasDiscount) ...{
                       Positioned(
                         top: 8.w,
                         right: 8.w,
@@ -135,35 +140,41 @@ class DoctorsItem extends StatelessWidget {
                           ),
                         ),
                       ),
-                  ],
-                ),
-              ),
-              // Display academic rank if not empty
-
-              Center(
-                child: SizedBox(
-                  width: 164.w,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
-                    margin: EdgeInsets.only(top: 8.h),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.r),
-                      color: academicRank.toString() != 'null' && academicRank.toString().length > 3
-                          ? colors.error500
-                          : colors.shade0,
-                    ),
-                    child: Center(
-                      child: Text(
-                        academicRank.toString() != 'null' && academicRank.toString().length > 3 ? academicRank : '',
-                        style: fonts.xSmallLink.copyWith(
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w500,
-                          color: colors.shade0,
+                    },
+                    Positioned(
+                      bottom: 0,
+                      right: 8.w,
+                      left: 8.w,
+                      child: Center(
+                        child: SizedBox(
+                          width: 164.w,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+                            margin: EdgeInsets.only(top: 8.h),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6.r),
+                              color: academicRank.toString() != 'null' && academicRank.toString().length > 3
+                                  ? colors.error500
+                                  : Colors.transparent,
+                            ),
+                            child: Center(
+                              child: Text(
+                                academicRank.toString() != 'null' && academicRank.toString().length > 3
+                                    ? academicRank
+                                    : '',
+                                style: fonts.xSmallLink.copyWith(
+                                  fontSize: 11.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: colors.shade0,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
                         ),
-                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ],
@@ -249,18 +260,20 @@ class DoctorsItem extends StatelessWidget {
       ],
       if (isInnerPageUsed == true) ...[
         4.h.verticalSpace,
-        ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-          return Center(
-            child: CButton(
-              backgroundColor: colors.neutral200,
-              textColor: colors.primary900,
-              width: 164.w,
-              title: "podrobno".tr(),
-              onTap: onTap,
-              height: 32.h,
-            ),
-          );
-        }),
+        ThemeWrapper(
+          builder: (context, colors, fonts, icons, controller) {
+            return Center(
+              child: CButton(
+                backgroundColor: colors.neutral200,
+                textColor: colors.primary900,
+                width: 164.w,
+                title: "podrobno".tr(),
+                onTap: onTap,
+                height: 32.h,
+              ),
+            );
+          },
+        ),
         4.h.verticalSpace,
         ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
           return Center(

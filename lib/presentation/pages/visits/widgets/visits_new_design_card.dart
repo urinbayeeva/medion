@@ -68,7 +68,7 @@ class VisitsNewDesignCard extends StatelessWidget {
                         serviceName.isNotEmpty ? serviceName : "\n",
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: fonts.regularMain,
+                        style: fonts.smallMain,
                       ),
                     ),
                     SizedBox(
@@ -80,11 +80,14 @@ class VisitsNewDesignCard extends StatelessWidget {
                         style: fonts.xSmallText,
                       ),
                     ),
-                    Text(
-                      doctorJob,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: fonts.xSmallText.copyWith(color: colors.neutral300),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Text(
+                        doctorJob,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: fonts.xSmallText.copyWith(color: colors.neutral300),
+                      ),
                     ),
                     DecoratedBox(
                       decoration: BoxDecoration(

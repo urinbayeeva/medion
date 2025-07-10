@@ -10,16 +10,16 @@ class BookingState with _$BookingState {
     @Default(false) bool success,
     @Default([]) List<BookingTypeModel> bookingTypes,
     @Default([]) List<Category> categoryServices,
-    int? selectedServiceId,
     @Default([]) List<int> selectedInnerServiceIds,
     @Default('') String selectedSpecialty,
     @Default('') String errorMessage,
     @Default([]) List<ThirdBookingService> thirdBookingServices,
     @Default(false) bool hasFetchedThirdServices,
     @Default([]) List<HomepageBookingCategory> homePageBookingCategory,
-    MedicalModel? medicalModel,
     @Default([]) List<MedicalServiceCategory> doctorServices,
+    MedicalModel? medicalModel,
     int? selectedDoctorId,
+    int? selectedServiceId,
   }) = _BookingState;
 
   bool get hasError => errorMessage.isNotEmpty;

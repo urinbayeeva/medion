@@ -28,6 +28,7 @@ import 'package:medion/infrastructure/apis/interceptors/log_interceptor.dart';
 import 'package:medion/infrastructure/apis/interceptors/re_try_interceptor.dart';
 import 'package:medion/infrastructure/apis/interceptors/server_crash_interceptor.dart';
 import 'package:medion/infrastructure/apis/interceptors/time_out_http_client.dart';
+import 'package:medion/infrastructure/apis/interceptors/token_interceptor.dart';
 import 'package:medion/infrastructure/core/exceptions.dart';
 import 'package:medion/infrastructure/core/interceptors.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
@@ -38,7 +39,7 @@ import 'package:medion/utils/app_config.dart';
 import 'package:medion/utils/constants.dart';
 
 import 'interceptors/network_exception_interceptor.dart';
-import 'interceptors/token_interceptor.dart';
+import 'interceptors/core_interceptor.dart';
 
 part 'apis.chopper.dart';
 
@@ -153,9 +154,11 @@ abstract class DoctorService extends ChopperService {
 abstract class UploadImage extends ChopperService {
   @Post(path: '')
   @multipart
-  Future<Response<ImageUploadResponseModel>> imageUpload(@PartFile('file') MultipartFile file,
-      {@Header('Content-Type') String contentType = 'multipart/form-data',
-      @Header('requires-token') String requiresToken = 'true'});
+  Future<Response<ImageUploadResponseModel>> imageUpload(
+    @PartFile('file') MultipartFile file, {
+    @Header('Content-Type') String contentType = 'multipart/form-data',
+    @Header('requires-token') String requiresToken = 'true',
+  });
 
   static UploadImage create(DBService dbService) => _$UploadImage(_Client("", true, dbService, timeout: 300));
 }
@@ -163,35 +166,31 @@ abstract class UploadImage extends ChopperService {
 @ChopperApi(baseUrl: "/profile")
 abstract class PatientService extends ChopperService {
   @Get(path: "/patient_info")
-  Future<Response<PatientInfo>> getPatientInfo({
-    @Header('requires-token') String requiresToken = "true",
-  });
+  Future<Response<PatientInfo>> getPatientInfo({@Header('requires-token') String requiresToken = "true"});
 
   @Post(path: "patient_image")
-  Future<Response<SuccessModel>> patientImageUpload({
-    @Body() required ImageUploadResponseModel image,
-  });
+  Future<Response<SuccessModel>> patientImageUpload({@Body() required ImageUploadResponseModel image});
 
   @Get(path: "patient_visits_mobile")
-  Future<Response<PatientAnalyse>> getPatientVisitsMobile({
-    @Header('requires-token') String requiresToken = "true",
-  });
+  Future<Response<PatientAnalyse>> getPatientVisitsMobile({@Header('requires-token') String requiresToken = "true"});
 
-  @Get(path: "patient_visit_mobile_detail/{visit_id}")
+  @Get(path: "patient_visit_detail/{visit_id}")
   Future<Response<PatientVisitSingleModel>> getPatientVisitSingle({
     @Header('requires-token') String requiresToken = "true",
     @Path("visit_id") required int visitId,
   });
 
   @Get(path: "patient_analysis_mobile")
-  Future<Response<PatientDocuments>> getPatientAnalyze({
-    @Header('requires-token') String requiresToken = "true",
-  });
+  Future<Response<PatientDocuments>> getPatientAnalyze({@Header('requires-token') String requiresToken = "true"});
 
   @Get(path: "my_wallet")
-  Future<Response<PaymentResponse>> getMyWallet({
-    @Header('requires-token') String requiresToken = "true",
-  });
+  Future<Response<PaymentResponse>> getMyWallet({@Header('requires-token') String requiresToken = "true"});
+
+  @Get(path: "recommendations")
+  Future<Response<BuiltList<Recommendation>>> recommendation({@Header('requires-token') String requiresToken = "true"});
+
+  @Get(path: "patient_prescription")
+  Future<Response<BuiltList<RecipeModel>>> recipes({@Header('requires-token') String requiresToken = "true"});
 
   static PatientService create(DBService dbService) => _$PatientService(_Client(Constants.baseUrlP, true, dbService));
 }
@@ -221,7 +220,13 @@ abstract class SearchService extends ChopperService {
 @ChopperApi(baseUrl: "")
 abstract class NotificationService extends ChopperService {
   @Get(path: "/notifications")
-  Future<Response<BuiltList<NotificationModel>>> getNotifications();
+  Future<Response<BuiltList<NotificationModel>>> getNotifications({@Query('type') String? type});
+
+  @Post(path: "/send-review-visit")
+  Future<Response<NotificationSendReview>> postNotificationReview({
+    @Body() required PostVisitReviewModel visitReview,
+    @Header('requires-token') String requiresToken = "true",
+  });
 
   @Put(path: "/notifications/{notification_id}/read", optionalBody: true)
   Future<Response<BuiltList<NotificationModel>>> readNotification(@Path('notification_id') int notificationId);
@@ -303,18 +308,22 @@ base class _Client extends ChopperClient {
       : super(
           client: TimeoutHttpClient(Client(), timeout: Duration(seconds: timeout)),
           baseUrl: Uri.parse(baseUrl),
-          interceptors: useInterceptors
-              ? [
-                  CoreInterceptor(dbService, alice.getNavigatorKey()!),
-                  if (AppConfig.shared.flavor == Flavor.dev) ...[],
-                  HtmlDecodeInterceptor(),
-                  CurlInterceptor(),
-                  NetworkInterceptor(),
-                  RetryInterceptor(maxRetries: 5, retryDelay: const Duration(seconds: 1)),
-                  BackendInterceptor(),
-                  const LogInterceptor(),
-                ]
-              : [const LogInterceptor()],
+          interceptors: [
+            if (useInterceptors) ...[
+              CoreInterceptor(dbService, alice.getNavigatorKey()!),
+              if (AppConfig.shared.flavor == Flavor.dev) ...[],
+              HtmlDecodeInterceptor(),
+              CurlInterceptor(),
+              NetworkInterceptor(),
+              RetryInterceptor(maxRetries: 5, retryDelay: const Duration(seconds: 1)),
+              BackendInterceptor(),
+              // TokenInterceptor(dbService),
+              const LogInterceptor(),
+            ] else ...{
+              const LogInterceptor(),
+              // TokenInterceptor(dbService),
+            },
+          ],
           converter: BuiltValueConverter(),
           errorConverter: ErrorMyConverter(),
           authenticator: MyAuthenticator(dbService),
@@ -328,6 +337,8 @@ class MyAuthenticator extends Authenticator {
 
   @override
   FutureOr<Request?> authenticate(Request request, Response response, [Request? originalRequest]) async {
+    LogService.d("Attempting refresh with token: Response Status code : ${response.statusCode}");
+    LogService.d("Url ${request.url}");
     if (response.statusCode == 401) {
       final refreshToken = dbService.token.refreshToken;
       LogService.d("Attempting refresh with token: $refreshToken");

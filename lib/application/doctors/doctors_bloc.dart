@@ -22,10 +22,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     on<_FetchDoctorsJob>(_fetchDoctorsJob);
   }
 
-  FutureOr<void> _fetchDoctors(
-    _FetchDoctors event,
-    Emitter<DoctorState> emit,
-  ) async {
+  FutureOr<void> _fetchDoctors(_FetchDoctors event, Emitter<DoctorState> emit) async {
     emit(state.copyWith(loading: true, error: false, success: false, doctorDetailsLoading: false));
 
     final res = await _repository.fetchDoctors();

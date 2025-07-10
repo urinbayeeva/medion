@@ -37,12 +37,14 @@ class _MainPageState extends State<MainPage> {
   late final List<Widget> pageList;
   late final PersistentTabController _controller;
   late final DynamicLinkService dynamicLinkService;
-  late final StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+
+  // late final StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
   final Connectivity _connectivity = Connectivity();
 
   @override
   void initState() {
     super.initState();
+    context.read<AuthBloc>().add(const AuthEvent.refreshToken());
 
     scrollController = ScrollController();
     _controller = PersistentTabController(initialIndex: widget.index ?? 0);
@@ -59,7 +61,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void dispose() {
-    _connectivitySubscription.cancel();
+    // _connectivitySubscription.cancel();
     scrollController.dispose();
     _controller.dispose();
     super.dispose();

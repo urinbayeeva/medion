@@ -635,6 +635,13 @@ class _$RefreshTokenResponseModelSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.refreshToken;
+    if (value != null) {
+      result
+        ..add('refresh_token')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.tokenType;
     if (value != null) {
       result
@@ -659,6 +666,10 @@ class _$RefreshTokenResponseModelSerializer
       switch (key) {
         case 'access_token':
           result.accessToken = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'refresh_token':
+          result.refreshToken = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'token_type':
@@ -1639,13 +1650,17 @@ class _$RefreshTokenResponseModel extends RefreshTokenResponseModel {
   @override
   final String? accessToken;
   @override
+  final String? refreshToken;
+  @override
   final String? tokenType;
 
   factory _$RefreshTokenResponseModel(
           [void Function(RefreshTokenResponseModelBuilder)? updates]) =>
       (new RefreshTokenResponseModelBuilder()..update(updates))._build();
 
-  _$RefreshTokenResponseModel._({this.accessToken, this.tokenType}) : super._();
+  _$RefreshTokenResponseModel._(
+      {this.accessToken, this.refreshToken, this.tokenType})
+      : super._();
 
   @override
   RefreshTokenResponseModel rebuild(
@@ -1661,6 +1676,7 @@ class _$RefreshTokenResponseModel extends RefreshTokenResponseModel {
     if (identical(other, this)) return true;
     return other is RefreshTokenResponseModel &&
         accessToken == other.accessToken &&
+        refreshToken == other.refreshToken &&
         tokenType == other.tokenType;
   }
 
@@ -1668,6 +1684,7 @@ class _$RefreshTokenResponseModel extends RefreshTokenResponseModel {
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, accessToken.hashCode);
+    _$hash = $jc(_$hash, refreshToken.hashCode);
     _$hash = $jc(_$hash, tokenType.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -1677,6 +1694,7 @@ class _$RefreshTokenResponseModel extends RefreshTokenResponseModel {
   String toString() {
     return (newBuiltValueToStringHelper(r'RefreshTokenResponseModel')
           ..add('accessToken', accessToken)
+          ..add('refreshToken', refreshToken)
           ..add('tokenType', tokenType))
         .toString();
   }
@@ -1691,6 +1709,10 @@ class RefreshTokenResponseModelBuilder
   String? get accessToken => _$this._accessToken;
   set accessToken(String? accessToken) => _$this._accessToken = accessToken;
 
+  String? _refreshToken;
+  String? get refreshToken => _$this._refreshToken;
+  set refreshToken(String? refreshToken) => _$this._refreshToken = refreshToken;
+
   String? _tokenType;
   String? get tokenType => _$this._tokenType;
   set tokenType(String? tokenType) => _$this._tokenType = tokenType;
@@ -1701,6 +1723,7 @@ class RefreshTokenResponseModelBuilder
     final $v = _$v;
     if ($v != null) {
       _accessToken = $v.accessToken;
+      _refreshToken = $v.refreshToken;
       _tokenType = $v.tokenType;
       _$v = null;
     }
@@ -1725,6 +1748,7 @@ class RefreshTokenResponseModelBuilder
     final _$result = _$v ??
         new _$RefreshTokenResponseModel._(
           accessToken: accessToken,
+          refreshToken: refreshToken,
           tokenType: tokenType,
         );
     replace(_$result);

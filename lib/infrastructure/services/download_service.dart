@@ -1,123 +1,172 @@
+import 'dart:developer';
 import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:dio/dio.dart';
 
 class FileDownloadService {
   final Dio _dio = Dio(BaseOptions())..interceptors.add(LogInterceptor());
 
-  Future<void> downloadPDFWithProgress(
-    BuildContext context,
-    String url,
-    String fileName,
-    Color backgroundColor,
-    Color foregroundColor,
-  ) async {
+  Future<void> downloadPDFWithProgress({
+    required BuildContext context,
+    required String url,
+    required String fileName,
+    required CustomColorSet colors,
+  }) async {
     OverlayEntry? overlayEntry;
+    final progressNotifier = ValueNotifier<int>(0); // 👈 progress notifier
 
     try {
-      // Request Storage Permissions
-      if (!await _requestStoragePermission(context)) return;
+      if (!await _requestStoragePermission(context)) {
+        print("❌ Permission berilmadi");
+        return;
+      }
 
-      // Get the directory for saving the file
       final directory = await _getDownloadsDirectory();
       final appDir = Directory("${directory.path}/Medion");
 
-      // Create the Medion folder if it doesn't exist
       if (!await appDir.exists()) {
         await appDir.create(recursive: true);
       }
 
-      final filePath = "${appDir.path}/$fileName";
+      String filePath = "${appDir.path}/";
+      if (fileName.contains("pdf")) {
+        filePath = "${appDir.path}/$fileName";
+      } else {
+        filePath = "${appDir.path}/$fileName.pdf";
+      }
 
-      // Show progress overlay
-      overlayEntry = _createProgressOverlay(
-        context,
-        progress: 0,
-        backgroundColor: backgroundColor,
-        foregroundColor: foregroundColor,
+      overlayEntry = OverlayEntry(
+        builder: (context) {
+          return Positioned(
+            top: 100,
+            left: 50,
+            right: 50,
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(color: colors.neutral300, borderRadius: BorderRadius.circular(12)),
+                child: ValueListenableBuilder<int>(
+                  valueListenable: progressNotifier,
+                  builder: (_, progress, __) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text("Downloading: $progress%"),
+                        const SizedBox(height: 8),
+                        LinearProgressIndicator(
+                          value: progress / 100,
+                          color: colors.error500,
+                          backgroundColor: colors.error300.withValues(alpha: 0.3),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          );
+        },
       );
       Overlay.of(context).insert(overlayEntry);
 
-      // Start the download
-      await _dio.download(
+      final result = await _dio.download(
         url,
         filePath,
         onReceiveProgress: (received, total) {
           if (total != -1) {
             final progress = (received / total * 100).toInt();
-            print("Downloading: $progress%");
-            overlayEntry = _updateProgressOverlay(
-              overlayEntry!,
-              context,
-              progress: progress,
-              backgroundColor: backgroundColor,
-              foregroundColor: foregroundColor,
-            );
+            progressNotifier.value = progress;
           }
         },
       );
 
-      // Download complete
-      overlayEntry?.remove();
+      log("Download Url $url");
+      log("Download Result status code ${result.statusCode}");
+      log("Download Result data: ${result.data}");
+      log("Download Result data Runtime type: ${result.data.runtimeType}");
+      log("Download Result data: ${result.data}");
+      log("Download Result status Message: ${result.statusMessage}");
+
+      overlayEntry.remove();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             "Download completed! File saved to: $filePath",
-            style: TextStyle(color: foregroundColor),
+            style: TextStyle(color: colors.darkMode900),
           ),
-          backgroundColor: backgroundColor,
+          backgroundColor: colors.neutral300,
         ),
       );
     } catch (e) {
-      // Handle errors
-      overlayEntry?.remove();
+      if (overlayEntry != null && overlayEntry.mounted) {
+        overlayEntry.remove();
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             "Failed to download: $e",
-            style: TextStyle(color: foregroundColor),
+            style: TextStyle(color: colors.darkMode900),
           ),
-          backgroundColor: backgroundColor,
+          backgroundColor: colors.neutral300,
         ),
       );
     }
   }
 
   Future<bool> _requestStoragePermission(BuildContext context) async {
-    if (Platform.isAndroid) {
-      // Request storage or manage storage permissions
-      final status = await Permission.storage.request();
-      if (status.isGranted) {
-        return true;
-      } else if (status.isPermanentlyDenied) {
-        // Open app settings for manually granting permission
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text("Permission Required"),
-            content: Text("Storage permission is required to save the file. Please enable it in settings."),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  openAppSettings();
-                  Navigator.of(context).pop();
-                },
-                child: Text("Open Settings"),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text("Cancel"),
-              ),
-            ],
+    if (!Platform.isAndroid) return true;
+    final status = await Permission.manageExternalStorage.request();
+
+    if (status.isGranted) {
+      log("Status: ${status.name}");
+      return true;
+    }
+
+    if (status.isDenied) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text("Storage permission is required to download files."),
+          action: SnackBarAction(
+            label: "Open App Setting",
+            onPressed: () async => await openAppSettings(),
           ),
-        );
-        return false;
-      }
+        ),
+      );
       return false;
     }
-    return true;
+
+    if (status.isPermanentlyDenied) {
+      await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Permission Required"),
+          content: const Text(
+            "Storage permission is permanently denied. Please enable it manually from app settings.",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                openAppSettings();
+                Navigator.of(context).pop();
+              },
+              child: const Text("Open Settings"),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Cancel"),
+            ),
+          ],
+        ),
+      );
+      return false;
+    }
+
+    return false;
   }
 
   Future<Directory> _getDownloadsDirectory() async {
@@ -130,62 +179,5 @@ class FileDownloadService {
     } else {
       throw UnsupportedError("Unsupported platform");
     }
-  }
-
-  OverlayEntry _createProgressOverlay(
-    BuildContext context, {
-    required int progress,
-    required Color backgroundColor,
-    required Color foregroundColor,
-  }) {
-    return OverlayEntry(
-      builder: (context) {
-        return Positioned(
-          top: MediaQuery.of(context).padding.top + 10,
-          left: 10,
-          right: 10,
-          child: Material(
-            color: Colors.transparent,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: backgroundColor,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Downloading: $progress%",
-                    style: TextStyle(color: foregroundColor),
-                  ),
-                  CircularProgressIndicator(
-                    value: progress / 100,
-                    color: foregroundColor,
-                    strokeWidth: 2.5,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  OverlayEntry _updateProgressOverlay(
-    OverlayEntry entry,
-    BuildContext context, {
-    required int progress,
-    required Color backgroundColor,
-    required Color foregroundColor,
-  }) {
-    entry.remove();
-    return _createProgressOverlay(
-      context,
-      progress: progress,
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-    );
   }
 }

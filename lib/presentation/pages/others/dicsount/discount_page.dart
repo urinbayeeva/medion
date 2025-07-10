@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart' as http;
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
@@ -13,8 +14,6 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/constants.dart';
 import 'package:medion/utils/extensions.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
 
 class DiscountPage extends StatefulWidget {
   final int? discountId;

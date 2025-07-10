@@ -23,6 +23,9 @@ mixin _$NotificationEvent {
     required TResult Function() getMoreNotifications,
     required TResult Function() markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
+    required TResult Function(String type, String query) filterNotification,
+    required TResult Function(PostVisitReviewModel review)
+        postNotificationReview,
     required TResult Function() setFCMToken,
   }) =>
       throw _privateConstructorUsedError;
@@ -33,6 +36,8 @@ mixin _$NotificationEvent {
     TResult? Function()? getMoreNotifications,
     TResult? Function()? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
+    TResult? Function(String type, String query)? filterNotification,
+    TResult? Function(PostVisitReviewModel review)? postNotificationReview,
     TResult? Function()? setFCMToken,
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +48,8 @@ mixin _$NotificationEvent {
     TResult Function()? getMoreNotifications,
     TResult Function()? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
+    TResult Function(String type, String query)? filterNotification,
+    TResult Function(PostVisitReviewModel review)? postNotificationReview,
     TResult Function()? setFCMToken,
     required TResult orElse(),
   }) =>
@@ -55,6 +62,9 @@ mixin _$NotificationEvent {
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
     required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_FilterNotification value) filterNotification,
+    required TResult Function(_PostNotificationReview value)
+        postNotificationReview,
     required TResult Function(_SetFCMToken value) setFCMToken,
   }) =>
       throw _privateConstructorUsedError;
@@ -66,6 +76,8 @@ mixin _$NotificationEvent {
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_FilterNotification value)? filterNotification,
+    TResult? Function(_PostNotificationReview value)? postNotificationReview,
     TResult? Function(_SetFCMToken value)? setFCMToken,
   }) =>
       throw _privateConstructorUsedError;
@@ -77,6 +89,8 @@ mixin _$NotificationEvent {
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_FilterNotification value)? filterNotification,
+    TResult Function(_PostNotificationReview value)? postNotificationReview,
     TResult Function(_SetFCMToken value)? setFCMToken,
     required TResult orElse(),
   }) =>
@@ -150,6 +164,9 @@ class _$StartedImpl implements _Started {
     required TResult Function() getMoreNotifications,
     required TResult Function() markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
+    required TResult Function(String type, String query) filterNotification,
+    required TResult Function(PostVisitReviewModel review)
+        postNotificationReview,
     required TResult Function() setFCMToken,
   }) {
     return started();
@@ -163,6 +180,8 @@ class _$StartedImpl implements _Started {
     TResult? Function()? getMoreNotifications,
     TResult? Function()? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
+    TResult? Function(String type, String query)? filterNotification,
+    TResult? Function(PostVisitReviewModel review)? postNotificationReview,
     TResult? Function()? setFCMToken,
   }) {
     return started?.call();
@@ -176,6 +195,8 @@ class _$StartedImpl implements _Started {
     TResult Function()? getMoreNotifications,
     TResult Function()? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
+    TResult Function(String type, String query)? filterNotification,
+    TResult Function(PostVisitReviewModel review)? postNotificationReview,
     TResult Function()? setFCMToken,
     required TResult orElse(),
   }) {
@@ -194,6 +215,9 @@ class _$StartedImpl implements _Started {
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
     required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_FilterNotification value) filterNotification,
+    required TResult Function(_PostNotificationReview value)
+        postNotificationReview,
     required TResult Function(_SetFCMToken value) setFCMToken,
   }) {
     return started(this);
@@ -208,6 +232,8 @@ class _$StartedImpl implements _Started {
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_FilterNotification value)? filterNotification,
+    TResult? Function(_PostNotificationReview value)? postNotificationReview,
     TResult? Function(_SetFCMToken value)? setFCMToken,
   }) {
     return started?.call(this);
@@ -222,6 +248,8 @@ class _$StartedImpl implements _Started {
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_FilterNotification value)? filterNotification,
+    TResult Function(_PostNotificationReview value)? postNotificationReview,
     TResult Function(_SetFCMToken value)? setFCMToken,
     required TResult orElse(),
   }) {
@@ -282,6 +310,9 @@ class _$GetNotificationImpl implements _GetNotification {
     required TResult Function() getMoreNotifications,
     required TResult Function() markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
+    required TResult Function(String type, String query) filterNotification,
+    required TResult Function(PostVisitReviewModel review)
+        postNotificationReview,
     required TResult Function() setFCMToken,
   }) {
     return getNotifications();
@@ -295,6 +326,8 @@ class _$GetNotificationImpl implements _GetNotification {
     TResult? Function()? getMoreNotifications,
     TResult? Function()? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
+    TResult? Function(String type, String query)? filterNotification,
+    TResult? Function(PostVisitReviewModel review)? postNotificationReview,
     TResult? Function()? setFCMToken,
   }) {
     return getNotifications?.call();
@@ -308,6 +341,8 @@ class _$GetNotificationImpl implements _GetNotification {
     TResult Function()? getMoreNotifications,
     TResult Function()? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
+    TResult Function(String type, String query)? filterNotification,
+    TResult Function(PostVisitReviewModel review)? postNotificationReview,
     TResult Function()? setFCMToken,
     required TResult orElse(),
   }) {
@@ -326,6 +361,9 @@ class _$GetNotificationImpl implements _GetNotification {
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
     required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_FilterNotification value) filterNotification,
+    required TResult Function(_PostNotificationReview value)
+        postNotificationReview,
     required TResult Function(_SetFCMToken value) setFCMToken,
   }) {
     return getNotifications(this);
@@ -340,6 +378,8 @@ class _$GetNotificationImpl implements _GetNotification {
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_FilterNotification value)? filterNotification,
+    TResult? Function(_PostNotificationReview value)? postNotificationReview,
     TResult? Function(_SetFCMToken value)? setFCMToken,
   }) {
     return getNotifications?.call(this);
@@ -354,6 +394,8 @@ class _$GetNotificationImpl implements _GetNotification {
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_FilterNotification value)? filterNotification,
+    TResult Function(_PostNotificationReview value)? postNotificationReview,
     TResult Function(_SetFCMToken value)? setFCMToken,
     required TResult orElse(),
   }) {
@@ -415,6 +457,9 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
     required TResult Function() getMoreNotifications,
     required TResult Function() markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
+    required TResult Function(String type, String query) filterNotification,
+    required TResult Function(PostVisitReviewModel review)
+        postNotificationReview,
     required TResult Function() setFCMToken,
   }) {
     return getMoreNotifications();
@@ -428,6 +473,8 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
     TResult? Function()? getMoreNotifications,
     TResult? Function()? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
+    TResult? Function(String type, String query)? filterNotification,
+    TResult? Function(PostVisitReviewModel review)? postNotificationReview,
     TResult? Function()? setFCMToken,
   }) {
     return getMoreNotifications?.call();
@@ -441,6 +488,8 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
     TResult Function()? getMoreNotifications,
     TResult Function()? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
+    TResult Function(String type, String query)? filterNotification,
+    TResult Function(PostVisitReviewModel review)? postNotificationReview,
     TResult Function()? setFCMToken,
     required TResult orElse(),
   }) {
@@ -459,6 +508,9 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
     required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_FilterNotification value) filterNotification,
+    required TResult Function(_PostNotificationReview value)
+        postNotificationReview,
     required TResult Function(_SetFCMToken value) setFCMToken,
   }) {
     return getMoreNotifications(this);
@@ -473,6 +525,8 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_FilterNotification value)? filterNotification,
+    TResult? Function(_PostNotificationReview value)? postNotificationReview,
     TResult? Function(_SetFCMToken value)? setFCMToken,
   }) {
     return getMoreNotifications?.call(this);
@@ -487,6 +541,8 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_FilterNotification value)? filterNotification,
+    TResult Function(_PostNotificationReview value)? postNotificationReview,
     TResult Function(_SetFCMToken value)? setFCMToken,
     required TResult orElse(),
   }) {
@@ -551,6 +607,9 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
     required TResult Function() getMoreNotifications,
     required TResult Function() markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
+    required TResult Function(String type, String query) filterNotification,
+    required TResult Function(PostVisitReviewModel review)
+        postNotificationReview,
     required TResult Function() setFCMToken,
   }) {
     return markAllNotificationAsRead();
@@ -564,6 +623,8 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
     TResult? Function()? getMoreNotifications,
     TResult? Function()? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
+    TResult? Function(String type, String query)? filterNotification,
+    TResult? Function(PostVisitReviewModel review)? postNotificationReview,
     TResult? Function()? setFCMToken,
   }) {
     return markAllNotificationAsRead?.call();
@@ -577,6 +638,8 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
     TResult Function()? getMoreNotifications,
     TResult Function()? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
+    TResult Function(String type, String query)? filterNotification,
+    TResult Function(PostVisitReviewModel review)? postNotificationReview,
     TResult Function()? setFCMToken,
     required TResult orElse(),
   }) {
@@ -595,6 +658,9 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
     required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_FilterNotification value) filterNotification,
+    required TResult Function(_PostNotificationReview value)
+        postNotificationReview,
     required TResult Function(_SetFCMToken value) setFCMToken,
   }) {
     return markAllNotificationAsRead(this);
@@ -609,6 +675,8 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_FilterNotification value)? filterNotification,
+    TResult? Function(_PostNotificationReview value)? postNotificationReview,
     TResult? Function(_SetFCMToken value)? setFCMToken,
   }) {
     return markAllNotificationAsRead?.call(this);
@@ -623,6 +691,8 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_FilterNotification value)? filterNotification,
+    TResult Function(_PostNotificationReview value)? postNotificationReview,
     TResult Function(_SetFCMToken value)? setFCMToken,
     required TResult orElse(),
   }) {
@@ -711,6 +781,9 @@ class _$ReadNotificationImpl implements _ReadNotification {
     required TResult Function() getMoreNotifications,
     required TResult Function() markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
+    required TResult Function(String type, String query) filterNotification,
+    required TResult Function(PostVisitReviewModel review)
+        postNotificationReview,
     required TResult Function() setFCMToken,
   }) {
     return readNotification(index);
@@ -724,6 +797,8 @@ class _$ReadNotificationImpl implements _ReadNotification {
     TResult? Function()? getMoreNotifications,
     TResult? Function()? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
+    TResult? Function(String type, String query)? filterNotification,
+    TResult? Function(PostVisitReviewModel review)? postNotificationReview,
     TResult? Function()? setFCMToken,
   }) {
     return readNotification?.call(index);
@@ -737,6 +812,8 @@ class _$ReadNotificationImpl implements _ReadNotification {
     TResult Function()? getMoreNotifications,
     TResult Function()? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
+    TResult Function(String type, String query)? filterNotification,
+    TResult Function(PostVisitReviewModel review)? postNotificationReview,
     TResult Function()? setFCMToken,
     required TResult orElse(),
   }) {
@@ -755,6 +832,9 @@ class _$ReadNotificationImpl implements _ReadNotification {
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
     required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_FilterNotification value) filterNotification,
+    required TResult Function(_PostNotificationReview value)
+        postNotificationReview,
     required TResult Function(_SetFCMToken value) setFCMToken,
   }) {
     return readNotification(this);
@@ -769,6 +849,8 @@ class _$ReadNotificationImpl implements _ReadNotification {
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_FilterNotification value)? filterNotification,
+    TResult? Function(_PostNotificationReview value)? postNotificationReview,
     TResult? Function(_SetFCMToken value)? setFCMToken,
   }) {
     return readNotification?.call(this);
@@ -783,6 +865,8 @@ class _$ReadNotificationImpl implements _ReadNotification {
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_FilterNotification value)? filterNotification,
+    TResult Function(_PostNotificationReview value)? postNotificationReview,
     TResult Function(_SetFCMToken value)? setFCMToken,
     required TResult orElse(),
   }) {
@@ -804,6 +888,385 @@ abstract class _ReadNotification implements NotificationEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ReadNotificationImplCopyWith<_$ReadNotificationImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FilterNotificationImplCopyWith<$Res> {
+  factory _$$FilterNotificationImplCopyWith(_$FilterNotificationImpl value,
+          $Res Function(_$FilterNotificationImpl) then) =
+      __$$FilterNotificationImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String type, String query});
+}
+
+/// @nodoc
+class __$$FilterNotificationImplCopyWithImpl<$Res>
+    extends _$NotificationEventCopyWithImpl<$Res, _$FilterNotificationImpl>
+    implements _$$FilterNotificationImplCopyWith<$Res> {
+  __$$FilterNotificationImplCopyWithImpl(_$FilterNotificationImpl _value,
+      $Res Function(_$FilterNotificationImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? query = null,
+  }) {
+    return _then(_$FilterNotificationImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      query: null == query
+          ? _value.query
+          : query // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FilterNotificationImpl implements _FilterNotification {
+  const _$FilterNotificationImpl({required this.type, required this.query});
+
+  @override
+  final String type;
+  @override
+  final String query;
+
+  @override
+  String toString() {
+    return 'NotificationEvent.filterNotification(type: $type, query: $query)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FilterNotificationImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.query, query) || other.query == query));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, type, query);
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FilterNotificationImplCopyWith<_$FilterNotificationImpl> get copyWith =>
+      __$$FilterNotificationImplCopyWithImpl<_$FilterNotificationImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() getNotifications,
+    required TResult Function() getMoreNotifications,
+    required TResult Function() markAllNotificationAsRead,
+    required TResult Function(int index) readNotification,
+    required TResult Function(String type, String query) filterNotification,
+    required TResult Function(PostVisitReviewModel review)
+        postNotificationReview,
+    required TResult Function() setFCMToken,
+  }) {
+    return filterNotification(type, query);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? getNotifications,
+    TResult? Function()? getMoreNotifications,
+    TResult? Function()? markAllNotificationAsRead,
+    TResult? Function(int index)? readNotification,
+    TResult? Function(String type, String query)? filterNotification,
+    TResult? Function(PostVisitReviewModel review)? postNotificationReview,
+    TResult? Function()? setFCMToken,
+  }) {
+    return filterNotification?.call(type, query);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? getNotifications,
+    TResult Function()? getMoreNotifications,
+    TResult Function()? markAllNotificationAsRead,
+    TResult Function(int index)? readNotification,
+    TResult Function(String type, String query)? filterNotification,
+    TResult Function(PostVisitReviewModel review)? postNotificationReview,
+    TResult Function()? setFCMToken,
+    required TResult orElse(),
+  }) {
+    if (filterNotification != null) {
+      return filterNotification(type, query);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_GetNotification value) getNotifications,
+    required TResult Function(_GetMoreNotification value) getMoreNotifications,
+    required TResult Function(_MarkAllNotificationAsRead value)
+        markAllNotificationAsRead,
+    required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_FilterNotification value) filterNotification,
+    required TResult Function(_PostNotificationReview value)
+        postNotificationReview,
+    required TResult Function(_SetFCMToken value) setFCMToken,
+  }) {
+    return filterNotification(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_GetNotification value)? getNotifications,
+    TResult? Function(_GetMoreNotification value)? getMoreNotifications,
+    TResult? Function(_MarkAllNotificationAsRead value)?
+        markAllNotificationAsRead,
+    TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_FilterNotification value)? filterNotification,
+    TResult? Function(_PostNotificationReview value)? postNotificationReview,
+    TResult? Function(_SetFCMToken value)? setFCMToken,
+  }) {
+    return filterNotification?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_GetNotification value)? getNotifications,
+    TResult Function(_GetMoreNotification value)? getMoreNotifications,
+    TResult Function(_MarkAllNotificationAsRead value)?
+        markAllNotificationAsRead,
+    TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_FilterNotification value)? filterNotification,
+    TResult Function(_PostNotificationReview value)? postNotificationReview,
+    TResult Function(_SetFCMToken value)? setFCMToken,
+    required TResult orElse(),
+  }) {
+    if (filterNotification != null) {
+      return filterNotification(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FilterNotification implements NotificationEvent {
+  const factory _FilterNotification(
+      {required final String type,
+      required final String query}) = _$FilterNotificationImpl;
+
+  String get type;
+  String get query;
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FilterNotificationImplCopyWith<_$FilterNotificationImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$PostNotificationReviewImplCopyWith<$Res> {
+  factory _$$PostNotificationReviewImplCopyWith(
+          _$PostNotificationReviewImpl value,
+          $Res Function(_$PostNotificationReviewImpl) then) =
+      __$$PostNotificationReviewImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({PostVisitReviewModel review});
+}
+
+/// @nodoc
+class __$$PostNotificationReviewImplCopyWithImpl<$Res>
+    extends _$NotificationEventCopyWithImpl<$Res, _$PostNotificationReviewImpl>
+    implements _$$PostNotificationReviewImplCopyWith<$Res> {
+  __$$PostNotificationReviewImplCopyWithImpl(
+      _$PostNotificationReviewImpl _value,
+      $Res Function(_$PostNotificationReviewImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? review = null,
+  }) {
+    return _then(_$PostNotificationReviewImpl(
+      review: null == review
+          ? _value.review
+          : review // ignore: cast_nullable_to_non_nullable
+              as PostVisitReviewModel,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$PostNotificationReviewImpl implements _PostNotificationReview {
+  const _$PostNotificationReviewImpl({required this.review});
+
+  @override
+  final PostVisitReviewModel review;
+
+  @override
+  String toString() {
+    return 'NotificationEvent.postNotificationReview(review: $review)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PostNotificationReviewImpl &&
+            (identical(other.review, review) || other.review == review));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, review);
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PostNotificationReviewImplCopyWith<_$PostNotificationReviewImpl>
+      get copyWith => __$$PostNotificationReviewImplCopyWithImpl<
+          _$PostNotificationReviewImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() getNotifications,
+    required TResult Function() getMoreNotifications,
+    required TResult Function() markAllNotificationAsRead,
+    required TResult Function(int index) readNotification,
+    required TResult Function(String type, String query) filterNotification,
+    required TResult Function(PostVisitReviewModel review)
+        postNotificationReview,
+    required TResult Function() setFCMToken,
+  }) {
+    return postNotificationReview(review);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? getNotifications,
+    TResult? Function()? getMoreNotifications,
+    TResult? Function()? markAllNotificationAsRead,
+    TResult? Function(int index)? readNotification,
+    TResult? Function(String type, String query)? filterNotification,
+    TResult? Function(PostVisitReviewModel review)? postNotificationReview,
+    TResult? Function()? setFCMToken,
+  }) {
+    return postNotificationReview?.call(review);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? getNotifications,
+    TResult Function()? getMoreNotifications,
+    TResult Function()? markAllNotificationAsRead,
+    TResult Function(int index)? readNotification,
+    TResult Function(String type, String query)? filterNotification,
+    TResult Function(PostVisitReviewModel review)? postNotificationReview,
+    TResult Function()? setFCMToken,
+    required TResult orElse(),
+  }) {
+    if (postNotificationReview != null) {
+      return postNotificationReview(review);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_GetNotification value) getNotifications,
+    required TResult Function(_GetMoreNotification value) getMoreNotifications,
+    required TResult Function(_MarkAllNotificationAsRead value)
+        markAllNotificationAsRead,
+    required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_FilterNotification value) filterNotification,
+    required TResult Function(_PostNotificationReview value)
+        postNotificationReview,
+    required TResult Function(_SetFCMToken value) setFCMToken,
+  }) {
+    return postNotificationReview(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_GetNotification value)? getNotifications,
+    TResult? Function(_GetMoreNotification value)? getMoreNotifications,
+    TResult? Function(_MarkAllNotificationAsRead value)?
+        markAllNotificationAsRead,
+    TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_FilterNotification value)? filterNotification,
+    TResult? Function(_PostNotificationReview value)? postNotificationReview,
+    TResult? Function(_SetFCMToken value)? setFCMToken,
+  }) {
+    return postNotificationReview?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_GetNotification value)? getNotifications,
+    TResult Function(_GetMoreNotification value)? getMoreNotifications,
+    TResult Function(_MarkAllNotificationAsRead value)?
+        markAllNotificationAsRead,
+    TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_FilterNotification value)? filterNotification,
+    TResult Function(_PostNotificationReview value)? postNotificationReview,
+    TResult Function(_SetFCMToken value)? setFCMToken,
+    required TResult orElse(),
+  }) {
+    if (postNotificationReview != null) {
+      return postNotificationReview(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _PostNotificationReview implements NotificationEvent {
+  const factory _PostNotificationReview(
+          {required final PostVisitReviewModel review}) =
+      _$PostNotificationReviewImpl;
+
+  PostVisitReviewModel get review;
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PostNotificationReviewImplCopyWith<_$PostNotificationReviewImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -852,6 +1315,9 @@ class _$SetFCMTokenImpl implements _SetFCMToken {
     required TResult Function() getMoreNotifications,
     required TResult Function() markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
+    required TResult Function(String type, String query) filterNotification,
+    required TResult Function(PostVisitReviewModel review)
+        postNotificationReview,
     required TResult Function() setFCMToken,
   }) {
     return setFCMToken();
@@ -865,6 +1331,8 @@ class _$SetFCMTokenImpl implements _SetFCMToken {
     TResult? Function()? getMoreNotifications,
     TResult? Function()? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
+    TResult? Function(String type, String query)? filterNotification,
+    TResult? Function(PostVisitReviewModel review)? postNotificationReview,
     TResult? Function()? setFCMToken,
   }) {
     return setFCMToken?.call();
@@ -878,6 +1346,8 @@ class _$SetFCMTokenImpl implements _SetFCMToken {
     TResult Function()? getMoreNotifications,
     TResult Function()? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
+    TResult Function(String type, String query)? filterNotification,
+    TResult Function(PostVisitReviewModel review)? postNotificationReview,
     TResult Function()? setFCMToken,
     required TResult orElse(),
   }) {
@@ -896,6 +1366,9 @@ class _$SetFCMTokenImpl implements _SetFCMToken {
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
     required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_FilterNotification value) filterNotification,
+    required TResult Function(_PostNotificationReview value)
+        postNotificationReview,
     required TResult Function(_SetFCMToken value) setFCMToken,
   }) {
     return setFCMToken(this);
@@ -910,6 +1383,8 @@ class _$SetFCMTokenImpl implements _SetFCMToken {
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_FilterNotification value)? filterNotification,
+    TResult? Function(_PostNotificationReview value)? postNotificationReview,
     TResult? Function(_SetFCMToken value)? setFCMToken,
   }) {
     return setFCMToken?.call(this);
@@ -924,6 +1399,8 @@ class _$SetFCMTokenImpl implements _SetFCMToken {
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
     TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_FilterNotification value)? filterNotification,
+    TResult Function(_PostNotificationReview value)? postNotificationReview,
     TResult Function(_SetFCMToken value)? setFCMToken,
     required TResult orElse(),
   }) {
@@ -950,13 +1427,20 @@ mixin _$NotificationState {
   FormzSubmissionStatus get singleStatus => throw _privateConstructorUsedError;
   FormzSubmissionStatus get setFcmTokenStatus =>
       throw _privateConstructorUsedError;
+  FormzSubmissionStatus get filterNotificationStatus =>
+      throw _privateConstructorUsedError;
+  FormzSubmissionStatus get postNotificationReviewStatus =>
+      throw _privateConstructorUsedError;
+  String get filterType => throw _privateConstructorUsedError;
   String get markAsReadErrorMsg => throw _privateConstructorUsedError;
   String get notificationsErrorMessage => throw _privateConstructorUsedError;
   String get notificationNext => throw _privateConstructorUsedError;
+  int get unReadNotifications => throw _privateConstructorUsedError;
   List<NotificationModel> get notifications =>
       throw _privateConstructorUsedError;
   NotificationModel? get singleNotification =>
       throw _privateConstructorUsedError;
+  NotificationSendReview? get review => throw _privateConstructorUsedError;
 
   /// Create a copy of NotificationState
   /// with the given fields replaced by the non-null parameter values.
@@ -978,11 +1462,16 @@ abstract class $NotificationStateCopyWith<$Res> {
       FormzSubmissionStatus readOnlyStatus,
       FormzSubmissionStatus singleStatus,
       FormzSubmissionStatus setFcmTokenStatus,
+      FormzSubmissionStatus filterNotificationStatus,
+      FormzSubmissionStatus postNotificationReviewStatus,
+      String filterType,
       String markAsReadErrorMsg,
       String notificationsErrorMessage,
       String notificationNext,
+      int unReadNotifications,
       List<NotificationModel> notifications,
-      NotificationModel? singleNotification});
+      NotificationModel? singleNotification,
+      NotificationSendReview? review});
 }
 
 /// @nodoc
@@ -1006,11 +1495,16 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
     Object? readOnlyStatus = null,
     Object? singleStatus = null,
     Object? setFcmTokenStatus = null,
+    Object? filterNotificationStatus = null,
+    Object? postNotificationReviewStatus = null,
+    Object? filterType = null,
     Object? markAsReadErrorMsg = null,
     Object? notificationsErrorMessage = null,
     Object? notificationNext = null,
+    Object? unReadNotifications = null,
     Object? notifications = null,
     Object? singleNotification = freezed,
+    Object? review = freezed,
   }) {
     return _then(_value.copyWith(
       notificationsFetchMore: null == notificationsFetchMore
@@ -1037,6 +1531,18 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
           ? _value.setFcmTokenStatus
           : setFcmTokenStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      filterNotificationStatus: null == filterNotificationStatus
+          ? _value.filterNotificationStatus
+          : filterNotificationStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      postNotificationReviewStatus: null == postNotificationReviewStatus
+          ? _value.postNotificationReviewStatus
+          : postNotificationReviewStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      filterType: null == filterType
+          ? _value.filterType
+          : filterType // ignore: cast_nullable_to_non_nullable
+              as String,
       markAsReadErrorMsg: null == markAsReadErrorMsg
           ? _value.markAsReadErrorMsg
           : markAsReadErrorMsg // ignore: cast_nullable_to_non_nullable
@@ -1049,6 +1555,10 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
           ? _value.notificationNext
           : notificationNext // ignore: cast_nullable_to_non_nullable
               as String,
+      unReadNotifications: null == unReadNotifications
+          ? _value.unReadNotifications
+          : unReadNotifications // ignore: cast_nullable_to_non_nullable
+              as int,
       notifications: null == notifications
           ? _value.notifications
           : notifications // ignore: cast_nullable_to_non_nullable
@@ -1057,6 +1567,10 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
           ? _value.singleNotification
           : singleNotification // ignore: cast_nullable_to_non_nullable
               as NotificationModel?,
+      review: freezed == review
+          ? _value.review
+          : review // ignore: cast_nullable_to_non_nullable
+              as NotificationSendReview?,
     ) as $Val);
   }
 }
@@ -1076,11 +1590,16 @@ abstract class _$$NotificationStateImplCopyWith<$Res>
       FormzSubmissionStatus readOnlyStatus,
       FormzSubmissionStatus singleStatus,
       FormzSubmissionStatus setFcmTokenStatus,
+      FormzSubmissionStatus filterNotificationStatus,
+      FormzSubmissionStatus postNotificationReviewStatus,
+      String filterType,
       String markAsReadErrorMsg,
       String notificationsErrorMessage,
       String notificationNext,
+      int unReadNotifications,
       List<NotificationModel> notifications,
-      NotificationModel? singleNotification});
+      NotificationModel? singleNotification,
+      NotificationSendReview? review});
 }
 
 /// @nodoc
@@ -1102,11 +1621,16 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
     Object? readOnlyStatus = null,
     Object? singleStatus = null,
     Object? setFcmTokenStatus = null,
+    Object? filterNotificationStatus = null,
+    Object? postNotificationReviewStatus = null,
+    Object? filterType = null,
     Object? markAsReadErrorMsg = null,
     Object? notificationsErrorMessage = null,
     Object? notificationNext = null,
+    Object? unReadNotifications = null,
     Object? notifications = null,
     Object? singleNotification = freezed,
+    Object? review = freezed,
   }) {
     return _then(_$NotificationStateImpl(
       notificationsFetchMore: null == notificationsFetchMore
@@ -1133,6 +1657,18 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
           ? _value.setFcmTokenStatus
           : setFcmTokenStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      filterNotificationStatus: null == filterNotificationStatus
+          ? _value.filterNotificationStatus
+          : filterNotificationStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      postNotificationReviewStatus: null == postNotificationReviewStatus
+          ? _value.postNotificationReviewStatus
+          : postNotificationReviewStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      filterType: null == filterType
+          ? _value.filterType
+          : filterType // ignore: cast_nullable_to_non_nullable
+              as String,
       markAsReadErrorMsg: null == markAsReadErrorMsg
           ? _value.markAsReadErrorMsg
           : markAsReadErrorMsg // ignore: cast_nullable_to_non_nullable
@@ -1145,6 +1681,10 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
           ? _value.notificationNext
           : notificationNext // ignore: cast_nullable_to_non_nullable
               as String,
+      unReadNotifications: null == unReadNotifications
+          ? _value.unReadNotifications
+          : unReadNotifications // ignore: cast_nullable_to_non_nullable
+              as int,
       notifications: null == notifications
           ? _value._notifications
           : notifications // ignore: cast_nullable_to_non_nullable
@@ -1153,6 +1693,10 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
           ? _value.singleNotification
           : singleNotification // ignore: cast_nullable_to_non_nullable
               as NotificationModel?,
+      review: freezed == review
+          ? _value.review
+          : review // ignore: cast_nullable_to_non_nullable
+              as NotificationSendReview?,
     ));
   }
 }
@@ -1167,11 +1711,16 @@ class _$NotificationStateImpl extends _NotificationState {
       this.readOnlyStatus = FormzSubmissionStatus.initial,
       this.singleStatus = FormzSubmissionStatus.initial,
       this.setFcmTokenStatus = FormzSubmissionStatus.initial,
+      this.filterNotificationStatus = FormzSubmissionStatus.initial,
+      this.postNotificationReviewStatus = FormzSubmissionStatus.initial,
+      this.filterType = 'All',
       this.markAsReadErrorMsg = '',
       this.notificationsErrorMessage = '',
       this.notificationNext = '',
+      this.unReadNotifications = 0,
       final List<NotificationModel> notifications = const [],
-      this.singleNotification})
+      this.singleNotification,
+      this.review})
       : _notifications = notifications,
         super._();
 
@@ -1195,6 +1744,15 @@ class _$NotificationStateImpl extends _NotificationState {
   final FormzSubmissionStatus setFcmTokenStatus;
   @override
   @JsonKey()
+  final FormzSubmissionStatus filterNotificationStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus postNotificationReviewStatus;
+  @override
+  @JsonKey()
+  final String filterType;
+  @override
+  @JsonKey()
   final String markAsReadErrorMsg;
   @override
   @JsonKey()
@@ -1202,6 +1760,9 @@ class _$NotificationStateImpl extends _NotificationState {
   @override
   @JsonKey()
   final String notificationNext;
+  @override
+  @JsonKey()
+  final int unReadNotifications;
   final List<NotificationModel> _notifications;
   @override
   @JsonKey()
@@ -1213,10 +1774,12 @@ class _$NotificationStateImpl extends _NotificationState {
 
   @override
   final NotificationModel? singleNotification;
+  @override
+  final NotificationSendReview? review;
 
   @override
   String toString() {
-    return 'NotificationState(notificationsFetchMore: $notificationsFetchMore, notificationStatus: $notificationStatus, markAllNotificationStatus: $markAllNotificationStatus, readOnlyStatus: $readOnlyStatus, singleStatus: $singleStatus, setFcmTokenStatus: $setFcmTokenStatus, markAsReadErrorMsg: $markAsReadErrorMsg, notificationsErrorMessage: $notificationsErrorMessage, notificationNext: $notificationNext, notifications: $notifications, singleNotification: $singleNotification)';
+    return 'NotificationState(notificationsFetchMore: $notificationsFetchMore, notificationStatus: $notificationStatus, markAllNotificationStatus: $markAllNotificationStatus, readOnlyStatus: $readOnlyStatus, singleStatus: $singleStatus, setFcmTokenStatus: $setFcmTokenStatus, filterNotificationStatus: $filterNotificationStatus, postNotificationReviewStatus: $postNotificationReviewStatus, filterType: $filterType, markAsReadErrorMsg: $markAsReadErrorMsg, notificationsErrorMessage: $notificationsErrorMessage, notificationNext: $notificationNext, unReadNotifications: $unReadNotifications, notifications: $notifications, singleNotification: $singleNotification, review: $review)';
   }
 
   @override
@@ -1237,6 +1800,15 @@ class _$NotificationStateImpl extends _NotificationState {
                 other.singleStatus == singleStatus) &&
             (identical(other.setFcmTokenStatus, setFcmTokenStatus) ||
                 other.setFcmTokenStatus == setFcmTokenStatus) &&
+            (identical(
+                    other.filterNotificationStatus, filterNotificationStatus) ||
+                other.filterNotificationStatus == filterNotificationStatus) &&
+            (identical(other.postNotificationReviewStatus,
+                    postNotificationReviewStatus) ||
+                other.postNotificationReviewStatus ==
+                    postNotificationReviewStatus) &&
+            (identical(other.filterType, filterType) ||
+                other.filterType == filterType) &&
             (identical(other.markAsReadErrorMsg, markAsReadErrorMsg) ||
                 other.markAsReadErrorMsg == markAsReadErrorMsg) &&
             (identical(other.notificationsErrorMessage,
@@ -1244,10 +1816,13 @@ class _$NotificationStateImpl extends _NotificationState {
                 other.notificationsErrorMessage == notificationsErrorMessage) &&
             (identical(other.notificationNext, notificationNext) ||
                 other.notificationNext == notificationNext) &&
+            (identical(other.unReadNotifications, unReadNotifications) ||
+                other.unReadNotifications == unReadNotifications) &&
             const DeepCollectionEquality()
                 .equals(other._notifications, _notifications) &&
             (identical(other.singleNotification, singleNotification) ||
-                other.singleNotification == singleNotification));
+                other.singleNotification == singleNotification) &&
+            (identical(other.review, review) || other.review == review));
   }
 
   @override
@@ -1259,11 +1834,16 @@ class _$NotificationStateImpl extends _NotificationState {
       readOnlyStatus,
       singleStatus,
       setFcmTokenStatus,
+      filterNotificationStatus,
+      postNotificationReviewStatus,
+      filterType,
       markAsReadErrorMsg,
       notificationsErrorMessage,
       notificationNext,
+      unReadNotifications,
       const DeepCollectionEquality().hash(_notifications),
-      singleNotification);
+      singleNotification,
+      review);
 
   /// Create a copy of NotificationState
   /// with the given fields replaced by the non-null parameter values.
@@ -1283,11 +1863,16 @@ abstract class _NotificationState extends NotificationState {
       final FormzSubmissionStatus readOnlyStatus,
       final FormzSubmissionStatus singleStatus,
       final FormzSubmissionStatus setFcmTokenStatus,
+      final FormzSubmissionStatus filterNotificationStatus,
+      final FormzSubmissionStatus postNotificationReviewStatus,
+      final String filterType,
       final String markAsReadErrorMsg,
       final String notificationsErrorMessage,
       final String notificationNext,
+      final int unReadNotifications,
       final List<NotificationModel> notifications,
-      final NotificationModel? singleNotification}) = _$NotificationStateImpl;
+      final NotificationModel? singleNotification,
+      final NotificationSendReview? review}) = _$NotificationStateImpl;
   const _NotificationState._() : super._();
 
   @override
@@ -1303,15 +1888,25 @@ abstract class _NotificationState extends NotificationState {
   @override
   FormzSubmissionStatus get setFcmTokenStatus;
   @override
+  FormzSubmissionStatus get filterNotificationStatus;
+  @override
+  FormzSubmissionStatus get postNotificationReviewStatus;
+  @override
+  String get filterType;
+  @override
   String get markAsReadErrorMsg;
   @override
   String get notificationsErrorMessage;
   @override
   String get notificationNext;
   @override
+  int get unReadNotifications;
+  @override
   List<NotificationModel> get notifications;
   @override
   NotificationModel? get singleNotification;
+  @override
+  NotificationSendReview? get review;
 
   /// Create a copy of NotificationState
   /// with the given fields replaced by the non-null parameter values.

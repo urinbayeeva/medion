@@ -38,8 +38,8 @@ class OrderCard extends StatelessWidget {
             boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)],
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // Header
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
                 child: Row(
@@ -52,7 +52,16 @@ class OrderCard extends StatelessWidget {
                       children: [
                         Text(order.saleOrderName ?? '', style: fonts.smallTagFirst),
                         DownloadButton(
-                          onTap: () async => await MyFunctions.openLink(order.saleOrderCheckPdfUrl ?? ''),
+                          onTap: () async {
+                            // MyFunctions.openLink()
+                            final service = FileDownloadService();
+                            await service.downloadPDFWithProgress(
+                              context: context,
+                              url: order.saleOrderCheckPdfUrl ?? '',
+                              fileName: "${order.saleOrderName}",
+                              colors: colors,
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -88,7 +97,6 @@ class OrderCard extends StatelessWidget {
                   ],
                 ),
               ),
-
               if (_isExpanded.value) ...{
                 Divider(color: colors.backgroundColor, thickness: 2),
               },

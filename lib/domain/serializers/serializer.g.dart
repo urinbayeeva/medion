@@ -25,6 +25,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(CreatePatientRequest.serializer)
       ..add(CreatePatientResponse.serializer)
       ..add(CreatePatientServiceResponse.serializer)
+      ..add(DailyTransactions.serializer)
       ..add(DiagnosticsModel.serializer)
       ..add(Discount.serializer)
       ..add(DiscountModel.serializer)
@@ -49,11 +50,17 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(JobApplicationModel.serializer)
       ..add(LocationModel.serializer)
       ..add(MedicalModel.serializer)
+      ..add(Medicine.serializer)
       ..add(MedionModel.serializer)
       ..add(MedionResponseSearchText.serializer)
       ..add(ModelDoctor.serializer)
       ..add(News.serializer)
+      ..add(NotificationDiscount.serializer)
+      ..add(NotificationLabResult.serializer)
       ..add(NotificationModel.serializer)
+      ..add(NotificationReminder.serializer)
+      ..add(NotificationReview.serializer)
+      ..add(NotificationSendReview.serializer)
       ..add(OfferModel.serializer)
       ..add(OrderVisit.serializer)
       ..add(PatientAnalyse.serializer)
@@ -71,7 +78,13 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(PhoneNumberSendReq.serializer)
       ..add(Position.serializer)
       ..add(PostReviewModel.serializer)
+      ..add(PostVisitReviewModel.serializer)
       ..add(PriceItem.serializer)
+      ..add(ReceptionTime.serializer)
+      ..add(RecipeDetailModel.serializer)
+      ..add(RecipeModel.serializer)
+      ..add(Recommendation.serializer)
+      ..add(RecommendationInfo.serializer)
       ..add(RefreshTokenModel.serializer)
       ..add(RefreshTokenResponseModel.serializer)
       ..add(RegisterReq.serializer)
@@ -92,6 +105,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ThirdBookingDoctor.serializer)
       ..add(ThirdBookingDoctorSchedule.serializer)
       ..add(ThirdBookingService.serializer)
+      ..add(Transactions.serializer)
       ..add(UploadVacancyModel.serializer)
       ..add(User.serializer)
       ..add(VacancyDetailModel.serializer)
@@ -99,6 +113,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Visit.serializer)
       ..add(VisitModel.serializer)
       ..add(VisitOrder.serializer)
+      ..add(VisitRecipe.serializer)
       ..add(VisitRequest.serializer)
       ..add(VisitResponse.serializer)
       ..add(VisitSingleResultModel.serializer)
@@ -106,6 +121,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Course)]),
           () => new ListBuilder<Course>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(DailyTransactions)]),
+          () => new ListBuilder<DailyTransactions>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Doctor)]),
           () => new ListBuilder<Doctor>())
@@ -158,6 +176,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(DiscountModel)]),
           () => new ListBuilder<DiscountModel>())
       ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(NotificationLabResult)]),
+          () => new ListBuilder<NotificationLabResult>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(OrderVisit)]),
           () => new ListBuilder<OrderVisit>())
       ..addBuilderFactory(
@@ -191,8 +213,17 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(PatientVisit)]),
           () => new ListBuilder<PatientVisit>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(Payment)]),
-          () => new ListBuilder<Payment>())
+          const FullType(BuiltList, const [const FullType(ReceptionTime)]),
+          () => new ListBuilder<ReceptionTime>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Medicine)]),
+          () => new ListBuilder<Medicine>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(RecipeDetailModel)]),
+          () => new ListBuilder<RecipeDetailModel>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(RecommendationInfo)]),
+          () => new ListBuilder<RecommendationInfo>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(SaleOrderLine)]),
           () => new ListBuilder<SaleOrderLine>())
@@ -245,6 +276,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ChildContentModel)]),
           () => new ListBuilder<ChildContentModel>())
       ..addBuilderFactory(
@@ -280,6 +317,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
               BuiltList, const [const FullType(ThirdBookingDoctorSchedule)]),
           () => new ListBuilder<ThirdBookingDoctorSchedule>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Transactions)]),
+          () => new ListBuilder<Transactions>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(User)]),
           () => new ListBuilder<User>())
       ..addBuilderFactory(
@@ -294,6 +334,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Visit)]),
           () => new ListBuilder<Visit>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(VisitRecipe)]),
+          () => new ListBuilder<VisitRecipe>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(int)]),
           () => new ListBuilder<int>())

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -411,7 +413,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
       itemBuilder: (_, index) {
         final doctor = state.medicalModel!.doctors[index];
         return DoctorsItem(
-          academicRank: "",
+          academicRank: doctor.academicRank ?? '',
           gender: "male",
           isInnerPageUsed: true,
           imagePath: doctor.image,

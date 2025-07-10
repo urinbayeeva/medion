@@ -8,6 +8,7 @@ import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/application/search/search_bloc.dart';
 import 'package:medion/application/vacancy_bloc/vacancy_bloc.dart';
+import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/repository/branch_repo.dart';
 import 'package:medion/infrastructure/repository/company_service.dart';
@@ -19,7 +20,12 @@ import 'package:medion/infrastructure/repository/search_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/c_info_view.dart';
 import 'package:medion/presentation/pages/appointment/appointment_page.dart';
+import 'package:medion/presentation/pages/auth/sign_up/data_entry_page.dart';
 import 'package:medion/presentation/pages/auth/sign_up/privacy_page/privacy_policy_page.dart';
+import 'package:medion/presentation/pages/auth/sign_up/sign_up_page.dart';
+import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_email.dart';
+import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_phone.dart';
+import 'package:medion/presentation/pages/auth/sign_up/verify_code_page.dart';
 import 'package:medion/presentation/pages/core/choose_language_page.dart';
 import 'package:medion/presentation/pages/core/debug_page.dart';
 import 'package:medion/presentation/pages/core/no_connection.dart';
@@ -31,25 +37,16 @@ import 'package:medion/presentation/pages/home/doctors/inner_page/doctor_appoint
 import 'package:medion/presentation/pages/home/home_page.dart';
 import 'package:medion/presentation/pages/home/med_services/med_services.dart';
 import 'package:medion/presentation/pages/home/news/news_page.dart';
-import 'package:medion/presentation/pages/home/news/news_view.dart';
 import 'package:medion/presentation/pages/home/notifications/notification_page.dart';
 import 'package:medion/presentation/pages/home/search/search_page.dart';
 import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/pages/map/component/adress_view_page.dart';
 import 'package:medion/presentation/pages/map/map_page.dart';
-import 'package:medion/presentation/pages/auth/sign_up/data_entry_page.dart';
-import 'package:medion/presentation/pages/auth/sign_up/sign_up_page.dart';
-import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_email.dart';
-import 'package:medion/presentation/pages/auth/sign_up/sign_up_with_phone.dart';
-import 'package:medion/presentation/pages/auth/sign_up/verify_code_page.dart';
-import 'package:medion/presentation/pages/map/map_with_polylines.dart';
 import 'package:medion/presentation/pages/onboarding/onboarding_page.dart';
 import 'package:medion/presentation/pages/others/about_health/about_health_page.dart';
 import 'package:medion/presentation/pages/others/article/article_page.dart';
 import 'package:medion/presentation/pages/others/awards/awards_page.dart';
 import 'package:medion/presentation/pages/others/branches/branches_page.dart';
-import 'package:medion/presentation/pages/others/branches/component/single_branch_info.dart';
-import 'package:medion/presentation/pages/others/branches/single_branch_page.dart';
 import 'package:medion/presentation/pages/others/career/career_page.dart';
 import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
 import 'package:medion/presentation/pages/others/dicsount/widgets/discount_page_view.dart';
@@ -63,15 +60,13 @@ import 'package:medion/presentation/pages/others/policy_treatment/policy_treatme
 import 'package:medion/presentation/pages/others/services/services_page.dart';
 import 'package:medion/presentation/pages/others/under_dev_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/recipes_page.dart';
+import 'package:medion/presentation/pages/profile/inner_pages/recommendation_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/results_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/setting_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/user_details_page.dart';
 import 'package:medion/presentation/pages/profile/inner_pages/wallet_page.dart';
-import 'package:medion/presentation/pages/visits/component/visit_detail_page.dart';
 import 'package:medion/presentation/pages/visits/my_visits_page.dart';
 import 'package:medion/presentation/pages/visits/widgets/visit_info_detail_card.dart';
-
-import '../../infrastructure/apis/apis.dart';
 
 class AppRoutes {
   static PageRoute onGenerateRoute({
@@ -281,79 +276,35 @@ class AppRoutes {
 
   static MaterialPageRoute getRecipesPage() => MaterialPageRoute(builder: (_) => const RecipesPage());
 
-  static MaterialPageRoute getResultsPage() {
+  static MaterialPageRoute getRecommendationPage() => MaterialPageRoute(builder: (_) => const RecommendationPage());
+
+  static MaterialPageRoute getResultsPage() => MaterialPageRoute(builder: (_) => const ResultsPage());
+
+  static MaterialPageRoute getUserDetailsPage() => MaterialPageRoute(builder: (_) => const UserDetailsPage());
+
+  static MaterialPageRoute getMapPage() => MaterialPageRoute(builder: (_) => const MapPage());
+
+  static MaterialPageRoute getAboutDoctorPage(String name, String profession, String status, String image, int id) {
     return MaterialPageRoute(
-      builder: (_) => BlocProvider(
-        create: (context) {
-          DBService dbService = context.read<DBService>();
-          return AuthBloc(
-            AuthRepository(
-              dbService,
-              AuthService.create(dbService),
-              PatientService.create(dbService),
-              RefreshService.create(dbService),
-            ),
-            dbService,
-          );
-        },
-        child: const ResultsPage(),
+      builder: (_) => AboutDoctor(
+        id: id,
+        name: name,
+        profession: profession,
+        status: status,
+        image: image,
       ),
     );
   }
 
-  static MaterialPageRoute getUserDetailsPage() {
-    return MaterialPageRoute(
-        builder: (_) => BlocProvider(
-            create: (context) {
-              DBService dbService = context.read<DBService>();
-              return AuthBloc(
-                AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService),
-                    RefreshService.create(dbService)),
-                dbService,
-              );
-            },
-            child: const UserDetailsPage()));
-  }
+  static MaterialPageRoute getNewsPage() => MaterialPageRoute(builder: (_) => const NewsPage());
 
-  static MaterialPageRoute getMapPage() {
-    return MaterialPageRoute(builder: (_) => const MapPage());
-  }
-
-  static MaterialPageRoute getAboutDoctorPage(String name, String profession, String status, String image, int id) {
-    return MaterialPageRoute(
-        builder: (_) => BlocProvider(
-            create: (context) {
-              DBService dbService = context.read<DBService>();
-              return AuthBloc(
-                AuthRepository(dbService, AuthService.create(dbService), PatientService.create(dbService),
-                    RefreshService.create(dbService)),
-                dbService,
-              );
-            },
-            child: AboutDoctor(
-              id: id,
-              name: name,
-              profession: profession,
-              status: status,
-              image: image,
-            )));
-  }
-
-  static MaterialPageRoute getNewsPage() {
-    return MaterialPageRoute(builder: (_) => const NewsPage());
-  }
-
-  static MaterialPageRoute getPrivacyPolicyPage() {
-    return MaterialPageRoute(builder: (_) => const PrivacyPolicyPage());
-  }
+  static MaterialPageRoute getPrivacyPolicyPage() => MaterialPageRoute(builder: (_) => const PrivacyPolicyPage());
 
   // static MaterialPageRoute getNewsViewPage() {
   //   return MaterialPageRoute(builder: (_) => const NewsView());
   // }
 
-  static MaterialPageRoute getNotificationPage() {
-    return MaterialPageRoute(builder: (_) => const NotificationPage());
-  }
+  static MaterialPageRoute getNotificationPage() => MaterialPageRoute(builder: (_) => const NotificationPage());
 
   static MaterialPageRoute getSearchPage() {
     return MaterialPageRoute(
@@ -372,23 +323,29 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getDoctorsAppointmentPage(
-      String? name, String? profession, String? image, String? specialty) {
+    String? name,
+    String? profession,
+    String? image,
+    String? specialty,
+  ) {
     return MaterialPageRoute(
-        builder: (_) => DoctorsAppointment(
-              profession: profession,
-              image: image,
-              specialty: specialty,
-              name: name,
-              onTap: () {},
-            ));
+      builder: (_) => DoctorsAppointment(
+        profession: profession,
+        image: image,
+        specialty: specialty,
+        name: name,
+        onTap: () {},
+      ),
+    );
   }
 
   static MaterialPageRoute getAppointmentPage(int index, List<int> services) {
     return MaterialPageRoute(
-        builder: (_) => AppointmentPage(
-              index: index,
-              services: services,
-            ));
+      builder: (_) => AppointmentPage(
+        index: index,
+        services: services,
+      ),
+    );
   }
 
   static MaterialPageRoute getCareerPage() {
@@ -396,11 +353,7 @@ class AppRoutes {
       builder: (context) {
         DBService dbService = context.read<DBService>();
         return BlocProvider(
-          create: (_) => VacancyBloc(
-            RecruitmentRepository(
-              RecruitmentService.create(dbService),
-            ),
-          ),
+          create: (_) => VacancyBloc(RecruitmentRepository(RecruitmentService.create(dbService))),
           child: const CareerPage(),
         );
       },
@@ -413,14 +366,10 @@ class AppRoutes {
   // }
 
   static MaterialPageRoute getUnderDevPage({required appBarTitle}) {
-    return MaterialPageRoute(builder: (_) {
-      return UnderDevPage(appBarTitle: appBarTitle);
-    });
+    return MaterialPageRoute(builder: (_) => UnderDevPage(appBarTitle: appBarTitle));
   }
 
-  static MaterialPageRoute getAdressViewPage() {
-    return MaterialPageRoute(builder: (_) => const AdressViewPage());
-  }
+  static MaterialPageRoute getAdressViewPage() => MaterialPageRoute(builder: (_) => const AdressViewPage());
 
   static MaterialPageRoute getBranchesPage() {
     return MaterialPageRoute(

@@ -62,6 +62,22 @@ class ArticleCardWidget extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (date != null && date!.isNotEmpty) ...{
+                  4.h.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
+                    child: Text(
+                      date ?? '',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: fonts.xSmallLink.copyWith(
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w500,
+                        color: colors.neutral600,
+                      ),
+                    ),
+                  ),
+                }
               ],
             ),
           ),

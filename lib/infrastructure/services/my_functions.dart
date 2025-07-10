@@ -1,18 +1,32 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:google_api_availability/google_api_availability.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:medion/utils/enums/feedback_status_enum.dart';
+import 'package:medion/utils/enums/notification_type_enum.dart';
 import 'package:medion/utils/enums/visits_enum.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'hermony_os_checker.dart';
 
 sealed class MyFunctions {
+  static NotificationTypeEnum getNotificationType(String? status) {
+    return NotificationTypeEnum.values.firstWhere(
+      (e) => e.name == status,
+      orElse: () => NotificationTypeEnum.all,
+    );
+  }
+
+  static FeedBackStatus getFeedBackStatus(String? status) {
+    return FeedBackStatus.values.firstWhere(
+      (e) => e.name == status,
+      orElse: () => FeedBackStatus.none,
+    );
+  }
+
   static VisitListEnum getVisitStatus(String? status) {
     return VisitListEnum.values.firstWhere(
       (e) => e.name == status,

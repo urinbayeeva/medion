@@ -23,6 +23,8 @@ Serializer<GetReviewModel> _$getReviewModelSerializer =
     new _$GetReviewModelSerializer();
 Serializer<PostReviewModel> _$postReviewModelSerializer =
     new _$PostReviewModelSerializer();
+Serializer<PostVisitReviewModel> _$postVisitReviewModelSerializer =
+    new _$PostVisitReviewModelSerializer();
 
 class _$BranchModelSerializer implements StructuredSerializer<BranchModel> {
   @override
@@ -1313,6 +1315,76 @@ class _$PostReviewModelSerializer
         case 'is_anonym':
           result.isAnonym = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$PostVisitReviewModelSerializer
+    implements StructuredSerializer<PostVisitReviewModel> {
+  @override
+  final Iterable<Type> types = const [
+    PostVisitReviewModel,
+    _$PostVisitReviewModel
+  ];
+  @override
+  final String wireName = 'PostVisitReviewModel';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, PostVisitReviewModel object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[];
+    Object? value;
+    value = object.ratings;
+    if (value != null) {
+      result
+        ..add('ratings')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.review;
+    if (value != null) {
+      result
+        ..add('review')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.visitId;
+    if (value != null) {
+      result
+        ..add('visit_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    return result;
+  }
+
+  @override
+  PostVisitReviewModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new PostVisitReviewModelBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'ratings':
+          result.ratings = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'review':
+          result.review = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'visit_id':
+          result.visitId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -3461,6 +3533,114 @@ class PostReviewModelBuilder
           companyId: companyId,
           patientId: patientId,
           isAnonym: isAnonym,
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$PostVisitReviewModel extends PostVisitReviewModel {
+  @override
+  final String? ratings;
+  @override
+  final String? review;
+  @override
+  final int? visitId;
+
+  factory _$PostVisitReviewModel(
+          [void Function(PostVisitReviewModelBuilder)? updates]) =>
+      (new PostVisitReviewModelBuilder()..update(updates))._build();
+
+  _$PostVisitReviewModel._({this.ratings, this.review, this.visitId})
+      : super._();
+
+  @override
+  PostVisitReviewModel rebuild(
+          void Function(PostVisitReviewModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  PostVisitReviewModelBuilder toBuilder() =>
+      new PostVisitReviewModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is PostVisitReviewModel &&
+        ratings == other.ratings &&
+        review == other.review &&
+        visitId == other.visitId;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, ratings.hashCode);
+    _$hash = $jc(_$hash, review.hashCode);
+    _$hash = $jc(_$hash, visitId.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'PostVisitReviewModel')
+          ..add('ratings', ratings)
+          ..add('review', review)
+          ..add('visitId', visitId))
+        .toString();
+  }
+}
+
+class PostVisitReviewModelBuilder
+    implements Builder<PostVisitReviewModel, PostVisitReviewModelBuilder> {
+  _$PostVisitReviewModel? _$v;
+
+  String? _ratings;
+  String? get ratings => _$this._ratings;
+  set ratings(String? ratings) => _$this._ratings = ratings;
+
+  String? _review;
+  String? get review => _$this._review;
+  set review(String? review) => _$this._review = review;
+
+  int? _visitId;
+  int? get visitId => _$this._visitId;
+  set visitId(int? visitId) => _$this._visitId = visitId;
+
+  PostVisitReviewModelBuilder();
+
+  PostVisitReviewModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _ratings = $v.ratings;
+      _review = $v.review;
+      _visitId = $v.visitId;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(PostVisitReviewModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$PostVisitReviewModel;
+  }
+
+  @override
+  void update(void Function(PostVisitReviewModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  PostVisitReviewModel build() => _build();
+
+  _$PostVisitReviewModel _build() {
+    final _$result = _$v ??
+        new _$PostVisitReviewModel._(
+          ratings: ratings,
+          review: review,
+          visitId: visitId,
         );
     replace(_$result);
     return _$result;

@@ -81,9 +81,13 @@ part 'serializer.g.dart';
   // Notification
   NotificationModel,
   SetFcmTokenBody,
+  NotificationSendReview,
+  NotificationDiscount,
+  NotificationReminder,
+  NotificationReview,
+  NotificationLabResult,
 
   //Branches
-
   BranchModel,
   BranchDetailModel,
   AwardsModel,
@@ -96,6 +100,7 @@ part 'serializer.g.dart';
   PrivacyModel,
   GetReviewModel,
   PostReviewModel,
+  PostVisitReviewModel,
 
   RefreshTokenModel,
   RefreshTokenResponseModel,
@@ -151,6 +156,15 @@ part 'serializer.g.dart';
   PaymentResponse,
   Payment,
   User,
+  DailyTransactions,
+  Transactions,
+  Recommendation,
+  RecommendationInfo,
+  RecipeModel,
+  VisitRecipe,
+  RecipeDetailModel,
+  ReceptionTime,
+  Medicine,
 
   //Doctor Job
   DoctorsJob,

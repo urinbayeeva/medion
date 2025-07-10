@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,7 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
     try {
       final token = (await DBService.create).token.accessToken;
       if (token == null) {
+        log("No access token available");
         throw Exception('No access token available');
       }
 
@@ -55,6 +57,8 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
           'Content-Type': 'application/json',
         },
       );
+      log("Response status code: ${response.statusCode}");
+      log("Response status body: ${response.body}");
 
       if (response.statusCode == 200) {
         final data = json.decode(utf8.decode(response.bodyBytes));
@@ -197,7 +201,7 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
           );
         }
 
-        if (!documents.isEmpty) {
+        if (documents.isEmpty) {
           return Center(
             child: Text(
               'Нет данных для отображения',

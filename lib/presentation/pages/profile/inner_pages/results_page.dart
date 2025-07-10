@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/profile/widget/results_data_widget.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -15,9 +16,6 @@ class ResultsPage extends StatefulWidget {
 class _ResultsPageState extends State<ResultsPage> with SingleTickerProviderStateMixin {
   bool isAnalyse = true;
   late TabController _tabController;
-
-  final DateTime firstDay = DateTime(2020, 1, 1);
-  final DateTime lastDay = DateTime(2030, 1, 1);
 
   @override
   void initState() {
@@ -33,56 +31,41 @@ class _ResultsPageState extends State<ResultsPage> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Scaffold(
-        backgroundColor: colors.backgroundColor,
-        body: Column(
-          children: [
-            CAppBar(
-              title: "my_results".tr(),
-              centerTitle: true,
-              isBack: true,
-              trailing: 24.w.horizontalSpace,
-              bottom: Column(
-                children: [
-                  _buildTabBar(colors, fonts),
-                ],
-              ),
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return Scaffold(
+          backgroundColor: colors.backgroundColor,
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: colors.shade0,
+            foregroundColor: colors.darkMode900,
+            scrolledUnderElevation: 0,
+            leading: WScaleAnimation(
+              child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+              onTap: () => Navigator.of(context).pop(),
             ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: const [
-                  ResultsDataWidget(type: 'lis'),
-                  ResultsDataWidget(type: 'consultation'),
-                ],
-              ),
+            title: Text("my_results".tr(), style: fonts.regularMain),
+            bottom: TabBar(
+              controller: _tabController,
+              indicatorWeight: 3,
+              overlayColor: WidgetStateProperty.all(colors.shade0),
+              indicatorColor: colors.error500,
+              tabs: [
+                Tab(child: Text("analyzes".tr(), style: fonts.xSmallLink.copyWith(fontSize: 12.sp))),
+                Tab(child: Text("doctors_reports".tr(), style: fonts.xSmallLink.copyWith(fontSize: 12.sp))),
+              ],
             ),
-          ],
-        ),
-      );
-    });
-  }
-
-  Widget _buildTabBar(colors, fonts) {
-    return TabBar(
-      controller: _tabController,
-      indicatorWeight: 3,
-      overlayColor: MaterialStateProperty.all(colors.shade0),
-      indicatorColor: colors.error500,
-      tabs: [
-        _buildTab("analyzes".tr(), fonts),
-        _buildTab("doctors_reports".tr(), fonts),
-      ],
-    );
-  }
-
-  Widget _buildTab(String text, fonts) {
-    return Tab(
-      child: Text(
-        text,
-        style: fonts.xSmallLink.copyWith(fontSize: 12.sp),
-      ),
+          ),
+          body: TabBarView(
+            controller: _tabController,
+            children: const [
+              ResultsDataWidget(type: 'lis'),
+              ResultsDataWidget(type: 'consultation'),
+            ],
+          ),
+        );
+      },
     );
   }
 }

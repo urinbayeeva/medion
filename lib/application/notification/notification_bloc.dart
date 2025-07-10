@@ -6,14 +6,15 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/abstract_repo/notification/notification_repository.dart';
+import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/notification/notification_model.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
+
+part 'notification_bloc.freezed.dart';
 
 part 'notification_event.dart';
 
 part 'notification_state.dart';
-
-part 'notification_bloc.freezed.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   final NotificationRepository repository;
@@ -26,6 +27,41 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     on<_MarkAllNotificationAsRead>(_onMarkAllNotification);
     on<_ReadNotification>(_onReadNotification);
     on<_SetFCMToken>(_onSetFCMToken);
+    on<_FilterNotification>(_onFilterNotification);
+    on<_PostNotificationReview>(_postNotificationReview);
+  }
+
+  FutureOr<void> _postNotificationReview(_PostNotificationReview event, Emitter<NotificationState> emit) async {
+    emit(state.copyWith(postNotificationReviewStatus: FormzSubmissionStatus.inProgress));
+
+    final result = await repository.postNotificationReview(review: event.review);
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(postNotificationReviewStatus: FormzSubmissionStatus.failure));
+      },
+      (review) {
+        emit(state.copyWith(postNotificationReviewStatus: FormzSubmissionStatus.success));
+      },
+    );
+  }
+
+  FutureOr<void> _onFilterNotification(_FilterNotification event, Emitter<NotificationState> emit) async {
+    emit(state.copyWith(filterType: event.type, filterNotificationStatus: FormzSubmissionStatus.inProgress));
+
+    final res = await repository.filterNotification(type: event.query);
+
+    res.fold(
+      (failure) {
+        emit(state.copyWith(filterNotificationStatus: FormzSubmissionStatus.failure));
+      },
+      (filteredNotifications) {
+        emit(state.copyWith(
+          notifications: filteredNotifications,
+          filterNotificationStatus: FormzSubmissionStatus.success,
+        ));
+      },
+    );
   }
 
   FutureOr<void> _onSetFCMToken(_SetFCMToken event, Emitter<NotificationState> emit) async {
@@ -61,9 +97,12 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         emit(state.copyWith(notificationStatus: FormzSubmissionStatus.failure));
       },
       (success) {
+        final unreadCount = success.where((e) => !(e.isRead ?? false)).length;
+
         emit(state.copyWith(
           notifications: success,
           notificationStatus: FormzSubmissionStatus.success,
+          unReadNotifications: unreadCount,
         ));
       },
     );

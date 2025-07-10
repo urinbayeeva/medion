@@ -33,16 +33,28 @@ class BuildOrderList extends StatelessWidget {
               colors: colors,
               order: order,
               fonts: fonts,
-              child: VisitsNewDesignCard(
-                doctorName: 'doctorName',
-                doctorJob: 'doctorJob',
-                serviceName: service,
-                location: 'location',
-                visitTime: "12:30 - 13:00",
-                timaAndDate: "12.23.2030",
-                paymentStatus: order.saleOrderPaymentStatus == 'paid',
-                doctorImage: 'doctorImage',
-                listEnum: MyFunctions.getVisitStatus("ordered"),
+              child: ListView.separated(
+                padding: EdgeInsets.zero,
+                separatorBuilder: (context, count) {
+                  return const Divider();
+                },
+                itemCount: order.saleOrderLines.length + 4,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (ctx, i) {
+                  // final card = order.saleOrderLines[i];
+                  return VisitsNewDesignCard(
+                    doctorName: "card.doctorFullName" ?? '',
+                    doctorJob: "card.service" ?? '',
+                    serviceName: service,
+                    location: 'location',
+                    visitTime: "12:30 - 13:00",
+                    timaAndDate: "12.23.2030",
+                    paymentStatus: order.saleOrderPaymentStatus == 'paid',
+                    doctorImage: 'doctorImage',
+                    listEnum: MyFunctions.getVisitStatus("ordered"),
+                  );
+                },
               ),
             );
           },

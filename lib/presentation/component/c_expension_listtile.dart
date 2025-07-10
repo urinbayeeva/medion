@@ -8,6 +8,7 @@ class CustomExpansionListTile extends StatefulWidget {
   final String? hasIcon;
   final String? subtitle;
   final String description;
+  final Widget? titleWidget;
   final dynamic price;
   final List<Widget> children;
   final Function(bool)? onExpansionChanged;
@@ -21,6 +22,7 @@ class CustomExpansionListTile extends StatefulWidget {
     required this.children,
     this.onExpansionChanged,
     this.hasIcon,
+    this.titleWidget,
   });
 
   @override
@@ -54,13 +56,25 @@ class _CustomExpansionListTileState extends State<CustomExpansionListTile> {
               collapsedBackgroundColor: Colors.transparent,
               backgroundColor: Colors.transparent,
               controlAffinity: ListTileControlAffinity.trailing,
-              title: widget.hasIcon != null
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SvgPicture.asset(widget.hasIcon!),
-                        6.w.horizontalSpace,
-                        Text(
+              title: (widget.titleWidget != null)
+                  ? widget.titleWidget!
+                  : widget.hasIcon != null
+                      ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(widget.hasIcon!),
+                            6.w.horizontalSpace,
+                            Text(
+                              widget.title,
+                              style: fonts.smallSemLink.copyWith(
+                                color: colors.primary900,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13.sp,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Text(
                           widget.title,
                           style: fonts.smallSemLink.copyWith(
                             color: colors.primary900,
@@ -68,16 +82,6 @@ class _CustomExpansionListTileState extends State<CustomExpansionListTile> {
                             fontSize: 13.sp,
                           ),
                         ),
-                      ],
-                    )
-                  : Text(
-                      widget.title,
-                      style: fonts.smallSemLink.copyWith(
-                        color: colors.primary900,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13.sp,
-                      ),
-                    ),
               subtitle: widget.subtitle != null ? Text(widget.subtitle!) : null,
               children: widget.children, // Correctly passing the list of widgets
             ),

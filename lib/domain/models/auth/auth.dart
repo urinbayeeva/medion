@@ -172,6 +172,9 @@ abstract class RefreshTokenResponseModel implements Built<RefreshTokenResponseMo
   @BuiltValueField(wireName: 'access_token')
   String? get accessToken;
 
+  @BuiltValueField(wireName: 'refresh_token')
+  String? get refreshToken;
+
   @BuiltValueField(wireName: 'token_type')
   String? get tokenType;
 

@@ -7,13 +7,27 @@ import 'package:formz/formz.dart';
 import 'package:lottie/lottie.dart';
 import 'package:medion/application/notification/notification_bloc.dart';
 import 'package:medion/domain/models/notification/notification_model.dart';
+import 'package:medion/infrastructure/services/download_service.dart';
+import 'package:medion/infrastructure/services/my_functions.dart';
+import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
+import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/pages/others/customer_review/customer_review.dart';
+import 'package:medion/presentation/pages/others/customer_review/review_card.dart';
+import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
+import 'package:medion/presentation/pages/others/feedbacks/feedback_view_vithout_location.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/enums/notification_type_enum.dart';
+import 'notification_page.dart';
 
 class SingleNotification extends StatefulWidget {
-  const SingleNotification({super.key, required this.id});
+  const SingleNotification({super.key, required this.id, required this.type, this.notification});
 
   final dynamic id;
+  final NotificationModel? notification;
+  final NotificationTypeEnum type;
 
   @override
   State<SingleNotification> createState() => _SingleNotificationState();
@@ -46,61 +60,267 @@ class _SingleNotificationState extends State<SingleNotification> {
             ),
             title: Text("${"notifications".tr()} -- ID: ${widget.id}", style: fonts.regularMain),
           ),
-          body: BlocBuilder<NotificationBloc, NotificationState>(
+          body: BlocConsumer<NotificationBloc, NotificationState>(
+            listenWhen: (old, fresh) {
+              final postReview = old.postNotificationReviewStatus != fresh.postNotificationReviewStatus;
+
+              return postReview;
+            },
+            listener: (context, lState) {
+              if (lState.postNotificationReviewStatus.isSuccess) {
+                context.read<NotificationBloc>().add(NotificationEvent.readNotification(index: widget.id));
+              }
+            },
+            buildWhen: (old, fresh) {
+              final postReview = old.postNotificationReviewStatus != fresh.postNotificationReviewStatus;
+              final single = old.singleNotification != fresh.singleNotification;
+              final status = old.singleStatus != fresh.singleStatus;
+              return postReview || single || status;
+            },
             builder: (context, state) {
               if (widget.id == 0 || state.notificationStatus.isFailure && state.singleNotification != null) {
-                return Center(
-                  child: Lottie.asset("assets/anim/404.json"),
-                );
+                return Center(child: Lottie.asset("assets/anim/404.json"));
               }
+              // else if (state.singleStatus.isInProgress && state.singleStatus.isInitial) {
+              //   return const Center(child: CupertinoActivityIndicator());
+              // }
 
-              if (state.singleStatus.isInProgress || state.singleStatus.isInitial) {
-                return const Center(child: CupertinoActivityIndicator());
-              }
-              final notification = state.singleNotification!;
-
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    spacing: 1,
-                    children: [
-                      const SizedBox.shrink(),
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: colors.shade0,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: Column(
+              else {
+                final notification = state.singleNotification ?? notifications.first;
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 4,
+                      children: [
+                        if (widget.notification != null) ...{
+                          Text(
+                            widget.notification!.title ?? '',
+                            style: fonts.mediumMain.copyWith(fontWeight: FontWeight.w700),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            spacing: 8,
+                            children: [
+                              icons.calendar.svg(height: 16, width: 16, color: const Color(0xFF596066)),
+                              Text(
+                                widget.notification!.createdAt ?? '',
+                                style: fonts.xxSmallText.copyWith(fontSize: 12, color: const Color(0xFF596066)),
+                              )
+                            ],
+                          ),
+                          Text(widget.notification!.body ?? '', style: fonts.xSmallMain),
+                        } else ...{
+                          if (notification.title != null) ...{
+                            Text(
+                              notification.title ?? '',
+                              style: fonts.mediumMain.copyWith(fontWeight: FontWeight.w700),
+                            ),
+                          },
+                          if (notification.createdAt != null) ...{
+                            1.verticalSpace,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               spacing: 8,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                if (notification.title != null) ...{
-                                  Text(notification.title ?? '', style: fonts.regularMain)
-                                },
-                                if (notification.createdAt != null) ...{
-                                  Text(
-                                    notification.createdAt ?? '',
-                                    style: fonts.xxSmallText.copyWith(fontSize: 12, color: const Color(0xFF596066)),
-                                  )
-                                },
-                                if (notification.body != null) ...{
-                                  Text(notification.body ?? '', style: fonts.xSmallMain)
-                                },
+                                icons.calendar.svg(height: 16, width: 16, color: const Color(0xFF596066)),
+                                Text(
+                                  notification.createdAt ?? '',
+                                  style: fonts.xxSmallText.copyWith(fontSize: 12, color: const Color(0xFF596066)),
+                                )
                               ],
+                            )
+                          },
+                          if (notification.body != null) ...{
+                            4.verticalSpace,
+                            Text("Вышел ваш результат от услуги Консультация/осмотр невролога",
+                                style: fonts.xSmallMain),
+                            // Text(notification!.body ?? '', style: fonts.xSmallMain),
+                          },
+                        },
+                        if (widget.type.isLink) ...{
+                          10.verticalSpace,
+                          CButton(
+                            title: '',
+                            onTap: () => MyFunctions.openLink("${widget.notification?.link}"),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("Перейти", style: fonts.regularMain.copyWith(color: colors.shade0)),
+                                  icons.link.svg(height: 22, width: 22, color: colors.shade0),
+                                ],
+                              ),
+                            ),
+                          )
+                        },
+                        if (widget.type.isResult) ...{
+                          10.verticalSpace,
+                          ...List.generate(
+                            widget.notification?.labResult?.length ?? 0,
+                            (i) {
+                              final res = widget.notification?.labResult?[i];
+                              return Container(
+                                height: 56.h,
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: colors.shade0,
+                                ),
+                                child: Row(
+                                  spacing: 8,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("${res?.documentName}", style: fonts.regularMain),
+                                        Text("${res?.date}", style: fonts.xSmallMain),
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                    WScaleAnimation(
+                                      onTap: () async {
+                                        final service = FileDownloadService();
+                                        await service.downloadPDFWithProgress(
+                                          context: context,
+                                          url: "${res?.documentUrl}",
+                                          fileName: "${res?.documentName}",
+                                          colors: colors,
+                                        );
+                                      },
+                                      child: DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          color: colors.neutral300,
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: icons.download.svg(height: 16, width: 16),
+                                        ),
+                                      ),
+                                    ),
+                                    WScaleAnimation(
+                                      onTap: () => MyFunctions.openLink("${res?.documentUrl}"),
+                                      child: DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          color: colors.neutral300,
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: icons.link.svg(height: 16, width: 16),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        },
+                        if (widget.type.isDiscount) ...{
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.42,
+                            child: ArticleCardWidget(
+                              onTap: () {
+                                Navigator.of(context, rootNavigator: true).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => DiscountPage(
+                                      discountId: widget.notification?.discount?.id ?? 0,
+                                    ),
+                                  ),
+                                );
+                              },
+                              title: "${widget.notification?.discount?.title}",
+                              description: '',
+                              image: "${widget.notification?.discount?.image}",
+                              date: "Акция до {date}".tr(namedArgs: {
+                                "date": "${widget.notification?.discount?.endDate}",
+                              }),
                             ),
                           ),
-                        ),
-                      ),
-                    ],
+                        },
+                        if (widget.type.isReminder) ...{
+                          10.verticalSpace,
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: colors.shade0,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                spacing: 12,
+                                children: [
+                                  Container(
+                                    width: 77,
+                                    height: 77,
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(shape: BoxShape.circle, color: colors.neutral50),
+                                    child: CommonImage(imageUrl: "${widget.notification?.reminder?.image}"),
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text("${widget.notification?.reminder?.doctorName}", style: fonts.regularMain),
+                                      Row(
+                                        spacing: 8,
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          icons.clock.svg(height: 17, width: 17),
+                                          Text("${widget.notification?.reminder?.startDate}", style: fonts.xSmallMain),
+                                        ],
+                                      ),
+                                      Row(
+                                        spacing: 4,
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          icons.location.svg(height: 20, width: 20),
+                                          Text("${widget.notification?.reminder?.location}", style: fonts.xSmallMain),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        },
+                        if (widget.type.isReview &&
+                            (widget.notification == null || widget.notification?.review == null)) ...{
+                          FeedBackWithoutLocation(noBack: true, id: widget.notification?.visitId ?? 0),
+                        } else if (widget.type.isReview) ...{
+                          ReviewCard(
+                            margin: const EdgeInsets.only(top: 10),
+                            review: CustomerReviewModel(
+                              title: widget.notification!.review!.name ?? "",
+                              dateTime: widget.notification!.review!.createDate ?? "",
+                              location: widget.notification!.review!.location ?? "",
+                              description: widget.notification!.review!.review ?? "",
+                              rating: widget.notification!.review!.ratings?.length ?? 0,
+                              name: widget.notification!.review!.name ?? '',
+                            ),
+                            colors: colors,
+                            icons: icons,
+                            fonts: fonts,
+                            status: MyFunctions.getFeedBackStatus(""),
+                          ),
+                        }
+                      ],
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             },
           ),
         );

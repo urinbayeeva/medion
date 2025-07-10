@@ -41,7 +41,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_FetchPatientVisitsDetail>(_fetchPatientVisitsSingle);
     on<_FetchPatientAnalyze>(_fetchPatientAnalyze);
     on<_FetchMyWallet>(_fetchMyWallet);
+    on<_FetchRecommendation>(_fetchRecommendation);
+    on<_FetchRecipes>(_fetchRecipes);
     on<_CheckAuth>(_checkAuth);
+    on<_RefreshToken>(_refreshToken);
   }
 
   FutureOr<void> _hasToken(Emitter<AuthState> emit) async {
@@ -52,6 +55,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(state.copyWith(haveToken: access!.substring(0, 5)));
     } else {
       emit(state.copyWith(haveToken: ''));
+    }
+  }
+
+  FutureOr<void> _refreshToken(_RefreshToken event, Emitter<AuthState> emit) async {
+    debugPrint("*****Refresh token function");
+    final oldDay = _dbService.getDay;
+    final now = DateTime.now();
+    final today = "${now.day}.${now.month}.${now.year}";
+    final token = _dbService.token;
+    final refresh = token.refreshToken;
+
+    if (oldDay != today && refresh != null) {
+      _dbService.setDay(today);
+      final res = await _repository.refreshToken(refresh);
+      res.fold(
+        (failure) {
+          debugPrint("*****Refresh token function Failure");
+        },
+        (data) {
+          LogService.d("Refresh succeeded: access=${data.accessToken}");
+          _dbService.setToken(Token(
+            accessToken: data.accessToken,
+            refreshToken: refresh,
+            tokenType: data.tokenType,
+          ));
+        },
+      );
+    } else {
+      debugPrint("send one tine in this day");
     }
   }
 
@@ -277,6 +309,41 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           isFetchingPatientInfo: false,
           errorFetchingPatientInfo: false,
           patientAnalyze: patientAnalyze,
+        ));
+      },
+    );
+  }
+
+  FutureOr<void> _fetchRecipes(_FetchRecipes event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(fetchRecipeStatus: FormzSubmissionStatus.inProgress));
+    final res = await _repository.getRecipes();
+    res.fold(
+      (failure) {
+        emit(state.copyWith(fetchRecipeStatus: FormzSubmissionStatus.failure));
+      },
+      (recipes) {
+        debugPrint("*********************");
+        debugPrint(" length: ${recipes.length}");
+        debugPrint("*********************");
+        emit(state.copyWith(
+          recipes: recipes,
+          fetchRecipeStatus: FormzSubmissionStatus.success,
+        ));
+      },
+    );
+  }
+
+  FutureOr<void> _fetchRecommendation(_FetchRecommendation event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(fetchRecommendationStatus: FormzSubmissionStatus.inProgress));
+    final res = await _repository.getRecommendation();
+    res.fold(
+      (failure) {
+        emit(state.copyWith(fetchRecommendationStatus: FormzSubmissionStatus.failure));
+      },
+      (recommendation) {
+        emit(state.copyWith(
+          recommendation: recommendation,
+          fetchRecommendationStatus: FormzSubmissionStatus.success,
         ));
       },
     );

@@ -13,6 +13,7 @@ class ReviewCard extends StatelessWidget {
     required this.icons,
     required this.fonts,
     required this.status,
+    this.margin,
   });
 
   final CustomerReviewModel review;
@@ -20,12 +21,13 @@ class ReviewCard extends StatelessWidget {
   final IconSet icons;
   final FontSet fonts;
   final FeedBackStatus status;
+  final EdgeInsetsGeometry? margin;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+      margin: margin ?? EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: colors.shade0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

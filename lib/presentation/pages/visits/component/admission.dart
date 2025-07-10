@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/utils/enums/visits_enum.dart';
@@ -40,9 +41,9 @@ class AboutAdmission extends StatelessWidget {
                 color: colors.shade0,
               ),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0).copyWith(top: 20),
                 child: Column(
-                  spacing: 6,
+                  spacing: 12,
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -64,8 +65,30 @@ class AboutAdmission extends StatelessWidget {
                         )
                       ],
                     ),
-                    Text("Оплачивает прием: $admission", style: fonts.smallLink),
-                    Text("Способ оплаты: $paymentType", style: fonts.smallLink),
+                    if (admission.isNotEmpty) ...{
+                      Text("Оплачивает прием: $admission", style: fonts.smallLink),
+                    } else ...{
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        spacing: 8,
+                        children: [
+                          Text("Оплачивает прием:", style: fonts.smallLink),
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: colors.error100,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                              child: Text("recommendations_not_paid".tr(), style: fonts.smallLink),
+                            ),
+                          ),
+                        ],
+                      )
+                    },
+                    if (paymentType.isNotEmpty) ...{
+                      Text("Способ оплаты: $paymentType", style: fonts.smallLink),
+                    }
                   ],
                 ),
               ),

@@ -100,6 +100,8 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                 tokenType: selected.tokenType,
               ),
             );
+        context.read<DBService>().setLang(isSaved: true);
+        context.read<BottomNavBarController>().changeNavBar(false);
 
         Navigator.pushAndRemoveUntil(context, AppRoutes.getMainPage(0), (route) => false);
         // if (isNewPatient) {

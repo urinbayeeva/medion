@@ -12,5 +12,11 @@ class NotificationEvent with _$NotificationEvent {
 
   const factory NotificationEvent.readNotification({required int index}) = _ReadNotification;
 
+  const factory NotificationEvent.filterNotification({required String type, required String query}) =
+      _FilterNotification;
+
+  const factory NotificationEvent.postNotificationReview({required PostVisitReviewModel review}) =
+      _PostNotificationReview;
+
   const factory NotificationEvent.setFCMToken() = _SetFCMToken;
 }

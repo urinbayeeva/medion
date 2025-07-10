@@ -50,6 +50,7 @@ class AuthRepository implements IAuthFacade {
       }
     } catch (e, stack) {
       LogService.e('❌ Exception: ${e.toString()}');
+      LogService.e('❌ Path: $stack');
       if (response != null) {
         LogService.e('❌ Error Response Status: ${response.statusCode}');
         LogService.e('❌ Error Response Body: ${response.body}');
@@ -303,6 +304,46 @@ class AuthRepository implements IAuthFacade {
 
       if (response.isSuccessful && response.body != null) {
         return right(response.body!);
+      } else {
+        final errorMsg = response.error?.toString() ?? 'wallet_fetch_failed'.tr();
+        return left(InvalidCredentials(message: errorMsg));
+      }
+    } catch (e) {
+      LogService.e("getMyWallet() error: $e\nStackTrace:");
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, List<Recommendation>>> getRecommendation() async {
+    try {
+      final response = await _patientService.recommendation();
+
+      LogService.d('Recommendation Response Status: ${response.statusCode}');
+      LogService.d('Recommendation Response Body: ${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        return right(response.body?.toList() ?? []);
+      } else {
+        final errorMsg = response.error?.toString() ?? 'wallet_fetch_failed'.tr();
+        return left(InvalidCredentials(message: errorMsg));
+      }
+    } catch (e) {
+      LogService.e("getMyWallet() error: $e\nStackTrace:");
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, List<RecipeModel>>> getRecipes() async {
+    try {
+      final response = await _patientService.recipes();
+
+      LogService.d('Recommendation Response Status: ${response.statusCode}');
+      LogService.d('Recommendation Response Body: ${response.body}');
+
+      if (response.isSuccessful && response.body != null) {
+        return right(response.body?.toList() ?? []);
       } else {
         final errorMsg = response.error?.toString() ?? 'wallet_fetch_failed'.tr();
         return left(InvalidCredentials(message: errorMsg));

@@ -407,3 +407,20 @@ abstract class PostReviewModel implements Built<PostReviewModel, PostReviewModel
 
   static Serializer<PostReviewModel> get serializer => _$postReviewModelSerializer;
 }
+
+abstract class PostVisitReviewModel implements Built<PostVisitReviewModel, PostVisitReviewModelBuilder> {
+  @BuiltValueField(wireName: "ratings")
+  String? get ratings;
+
+  @BuiltValueField(wireName: "review")
+  String? get review;
+
+  @BuiltValueField(wireName: "visit_id")
+  int? get visitId;
+
+  PostVisitReviewModel._();
+
+  factory PostVisitReviewModel([void Function(PostVisitReviewModelBuilder) updates]) = _$PostVisitReviewModel;
+
+  static Serializer<PostVisitReviewModel> get serializer => _$postVisitReviewModelSerializer;
+}

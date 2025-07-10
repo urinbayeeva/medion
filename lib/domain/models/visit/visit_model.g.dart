@@ -591,6 +591,13 @@ class _$PatientVisitSerializer implements StructuredSerializer<PatientVisit> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.serviceType;
+    if (value != null) {
+      result
+        ..add('service_type')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.categoryName;
     if (value != null) {
       result
@@ -706,6 +713,10 @@ class _$PatientVisitSerializer implements StructuredSerializer<PatientVisit> {
           result.serviceName = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'service_type':
+          result.serviceType = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'category_name':
           result.categoryName = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
@@ -787,10 +798,38 @@ class _$SaleOrderLineSerializer implements StructuredSerializer<SaleOrderLine> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.serviceType;
+    if (value != null) {
+      result
+        ..add('service_type')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.createDate;
     if (value != null) {
       result
         ..add('create_date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.patientStatus;
+    if (value != null) {
+      result
+        ..add('patient_status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.paymentStatus;
+    if (value != null) {
+      result
+        ..add('payment_status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.doctorFullName;
+    if (value != null) {
+      result
+        ..add('doctor_full_name')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -820,8 +859,24 @@ class _$SaleOrderLineSerializer implements StructuredSerializer<SaleOrderLine> {
           result.service = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'service_type':
+          result.serviceType = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'create_date':
           result.createDate = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'patient_status':
+          result.patientStatus = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'payment_status':
+          result.paymentStatus = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'doctor_full_name':
+          result.doctorFullName = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'is_done':
@@ -1078,6 +1133,13 @@ class _$PatientVisitSingleModelSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.serviceType;
+    if (value != null) {
+      result
+        ..add('service_type')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.serviceName;
     if (value != null) {
       result
@@ -1224,6 +1286,10 @@ class _$PatientVisitSingleModelSerializer
           break;
         case 'category_name':
           result.categoryName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'service_type':
+          result.serviceType = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'service_name':
@@ -2393,6 +2459,8 @@ class _$PatientVisit extends PatientVisit {
   @override
   final String? serviceName;
   @override
+  final String? serviceType;
+  @override
   final String? categoryName;
   @override
   final String? visitDate;
@@ -2429,6 +2497,7 @@ class _$PatientVisit extends PatientVisit {
       this.doctorJobName,
       this.companyName,
       this.serviceName,
+      this.serviceType,
       this.categoryName,
       this.visitDate,
       this.visitTime,
@@ -2466,6 +2535,7 @@ class _$PatientVisit extends PatientVisit {
         doctorJobName == other.doctorJobName &&
         companyName == other.companyName &&
         serviceName == other.serviceName &&
+        serviceType == other.serviceType &&
         categoryName == other.categoryName &&
         visitDate == other.visitDate &&
         visitTime == other.visitTime &&
@@ -2490,6 +2560,7 @@ class _$PatientVisit extends PatientVisit {
     _$hash = $jc(_$hash, doctorJobName.hashCode);
     _$hash = $jc(_$hash, companyName.hashCode);
     _$hash = $jc(_$hash, serviceName.hashCode);
+    _$hash = $jc(_$hash, serviceType.hashCode);
     _$hash = $jc(_$hash, categoryName.hashCode);
     _$hash = $jc(_$hash, visitDate.hashCode);
     _$hash = $jc(_$hash, visitTime.hashCode);
@@ -2516,6 +2587,7 @@ class _$PatientVisit extends PatientVisit {
           ..add('doctorJobName', doctorJobName)
           ..add('companyName', companyName)
           ..add('serviceName', serviceName)
+          ..add('serviceType', serviceType)
           ..add('categoryName', categoryName)
           ..add('visitDate', visitDate)
           ..add('visitTime', visitTime)
@@ -2562,6 +2634,10 @@ class PatientVisitBuilder
   String? _serviceName;
   String? get serviceName => _$this._serviceName;
   set serviceName(String? serviceName) => _$this._serviceName = serviceName;
+
+  String? _serviceType;
+  String? get serviceType => _$this._serviceType;
+  set serviceType(String? serviceType) => _$this._serviceType = serviceType;
 
   String? _categoryName;
   String? get categoryName => _$this._categoryName;
@@ -2633,6 +2709,7 @@ class PatientVisitBuilder
       _doctorJobName = $v.doctorJobName;
       _companyName = $v.companyName;
       _serviceName = $v.serviceName;
+      _serviceType = $v.serviceType;
       _categoryName = $v.categoryName;
       _visitDate = $v.visitDate;
       _visitTime = $v.visitTime;
@@ -2676,6 +2753,7 @@ class PatientVisitBuilder
             doctorJobName: doctorJobName,
             companyName: companyName,
             serviceName: serviceName,
+            serviceType: serviceType,
             categoryName: categoryName,
             visitDate: visitDate,
             visitTime: visitTime,
@@ -2712,14 +2790,30 @@ class _$SaleOrderLine extends SaleOrderLine {
   @override
   final String? service;
   @override
+  final String? serviceType;
+  @override
   final String? createDate;
+  @override
+  final String? patientStatus;
+  @override
+  final String? paymentStatus;
+  @override
+  final String? doctorFullName;
   @override
   final bool? isDone;
 
   factory _$SaleOrderLine([void Function(SaleOrderLineBuilder)? updates]) =>
       (new SaleOrderLineBuilder()..update(updates))._build();
 
-  _$SaleOrderLine._({this.service, this.createDate, this.isDone}) : super._();
+  _$SaleOrderLine._(
+      {this.service,
+      this.serviceType,
+      this.createDate,
+      this.patientStatus,
+      this.paymentStatus,
+      this.doctorFullName,
+      this.isDone})
+      : super._();
 
   @override
   SaleOrderLine rebuild(void Function(SaleOrderLineBuilder) updates) =>
@@ -2733,7 +2827,11 @@ class _$SaleOrderLine extends SaleOrderLine {
     if (identical(other, this)) return true;
     return other is SaleOrderLine &&
         service == other.service &&
+        serviceType == other.serviceType &&
         createDate == other.createDate &&
+        patientStatus == other.patientStatus &&
+        paymentStatus == other.paymentStatus &&
+        doctorFullName == other.doctorFullName &&
         isDone == other.isDone;
   }
 
@@ -2741,7 +2839,11 @@ class _$SaleOrderLine extends SaleOrderLine {
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, service.hashCode);
+    _$hash = $jc(_$hash, serviceType.hashCode);
     _$hash = $jc(_$hash, createDate.hashCode);
+    _$hash = $jc(_$hash, patientStatus.hashCode);
+    _$hash = $jc(_$hash, paymentStatus.hashCode);
+    _$hash = $jc(_$hash, doctorFullName.hashCode);
     _$hash = $jc(_$hash, isDone.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -2751,7 +2853,11 @@ class _$SaleOrderLine extends SaleOrderLine {
   String toString() {
     return (newBuiltValueToStringHelper(r'SaleOrderLine')
           ..add('service', service)
+          ..add('serviceType', serviceType)
           ..add('createDate', createDate)
+          ..add('patientStatus', patientStatus)
+          ..add('paymentStatus', paymentStatus)
+          ..add('doctorFullName', doctorFullName)
           ..add('isDone', isDone))
         .toString();
   }
@@ -2765,9 +2871,28 @@ class SaleOrderLineBuilder
   String? get service => _$this._service;
   set service(String? service) => _$this._service = service;
 
+  String? _serviceType;
+  String? get serviceType => _$this._serviceType;
+  set serviceType(String? serviceType) => _$this._serviceType = serviceType;
+
   String? _createDate;
   String? get createDate => _$this._createDate;
   set createDate(String? createDate) => _$this._createDate = createDate;
+
+  String? _patientStatus;
+  String? get patientStatus => _$this._patientStatus;
+  set patientStatus(String? patientStatus) =>
+      _$this._patientStatus = patientStatus;
+
+  String? _paymentStatus;
+  String? get paymentStatus => _$this._paymentStatus;
+  set paymentStatus(String? paymentStatus) =>
+      _$this._paymentStatus = paymentStatus;
+
+  String? _doctorFullName;
+  String? get doctorFullName => _$this._doctorFullName;
+  set doctorFullName(String? doctorFullName) =>
+      _$this._doctorFullName = doctorFullName;
 
   bool? _isDone;
   bool? get isDone => _$this._isDone;
@@ -2779,7 +2904,11 @@ class SaleOrderLineBuilder
     final $v = _$v;
     if ($v != null) {
       _service = $v.service;
+      _serviceType = $v.serviceType;
       _createDate = $v.createDate;
+      _patientStatus = $v.patientStatus;
+      _paymentStatus = $v.paymentStatus;
+      _doctorFullName = $v.doctorFullName;
       _isDone = $v.isDone;
       _$v = null;
     }
@@ -2804,7 +2933,11 @@ class SaleOrderLineBuilder
     final _$result = _$v ??
         new _$SaleOrderLine._(
           service: service,
+          serviceType: serviceType,
           createDate: createDate,
+          patientStatus: patientStatus,
+          paymentStatus: paymentStatus,
+          doctorFullName: doctorFullName,
           isDone: isDone,
         );
     replace(_$result);
@@ -3104,6 +3237,8 @@ class _$PatientVisitSingleModel extends PatientVisitSingleModel {
   @override
   final String? categoryName;
   @override
+  final String? serviceType;
+  @override
   final String? serviceName;
   @override
   final String? visitDate;
@@ -3146,6 +3281,7 @@ class _$PatientVisitSingleModel extends PatientVisitSingleModel {
       this.doctorFullName,
       this.doctorJobName,
       this.categoryName,
+      this.serviceType,
       this.serviceName,
       this.visitDate,
       this.visitTime,
@@ -3182,6 +3318,7 @@ class _$PatientVisitSingleModel extends PatientVisitSingleModel {
         doctorFullName == other.doctorFullName &&
         doctorJobName == other.doctorJobName &&
         categoryName == other.categoryName &&
+        serviceType == other.serviceType &&
         serviceName == other.serviceName &&
         visitDate == other.visitDate &&
         visitTime == other.visitTime &&
@@ -3208,6 +3345,7 @@ class _$PatientVisitSingleModel extends PatientVisitSingleModel {
     _$hash = $jc(_$hash, doctorFullName.hashCode);
     _$hash = $jc(_$hash, doctorJobName.hashCode);
     _$hash = $jc(_$hash, categoryName.hashCode);
+    _$hash = $jc(_$hash, serviceType.hashCode);
     _$hash = $jc(_$hash, serviceName.hashCode);
     _$hash = $jc(_$hash, visitDate.hashCode);
     _$hash = $jc(_$hash, visitTime.hashCode);
@@ -3236,6 +3374,7 @@ class _$PatientVisitSingleModel extends PatientVisitSingleModel {
           ..add('doctorFullName', doctorFullName)
           ..add('doctorJobName', doctorJobName)
           ..add('categoryName', categoryName)
+          ..add('serviceType', serviceType)
           ..add('serviceName', serviceName)
           ..add('visitDate', visitDate)
           ..add('visitTime', visitTime)
@@ -3282,6 +3421,10 @@ class PatientVisitSingleModelBuilder
   String? _categoryName;
   String? get categoryName => _$this._categoryName;
   set categoryName(String? categoryName) => _$this._categoryName = categoryName;
+
+  String? _serviceType;
+  String? get serviceType => _$this._serviceType;
+  set serviceType(String? serviceType) => _$this._serviceType = serviceType;
 
   String? _serviceName;
   String? get serviceName => _$this._serviceName;
@@ -3364,6 +3507,7 @@ class PatientVisitSingleModelBuilder
       _doctorFullName = $v.doctorFullName;
       _doctorJobName = $v.doctorJobName;
       _categoryName = $v.categoryName;
+      _serviceType = $v.serviceType;
       _serviceName = $v.serviceName;
       _visitDate = $v.visitDate;
       _visitTime = $v.visitTime;
@@ -3409,6 +3553,7 @@ class PatientVisitSingleModelBuilder
             doctorFullName: doctorFullName,
             doctorJobName: doctorJobName,
             categoryName: categoryName,
+            serviceType: serviceType,
             serviceName: serviceName,
             visitDate: visitDate,
             visitTime: visitTime,

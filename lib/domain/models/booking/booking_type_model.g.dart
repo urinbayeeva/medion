@@ -833,6 +833,27 @@ class _$MedicalModelSerializer implements StructuredSerializer<MedicalModel> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.categoryName;
+    if (value != null) {
+      result
+        ..add('category_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.backgroundImageUrl;
+    if (value != null) {
+      result
+        ..add('background_image_url')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.icon;
+    if (value != null) {
+      result
+        ..add('icon')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -854,6 +875,18 @@ class _$MedicalModelSerializer implements StructuredSerializer<MedicalModel> {
           break;
         case 'description':
           result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'category_name':
+          result.categoryName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'background_image_url':
+          result.backgroundImageUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'icon':
+          result.icon = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'doctors':
@@ -980,6 +1013,13 @@ class _$HomeMedicalDoctorSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.academicRank;
+    if (value != null) {
+      result
+        ..add('academic_rank')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.experienceYears;
     if (value != null) {
       result
@@ -1015,6 +1055,10 @@ class _$HomeMedicalDoctorSerializer
           break;
         case 'job_name':
           result.jobName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'academic_rank':
+          result.academicRank = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'experience_years':
@@ -2842,6 +2886,12 @@ class _$MedicalModel extends MedicalModel {
   @override
   final String? description;
   @override
+  final String? categoryName;
+  @override
+  final String? backgroundImageUrl;
+  @override
+  final String? icon;
+  @override
   final BuiltList<HomeMedicalDoctor> doctors;
   @override
   final BuiltList<HomeServiceBooking> services;
@@ -2854,6 +2904,9 @@ class _$MedicalModel extends MedicalModel {
   _$MedicalModel._(
       {this.id,
       this.description,
+      this.categoryName,
+      this.backgroundImageUrl,
+      this.icon,
       required this.doctors,
       required this.services,
       required this.discount})
@@ -2878,6 +2931,9 @@ class _$MedicalModel extends MedicalModel {
     return other is MedicalModel &&
         id == other.id &&
         description == other.description &&
+        categoryName == other.categoryName &&
+        backgroundImageUrl == other.backgroundImageUrl &&
+        icon == other.icon &&
         doctors == other.doctors &&
         services == other.services &&
         discount == other.discount;
@@ -2888,6 +2944,9 @@ class _$MedicalModel extends MedicalModel {
     var _$hash = 0;
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jc(_$hash, categoryName.hashCode);
+    _$hash = $jc(_$hash, backgroundImageUrl.hashCode);
+    _$hash = $jc(_$hash, icon.hashCode);
     _$hash = $jc(_$hash, doctors.hashCode);
     _$hash = $jc(_$hash, services.hashCode);
     _$hash = $jc(_$hash, discount.hashCode);
@@ -2900,6 +2959,9 @@ class _$MedicalModel extends MedicalModel {
     return (newBuiltValueToStringHelper(r'MedicalModel')
           ..add('id', id)
           ..add('description', description)
+          ..add('categoryName', categoryName)
+          ..add('backgroundImageUrl', backgroundImageUrl)
+          ..add('icon', icon)
           ..add('doctors', doctors)
           ..add('services', services)
           ..add('discount', discount))
@@ -2918,6 +2980,19 @@ class MedicalModelBuilder
   String? _description;
   String? get description => _$this._description;
   set description(String? description) => _$this._description = description;
+
+  String? _categoryName;
+  String? get categoryName => _$this._categoryName;
+  set categoryName(String? categoryName) => _$this._categoryName = categoryName;
+
+  String? _backgroundImageUrl;
+  String? get backgroundImageUrl => _$this._backgroundImageUrl;
+  set backgroundImageUrl(String? backgroundImageUrl) =>
+      _$this._backgroundImageUrl = backgroundImageUrl;
+
+  String? _icon;
+  String? get icon => _$this._icon;
+  set icon(String? icon) => _$this._icon = icon;
 
   ListBuilder<HomeMedicalDoctor>? _doctors;
   ListBuilder<HomeMedicalDoctor> get doctors =>
@@ -2944,6 +3019,9 @@ class MedicalModelBuilder
     if ($v != null) {
       _id = $v.id;
       _description = $v.description;
+      _categoryName = $v.categoryName;
+      _backgroundImageUrl = $v.backgroundImageUrl;
+      _icon = $v.icon;
       _doctors = $v.doctors.toBuilder();
       _services = $v.services.toBuilder();
       _discount = $v.discount.toBuilder();
@@ -2973,6 +3051,9 @@ class MedicalModelBuilder
           new _$MedicalModel._(
             id: id,
             description: description,
+            categoryName: categoryName,
+            backgroundImageUrl: backgroundImageUrl,
+            icon: icon,
             doctors: doctors.build(),
             services: services.build(),
             discount: discount.build(),
@@ -3137,6 +3218,8 @@ class _$HomeMedicalDoctor extends HomeMedicalDoctor {
   @override
   final String? jobName;
   @override
+  final String? academicRank;
+  @override
   final int? experienceYears;
 
   factory _$HomeMedicalDoctor(
@@ -3144,7 +3227,12 @@ class _$HomeMedicalDoctor extends HomeMedicalDoctor {
       (new HomeMedicalDoctorBuilder()..update(updates))._build();
 
   _$HomeMedicalDoctor._(
-      {this.id, this.image, this.name, this.jobName, this.experienceYears})
+      {this.id,
+      this.image,
+      this.name,
+      this.jobName,
+      this.academicRank,
+      this.experienceYears})
       : super._();
 
   @override
@@ -3163,6 +3251,7 @@ class _$HomeMedicalDoctor extends HomeMedicalDoctor {
         image == other.image &&
         name == other.name &&
         jobName == other.jobName &&
+        academicRank == other.academicRank &&
         experienceYears == other.experienceYears;
   }
 
@@ -3173,6 +3262,7 @@ class _$HomeMedicalDoctor extends HomeMedicalDoctor {
     _$hash = $jc(_$hash, image.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, jobName.hashCode);
+    _$hash = $jc(_$hash, academicRank.hashCode);
     _$hash = $jc(_$hash, experienceYears.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -3185,6 +3275,7 @@ class _$HomeMedicalDoctor extends HomeMedicalDoctor {
           ..add('image', image)
           ..add('name', name)
           ..add('jobName', jobName)
+          ..add('academicRank', academicRank)
           ..add('experienceYears', experienceYears))
         .toString();
   }
@@ -3210,6 +3301,10 @@ class HomeMedicalDoctorBuilder
   String? get jobName => _$this._jobName;
   set jobName(String? jobName) => _$this._jobName = jobName;
 
+  String? _academicRank;
+  String? get academicRank => _$this._academicRank;
+  set academicRank(String? academicRank) => _$this._academicRank = academicRank;
+
   int? _experienceYears;
   int? get experienceYears => _$this._experienceYears;
   set experienceYears(int? experienceYears) =>
@@ -3224,6 +3319,7 @@ class HomeMedicalDoctorBuilder
       _image = $v.image;
       _name = $v.name;
       _jobName = $v.jobName;
+      _academicRank = $v.academicRank;
       _experienceYears = $v.experienceYears;
       _$v = null;
     }
@@ -3251,6 +3347,7 @@ class HomeMedicalDoctorBuilder
           image: image,
           name: name,
           jobName: jobName,
+          academicRank: academicRank,
           experienceYears: experienceYears,
         );
     replace(_$result);

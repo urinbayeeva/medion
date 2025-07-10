@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
@@ -16,6 +17,19 @@ class Result extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (docUrls.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 5,
+          children: [
+            icons.emojiSad.svg(width: 66, height: 66),
+            Text("no_result_found".tr(), style: fonts.regularMain),
+          ],
+        ),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(top: 50),
       child: ListView.builder(
@@ -31,7 +45,6 @@ class Result extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                if (index == 0) SizedBox(height: 8.h),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
                   child: Row(

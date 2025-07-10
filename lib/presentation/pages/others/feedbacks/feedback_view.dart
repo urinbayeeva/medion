@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,7 @@ class FeedbackView extends StatefulWidget {
 }
 
 class _FeedbackViewState extends State<FeedbackView> {
+  late final ValueNotifier<bool> _pop = ValueNotifier(false);
   late final TextEditingController _controller;
   late final BranchBloc _bloc;
   late final FocusNode _focusNode;
@@ -62,8 +65,10 @@ class _FeedbackViewState extends State<FeedbackView> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: BlocConsumer<BranchBloc, BranchState>(
-              listenWhen: (o, n) => o.postReviewStatus != n.postReviewStatus,
+              listenWhen: (o, n) => o.postReviewStatus != n.postReviewStatus || o.reviewRank != n.reviewRank,
               listener: (context, lState) {
+                log("Rank == ${lState.reviewRank}");
+
                 if (lState.postReviewStatus.isFailure) {
                   context.showPopUp(
                     context: context,
@@ -74,8 +79,12 @@ class _FeedbackViewState extends State<FeedbackView> {
                   );
                 }
                 if (lState.postReviewStatus.isSuccess) {
+                  _pop.value = true;
+                  if (_controller.text.isNotEmpty) {
+                    _bloc.add(BranchEvent.fillingReviewData(branch: widget.branch, rank: 99, comment: ''));
+                  }
+
                   _controller.clear();
-                  _bloc.add(BranchEvent.fillingReviewData(branch: widget.branch, rank: -1, comment: ''));
                   context.showPopUp(
                     context: context,
                     status: PopUpStatus.success,
@@ -119,12 +128,20 @@ class _FeedbackViewState extends State<FeedbackView> {
                               automaticallyImplyLeading: false,
                               actions: [
                                 if (!widget.noBack) ...{
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 12.w),
-                                    child: WScaleAnimation(
-                                      child: Icon(Icons.clear, size: 24.h),
-                                      onTap: () => Navigator.of(context).pop(),
-                                    ),
+                                  ValueListenableBuilder(
+                                    valueListenable: _pop,
+                                    builder: (ctx, val, ch) {
+                                      if (_pop.value) {
+                                        Navigator.of(context).pop();
+                                      }
+                                      return Padding(
+                                        padding: EdgeInsets.only(left: 12.w),
+                                        child: WScaleAnimation(
+                                          child: Icon(Icons.clear, size: 24.h),
+                                          onTap: () => Navigator.of(context).pop(),
+                                        ),
+                                      );
+                                    },
                                   )
                                 }
                               ],
@@ -168,6 +185,7 @@ class _FeedbackViewState extends State<FeedbackView> {
                                 textAlignVertical: TextAlignVertical.top,
                                 cursorColor: colors.neutral300,
                                 style: fonts.regularText.copyWith(fontSize: 16.sp),
+                                onChanged: (v) => setState(() {}),
                                 decoration: InputDecoration(
                                   hintText: 'leave_feedback'.tr(),
                                   hintStyle: fonts.regularText.copyWith(color: colors.neutral600, fontSize: 16.sp),
@@ -199,6 +217,9 @@ class _FeedbackViewState extends State<FeedbackView> {
                               title: 'send'.tr(),
                               child: state.postReviewStatus.isInProgress ? const CupertinoActivityIndicator() : null,
                               onTap: () {
+                                log(" canPress = ${state.reviewRank}");
+                                log(" ${state.reviewBranch} branch");
+                                log(" Controller ${_controller.text}.length > 3;");
                                 final canPress = state.reviewRank != -1 &&
                                     state.reviewBranch.isNotEmpty &&
                                     _controller.text.length > 3;
@@ -247,6 +268,7 @@ class _FeedbackViewState extends State<FeedbackView> {
                                   colors: colors,
                                   items: state.branches,
                                   onChange: (String val) {
+                                    log("Branch: $val");
                                     _bloc.add(BranchEvent.fillingReviewData(branch: val));
                                   },
                                 ),

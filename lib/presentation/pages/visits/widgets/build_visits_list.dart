@@ -30,7 +30,6 @@ class BuildVisitList extends StatelessWidget {
         final visit = state.visits[index];
         return VisitsNewDesignCard(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-          onTap: () => _navigateToVisitDetails(visit, context),
           doctorName: visit.doctorFullName ?? "",
           doctorJob: visit.doctorJobName ?? "",
           serviceName: visit.serviceName ?? "",
@@ -41,36 +40,21 @@ class BuildVisitList extends StatelessWidget {
           doctorImage: visit.image ?? "",
           radius: BorderRadius.circular(12),
           listEnum: MyFunctions.getVisitStatus(visit.visitStatus),
+          onTap: () => Navigator.of(context, rootNavigator: true).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return VisitDetailPage(
+                  id: visit.id!,
+                  onTap: () {},
+                  image: visit.image!,
+                  doctorName: visit.doctorFullName,
+                  visitDate: visit.visitDate,
+                );
+              },
+            ),
+          ),
         );
       },
     );
-  }
-
-  void _navigateToVisitDetails(PatientVisit visit, BuildContext context) {
-    context.read<BottomNavBarController>().changeNavBar(true);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => VisitDetailPage(
-          id: visit.id!,
-          onTap: () {},
-          longitude: visit.longitude!,
-          latitude: visit.latitude!,
-          image: visit.image!,
-          doctorName: visit.doctorFullName,
-          categoryName: visit.categoryName,
-          visitDate: visit.visitDate,
-          visitLocation: visit.address,
-          visitPaymentByWhom: visit.paymentMethod,
-          visitStatus: visit.visitStatus,
-          serviceName: visit.serviceName,
-          servicePrice: visit.price,
-          paymentMethod: visit.paymentMethod,
-          status: MyFunctions.getVisitStatus(visit.visitStatus),
-        ),
-      ),
-    ).then((_) {
-      context.read<BottomNavBarController>().changeNavBar(false);
-    });
   }
 }

@@ -115,8 +115,16 @@ class IconSet {
   final String star;
   final String notificationBadge;
   final String emptyCalendar;
+  final String clockLaunch;
+  final String comment;
+  final String dragOnHand;
+  final String checkCalendar;
 
   const IconSet._({
+    required this.checkCalendar,
+    required this.clockLaunch,
+    required this.comment,
+    required this.dragOnHand,
     required this.emptyCalendar,
     required this.notificationBadge,
     required this.star,
@@ -239,6 +247,10 @@ class IconSet {
 
   static IconSet get create {
     return const IconSet._(
+      checkCalendar: "assets/icons/check_calendar.svg",
+      clockLaunch: "assets/icons/clock_launch.svg",
+      comment: "assets/icons/comment.svg",
+      dragOnHand: "assets/icons/drag_on_hand.svg",
       emptyCalendar: "assets/icons/empty_calendar.svg",
       notificationBadge: "assets/icons/notifications_badge.svg",
       star: "assets/icons/star.svg",

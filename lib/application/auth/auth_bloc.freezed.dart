@@ -19,6 +19,7 @@ mixin _$AuthEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
@@ -30,11 +31,14 @@ mixin _$AuthEvent {
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
@@ -46,11 +50,14 @@ mixin _$AuthEvent {
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
@@ -62,12 +69,15 @@ mixin _$AuthEvent {
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
     required TResult Function(_SendUserInfo value) sendUserInfo,
@@ -81,11 +91,14 @@ mixin _$AuthEvent {
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult? Function(_SendUserInfo value)? sendUserInfo,
@@ -98,11 +111,14 @@ mixin _$AuthEvent {
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult Function(_SendUserInfo value)? sendUserInfo,
@@ -114,6 +130,8 @@ mixin _$AuthEvent {
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -181,6 +199,7 @@ class _$CheckAuthImpl implements _CheckAuth {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
@@ -192,6 +211,8 @@ class _$CheckAuthImpl implements _CheckAuth {
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
   }) {
     return checkAuth();
   }
@@ -200,6 +221,7 @@ class _$CheckAuthImpl implements _CheckAuth {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
@@ -211,6 +233,8 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
   }) {
     return checkAuth?.call();
   }
@@ -219,6 +243,7 @@ class _$CheckAuthImpl implements _CheckAuth {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
@@ -230,6 +255,8 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
     required TResult orElse(),
   }) {
     if (checkAuth != null) {
@@ -242,6 +269,7 @@ class _$CheckAuthImpl implements _CheckAuth {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
     required TResult Function(_SendUserInfo value) sendUserInfo,
@@ -255,6 +283,8 @@ class _$CheckAuthImpl implements _CheckAuth {
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
   }) {
     return checkAuth(this);
   }
@@ -263,6 +293,7 @@ class _$CheckAuthImpl implements _CheckAuth {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult? Function(_SendUserInfo value)? sendUserInfo,
@@ -275,6 +306,8 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
   }) {
     return checkAuth?.call(this);
   }
@@ -283,6 +316,7 @@ class _$CheckAuthImpl implements _CheckAuth {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult Function(_SendUserInfo value)? sendUserInfo,
@@ -294,6 +328,8 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
     required TResult orElse(),
   }) {
     if (checkAuth != null) {
@@ -305,6 +341,192 @@ class _$CheckAuthImpl implements _CheckAuth {
 
 abstract class _CheckAuth implements AuthEvent {
   const factory _CheckAuth() = _$CheckAuthImpl;
+}
+
+/// @nodoc
+abstract class _$$RefreshTokenImplCopyWith<$Res> {
+  factory _$$RefreshTokenImplCopyWith(
+          _$RefreshTokenImpl value, $Res Function(_$RefreshTokenImpl) then) =
+      __$$RefreshTokenImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$RefreshTokenImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$RefreshTokenImpl>
+    implements _$$RefreshTokenImplCopyWith<$Res> {
+  __$$RefreshTokenImplCopyWithImpl(
+      _$RefreshTokenImpl _value, $Res Function(_$RefreshTokenImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$RefreshTokenImpl implements _RefreshToken {
+  const _$RefreshTokenImpl();
+
+  @override
+  String toString() {
+    return 'AuthEvent.refreshToken()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$RefreshTokenImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
+    required TResult Function(RegisterReq request) verificationSend,
+    required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
+    required TResult Function(CreateInfoReq request) sendUserInfo,
+    required TResult Function() fetchPatientInfo,
+    required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
+    required TResult Function() fetchPaymentUrls,
+    required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
+  }) {
+    return refreshToken();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
+    TResult? Function(RegisterReq request)? verificationSend,
+    TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult? Function(CreateInfoReq request)? sendUserInfo,
+    TResult? Function()? fetchPatientInfo,
+    TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
+    TResult? Function()? fetchPaymentUrls,
+    TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
+  }) {
+    return refreshToken?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
+    TResult Function(RegisterReq request)? verificationSend,
+    TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult Function(CreateInfoReq request)? sendUserInfo,
+    TResult Function()? fetchPatientInfo,
+    TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
+    TResult Function()? fetchPaymentUrls,
+    TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
+    required TResult orElse(),
+  }) {
+    if (refreshToken != null) {
+      return refreshToken();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
+    required TResult Function(_VerificationSend value) verificationSend,
+    required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
+    required TResult Function(_SendUserInfo value) sendUserInfo,
+    required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
+    required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
+    required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
+    required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
+  }) {
+    return refreshToken(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
+    TResult? Function(_VerificationSend value)? verificationSend,
+    TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult? Function(_SendUserInfo value)? sendUserInfo,
+    TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
+    TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
+  }) {
+    return refreshToken?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
+    TResult Function(_VerificationSend value)? verificationSend,
+    TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult Function(_SendUserInfo value)? sendUserInfo,
+    TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
+    TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
+    required TResult orElse(),
+  }) {
+    if (refreshToken != null) {
+      return refreshToken(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RefreshToken implements AuthEvent {
+  const factory _RefreshToken() = _$RefreshTokenImpl;
 }
 
 /// @nodoc
@@ -377,6 +599,7 @@ class _$VerificationSendImpl implements _VerificationSend {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
@@ -388,6 +611,8 @@ class _$VerificationSendImpl implements _VerificationSend {
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
   }) {
     return verificationSend(request);
   }
@@ -396,6 +621,7 @@ class _$VerificationSendImpl implements _VerificationSend {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
@@ -407,6 +633,8 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
   }) {
     return verificationSend?.call(request);
   }
@@ -415,6 +643,7 @@ class _$VerificationSendImpl implements _VerificationSend {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
@@ -426,6 +655,8 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
     required TResult orElse(),
   }) {
     if (verificationSend != null) {
@@ -438,6 +669,7 @@ class _$VerificationSendImpl implements _VerificationSend {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
     required TResult Function(_SendUserInfo value) sendUserInfo,
@@ -451,6 +683,8 @@ class _$VerificationSendImpl implements _VerificationSend {
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
   }) {
     return verificationSend(this);
   }
@@ -459,6 +693,7 @@ class _$VerificationSendImpl implements _VerificationSend {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult? Function(_SendUserInfo value)? sendUserInfo,
@@ -471,6 +706,8 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
   }) {
     return verificationSend?.call(this);
   }
@@ -479,6 +716,7 @@ class _$VerificationSendImpl implements _VerificationSend {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult Function(_SendUserInfo value)? sendUserInfo,
@@ -490,6 +728,8 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
     required TResult orElse(),
   }) {
     if (verificationSend != null) {
@@ -582,6 +822,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
@@ -593,6 +834,8 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
   }) {
     return sendPhoneNumber(request);
   }
@@ -601,6 +844,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
@@ -612,6 +856,8 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
   }) {
     return sendPhoneNumber?.call(request);
   }
@@ -620,6 +866,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
@@ -631,6 +878,8 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
     required TResult orElse(),
   }) {
     if (sendPhoneNumber != null) {
@@ -643,6 +892,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
     required TResult Function(_SendUserInfo value) sendUserInfo,
@@ -656,6 +906,8 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
   }) {
     return sendPhoneNumber(this);
   }
@@ -664,6 +916,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult? Function(_SendUserInfo value)? sendUserInfo,
@@ -676,6 +929,8 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
   }) {
     return sendPhoneNumber?.call(this);
   }
@@ -684,6 +939,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult Function(_SendUserInfo value)? sendUserInfo,
@@ -695,6 +951,8 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
     required TResult orElse(),
   }) {
     if (sendPhoneNumber != null) {
@@ -786,6 +1044,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
@@ -797,6 +1056,8 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
   }) {
     return sendUserInfo(request);
   }
@@ -805,6 +1066,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
@@ -816,6 +1078,8 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
   }) {
     return sendUserInfo?.call(request);
   }
@@ -824,6 +1088,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
@@ -835,6 +1100,8 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
     required TResult orElse(),
   }) {
     if (sendUserInfo != null) {
@@ -847,6 +1114,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
     required TResult Function(_SendUserInfo value) sendUserInfo,
@@ -860,6 +1128,8 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
   }) {
     return sendUserInfo(this);
   }
@@ -868,6 +1138,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult? Function(_SendUserInfo value)? sendUserInfo,
@@ -880,6 +1151,8 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
   }) {
     return sendUserInfo?.call(this);
   }
@@ -888,6 +1161,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult Function(_SendUserInfo value)? sendUserInfo,
@@ -899,6 +1173,8 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
     required TResult orElse(),
   }) {
     if (sendUserInfo != null) {
@@ -963,6 +1239,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
@@ -974,6 +1251,8 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
   }) {
     return fetchPatientInfo();
   }
@@ -982,6 +1261,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
@@ -993,6 +1273,8 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
   }) {
     return fetchPatientInfo?.call();
   }
@@ -1001,6 +1283,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
@@ -1012,6 +1295,8 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchPatientInfo != null) {
@@ -1024,6 +1309,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
     required TResult Function(_SendUserInfo value) sendUserInfo,
@@ -1037,6 +1323,8 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
   }) {
     return fetchPatientInfo(this);
   }
@@ -1045,6 +1333,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult? Function(_SendUserInfo value)? sendUserInfo,
@@ -1057,6 +1346,8 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
   }) {
     return fetchPatientInfo?.call(this);
   }
@@ -1065,6 +1356,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult Function(_SendUserInfo value)? sendUserInfo,
@@ -1076,6 +1368,8 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchPatientInfo != null) {
@@ -1158,6 +1452,7 @@ class _$PickImageImpl implements _PickImage {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
@@ -1169,6 +1464,8 @@ class _$PickImageImpl implements _PickImage {
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
   }) {
     return pickImage(context);
   }
@@ -1177,6 +1474,7 @@ class _$PickImageImpl implements _PickImage {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
@@ -1188,6 +1486,8 @@ class _$PickImageImpl implements _PickImage {
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
   }) {
     return pickImage?.call(context);
   }
@@ -1196,6 +1496,7 @@ class _$PickImageImpl implements _PickImage {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
@@ -1207,6 +1508,8 @@ class _$PickImageImpl implements _PickImage {
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
     required TResult orElse(),
   }) {
     if (pickImage != null) {
@@ -1219,6 +1522,7 @@ class _$PickImageImpl implements _PickImage {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
     required TResult Function(_SendUserInfo value) sendUserInfo,
@@ -1232,6 +1536,8 @@ class _$PickImageImpl implements _PickImage {
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
   }) {
     return pickImage(this);
   }
@@ -1240,6 +1546,7 @@ class _$PickImageImpl implements _PickImage {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult? Function(_SendUserInfo value)? sendUserInfo,
@@ -1252,6 +1559,8 @@ class _$PickImageImpl implements _PickImage {
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
   }) {
     return pickImage?.call(this);
   }
@@ -1260,6 +1569,7 @@ class _$PickImageImpl implements _PickImage {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult Function(_SendUserInfo value)? sendUserInfo,
@@ -1271,6 +1581,8 @@ class _$PickImageImpl implements _PickImage {
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
     required TResult orElse(),
   }) {
     if (pickImage != null) {
@@ -1334,6 +1646,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
@@ -1345,6 +1658,8 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
   }) {
     return fetchPatientVisits();
   }
@@ -1353,6 +1668,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
@@ -1364,6 +1680,8 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
   }) {
     return fetchPatientVisits?.call();
   }
@@ -1372,6 +1690,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
@@ -1383,6 +1702,8 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchPatientVisits != null) {
@@ -1395,6 +1716,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
     required TResult Function(_SendUserInfo value) sendUserInfo,
@@ -1408,6 +1730,8 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
   }) {
     return fetchPatientVisits(this);
   }
@@ -1416,6 +1740,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult? Function(_SendUserInfo value)? sendUserInfo,
@@ -1428,6 +1753,8 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
   }) {
     return fetchPatientVisits?.call(this);
   }
@@ -1436,6 +1763,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult Function(_SendUserInfo value)? sendUserInfo,
@@ -1447,6 +1775,8 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchPatientVisits != null) {
@@ -1532,6 +1862,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
@@ -1543,6 +1874,8 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
   }) {
     return fetchPatientVisitSingle(id);
   }
@@ -1551,6 +1884,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
@@ -1562,6 +1896,8 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
   }) {
     return fetchPatientVisitSingle?.call(id);
   }
@@ -1570,6 +1906,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
@@ -1581,6 +1918,8 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchPatientVisitSingle != null) {
@@ -1593,6 +1932,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
     required TResult Function(_SendUserInfo value) sendUserInfo,
@@ -1606,6 +1946,8 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
   }) {
     return fetchPatientVisitSingle(this);
   }
@@ -1614,6 +1956,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult? Function(_SendUserInfo value)? sendUserInfo,
@@ -1626,6 +1969,8 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
   }) {
     return fetchPatientVisitSingle?.call(this);
   }
@@ -1634,6 +1979,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult Function(_SendUserInfo value)? sendUserInfo,
@@ -1645,6 +1991,8 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchPatientVisitSingle != null) {
@@ -1739,6 +2087,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
@@ -1750,6 +2099,8 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
   }) {
     return fetchPatientVisitsDetail(id);
   }
@@ -1758,6 +2109,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
@@ -1769,6 +2121,8 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
   }) {
     return fetchPatientVisitsDetail?.call(id);
   }
@@ -1777,6 +2131,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
@@ -1788,6 +2143,8 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchPatientVisitsDetail != null) {
@@ -1800,6 +2157,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
     required TResult Function(_SendUserInfo value) sendUserInfo,
@@ -1813,6 +2171,8 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
   }) {
     return fetchPatientVisitsDetail(this);
   }
@@ -1821,6 +2181,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult? Function(_SendUserInfo value)? sendUserInfo,
@@ -1833,6 +2194,8 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
   }) {
     return fetchPatientVisitsDetail?.call(this);
   }
@@ -1841,6 +2204,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult Function(_SendUserInfo value)? sendUserInfo,
@@ -1852,6 +2216,8 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchPatientVisitsDetail != null) {
@@ -1916,6 +2282,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
@@ -1927,6 +2294,8 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
   }) {
     return fetchPaymentUrls();
   }
@@ -1935,6 +2304,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
@@ -1946,6 +2316,8 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
   }) {
     return fetchPaymentUrls?.call();
   }
@@ -1954,6 +2326,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
@@ -1965,6 +2338,8 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchPaymentUrls != null) {
@@ -1977,6 +2352,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
     required TResult Function(_SendUserInfo value) sendUserInfo,
@@ -1990,6 +2366,8 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
   }) {
     return fetchPaymentUrls(this);
   }
@@ -1998,6 +2376,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult? Function(_SendUserInfo value)? sendUserInfo,
@@ -2010,6 +2389,8 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
   }) {
     return fetchPaymentUrls?.call(this);
   }
@@ -2018,6 +2399,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult Function(_SendUserInfo value)? sendUserInfo,
@@ -2029,6 +2411,8 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchPaymentUrls != null) {
@@ -2085,6 +2469,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
@@ -2096,6 +2481,8 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
   }) {
     return fetchPatientAnalyze();
   }
@@ -2104,6 +2491,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
@@ -2115,6 +2503,8 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
   }) {
     return fetchPatientAnalyze?.call();
   }
@@ -2123,6 +2513,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
@@ -2134,6 +2525,8 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchPatientAnalyze != null) {
@@ -2146,6 +2539,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
     required TResult Function(_SendUserInfo value) sendUserInfo,
@@ -2159,6 +2553,8 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
   }) {
     return fetchPatientAnalyze(this);
   }
@@ -2167,6 +2563,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult? Function(_SendUserInfo value)? sendUserInfo,
@@ -2179,6 +2576,8 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
   }) {
     return fetchPatientAnalyze?.call(this);
   }
@@ -2187,6 +2586,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult Function(_SendUserInfo value)? sendUserInfo,
@@ -2198,6 +2598,8 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchPatientAnalyze != null) {
@@ -2253,6 +2655,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
     required TResult Function(RegisterReq request) verificationSend,
     required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
     required TResult Function(CreateInfoReq request) sendUserInfo,
@@ -2264,6 +2667,8 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     required TResult Function() fetchPaymentUrls,
     required TResult Function() fetchPatientAnalyze,
     required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
   }) {
     return fetchMyWallet();
   }
@@ -2272,6 +2677,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
     TResult? Function(RegisterReq request)? verificationSend,
     TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult? Function(CreateInfoReq request)? sendUserInfo,
@@ -2283,6 +2689,8 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult? Function()? fetchPaymentUrls,
     TResult? Function()? fetchPatientAnalyze,
     TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
   }) {
     return fetchMyWallet?.call();
   }
@@ -2291,6 +2699,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
     TResult Function(RegisterReq request)? verificationSend,
     TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
     TResult Function(CreateInfoReq request)? sendUserInfo,
@@ -2302,6 +2711,8 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult Function()? fetchPaymentUrls,
     TResult Function()? fetchPatientAnalyze,
     TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchMyWallet != null) {
@@ -2314,6 +2725,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
     required TResult Function(_VerificationSend value) verificationSend,
     required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
     required TResult Function(_SendUserInfo value) sendUserInfo,
@@ -2327,6 +2739,8 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
     required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
   }) {
     return fetchMyWallet(this);
   }
@@ -2335,6 +2749,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
     TResult? Function(_VerificationSend value)? verificationSend,
     TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult? Function(_SendUserInfo value)? sendUserInfo,
@@ -2347,6 +2762,8 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
   }) {
     return fetchMyWallet?.call(this);
   }
@@ -2355,6 +2772,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
     TResult Function(_VerificationSend value)? verificationSend,
     TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
     TResult Function(_SendUserInfo value)? sendUserInfo,
@@ -2366,6 +2784,8 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
     TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
     required TResult orElse(),
   }) {
     if (fetchMyWallet != null) {
@@ -2380,6 +2800,379 @@ abstract class _FetchMyWallet implements AuthEvent {
 }
 
 /// @nodoc
+abstract class _$$FetchRecommendationImplCopyWith<$Res> {
+  factory _$$FetchRecommendationImplCopyWith(_$FetchRecommendationImpl value,
+          $Res Function(_$FetchRecommendationImpl) then) =
+      __$$FetchRecommendationImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FetchRecommendationImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$FetchRecommendationImpl>
+    implements _$$FetchRecommendationImplCopyWith<$Res> {
+  __$$FetchRecommendationImplCopyWithImpl(_$FetchRecommendationImpl _value,
+      $Res Function(_$FetchRecommendationImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$FetchRecommendationImpl implements _FetchRecommendation {
+  const _$FetchRecommendationImpl();
+
+  @override
+  String toString() {
+    return 'AuthEvent.fetchRecommendation()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FetchRecommendationImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
+    required TResult Function(RegisterReq request) verificationSend,
+    required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
+    required TResult Function(CreateInfoReq request) sendUserInfo,
+    required TResult Function() fetchPatientInfo,
+    required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
+    required TResult Function() fetchPaymentUrls,
+    required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
+  }) {
+    return fetchRecommendation();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
+    TResult? Function(RegisterReq request)? verificationSend,
+    TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult? Function(CreateInfoReq request)? sendUserInfo,
+    TResult? Function()? fetchPatientInfo,
+    TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
+    TResult? Function()? fetchPaymentUrls,
+    TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
+  }) {
+    return fetchRecommendation?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
+    TResult Function(RegisterReq request)? verificationSend,
+    TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult Function(CreateInfoReq request)? sendUserInfo,
+    TResult Function()? fetchPatientInfo,
+    TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
+    TResult Function()? fetchPaymentUrls,
+    TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
+    required TResult orElse(),
+  }) {
+    if (fetchRecommendation != null) {
+      return fetchRecommendation();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
+    required TResult Function(_VerificationSend value) verificationSend,
+    required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
+    required TResult Function(_SendUserInfo value) sendUserInfo,
+    required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
+    required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
+    required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
+    required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
+  }) {
+    return fetchRecommendation(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
+    TResult? Function(_VerificationSend value)? verificationSend,
+    TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult? Function(_SendUserInfo value)? sendUserInfo,
+    TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
+    TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
+  }) {
+    return fetchRecommendation?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
+    TResult Function(_VerificationSend value)? verificationSend,
+    TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult Function(_SendUserInfo value)? sendUserInfo,
+    TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
+    TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
+    required TResult orElse(),
+  }) {
+    if (fetchRecommendation != null) {
+      return fetchRecommendation(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchRecommendation implements AuthEvent {
+  const factory _FetchRecommendation() = _$FetchRecommendationImpl;
+}
+
+/// @nodoc
+abstract class _$$FetchRecipesImplCopyWith<$Res> {
+  factory _$$FetchRecipesImplCopyWith(
+          _$FetchRecipesImpl value, $Res Function(_$FetchRecipesImpl) then) =
+      __$$FetchRecipesImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FetchRecipesImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$FetchRecipesImpl>
+    implements _$$FetchRecipesImplCopyWith<$Res> {
+  __$$FetchRecipesImplCopyWithImpl(
+      _$FetchRecipesImpl _value, $Res Function(_$FetchRecipesImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$FetchRecipesImpl implements _FetchRecipes {
+  const _$FetchRecipesImpl();
+
+  @override
+  String toString() {
+    return 'AuthEvent.fetchRecipes()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$FetchRecipesImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
+    required TResult Function(RegisterReq request) verificationSend,
+    required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
+    required TResult Function(CreateInfoReq request) sendUserInfo,
+    required TResult Function() fetchPatientInfo,
+    required TResult Function(BuildContext context) pickImage,
+    required TResult Function() fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
+    required TResult Function() fetchPaymentUrls,
+    required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
+  }) {
+    return fetchRecipes();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
+    TResult? Function(RegisterReq request)? verificationSend,
+    TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult? Function(CreateInfoReq request)? sendUserInfo,
+    TResult? Function()? fetchPatientInfo,
+    TResult? Function(BuildContext context)? pickImage,
+    TResult? Function()? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
+    TResult? Function()? fetchPaymentUrls,
+    TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
+  }) {
+    return fetchRecipes?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
+    TResult Function(RegisterReq request)? verificationSend,
+    TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult Function(CreateInfoReq request)? sendUserInfo,
+    TResult Function()? fetchPatientInfo,
+    TResult Function(BuildContext context)? pickImage,
+    TResult Function()? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
+    TResult Function()? fetchPaymentUrls,
+    TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
+    required TResult orElse(),
+  }) {
+    if (fetchRecipes != null) {
+      return fetchRecipes();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
+    required TResult Function(_VerificationSend value) verificationSend,
+    required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
+    required TResult Function(_SendUserInfo value) sendUserInfo,
+    required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
+    required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
+    required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
+    required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
+  }) {
+    return fetchRecipes(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
+    TResult? Function(_VerificationSend value)? verificationSend,
+    TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult? Function(_SendUserInfo value)? sendUserInfo,
+    TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
+    TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
+  }) {
+    return fetchRecipes?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
+    TResult Function(_VerificationSend value)? verificationSend,
+    TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult Function(_SendUserInfo value)? sendUserInfo,
+    TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
+    TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
+    required TResult orElse(),
+  }) {
+    if (fetchRecipes != null) {
+      return fetchRecipes(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchRecipes implements AuthEvent {
+  const factory _FetchRecipes() = _$FetchRecipesImpl;
+}
+
+/// @nodoc
 mixin _$AuthState {
   bool get proceedToHome => throw _privateConstructorUsedError;
   String get haveToken => throw _privateConstructorUsedError;
@@ -2391,6 +3184,12 @@ mixin _$AuthState {
       throw _privateConstructorUsedError;
   FormzSubmissionStatus get fetchPatientVisitSingleStatus =>
       throw _privateConstructorUsedError;
+  FormzSubmissionStatus get fetchRecommendationStatus =>
+      throw _privateConstructorUsedError;
+  FormzSubmissionStatus get fetchRecipeStatus =>
+      throw _privateConstructorUsedError;
+  List<RecipeModel> get recipes => throw _privateConstructorUsedError;
+  List<Recommendation> get recommendation => throw _privateConstructorUsedError;
   List<PatientOrder> get moves => throw _privateConstructorUsedError;
   List<PatientVisit> get visits => throw _privateConstructorUsedError;
   bool get proceedToLogin => throw _privateConstructorUsedError;
@@ -2439,6 +3238,10 @@ abstract class $AuthStateCopyWith<$Res> {
       FormzSubmissionStatus fetchPatientAnalyseStatus,
       FormzSubmissionStatus fetchPatientVisitStatus,
       FormzSubmissionStatus fetchPatientVisitSingleStatus,
+      FormzSubmissionStatus fetchRecommendationStatus,
+      FormzSubmissionStatus fetchRecipeStatus,
+      List<RecipeModel> recipes,
+      List<Recommendation> recommendation,
       List<PatientOrder> moves,
       List<PatientVisit> visits,
       bool proceedToLogin,
@@ -2488,6 +3291,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? fetchPatientAnalyseStatus = null,
     Object? fetchPatientVisitStatus = null,
     Object? fetchPatientVisitSingleStatus = null,
+    Object? fetchRecommendationStatus = null,
+    Object? fetchRecipeStatus = null,
+    Object? recipes = null,
+    Object? recommendation = null,
     Object? moves = null,
     Object? visits = null,
     Object? proceedToLogin = null,
@@ -2543,6 +3350,22 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.fetchPatientVisitSingleStatus
           : fetchPatientVisitSingleStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      fetchRecommendationStatus: null == fetchRecommendationStatus
+          ? _value.fetchRecommendationStatus
+          : fetchRecommendationStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      fetchRecipeStatus: null == fetchRecipeStatus
+          ? _value.fetchRecipeStatus
+          : fetchRecipeStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      recipes: null == recipes
+          ? _value.recipes
+          : recipes // ignore: cast_nullable_to_non_nullable
+              as List<RecipeModel>,
+      recommendation: null == recommendation
+          ? _value.recommendation
+          : recommendation // ignore: cast_nullable_to_non_nullable
+              as List<Recommendation>,
       moves: null == moves
           ? _value.moves
           : moves // ignore: cast_nullable_to_non_nullable
@@ -2663,6 +3486,10 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       FormzSubmissionStatus fetchPatientAnalyseStatus,
       FormzSubmissionStatus fetchPatientVisitStatus,
       FormzSubmissionStatus fetchPatientVisitSingleStatus,
+      FormzSubmissionStatus fetchRecommendationStatus,
+      FormzSubmissionStatus fetchRecipeStatus,
+      List<RecipeModel> recipes,
+      List<Recommendation> recommendation,
       List<PatientOrder> moves,
       List<PatientVisit> visits,
       bool proceedToLogin,
@@ -2710,6 +3537,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? fetchPatientAnalyseStatus = null,
     Object? fetchPatientVisitStatus = null,
     Object? fetchPatientVisitSingleStatus = null,
+    Object? fetchRecommendationStatus = null,
+    Object? fetchRecipeStatus = null,
+    Object? recipes = null,
+    Object? recommendation = null,
     Object? moves = null,
     Object? visits = null,
     Object? proceedToLogin = null,
@@ -2765,6 +3596,22 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.fetchPatientVisitSingleStatus
           : fetchPatientVisitSingleStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      fetchRecommendationStatus: null == fetchRecommendationStatus
+          ? _value.fetchRecommendationStatus
+          : fetchRecommendationStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      fetchRecipeStatus: null == fetchRecipeStatus
+          ? _value.fetchRecipeStatus
+          : fetchRecipeStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      recipes: null == recipes
+          ? _value._recipes
+          : recipes // ignore: cast_nullable_to_non_nullable
+              as List<RecipeModel>,
+      recommendation: null == recommendation
+          ? _value._recommendation
+          : recommendation // ignore: cast_nullable_to_non_nullable
+              as List<Recommendation>,
       moves: null == moves
           ? _value._moves
           : moves // ignore: cast_nullable_to_non_nullable
@@ -2880,6 +3727,10 @@ class _$AuthStateImpl extends _AuthState {
       this.fetchPatientAnalyseStatus = FormzSubmissionStatus.initial,
       this.fetchPatientVisitStatus = FormzSubmissionStatus.initial,
       this.fetchPatientVisitSingleStatus = FormzSubmissionStatus.initial,
+      this.fetchRecommendationStatus = FormzSubmissionStatus.initial,
+      this.fetchRecipeStatus = FormzSubmissionStatus.initial,
+      final List<RecipeModel> recipes = const [],
+      final List<Recommendation> recommendation = const [],
       final List<PatientOrder> moves = const [],
       final List<PatientVisit> visits = const [],
       this.proceedToLogin = false,
@@ -2905,7 +3756,9 @@ class _$AuthStateImpl extends _AuthState {
       this.myWallet = null,
       this.patientVisitSingle = null,
       this.registrationResponse = null})
-      : _moves = moves,
+      : _recipes = recipes,
+        _recommendation = recommendation,
+        _moves = moves,
         _visits = visits,
         _patientVisits = patientVisits,
         super._();
@@ -2931,6 +3784,30 @@ class _$AuthStateImpl extends _AuthState {
   @override
   @JsonKey()
   final FormzSubmissionStatus fetchPatientVisitSingleStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus fetchRecommendationStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus fetchRecipeStatus;
+  final List<RecipeModel> _recipes;
+  @override
+  @JsonKey()
+  List<RecipeModel> get recipes {
+    if (_recipes is EqualUnmodifiableListView) return _recipes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_recipes);
+  }
+
+  final List<Recommendation> _recommendation;
+  @override
+  @JsonKey()
+  List<Recommendation> get recommendation {
+    if (_recommendation is EqualUnmodifiableListView) return _recommendation;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_recommendation);
+  }
+
   final List<PatientOrder> _moves;
   @override
   @JsonKey()
@@ -3027,7 +3904,7 @@ class _$AuthStateImpl extends _AuthState {
 
   @override
   String toString() {
-    return 'AuthState(proceedToHome: $proceedToHome, haveToken: $haveToken, userStatus: $userStatus, verifyStatus: $verifyStatus, fetchPatientAnalyseStatus: $fetchPatientAnalyseStatus, fetchPatientVisitStatus: $fetchPatientVisitStatus, fetchPatientVisitSingleStatus: $fetchPatientVisitSingleStatus, moves: $moves, visits: $visits, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, patientVisitSingle: $patientVisitSingle, registrationResponse: $registrationResponse)';
+    return 'AuthState(proceedToHome: $proceedToHome, haveToken: $haveToken, userStatus: $userStatus, verifyStatus: $verifyStatus, fetchPatientAnalyseStatus: $fetchPatientAnalyseStatus, fetchPatientVisitStatus: $fetchPatientVisitStatus, fetchPatientVisitSingleStatus: $fetchPatientVisitSingleStatus, fetchRecommendationStatus: $fetchRecommendationStatus, fetchRecipeStatus: $fetchRecipeStatus, recipes: $recipes, recommendation: $recommendation, moves: $moves, visits: $visits, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, patientVisitSingle: $patientVisitSingle, registrationResponse: $registrationResponse)';
   }
 
   @override
@@ -3050,6 +3927,13 @@ class _$AuthStateImpl extends _AuthState {
             (identical(other.fetchPatientVisitSingleStatus, fetchPatientVisitSingleStatus) ||
                 other.fetchPatientVisitSingleStatus ==
                     fetchPatientVisitSingleStatus) &&
+            (identical(other.fetchRecommendationStatus, fetchRecommendationStatus) ||
+                other.fetchRecommendationStatus == fetchRecommendationStatus) &&
+            (identical(other.fetchRecipeStatus, fetchRecipeStatus) ||
+                other.fetchRecipeStatus == fetchRecipeStatus) &&
+            const DeepCollectionEquality().equals(other._recipes, _recipes) &&
+            const DeepCollectionEquality()
+                .equals(other._recommendation, _recommendation) &&
             const DeepCollectionEquality().equals(other._moves, _moves) &&
             const DeepCollectionEquality().equals(other._visits, _visits) &&
             (identical(other.proceedToLogin, proceedToLogin) ||
@@ -3076,14 +3960,10 @@ class _$AuthStateImpl extends _AuthState {
                 other.pickedImagePath == pickedImagePath) &&
             (identical(other.isLoadingVisits, isLoadingVisits) ||
                 other.isLoadingVisits == isLoadingVisits) &&
-            (identical(other.errorFetchingVisits, errorFetchingVisits) ||
-                other.errorFetchingVisits == errorFetchingVisits) &&
-            const DeepCollectionEquality()
-                .equals(other._patientVisits, _patientVisits) &&
-            (identical(other.patientAnalyze, patientAnalyze) ||
-                other.patientAnalyze == patientAnalyze) &&
-            (identical(other.isNewPatient, isNewPatient) ||
-                other.isNewPatient == isNewPatient) &&
+            (identical(other.errorFetchingVisits, errorFetchingVisits) || other.errorFetchingVisits == errorFetchingVisits) &&
+            const DeepCollectionEquality().equals(other._patientVisits, _patientVisits) &&
+            (identical(other.patientAnalyze, patientAnalyze) || other.patientAnalyze == patientAnalyze) &&
+            (identical(other.isNewPatient, isNewPatient) || other.isNewPatient == isNewPatient) &&
             (identical(other.paymeUrl, paymeUrl) || other.paymeUrl == paymeUrl) &&
             (identical(other.clickUrl, clickUrl) || other.clickUrl == clickUrl) &&
             (identical(other.isFetchingPaymentUrls, isFetchingPaymentUrls) || other.isFetchingPaymentUrls == isFetchingPaymentUrls) &&
@@ -3103,6 +3983,10 @@ class _$AuthStateImpl extends _AuthState {
         fetchPatientAnalyseStatus,
         fetchPatientVisitStatus,
         fetchPatientVisitSingleStatus,
+        fetchRecommendationStatus,
+        fetchRecipeStatus,
+        const DeepCollectionEquality().hash(_recipes),
+        const DeepCollectionEquality().hash(_recommendation),
         const DeepCollectionEquality().hash(_moves),
         const DeepCollectionEquality().hash(_visits),
         proceedToLogin,
@@ -3148,6 +4032,10 @@ abstract class _AuthState extends AuthState {
       final FormzSubmissionStatus fetchPatientAnalyseStatus,
       final FormzSubmissionStatus fetchPatientVisitStatus,
       final FormzSubmissionStatus fetchPatientVisitSingleStatus,
+      final FormzSubmissionStatus fetchRecommendationStatus,
+      final FormzSubmissionStatus fetchRecipeStatus,
+      final List<RecipeModel> recipes,
+      final List<Recommendation> recommendation,
       final List<PatientOrder> moves,
       final List<PatientVisit> visits,
       final bool proceedToLogin,
@@ -3189,6 +4077,14 @@ abstract class _AuthState extends AuthState {
   FormzSubmissionStatus get fetchPatientVisitStatus;
   @override
   FormzSubmissionStatus get fetchPatientVisitSingleStatus;
+  @override
+  FormzSubmissionStatus get fetchRecommendationStatus;
+  @override
+  FormzSubmissionStatus get fetchRecipeStatus;
+  @override
+  List<RecipeModel> get recipes;
+  @override
+  List<Recommendation> get recommendation;
   @override
   List<PatientOrder> get moves;
   @override

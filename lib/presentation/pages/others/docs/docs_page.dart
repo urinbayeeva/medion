@@ -1,10 +1,14 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/infrastructure/services/download_service.dart';
 import 'package:medion/presentation/component/download_button.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class DocsPage extends StatefulWidget {
   const DocsPage({super.key});
@@ -110,7 +114,21 @@ class FullPdfCard extends StatelessWidget {
                         ),
                       ),
                       DownloadButton(
-                        onTap: () {
+                        onTap: () async {
+                          final service = FileDownloadService();
+
+                          await service.downloadPDFWithProgress(
+                            context: context,
+                            url: branch.docs[i]["url"]!,
+                            fileName: branch.docs[i]["title"]!,
+                            colors: colors,
+                          );
+
+                          // Navigator.of(context, rootNavigator: true).push(
+                          //   MaterialPageRoute(
+                          //     builder: (context) => PdfViewSimple(url: branch.docs[i]["url"]!),
+                          //   ),
+                          // );
                           // if (branch.docs[i]["title"]!.length < 8) {
                           //   FileDownloadService().downloadPDFWithProgress(
                           //     context,
@@ -142,6 +160,63 @@ class FullPdfCard extends StatelessWidget {
   }
 }
 
+class PdfViewSimple extends StatefulWidget {
+  const PdfViewSimple({super.key, required this.url});
+
+  final String url;
+
+  @override
+  _PdfViewSimple createState() => _PdfViewSimple();
+}
+
+class _PdfViewSimple extends State<PdfViewSimple> {
+  final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Syncfusion Flutter PDF Viewer'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.bookmark,
+              color: Colors.black,
+              semanticLabel: 'Bookmark',
+            ),
+            onPressed: () => _pdfViewerKey.currentState?.openBookmarkView(),
+          ),
+        ],
+      ),
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+              child: SfPdfViewer.network(
+                widget.url,
+                key: _pdfViewerKey,
+                onPageChanged: (val) {},
+                onDocumentLoadFailed: (details) {
+                  debugPrint('PDF load error: ${details.error}');
+                  debugPrint('PDF load error: ${details.description}');
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 const List<BranchFullData> _branchNames = [
   BranchFullData(
     title: 'Medion Clinic, Aesthetic & SPA - OOO "LABZAK PROMED"',
@@ -149,14 +224,17 @@ const List<BranchFullData> _branchNames = [
       {
         "title": "docs 1",
         "size": "pdf, 116.53 КБ",
+        "url": "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-file.pdf",
       },
       {
         "title": "docs 2",
         "size": "pdf, 116.53 КБ",
+        "url": "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-file.pdf",
       },
       {
         "title": "docs 3",
         "size": "pdf, 116.53 КБ",
+        "url": "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-file.pdf",
       }
     ],
   ),

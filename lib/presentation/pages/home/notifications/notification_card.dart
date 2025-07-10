@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/domain/models/notification/notification_model.dart';
-import 'package:medion/presentation/styles/style.dart';
+import 'package:medion/infrastructure/services/my_functions.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
+import 'package:medion/presentation/pages/visits/component/visit_detail_page.dart';
 import 'package:medion/presentation/styles/theme.dart';
+import 'package:medion/utils/enums/notification_type_enum.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({
@@ -12,9 +16,11 @@ class NotificationCard extends StatelessWidget {
     required this.icons,
     required this.fonts,
     required this.onTap,
+    required this.type,
   });
 
   final NotificationModel notification;
+  final NotificationTypeEnum type;
   final CustomColorSet colors;
   final IconSet icons;
   final FontSet fonts;
@@ -28,37 +34,107 @@ class NotificationCard extends StatelessWidget {
         onTap: onTap,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            border: Border.all(color: (notification.isRead ?? false) ? Colors.transparent : Style.green),
+            color: colors.shade0,
+            border: Border.all(color: (notification.isRead ?? false) ? Colors.transparent : colors.error500),
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: SizedBox(
             width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 8,
-                children: [
-                  if (notification.title != null) ...{
-                    Text(notification.title!, style: fonts.regularMain),
-                  },
-                  if (notification.body != null) ...{
-                    Text(
-                      notification.body!,
-                      style: fonts.xSmallText,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 8,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0).copyWith(top: 10, bottom: !type.isLink ? 10 : 0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (notification.createdAt != null) ...{
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              notification.createdAt!,
+                              style: fonts.xSmallMain.copyWith(fontSize: 12, color: const Color(0xFF596066)),
+                            ),
+                            Text(
+                              notification.createdAt!,
+                              style: fonts.xSmallMain.copyWith(fontSize: 12, color: const Color(0xFF596066)),
+                            ),
+                          ],
+                        )
+                      },
+                      if (notification.title != null) ...{
+                        Text("${notification.title!} -- ${notification.type}", style: fonts.regularMain),
+                      },
+                      if (notification.body != null) ...{
+                        Text(
+                          notification.body!,
+                          style: fonts.xSmallText,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      },
+                    ],
+                  ),
+                ),
+                if (type.subTitle.isNotEmpty && type.subTitle.length > 3) ...{
+                  Container(
+                    width: double.infinity,
+                    height: 41,
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.vertical(bottom: Radius.circular(12.r)),
+                      color: colors.error500,
                     ),
-                  },
-                  if (notification.createdAt != null) ...{
-                    Text(
-                      notification.createdAt!,
-                      style: fonts.xxSmallText.copyWith(fontSize: 12, color: const Color(0xFF596066)),
+                    child: WScaleAnimation(
+                      onTap: () async {
+                        if (type.isReview) {
+                        } else if (type.isLink) {
+                          await MyFunctions.openLink(notification.link ?? "");
+                        } else if (type.isDiscount) {
+                          Navigator.of(context, rootNavigator: true).push(
+                            MaterialPageRoute(
+                              builder: (context) => DiscountPage(
+                                discountId: notification.discount?.id ?? 0,
+                              ),
+                            ),
+                          );
+                        } else if (type.isReminder) {
+                          Navigator.of(context, rootNavigator: true).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return VisitDetailPage(
+                                  id: notification.reminder!.id ?? 0,
+                                  onTap: () {},
+                                  image: notification.reminder!.image!,
+                                  doctorName: notification.reminder!.doctorName!,
+                                  visitDate: notification.reminder!.startDate!,
+                                );
+                              },
+                            ),
+                          );
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            type.subTitle,
+                            style: fonts.xSmallLink.copyWith(
+                              color: colors.shade0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          icons.right.svg(height: 24, width: 24, color: colors.shade0),
+                        ],
+                      ),
                     ),
-                  },
-                ],
-              ),
+                  )
+                }
+              ],
             ),
           ),
         ),

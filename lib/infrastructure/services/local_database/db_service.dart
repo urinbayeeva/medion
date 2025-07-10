@@ -29,6 +29,7 @@ class DBService {
   static const userAgent = "user_agent";
   static const platform = "platform";
   static const udId = "ud_id";
+  static const day = "day";
 
   static Box? _box;
 
@@ -62,6 +63,10 @@ class DBService {
     await _box?.put(platform, p);
   }
 
+  Future<void> setDay(String d) async {
+    await _box?.put(day, d);
+  }
+
   Future<void> setVersion(String v) async {
     await _box?.put(version, v);
   }
@@ -83,6 +88,11 @@ class DBService {
 
   String get getPlatform {
     final String? value = _box?.get(platform);
+    return (value != null && value.isNotEmpty && value.length > 2) ? value : '';
+  }
+
+  String get getDay {
+    final String? value = _box?.get(day);
     return (value != null && value.isNotEmpty && value.length > 2) ? value : '';
   }
 
