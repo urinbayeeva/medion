@@ -115,6 +115,34 @@ abstract class PatientAnalyse implements Built<PatientAnalyse, PatientAnalyseBui
   static Serializer<PatientAnalyse> get serializer => _$patientAnalyseSerializer;
 }
 
+abstract class CancelVisitBody implements Built<CancelVisitBody, CancelVisitBodyBuilder> {
+  @BuiltValueField(wireName: 'visit_id')
+  int get visitId;
+
+  CancelVisitBody._();
+
+  factory CancelVisitBody([void Function(CancelVisitBodyBuilder) updates]) = _$CancelVisitBody;
+
+  static Serializer<CancelVisitBody> get serializer => _$cancelVisitBodySerializer;
+}
+
+abstract class CancelVisitResult implements Built<CancelVisitResult, CancelVisitResultBuilder> {
+  @BuiltValueField(wireName: 'status')
+  String? get status;
+
+  @BuiltValueField(wireName: 'message')
+  String? get message;
+
+  @BuiltValueField(wireName: 'visit_id')
+  int? get visitId;
+
+  CancelVisitResult._();
+
+  factory CancelVisitResult([void Function(CancelVisitResultBuilder) updates]) = _$CancelVisitResult;
+
+  static Serializer<CancelVisitResult> get serializer => _$cancelVisitResultSerializer;
+}
+
 abstract class PatientOrder implements Built<PatientOrder, PatientOrderBuilder> {
   @BuiltValueField(wireName: 'sale_order_name')
   String? get saleOrderName;
@@ -378,12 +406,23 @@ abstract class PatientVisitSingleModel implements Built<PatientVisitSingleModel,
   static Serializer<PatientVisitSingleModel> get serializer => _$patientVisitSingleModelSerializer;
 }
 
+/// "review": {
+//     "name": "Jon Doe",
+//     "ratings": "3",
+//     "review": "jbjbjbjbjj ",
+//     "status": "published",
+//     "location": "г. Ташкент, Шайхантахурский р-н, ул. Хадра, 39",
+//     "create_date": "2025.07.10"
+//   },
 abstract class PatientReviewModel implements Built<PatientReviewModel, PatientReviewModelBuilder> {
-  @BuiltValueField(wireName: 'state')
-  String? get state;
+  @BuiltValueField(wireName: 'name')
+  String? get name;
+
+  @BuiltValueField(wireName: 'status')
+  String? get status;
 
   @BuiltValueField(wireName: 'create_date')
-  Object? get createDate;
+  String? get createDate;
 
   @BuiltValueField(wireName: 'location')
   String? get location;
@@ -393,6 +432,9 @@ abstract class PatientReviewModel implements Built<PatientReviewModel, PatientRe
 
   @BuiltValueField(wireName: 'patient_name')
   String? get patientName;
+
+  @BuiltValueField(wireName: 'ratings')
+  String? get ratings;
 
   @BuiltValueField(wireName: 'id')
   int? get id;

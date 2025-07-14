@@ -9,10 +9,36 @@ import 'package:medion/utils/enums/feedback_status_enum.dart';
 import 'package:medion/utils/enums/notification_type_enum.dart';
 import 'package:medion/utils/enums/visits_enum.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'hermony_os_checker.dart';
 
+class Times {
+  final String time;
+  final String date;
+
+  const Times({this.time = '', this.date = ''});
+}
+
 sealed class MyFunctions {
+  static void shareData(Map<String, dynamic> data) {
+    final buffer = StringBuffer();
+    data.forEach((key, value) {
+      buffer.writeln('$key: $value');
+    });
+
+    Share.share(buffer.toString());
+  }
+
+  static Times changeTime(String value) {
+    DateTime parsedDate = DateFormat("dd-MM-yyyy HH:mm:ss").parse(value);
+
+    String date = DateFormat("dd-MM-yyyy").format(parsedDate);
+    String time = DateFormat("HH:mm:ss").format(parsedDate);
+
+    return Times(date: date, time: time);
+  }
+
   static NotificationTypeEnum getNotificationType(String? status) {
     return NotificationTypeEnum.values.firstWhere(
       (e) => e.name == status,

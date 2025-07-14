@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/presentation/pages/others/customer_review/customer_review.dart';
 import 'package:medion/presentation/pages/others/customer_review/generate_star.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -16,7 +17,7 @@ class ReviewCard extends StatelessWidget {
     this.margin,
   });
 
-  final CustomerReviewModel review;
+  final GetReviewModel review;
   final CustomColorSet colors;
   final IconSet icons;
   final FontSet fonts;
@@ -35,13 +36,13 @@ class ReviewCard extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text(review.name, style: fonts.regularMain),
+            child: Text("${(review.title != null) ? review.title : ""}", style: fonts.regularMain),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: SizedBox(
               height: 20,
-              child: GenerateStar(rank: review.rating, colors: colors, icons: icons),
+              child: GenerateStar(rank: int.tryParse(review.ratings ?? '') ?? 0, colors: colors, icons: icons),
             ),
           ),
           Stack(
@@ -75,7 +76,7 @@ class ReviewCard extends StatelessWidget {
           10.verticalSpace,
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text(review.description, style: fonts.xSmallMain),
+            child: Text("${review.review}", style: fonts.xSmallMain),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10),
@@ -90,7 +91,7 @@ class ReviewCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        review.location,
+                        "${(review.location != null) ? review.location : "Medion Family Hospital"}",
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: fonts.xSmallMain.copyWith(color: colors.neutral500),
@@ -107,14 +108,14 @@ class ReviewCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(review.dateTime, style: fonts.xSmallMain),
+                Text("${(review.dateTime != null) ? review.dateTime : ""}", style: fonts.xSmallMain),
                 const Spacer(),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
                   spacing: 4,
                   children: [
-                    if (!status.isNone) ...{
+                    if (!status.isNone && !status.isPublished) ...{
                       if (status.icon.isNotEmpty) ...{status.icon.svg(height: 16.h, width: 16.w)},
                       Text(status.title, style: fonts.xSmallText.copyWith(color: colors.error500)),
                     }

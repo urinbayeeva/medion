@@ -284,7 +284,13 @@ class AppRoutes {
 
   static MaterialPageRoute getMapPage() => MaterialPageRoute(builder: (_) => const MapPage());
 
-  static MaterialPageRoute getAboutDoctorPage(String name, String profession, String status, String image, int id) {
+  static MaterialPageRoute getAboutDoctorPage({
+    required String name,
+    required String profession,
+    required String status,
+    required String image,
+    required int id,
+  }) {
     return MaterialPageRoute(
       builder: (_) => AboutDoctor(
         id: id,

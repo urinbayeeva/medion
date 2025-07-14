@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,7 +32,6 @@ class RecommendationPage extends StatefulWidget {
 }
 
 class _RecommendationPageState extends State<RecommendationPage> {
-  late final SelectedServicesProvider _servicesProvider;
   late final ValueNotifier<List<int>> _serviceIds;
   late final ValueNotifier<List<RecommendationInfo>> _recommendations;
 
@@ -39,7 +39,6 @@ class _RecommendationPageState extends State<RecommendationPage> {
   void initState() {
     _serviceIds = ValueNotifier(<int>[]);
     _recommendations = ValueNotifier(<RecommendationInfo>[]);
-    _servicesProvider = Provider.of<SelectedServicesProvider>(context, listen: false);
     context.read<AuthBloc>().add(const AuthEvent.fetchRecommendation());
     super.initState();
   }
@@ -65,16 +64,7 @@ class _RecommendationPageState extends State<RecommendationPage> {
           body: BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
               if (state.fetchRecommendationStatus.isInitial || state.fetchRecommendationStatus.isInProgress) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Lottie.asset("assets/anim/sad.json"),
-                      Text("data".tr(), style: fonts.regularMain),
-                    ],
-                  ),
-                );
+                return const Center(child: CupertinoActivityIndicator());
               }
               if (state.fetchRecommendationStatus.isFailure) {
                 return Center(
@@ -88,8 +78,22 @@ class _RecommendationPageState extends State<RecommendationPage> {
                   ),
                 );
               }
-
               final recommendation = state.recommendation;
+
+              if (recommendation.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Lottie.asset("assets/anim/sad.json"),
+                      Text("no_result_found".tr(), style: fonts.regularMain),
+                      const SizedBox(height: 75),
+                    ],
+                  ),
+                );
+              }
+
               return Column(
                 children: [
                   Expanded(
@@ -208,124 +212,176 @@ class _RecommendationPageState extends State<RecommendationPage> {
                       },
                     ),
                   ),
-                  ValueListenableBuilder(
-                    valueListenable: _serviceIds,
-                    builder: (ctx, val, ch) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            top: BorderSide(color: colors.neutral300),
-                            left: BorderSide(color: colors.neutral300),
-                            right: BorderSide(color: colors.neutral300),
-                          ),
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                          color: colors.shade0,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 12,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "count_services_selected".tr(namedArgs: {"count": "${_serviceIds.value.length}"}),
-                                  style: fonts.xSmallLink.copyWith(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                AnimationButtonEffect(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isDismissible: true,
-                                      isScrollControlled: true,
-                                      enableDrag: true,
-                                      constraints: BoxConstraints(
-                                        maxHeight: MediaQuery.of(context).size.height * 0.8,
-                                      ),
-                                      builder: (context) {
-                                        return StatefulBuilder(
-                                          builder: (BuildContext context, StateSetter setModalState) {
-                                            return ListenableProvider.value(
-                                              value: _servicesProvider,
-                                              child: Consumer<SelectedServicesProvider>(
-                                                builder: (context, provider, child) {
-                                                  return ConstrainedBox(
-                                                    constraints: const BoxConstraints(),
-                                                    child: SingleChildScrollView(
-                                                      child: ServiceSelectionModal(
-                                                        selectedServices: _recommendations.value,
-                                                        chose: 3,
-                                                        onRemoveService: (service) {
-                                                          // if (!mounted) return;
-                                                          // _servicesProvider.removeService(widget.serviceId, service);
-                                                          // _serviceIdsProvider.removeServiceId(
-                                                          //     widget.serviceId, service.id!);
-                                                        },
-                                                        onRemoveAllServices: () {
-                                                          _recommendations.value = [];
-                                                          // if (!mounted) return;
-                                                          // _servicesProvider.clearServices(widget.serviceId);
-                                                          // _serviceIdsProvider.clearServiceIds(widget.serviceId);
-                                                        },
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: icons.right.svg(
-                                    width: 20.w,
-                                    height: 20.h,
-                                    color: colors.iconGreyColor,
-                                  ),
-                                ),
-                              ],
+                  if (recommendation.isNotEmpty) ...{
+                    ValueListenableBuilder(
+                      valueListenable: _serviceIds,
+                      builder: (ctx, val, ch) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              top: BorderSide(color: colors.neutral300),
+                              left: BorderSide(color: colors.neutral300),
+                              right: BorderSide(color: colors.neutral300),
                             ),
-                            CButton(
-                              backgroundColor: _serviceIds.value.isEmpty ? colors.neutral300 : colors.error500,
-                              title: "next".tr(),
-                              onTap: () {
-                                if (_serviceIds.value.isNotEmpty) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MedServiceDoctorChose(
-                                        isHome: false,
-                                        servicesID: _serviceIds.value,
+                            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                            color: colors.shade0,
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 12,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "count_services_selected".tr(namedArgs: {"count": "${_serviceIds.value.length}"}),
+                                    style: fonts.xSmallLink.copyWith(
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  if (_recommendations.value.isNotEmpty) ...{
+                                    AnimationButtonEffect(
+                                      onTap: () {
+                                        if (_recommendations.value.isNotEmpty) {
+                                          lookSelectedService(
+                                            recommendations: _recommendations,
+                                            serviceIds: _serviceIds,
+                                            colors: colors,
+                                            fonts: fonts,
+                                          );
+                                        }
+                                      },
+                                      child: icons.right.svg(
+                                        width: 20.w,
+                                        height: 20.h,
+                                        color: colors.iconGreyColor,
                                       ),
                                     ),
-                                  );
-                                } else {
-                                  context.showPopUp(
-                                    status: PopUpStatus.warning,
-                                    message: "no_result_found".tr(),
-                                    fonts: fonts,
-                                    colors: colors,
-                                    context: context,
-                                  );
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  )
+                                  }
+                                ],
+                              ),
+                              CButton(
+                                backgroundColor: _serviceIds.value.isEmpty ? colors.neutral300 : colors.error500,
+                                title: "next".tr(),
+                                onTap: () {
+                                  if (_serviceIds.value.isNotEmpty) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => MedServiceDoctorChose(
+                                          isHome: false,
+                                          servicesID: _serviceIds.value,
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    context.showPopUp(
+                                      status: PopUpStatus.warning,
+                                      message: "no_result_found".tr(),
+                                      fonts: fonts,
+                                      colors: colors,
+                                      context: context,
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                  }
                 ],
               );
             },
           ),
         );
+      },
+    );
+  }
+
+  void lookSelectedService({
+    required ValueNotifier<List<RecommendationInfo>> recommendations,
+    required ValueNotifier<List<int>> serviceIds,
+    required CustomColorSet colors,
+    required FontSet fonts,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: true,
+      isScrollControlled: true,
+      enableDrag: true,
+      useRootNavigator: true,
+      useSafeArea: true,
+      backgroundColor: colors.shade0,
+      clipBehavior: Clip.none,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.6,
+        minHeight: MediaQuery.of(context).size.height * 0.3,
+      ),
+      builder: (context) {
+        return ValueListenableBuilder(
+            valueListenable: serviceIds,
+            builder: (ctx, val, child) {
+              if (recommendations.value.isEmpty) {
+                Navigator.of(context).pop();
+              }
+              return ListView.separated(
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Selected Services", style: fonts.regularMain.copyWith(fontSize: 14)),
+                        WScaleAnimation(
+                          onTap: () {
+                            serviceIds.value = [];
+                            recommendations.value = [];
+                          },
+                          child: Text(
+                            "Remove all",
+                            style: fonts.regularMain.copyWith(color: colors.error500, fontSize: 14),
+                          ),
+                        )
+                      ],
+                    );
+                  }
+
+                  final rec = _recommendations.value[index - 1];
+                  return SizedBox(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width - 25,
+                    child: Row(
+                      children: [
+                        Expanded(child: Text("${rec.serviceName}", style: fonts.regularMain)),
+                        WScaleAnimation(
+                          onTap: () {
+                            _serviceIds.value = List.from(_serviceIds.value)..remove(rec.serviceId!);
+                            _recommendations.value = List.from(_recommendations.value)..remove(rec);
+                          },
+                          child: Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              color: colors.neutral300,
+                            ),
+                            child: const Icon(Icons.delete_forever_outlined),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) => const Divider(),
+                itemCount: recommendations.value.length + 1,
+              );
+            });
       },
     );
   }

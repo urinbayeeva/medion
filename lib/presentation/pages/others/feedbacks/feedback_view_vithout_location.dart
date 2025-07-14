@@ -7,11 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
+import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/application/notification/notification_bloc.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
+import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/pages/others/customer_review/customer_review.dart';
+import 'package:medion/presentation/pages/others/customer_review/review_card.dart';
 import 'package:medion/presentation/pages/others/feedbacks/rank_widget.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/pop_up_status_enum.dart';
@@ -71,8 +75,8 @@ class _FeedBackWithoutLocationState extends State<FeedBackWithoutLocation> {
                   );
                 }
                 if (lState.postNotificationReviewStatus.isSuccess) {
+                  context.read<AuthBloc>().add(AuthEvent.fetchPatientVisitsDetail(id: widget.id));
                   _controller.clear();
-                  // _bloc.add(const BranchEvent.fillingReviewData(rank: -1, comment: ''));
                   _rank.value = 0;
                   context.showPopUp(
                     context: context,
@@ -85,10 +89,30 @@ class _FeedBackWithoutLocationState extends State<FeedBackWithoutLocation> {
               },
               buildWhen: (o, n) {
                 final post = o.postNotificationReviewStatus != n.postNotificationReviewStatus;
+                final review = o.review != n.review;
 
-                return post;
+                return review || post;
               },
               builder: (context, state) {
+                if (state.review != null) {
+                  return ReviewCard(
+                    review: GetReviewModel((b) => b
+                          ..id = 0
+                          ..companyId = 0
+                          ..review = "${state.review?.review}"
+                          ..ratings = "${state.review?.ratings}"
+                        // rating: int.tryParse("${state.review!.review}") ?? 0,
+                        // description: "${state.review!.review}",
+                        // name: "${state.review!.name}",
+                        // location: "${state.review!.location}",
+                        ),
+                    colors: colors,
+                    icons: icons,
+                    fonts: fonts,
+                    status: MyFunctions.getFeedBackStatus("${state.review?.status}"),
+                  );
+                }
+
                 return Container(
                   width: 350,
                   padding: const EdgeInsets.only(bottom: 12),
@@ -97,136 +121,137 @@ class _FeedBackWithoutLocationState extends State<FeedBackWithoutLocation> {
                     color: colors.shade0,
                   ),
                   child: ValueListenableBuilder(
-                      valueListenable: _rank,
-                      builder: (context, val, child) {
-                        return Column(
-                          spacing: 20,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                AppBar(
-                                  centerTitle: true,
-                                  elevation: 0,
-                                  backgroundColor: colors.shade0,
-                                  foregroundColor: colors.darkMode900,
-                                  scrolledUnderElevation: 0,
-                                  leadingWidth: 0,
-                                  automaticallyImplyLeading: false,
-                                  actions: [
-                                    if (!widget.noBack) ...{
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 12.w),
-                                        child: WScaleAnimation(
-                                          child: Icon(Icons.clear, size: 24.h),
-                                          onTap: () => Navigator.of(context).pop(),
-                                        ),
-                                      )
-                                    }
-                                  ],
-                                  title: Text("leave_feedback".tr(), style: fonts.regularMain),
-                                ),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "send_to_us_feedbacks".tr(),
-                                    style: fonts.regularText,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                12.verticalSpace,
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("give_stars".tr(), style: fonts.xSmallText.copyWith(color: colors.neutral600)),
-                                    RankWidget(
-                                      icons: icons,
-                                      colors: colors,
-                                      onTap: (val) {
-                                        _rank.value = val;
-                                        // _bloc.add(BranchEvent.fillingReviewData(rank: val));
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                12.verticalSpace,
-                                Text(
-                                  "feedback".tr(),
-                                  style: fonts.xSmallText.copyWith(color: colors.neutral600),
-                                ),
-                                ConstrainedBox(
-                                  constraints: BoxConstraints(maxHeight: 100.h),
-                                  child: TextField(
-                                    expands: true,
-                                    maxLines: null,
-                                    minLines: null,
-                                    focusNode: _focusNode,
-                                    controller: _controller,
-                                    keyboardType: TextInputType.multiline,
-                                    textAlignVertical: TextAlignVertical.top,
-                                    cursorColor: colors.neutral300,
-                                    style: fonts.regularText.copyWith(fontSize: 16.sp),
-                                    onChanged: (v) => setState(() {}),
-                                    decoration: InputDecoration(
-                                      hintText: 'leave_feedback'.tr(),
-                                      hintStyle: fonts.regularText.copyWith(color: colors.neutral600, fontSize: 16.sp),
-                                      filled: true,
-                                      fillColor: colors.shade0,
-                                      contentPadding: EdgeInsets.all(12.h),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12.r),
-                                        borderSide: BorderSide(color: colors.neutral300),
+                    valueListenable: _rank,
+                    builder: (context, val, child) {
+                      return Column(
+                        spacing: 20,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AppBar(
+                                centerTitle: true,
+                                elevation: 0,
+                                backgroundColor: colors.shade0,
+                                foregroundColor: colors.darkMode900,
+                                scrolledUnderElevation: 0,
+                                leadingWidth: 0,
+                                automaticallyImplyLeading: false,
+                                actions: [
+                                  if (!widget.noBack) ...{
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 12.w),
+                                      child: WScaleAnimation(
+                                        child: Icon(Icons.clear, size: 24.h),
+                                        onTap: () => Navigator.of(context).pop(),
                                       ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12.r),
-                                        borderSide: BorderSide(color: colors.neutral300),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12.r),
-                                        borderSide: BorderSide(color: colors.neutral300, width: 1.5),
-                                      ),
-                                    ),
-                                  ),
+                                    )
+                                  }
+                                ],
+                                title: Text("leave_feedback".tr(), style: fonts.regularMain),
+                              ),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "send_to_us_feedbacks".tr(),
+                                  style: fonts.regularText,
+                                  textAlign: TextAlign.center,
                                 ),
-                              ],
-                            ),
-                            CButton(
-                              backgroundColor:
-                                  (_rank.value >= 1 && _controller.text.length > 3) ? null : colors.neutral300,
-                              title: 'send'.tr(),
-                              child: state.postNotificationReviewStatus.isInProgress
-                                  ? const CupertinoActivityIndicator()
-                                  : null,
-                              onTap: () {
-                                final canPress = _rank.value >= 1 && _controller.text.length > 3;
-
-                                if (canPress) {
-                                  final post = PostVisitReviewModel(
-                                    (v) => v
-                                      ..ratings = _rank.value.toString()
-                                      ..review = _controller.text
-                                      ..visitId = widget.id,
-                                  );
-
-                                  context.read<NotificationBloc>().add(
-                                        NotificationEvent.postNotificationReview(review: post),
-                                      );
-                                } else {
-                                  context.showPopUp(
-                                    context: context,
-                                    status: PopUpStatus.warning,
+                              ),
+                              12.verticalSpace,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("give_stars".tr(), style: fonts.xSmallText.copyWith(color: colors.neutral600)),
+                                  RankWidget(
+                                    icons: icons,
                                     colors: colors,
-                                    fonts: fonts,
-                                    message: "something_went_wrong".tr(),
-                                  );
-                                }
-                              },
-                            ),
-                          ],
-                        );
-                      }),
+                                    onTap: (val) {
+                                      _rank.value = val;
+                                      // _bloc.add(BranchEvent.fillingReviewData(rank: val));
+                                    },
+                                  ),
+                                ],
+                              ),
+                              12.verticalSpace,
+                              Text(
+                                "feedback".tr(),
+                                style: fonts.xSmallText.copyWith(color: colors.neutral600),
+                              ),
+                              ConstrainedBox(
+                                constraints: BoxConstraints(maxHeight: 100.h),
+                                child: TextField(
+                                  expands: true,
+                                  maxLines: null,
+                                  minLines: null,
+                                  focusNode: _focusNode,
+                                  controller: _controller,
+                                  keyboardType: TextInputType.multiline,
+                                  textAlignVertical: TextAlignVertical.top,
+                                  cursorColor: colors.neutral300,
+                                  style: fonts.regularText.copyWith(fontSize: 16.sp),
+                                  onChanged: (v) => setState(() {}),
+                                  decoration: InputDecoration(
+                                    hintText: 'leave_feedback'.tr(),
+                                    hintStyle: fonts.regularText.copyWith(color: colors.neutral600, fontSize: 16.sp),
+                                    filled: true,
+                                    fillColor: colors.shade0,
+                                    contentPadding: EdgeInsets.all(12.h),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                      borderSide: BorderSide(color: colors.neutral300),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                      borderSide: BorderSide(color: colors.neutral300),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                      borderSide: BorderSide(color: colors.neutral300, width: 1.5),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          CButton(
+                            backgroundColor:
+                                (_rank.value >= 1 && _controller.text.length > 3) ? null : colors.neutral300,
+                            title: 'send'.tr(),
+                            child: state.postNotificationReviewStatus.isInProgress
+                                ? const CupertinoActivityIndicator()
+                                : null,
+                            onTap: () {
+                              final canPress = _rank.value >= 1 && _controller.text.length > 3;
+
+                              if (canPress) {
+                                final post = PostVisitReviewModel(
+                                  (v) => v
+                                    ..ratings = _rank.value.toString()
+                                    ..review = _controller.text
+                                    ..visitId = widget.id,
+                                );
+
+                                context
+                                    .read<NotificationBloc>()
+                                    .add(NotificationEvent.postNotificationReview(review: post));
+                              } else {
+                                context.showPopUp(
+                                  context: context,
+                                  status: PopUpStatus.warning,
+                                  colors: colors,
+                                  fonts: fonts,
+                                  message: "something_went_wrong".tr(),
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 );
               },
             ),

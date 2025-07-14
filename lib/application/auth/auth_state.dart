@@ -15,6 +15,7 @@ class AuthState with _$AuthState {
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus fetchPatientVisitSingleStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus fetchRecommendationStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus fetchRecipeStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus cancelVisitStatus,
     @Default([]) List<RecipeModel> recipes,
     @Default([]) List<Recommendation> recommendation,
     @Default([]) List<PatientOrder> moves,
@@ -41,6 +42,7 @@ class AuthState with _$AuthState {
     @Default(false) bool errorFetchingPaymentUrls,
     @Default(null) PaymentResponse? myWallet,
     @Default(null) PatientVisitSingleModel? patientVisitSingle,
+    @Default(null) CancelVisitResult? cancelVisitResult,
     @Default(null) RegistrationResponse? registrationResponse, // Added this line
   }) = _AuthState;
 }

@@ -39,8 +39,11 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
     if (event.branch.isNotEmpty) {
       emit(state.copyWith(reviewBranch: event.branch));
     }
+    if (event.id > 0) {
+      emit(state.copyWith(branchId: event.id));
+    }
     if (event.rank == 99) {
-      emit(state.copyWith(reviewRank: -4, reviewBranch: event.branch, reviewComment: event.comment));
+      emit(state.copyWith(reviewRank: -4, reviewBranch: event.branch, reviewComment: event.comment, branchId: 0));
     }
   }
 
@@ -63,25 +66,18 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
 
   FutureOr<void> _postReview(_PostReviews event, Emitter<BranchState> emit) async {
     emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.inProgress));
-    // final res = await _repository.postReview(review: event.review);
-    //
-    // res.fold(
-    //   (failure) {
-    //     emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.failure));
-    //   },
-    //   (res) {
-    //     emit(state.copyWith(
-    //       postReviewStatus: FormzSubmissionStatus.success,
-    //     ));
-    //   },
-    // );
-    emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.inProgress));
+    final res = await _repository.postReview(review: event.review);
 
-    await Future.delayed(const Duration(seconds: 2));
-    emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.failure));
-
-    await Future.delayed(const Duration(seconds: 2));
-    emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.success));
+    res.fold(
+      (failure) {
+        emit(state.copyWith(postReviewStatus: FormzSubmissionStatus.failure));
+      },
+      (res) {
+        emit(state.copyWith(
+          postReviewStatus: FormzSubmissionStatus.success,
+        ));
+      },
+    );
   }
 
   FutureOr<void> _getBranchDetail(_GetBranchDetail event, Emitter<BranchState> emit) async {

@@ -16,13 +16,8 @@ class AboutDoctorWidget extends StatelessWidget {
   final String? specialty;
   final String? image;
   final int? doctorID;
-  const AboutDoctorWidget(
-      {super.key,
-      this.name,
-      this.profession,
-      this.specialty,
-      this.image,
-      this.doctorID});
+
+  const AboutDoctorWidget({super.key, this.name, this.profession, this.specialty, this.image, this.doctorID});
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +52,14 @@ class AboutDoctorWidget extends StatelessWidget {
                 4.h.verticalSpace,
                 Text(profession!, style: fonts.smallLink),
                 4.h.verticalSpace,
-                Text(specialty == "null" ? "" : specialty!,
-                    style: fonts.mediumMain.copyWith(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w400,
-                        color: colors.neutral600)),
+                Text(
+                  specialty == "null" ? "" : specialty!,
+                  style: fonts.mediumMain.copyWith(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w400,
+                    color: colors.neutral600,
+                  ),
+                ),
                 12.h.verticalSpace,
                 CButton(
                   width: 164,

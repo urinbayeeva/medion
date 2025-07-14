@@ -204,9 +204,9 @@ class AuthRepository implements IAuthFacade {
   }
 
   @override
-  Future<Either<ResponseFailure, PatientAnalyse>> getPatientVisits() async {
+  Future<Either<ResponseFailure, PatientAnalyse>> getPatientVisits({required String time}) async {
     try {
-      final res = await _patientService.getPatientVisitsMobile();
+      final res = await _patientService.getPatientVisitsMobile(time: time);
 
       if (res.isSuccessful && res.body != null) {
         LogService.d('Response Status: ${res.statusCode}');
@@ -227,6 +227,29 @@ class AuthRepository implements IAuthFacade {
   Future<Either<ResponseFailure, PatientVisitSingleModel>> getPatientVisitSingle({required int id}) async {
     try {
       final res = await _patientService.getPatientVisitSingle(visitId: id);
+
+      if (res.isSuccessful && res.body != null) {
+        LogService.d('Response Status: ${res.statusCode}');
+        LogService.d('Response Body: ${res.body}');
+        return right(res.body!);
+      } else {
+        return left(InvalidCredentials(
+          message: 'Failed to fetch patient visits: ${res.statusCode}, ${res.body.toString()}',
+        ));
+      }
+    } catch (e) {
+      // if (e is DeserializationError || e is TypeError || e is CastError) {
+      //   return left(ParsingFailure(message: "JSON parsing error: ${e.toString()}"));
+      // }
+      LogService.e(" ----> error fetching patient visits: ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<ResponseFailure, CancelVisitResult>> cancelVisit({required CancelVisitBody cancel}) async {
+    try {
+      final res = await _refreshService.cancelVisit(cancelBody: cancel);
 
       if (res.isSuccessful && res.body != null) {
         LogService.d('Response Status: ${res.statusCode}');

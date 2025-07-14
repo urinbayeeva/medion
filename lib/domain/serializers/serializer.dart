@@ -56,6 +56,9 @@ part 'serializer.g.dart';
   ModelDoctor,
   WorkSchedule,
   ScheduleItem,
+  Articles,
+  GalleryItems,
+  DoctorReview,
   Experience,
   Education,
   Award,
@@ -100,6 +103,7 @@ part 'serializer.g.dart';
   PrivacyModel,
   GetReviewModel,
   PostReviewModel,
+  PostReviewResult,
   PostVisitReviewModel,
 
   RefreshTokenModel,
@@ -128,6 +132,8 @@ part 'serializer.g.dart';
   VisitResponse,
   Visit,
   PatientAnalyse,
+  CancelVisitBody,
+  CancelVisitResult,
   PaymentUrlModels,
 
   //Map

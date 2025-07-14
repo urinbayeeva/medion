@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/application/notification/notification_bloc.dart';
 import 'package:medion/domain/models/notification/notification_model.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
@@ -115,7 +117,9 @@ class NotificationCard extends StatelessWidget {
                                 );
                               },
                             ),
-                          );
+                          ).then((value) {
+                            context.read<NotificationBloc>();
+                          });
                         }
                       },
                       child: Row(

@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
@@ -12,11 +9,8 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_container.dart';
 import 'package:medion/presentation/component/c_divider.dart';
-import 'package:medion/presentation/component/c_filter.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
-import 'package:medion/presentation/pages/appointment/appointment_page.dart';
-import 'package:medion/presentation/pages/appointment/doctor_time_and_service.dart';
 import 'package:medion/presentation/pages/booking/phone_callback_dialog.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/service_widget.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
@@ -82,89 +76,82 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
     }
   }
 
-  String _currentFilter = 'All'; // Default filter value
-
-  void _onFilterChanged(String filterValue) {
-    setState(() {
-      _currentFilter = filterValue;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Scaffold(
-        backgroundColor: colors.backgroundColor,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CAppBar(
-              bordered: true,
-              title: widget.name ?? "",
-              centerTitle: true,
-              onTap: () {
-                Navigator.pop(context);
-                context.read<BottomNavBarController>().changeNavBar(false);
-              },
-              isBack: true,
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AnimatedRotation(
-                    turns: turns,
-                    duration: const Duration(seconds: 1),
-                    child: AnimationButtonEffect(
-                      onTap: () {
-                        setState(() {
-                          turns += 2 / 4;
-                          changeSum = !changeSum;
-                          dbService.setCurrencyPreference(changeSum);
-                        });
-                      },
-                      child: icons.valyutaChange.svg(width: 20.w, height: 20.h),
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return Scaffold(
+          backgroundColor: colors.backgroundColor,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CAppBar(
+                bordered: true,
+                title: widget.name ?? "",
+                centerTitle: true,
+                onTap: () {
+                  Navigator.pop(context);
+                  context.read<BottomNavBarController>().changeNavBar(false);
+                },
+                isBack: true,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AnimatedRotation(
+                      turns: turns,
+                      duration: const Duration(seconds: 1),
+                      child: AnimationButtonEffect(
+                        onTap: () {
+                          setState(() {
+                            turns += 2 / 4;
+                            changeSum = !changeSum;
+                            dbService.setCurrencyPreference(changeSum);
+                          });
+                        },
+                        child: icons.valyutaChange.svg(width: 20.w, height: 20.h),
+                      ),
                     ),
-                  ),
-                  // 6.w.horizontalSpace,
-                  // AnimationButtonEffect(
-                  //   onTap: () {
-                  //     showModalBottomSheet(
-                  //       context: context,
-                  //       builder: (BuildContext context) {
-                  //         return CFilter(
-                  //           currentFilter: _currentFilter,
-                  //           onFilterChanged: _onFilterChanged,
-                  //         );
-                  //       },
-                  //     );
-                  //   },
-                  //   child: icons.filter.svg(width: 20.w, height: 20.h),
-                  // ),
-                ],
+                    // 6.w.horizontalSpace,
+                    // AnimationButtonEffect(
+                    //   onTap: () {
+                    //     showModalBottomSheet(
+                    //       context: context,
+                    //       builder: (BuildContext context) {
+                    //         return CFilter(
+                    //           currentFilter: _currentFilter,
+                    //           onFilterChanged: _onFilterChanged,
+                    //         );
+                    //       },
+                    //     );
+                    //   },
+                    //   child: icons.filter.svg(width: 20.w, height: 20.h),
+                    // ),
+                  ],
+                ),
               ),
-            ),
-            BlocBuilder<BookingBloc, BookingState>(
-              builder: (context, state) {
-                if (state.loading || state.medicalModel == null) {
-                  return Expanded(child: _buildShimmerView(colors));
-                }
-                return Expanded(
-                  child: _buildContent(context, state, colors, fonts, icons),
-                );
-              },
-            ),
-            BlocBuilder<BookingBloc, BookingState>(
-              builder: (context, state) {
-                if (selectedServiceIds.isEmpty || state.medicalModel == null) {
-                  return const SizedBox.shrink();
-                }
-                return _buildSelectedServicesContainer(context, state, colors, fonts);
-              },
-            ),
-            24.h.verticalSpace,
-          ],
-        ),
-      );
-    });
+              BlocBuilder<BookingBloc, BookingState>(
+                builder: (context, state) {
+                  if (state.loading || state.medicalModel == null) {
+                    return Expanded(child: _buildShimmerView(colors));
+                  }
+                  return Expanded(
+                    child: _buildContent(context, state, colors, fonts, icons),
+                  );
+                },
+              ),
+              BlocBuilder<BookingBloc, BookingState>(
+                builder: (context, state) {
+                  if (selectedServiceIds.isEmpty || state.medicalModel == null) {
+                    return const SizedBox.shrink();
+                  }
+                  return _buildSelectedServicesContainer(context, state, colors, fonts);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildShimmerView(dynamic colors) {
@@ -200,19 +187,16 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                 childAspectRatio: 0.48,
               ),
               itemCount: 4,
-              // Show 4 placeholders
               itemBuilder: (_, __) => ShimmerContainer(
                 height: 200.h,
                 borderRadius: 8.r,
               ),
             ),
-            // Shimmer for Services List
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
               shrinkWrap: true,
               itemCount: 3,
-              // Show 3 placeholders
               itemBuilder: (_, __) => ShimmerContainer(
                 height: 80.h,
                 borderRadius: 8.r,
@@ -221,15 +205,6 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return Center(
-      child: Text(
-        "no_data_available".tr(),
-        style: Style.headlineMain(),
       ),
     );
   }
@@ -294,7 +269,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
               if (hasDescription) ...[
                 _buildSectionTitle('all_informations'.tr(), fonts),
                 CContainer(
-                  text: state.medicalModel!.decodedTitle ?? "No description",
+                  text: state.medicalModel!.decodedTitle,
                 ),
               ],
               if (hasDoctors) ...[
@@ -321,25 +296,21 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
-                    childAspectRatio: 0.2,
+                    // childAspectRatio: 0.6,
                   ),
                   itemBuilder: (context, index) {
                     final discount = state.medicalModel!.discount[index];
-                    final endDateFormatted = _formatDiscountDate(discount.discountEndDate?.toString());
+                    final endDateFormatted = _formatDiscountDate(discount.discountEndDate.toString());
 
                     return ArticleCardWidget(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DiscountPage(
-                                      discountId: discount.id,
-                                    )));
+                          context,
+                          MaterialPageRoute(builder: (context) => DiscountPage(discountId: discount.id)),
+                        );
                       },
                       title: discount.name,
-                      description: "Акция до {date}".tr(namedArgs: {
-                        "date": endDateFormatted,
-                      }),
+                      description: "Акция до {date}".tr(namedArgs: {"date": endDateFormatted}),
                       image: discount.image,
                     );
                   },
@@ -407,7 +378,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
         crossAxisCount: 2,
         crossAxisSpacing: 12.w,
         mainAxisSpacing: 12.h,
-        childAspectRatio: 0.46,
+        childAspectRatio: 0.52,
       ),
       itemCount: state.medicalModel!.doctors.length,
       itemBuilder: (_, index) {
@@ -421,11 +392,11 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
             Navigator.push(
               context,
               AppRoutes.getAboutDoctorPage(
-                doctor.name!,
-                doctor.jobName!,
-                "",
-                doctor.image!,
-                doctor.id!,
+                name: doctor.name!,
+                profession: doctor.jobName!,
+                status: "",
+                image: doctor.image!,
+                id: doctor.id!,
               ),
             ).then((_) {});
           },
@@ -440,7 +411,8 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   }
 
   Widget _buildServicesList(BookingState state) {
-    return ListView.builder(
+    return ListView.separated(
+      separatorBuilder: (context, index) => const SizedBox(height: 6),
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
       shrinkWrap: true,
@@ -479,13 +451,9 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   ) {
     return Container(
       decoration: BoxDecoration(
-        color: colors.shade0,
-        boxShadow: Style.shadowMMMM,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(8.r),
-          topRight: Radius.circular(8.r),
-        ),
-      ),
+          color: colors.shade0,
+          boxShadow: Style.shadowMMMM,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(8.r))),
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -522,13 +490,13 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                     servicesID: selectedServiceIds.toList(),
                   ),
                 ),
-              ).then((value) {
-                if (value != null && value is Set<int>) {
-                  setState(() {
-                    selectedServiceIds = value;
-                  });
-                }
-              });
+              ).then(
+                (value) {
+                  if (value != null && value is Set<int>) {
+                    setState(() => selectedServiceIds = value);
+                  }
+                },
+              );
             },
           ),
         ],
@@ -548,19 +516,17 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
     showModalBottomSheet(
       backgroundColor: colors.shade0,
       context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16.r))),
       builder: (context) {
         return Container(
-            padding: EdgeInsets.all(16.w),
-            child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          padding: EdgeInsets.all(16.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Text(
                 "count_services_selected".tr(namedArgs: {"count": selectedServiceIds.length.toString()}),
-                style: fonts.regularSemLink.copyWith(
-                  fontSize: 14.sp,
-                  color: colors.primary900, // Ensure contrast with background
-                ),
+                style: fonts.regularSemLink.copyWith(fontSize: 14.sp, color: colors.primary900),
               ),
               SizedBox(height: 10.h),
               Column(
@@ -568,8 +534,9 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                 children: [
                   ListView.separated(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: selectedServices.length,
+                    separatorBuilder: (context, index) => const CDivider(),
                     itemBuilder: (context, index) {
                       final service = selectedServices[index];
                       return Padding(
@@ -618,11 +585,12 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                         ),
                       );
                     },
-                    separatorBuilder: (context, index) => CDivider(),
                   ),
                 ],
               )
-            ]));
+            ],
+          ),
+        );
       },
     );
   }

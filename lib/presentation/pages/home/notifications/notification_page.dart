@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
 import 'package:medion/application/notification/notification_bloc.dart';
-import 'package:medion/domain/models/notification/notification_model.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/pages/home/notifications/notification_card.dart';
 import 'package:medion/presentation/pages/home/notifications/single_notification.dart';
@@ -11,9 +12,23 @@ import 'package:medion/presentation/pages/others/component/w_scala_animation.dar
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/notification_type_enum.dart';
+import 'package:medion/utils/enums/pop_up_status_enum.dart';
+import 'package:medion/utils/extension/context_extension.dart';
 
-class NotificationPage extends StatelessWidget {
+class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
+
+  @override
+  State<NotificationPage> createState() => _NotificationPageState();
+}
+
+class _NotificationPageState extends State<NotificationPage> {
+  @override
+  void initState() {
+    context.read<NotificationBloc>().add(const NotificationEvent.getNotifications());
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +61,33 @@ class NotificationPage extends StatelessWidget {
               ]
             ],
           ),
-          body: BlocBuilder<NotificationBloc, NotificationState>(
+          body: BlocConsumer<NotificationBloc, NotificationState>(
+            listenWhen: (old, nyu) {
+              final markAll = old.markAllNotificationStatus != nyu.markAllNotificationStatus;
+              final notifications = old.notificationStatus != nyu.notificationStatus;
+              return markAll || notifications;
+            },
+            listener: (context, state) {
+              if (state.markAllNotificationStatus.isSuccess) {
+                context.read<NotificationBloc>().add(const NotificationEvent.getNotifications());
+                context.showPopUp(
+                  status: PopUpStatus.success,
+                  message: "success".tr(),
+                  fonts: fonts,
+                  colors: colors,
+                  context: context,
+                );
+              }
+              if (state.markAllNotificationStatus.isFailure) {
+                context.showPopUp(
+                  status: PopUpStatus.warning,
+                  message: 'something_went_wrong'.tr(),
+                  fonts: fonts,
+                  colors: colors,
+                  context: context,
+                );
+              }
+            },
             buildWhen: (o, n) {
               final notifications = o.notifications.length != n.notifications.length;
               final nStatus = o.notificationStatus != n.notificationStatus;
@@ -56,7 +97,11 @@ class NotificationPage extends StatelessWidget {
               return notifications || nStatus || rOStatus || rAllStatus || type;
             },
             builder: (context, state) {
-              if (!state.notifications.isEmpty) {
+              if (state.notificationStatus.isInitial || state.notificationStatus.isInProgress) {
+                return const Center(child: CupertinoActivityIndicator());
+              }
+
+              if (state.notifications.isEmpty) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -107,9 +152,9 @@ class NotificationPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: state.notifications.length + notifications.length,
+                      itemCount: state.notifications.length,
                       itemBuilder: (context, index) {
-                        final list = [...state.notifications, ...notifications];
+                        final list = state.notifications;
                         final notification = list[index];
 
                         return NotificationCard(
@@ -186,121 +231,3 @@ class FilterCard extends StatelessWidget {
     );
   }
 }
-
-final notifications = [
-  NotificationModel((b) => b
-    ..type = 'links'
-    ..title = 'New Link Available'
-    ..id = 24
-    ..body = 'Check out this new link we’ve shared.'
-    ..createdAt = '01 июл 2024'
-    ..isRead = false
-    ..link = 'https://example.com/1'),
-  NotificationModel((b) => b
-    ..type = 'discount'
-    ..title = 'Summer Discount!'
-    ..id = 25
-    ..body = 'Get up to 50% off on selected items.'
-    ..createdAt = '02 июл 2024'
-    ..isRead = true
-    ..discount.update((d) => d
-      ..id = 101
-      ..title = 'Summer Sale'
-      ..image = 'discount_banner.png'
-      ..endDate = '31 июл 2024')),
-  NotificationModel((b) => b
-    ..type = 'reminders'
-    ..title = 'Appointment Reminder'
-    ..id = 2976
-    ..body = 'You have an appointment tomorrow.'
-    ..createdAt = '03 июл 2024'
-    ..isRead = false
-    ..reminder.update((r) => r
-      ..id = 2180
-      ..doctorName = 'Dr. Akmal'
-      ..image = 'doctor.png'
-      ..startDate = '04 июл 2024'
-      ..location = 'Clinic A')),
-  NotificationModel((b) => b
-    ..type = 'reviews'
-    ..title = 'Leave a Review'
-    ..id = 27
-    ..body = 'Let us know your experience.'
-    ..createdAt = '04 июл 2024'
-    ..isRead = true
-    ..review.update((r) => r
-      ..name = 'Service A'
-      ..review = 'It was great!'
-      ..status = 'completed'
-      ..location = 'Center 1'
-      ..createDate = '03 июл 2024'
-      ..ratings.addAll(['5']))),
-  NotificationModel((b) => b
-    ..type = 'results'
-    ..title = 'Lab Results Ready'
-    ..id = 28
-    ..body = 'Download your latest lab results.'
-    ..createdAt = '05 июл 2024'
-    ..isRead = false
-    ..labResult.add(
-      NotificationLabResult((l) => l
-        ..documentName = 'Blood Test'
-        ..documentUrl = 'https://example.com/blood_result.pdf'
-        ..date.addAll(['04 июл 2024'])),
-    )),
-  NotificationModel((b) => b
-    ..type = 'links'
-    ..title = 'Health Tips'
-    ..id = 29
-    ..body = 'Read daily health tips.'
-    ..createdAt = '06 июл 2024'
-    ..isRead = false
-    ..link = 'https://example.com/tips'),
-  NotificationModel((b) => b
-    ..type = 'discount'
-    ..title = 'Limited Time Offer'
-    ..id = 30
-    ..body = 'Flat 30% off till 10th July.'
-    ..createdAt = '06 июл 2024'
-    ..isRead = false
-    ..discount.update((d) => d
-      ..id = 102
-      ..title = 'July Deal'
-      ..image = 'july_offer.png'
-      ..endDate = '10 июл 2024')),
-  NotificationModel((b) => b
-    ..type = 'reminders'
-    ..title = 'Vaccination Reminder'
-    ..id = 2932
-    ..body = 'Your child’s vaccination is due.'
-    ..createdAt = '07 июл 2024'
-    ..isRead = true
-    ..reminder.update((r) => r
-      ..id = 2181
-      ..doctorName = 'Dr. Kamola'
-      ..image = 'vaccine_doc.png'
-      ..startDate = '08 июл 2024'
-      ..location = 'Pediatrics Center')),
-  NotificationModel(
-    (b) => b
-      ..type = 'reviews'
-      ..title = 'Rate Our App'
-      ..id = 32
-      ..body = 'We value your feedback.'
-      ..createdAt = '08 июл 2024'
-      ..isRead = false,
-  ),
-  NotificationModel((b) => b
-    ..type = 'results'
-    ..title = 'X-ray Result Uploaded'
-    ..id = 33
-    ..body = 'View your recent X-ray report.'
-    ..createdAt = '09 июл 2024'
-    ..isRead = true
-    ..labResult.add(
-      NotificationLabResult((l) => l
-        ..documentName = 'Chest X-ray'
-        ..documentUrl = 'https://example.com/xray_result.pdf'
-        ..date.addAll(['08 июл 2024'])),
-    )),
-];

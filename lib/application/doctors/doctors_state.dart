@@ -16,5 +16,6 @@ class DoctorState with _$DoctorState {
     @Default(false) bool doctorDetailsSuccess,
     @Default(null) ModelDoctor? doctorDetails,
     @Default([]) List<DoctorsJob> doctorsJob,
+    @Default([]) List<DoctorsInfo> doctorInfoItems,
   }) = _DoctorState;
 }

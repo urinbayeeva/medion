@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
+import 'package:medion/presentation/component/table_calendar/src/shared/utils.dart';
 import 'package:medion/presentation/component/table_calendar/src/table_calendar.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/visits/widgets/build_order_list.dart';
@@ -21,11 +24,23 @@ class MyVisitsPage extends StatefulWidget {
 
 class _MyVisitsPageState extends State<MyVisitsPage> {
   final ValueNotifier<bool> _showVisits = ValueNotifier(true);
+  final ValueNotifier<DateTime?> _today = ValueNotifier(null);
 
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(const AuthEvent.fetchPatientVisits());
+    _today.addListener(() {
+      final day = _today.value?.day;
+      final month = _today.value?.month;
+      final year = _today.value?.year;
+
+      if (day != null && month != null && year != null) {
+        context.read<AuthBloc>().add(AuthEvent.fetchPatientVisits(time: "$day-$month-$year"));
+      } else {
+        context.read<AuthBloc>().add(const AuthEvent.fetchPatientVisits(time: ""));
+      }
+    });
+    context.read<AuthBloc>().add(const AuthEvent.fetchPatientVisits(time: ''));
   }
 
   @override
@@ -64,10 +79,30 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                                       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.55),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: TableCalendar(
-                                          focusedDay: DateTime.now(),
-                                          firstDay: DateTime(2025, 06, 25),
-                                          lastDay: DateTime(2025, 09, 30),
+                                        child: ValueListenableBuilder(
+                                          valueListenable: _today,
+                                          builder: (ctx, val, child) {
+                                            return TableCalendar(
+                                              todayTap: () {
+                                                _today.value = DateTime.now();
+                                              },
+                                              lastTap: () {
+                                                _today.value = DateTime.now().copyWith(day: DateTime.now().day - 1);
+                                              },
+                                              allTap: () {
+                                                _today.value = null;
+                                              },
+                                              onDaySelected: (start, end) {
+                                                log("Start: ${start.day}");
+                                                log("End: ${end.day}");
+                                                _today.value = start;
+                                              },
+                                              currentDay: _today.value,
+                                              focusedDay: DateTime(2025, 07, 30),
+                                              firstDay: DateTime(2020, 06, 25),
+                                              lastDay: DateTime(2025, 09, 30),
+                                            );
+                                          },
                                         ),
                                       ),
                                     ),

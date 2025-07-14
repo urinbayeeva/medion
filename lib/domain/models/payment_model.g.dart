@@ -6,19 +6,27 @@ part of 'payment_model.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<PaymentResponse> _$paymentResponseSerializer = new _$PaymentResponseSerializer();
-Serializer<DailyTransactions> _$dailyTransactionsSerializer = new _$DailyTransactionsSerializer();
-Serializer<Transactions> _$transactionsSerializer = new _$TransactionsSerializer();
+Serializer<PaymentResponse> _$paymentResponseSerializer =
+    new _$PaymentResponseSerializer();
+Serializer<DailyTransactions> _$dailyTransactionsSerializer =
+    new _$DailyTransactionsSerializer();
+Serializer<Transactions> _$transactionsSerializer =
+    new _$TransactionsSerializer();
 Serializer<Payment> _$paymentSerializer = new _$PaymentSerializer();
-Serializer<Recommendation> _$recommendationSerializer = new _$RecommendationSerializer();
-Serializer<RecommendationInfo> _$recommendationInfoSerializer = new _$RecommendationInfoSerializer();
+Serializer<Recommendation> _$recommendationSerializer =
+    new _$RecommendationSerializer();
+Serializer<RecommendationInfo> _$recommendationInfoSerializer =
+    new _$RecommendationInfoSerializer();
 Serializer<RecipeModel> _$recipeModelSerializer = new _$RecipeModelSerializer();
 Serializer<VisitRecipe> _$visitRecipeSerializer = new _$VisitRecipeSerializer();
-Serializer<RecipeDetailModel> _$recipeDetailModelSerializer = new _$RecipeDetailModelSerializer();
-Serializer<ReceptionTime> _$receptionTimeSerializer = new _$ReceptionTimeSerializer();
+Serializer<RecipeDetailModel> _$recipeDetailModelSerializer =
+    new _$RecipeDetailModelSerializer();
+Serializer<ReceptionTime> _$receptionTimeSerializer =
+    new _$ReceptionTimeSerializer();
 Serializer<Medicine> _$medicineSerializer = new _$MedicineSerializer();
 
-class _$PaymentResponseSerializer implements StructuredSerializer<PaymentResponse> {
+class _$PaymentResponseSerializer
+    implements StructuredSerializer<PaymentResponse> {
   @override
   final Iterable<Type> types = const [PaymentResponse, _$PaymentResponse];
   @override
@@ -30,32 +38,37 @@ class _$PaymentResponseSerializer implements StructuredSerializer<PaymentRespons
     final result = <Object?>[
       'payment_history',
       serializers.serialize(object.payments,
-          specifiedType: const FullType(BuiltList, const [const FullType(DailyTransactions)])),
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(DailyTransactions)])),
     ];
     Object? value;
     value = object.patientBalance;
     if (value != null) {
       result
         ..add('patient_balance')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     value = object.patientDeposit;
     if (value != null) {
       result
         ..add('patient_deposit')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     value = object.patientDebit;
     if (value != null) {
       result
         ..add('patient_debit')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     return result;
   }
 
   @override
-  PaymentResponse deserialize(Serializers serializers, Iterable<Object?> serialized,
+  PaymentResponse deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new PaymentResponseBuilder();
 
@@ -66,17 +79,21 @@ class _$PaymentResponseSerializer implements StructuredSerializer<PaymentRespons
       final Object? value = iterator.current;
       switch (key) {
         case 'patient_balance':
-          result.patientBalance = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.patientBalance = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'patient_deposit':
-          result.patientDeposit = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.patientDeposit = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'patient_debit':
-          result.patientDebit = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.patientDebit = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'payment_history':
           result.payments.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(BuiltList, const [const FullType(DailyTransactions)]))!
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(DailyTransactions)]))!
               as BuiltList<Object?>);
           break;
       }
@@ -86,7 +103,8 @@ class _$PaymentResponseSerializer implements StructuredSerializer<PaymentRespons
   }
 }
 
-class _$DailyTransactionsSerializer implements StructuredSerializer<DailyTransactions> {
+class _$DailyTransactionsSerializer
+    implements StructuredSerializer<DailyTransactions> {
   @override
   final Iterable<Type> types = const [DailyTransactions, _$DailyTransactions];
   @override
@@ -98,26 +116,30 @@ class _$DailyTransactionsSerializer implements StructuredSerializer<DailyTransac
     final result = <Object?>[
       'transactions',
       serializers.serialize(object.transactions,
-          specifiedType: const FullType(BuiltList, const [const FullType(Transactions)])),
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(Transactions)])),
     ];
     Object? value;
     value = object.date;
     if (value != null) {
       result
         ..add('date')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.totalAmount;
     if (value != null) {
       result
         ..add('total_amount')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     return result;
   }
 
   @override
-  DailyTransactions deserialize(Serializers serializers, Iterable<Object?> serialized,
+  DailyTransactions deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new DailyTransactionsBuilder();
 
@@ -128,14 +150,18 @@ class _$DailyTransactionsSerializer implements StructuredSerializer<DailyTransac
       final Object? value = iterator.current;
       switch (key) {
         case 'date':
-          result.date = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.date = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'total_amount':
-          result.totalAmount = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.totalAmount = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'transactions':
           result.transactions.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(Transactions)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(Transactions)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -159,79 +185,92 @@ class _$TransactionsSerializer implements StructuredSerializer<Transactions> {
     if (value != null) {
       result
         ..add('datetime')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.name;
     if (value != null) {
       result
         ..add('name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.currency;
     if (value != null) {
       result
         ..add('currency')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.paymentMethod;
     if (value != null) {
       result
         ..add('payment_method')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.invoiceName;
     if (value != null) {
       result
         ..add('invoice_name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.cashier;
     if (value != null) {
       result
         ..add('cashier')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.status;
     if (value != null) {
       result
         ..add('status')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.paymentCheck;
     if (value != null) {
       result
         ..add('payment_check')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.fiscalCheck;
     if (value != null) {
       result
         ..add('fiscal_check')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.isIncome;
     if (value != null) {
       result
         ..add('is_income')
-        ..add(serializers.serialize(value, specifiedType: const FullType(bool)));
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
     value = object.amount;
     if (value != null) {
       result
         ..add('amount')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     value = object.accountNumber;
     if (value != null) {
       result
         ..add('account_number')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  Transactions deserialize(Serializers serializers, Iterable<Object?> serialized,
+  Transactions deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new TransactionsBuilder();
 
@@ -242,40 +281,52 @@ class _$TransactionsSerializer implements StructuredSerializer<Transactions> {
       final Object? value = iterator.current;
       switch (key) {
         case 'datetime':
-          result.dateTime = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.dateTime = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'name':
-          result.name = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'currency':
-          result.currency = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.currency = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'payment_method':
-          result.paymentMethod = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.paymentMethod = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'invoice_name':
-          result.invoiceName = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.invoiceName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'cashier':
-          result.cashier = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.cashier = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'status':
-          result.status = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.status = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'payment_check':
-          result.paymentCheck = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.paymentCheck = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'fiscal_check':
-          result.fiscalCheck = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.fiscalCheck = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'is_income':
-          result.isIncome = serializers.deserialize(value, specifiedType: const FullType(bool)) as bool?;
+          result.isIncome = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'amount':
-          result.amount = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.amount = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'account_number':
-          result.accountNumber = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.accountNumber = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -299,7 +350,8 @@ class _$PaymentSerializer implements StructuredSerializer<Payment> {
     if (value != null) {
       result
         ..add('move_id')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.partnerId;
     if (value != null) {
@@ -311,43 +363,50 @@ class _$PaymentSerializer implements StructuredSerializer<Payment> {
     if (value != null) {
       result
         ..add('date')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.createDate;
     if (value != null) {
       result
         ..add('create_date')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.createUid;
     if (value != null) {
       result
         ..add('create_uid')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     value = object.journalName;
     if (value != null) {
       result
         ..add('journal_name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.name;
     if (value != null) {
       result
         ..add('name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.caseRef;
     if (value != null) {
       result
         ..add('case_ref')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.currencyId;
     if (value != null) {
       result
         ..add('currency_id')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     value = object.companyId;
     if (value != null) {
@@ -359,31 +418,36 @@ class _$PaymentSerializer implements StructuredSerializer<Payment> {
     if (value != null) {
       result
         ..add('debit')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     value = object.credit;
     if (value != null) {
       result
         ..add('credit')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     value = object.dateMaturity;
     if (value != null) {
       result
         ..add('date_maturity')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.displayAmount;
     if (value != null) {
       result
         ..add('display_amount')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     value = object.createUser;
     if (value != null) {
       result
         ..add('create_user')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
@@ -400,49 +464,64 @@ class _$PaymentSerializer implements StructuredSerializer<Payment> {
       final Object? value = iterator.current;
       switch (key) {
         case 'move_id':
-          result.moveId = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.moveId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'partner_id':
-          result.partnerId = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.partnerId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'date':
-          result.date = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.date = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'create_date':
-          result.createDate = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.createDate = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'create_uid':
-          result.createUid = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.createUid = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'journal_name':
-          result.journalName = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.journalName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'name':
-          result.name = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'case_ref':
-          result.caseRef = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.caseRef = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'currency_id':
-          result.currencyId = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.currencyId = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'company_id':
-          result.companyId = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.companyId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'debit':
-          result.debit = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.debit = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'credit':
-          result.credit = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.credit = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'date_maturity':
-          result.dateMaturity = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.dateMaturity = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'display_amount':
-          result.displayAmount = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.displayAmount = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'create_user':
-          result.createUser = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.createUser = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -451,7 +530,8 @@ class _$PaymentSerializer implements StructuredSerializer<Payment> {
   }
 }
 
-class _$RecommendationSerializer implements StructuredSerializer<Recommendation> {
+class _$RecommendationSerializer
+    implements StructuredSerializer<Recommendation> {
   @override
   final Iterable<Type> types = const [Recommendation, _$Recommendation];
   @override
@@ -466,38 +546,44 @@ class _$RecommendationSerializer implements StructuredSerializer<Recommendation>
     if (value != null) {
       result
         ..add('datetime')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.serviceName;
     if (value != null) {
       result
         ..add('service_name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.doctorName;
     if (value != null) {
       result
         ..add('doctor_name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.address;
     if (value != null) {
       result
         ..add('address')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.recommendations;
     if (value != null) {
       result
         ..add('recommendations')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(BuiltList, const [const FullType(RecommendationInfo)])));
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(RecommendationInfo)])));
     }
     return result;
   }
 
   @override
-  Recommendation deserialize(Serializers serializers, Iterable<Object?> serialized,
+  Recommendation deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new RecommendationBuilder();
 
@@ -508,20 +594,25 @@ class _$RecommendationSerializer implements StructuredSerializer<Recommendation>
       final Object? value = iterator.current;
       switch (key) {
         case 'datetime':
-          result.datetime = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.datetime = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'service_name':
-          result.serviceName = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.serviceName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'doctor_name':
-          result.doctorName = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.doctorName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'address':
-          result.address = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.address = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'recommendations':
           result.recommendations.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(BuiltList, const [const FullType(RecommendationInfo)]))!
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(RecommendationInfo)]))!
               as BuiltList<Object?>);
           break;
       }
@@ -531,14 +622,16 @@ class _$RecommendationSerializer implements StructuredSerializer<Recommendation>
   }
 }
 
-class _$RecommendationInfoSerializer implements StructuredSerializer<RecommendationInfo> {
+class _$RecommendationInfoSerializer
+    implements StructuredSerializer<RecommendationInfo> {
   @override
   final Iterable<Type> types = const [RecommendationInfo, _$RecommendationInfo];
   @override
   final String wireName = 'RecommendationInfo';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, RecommendationInfo object,
+  Iterable<Object?> serialize(
+      Serializers serializers, RecommendationInfo object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[];
     Object? value;
@@ -552,7 +645,8 @@ class _$RecommendationInfoSerializer implements StructuredSerializer<Recommendat
     if (value != null) {
       result
         ..add('service_name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.doctorId;
     if (value != null) {
@@ -564,19 +658,22 @@ class _$RecommendationInfoSerializer implements StructuredSerializer<Recommendat
     if (value != null) {
       result
         ..add('price')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     value = object.orderDetailId;
     if (value != null) {
       result
         ..add('order_detail_id')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     return result;
   }
 
   @override
-  RecommendationInfo deserialize(Serializers serializers, Iterable<Object?> serialized,
+  RecommendationInfo deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new RecommendationInfoBuilder();
 
@@ -587,19 +684,24 @@ class _$RecommendationInfoSerializer implements StructuredSerializer<Recommendat
       final Object? value = iterator.current;
       switch (key) {
         case 'service_id':
-          result.serviceId = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.serviceId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'service_name':
-          result.serviceName = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.serviceName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'doctor_id':
-          result.doctorId = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.doctorId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'price':
-          result.price = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.price = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'order_detail_id':
-          result.orderDetailId = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.orderDetailId = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
       }
     }
@@ -623,32 +725,37 @@ class _$RecipeModelSerializer implements StructuredSerializer<RecipeModel> {
     if (value != null) {
       result
         ..add('service')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.patientName;
     if (value != null) {
       result
         ..add('patient_name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.datetime;
     if (value != null) {
       result
         ..add('datetime')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.address;
     if (value != null) {
       result
         ..add('address')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.prescriptions;
     if (value != null) {
       result
         ..add('prescriptions')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(BuiltList, const [const FullType(VisitRecipe)])));
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(VisitRecipe)])));
     }
     return result;
   }
@@ -665,20 +772,26 @@ class _$RecipeModelSerializer implements StructuredSerializer<RecipeModel> {
       final Object? value = iterator.current;
       switch (key) {
         case 'service':
-          result.service = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.service = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'patient_name':
-          result.patientName = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.patientName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'datetime':
-          result.datetime = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.datetime = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'address':
-          result.address = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.address = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'prescriptions':
           result.prescriptions.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(VisitRecipe)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(VisitRecipe)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -703,7 +816,8 @@ class _$VisitRecipeSerializer implements StructuredSerializer<VisitRecipe> {
       result
         ..add('visit_prescriptions')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(BuiltList, const [const FullType(RecipeDetailModel)])));
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(RecipeDetailModel)])));
     }
     return result;
   }
@@ -721,7 +835,8 @@ class _$VisitRecipeSerializer implements StructuredSerializer<VisitRecipe> {
       switch (key) {
         case 'visit_prescriptions':
           result.visitPrescriptions.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(BuiltList, const [const FullType(RecipeDetailModel)]))!
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(RecipeDetailModel)]))!
               as BuiltList<Object?>);
           break;
       }
@@ -731,7 +846,8 @@ class _$VisitRecipeSerializer implements StructuredSerializer<VisitRecipe> {
   }
 }
 
-class _$RecipeDetailModelSerializer implements StructuredSerializer<RecipeDetailModel> {
+class _$RecipeDetailModelSerializer
+    implements StructuredSerializer<RecipeDetailModel> {
   @override
   final Iterable<Type> types = const [RecipeDetailModel, _$RecipeDetailModel];
   @override
@@ -746,80 +862,94 @@ class _$RecipeDetailModelSerializer implements StructuredSerializer<RecipeDetail
     if (value != null) {
       result
         ..add('name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.administrationMethods;
     if (value != null) {
       result
         ..add('administration_methods')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.sleepRegarding;
     if (value != null) {
       result
         ..add('sleep_regarding')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.foodRegarding;
     if (value != null) {
       result
         ..add('food_regarding')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.startDate;
     if (value != null) {
       result
         ..add('start_date')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.durationUnit;
     if (value != null) {
       result
         ..add('duration_unit')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.notes;
     if (value != null) {
       result
         ..add('notes')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.date;
     if (value != null) {
       result
         ..add('date')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.receptionTime;
     if (value != null) {
       result
         ..add('reception_time')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(BuiltList, const [const FullType(ReceptionTime)])));
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(ReceptionTime)])));
     }
     value = object.medicines;
     if (value != null) {
       result
         ..add('medicines')
-        ..add(serializers.serialize(value, specifiedType: const FullType(BuiltList, const [const FullType(Medicine)])));
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(Medicine)])));
     }
     value = object.duration;
     if (value != null) {
       result
         ..add('duration')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     value = object.receptionPerDay;
     if (value != null) {
       result
         ..add('reception_per_day')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     return result;
   }
 
   @override
-  RecipeDetailModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+  RecipeDetailModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new RecipeDetailModelBuilder();
 
@@ -830,43 +960,56 @@ class _$RecipeDetailModelSerializer implements StructuredSerializer<RecipeDetail
       final Object? value = iterator.current;
       switch (key) {
         case 'name':
-          result.name = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'administration_methods':
-          result.administrationMethods =
-              serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.administrationMethods = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'sleep_regarding':
-          result.sleepRegarding = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.sleepRegarding = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'food_regarding':
-          result.foodRegarding = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.foodRegarding = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'start_date':
-          result.startDate = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.startDate = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'duration_unit':
-          result.durationUnit = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.durationUnit = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'notes':
-          result.notes = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.notes = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'date':
-          result.date = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.date = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'reception_time':
           result.receptionTime.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(ReceptionTime)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(ReceptionTime)]))!
+              as BuiltList<Object?>);
           break;
         case 'medicines':
           result.medicines.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(Medicine)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(Medicine)]))!
+              as BuiltList<Object?>);
           break;
         case 'duration':
-          result.duration = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.duration = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'reception_per_day':
-          result.receptionPerDay = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.receptionPerDay = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
       }
     }
@@ -890,13 +1033,15 @@ class _$ReceptionTimeSerializer implements StructuredSerializer<ReceptionTime> {
     if (value != null) {
       result
         ..add('time')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  ReceptionTime deserialize(Serializers serializers, Iterable<Object?> serialized,
+  ReceptionTime deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new ReceptionTimeBuilder();
 
@@ -907,7 +1052,8 @@ class _$ReceptionTimeSerializer implements StructuredSerializer<ReceptionTime> {
       final Object? value = iterator.current;
       switch (key) {
         case 'time':
-          result.time = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.time = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -931,19 +1077,22 @@ class _$MedicineSerializer implements StructuredSerializer<Medicine> {
     if (value != null) {
       result
         ..add('medicine')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.dosage;
     if (value != null) {
       result
         ..add('dosage')
-        ..add(serializers.serialize(value, specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
     }
     value = object.type;
     if (value != null) {
       result
         ..add('type')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
@@ -960,13 +1109,16 @@ class _$MedicineSerializer implements StructuredSerializer<Medicine> {
       final Object? value = iterator.current;
       switch (key) {
         case 'medicine':
-          result.medicine = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.medicine = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'dosage':
-          result.dosage = serializers.deserialize(value, specifiedType: const FullType(double)) as double?;
+          result.dosage = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'type':
-          result.type = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.type = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -988,16 +1140,23 @@ class _$PaymentResponse extends PaymentResponse {
   factory _$PaymentResponse([void Function(PaymentResponseBuilder)? updates]) =>
       (new PaymentResponseBuilder()..update(updates))._build();
 
-  _$PaymentResponse._({this.patientBalance, this.patientDeposit, this.patientDebit, required this.payments})
+  _$PaymentResponse._(
+      {this.patientBalance,
+      this.patientDeposit,
+      this.patientDebit,
+      required this.payments})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(payments, r'PaymentResponse', 'payments');
+    BuiltValueNullFieldError.checkNotNull(
+        payments, r'PaymentResponse', 'payments');
   }
 
   @override
-  PaymentResponse rebuild(void Function(PaymentResponseBuilder) updates) => (toBuilder()..update(updates)).build();
+  PaymentResponse rebuild(void Function(PaymentResponseBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
-  PaymentResponseBuilder toBuilder() => new PaymentResponseBuilder()..replace(this);
+  PaymentResponseBuilder toBuilder() =>
+      new PaymentResponseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1031,32 +1190,29 @@ class _$PaymentResponse extends PaymentResponse {
   }
 }
 
-class PaymentResponseBuilder implements Builder<PaymentResponse, PaymentResponseBuilder> {
+class PaymentResponseBuilder
+    implements Builder<PaymentResponse, PaymentResponseBuilder> {
   _$PaymentResponse? _$v;
 
   double? _patientBalance;
-
   double? get patientBalance => _$this._patientBalance;
-
-  set patientBalance(double? patientBalance) => _$this._patientBalance = patientBalance;
+  set patientBalance(double? patientBalance) =>
+      _$this._patientBalance = patientBalance;
 
   double? _patientDeposit;
-
   double? get patientDeposit => _$this._patientDeposit;
-
-  set patientDeposit(double? patientDeposit) => _$this._patientDeposit = patientDeposit;
+  set patientDeposit(double? patientDeposit) =>
+      _$this._patientDeposit = patientDeposit;
 
   double? _patientDebit;
-
   double? get patientDebit => _$this._patientDebit;
-
   set patientDebit(double? patientDebit) => _$this._patientDebit = patientDebit;
 
   ListBuilder<DailyTransactions>? _payments;
-
-  ListBuilder<DailyTransactions> get payments => _$this._payments ??= new ListBuilder<DailyTransactions>();
-
-  set payments(ListBuilder<DailyTransactions>? payments) => _$this._payments = payments;
+  ListBuilder<DailyTransactions> get payments =>
+      _$this._payments ??= new ListBuilder<DailyTransactions>();
+  set payments(ListBuilder<DailyTransactions>? payments) =>
+      _$this._payments = payments;
 
   PaymentResponseBuilder();
 
@@ -1102,7 +1258,8 @@ class PaymentResponseBuilder implements Builder<PaymentResponse, PaymentResponse
         _$failedField = 'payments';
         payments.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(r'PaymentResponse', _$failedField, e.toString());
+        throw new BuiltValueNestedFieldError(
+            r'PaymentResponse', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -1119,18 +1276,24 @@ class _$DailyTransactions extends DailyTransactions {
   @override
   final BuiltList<Transactions> transactions;
 
-  factory _$DailyTransactions([void Function(DailyTransactionsBuilder)? updates]) =>
+  factory _$DailyTransactions(
+          [void Function(DailyTransactionsBuilder)? updates]) =>
       (new DailyTransactionsBuilder()..update(updates))._build();
 
-  _$DailyTransactions._({this.date, this.totalAmount, required this.transactions}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(transactions, r'DailyTransactions', 'transactions');
+  _$DailyTransactions._(
+      {this.date, this.totalAmount, required this.transactions})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        transactions, r'DailyTransactions', 'transactions');
   }
 
   @override
-  DailyTransactions rebuild(void Function(DailyTransactionsBuilder) updates) => (toBuilder()..update(updates)).build();
+  DailyTransactions rebuild(void Function(DailyTransactionsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
-  DailyTransactionsBuilder toBuilder() => new DailyTransactionsBuilder()..replace(this);
+  DailyTransactionsBuilder toBuilder() =>
+      new DailyTransactionsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1161,26 +1324,23 @@ class _$DailyTransactions extends DailyTransactions {
   }
 }
 
-class DailyTransactionsBuilder implements Builder<DailyTransactions, DailyTransactionsBuilder> {
+class DailyTransactionsBuilder
+    implements Builder<DailyTransactions, DailyTransactionsBuilder> {
   _$DailyTransactions? _$v;
 
   String? _date;
-
   String? get date => _$this._date;
-
   set date(String? date) => _$this._date = date;
 
   double? _totalAmount;
-
   double? get totalAmount => _$this._totalAmount;
-
   set totalAmount(double? totalAmount) => _$this._totalAmount = totalAmount;
 
   ListBuilder<Transactions>? _transactions;
-
-  ListBuilder<Transactions> get transactions => _$this._transactions ??= new ListBuilder<Transactions>();
-
-  set transactions(ListBuilder<Transactions>? transactions) => _$this._transactions = transactions;
+  ListBuilder<Transactions> get transactions =>
+      _$this._transactions ??= new ListBuilder<Transactions>();
+  set transactions(ListBuilder<Transactions>? transactions) =>
+      _$this._transactions = transactions;
 
   DailyTransactionsBuilder();
 
@@ -1224,7 +1384,8 @@ class DailyTransactionsBuilder implements Builder<DailyTransactions, DailyTransa
         _$failedField = 'transactions';
         transactions.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(r'DailyTransactions', _$failedField, e.toString());
+        throw new BuiltValueNestedFieldError(
+            r'DailyTransactions', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -1278,7 +1439,8 @@ class _$Transactions extends Transactions {
       : super._();
 
   @override
-  Transactions rebuild(void Function(TransactionsBuilder) updates) => (toBuilder()..update(updates)).build();
+  Transactions rebuild(void Function(TransactionsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   TransactionsBuilder toBuilder() => new TransactionsBuilder()..replace(this);
@@ -1339,80 +1501,59 @@ class _$Transactions extends Transactions {
   }
 }
 
-class TransactionsBuilder implements Builder<Transactions, TransactionsBuilder> {
+class TransactionsBuilder
+    implements Builder<Transactions, TransactionsBuilder> {
   _$Transactions? _$v;
 
   String? _dateTime;
-
   String? get dateTime => _$this._dateTime;
-
   set dateTime(String? dateTime) => _$this._dateTime = dateTime;
 
   String? _name;
-
   String? get name => _$this._name;
-
   set name(String? name) => _$this._name = name;
 
   String? _currency;
-
   String? get currency => _$this._currency;
-
   set currency(String? currency) => _$this._currency = currency;
 
   String? _paymentMethod;
-
   String? get paymentMethod => _$this._paymentMethod;
-
-  set paymentMethod(String? paymentMethod) => _$this._paymentMethod = paymentMethod;
+  set paymentMethod(String? paymentMethod) =>
+      _$this._paymentMethod = paymentMethod;
 
   String? _invoiceName;
-
   String? get invoiceName => _$this._invoiceName;
-
   set invoiceName(String? invoiceName) => _$this._invoiceName = invoiceName;
 
   String? _cashier;
-
   String? get cashier => _$this._cashier;
-
   set cashier(String? cashier) => _$this._cashier = cashier;
 
   String? _status;
-
   String? get status => _$this._status;
-
   set status(String? status) => _$this._status = status;
 
   String? _paymentCheck;
-
   String? get paymentCheck => _$this._paymentCheck;
-
   set paymentCheck(String? paymentCheck) => _$this._paymentCheck = paymentCheck;
 
   String? _fiscalCheck;
-
   String? get fiscalCheck => _$this._fiscalCheck;
-
   set fiscalCheck(String? fiscalCheck) => _$this._fiscalCheck = fiscalCheck;
 
   bool? _isIncome;
-
   bool? get isIncome => _$this._isIncome;
-
   set isIncome(bool? isIncome) => _$this._isIncome = isIncome;
 
   double? _amount;
-
   double? get amount => _$this._amount;
-
   set amount(double? amount) => _$this._amount = amount;
 
   String? _accountNumber;
-
   String? get accountNumber => _$this._accountNumber;
-
-  set accountNumber(String? accountNumber) => _$this._accountNumber = accountNumber;
+  set accountNumber(String? accountNumber) =>
+      _$this._accountNumber = accountNumber;
 
   TransactionsBuilder();
 
@@ -1503,7 +1644,8 @@ class _$Payment extends Payment {
   @override
   final String? createUser;
 
-  factory _$Payment([void Function(PaymentBuilder)? updates]) => (new PaymentBuilder()..update(updates))._build();
+  factory _$Payment([void Function(PaymentBuilder)? updates]) =>
+      (new PaymentBuilder()..update(updates))._build();
 
   _$Payment._(
       {this.moveId,
@@ -1524,7 +1666,8 @@ class _$Payment extends Payment {
       : super._();
 
   @override
-  Payment rebuild(void Function(PaymentBuilder) updates) => (toBuilder()..update(updates)).build();
+  Payment rebuild(void Function(PaymentBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   PaymentBuilder toBuilder() => new PaymentBuilder()..replace(this);
@@ -1598,93 +1741,64 @@ class PaymentBuilder implements Builder<Payment, PaymentBuilder> {
   _$Payment? _$v;
 
   String? _moveId;
-
   String? get moveId => _$this._moveId;
-
   set moveId(String? moveId) => _$this._moveId = moveId;
 
   int? _partnerId;
-
   int? get partnerId => _$this._partnerId;
-
   set partnerId(int? partnerId) => _$this._partnerId = partnerId;
 
   String? _date;
-
   String? get date => _$this._date;
-
   set date(String? date) => _$this._date = date;
 
   String? _createDate;
-
   String? get createDate => _$this._createDate;
-
   set createDate(String? createDate) => _$this._createDate = createDate;
 
   double? _createUid;
-
   double? get createUid => _$this._createUid;
-
   set createUid(double? createUid) => _$this._createUid = createUid;
 
   String? _journalName;
-
   String? get journalName => _$this._journalName;
-
   set journalName(String? journalName) => _$this._journalName = journalName;
 
   String? _name;
-
   String? get name => _$this._name;
-
   set name(String? name) => _$this._name = name;
 
   String? _caseRef;
-
   String? get caseRef => _$this._caseRef;
-
   set caseRef(String? caseRef) => _$this._caseRef = caseRef;
 
   double? _currencyId;
-
   double? get currencyId => _$this._currencyId;
-
   set currencyId(double? currencyId) => _$this._currencyId = currencyId;
 
   int? _companyId;
-
   int? get companyId => _$this._companyId;
-
   set companyId(int? companyId) => _$this._companyId = companyId;
 
   double? _debit;
-
   double? get debit => _$this._debit;
-
   set debit(double? debit) => _$this._debit = debit;
 
   double? _credit;
-
   double? get credit => _$this._credit;
-
   set credit(double? credit) => _$this._credit = credit;
 
   String? _dateMaturity;
-
   String? get dateMaturity => _$this._dateMaturity;
-
   set dateMaturity(String? dateMaturity) => _$this._dateMaturity = dateMaturity;
 
   double? _displayAmount;
-
   double? get displayAmount => _$this._displayAmount;
-
-  set displayAmount(double? displayAmount) => _$this._displayAmount = displayAmount;
+  set displayAmount(double? displayAmount) =>
+      _$this._displayAmount = displayAmount;
 
   String? _createUser;
-
   String? get createUser => _$this._createUser;
-
   set createUser(String? createUser) => _$this._createUser = createUser;
 
   PaymentBuilder();
@@ -1765,14 +1879,21 @@ class _$Recommendation extends Recommendation {
   factory _$Recommendation([void Function(RecommendationBuilder)? updates]) =>
       (new RecommendationBuilder()..update(updates))._build();
 
-  _$Recommendation._({this.datetime, this.serviceName, this.doctorName, this.address, this.recommendations})
+  _$Recommendation._(
+      {this.datetime,
+      this.serviceName,
+      this.doctorName,
+      this.address,
+      this.recommendations})
       : super._();
 
   @override
-  Recommendation rebuild(void Function(RecommendationBuilder) updates) => (toBuilder()..update(updates)).build();
+  Recommendation rebuild(void Function(RecommendationBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
-  RecommendationBuilder toBuilder() => new RecommendationBuilder()..replace(this);
+  RecommendationBuilder toBuilder() =>
+      new RecommendationBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1809,39 +1930,31 @@ class _$Recommendation extends Recommendation {
   }
 }
 
-class RecommendationBuilder implements Builder<Recommendation, RecommendationBuilder> {
+class RecommendationBuilder
+    implements Builder<Recommendation, RecommendationBuilder> {
   _$Recommendation? _$v;
 
   String? _datetime;
-
   String? get datetime => _$this._datetime;
-
   set datetime(String? datetime) => _$this._datetime = datetime;
 
   String? _serviceName;
-
   String? get serviceName => _$this._serviceName;
-
   set serviceName(String? serviceName) => _$this._serviceName = serviceName;
 
   String? _doctorName;
-
   String? get doctorName => _$this._doctorName;
-
   set doctorName(String? doctorName) => _$this._doctorName = doctorName;
 
   String? _address;
-
   String? get address => _$this._address;
-
   set address(String? address) => _$this._address = address;
 
   ListBuilder<RecommendationInfo>? _recommendations;
-
   ListBuilder<RecommendationInfo> get recommendations =>
       _$this._recommendations ??= new ListBuilder<RecommendationInfo>();
-
-  set recommendations(ListBuilder<RecommendationInfo>? recommendations) => _$this._recommendations = recommendations;
+  set recommendations(ListBuilder<RecommendationInfo>? recommendations) =>
+      _$this._recommendations = recommendations;
 
   RecommendationBuilder();
 
@@ -1889,7 +2002,8 @@ class RecommendationBuilder implements Builder<Recommendation, RecommendationBui
         _$failedField = 'recommendations';
         _recommendations?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(r'Recommendation', _$failedField, e.toString());
+        throw new BuiltValueNestedFieldError(
+            r'Recommendation', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -1910,17 +2024,26 @@ class _$RecommendationInfo extends RecommendationInfo {
   @override
   final double? orderDetailId;
 
-  factory _$RecommendationInfo([void Function(RecommendationInfoBuilder)? updates]) =>
+  factory _$RecommendationInfo(
+          [void Function(RecommendationInfoBuilder)? updates]) =>
       (new RecommendationInfoBuilder()..update(updates))._build();
 
-  _$RecommendationInfo._({this.serviceId, this.serviceName, this.doctorId, this.price, this.orderDetailId}) : super._();
+  _$RecommendationInfo._(
+      {this.serviceId,
+      this.serviceName,
+      this.doctorId,
+      this.price,
+      this.orderDetailId})
+      : super._();
 
   @override
-  RecommendationInfo rebuild(void Function(RecommendationInfoBuilder) updates) =>
+  RecommendationInfo rebuild(
+          void Function(RecommendationInfoBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  RecommendationInfoBuilder toBuilder() => new RecommendationInfoBuilder()..replace(this);
+  RecommendationInfoBuilder toBuilder() =>
+      new RecommendationInfoBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1957,38 +2080,30 @@ class _$RecommendationInfo extends RecommendationInfo {
   }
 }
 
-class RecommendationInfoBuilder implements Builder<RecommendationInfo, RecommendationInfoBuilder> {
+class RecommendationInfoBuilder
+    implements Builder<RecommendationInfo, RecommendationInfoBuilder> {
   _$RecommendationInfo? _$v;
 
   int? _serviceId;
-
   int? get serviceId => _$this._serviceId;
-
   set serviceId(int? serviceId) => _$this._serviceId = serviceId;
 
   String? _serviceName;
-
   String? get serviceName => _$this._serviceName;
-
   set serviceName(String? serviceName) => _$this._serviceName = serviceName;
 
   int? _doctorId;
-
   int? get doctorId => _$this._doctorId;
-
   set doctorId(int? doctorId) => _$this._doctorId = doctorId;
 
   double? _price;
-
   double? get price => _$this._price;
-
   set price(double? price) => _$this._price = price;
 
   double? _orderDetailId;
-
   double? get orderDetailId => _$this._orderDetailId;
-
-  set orderDetailId(double? orderDetailId) => _$this._orderDetailId = orderDetailId;
+  set orderDetailId(double? orderDetailId) =>
+      _$this._orderDetailId = orderDetailId;
 
   RecommendationInfoBuilder();
 
@@ -2048,10 +2163,17 @@ class _$RecipeModel extends RecipeModel {
   factory _$RecipeModel([void Function(RecipeModelBuilder)? updates]) =>
       (new RecipeModelBuilder()..update(updates))._build();
 
-  _$RecipeModel._({this.service, this.patientName, this.datetime, this.address, this.prescriptions}) : super._();
+  _$RecipeModel._(
+      {this.service,
+      this.patientName,
+      this.datetime,
+      this.address,
+      this.prescriptions})
+      : super._();
 
   @override
-  RecipeModel rebuild(void Function(RecipeModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  RecipeModel rebuild(void Function(RecipeModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   RecipeModelBuilder toBuilder() => new RecipeModelBuilder()..replace(this);
@@ -2095,34 +2217,26 @@ class RecipeModelBuilder implements Builder<RecipeModel, RecipeModelBuilder> {
   _$RecipeModel? _$v;
 
   String? _service;
-
   String? get service => _$this._service;
-
   set service(String? service) => _$this._service = service;
 
   String? _patientName;
-
   String? get patientName => _$this._patientName;
-
   set patientName(String? patientName) => _$this._patientName = patientName;
 
   String? _datetime;
-
   String? get datetime => _$this._datetime;
-
   set datetime(String? datetime) => _$this._datetime = datetime;
 
   String? _address;
-
   String? get address => _$this._address;
-
   set address(String? address) => _$this._address = address;
 
   ListBuilder<VisitRecipe>? _prescriptions;
-
-  ListBuilder<VisitRecipe> get prescriptions => _$this._prescriptions ??= new ListBuilder<VisitRecipe>();
-
-  set prescriptions(ListBuilder<VisitRecipe>? prescriptions) => _$this._prescriptions = prescriptions;
+  ListBuilder<VisitRecipe> get prescriptions =>
+      _$this._prescriptions ??= new ListBuilder<VisitRecipe>();
+  set prescriptions(ListBuilder<VisitRecipe>? prescriptions) =>
+      _$this._prescriptions = prescriptions;
 
   RecipeModelBuilder();
 
@@ -2170,7 +2284,8 @@ class RecipeModelBuilder implements Builder<RecipeModel, RecipeModelBuilder> {
         _$failedField = 'prescriptions';
         _prescriptions?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(r'RecipeModel', _$failedField, e.toString());
+        throw new BuiltValueNestedFieldError(
+            r'RecipeModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -2189,7 +2304,8 @@ class _$VisitRecipe extends VisitRecipe {
   _$VisitRecipe._({this.visitPrescriptions}) : super._();
 
   @override
-  VisitRecipe rebuild(void Function(VisitRecipeBuilder) updates) => (toBuilder()..update(updates)).build();
+  VisitRecipe rebuild(void Function(VisitRecipeBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   VisitRecipeBuilder toBuilder() => new VisitRecipeBuilder()..replace(this);
@@ -2197,7 +2313,8 @@ class _$VisitRecipe extends VisitRecipe {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is VisitRecipe && visitPrescriptions == other.visitPrescriptions;
+    return other is VisitRecipe &&
+        visitPrescriptions == other.visitPrescriptions;
   }
 
   @override
@@ -2210,7 +2327,9 @@ class _$VisitRecipe extends VisitRecipe {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'VisitRecipe')..add('visitPrescriptions', visitPrescriptions)).toString();
+    return (newBuiltValueToStringHelper(r'VisitRecipe')
+          ..add('visitPrescriptions', visitPrescriptions))
+        .toString();
   }
 }
 
@@ -2218,10 +2337,8 @@ class VisitRecipeBuilder implements Builder<VisitRecipe, VisitRecipeBuilder> {
   _$VisitRecipe? _$v;
 
   ListBuilder<RecipeDetailModel>? _visitPrescriptions;
-
   ListBuilder<RecipeDetailModel> get visitPrescriptions =>
       _$this._visitPrescriptions ??= new ListBuilder<RecipeDetailModel>();
-
   set visitPrescriptions(ListBuilder<RecipeDetailModel>? visitPrescriptions) =>
       _$this._visitPrescriptions = visitPrescriptions;
 
@@ -2263,7 +2380,8 @@ class VisitRecipeBuilder implements Builder<VisitRecipe, VisitRecipeBuilder> {
         _$failedField = 'visitPrescriptions';
         _visitPrescriptions?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(r'VisitRecipe', _$failedField, e.toString());
+        throw new BuiltValueNestedFieldError(
+            r'VisitRecipe', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -2298,7 +2416,8 @@ class _$RecipeDetailModel extends RecipeDetailModel {
   @override
   final double? receptionPerDay;
 
-  factory _$RecipeDetailModel([void Function(RecipeDetailModelBuilder)? updates]) =>
+  factory _$RecipeDetailModel(
+          [void Function(RecipeDetailModelBuilder)? updates]) =>
       (new RecipeDetailModelBuilder()..update(updates))._build();
 
   _$RecipeDetailModel._(
@@ -2317,10 +2436,12 @@ class _$RecipeDetailModel extends RecipeDetailModel {
       : super._();
 
   @override
-  RecipeDetailModel rebuild(void Function(RecipeDetailModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  RecipeDetailModel rebuild(void Function(RecipeDetailModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
-  RecipeDetailModelBuilder toBuilder() => new RecipeDetailModelBuilder()..replace(this);
+  RecipeDetailModelBuilder toBuilder() =>
+      new RecipeDetailModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2378,80 +2499,65 @@ class _$RecipeDetailModel extends RecipeDetailModel {
   }
 }
 
-class RecipeDetailModelBuilder implements Builder<RecipeDetailModel, RecipeDetailModelBuilder> {
+class RecipeDetailModelBuilder
+    implements Builder<RecipeDetailModel, RecipeDetailModelBuilder> {
   _$RecipeDetailModel? _$v;
 
   String? _name;
-
   String? get name => _$this._name;
-
   set name(String? name) => _$this._name = name;
 
   String? _administrationMethods;
-
   String? get administrationMethods => _$this._administrationMethods;
-
-  set administrationMethods(String? administrationMethods) => _$this._administrationMethods = administrationMethods;
+  set administrationMethods(String? administrationMethods) =>
+      _$this._administrationMethods = administrationMethods;
 
   String? _sleepRegarding;
-
   String? get sleepRegarding => _$this._sleepRegarding;
-
-  set sleepRegarding(String? sleepRegarding) => _$this._sleepRegarding = sleepRegarding;
+  set sleepRegarding(String? sleepRegarding) =>
+      _$this._sleepRegarding = sleepRegarding;
 
   String? _foodRegarding;
-
   String? get foodRegarding => _$this._foodRegarding;
-
-  set foodRegarding(String? foodRegarding) => _$this._foodRegarding = foodRegarding;
+  set foodRegarding(String? foodRegarding) =>
+      _$this._foodRegarding = foodRegarding;
 
   String? _startDate;
-
   String? get startDate => _$this._startDate;
-
   set startDate(String? startDate) => _$this._startDate = startDate;
 
   String? _durationUnit;
-
   String? get durationUnit => _$this._durationUnit;
-
   set durationUnit(String? durationUnit) => _$this._durationUnit = durationUnit;
 
   String? _notes;
-
   String? get notes => _$this._notes;
-
   set notes(String? notes) => _$this._notes = notes;
 
   String? _date;
-
   String? get date => _$this._date;
-
   set date(String? date) => _$this._date = date;
 
   ListBuilder<ReceptionTime>? _receptionTime;
-
-  ListBuilder<ReceptionTime> get receptionTime => _$this._receptionTime ??= new ListBuilder<ReceptionTime>();
-
-  set receptionTime(ListBuilder<ReceptionTime>? receptionTime) => _$this._receptionTime = receptionTime;
+  ListBuilder<ReceptionTime> get receptionTime =>
+      _$this._receptionTime ??= new ListBuilder<ReceptionTime>();
+  set receptionTime(ListBuilder<ReceptionTime>? receptionTime) =>
+      _$this._receptionTime = receptionTime;
 
   ListBuilder<Medicine>? _medicines;
-
-  ListBuilder<Medicine> get medicines => _$this._medicines ??= new ListBuilder<Medicine>();
-
-  set medicines(ListBuilder<Medicine>? medicines) => _$this._medicines = medicines;
+  ListBuilder<Medicine> get medicines =>
+      _$this._medicines ??= new ListBuilder<Medicine>();
+  set medicines(ListBuilder<Medicine>? medicines) =>
+      _$this._medicines = medicines;
 
   double? _duration;
-
   double? get duration => _$this._duration;
-
   set duration(double? duration) => _$this._duration = duration;
 
   double? _receptionPerDay;
-
   double? get receptionPerDay => _$this._receptionPerDay;
-
-  set receptionPerDay(double? receptionPerDay) => _$this._receptionPerDay = receptionPerDay;
+  set receptionPerDay(double? receptionPerDay) =>
+      _$this._receptionPerDay = receptionPerDay;
 
   RecipeDetailModelBuilder();
 
@@ -2515,7 +2621,8 @@ class RecipeDetailModelBuilder implements Builder<RecipeDetailModel, RecipeDetai
         _$failedField = 'medicines';
         _medicines?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(r'RecipeDetailModel', _$failedField, e.toString());
+        throw new BuiltValueNestedFieldError(
+            r'RecipeDetailModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -2534,7 +2641,8 @@ class _$ReceptionTime extends ReceptionTime {
   _$ReceptionTime._({this.time}) : super._();
 
   @override
-  ReceptionTime rebuild(void Function(ReceptionTimeBuilder) updates) => (toBuilder()..update(updates)).build();
+  ReceptionTime rebuild(void Function(ReceptionTimeBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   ReceptionTimeBuilder toBuilder() => new ReceptionTimeBuilder()..replace(this);
@@ -2555,17 +2663,17 @@ class _$ReceptionTime extends ReceptionTime {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ReceptionTime')..add('time', time)).toString();
+    return (newBuiltValueToStringHelper(r'ReceptionTime')..add('time', time))
+        .toString();
   }
 }
 
-class ReceptionTimeBuilder implements Builder<ReceptionTime, ReceptionTimeBuilder> {
+class ReceptionTimeBuilder
+    implements Builder<ReceptionTime, ReceptionTimeBuilder> {
   _$ReceptionTime? _$v;
 
   String? _time;
-
   String? get time => _$this._time;
-
   set time(String? time) => _$this._time = time;
 
   ReceptionTimeBuilder();
@@ -2611,12 +2719,14 @@ class _$Medicine extends Medicine {
   @override
   final String? type;
 
-  factory _$Medicine([void Function(MedicineBuilder)? updates]) => (new MedicineBuilder()..update(updates))._build();
+  factory _$Medicine([void Function(MedicineBuilder)? updates]) =>
+      (new MedicineBuilder()..update(updates))._build();
 
   _$Medicine._({this.medicine, this.dosage, this.type}) : super._();
 
   @override
-  Medicine rebuild(void Function(MedicineBuilder) updates) => (toBuilder()..update(updates)).build();
+  Medicine rebuild(void Function(MedicineBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   MedicineBuilder toBuilder() => new MedicineBuilder()..replace(this);
@@ -2624,7 +2734,10 @@ class _$Medicine extends Medicine {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Medicine && medicine == other.medicine && dosage == other.dosage && type == other.type;
+    return other is Medicine &&
+        medicine == other.medicine &&
+        dosage == other.dosage &&
+        type == other.type;
   }
 
   @override
@@ -2651,21 +2764,15 @@ class MedicineBuilder implements Builder<Medicine, MedicineBuilder> {
   _$Medicine? _$v;
 
   String? _medicine;
-
   String? get medicine => _$this._medicine;
-
   set medicine(String? medicine) => _$this._medicine = medicine;
 
   double? _dosage;
-
   double? get dosage => _$this._dosage;
-
   set dosage(double? dosage) => _$this._dosage = dosage;
 
   String? _type;
-
   String? get type => _$this._type;
-
   set type(String? type) => _$this._type = type;
 
   MedicineBuilder();

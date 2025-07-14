@@ -14,7 +14,7 @@ class DropDownWidget extends StatefulWidget {
     required this.fonts,
   });
 
-  final void Function(String val) onChange;
+  final void Function(String val, int id) onChange;
   final CustomColorSet colors;
   final FontSet fonts;
   final List<BranchModel> items;
@@ -26,6 +26,7 @@ class DropDownWidget extends StatefulWidget {
 
 class _DropDownWidgetState extends State<DropDownWidget> {
   late final ValueNotifier<String> _title;
+  late final ValueNotifier<int> _id;
   late final ValueNotifier<bool> _extended;
 
   @override
@@ -33,6 +34,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
     super.initState();
     final title = (widget.branch.isNotEmpty && widget.branch.length > 4) ? widget.branch : 'choose_branch'.tr();
     _title = ValueNotifier(title);
+    _id = ValueNotifier(0);
     _extended = ValueNotifier(false);
   }
 
@@ -110,7 +112,8 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                                       onTap: () {
                                         _extended.value = !_extended.value;
                                         _title.value = widget.items[i].address ?? '';
-                                        widget.onChange(_title.value);
+                                        _id.value = widget.items[i].id ?? 0;
+                                        widget.onChange(_title.value, _id.value);
                                       },
                                       child: Container(
                                         width: double.infinity,

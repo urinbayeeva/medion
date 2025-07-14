@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
@@ -13,7 +16,9 @@ import 'package:medion/presentation/pages/visits/component/result.dart';
 import 'package:medion/presentation/pages/visits/component/review.dart';
 import 'package:medion/presentation/pages/visits/widgets/visit_info_detail_card.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/enums/pop_up_status_enum.dart';
 import 'package:medion/utils/enums/visits_enum.dart';
+import 'package:medion/utils/extension/context_extension.dart';
 
 class VisitDetailPage extends StatefulWidget {
   final int id;
@@ -63,13 +68,44 @@ class _VisitDetailPageState extends State<VisitDetailPage> with AutomaticKeepAli
     super.build(context);
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
-        return BlocBuilder<AuthBloc, AuthState>(
+        return BlocConsumer<AuthBloc, AuthState>(
+          listenWhen: (old, nyu) {
+            final status = old.cancelVisitStatus != nyu.cancelVisitStatus;
+            final result = old.cancelVisitResult != nyu.cancelVisitResult;
+            return status || result;
+          },
+          listener: (context, state) {
+            if (state.cancelVisitStatus.isSuccess) {
+              context.read<AuthBloc>().add(const AuthEvent.fetchPatientVisits(time: ''));
+              context
+                  .showPopUp(
+                status: PopUpStatus.success,
+                message: "message",
+                fonts: fonts,
+                colors: colors,
+                context: context,
+              )
+                  .then((value) {
+                Navigator.of(context).pop();
+              });
+            }
+            if (state.cancelVisitStatus.isFailure) {
+              context.showPopUp(
+                status: PopUpStatus.warning,
+                message: "something_went_wrong".tr(),
+                fonts: fonts,
+                colors: colors,
+                context: context,
+              );
+            }
+          },
           buildWhen: (o, n) {
             final single = o.patientVisitSingle != n.patientVisitSingle;
             final status = o.fetchPatientVisitSingleStatus != n.fetchPatientVisitSingleStatus;
             return single || status;
           },
           builder: (context, state) {
+            log("Visit detail review: ${state.patientVisitSingle?.review}");
             return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
@@ -152,11 +188,15 @@ class _VisitDetailPageState extends State<VisitDetailPage> with AutomaticKeepAli
                       children: [
                         AboutAdmission(
                           colors: colors,
-                          press: () {},
+                          press: () {
+                            context.read<AuthBloc>().add(AuthEvent.cancelVisit(id: state.patientVisitSingle!.id ?? 0));
+                          },
                           status: MyFunctions.getVisitStatus("${state.patientVisitSingle?.visitStatus}"),
                           admission: state.patientVisitSingle?.employerPays ?? "",
                           paymentType: "${state.patientVisitSingle?.paymentMethod}",
                           fonts: fonts,
+                          lat: state.patientVisitSingle?.latitude ?? 41.32681,
+                          lon: state.patientVisitSingle?.longitude ?? 69.24919,
                         ),
                         Result(
                           fonts: fonts,
@@ -164,7 +204,18 @@ class _VisitDetailPageState extends State<VisitDetailPage> with AutomaticKeepAli
                           colors: colors,
                           icons: icons,
                         ),
-                        Reviews(branch: "${state.patientVisitSingle?.address}"),
+                        ListView(
+                          children: [
+                            Reviews(
+                              id: state.patientVisitSingle?.id ?? 0,
+                              colors: colors,
+                              icons: icons,
+                              fonts: fonts,
+                              review: state.patientVisitSingle?.review,
+                            ),
+                            const SizedBox(),
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -180,9 +231,3 @@ class _VisitDetailPageState extends State<VisitDetailPage> with AutomaticKeepAli
   @override
   bool get wantKeepAlive => true;
 }
-
-final docs = <Map<String, dynamic>>[
-  {"title": "анализ_кровь.pdf", "url": "", "date": "Чт, 17 Июля 2022"},
-  {"title": "анализ_кровь.pdf", "url": "", "date": "Чт, 17 Июля 2022"},
-  {"title": "анализ_кровь.pdf", "url": "", "date": "Чт, 17 Июля 2022"},
-];

@@ -128,8 +128,6 @@ class _HomePageState extends State<HomePage> {
             return info || error || token;
           },
           listener: (context, lState) {
-            log("User Status: ${lState.userStatus.name}");
-            log("User have Token: ${lState.haveToken}");
             final patientInfo = lState.patientInfo == null;
 
             if (patientInfo || lState.errorFetchingPatientInfo) {

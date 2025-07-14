@@ -129,8 +129,13 @@ class _SearchPageState extends State<SearchPage> {
 
                                   Navigator.push(
                                     context,
-                                    AppRoutes.getAboutDoctorPage(doctor.name.toString(), doctor.job.toString(), "",
-                                        doctor.image.toString(), doctor.id ?? 32),
+                                    AppRoutes.getAboutDoctorPage(
+                                      name: doctor.name.toString(),
+                                      profession: doctor.job.toString(),
+                                      status: "",
+                                      image: doctor.image.toString(),
+                                      id: doctor.id ?? 32,
+                                    ),
                                   ).then((_) {
                                     context.read<BottomNavBarController>().changeNavBar(false);
                                   });

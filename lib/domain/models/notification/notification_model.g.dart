@@ -640,7 +640,8 @@ class _$NotificationSendReviewSerializer
     if (value != null) {
       result
         ..add('ratings')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.review;
     if (value != null) {
@@ -691,7 +692,7 @@ class _$NotificationSendReviewSerializer
           break;
         case 'ratings':
           result.ratings = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'review':
           result.review = serializers.deserialize(value,
@@ -1621,7 +1622,7 @@ class _$NotificationSendReview extends NotificationSendReview {
   @override
   final String? name;
   @override
-  final int? ratings;
+  final String? ratings;
   @override
   final String? review;
   @override
@@ -1699,9 +1700,9 @@ class NotificationSendReviewBuilder
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
 
-  int? _ratings;
-  int? get ratings => _$this._ratings;
-  set ratings(int? ratings) => _$this._ratings = ratings;
+  String? _ratings;
+  String? get ratings => _$this._ratings;
+  set ratings(String? ratings) => _$this._ratings = ratings;
 
   String? _review;
   String? get review => _$this._review;

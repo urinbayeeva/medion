@@ -8,11 +8,14 @@ part of 'serializer.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AdModel.serializer)
+      ..add(Articles.serializer)
       ..add(Award.serializer)
       ..add(AwardsModel.serializer)
       ..add(BookingTypeModel.serializer)
       ..add(BranchDetailModel.serializer)
       ..add(BranchModel.serializer)
+      ..add(CancelVisitBody.serializer)
+      ..add(CancelVisitResult.serializer)
       ..add(Category.serializer)
       ..add(CategorySearchText.serializer)
       ..add(ChildContentModel.serializer)
@@ -33,6 +36,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Doctor.serializer)
       ..add(DoctorCategory.serializer)
       ..add(DoctorData.serializer)
+      ..add(DoctorReview.serializer)
       ..add(DoctorSearchText.serializer)
       ..add(DoctorsJob.serializer)
       ..add(DoctorsRequest.serializer)
@@ -41,6 +45,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ErrorDetail.serializer)
       ..add(ErrorResponse.serializer)
       ..add(Experience.serializer)
+      ..add(GalleryItems.serializer)
       ..add(GetReviewModel.serializer)
       ..add(GiveSelectedId.serializer)
       ..add(HomeMedicalDoctor.serializer)
@@ -78,6 +83,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(PhoneNumberSendReq.serializer)
       ..add(Position.serializer)
       ..add(PostReviewModel.serializer)
+      ..add(PostReviewResult.serializer)
       ..add(PostVisitReviewModel.serializer)
       ..add(PriceItem.serializer)
       ..add(ReceptionTime.serializer)
@@ -155,6 +161,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(Experience)]),
           () => new ListBuilder<Experience>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Articles)]),
+          () => new ListBuilder<Articles>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(GalleryItems)]),
+          () => new ListBuilder<GalleryItems>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Education)]),
           () => new ListBuilder<Education>())
       ..addBuilderFactory(
@@ -166,6 +181,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PriceItem)]),
           () => new ListBuilder<PriceItem>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(DoctorReview)]),
+          () => new ListBuilder<DoctorReview>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(HomeMedicalDoctor)]),
           () => new ListBuilder<HomeMedicalDoctor>())
@@ -260,6 +278,18 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Service)]),
           () => new ListBuilder<Service>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

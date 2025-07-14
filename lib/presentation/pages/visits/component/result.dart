@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/download_button.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/visits/widgets/order_card_w.dart';
 import 'package:medion/presentation/styles/theme.dart';
 
@@ -59,11 +60,19 @@ class Result extends StatelessWidget {
                         ],
                       ),
                       const Spacer(),
-                      DecoratedBox(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: colors.neutral50),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: icons.share.svg(height: 20.h, width: 20.w),
+                      WScaleAnimation(
+                        onTap: () {
+                          MyFunctions.shareData({
+                            "Link": "${docUrls[index].documentUrl}",
+                            "Document Name": "${docUrls[index].documentName}",
+                          });
+                        },
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: colors.neutral50),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: icons.share.svg(height: 20.h, width: 20.w),
+                          ),
                         ),
                       ),
                       DownloadButton(onTap: () => MyFunctions.openLink(docUrls[index].documentUrl ?? '')),

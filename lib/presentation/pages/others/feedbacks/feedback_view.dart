@@ -43,7 +43,12 @@ class _FeedbackViewState extends State<FeedbackView> {
       ..addListener(() {
         if (_debounce?.isActive ?? false) _debounce?.cancel();
         _debounce = Timer(const Duration(milliseconds: 400), () {
-          _bloc.add(BranchEvent.fillingReviewData(comment: _controller.text));
+          _bloc.add(BranchEvent.fillingReviewData(
+            comment: _controller.text,
+            rank: _bloc.state.reviewRank,
+            id: _bloc.state.branchId,
+            branch: _bloc.state.reviewBranch,
+          ));
         });
       });
 
@@ -81,7 +86,7 @@ class _FeedbackViewState extends State<FeedbackView> {
                 if (lState.postReviewStatus.isSuccess) {
                   _pop.value = true;
                   if (_controller.text.isNotEmpty) {
-                    _bloc.add(BranchEvent.fillingReviewData(branch: widget.branch, rank: 99, comment: ''));
+                    _bloc.add(BranchEvent.fillingReviewData(branch: widget.branch, rank: -99, comment: ''));
                   }
 
                   _controller.clear();
@@ -166,7 +171,12 @@ class _FeedbackViewState extends State<FeedbackView> {
                                   icons: icons,
                                   colors: colors,
                                   onTap: (val) {
-                                    _bloc.add(BranchEvent.fillingReviewData(rank: val));
+                                    _bloc.add(BranchEvent.fillingReviewData(
+                                      rank: val,
+                                      branch: state.reviewBranch,
+                                      id: state.branchId,
+                                      comment: state.reviewComment,
+                                    ));
                                   },
                                 ),
                               ],
@@ -217,7 +227,8 @@ class _FeedbackViewState extends State<FeedbackView> {
                               title: 'send'.tr(),
                               child: state.postReviewStatus.isInProgress ? const CupertinoActivityIndicator() : null,
                               onTap: () {
-                                log(" canPress = ${state.reviewRank}");
+                                log(" rank = ${state.reviewRank}");
+                                log(" id = ${state.branchId}");
                                 log(" ${state.reviewBranch} branch");
                                 log(" Controller ${_controller.text}.length > 3;");
                                 final canPress = state.reviewRank != -1 &&
@@ -228,8 +239,7 @@ class _FeedbackViewState extends State<FeedbackView> {
                                     (v) => v
                                       ..ratings = state.reviewRank.toString()
                                       ..review = state.reviewComment
-                                      ..companyId = 123
-                                      ..patientId = 456
+                                      ..companyId = state.branchId
                                       ..isAnonym = false,
                                   );
 
@@ -260,16 +270,21 @@ class _FeedbackViewState extends State<FeedbackView> {
                                     colors: colors,
                                     branch: widget.branch,
                                     items: state.branches,
-                                    onChange: (String val) {},
+                                    onChange: (String val, int id) {},
                                   ),
                                 )
                               : DropDownWidget(
                                   fonts: fonts,
                                   colors: colors,
                                   items: state.branches,
-                                  onChange: (String val) {
-                                    log("Branch: $val");
-                                    _bloc.add(BranchEvent.fillingReviewData(branch: val));
+                                  onChange: (String val, int id) {
+                                    log("Branch: $val, ID: $id");
+                                    _bloc.add(BranchEvent.fillingReviewData(
+                                      branch: val,
+                                      id: id,
+                                      rank: state.reviewRank,
+                                      comment: state.reviewComment,
+                                    ));
                                   },
                                 ),
                         ),

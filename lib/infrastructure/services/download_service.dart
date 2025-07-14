@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:medion/presentation/pages/profile/inner_pages/wallet_page.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -15,6 +16,7 @@ class FileDownloadService {
     required String url,
     required String fileName,
     required CustomColorSet colors,
+    String fileType = '.pdf',
   }) async {
     OverlayEntry? overlayEntry;
     final progressNotifier = ValueNotifier<int>(0); // 👈 progress notifier
@@ -36,7 +38,7 @@ class FileDownloadService {
       if (fileName.contains("pdf")) {
         filePath = "${appDir.path}/$fileName";
       } else {
-        filePath = "${appDir.path}/$fileName.pdf";
+        filePath = "${appDir.path}/$fileName$fileType";
       }
 
       overlayEntry = OverlayEntry(
@@ -82,6 +84,14 @@ class FileDownloadService {
             final progress = (received / total * 100).toInt();
             progressNotifier.value = progress;
           }
+        },
+      ).then(
+        (val) {
+          log("value: ${val.data}");
+
+          Navigator.of(context, rootNavigator: true).push(
+            MaterialPageRoute(builder: (ctx) => PdfViewScreen(path: filePath)),
+          );
         },
       );
 

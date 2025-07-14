@@ -41,7 +41,10 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         emit(state.copyWith(postNotificationReviewStatus: FormzSubmissionStatus.failure));
       },
       (review) {
-        emit(state.copyWith(postNotificationReviewStatus: FormzSubmissionStatus.success));
+        emit(state.copyWith(
+          review: review,
+          postNotificationReviewStatus: FormzSubmissionStatus.success,
+        ));
       },
     );
   }
@@ -71,7 +74,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     log("set fcm token $fcm || id: $id \n\n");
 
-    if (oldFcm != fcm) {
+    if (oldFcm != fcm || oldFcm.isEmpty) {
       if (id != null && fcm != null) {
         service.setFcmToken(fcm);
         final res = await repository.setFcmToken(id: id, token: fcm);
@@ -110,7 +113,18 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
   FutureOr<void> _onGetMoreNotifications(_GetMoreNotification event, Emitter<NotificationState> emit) async {}
 
-  FutureOr<void> _onMarkAllNotification(_MarkAllNotificationAsRead event, Emitter<NotificationState> emit) async {}
+  FutureOr<void> _onMarkAllNotification(_MarkAllNotificationAsRead event, Emitter<NotificationState> emit) async {
+    emit(state.copyWith(markAllNotificationStatus: FormzSubmissionStatus.inProgress));
+    final res = await repository.readNotifications();
+    res.fold(
+      (failure) {
+        emit(state.copyWith(markAllNotificationStatus: FormzSubmissionStatus.failure));
+      },
+      (success) {
+        emit(state.copyWith(markAllNotificationStatus: FormzSubmissionStatus.success));
+      },
+    );
+  }
 
   FutureOr<void> _onReadNotification(_ReadNotification event, Emitter<NotificationState> emit) async {
     emit(state.copyWith(readOnlyStatus: FormzSubmissionStatus.inProgress));

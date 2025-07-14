@@ -1,11 +1,9 @@
-import 'package:built_collection/src/list.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
-import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/domain/models/payment_model.dart';
@@ -70,7 +68,14 @@ class _RecipesPageState extends State<RecipesPage> {
                 );
               }
 
-              if (state.recipes.isEmpty && state.fetchRecipeStatus.isSuccess) {
+              final filteredRecipes = state.recipes.where((recipe) {
+                final hasPrescriptions = recipe.prescriptions != null && recipe.prescriptions!.isNotEmpty;
+                final hasVisitPrescriptions = hasPrescriptions &&
+                    recipe.prescriptions!.any((p) => p.visitPrescriptions != null && p.visitPrescriptions!.isNotEmpty);
+                return hasVisitPrescriptions;
+              }).toList();
+
+              if (filteredRecipes.isEmpty && state.fetchRecipeStatus.isSuccess) {
                 return Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -89,19 +94,19 @@ class _RecipesPageState extends State<RecipesPage> {
                 );
               }
 
-              return ListView.separated(
-                separatorBuilder: (context, i) => const SizedBox(height: 8),
+              return ListView.builder(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
-                itemCount: state.recipes.length,
+                itemCount: filteredRecipes.length,
                 itemBuilder: (context, index) {
-                  final recipes = state.recipes[index];
+                  final recipe = filteredRecipes[index];
+
                   return Padding(
-                    padding: EdgeInsets.only(top: index == 0 ? 12 : 0),
-                    child: RecommendationCard(
+                    padding: const EdgeInsets.only(top: 8, bottom: 2),
+                    child: RecipeCard(
                       colors: colors,
                       fonts: fonts,
                       icons: icons,
-                      recipe: recipes,
+                      recipe: recipe,
                     ),
                   );
                 },
@@ -114,8 +119,8 @@ class _RecipesPageState extends State<RecipesPage> {
   }
 }
 
-class RecommendationCard extends StatefulWidget {
-  const RecommendationCard({
+class RecipeCard extends StatefulWidget {
+  const RecipeCard({
     super.key,
     required this.colors,
     required this.fonts,
@@ -129,10 +134,10 @@ class RecommendationCard extends StatefulWidget {
   final RecipeModel recipe;
 
   @override
-  State<RecommendationCard> createState() => _RecommendationCardState();
+  State<RecipeCard> createState() => _RecipeCardState();
 }
 
-class _RecommendationCardState extends State<RecommendationCard> {
+class _RecipeCardState extends State<RecipeCard> {
   ValueNotifier<bool> isOpen = ValueNotifier(false);
 
   @override

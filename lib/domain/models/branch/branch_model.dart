@@ -360,6 +360,18 @@ abstract class GetReviewModel implements Built<GetReviewModel, GetReviewModelBui
   @BuiltValueField(wireName: "id")
   int? get id;
 
+  @BuiltValueField(wireName: "title")
+  String? get title;
+
+  @BuiltValueField(wireName: "create_date")
+  String? get dateTime;
+
+  @BuiltValueField(wireName: "address")
+  String? get location;
+
+  @BuiltValueField(wireName: "name")
+  String? get name;
+
   @BuiltValueField(wireName: "ratings")
   String? get ratings;
 
@@ -378,6 +390,9 @@ abstract class GetReviewModel implements Built<GetReviewModel, GetReviewModelBui
   @BuiltValueField(wireName: "partner_id")
   int? get partnerId;
 
+  @BuiltValueField(wireName: "is_anonym")
+  bool? get isAnonym;
+
   GetReviewModel._();
 
   factory GetReviewModel([void Function(GetReviewModelBuilder) updates]) = _$GetReviewModel;
@@ -386,26 +401,37 @@ abstract class GetReviewModel implements Built<GetReviewModel, GetReviewModelBui
 }
 
 abstract class PostReviewModel implements Built<PostReviewModel, PostReviewModelBuilder> {
+  @BuiltValueField(wireName: "is_anonym")
+  bool? get isAnonym;
+
+  @BuiltValueField(wireName: "company_id")
+  int? get companyId;
+
   @BuiltValueField(wireName: "ratings")
   String? get ratings;
 
   @BuiltValueField(wireName: "review")
   String? get review;
 
-  @BuiltValueField(wireName: "company_id")
-  int? get companyId;
-
-  @BuiltValueField(wireName: "patient_id")
-  int? get patientId;
-
-  @BuiltValueField(wireName: "is_anonym")
-  bool? get isAnonym;
-
   PostReviewModel._();
 
   factory PostReviewModel([void Function(PostReviewModelBuilder) updates]) = _$PostReviewModel;
 
   static Serializer<PostReviewModel> get serializer => _$postReviewModelSerializer;
+}
+
+abstract class PostReviewResult implements Built<PostReviewResult, PostReviewResultBuilder> {
+  @BuiltValueField(wireName: "status")
+  String? get status;
+
+  @BuiltValueField(wireName: "message")
+  String? get message;
+
+  PostReviewResult._();
+
+  factory PostReviewResult([void Function(PostReviewResultBuilder) updates]) = _$PostReviewResult;
+
+  static Serializer<PostReviewResult> get serializer => _$postReviewResultSerializer;
 }
 
 abstract class PostVisitReviewModel implements Built<PostVisitReviewModel, PostVisitReviewModelBuilder> {

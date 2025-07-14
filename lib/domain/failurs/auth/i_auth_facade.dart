@@ -24,7 +24,7 @@ abstract class IAuthFacade {
 
   Future<Either<ResponseFailure, PatientInfo>> getPatientInfo();
 
-  Future<Either<ResponseFailure, PatientAnalyse>> getPatientVisits();
+  Future<Either<ResponseFailure, PatientAnalyse>> getPatientVisits({required String time});
 
   Future<Either<ResponseFailure, PatientVisitSingleModel>> getPatientVisitSingle({required int id});
 
@@ -37,4 +37,6 @@ abstract class IAuthFacade {
   Future<Either<ResponseFailure, List<Recommendation>>> getRecommendation();
 
   Future<Either<ResponseFailure, List<RecipeModel>>> getRecipes();
+
+  Future<Either<ResponseFailure, CancelVisitResult>> cancelVisit({required CancelVisitBody cancel});
 }

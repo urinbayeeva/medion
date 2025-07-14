@@ -66,11 +66,11 @@ class BuildDoctorsCategory extends StatelessWidget {
                           Navigator.push(
                             context,
                             AppRoutes.getAboutDoctorPage(
-                              doctor['name'].toString(),
-                              doctor['profession'].toString(),
-                              doctor['name'].toString(),
-                              doctor['image'].toString(),
-                              doctor['id'],
+                              name: doctor['name'].toString(),
+                              profession: doctor['profession'].toString(),
+                              status: doctor['name'].toString(),
+                              image: doctor['image'].toString(),
+                              id: doctor['id'],
                             ),
                           ).then((_) {
                             context.read<BottomNavBarController>().changeNavBar(false);

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:medion/domain/models/models.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
@@ -39,6 +40,7 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
+      log("Response data: ${response.body}");
       final decodedResponse = utf8.decode(response.bodyBytes);
       final responseData = jsonDecode(decodedResponse);
 

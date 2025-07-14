@@ -16,7 +16,7 @@ abstract class AuthEvent with _$AuthEvent {
 
   const factory AuthEvent.pickImage(BuildContext context) = _PickImage;
 
-  const factory AuthEvent.fetchPatientVisits() = _FetchPatientVisits;
+  const factory AuthEvent.fetchPatientVisits({required String time}) = _FetchPatientVisits;
 
   const factory AuthEvent.fetchPatientVisitSingle({required int id}) = _FetchPatientSingleVisits;
 
@@ -31,4 +31,6 @@ abstract class AuthEvent with _$AuthEvent {
   const factory AuthEvent.fetchRecommendation() = _FetchRecommendation;
 
   const factory AuthEvent.fetchRecipes() = _FetchRecipes;
+
+  const factory AuthEvent.cancelVisit({required int id}) = _CancelVisit;
 }

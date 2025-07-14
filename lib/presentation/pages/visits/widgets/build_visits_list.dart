@@ -31,6 +31,7 @@ class BuildVisitList extends StatelessWidget {
         return VisitsNewDesignCard(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
           doctorName: visit.doctorFullName ?? "",
+          id: visit.id.toString(),
           doctorJob: visit.doctorJobName ?? "",
           serviceName: visit.serviceName ?? "",
           location: visit.address ?? "",

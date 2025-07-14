@@ -4,6 +4,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 
 import '../customization/header_style.dart';
 import '../shared/utils.dart' show CalendarFormat, DayBuilder;
@@ -18,6 +19,9 @@ class CalendarHeader extends StatelessWidget {
   final VoidCallback onLeftChevronTap;
   final VoidCallback onRightChevronTap;
   final VoidCallback onHeaderTap;
+  final VoidCallback todayTap;
+  final VoidCallback lastTap;
+  final VoidCallback allTap;
   final VoidCallback onHeaderLongPress;
   final ValueChanged<CalendarFormat> onFormatButtonTap;
   final Map<CalendarFormat, String> availableCalendarFormats;
@@ -38,12 +42,15 @@ class CalendarHeader extends StatelessWidget {
     thiseaderTitleBuilder,
     required this.headerStyle,
     this.headerTitleBuilder,
+    required this.todayTap,
+    required this.lastTap,
+    required this.allTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final text = headerStyle.titleTextFormatter?.call(focusedMonth, locale) ??
-        DateFormat.yMMMM(locale).format(focusedMonth);
+    final text =
+        headerStyle.titleTextFormatter?.call(focusedMonth, locale) ?? DateFormat.yMMMM(locale).format(focusedMonth);
 
     return Container(
       decoration: headerStyle.decoration,
@@ -62,9 +69,7 @@ class CalendarHeader extends StatelessWidget {
                       child: Text(
                         text,
                         style: headerStyle.titleTextStyle,
-                        textAlign: headerStyle.titleCentered
-                            ? TextAlign.center
-                            : TextAlign.start,
+                        textAlign: headerStyle.titleCentered ? TextAlign.center : TextAlign.start,
                       ),
                     ),
               ),
@@ -85,38 +90,36 @@ class CalendarHeader extends StatelessWidget {
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            spacing: 12,
             children: [
-              Expanded(
-                child: Container(
-                  height: 34,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF2F2F3),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(child: Text("day_before".tr())),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Container(
-                  height: 34,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF2F2F3),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(child: Text("last_day".tr())),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Container(
-                  height: 34,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF2F2F3),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(child: Text("todays".tr())),
-                ),
+              ...List.generate(
+                Days.values.length,
+                (index) {
+                  final day = Days.values[index];
+                  return Expanded(
+                    child: WScaleAnimation(
+                      onTap: () {
+                        if (day.isToday) {
+                          todayTap();
+                        }
+                        if (day.isLast) {
+                          lastTap();
+                        }
+                        if (day.isAll) {
+                          allTap();
+                        }
+                      },
+                      child: Container(
+                        height: 34,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF2F2F3),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Center(child: Text(day.title.tr())),
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -124,4 +127,19 @@ class CalendarHeader extends StatelessWidget {
       ),
     );
   }
+}
+
+enum Days {
+  today("todays"),
+  last("last_day"),
+  all("all");
+
+  bool get isToday => this == Days.today;
+
+  bool get isLast => this == Days.last;
+
+  bool get isAll => this == Days.all;
+  final String title;
+
+  const Days(this.title);
 }

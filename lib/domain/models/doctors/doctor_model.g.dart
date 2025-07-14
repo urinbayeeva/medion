@@ -15,6 +15,11 @@ Serializer<WorkSchedule> _$workScheduleSerializer =
     new _$WorkScheduleSerializer();
 Serializer<ScheduleItem> _$scheduleItemSerializer =
     new _$ScheduleItemSerializer();
+Serializer<DoctorReview> _$doctorReviewSerializer =
+    new _$DoctorReviewSerializer();
+Serializer<GalleryItems> _$galleryItemsSerializer =
+    new _$GalleryItemsSerializer();
+Serializer<Articles> _$articlesSerializer = new _$ArticlesSerializer();
 Serializer<Experience> _$experienceSerializer = new _$ExperienceSerializer();
 Serializer<Education> _$educationSerializer = new _$EducationSerializer();
 Serializer<Award> _$awardSerializer = new _$AwardSerializer();
@@ -319,9 +324,17 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
     final result = <Object?>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'has_discount',
+      serializers.serialize(object.hasDiscount,
+          specifiedType: const FullType(bool)),
       'name',
-      serializers.serialize(object.name,
-          specifiedType: const FullType(JsonObject)),
+      serializers.serialize(object.name, specifiedType: const FullType(String)),
+      'background_image_url',
+      serializers.serialize(object.backgroundImageUrl,
+          specifiedType: const FullType(String)),
+      'image',
+      serializers.serialize(object.image,
+          specifiedType: const FullType(String)),
       'work_schedule',
       serializers.serialize(object.workSchedule,
           specifiedType: const FullType(WorkSchedule)),
@@ -329,6 +342,18 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
       serializers.serialize(object.experience,
           specifiedType:
               const FullType(BuiltList, const [const FullType(Experience)])),
+      'articles',
+      serializers.serialize(object.articles,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(Articles)])),
+      'gallery_items',
+      serializers.serialize(object.galleryItems,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(GalleryItems)])),
+      'specializations',
+      serializers.serialize(object.specializations,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
       'education',
       serializers.serialize(object.education,
           specifiedType:
@@ -341,9 +366,6 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
       serializers.serialize(object.award,
           specifiedType:
               const FullType(BuiltList, const [const FullType(Award)])),
-      'image',
-      serializers.serialize(object.image,
-          specifiedType: const FullType(JsonObject)),
       'price_list',
       serializers.serialize(object.priceList,
           specifiedType:
@@ -354,8 +376,32 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
       'academic_rank',
       serializers.serialize(object.academicRank,
           specifiedType: const FullType(JsonObject)),
+      'reviews',
+      serializers.serialize(object.reviews,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(DoctorReview)])),
     ];
     Object? value;
+    value = object.experienceYear;
+    if (value != null) {
+      result
+        ..add('experience_year')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.isThereFreeTime;
+    if (value != null) {
+      result
+        ..add('is_there_free_time')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
+    value = object.canPatientAccept;
+    if (value != null) {
+      result
+        ..add('can_patient_accept')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     value = object.shortDesc;
     if (value != null) {
       result
@@ -369,6 +415,13 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
         ..add('gender')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(JsonObject)));
+    }
+    value = object.jobName;
+    if (value != null) {
+      result
+        ..add('job_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.jobId;
     if (value != null) {
@@ -395,9 +448,33 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int))! as int;
           break;
+        case 'experience_year':
+          result.experienceYear = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'is_there_free_time':
+          result.isThereFreeTime = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'can_patient_accept':
+          result.canPatientAccept = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'has_discount':
+          result.hasDiscount = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
+          break;
         case 'name':
           result.name = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject))! as JsonObject;
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'background_image_url':
+          result.backgroundImageUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'image':
+          result.image = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'short_desc':
           result.shortDesc = serializers.deserialize(value,
@@ -411,6 +488,24 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
           result.experience.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(Experience)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'articles':
+          result.articles.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(Articles)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'gallery_items':
+          result.galleryItems.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(GalleryItems)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'specializations':
+          result.specializations.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
               as BuiltList<Object?>);
           break;
         case 'education':
@@ -435,13 +530,13 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
           result.gender = serializers.deserialize(value,
               specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
+        case 'job_name':
+          result.jobName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'job_id':
           result.jobId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
-          break;
-        case 'image':
-          result.image = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'price_list':
           result.priceList.replace(serializers.deserialize(value,
@@ -456,6 +551,12 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
         case 'academic_rank':
           result.academicRank = serializers.deserialize(value,
               specifiedType: const FullType(JsonObject))! as JsonObject;
+          break;
+        case 'reviews':
+          result.reviews.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(DoctorReview)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -606,6 +707,220 @@ class _$ScheduleItemSerializer implements StructuredSerializer<ScheduleItem> {
   }
 }
 
+class _$DoctorReviewSerializer implements StructuredSerializer<DoctorReview> {
+  @override
+  final Iterable<Type> types = const [DoctorReview, _$DoctorReview];
+  @override
+  final String wireName = 'DoctorReview';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, DoctorReview object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'id',
+      serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'ratings',
+      serializers.serialize(object.ratings,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
+      'review',
+      serializers.serialize(object.review,
+          specifiedType: const FullType(String)),
+      'company_id',
+      serializers.serialize(object.companyId,
+          specifiedType: const FullType(int)),
+      'doctor_id',
+      serializers.serialize(object.doctorId,
+          specifiedType: const FullType(int)),
+    ];
+
+    return result;
+  }
+
+  @override
+  DoctorReview deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new DoctorReviewBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'ratings':
+          result.ratings.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'review':
+          result.review = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'company_id':
+          result.companyId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'doctor_id':
+          result.doctorId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GalleryItemsSerializer implements StructuredSerializer<GalleryItems> {
+  @override
+  final Iterable<Type> types = const [GalleryItems, _$GalleryItems];
+  @override
+  final String wireName = 'GalleryItems';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, GalleryItems object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'id',
+      serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'type',
+      serializers.serialize(object.type, specifiedType: const FullType(String)),
+      'file_name',
+      serializers.serialize(object.fileName,
+          specifiedType: const FullType(String)),
+      'video_image',
+      serializers.serialize(object.videoImage,
+          specifiedType: const FullType(String)),
+      'file_url',
+      serializers.serialize(object.fileUrl,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GalleryItems deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GalleryItemsBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'type':
+          result.type = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'file_name':
+          result.fileName = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'video_image':
+          result.videoImage = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'file_url':
+          result.fileUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$ArticlesSerializer implements StructuredSerializer<Articles> {
+  @override
+  final Iterable<Type> types = const [Articles, _$Articles];
+  @override
+  final String wireName = 'Articles';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, Articles object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'id',
+      serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'type',
+      serializers.serialize(object.type, specifiedType: const FullType(String)),
+      'title',
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
+      'description',
+      serializers.serialize(object.description,
+          specifiedType: const FullType(String)),
+      'primary_image',
+      serializers.serialize(object.primaryImage,
+          specifiedType: const FullType(String)),
+      'images',
+      serializers.serialize(object.images,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
+    ];
+
+    return result;
+  }
+
+  @override
+  Articles deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new ArticlesBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'type':
+          result.type = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'title':
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'description':
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'primary_image':
+          result.primaryImage = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'images':
+          result.images.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$ExperienceSerializer implements StructuredSerializer<Experience> {
   @override
   final Iterable<Type> types = const [Experience, _$Experience];
@@ -678,7 +993,8 @@ class _$EducationSerializer implements StructuredSerializer<Education> {
           specifiedType: const FullType(JsonObject)),
       'description',
       serializers.serialize(object.description,
-          specifiedType: const FullType(JsonObject)),
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
     ];
 
     return result;
@@ -704,8 +1020,10 @@ class _$EducationSerializer implements StructuredSerializer<Education> {
               specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'description':
-          result.description = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject))! as JsonObject;
+          result.description.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -723,13 +1041,62 @@ class _$AwardSerializer implements StructuredSerializer<Award> {
   @override
   Iterable<Object?> serialize(Serializers serializers, Award object,
       {FullType specifiedType = FullType.unspecified}) {
-    return <Object?>[];
+    final result = <Object?>[];
+    Object? value;
+    value = object.title;
+    if (value != null) {
+      result
+        ..add('title')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.date;
+    if (value != null) {
+      result
+        ..add('date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.description;
+    if (value != null) {
+      result
+        ..add('description')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
+    }
+    return result;
   }
 
   @override
   Award deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    return new AwardBuilder().build();
+    final result = new AwardBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'title':
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'date':
+          result.date = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'description':
+          result.description.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
+          break;
+      }
+    }
+
+    return result.build();
   }
 }
 
@@ -1327,13 +1694,31 @@ class _$ModelDoctor extends ModelDoctor {
   @override
   final int id;
   @override
-  final JsonObject name;
+  final int? experienceYear;
+  @override
+  final bool? isThereFreeTime;
+  @override
+  final bool? canPatientAccept;
+  @override
+  final bool hasDiscount;
+  @override
+  final String name;
+  @override
+  final String backgroundImageUrl;
+  @override
+  final String image;
   @override
   final JsonObject? shortDesc;
   @override
   final WorkSchedule workSchedule;
   @override
   final BuiltList<Experience> experience;
+  @override
+  final BuiltList<Articles> articles;
+  @override
+  final BuiltList<GalleryItems> galleryItems;
+  @override
+  final BuiltList<String> specializations;
   @override
   final BuiltList<Education> education;
   @override
@@ -1343,52 +1728,74 @@ class _$ModelDoctor extends ModelDoctor {
   @override
   final JsonObject? gender;
   @override
-  final String? jobId;
+  final String? jobName;
   @override
-  final JsonObject image;
+  final String? jobId;
   @override
   final BuiltList<PriceItem> priceList;
   @override
   final JsonObject servicePriceList;
   @override
   final JsonObject academicRank;
+  @override
+  final BuiltList<DoctorReview> reviews;
 
   factory _$ModelDoctor([void Function(ModelDoctorBuilder)? updates]) =>
       (new ModelDoctorBuilder()..update(updates))._build();
 
   _$ModelDoctor._(
       {required this.id,
+      this.experienceYear,
+      this.isThereFreeTime,
+      this.canPatientAccept,
+      required this.hasDiscount,
       required this.name,
+      required this.backgroundImageUrl,
+      required this.image,
       this.shortDesc,
       required this.workSchedule,
       required this.experience,
+      required this.articles,
+      required this.galleryItems,
+      required this.specializations,
       required this.education,
       required this.discount,
       required this.award,
       this.gender,
+      this.jobName,
       this.jobId,
-      required this.image,
       required this.priceList,
       required this.servicePriceList,
-      required this.academicRank})
+      required this.academicRank,
+      required this.reviews})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'ModelDoctor', 'id');
+    BuiltValueNullFieldError.checkNotNull(
+        hasDiscount, r'ModelDoctor', 'hasDiscount');
     BuiltValueNullFieldError.checkNotNull(name, r'ModelDoctor', 'name');
+    BuiltValueNullFieldError.checkNotNull(
+        backgroundImageUrl, r'ModelDoctor', 'backgroundImageUrl');
+    BuiltValueNullFieldError.checkNotNull(image, r'ModelDoctor', 'image');
     BuiltValueNullFieldError.checkNotNull(
         workSchedule, r'ModelDoctor', 'workSchedule');
     BuiltValueNullFieldError.checkNotNull(
         experience, r'ModelDoctor', 'experience');
+    BuiltValueNullFieldError.checkNotNull(articles, r'ModelDoctor', 'articles');
+    BuiltValueNullFieldError.checkNotNull(
+        galleryItems, r'ModelDoctor', 'galleryItems');
+    BuiltValueNullFieldError.checkNotNull(
+        specializations, r'ModelDoctor', 'specializations');
     BuiltValueNullFieldError.checkNotNull(
         education, r'ModelDoctor', 'education');
     BuiltValueNullFieldError.checkNotNull(discount, r'ModelDoctor', 'discount');
     BuiltValueNullFieldError.checkNotNull(award, r'ModelDoctor', 'award');
-    BuiltValueNullFieldError.checkNotNull(image, r'ModelDoctor', 'image');
     BuiltValueNullFieldError.checkNotNull(
         priceList, r'ModelDoctor', 'priceList');
     BuiltValueNullFieldError.checkNotNull(
         servicePriceList, r'ModelDoctor', 'servicePriceList');
     BuiltValueNullFieldError.checkNotNull(
         academicRank, r'ModelDoctor', 'academicRank');
+    BuiltValueNullFieldError.checkNotNull(reviews, r'ModelDoctor', 'reviews');
   }
 
   @override
@@ -1403,38 +1810,58 @@ class _$ModelDoctor extends ModelDoctor {
     if (identical(other, this)) return true;
     return other is ModelDoctor &&
         id == other.id &&
+        experienceYear == other.experienceYear &&
+        isThereFreeTime == other.isThereFreeTime &&
+        canPatientAccept == other.canPatientAccept &&
+        hasDiscount == other.hasDiscount &&
         name == other.name &&
+        backgroundImageUrl == other.backgroundImageUrl &&
+        image == other.image &&
         shortDesc == other.shortDesc &&
         workSchedule == other.workSchedule &&
         experience == other.experience &&
+        articles == other.articles &&
+        galleryItems == other.galleryItems &&
+        specializations == other.specializations &&
         education == other.education &&
         discount == other.discount &&
         award == other.award &&
         gender == other.gender &&
+        jobName == other.jobName &&
         jobId == other.jobId &&
-        image == other.image &&
         priceList == other.priceList &&
         servicePriceList == other.servicePriceList &&
-        academicRank == other.academicRank;
+        academicRank == other.academicRank &&
+        reviews == other.reviews;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, experienceYear.hashCode);
+    _$hash = $jc(_$hash, isThereFreeTime.hashCode);
+    _$hash = $jc(_$hash, canPatientAccept.hashCode);
+    _$hash = $jc(_$hash, hasDiscount.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, backgroundImageUrl.hashCode);
+    _$hash = $jc(_$hash, image.hashCode);
     _$hash = $jc(_$hash, shortDesc.hashCode);
     _$hash = $jc(_$hash, workSchedule.hashCode);
     _$hash = $jc(_$hash, experience.hashCode);
+    _$hash = $jc(_$hash, articles.hashCode);
+    _$hash = $jc(_$hash, galleryItems.hashCode);
+    _$hash = $jc(_$hash, specializations.hashCode);
     _$hash = $jc(_$hash, education.hashCode);
     _$hash = $jc(_$hash, discount.hashCode);
     _$hash = $jc(_$hash, award.hashCode);
     _$hash = $jc(_$hash, gender.hashCode);
+    _$hash = $jc(_$hash, jobName.hashCode);
     _$hash = $jc(_$hash, jobId.hashCode);
-    _$hash = $jc(_$hash, image.hashCode);
     _$hash = $jc(_$hash, priceList.hashCode);
     _$hash = $jc(_$hash, servicePriceList.hashCode);
     _$hash = $jc(_$hash, academicRank.hashCode);
+    _$hash = $jc(_$hash, reviews.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -1443,19 +1870,29 @@ class _$ModelDoctor extends ModelDoctor {
   String toString() {
     return (newBuiltValueToStringHelper(r'ModelDoctor')
           ..add('id', id)
+          ..add('experienceYear', experienceYear)
+          ..add('isThereFreeTime', isThereFreeTime)
+          ..add('canPatientAccept', canPatientAccept)
+          ..add('hasDiscount', hasDiscount)
           ..add('name', name)
+          ..add('backgroundImageUrl', backgroundImageUrl)
+          ..add('image', image)
           ..add('shortDesc', shortDesc)
           ..add('workSchedule', workSchedule)
           ..add('experience', experience)
+          ..add('articles', articles)
+          ..add('galleryItems', galleryItems)
+          ..add('specializations', specializations)
           ..add('education', education)
           ..add('discount', discount)
           ..add('award', award)
           ..add('gender', gender)
+          ..add('jobName', jobName)
           ..add('jobId', jobId)
-          ..add('image', image)
           ..add('priceList', priceList)
           ..add('servicePriceList', servicePriceList)
-          ..add('academicRank', academicRank))
+          ..add('academicRank', academicRank)
+          ..add('reviews', reviews))
         .toString();
   }
 }
@@ -1467,9 +1904,37 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
   int? get id => _$this._id;
   set id(int? id) => _$this._id = id;
 
-  JsonObject? _name;
-  JsonObject? get name => _$this._name;
-  set name(JsonObject? name) => _$this._name = name;
+  int? _experienceYear;
+  int? get experienceYear => _$this._experienceYear;
+  set experienceYear(int? experienceYear) =>
+      _$this._experienceYear = experienceYear;
+
+  bool? _isThereFreeTime;
+  bool? get isThereFreeTime => _$this._isThereFreeTime;
+  set isThereFreeTime(bool? isThereFreeTime) =>
+      _$this._isThereFreeTime = isThereFreeTime;
+
+  bool? _canPatientAccept;
+  bool? get canPatientAccept => _$this._canPatientAccept;
+  set canPatientAccept(bool? canPatientAccept) =>
+      _$this._canPatientAccept = canPatientAccept;
+
+  bool? _hasDiscount;
+  bool? get hasDiscount => _$this._hasDiscount;
+  set hasDiscount(bool? hasDiscount) => _$this._hasDiscount = hasDiscount;
+
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
+  String? _backgroundImageUrl;
+  String? get backgroundImageUrl => _$this._backgroundImageUrl;
+  set backgroundImageUrl(String? backgroundImageUrl) =>
+      _$this._backgroundImageUrl = backgroundImageUrl;
+
+  String? _image;
+  String? get image => _$this._image;
+  set image(String? image) => _$this._image = image;
 
   JsonObject? _shortDesc;
   JsonObject? get shortDesc => _$this._shortDesc;
@@ -1486,6 +1951,23 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
       _$this._experience ??= new ListBuilder<Experience>();
   set experience(ListBuilder<Experience>? experience) =>
       _$this._experience = experience;
+
+  ListBuilder<Articles>? _articles;
+  ListBuilder<Articles> get articles =>
+      _$this._articles ??= new ListBuilder<Articles>();
+  set articles(ListBuilder<Articles>? articles) => _$this._articles = articles;
+
+  ListBuilder<GalleryItems>? _galleryItems;
+  ListBuilder<GalleryItems> get galleryItems =>
+      _$this._galleryItems ??= new ListBuilder<GalleryItems>();
+  set galleryItems(ListBuilder<GalleryItems>? galleryItems) =>
+      _$this._galleryItems = galleryItems;
+
+  ListBuilder<String>? _specializations;
+  ListBuilder<String> get specializations =>
+      _$this._specializations ??= new ListBuilder<String>();
+  set specializations(ListBuilder<String>? specializations) =>
+      _$this._specializations = specializations;
 
   ListBuilder<Education>? _education;
   ListBuilder<Education> get education =>
@@ -1506,13 +1988,13 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
   JsonObject? get gender => _$this._gender;
   set gender(JsonObject? gender) => _$this._gender = gender;
 
+  String? _jobName;
+  String? get jobName => _$this._jobName;
+  set jobName(String? jobName) => _$this._jobName = jobName;
+
   String? _jobId;
   String? get jobId => _$this._jobId;
   set jobId(String? jobId) => _$this._jobId = jobId;
-
-  JsonObject? _image;
-  JsonObject? get image => _$this._image;
-  set image(JsonObject? image) => _$this._image = image;
 
   ListBuilder<PriceItem>? _priceList;
   ListBuilder<PriceItem> get priceList =>
@@ -1530,25 +2012,40 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
   set academicRank(JsonObject? academicRank) =>
       _$this._academicRank = academicRank;
 
+  ListBuilder<DoctorReview>? _reviews;
+  ListBuilder<DoctorReview> get reviews =>
+      _$this._reviews ??= new ListBuilder<DoctorReview>();
+  set reviews(ListBuilder<DoctorReview>? reviews) => _$this._reviews = reviews;
+
   ModelDoctorBuilder();
 
   ModelDoctorBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _id = $v.id;
+      _experienceYear = $v.experienceYear;
+      _isThereFreeTime = $v.isThereFreeTime;
+      _canPatientAccept = $v.canPatientAccept;
+      _hasDiscount = $v.hasDiscount;
       _name = $v.name;
+      _backgroundImageUrl = $v.backgroundImageUrl;
+      _image = $v.image;
       _shortDesc = $v.shortDesc;
       _workSchedule = $v.workSchedule.toBuilder();
       _experience = $v.experience.toBuilder();
+      _articles = $v.articles.toBuilder();
+      _galleryItems = $v.galleryItems.toBuilder();
+      _specializations = $v.specializations.toBuilder();
       _education = $v.education.toBuilder();
       _discount = $v.discount.toBuilder();
       _award = $v.award.toBuilder();
       _gender = $v.gender;
+      _jobName = $v.jobName;
       _jobId = $v.jobId;
-      _image = $v.image;
       _priceList = $v.priceList.toBuilder();
       _servicePriceList = $v.servicePriceList;
       _academicRank = $v.academicRank;
+      _reviews = $v.reviews.toBuilder();
       _$v = null;
     }
     return this;
@@ -1574,23 +2071,35 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
       _$result = _$v ??
           new _$ModelDoctor._(
             id: BuiltValueNullFieldError.checkNotNull(id, r'ModelDoctor', 'id'),
+            experienceYear: experienceYear,
+            isThereFreeTime: isThereFreeTime,
+            canPatientAccept: canPatientAccept,
+            hasDiscount: BuiltValueNullFieldError.checkNotNull(
+                hasDiscount, r'ModelDoctor', 'hasDiscount'),
             name: BuiltValueNullFieldError.checkNotNull(
                 name, r'ModelDoctor', 'name'),
+            backgroundImageUrl: BuiltValueNullFieldError.checkNotNull(
+                backgroundImageUrl, r'ModelDoctor', 'backgroundImageUrl'),
+            image: BuiltValueNullFieldError.checkNotNull(
+                image, r'ModelDoctor', 'image'),
             shortDesc: shortDesc,
             workSchedule: workSchedule.build(),
             experience: experience.build(),
+            articles: articles.build(),
+            galleryItems: galleryItems.build(),
+            specializations: specializations.build(),
             education: education.build(),
             discount: discount.build(),
             award: award.build(),
             gender: gender,
+            jobName: jobName,
             jobId: jobId,
-            image: BuiltValueNullFieldError.checkNotNull(
-                image, r'ModelDoctor', 'image'),
             priceList: priceList.build(),
             servicePriceList: BuiltValueNullFieldError.checkNotNull(
                 servicePriceList, r'ModelDoctor', 'servicePriceList'),
             academicRank: BuiltValueNullFieldError.checkNotNull(
                 academicRank, r'ModelDoctor', 'academicRank'),
+            reviews: reviews.build(),
           );
     } catch (_) {
       late String _$failedField;
@@ -1599,6 +2108,12 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
         workSchedule.build();
         _$failedField = 'experience';
         experience.build();
+        _$failedField = 'articles';
+        articles.build();
+        _$failedField = 'galleryItems';
+        galleryItems.build();
+        _$failedField = 'specializations';
+        specializations.build();
         _$failedField = 'education';
         education.build();
         _$failedField = 'discount';
@@ -1608,6 +2123,9 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
 
         _$failedField = 'priceList';
         priceList.build();
+
+        _$failedField = 'reviews';
+        reviews.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'ModelDoctor', _$failedField, e.toString());
@@ -1903,6 +2421,478 @@ class ScheduleItemBuilder
   }
 }
 
+class _$DoctorReview extends DoctorReview {
+  @override
+  final int id;
+  @override
+  final BuiltList<String> ratings;
+  @override
+  final String review;
+  @override
+  final int companyId;
+  @override
+  final int doctorId;
+
+  factory _$DoctorReview([void Function(DoctorReviewBuilder)? updates]) =>
+      (new DoctorReviewBuilder()..update(updates))._build();
+
+  _$DoctorReview._(
+      {required this.id,
+      required this.ratings,
+      required this.review,
+      required this.companyId,
+      required this.doctorId})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(id, r'DoctorReview', 'id');
+    BuiltValueNullFieldError.checkNotNull(ratings, r'DoctorReview', 'ratings');
+    BuiltValueNullFieldError.checkNotNull(review, r'DoctorReview', 'review');
+    BuiltValueNullFieldError.checkNotNull(
+        companyId, r'DoctorReview', 'companyId');
+    BuiltValueNullFieldError.checkNotNull(
+        doctorId, r'DoctorReview', 'doctorId');
+  }
+
+  @override
+  DoctorReview rebuild(void Function(DoctorReviewBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  DoctorReviewBuilder toBuilder() => new DoctorReviewBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is DoctorReview &&
+        id == other.id &&
+        ratings == other.ratings &&
+        review == other.review &&
+        companyId == other.companyId &&
+        doctorId == other.doctorId;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, ratings.hashCode);
+    _$hash = $jc(_$hash, review.hashCode);
+    _$hash = $jc(_$hash, companyId.hashCode);
+    _$hash = $jc(_$hash, doctorId.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'DoctorReview')
+          ..add('id', id)
+          ..add('ratings', ratings)
+          ..add('review', review)
+          ..add('companyId', companyId)
+          ..add('doctorId', doctorId))
+        .toString();
+  }
+}
+
+class DoctorReviewBuilder
+    implements Builder<DoctorReview, DoctorReviewBuilder> {
+  _$DoctorReview? _$v;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  ListBuilder<String>? _ratings;
+  ListBuilder<String> get ratings =>
+      _$this._ratings ??= new ListBuilder<String>();
+  set ratings(ListBuilder<String>? ratings) => _$this._ratings = ratings;
+
+  String? _review;
+  String? get review => _$this._review;
+  set review(String? review) => _$this._review = review;
+
+  int? _companyId;
+  int? get companyId => _$this._companyId;
+  set companyId(int? companyId) => _$this._companyId = companyId;
+
+  int? _doctorId;
+  int? get doctorId => _$this._doctorId;
+  set doctorId(int? doctorId) => _$this._doctorId = doctorId;
+
+  DoctorReviewBuilder();
+
+  DoctorReviewBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _ratings = $v.ratings.toBuilder();
+      _review = $v.review;
+      _companyId = $v.companyId;
+      _doctorId = $v.doctorId;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(DoctorReview other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$DoctorReview;
+  }
+
+  @override
+  void update(void Function(DoctorReviewBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  DoctorReview build() => _build();
+
+  _$DoctorReview _build() {
+    _$DoctorReview _$result;
+    try {
+      _$result = _$v ??
+          new _$DoctorReview._(
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'DoctorReview', 'id'),
+            ratings: ratings.build(),
+            review: BuiltValueNullFieldError.checkNotNull(
+                review, r'DoctorReview', 'review'),
+            companyId: BuiltValueNullFieldError.checkNotNull(
+                companyId, r'DoctorReview', 'companyId'),
+            doctorId: BuiltValueNullFieldError.checkNotNull(
+                doctorId, r'DoctorReview', 'doctorId'),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'ratings';
+        ratings.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'DoctorReview', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GalleryItems extends GalleryItems {
+  @override
+  final int id;
+  @override
+  final String type;
+  @override
+  final String fileName;
+  @override
+  final String videoImage;
+  @override
+  final String fileUrl;
+
+  factory _$GalleryItems([void Function(GalleryItemsBuilder)? updates]) =>
+      (new GalleryItemsBuilder()..update(updates))._build();
+
+  _$GalleryItems._(
+      {required this.id,
+      required this.type,
+      required this.fileName,
+      required this.videoImage,
+      required this.fileUrl})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(id, r'GalleryItems', 'id');
+    BuiltValueNullFieldError.checkNotNull(type, r'GalleryItems', 'type');
+    BuiltValueNullFieldError.checkNotNull(
+        fileName, r'GalleryItems', 'fileName');
+    BuiltValueNullFieldError.checkNotNull(
+        videoImage, r'GalleryItems', 'videoImage');
+    BuiltValueNullFieldError.checkNotNull(fileUrl, r'GalleryItems', 'fileUrl');
+  }
+
+  @override
+  GalleryItems rebuild(void Function(GalleryItemsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GalleryItemsBuilder toBuilder() => new GalleryItemsBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GalleryItems &&
+        id == other.id &&
+        type == other.type &&
+        fileName == other.fileName &&
+        videoImage == other.videoImage &&
+        fileUrl == other.fileUrl;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, type.hashCode);
+    _$hash = $jc(_$hash, fileName.hashCode);
+    _$hash = $jc(_$hash, videoImage.hashCode);
+    _$hash = $jc(_$hash, fileUrl.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'GalleryItems')
+          ..add('id', id)
+          ..add('type', type)
+          ..add('fileName', fileName)
+          ..add('videoImage', videoImage)
+          ..add('fileUrl', fileUrl))
+        .toString();
+  }
+}
+
+class GalleryItemsBuilder
+    implements Builder<GalleryItems, GalleryItemsBuilder> {
+  _$GalleryItems? _$v;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
+
+  String? _fileName;
+  String? get fileName => _$this._fileName;
+  set fileName(String? fileName) => _$this._fileName = fileName;
+
+  String? _videoImage;
+  String? get videoImage => _$this._videoImage;
+  set videoImage(String? videoImage) => _$this._videoImage = videoImage;
+
+  String? _fileUrl;
+  String? get fileUrl => _$this._fileUrl;
+  set fileUrl(String? fileUrl) => _$this._fileUrl = fileUrl;
+
+  GalleryItemsBuilder();
+
+  GalleryItemsBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _type = $v.type;
+      _fileName = $v.fileName;
+      _videoImage = $v.videoImage;
+      _fileUrl = $v.fileUrl;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GalleryItems other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GalleryItems;
+  }
+
+  @override
+  void update(void Function(GalleryItemsBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GalleryItems build() => _build();
+
+  _$GalleryItems _build() {
+    final _$result = _$v ??
+        new _$GalleryItems._(
+          id: BuiltValueNullFieldError.checkNotNull(id, r'GalleryItems', 'id'),
+          type: BuiltValueNullFieldError.checkNotNull(
+              type, r'GalleryItems', 'type'),
+          fileName: BuiltValueNullFieldError.checkNotNull(
+              fileName, r'GalleryItems', 'fileName'),
+          videoImage: BuiltValueNullFieldError.checkNotNull(
+              videoImage, r'GalleryItems', 'videoImage'),
+          fileUrl: BuiltValueNullFieldError.checkNotNull(
+              fileUrl, r'GalleryItems', 'fileUrl'),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$Articles extends Articles {
+  @override
+  final int id;
+  @override
+  final String type;
+  @override
+  final String title;
+  @override
+  final String description;
+  @override
+  final String primaryImage;
+  @override
+  final BuiltList<String> images;
+
+  factory _$Articles([void Function(ArticlesBuilder)? updates]) =>
+      (new ArticlesBuilder()..update(updates))._build();
+
+  _$Articles._(
+      {required this.id,
+      required this.type,
+      required this.title,
+      required this.description,
+      required this.primaryImage,
+      required this.images})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(id, r'Articles', 'id');
+    BuiltValueNullFieldError.checkNotNull(type, r'Articles', 'type');
+    BuiltValueNullFieldError.checkNotNull(title, r'Articles', 'title');
+    BuiltValueNullFieldError.checkNotNull(
+        description, r'Articles', 'description');
+    BuiltValueNullFieldError.checkNotNull(
+        primaryImage, r'Articles', 'primaryImage');
+    BuiltValueNullFieldError.checkNotNull(images, r'Articles', 'images');
+  }
+
+  @override
+  Articles rebuild(void Function(ArticlesBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ArticlesBuilder toBuilder() => new ArticlesBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Articles &&
+        id == other.id &&
+        type == other.type &&
+        title == other.title &&
+        description == other.description &&
+        primaryImage == other.primaryImage &&
+        images == other.images;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, type.hashCode);
+    _$hash = $jc(_$hash, title.hashCode);
+    _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jc(_$hash, primaryImage.hashCode);
+    _$hash = $jc(_$hash, images.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'Articles')
+          ..add('id', id)
+          ..add('type', type)
+          ..add('title', title)
+          ..add('description', description)
+          ..add('primaryImage', primaryImage)
+          ..add('images', images))
+        .toString();
+  }
+}
+
+class ArticlesBuilder implements Builder<Articles, ArticlesBuilder> {
+  _$Articles? _$v;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
+
+  String? _title;
+  String? get title => _$this._title;
+  set title(String? title) => _$this._title = title;
+
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
+
+  String? _primaryImage;
+  String? get primaryImage => _$this._primaryImage;
+  set primaryImage(String? primaryImage) => _$this._primaryImage = primaryImage;
+
+  ListBuilder<String>? _images;
+  ListBuilder<String> get images =>
+      _$this._images ??= new ListBuilder<String>();
+  set images(ListBuilder<String>? images) => _$this._images = images;
+
+  ArticlesBuilder();
+
+  ArticlesBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _type = $v.type;
+      _title = $v.title;
+      _description = $v.description;
+      _primaryImage = $v.primaryImage;
+      _images = $v.images.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(Articles other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$Articles;
+  }
+
+  @override
+  void update(void Function(ArticlesBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  Articles build() => _build();
+
+  _$Articles _build() {
+    _$Articles _$result;
+    try {
+      _$result = _$v ??
+          new _$Articles._(
+            id: BuiltValueNullFieldError.checkNotNull(id, r'Articles', 'id'),
+            type: BuiltValueNullFieldError.checkNotNull(
+                type, r'Articles', 'type'),
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'Articles', 'title'),
+            description: BuiltValueNullFieldError.checkNotNull(
+                description, r'Articles', 'description'),
+            primaryImage: BuiltValueNullFieldError.checkNotNull(
+                primaryImage, r'Articles', 'primaryImage'),
+            images: images.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'images';
+        images.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'Articles', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$Experience extends Experience {
   @override
   final JsonObject title;
@@ -2022,7 +3012,7 @@ class _$Education extends Education {
   @override
   final JsonObject date;
   @override
-  final JsonObject description;
+  final BuiltList<String> description;
 
   factory _$Education([void Function(EducationBuilder)? updates]) =>
       (new EducationBuilder()..update(updates))._build();
@@ -2083,9 +3073,11 @@ class EducationBuilder implements Builder<Education, EducationBuilder> {
   JsonObject? get date => _$this._date;
   set date(JsonObject? date) => _$this._date = date;
 
-  JsonObject? _description;
-  JsonObject? get description => _$this._description;
-  set description(JsonObject? description) => _$this._description = description;
+  ListBuilder<String>? _description;
+  ListBuilder<String> get description =>
+      _$this._description ??= new ListBuilder<String>();
+  set description(ListBuilder<String>? description) =>
+      _$this._description = description;
 
   EducationBuilder();
 
@@ -2094,7 +3086,7 @@ class EducationBuilder implements Builder<Education, EducationBuilder> {
     if ($v != null) {
       _title = $v.title;
       _date = $v.date;
-      _description = $v.description;
+      _description = $v.description.toBuilder();
       _$v = null;
     }
     return this;
@@ -2115,25 +3107,44 @@ class EducationBuilder implements Builder<Education, EducationBuilder> {
   Education build() => _build();
 
   _$Education _build() {
-    final _$result = _$v ??
-        new _$Education._(
-          title: BuiltValueNullFieldError.checkNotNull(
-              title, r'Education', 'title'),
-          date:
-              BuiltValueNullFieldError.checkNotNull(date, r'Education', 'date'),
-          description: BuiltValueNullFieldError.checkNotNull(
-              description, r'Education', 'description'),
-        );
+    _$Education _$result;
+    try {
+      _$result = _$v ??
+          new _$Education._(
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'Education', 'title'),
+            date: BuiltValueNullFieldError.checkNotNull(
+                date, r'Education', 'date'),
+            description: description.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'description';
+        description.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'Education', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
 }
 
 class _$Award extends Award {
+  @override
+  final String? title;
+  @override
+  final String? date;
+  @override
+  final BuiltList<String>? description;
+
   factory _$Award([void Function(AwardBuilder)? updates]) =>
       (new AwardBuilder()..update(updates))._build();
 
-  _$Award._() : super._();
+  _$Award._({this.title, this.date, this.description}) : super._();
 
   @override
   Award rebuild(void Function(AwardBuilder) updates) =>
@@ -2145,24 +3156,61 @@ class _$Award extends Award {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Award;
+    return other is Award &&
+        title == other.title &&
+        date == other.date &&
+        description == other.description;
   }
 
   @override
   int get hashCode {
-    return 445454152;
+    var _$hash = 0;
+    _$hash = $jc(_$hash, title.hashCode);
+    _$hash = $jc(_$hash, date.hashCode);
+    _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
   }
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper(r'Award').toString();
+    return (newBuiltValueToStringHelper(r'Award')
+          ..add('title', title)
+          ..add('date', date)
+          ..add('description', description))
+        .toString();
   }
 }
 
 class AwardBuilder implements Builder<Award, AwardBuilder> {
   _$Award? _$v;
 
+  String? _title;
+  String? get title => _$this._title;
+  set title(String? title) => _$this._title = title;
+
+  String? _date;
+  String? get date => _$this._date;
+  set date(String? date) => _$this._date = date;
+
+  ListBuilder<String>? _description;
+  ListBuilder<String> get description =>
+      _$this._description ??= new ListBuilder<String>();
+  set description(ListBuilder<String>? description) =>
+      _$this._description = description;
+
   AwardBuilder();
+
+  AwardBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _title = $v.title;
+      _date = $v.date;
+      _description = $v.description?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
 
   @override
   void replace(Award other) {
@@ -2179,7 +3227,25 @@ class AwardBuilder implements Builder<Award, AwardBuilder> {
   Award build() => _build();
 
   _$Award _build() {
-    final _$result = _$v ?? new _$Award._();
+    _$Award _$result;
+    try {
+      _$result = _$v ??
+          new _$Award._(
+            title: title,
+            date: date,
+            description: _description?.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'description';
+        _description?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'Award', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

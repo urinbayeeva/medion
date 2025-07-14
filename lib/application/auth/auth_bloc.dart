@@ -45,6 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_FetchRecipes>(_fetchRecipes);
     on<_CheckAuth>(_checkAuth);
     on<_RefreshToken>(_refreshToken);
+    on<_CancelVisit>(_cancelVisit);
   }
 
   FutureOr<void> _hasToken(Emitter<AuthState> emit) async {
@@ -257,7 +258,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> _fetchPatientVisitsHandler(_FetchPatientVisits event, Emitter<AuthState> emit) async {
     emit(state.copyWith(fetchPatientVisitStatus: FormzSubmissionStatus.inProgress));
 
-    final result = await _repository.getPatientVisits();
+    final result = await _repository.getPatientVisits(time: event.time);
 
     result.fold(
       (failure) {
@@ -276,9 +277,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> _fetchPatientVisitsSingle(_FetchPatientVisitsDetail event, Emitter<AuthState> emit) async {
     emit(state.copyWith(fetchPatientVisitSingleStatus: FormzSubmissionStatus.inProgress));
-
     final result = await _repository.getPatientVisitSingle(id: event.id);
-
     result.fold(
       (failure) {
         LogService.e(" ----> error fetching patient visits: $failure");
@@ -288,6 +287,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(state.copyWith(
           fetchPatientVisitSingleStatus: FormzSubmissionStatus.success,
           patientVisitSingle: single,
+        ));
+      },
+    );
+  }
+
+  FutureOr<void> _cancelVisit(_CancelVisit event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(cancelVisitStatus: FormzSubmissionStatus.inProgress));
+    final result = await _repository.cancelVisit(cancel: CancelVisitBody((v) => v..visitId = event.id));
+    result.fold(
+      (failure) {
+        LogService.e(" ----> error fetching patient visits: $failure");
+        emit(state.copyWith(cancelVisitStatus: FormzSubmissionStatus.failure));
+      },
+      (cancelResult) {
+        emit(state.copyWith(
+          cancelVisitStatus: FormzSubmissionStatus.success,
+          cancelVisitResult: cancelResult,
         ));
       },
     );

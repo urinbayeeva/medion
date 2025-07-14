@@ -65,6 +65,12 @@ abstract class RefreshService extends ChopperService {
   @Post(path: "refresh")
   Future<Response<RefreshTokenResponseModel>> refreshToken({@Body() required RefreshTokenModel request});
 
+  @Post(path: "cancel-visit")
+  Future<Response<CancelVisitResult>> cancelVisit({
+    @Header('requires-token') String requiresToken = "true",
+    @Body() required CancelVisitBody cancelBody,
+  });
+
   static RefreshService create(DBService dbService) => _$RefreshService(_Client(Constants.baseUrlP, true, dbService));
 }
 
@@ -172,7 +178,10 @@ abstract class PatientService extends ChopperService {
   Future<Response<SuccessModel>> patientImageUpload({@Body() required ImageUploadResponseModel image});
 
   @Get(path: "patient_visits_mobile")
-  Future<Response<PatientAnalyse>> getPatientVisitsMobile({@Header('requires-token') String requiresToken = "true"});
+  Future<Response<PatientAnalyse>> getPatientVisitsMobile({
+    @Header('requires-token') String requiresToken = "true",
+    @Query("date") String? time,
+  });
 
   @Get(path: "patient_visit_detail/{visit_id}")
   Future<Response<PatientVisitSingleModel>> getPatientVisitSingle({
@@ -220,7 +229,10 @@ abstract class SearchService extends ChopperService {
 @ChopperApi(baseUrl: "")
 abstract class NotificationService extends ChopperService {
   @Get(path: "/notifications")
-  Future<Response<BuiltList<NotificationModel>>> getNotifications({@Query('type') String? type});
+  Future<Response<BuiltList<NotificationModel>>> getNotifications({
+    @Query('type') String? type,
+    @Header('requires-token') String requiresToken = "true",
+  });
 
   @Post(path: "/send-review-visit")
   Future<Response<NotificationSendReview>> postNotificationReview({
@@ -229,7 +241,10 @@ abstract class NotificationService extends ChopperService {
   });
 
   @Put(path: "/notifications/{notification_id}/read", optionalBody: true)
-  Future<Response<BuiltList<NotificationModel>>> readNotification(@Path('notification_id') int notificationId);
+  Future<Response<BuiltList<NotificationModel>>> readNotification({
+    @Path('notification_id') int? notificationId,
+    @Header('requires-token') String requiresToken = "true",
+  });
 
   @Post(path: "https://his.uicgroup.tech/firebase/token")
   Future<Response<void>> setFcmToken({
@@ -246,11 +261,14 @@ abstract class StudyService extends ChopperService {
   @Get(path: "/study")
   Future<Response<EducationModel>> getStudy();
 
-  @Get(path: "/get-reviews")
+  @Get(path: "/company/get-reviews")
   Future<Response<BuiltList<GetReviewModel>>> getReviews();
 
-  @Post(path: "/send-review")
-  Future<Response<PostReviewModel>> postReviews({@Body() required PostReviewModel review});
+  @Post(path: "/company/send-review")
+  Future<Response<PostReviewResult>> postReviews({
+    @Body() required PostReviewModel review,
+    @Header('requires-token') String requiresToken = "true",
+  });
 
   static StudyService create(DBService dbService) => _$StudyService(_Client(Constants.baseUrlP, true, dbService));
 }

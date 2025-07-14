@@ -38,21 +38,24 @@ class BuildOrderList extends StatelessWidget {
                 separatorBuilder: (context, count) {
                   return const Divider();
                 },
-                itemCount: order.saleOrderLines.length + 4,
+                itemCount: order.saleOrderLines.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (ctx, i) {
-                  // final card = order.saleOrderLines[i];
-                  return VisitsNewDesignCard(
-                    doctorName: "card.doctorFullName" ?? '',
-                    doctorJob: "card.service" ?? '',
+                  final card = order.saleOrderLines[i];
+                  return DynamicVisitsCard(
+                    doctorName: card.doctorFullName ?? '',
+                    doctorJob: card.service ?? '',
                     serviceName: service,
-                    location: 'location',
-                    visitTime: "12:30 - 13:00",
-                    timaAndDate: "12.23.2030",
+                    visitTime: "${card.createDate}",
                     paymentStatus: order.saleOrderPaymentStatus == 'paid',
-                    doctorImage: 'doctorImage',
                     listEnum: MyFunctions.getVisitStatus("ordered"),
+                    radius: BorderRadius.vertical(
+                      bottom: (i == order.saleOrderLines.length - 1) ? const Radius.circular(12) : Radius.zero,
+                    ),
+                    padding: EdgeInsets.zero,
+                    fonts: fonts,
+                    colors: colors,
                   );
                 },
               ),

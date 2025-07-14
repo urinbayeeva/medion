@@ -26,7 +26,7 @@ mixin _$BranchEvent {
     required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
-    required TResult Function(int rank, String branch, String comment)
+    required TResult Function(int rank, int id, String branch, String comment)
         fillingReviewData,
   }) =>
       throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ mixin _$BranchEvent {
     TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
-    TResult? Function(int rank, String branch, String comment)?
+    TResult? Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
   }) =>
       throw _privateConstructorUsedError;
@@ -54,7 +54,7 @@ mixin _$BranchEvent {
     TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
-    TResult Function(int rank, String branch, String comment)?
+    TResult Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
     required TResult orElse(),
   }) =>
@@ -171,7 +171,7 @@ class _$FetchBranchesImpl implements _FetchBranches {
     required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
-    required TResult Function(int rank, String branch, String comment)
+    required TResult Function(int rank, int id, String branch, String comment)
         fillingReviewData,
   }) {
     return fetchBranches();
@@ -188,7 +188,7 @@ class _$FetchBranchesImpl implements _FetchBranches {
     TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
-    TResult? Function(int rank, String branch, String comment)?
+    TResult? Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
   }) {
     return fetchBranches?.call();
@@ -205,7 +205,7 @@ class _$FetchBranchesImpl implements _FetchBranches {
     TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
-    TResult Function(int rank, String branch, String comment)?
+    TResult Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
     required TResult orElse(),
   }) {
@@ -321,7 +321,7 @@ class _$FetchAwardsImpl implements _FetchAwards {
     required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
-    required TResult Function(int rank, String branch, String comment)
+    required TResult Function(int rank, int id, String branch, String comment)
         fillingReviewData,
   }) {
     return fetchAwards();
@@ -338,7 +338,7 @@ class _$FetchAwardsImpl implements _FetchAwards {
     TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
-    TResult? Function(int rank, String branch, String comment)?
+    TResult? Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
   }) {
     return fetchAwards?.call();
@@ -355,7 +355,7 @@ class _$FetchAwardsImpl implements _FetchAwards {
     TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
-    TResult Function(int rank, String branch, String comment)?
+    TResult Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
     required TResult orElse(),
   }) {
@@ -471,7 +471,7 @@ class _$FetchStudyImpl implements _FetchStudy {
     required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
-    required TResult Function(int rank, String branch, String comment)
+    required TResult Function(int rank, int id, String branch, String comment)
         fillingReviewData,
   }) {
     return fetchStudy();
@@ -488,7 +488,7 @@ class _$FetchStudyImpl implements _FetchStudy {
     TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
-    TResult? Function(int rank, String branch, String comment)?
+    TResult? Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
   }) {
     return fetchStudy?.call();
@@ -505,7 +505,7 @@ class _$FetchStudyImpl implements _FetchStudy {
     TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
-    TResult Function(int rank, String branch, String comment)?
+    TResult Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
     required TResult orElse(),
   }) {
@@ -621,7 +621,7 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
-    required TResult Function(int rank, String branch, String comment)
+    required TResult Function(int rank, int id, String branch, String comment)
         fillingReviewData,
   }) {
     return fetchOfferta();
@@ -638,7 +638,7 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
-    TResult? Function(int rank, String branch, String comment)?
+    TResult? Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
   }) {
     return fetchOfferta?.call();
@@ -655,7 +655,7 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
-    TResult Function(int rank, String branch, String comment)?
+    TResult Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
     required TResult orElse(),
   }) {
@@ -771,7 +771,7 @@ class _$FetchActivityImpl implements _FetchActivity {
     required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
-    required TResult Function(int rank, String branch, String comment)
+    required TResult Function(int rank, int id, String branch, String comment)
         fillingReviewData,
   }) {
     return fetchActivity();
@@ -788,7 +788,7 @@ class _$FetchActivityImpl implements _FetchActivity {
     TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
-    TResult? Function(int rank, String branch, String comment)?
+    TResult? Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
   }) {
     return fetchActivity?.call();
@@ -805,7 +805,7 @@ class _$FetchActivityImpl implements _FetchActivity {
     TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
-    TResult Function(int rank, String branch, String comment)?
+    TResult Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
     required TResult orElse(),
   }) {
@@ -921,7 +921,7 @@ class _$GetReviewsImpl implements _GetReviews {
     required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
-    required TResult Function(int rank, String branch, String comment)
+    required TResult Function(int rank, int id, String branch, String comment)
         fillingReviewData,
   }) {
     return getReviews();
@@ -938,7 +938,7 @@ class _$GetReviewsImpl implements _GetReviews {
     TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
-    TResult? Function(int rank, String branch, String comment)?
+    TResult? Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
   }) {
     return getReviews?.call();
@@ -955,7 +955,7 @@ class _$GetReviewsImpl implements _GetReviews {
     TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
-    TResult Function(int rank, String branch, String comment)?
+    TResult Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
     required TResult orElse(),
   }) {
@@ -1098,7 +1098,7 @@ class _$PostReviewsImpl implements _PostReviews {
     required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
-    required TResult Function(int rank, String branch, String comment)
+    required TResult Function(int rank, int id, String branch, String comment)
         fillingReviewData,
   }) {
     return postReviews(review);
@@ -1115,7 +1115,7 @@ class _$PostReviewsImpl implements _PostReviews {
     TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
-    TResult? Function(int rank, String branch, String comment)?
+    TResult? Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
   }) {
     return postReviews?.call(review);
@@ -1132,7 +1132,7 @@ class _$PostReviewsImpl implements _PostReviews {
     TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
-    TResult Function(int rank, String branch, String comment)?
+    TResult Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
     required TResult orElse(),
   }) {
@@ -1285,7 +1285,7 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
     required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
-    required TResult Function(int rank, String branch, String comment)
+    required TResult Function(int rank, int id, String branch, String comment)
         fillingReviewData,
   }) {
     return getBranchDetail(id);
@@ -1302,7 +1302,7 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
     TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
-    TResult? Function(int rank, String branch, String comment)?
+    TResult? Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
   }) {
     return getBranchDetail?.call(id);
@@ -1319,7 +1319,7 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
     TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
-    TResult Function(int rank, String branch, String comment)?
+    TResult Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
     required TResult orElse(),
   }) {
@@ -1401,7 +1401,7 @@ abstract class _$$FillingReviewDataImplCopyWith<$Res> {
           $Res Function(_$FillingReviewDataImpl) then) =
       __$$FillingReviewDataImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int rank, String branch, String comment});
+  $Res call({int rank, int id, String branch, String comment});
 }
 
 /// @nodoc
@@ -1418,6 +1418,7 @@ class __$$FillingReviewDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? rank = null,
+    Object? id = null,
     Object? branch = null,
     Object? comment = null,
   }) {
@@ -1425,6 +1426,10 @@ class __$$FillingReviewDataImplCopyWithImpl<$Res>
       rank: null == rank
           ? _value.rank
           : rank // ignore: cast_nullable_to_non_nullable
+              as int,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as int,
       branch: null == branch
           ? _value.branch
@@ -1442,11 +1447,14 @@ class __$$FillingReviewDataImplCopyWithImpl<$Res>
 
 class _$FillingReviewDataImpl implements _FillingReviewData {
   const _$FillingReviewDataImpl(
-      {this.rank = -1, this.branch = '', this.comment = ''});
+      {this.rank = -1, this.id = -1, this.branch = '', this.comment = ''});
 
   @override
   @JsonKey()
   final int rank;
+  @override
+  @JsonKey()
+  final int id;
   @override
   @JsonKey()
   final String branch;
@@ -1456,7 +1464,7 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
 
   @override
   String toString() {
-    return 'BranchEvent.fillingReviewData(rank: $rank, branch: $branch, comment: $comment)';
+    return 'BranchEvent.fillingReviewData(rank: $rank, id: $id, branch: $branch, comment: $comment)';
   }
 
   @override
@@ -1465,12 +1473,13 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
         (other.runtimeType == runtimeType &&
             other is _$FillingReviewDataImpl &&
             (identical(other.rank, rank) || other.rank == rank) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.branch, branch) || other.branch == branch) &&
             (identical(other.comment, comment) || other.comment == comment));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, rank, branch, comment);
+  int get hashCode => Object.hash(runtimeType, rank, id, branch, comment);
 
   /// Create a copy of BranchEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -1492,10 +1501,10 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
     required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
-    required TResult Function(int rank, String branch, String comment)
+    required TResult Function(int rank, int id, String branch, String comment)
         fillingReviewData,
   }) {
-    return fillingReviewData(rank, branch, comment);
+    return fillingReviewData(rank, id, branch, comment);
   }
 
   @override
@@ -1509,10 +1518,10 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
     TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
-    TResult? Function(int rank, String branch, String comment)?
+    TResult? Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
   }) {
-    return fillingReviewData?.call(rank, branch, comment);
+    return fillingReviewData?.call(rank, id, branch, comment);
   }
 
   @override
@@ -1526,12 +1535,12 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
     TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
-    TResult Function(int rank, String branch, String comment)?
+    TResult Function(int rank, int id, String branch, String comment)?
         fillingReviewData,
     required TResult orElse(),
   }) {
     if (fillingReviewData != null) {
-      return fillingReviewData(rank, branch, comment);
+      return fillingReviewData(rank, id, branch, comment);
     }
     return orElse();
   }
@@ -1592,10 +1601,12 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
 abstract class _FillingReviewData implements BranchEvent {
   const factory _FillingReviewData(
       {final int rank,
+      final int id,
       final String branch,
       final String comment}) = _$FillingReviewDataImpl;
 
   int get rank;
+  int get id;
   String get branch;
   String get comment;
 
@@ -1614,6 +1625,7 @@ mixin _$BranchState {
   String get reviewBranch => throw _privateConstructorUsedError;
   String get reviewComment => throw _privateConstructorUsedError;
   int get reviewRank => throw _privateConstructorUsedError;
+  int get branchId => throw _privateConstructorUsedError;
   FormzSubmissionStatus get activityStatus =>
       throw _privateConstructorUsedError;
   FormzSubmissionStatus get branchDetailStatus =>
@@ -1652,6 +1664,7 @@ abstract class $BranchStateCopyWith<$Res> {
       String reviewBranch,
       String reviewComment,
       int reviewRank,
+      int branchId,
       FormzSubmissionStatus activityStatus,
       FormzSubmissionStatus branchDetailStatus,
       FormzSubmissionStatus getReviewStatus,
@@ -1687,6 +1700,7 @@ class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
     Object? reviewBranch = null,
     Object? reviewComment = null,
     Object? reviewRank = null,
+    Object? branchId = null,
     Object? activityStatus = null,
     Object? branchDetailStatus = null,
     Object? getReviewStatus = null,
@@ -1724,6 +1738,10 @@ class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
       reviewRank: null == reviewRank
           ? _value.reviewRank
           : reviewRank // ignore: cast_nullable_to_non_nullable
+              as int,
+      branchId: null == branchId
+          ? _value.branchId
+          : branchId // ignore: cast_nullable_to_non_nullable
               as int,
       activityStatus: null == activityStatus
           ? _value.activityStatus
@@ -1792,6 +1810,7 @@ abstract class _$$BranchStateImplCopyWith<$Res>
       String reviewBranch,
       String reviewComment,
       int reviewRank,
+      int branchId,
       FormzSubmissionStatus activityStatus,
       FormzSubmissionStatus branchDetailStatus,
       FormzSubmissionStatus getReviewStatus,
@@ -1825,6 +1844,7 @@ class __$$BranchStateImplCopyWithImpl<$Res>
     Object? reviewBranch = null,
     Object? reviewComment = null,
     Object? reviewRank = null,
+    Object? branchId = null,
     Object? activityStatus = null,
     Object? branchDetailStatus = null,
     Object? getReviewStatus = null,
@@ -1862,6 +1882,10 @@ class __$$BranchStateImplCopyWithImpl<$Res>
       reviewRank: null == reviewRank
           ? _value.reviewRank
           : reviewRank // ignore: cast_nullable_to_non_nullable
+              as int,
+      branchId: null == branchId
+          ? _value.branchId
+          : branchId // ignore: cast_nullable_to_non_nullable
               as int,
       activityStatus: null == activityStatus
           ? _value.activityStatus
@@ -1925,6 +1949,7 @@ class _$BranchStateImpl extends _BranchState {
       this.reviewBranch = '',
       this.reviewComment = '',
       this.reviewRank = -1,
+      this.branchId = -1,
       this.activityStatus = FormzSubmissionStatus.initial,
       this.branchDetailStatus = FormzSubmissionStatus.initial,
       this.getReviewStatus = FormzSubmissionStatus.initial,
@@ -1960,6 +1985,9 @@ class _$BranchStateImpl extends _BranchState {
   @override
   @JsonKey()
   final int reviewRank;
+  @override
+  @JsonKey()
+  final int branchId;
   @override
   @JsonKey()
   final FormzSubmissionStatus activityStatus;
@@ -2017,7 +2045,7 @@ class _$BranchStateImpl extends _BranchState {
 
   @override
   String toString() {
-    return 'BranchState(loading: $loading, error: $error, success: $success, reviewBranch: $reviewBranch, reviewComment: $reviewComment, reviewRank: $reviewRank, activityStatus: $activityStatus, branchDetailStatus: $branchDetailStatus, getReviewStatus: $getReviewStatus, postReviewStatus: $postReviewStatus, getBranchesStatus: $getBranchesStatus, reviews: $reviews, branches: $branches, awards: $awards, study: $study, branchDetail: $branchDetail, offerta: $offerta, medionActivity: $medionActivity)';
+    return 'BranchState(loading: $loading, error: $error, success: $success, reviewBranch: $reviewBranch, reviewComment: $reviewComment, reviewRank: $reviewRank, branchId: $branchId, activityStatus: $activityStatus, branchDetailStatus: $branchDetailStatus, getReviewStatus: $getReviewStatus, postReviewStatus: $postReviewStatus, getBranchesStatus: $getBranchesStatus, reviews: $reviews, branches: $branches, awards: $awards, study: $study, branchDetail: $branchDetail, offerta: $offerta, medionActivity: $medionActivity)';
   }
 
   @override
@@ -2034,6 +2062,8 @@ class _$BranchStateImpl extends _BranchState {
                 other.reviewComment == reviewComment) &&
             (identical(other.reviewRank, reviewRank) ||
                 other.reviewRank == reviewRank) &&
+            (identical(other.branchId, branchId) ||
+                other.branchId == branchId) &&
             (identical(other.activityStatus, activityStatus) ||
                 other.activityStatus == activityStatus) &&
             (identical(other.branchDetailStatus, branchDetailStatus) ||
@@ -2056,26 +2086,28 @@ class _$BranchStateImpl extends _BranchState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      loading,
-      error,
-      success,
-      reviewBranch,
-      reviewComment,
-      reviewRank,
-      activityStatus,
-      branchDetailStatus,
-      getReviewStatus,
-      postReviewStatus,
-      getBranchesStatus,
-      const DeepCollectionEquality().hash(_reviews),
-      const DeepCollectionEquality().hash(_branches),
-      const DeepCollectionEquality().hash(_awards),
-      study,
-      branchDetail,
-      offerta,
-      medionActivity);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        loading,
+        error,
+        success,
+        reviewBranch,
+        reviewComment,
+        reviewRank,
+        branchId,
+        activityStatus,
+        branchDetailStatus,
+        getReviewStatus,
+        postReviewStatus,
+        getBranchesStatus,
+        const DeepCollectionEquality().hash(_reviews),
+        const DeepCollectionEquality().hash(_branches),
+        const DeepCollectionEquality().hash(_awards),
+        study,
+        branchDetail,
+        offerta,
+        medionActivity
+      ]);
 
   /// Create a copy of BranchState
   /// with the given fields replaced by the non-null parameter values.
@@ -2094,6 +2126,7 @@ abstract class _BranchState extends BranchState {
       final String reviewBranch,
       final String reviewComment,
       final int reviewRank,
+      final int branchId,
       final FormzSubmissionStatus activityStatus,
       final FormzSubmissionStatus branchDetailStatus,
       final FormzSubmissionStatus getReviewStatus,
@@ -2120,6 +2153,8 @@ abstract class _BranchState extends BranchState {
   String get reviewComment;
   @override
   int get reviewRank;
+  @override
+  int get branchId;
   @override
   FormzSubmissionStatus get activityStatus;
   @override

@@ -25,7 +25,7 @@ mixin _$AuthEvent {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -33,6 +33,7 @@ mixin _$AuthEvent {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -44,7 +45,7 @@ mixin _$AuthEvent {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -52,6 +53,7 @@ mixin _$AuthEvent {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,7 +65,7 @@ mixin _$AuthEvent {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -71,6 +73,7 @@ mixin _$AuthEvent {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -93,6 +96,7 @@ mixin _$AuthEvent {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -113,6 +117,7 @@ mixin _$AuthEvent {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -132,6 +137,7 @@ mixin _$AuthEvent {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -205,7 +211,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -213,6 +219,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return checkAuth();
   }
@@ -227,7 +234,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -235,6 +242,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return checkAuth?.call();
   }
@@ -249,7 +257,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -257,6 +265,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (checkAuth != null) {
@@ -285,6 +294,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return checkAuth(this);
   }
@@ -308,6 +318,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return checkAuth?.call(this);
   }
@@ -330,6 +341,7 @@ class _$CheckAuthImpl implements _CheckAuth {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (checkAuth != null) {
@@ -391,7 +403,7 @@ class _$RefreshTokenImpl implements _RefreshToken {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -399,6 +411,7 @@ class _$RefreshTokenImpl implements _RefreshToken {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return refreshToken();
   }
@@ -413,7 +426,7 @@ class _$RefreshTokenImpl implements _RefreshToken {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -421,6 +434,7 @@ class _$RefreshTokenImpl implements _RefreshToken {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return refreshToken?.call();
   }
@@ -435,7 +449,7 @@ class _$RefreshTokenImpl implements _RefreshToken {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -443,6 +457,7 @@ class _$RefreshTokenImpl implements _RefreshToken {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (refreshToken != null) {
@@ -471,6 +486,7 @@ class _$RefreshTokenImpl implements _RefreshToken {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return refreshToken(this);
   }
@@ -494,6 +510,7 @@ class _$RefreshTokenImpl implements _RefreshToken {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return refreshToken?.call(this);
   }
@@ -516,6 +533,7 @@ class _$RefreshTokenImpl implements _RefreshToken {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (refreshToken != null) {
@@ -605,7 +623,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -613,6 +631,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return verificationSend(request);
   }
@@ -627,7 +646,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -635,6 +654,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return verificationSend?.call(request);
   }
@@ -649,7 +669,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -657,6 +677,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (verificationSend != null) {
@@ -685,6 +706,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return verificationSend(this);
   }
@@ -708,6 +730,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return verificationSend?.call(this);
   }
@@ -730,6 +753,7 @@ class _$VerificationSendImpl implements _VerificationSend {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (verificationSend != null) {
@@ -828,7 +852,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -836,6 +860,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return sendPhoneNumber(request);
   }
@@ -850,7 +875,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -858,6 +883,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return sendPhoneNumber?.call(request);
   }
@@ -872,7 +898,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -880,6 +906,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (sendPhoneNumber != null) {
@@ -908,6 +935,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return sendPhoneNumber(this);
   }
@@ -931,6 +959,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return sendPhoneNumber?.call(this);
   }
@@ -953,6 +982,7 @@ class _$SendPhoneNumberImpl implements _SendPhoneNumber {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (sendPhoneNumber != null) {
@@ -1050,7 +1080,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -1058,6 +1088,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return sendUserInfo(request);
   }
@@ -1072,7 +1103,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -1080,6 +1111,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return sendUserInfo?.call(request);
   }
@@ -1094,7 +1126,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -1102,6 +1134,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (sendUserInfo != null) {
@@ -1130,6 +1163,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return sendUserInfo(this);
   }
@@ -1153,6 +1187,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return sendUserInfo?.call(this);
   }
@@ -1175,6 +1210,7 @@ class _$SendUserInfoImpl implements _SendUserInfo {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (sendUserInfo != null) {
@@ -1245,7 +1281,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -1253,6 +1289,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return fetchPatientInfo();
   }
@@ -1267,7 +1304,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -1275,6 +1312,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return fetchPatientInfo?.call();
   }
@@ -1289,7 +1327,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -1297,6 +1335,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchPatientInfo != null) {
@@ -1325,6 +1364,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return fetchPatientInfo(this);
   }
@@ -1348,6 +1388,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return fetchPatientInfo?.call(this);
   }
@@ -1370,6 +1411,7 @@ class _$FetchPatientInfoImpl implements _FetchPatientInfo {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchPatientInfo != null) {
@@ -1458,7 +1500,7 @@ class _$PickImageImpl implements _PickImage {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -1466,6 +1508,7 @@ class _$PickImageImpl implements _PickImage {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return pickImage(context);
   }
@@ -1480,7 +1523,7 @@ class _$PickImageImpl implements _PickImage {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -1488,6 +1531,7 @@ class _$PickImageImpl implements _PickImage {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return pickImage?.call(context);
   }
@@ -1502,7 +1546,7 @@ class _$PickImageImpl implements _PickImage {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -1510,6 +1554,7 @@ class _$PickImageImpl implements _PickImage {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (pickImage != null) {
@@ -1538,6 +1583,7 @@ class _$PickImageImpl implements _PickImage {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return pickImage(this);
   }
@@ -1561,6 +1607,7 @@ class _$PickImageImpl implements _PickImage {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return pickImage?.call(this);
   }
@@ -1583,6 +1630,7 @@ class _$PickImageImpl implements _PickImage {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (pickImage != null) {
@@ -1609,6 +1657,8 @@ abstract class _$$FetchPatientVisitsImplCopyWith<$Res> {
   factory _$$FetchPatientVisitsImplCopyWith(_$FetchPatientVisitsImpl value,
           $Res Function(_$FetchPatientVisitsImpl) then) =
       __$$FetchPatientVisitsImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String time});
 }
 
 /// @nodoc
@@ -1621,26 +1671,52 @@ class __$$FetchPatientVisitsImplCopyWithImpl<$Res>
 
   /// Create a copy of AuthEvent
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? time = null,
+  }) {
+    return _then(_$FetchPatientVisitsImpl(
+      time: null == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
-  const _$FetchPatientVisitsImpl();
+  const _$FetchPatientVisitsImpl({required this.time});
+
+  @override
+  final String time;
 
   @override
   String toString() {
-    return 'AuthEvent.fetchPatientVisits()';
+    return 'AuthEvent.fetchPatientVisits(time: $time)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$FetchPatientVisitsImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$FetchPatientVisitsImpl &&
+            (identical(other.time, time) || other.time == time));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, time);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FetchPatientVisitsImplCopyWith<_$FetchPatientVisitsImpl> get copyWith =>
+      __$$FetchPatientVisitsImplCopyWithImpl<_$FetchPatientVisitsImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1652,7 +1728,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -1660,8 +1736,9 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
-    return fetchPatientVisits();
+    return fetchPatientVisits(time);
   }
 
   @override
@@ -1674,7 +1751,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -1682,8 +1759,9 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
-    return fetchPatientVisits?.call();
+    return fetchPatientVisits?.call(time);
   }
 
   @override
@@ -1696,7 +1774,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -1704,10 +1782,11 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchPatientVisits != null) {
-      return fetchPatientVisits();
+      return fetchPatientVisits(time);
     }
     return orElse();
   }
@@ -1732,6 +1811,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return fetchPatientVisits(this);
   }
@@ -1755,6 +1835,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return fetchPatientVisits?.call(this);
   }
@@ -1777,6 +1858,7 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchPatientVisits != null) {
@@ -1787,7 +1869,16 @@ class _$FetchPatientVisitsImpl implements _FetchPatientVisits {
 }
 
 abstract class _FetchPatientVisits implements AuthEvent {
-  const factory _FetchPatientVisits() = _$FetchPatientVisitsImpl;
+  const factory _FetchPatientVisits({required final String time}) =
+      _$FetchPatientVisitsImpl;
+
+  String get time;
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FetchPatientVisitsImplCopyWith<_$FetchPatientVisitsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1868,7 +1959,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -1876,6 +1967,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return fetchPatientVisitSingle(id);
   }
@@ -1890,7 +1982,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -1898,6 +1990,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return fetchPatientVisitSingle?.call(id);
   }
@@ -1912,7 +2005,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -1920,6 +2013,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchPatientVisitSingle != null) {
@@ -1948,6 +2042,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return fetchPatientVisitSingle(this);
   }
@@ -1971,6 +2066,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return fetchPatientVisitSingle?.call(this);
   }
@@ -1993,6 +2089,7 @@ class _$FetchPatientSingleVisitsImpl implements _FetchPatientSingleVisits {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchPatientVisitSingle != null) {
@@ -2093,7 +2190,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -2101,6 +2198,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return fetchPatientVisitsDetail(id);
   }
@@ -2115,7 +2213,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -2123,6 +2221,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return fetchPatientVisitsDetail?.call(id);
   }
@@ -2137,7 +2236,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -2145,6 +2244,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchPatientVisitsDetail != null) {
@@ -2173,6 +2273,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return fetchPatientVisitsDetail(this);
   }
@@ -2196,6 +2297,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return fetchPatientVisitsDetail?.call(this);
   }
@@ -2218,6 +2320,7 @@ class _$FetchPatientVisitsDetailImpl implements _FetchPatientVisitsDetail {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchPatientVisitsDetail != null) {
@@ -2288,7 +2391,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -2296,6 +2399,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return fetchPaymentUrls();
   }
@@ -2310,7 +2414,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -2318,6 +2422,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return fetchPaymentUrls?.call();
   }
@@ -2332,7 +2437,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -2340,6 +2445,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchPaymentUrls != null) {
@@ -2368,6 +2474,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return fetchPaymentUrls(this);
   }
@@ -2391,6 +2498,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return fetchPaymentUrls?.call(this);
   }
@@ -2413,6 +2521,7 @@ class _$FetchPaymentUrlsImpl implements _FetchPaymentUrls {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchPaymentUrls != null) {
@@ -2475,7 +2584,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -2483,6 +2592,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return fetchPatientAnalyze();
   }
@@ -2497,7 +2607,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -2505,6 +2615,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return fetchPatientAnalyze?.call();
   }
@@ -2519,7 +2630,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -2527,6 +2638,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchPatientAnalyze != null) {
@@ -2555,6 +2667,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return fetchPatientAnalyze(this);
   }
@@ -2578,6 +2691,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return fetchPatientAnalyze?.call(this);
   }
@@ -2600,6 +2714,7 @@ class _$FetchPatientAnalyzeImpl implements _FetchPatientAnalyze {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchPatientAnalyze != null) {
@@ -2661,7 +2776,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -2669,6 +2784,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return fetchMyWallet();
   }
@@ -2683,7 +2799,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -2691,6 +2807,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return fetchMyWallet?.call();
   }
@@ -2705,7 +2822,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -2713,6 +2830,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchMyWallet != null) {
@@ -2741,6 +2859,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return fetchMyWallet(this);
   }
@@ -2764,6 +2883,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return fetchMyWallet?.call(this);
   }
@@ -2786,6 +2906,7 @@ class _$FetchMyWalletImpl implements _FetchMyWallet {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchMyWallet != null) {
@@ -2848,7 +2969,7 @@ class _$FetchRecommendationImpl implements _FetchRecommendation {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -2856,6 +2977,7 @@ class _$FetchRecommendationImpl implements _FetchRecommendation {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return fetchRecommendation();
   }
@@ -2870,7 +2992,7 @@ class _$FetchRecommendationImpl implements _FetchRecommendation {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -2878,6 +3000,7 @@ class _$FetchRecommendationImpl implements _FetchRecommendation {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return fetchRecommendation?.call();
   }
@@ -2892,7 +3015,7 @@ class _$FetchRecommendationImpl implements _FetchRecommendation {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -2900,6 +3023,7 @@ class _$FetchRecommendationImpl implements _FetchRecommendation {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchRecommendation != null) {
@@ -2928,6 +3052,7 @@ class _$FetchRecommendationImpl implements _FetchRecommendation {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return fetchRecommendation(this);
   }
@@ -2951,6 +3076,7 @@ class _$FetchRecommendationImpl implements _FetchRecommendation {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return fetchRecommendation?.call(this);
   }
@@ -2973,6 +3099,7 @@ class _$FetchRecommendationImpl implements _FetchRecommendation {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchRecommendation != null) {
@@ -3034,7 +3161,7 @@ class _$FetchRecipesImpl implements _FetchRecipes {
     required TResult Function(CreateInfoReq request) sendUserInfo,
     required TResult Function() fetchPatientInfo,
     required TResult Function(BuildContext context) pickImage,
-    required TResult Function() fetchPatientVisits,
+    required TResult Function(String time) fetchPatientVisits,
     required TResult Function(int id) fetchPatientVisitSingle,
     required TResult Function(int id) fetchPatientVisitsDetail,
     required TResult Function() fetchPaymentUrls,
@@ -3042,6 +3169,7 @@ class _$FetchRecipesImpl implements _FetchRecipes {
     required TResult Function() fetchMyWallet,
     required TResult Function() fetchRecommendation,
     required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
   }) {
     return fetchRecipes();
   }
@@ -3056,7 +3184,7 @@ class _$FetchRecipesImpl implements _FetchRecipes {
     TResult? Function(CreateInfoReq request)? sendUserInfo,
     TResult? Function()? fetchPatientInfo,
     TResult? Function(BuildContext context)? pickImage,
-    TResult? Function()? fetchPatientVisits,
+    TResult? Function(String time)? fetchPatientVisits,
     TResult? Function(int id)? fetchPatientVisitSingle,
     TResult? Function(int id)? fetchPatientVisitsDetail,
     TResult? Function()? fetchPaymentUrls,
@@ -3064,6 +3192,7 @@ class _$FetchRecipesImpl implements _FetchRecipes {
     TResult? Function()? fetchMyWallet,
     TResult? Function()? fetchRecommendation,
     TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
   }) {
     return fetchRecipes?.call();
   }
@@ -3078,7 +3207,7 @@ class _$FetchRecipesImpl implements _FetchRecipes {
     TResult Function(CreateInfoReq request)? sendUserInfo,
     TResult Function()? fetchPatientInfo,
     TResult Function(BuildContext context)? pickImage,
-    TResult Function()? fetchPatientVisits,
+    TResult Function(String time)? fetchPatientVisits,
     TResult Function(int id)? fetchPatientVisitSingle,
     TResult Function(int id)? fetchPatientVisitsDetail,
     TResult Function()? fetchPaymentUrls,
@@ -3086,6 +3215,7 @@ class _$FetchRecipesImpl implements _FetchRecipes {
     TResult Function()? fetchMyWallet,
     TResult Function()? fetchRecommendation,
     TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchRecipes != null) {
@@ -3114,6 +3244,7 @@ class _$FetchRecipesImpl implements _FetchRecipes {
     required TResult Function(_FetchMyWallet value) fetchMyWallet,
     required TResult Function(_FetchRecommendation value) fetchRecommendation,
     required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
   }) {
     return fetchRecipes(this);
   }
@@ -3137,6 +3268,7 @@ class _$FetchRecipesImpl implements _FetchRecipes {
     TResult? Function(_FetchMyWallet value)? fetchMyWallet,
     TResult? Function(_FetchRecommendation value)? fetchRecommendation,
     TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
   }) {
     return fetchRecipes?.call(this);
   }
@@ -3159,6 +3291,7 @@ class _$FetchRecipesImpl implements _FetchRecipes {
     TResult Function(_FetchMyWallet value)? fetchMyWallet,
     TResult Function(_FetchRecommendation value)? fetchRecommendation,
     TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
     required TResult orElse(),
   }) {
     if (fetchRecipes != null) {
@@ -3170,6 +3303,233 @@ class _$FetchRecipesImpl implements _FetchRecipes {
 
 abstract class _FetchRecipes implements AuthEvent {
   const factory _FetchRecipes() = _$FetchRecipesImpl;
+}
+
+/// @nodoc
+abstract class _$$CancelVisitImplCopyWith<$Res> {
+  factory _$$CancelVisitImplCopyWith(
+          _$CancelVisitImpl value, $Res Function(_$CancelVisitImpl) then) =
+      __$$CancelVisitImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class __$$CancelVisitImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$CancelVisitImpl>
+    implements _$$CancelVisitImplCopyWith<$Res> {
+  __$$CancelVisitImplCopyWithImpl(
+      _$CancelVisitImpl _value, $Res Function(_$CancelVisitImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$CancelVisitImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CancelVisitImpl implements _CancelVisit {
+  const _$CancelVisitImpl({required this.id});
+
+  @override
+  final int id;
+
+  @override
+  String toString() {
+    return 'AuthEvent.cancelVisit(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CancelVisitImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CancelVisitImplCopyWith<_$CancelVisitImpl> get copyWith =>
+      __$$CancelVisitImplCopyWithImpl<_$CancelVisitImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() checkAuth,
+    required TResult Function() refreshToken,
+    required TResult Function(RegisterReq request) verificationSend,
+    required TResult Function(PhoneNumberSendReq request) sendPhoneNumber,
+    required TResult Function(CreateInfoReq request) sendUserInfo,
+    required TResult Function() fetchPatientInfo,
+    required TResult Function(BuildContext context) pickImage,
+    required TResult Function(String time) fetchPatientVisits,
+    required TResult Function(int id) fetchPatientVisitSingle,
+    required TResult Function(int id) fetchPatientVisitsDetail,
+    required TResult Function() fetchPaymentUrls,
+    required TResult Function() fetchPatientAnalyze,
+    required TResult Function() fetchMyWallet,
+    required TResult Function() fetchRecommendation,
+    required TResult Function() fetchRecipes,
+    required TResult Function(int id) cancelVisit,
+  }) {
+    return cancelVisit(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? checkAuth,
+    TResult? Function()? refreshToken,
+    TResult? Function(RegisterReq request)? verificationSend,
+    TResult? Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult? Function(CreateInfoReq request)? sendUserInfo,
+    TResult? Function()? fetchPatientInfo,
+    TResult? Function(BuildContext context)? pickImage,
+    TResult? Function(String time)? fetchPatientVisits,
+    TResult? Function(int id)? fetchPatientVisitSingle,
+    TResult? Function(int id)? fetchPatientVisitsDetail,
+    TResult? Function()? fetchPaymentUrls,
+    TResult? Function()? fetchPatientAnalyze,
+    TResult? Function()? fetchMyWallet,
+    TResult? Function()? fetchRecommendation,
+    TResult? Function()? fetchRecipes,
+    TResult? Function(int id)? cancelVisit,
+  }) {
+    return cancelVisit?.call(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? checkAuth,
+    TResult Function()? refreshToken,
+    TResult Function(RegisterReq request)? verificationSend,
+    TResult Function(PhoneNumberSendReq request)? sendPhoneNumber,
+    TResult Function(CreateInfoReq request)? sendUserInfo,
+    TResult Function()? fetchPatientInfo,
+    TResult Function(BuildContext context)? pickImage,
+    TResult Function(String time)? fetchPatientVisits,
+    TResult Function(int id)? fetchPatientVisitSingle,
+    TResult Function(int id)? fetchPatientVisitsDetail,
+    TResult Function()? fetchPaymentUrls,
+    TResult Function()? fetchPatientAnalyze,
+    TResult Function()? fetchMyWallet,
+    TResult Function()? fetchRecommendation,
+    TResult Function()? fetchRecipes,
+    TResult Function(int id)? cancelVisit,
+    required TResult orElse(),
+  }) {
+    if (cancelVisit != null) {
+      return cancelVisit(id);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_CheckAuth value) checkAuth,
+    required TResult Function(_RefreshToken value) refreshToken,
+    required TResult Function(_VerificationSend value) verificationSend,
+    required TResult Function(_SendPhoneNumber value) sendPhoneNumber,
+    required TResult Function(_SendUserInfo value) sendUserInfo,
+    required TResult Function(_FetchPatientInfo value) fetchPatientInfo,
+    required TResult Function(_PickImage value) pickImage,
+    required TResult Function(_FetchPatientVisits value) fetchPatientVisits,
+    required TResult Function(_FetchPatientSingleVisits value)
+        fetchPatientVisitSingle,
+    required TResult Function(_FetchPatientVisitsDetail value)
+        fetchPatientVisitsDetail,
+    required TResult Function(_FetchPaymentUrls value) fetchPaymentUrls,
+    required TResult Function(_FetchPatientAnalyze value) fetchPatientAnalyze,
+    required TResult Function(_FetchMyWallet value) fetchMyWallet,
+    required TResult Function(_FetchRecommendation value) fetchRecommendation,
+    required TResult Function(_FetchRecipes value) fetchRecipes,
+    required TResult Function(_CancelVisit value) cancelVisit,
+  }) {
+    return cancelVisit(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_CheckAuth value)? checkAuth,
+    TResult? Function(_RefreshToken value)? refreshToken,
+    TResult? Function(_VerificationSend value)? verificationSend,
+    TResult? Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult? Function(_SendUserInfo value)? sendUserInfo,
+    TResult? Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult? Function(_PickImage value)? pickImage,
+    TResult? Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult? Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult? Function(_FetchPatientVisitsDetail value)?
+        fetchPatientVisitsDetail,
+    TResult? Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult? Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult? Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult? Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult? Function(_FetchRecipes value)? fetchRecipes,
+    TResult? Function(_CancelVisit value)? cancelVisit,
+  }) {
+    return cancelVisit?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_CheckAuth value)? checkAuth,
+    TResult Function(_RefreshToken value)? refreshToken,
+    TResult Function(_VerificationSend value)? verificationSend,
+    TResult Function(_SendPhoneNumber value)? sendPhoneNumber,
+    TResult Function(_SendUserInfo value)? sendUserInfo,
+    TResult Function(_FetchPatientInfo value)? fetchPatientInfo,
+    TResult Function(_PickImage value)? pickImage,
+    TResult Function(_FetchPatientVisits value)? fetchPatientVisits,
+    TResult Function(_FetchPatientSingleVisits value)? fetchPatientVisitSingle,
+    TResult Function(_FetchPatientVisitsDetail value)? fetchPatientVisitsDetail,
+    TResult Function(_FetchPaymentUrls value)? fetchPaymentUrls,
+    TResult Function(_FetchPatientAnalyze value)? fetchPatientAnalyze,
+    TResult Function(_FetchMyWallet value)? fetchMyWallet,
+    TResult Function(_FetchRecommendation value)? fetchRecommendation,
+    TResult Function(_FetchRecipes value)? fetchRecipes,
+    TResult Function(_CancelVisit value)? cancelVisit,
+    required TResult orElse(),
+  }) {
+    if (cancelVisit != null) {
+      return cancelVisit(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _CancelVisit implements AuthEvent {
+  const factory _CancelVisit({required final int id}) = _$CancelVisitImpl;
+
+  int get id;
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CancelVisitImplCopyWith<_$CancelVisitImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -3187,6 +3547,8 @@ mixin _$AuthState {
   FormzSubmissionStatus get fetchRecommendationStatus =>
       throw _privateConstructorUsedError;
   FormzSubmissionStatus get fetchRecipeStatus =>
+      throw _privateConstructorUsedError;
+  FormzSubmissionStatus get cancelVisitStatus =>
       throw _privateConstructorUsedError;
   List<RecipeModel> get recipes => throw _privateConstructorUsedError;
   List<Recommendation> get recommendation => throw _privateConstructorUsedError;
@@ -3215,6 +3577,8 @@ mixin _$AuthState {
   PaymentResponse? get myWallet => throw _privateConstructorUsedError;
   PatientVisitSingleModel? get patientVisitSingle =>
       throw _privateConstructorUsedError;
+  CancelVisitResult? get cancelVisitResult =>
+      throw _privateConstructorUsedError;
   RegistrationResponse? get registrationResponse =>
       throw _privateConstructorUsedError;
 
@@ -3240,6 +3604,7 @@ abstract class $AuthStateCopyWith<$Res> {
       FormzSubmissionStatus fetchPatientVisitSingleStatus,
       FormzSubmissionStatus fetchRecommendationStatus,
       FormzSubmissionStatus fetchRecipeStatus,
+      FormzSubmissionStatus cancelVisitStatus,
       List<RecipeModel> recipes,
       List<Recommendation> recommendation,
       List<PatientOrder> moves,
@@ -3266,6 +3631,7 @@ abstract class $AuthStateCopyWith<$Res> {
       bool errorFetchingPaymentUrls,
       PaymentResponse? myWallet,
       PatientVisitSingleModel? patientVisitSingle,
+      CancelVisitResult? cancelVisitResult,
       RegistrationResponse? registrationResponse});
 }
 
@@ -3293,6 +3659,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? fetchPatientVisitSingleStatus = null,
     Object? fetchRecommendationStatus = null,
     Object? fetchRecipeStatus = null,
+    Object? cancelVisitStatus = null,
     Object? recipes = null,
     Object? recommendation = null,
     Object? moves = null,
@@ -3319,6 +3686,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? errorFetchingPaymentUrls = null,
     Object? myWallet = freezed,
     Object? patientVisitSingle = freezed,
+    Object? cancelVisitResult = freezed,
     Object? registrationResponse = freezed,
   }) {
     return _then(_value.copyWith(
@@ -3357,6 +3725,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
       fetchRecipeStatus: null == fetchRecipeStatus
           ? _value.fetchRecipeStatus
           : fetchRecipeStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      cancelVisitStatus: null == cancelVisitStatus
+          ? _value.cancelVisitStatus
+          : cancelVisitStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
       recipes: null == recipes
           ? _value.recipes
@@ -3462,6 +3834,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.patientVisitSingle
           : patientVisitSingle // ignore: cast_nullable_to_non_nullable
               as PatientVisitSingleModel?,
+      cancelVisitResult: freezed == cancelVisitResult
+          ? _value.cancelVisitResult
+          : cancelVisitResult // ignore: cast_nullable_to_non_nullable
+              as CancelVisitResult?,
       registrationResponse: freezed == registrationResponse
           ? _value.registrationResponse
           : registrationResponse // ignore: cast_nullable_to_non_nullable
@@ -3488,6 +3864,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       FormzSubmissionStatus fetchPatientVisitSingleStatus,
       FormzSubmissionStatus fetchRecommendationStatus,
       FormzSubmissionStatus fetchRecipeStatus,
+      FormzSubmissionStatus cancelVisitStatus,
       List<RecipeModel> recipes,
       List<Recommendation> recommendation,
       List<PatientOrder> moves,
@@ -3514,6 +3891,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       bool errorFetchingPaymentUrls,
       PaymentResponse? myWallet,
       PatientVisitSingleModel? patientVisitSingle,
+      CancelVisitResult? cancelVisitResult,
       RegistrationResponse? registrationResponse});
 }
 
@@ -3539,6 +3917,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? fetchPatientVisitSingleStatus = null,
     Object? fetchRecommendationStatus = null,
     Object? fetchRecipeStatus = null,
+    Object? cancelVisitStatus = null,
     Object? recipes = null,
     Object? recommendation = null,
     Object? moves = null,
@@ -3565,6 +3944,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? errorFetchingPaymentUrls = null,
     Object? myWallet = freezed,
     Object? patientVisitSingle = freezed,
+    Object? cancelVisitResult = freezed,
     Object? registrationResponse = freezed,
   }) {
     return _then(_$AuthStateImpl(
@@ -3603,6 +3983,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
       fetchRecipeStatus: null == fetchRecipeStatus
           ? _value.fetchRecipeStatus
           : fetchRecipeStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      cancelVisitStatus: null == cancelVisitStatus
+          ? _value.cancelVisitStatus
+          : cancelVisitStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
       recipes: null == recipes
           ? _value._recipes
@@ -3708,6 +4092,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.patientVisitSingle
           : patientVisitSingle // ignore: cast_nullable_to_non_nullable
               as PatientVisitSingleModel?,
+      cancelVisitResult: freezed == cancelVisitResult
+          ? _value.cancelVisitResult
+          : cancelVisitResult // ignore: cast_nullable_to_non_nullable
+              as CancelVisitResult?,
       registrationResponse: freezed == registrationResponse
           ? _value.registrationResponse
           : registrationResponse // ignore: cast_nullable_to_non_nullable
@@ -3729,6 +4117,7 @@ class _$AuthStateImpl extends _AuthState {
       this.fetchPatientVisitSingleStatus = FormzSubmissionStatus.initial,
       this.fetchRecommendationStatus = FormzSubmissionStatus.initial,
       this.fetchRecipeStatus = FormzSubmissionStatus.initial,
+      this.cancelVisitStatus = FormzSubmissionStatus.initial,
       final List<RecipeModel> recipes = const [],
       final List<Recommendation> recommendation = const [],
       final List<PatientOrder> moves = const [],
@@ -3755,6 +4144,7 @@ class _$AuthStateImpl extends _AuthState {
       this.errorFetchingPaymentUrls = false,
       this.myWallet = null,
       this.patientVisitSingle = null,
+      this.cancelVisitResult = null,
       this.registrationResponse = null})
       : _recipes = recipes,
         _recommendation = recommendation,
@@ -3790,6 +4180,9 @@ class _$AuthStateImpl extends _AuthState {
   @override
   @JsonKey()
   final FormzSubmissionStatus fetchRecipeStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus cancelVisitStatus;
   final List<RecipeModel> _recipes;
   @override
   @JsonKey()
@@ -3900,11 +4293,14 @@ class _$AuthStateImpl extends _AuthState {
   final PatientVisitSingleModel? patientVisitSingle;
   @override
   @JsonKey()
+  final CancelVisitResult? cancelVisitResult;
+  @override
+  @JsonKey()
   final RegistrationResponse? registrationResponse;
 
   @override
   String toString() {
-    return 'AuthState(proceedToHome: $proceedToHome, haveToken: $haveToken, userStatus: $userStatus, verifyStatus: $verifyStatus, fetchPatientAnalyseStatus: $fetchPatientAnalyseStatus, fetchPatientVisitStatus: $fetchPatientVisitStatus, fetchPatientVisitSingleStatus: $fetchPatientVisitSingleStatus, fetchRecommendationStatus: $fetchRecommendationStatus, fetchRecipeStatus: $fetchRecipeStatus, recipes: $recipes, recommendation: $recommendation, moves: $moves, visits: $visits, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, patientVisitSingle: $patientVisitSingle, registrationResponse: $registrationResponse)';
+    return 'AuthState(proceedToHome: $proceedToHome, haveToken: $haveToken, userStatus: $userStatus, verifyStatus: $verifyStatus, fetchPatientAnalyseStatus: $fetchPatientAnalyseStatus, fetchPatientVisitStatus: $fetchPatientVisitStatus, fetchPatientVisitSingleStatus: $fetchPatientVisitSingleStatus, fetchRecommendationStatus: $fetchRecommendationStatus, fetchRecipeStatus: $fetchRecipeStatus, cancelVisitStatus: $cancelVisitStatus, recipes: $recipes, recommendation: $recommendation, moves: $moves, visits: $visits, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, patientVisitSingle: $patientVisitSingle, cancelVisitResult: $cancelVisitResult, registrationResponse: $registrationResponse)';
   }
 
   @override
@@ -3931,6 +4327,8 @@ class _$AuthStateImpl extends _AuthState {
                 other.fetchRecommendationStatus == fetchRecommendationStatus) &&
             (identical(other.fetchRecipeStatus, fetchRecipeStatus) ||
                 other.fetchRecipeStatus == fetchRecipeStatus) &&
+            (identical(other.cancelVisitStatus, cancelVisitStatus) ||
+                other.cancelVisitStatus == cancelVisitStatus) &&
             const DeepCollectionEquality().equals(other._recipes, _recipes) &&
             const DeepCollectionEquality()
                 .equals(other._recommendation, _recommendation) &&
@@ -3958,8 +4356,7 @@ class _$AuthStateImpl extends _AuthState {
                 other.errorFetchingPatientInfo == errorFetchingPatientInfo) &&
             (identical(other.pickedImagePath, pickedImagePath) ||
                 other.pickedImagePath == pickedImagePath) &&
-            (identical(other.isLoadingVisits, isLoadingVisits) ||
-                other.isLoadingVisits == isLoadingVisits) &&
+            (identical(other.isLoadingVisits, isLoadingVisits) || other.isLoadingVisits == isLoadingVisits) &&
             (identical(other.errorFetchingVisits, errorFetchingVisits) || other.errorFetchingVisits == errorFetchingVisits) &&
             const DeepCollectionEquality().equals(other._patientVisits, _patientVisits) &&
             (identical(other.patientAnalyze, patientAnalyze) || other.patientAnalyze == patientAnalyze) &&
@@ -3970,6 +4367,7 @@ class _$AuthStateImpl extends _AuthState {
             (identical(other.errorFetchingPaymentUrls, errorFetchingPaymentUrls) || other.errorFetchingPaymentUrls == errorFetchingPaymentUrls) &&
             (identical(other.myWallet, myWallet) || other.myWallet == myWallet) &&
             (identical(other.patientVisitSingle, patientVisitSingle) || other.patientVisitSingle == patientVisitSingle) &&
+            (identical(other.cancelVisitResult, cancelVisitResult) || other.cancelVisitResult == cancelVisitResult) &&
             (identical(other.registrationResponse, registrationResponse) || other.registrationResponse == registrationResponse));
   }
 
@@ -3985,6 +4383,7 @@ class _$AuthStateImpl extends _AuthState {
         fetchPatientVisitSingleStatus,
         fetchRecommendationStatus,
         fetchRecipeStatus,
+        cancelVisitStatus,
         const DeepCollectionEquality().hash(_recipes),
         const DeepCollectionEquality().hash(_recommendation),
         const DeepCollectionEquality().hash(_moves),
@@ -4011,6 +4410,7 @@ class _$AuthStateImpl extends _AuthState {
         errorFetchingPaymentUrls,
         myWallet,
         patientVisitSingle,
+        cancelVisitResult,
         registrationResponse
       ]);
 
@@ -4034,6 +4434,7 @@ abstract class _AuthState extends AuthState {
       final FormzSubmissionStatus fetchPatientVisitSingleStatus,
       final FormzSubmissionStatus fetchRecommendationStatus,
       final FormzSubmissionStatus fetchRecipeStatus,
+      final FormzSubmissionStatus cancelVisitStatus,
       final List<RecipeModel> recipes,
       final List<Recommendation> recommendation,
       final List<PatientOrder> moves,
@@ -4060,6 +4461,7 @@ abstract class _AuthState extends AuthState {
       final bool errorFetchingPaymentUrls,
       final PaymentResponse? myWallet,
       final PatientVisitSingleModel? patientVisitSingle,
+      final CancelVisitResult? cancelVisitResult,
       final RegistrationResponse? registrationResponse}) = _$AuthStateImpl;
   const _AuthState._() : super._();
 
@@ -4081,6 +4483,8 @@ abstract class _AuthState extends AuthState {
   FormzSubmissionStatus get fetchRecommendationStatus;
   @override
   FormzSubmissionStatus get fetchRecipeStatus;
+  @override
+  FormzSubmissionStatus get cancelVisitStatus;
   @override
   List<RecipeModel> get recipes;
   @override
@@ -4133,6 +4537,8 @@ abstract class _AuthState extends AuthState {
   PaymentResponse? get myWallet;
   @override
   PatientVisitSingleModel? get patientVisitSingle;
+  @override
+  CancelVisitResult? get cancelVisitResult;
   @override
   RegistrationResponse? get registrationResponse;
 

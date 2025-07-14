@@ -159,7 +159,7 @@ abstract class NotificationSendReview implements Built<NotificationSendReview, N
   String? get name;
 
   @BuiltValueField(wireName: 'ratings')
-  int? get ratings;
+  String? get ratings;
 
   @BuiltValueField(wireName: 'review')
   String? get review;

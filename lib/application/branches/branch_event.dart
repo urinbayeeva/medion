@@ -20,6 +20,7 @@ abstract class BranchEvent with _$BranchEvent {
 
   const factory BranchEvent.fillingReviewData({
     @Default(-1) int rank,
+    @Default(-1) int id,
     @Default('') String branch,
     @Default('') String comment,
   }) = _FillingReviewData;

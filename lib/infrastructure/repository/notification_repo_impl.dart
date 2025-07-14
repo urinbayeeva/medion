@@ -28,9 +28,9 @@ class NotificationRepoImpl extends NotificationRepository {
   }
 
   @override
-  Future<Either<ResponseFailure, void>> readNotifications({required int id}) async {
+  Future<Either<ResponseFailure, void>> readNotifications({int? id}) async {
     try {
-      final res = await service.readNotification(id);
+      final res = await service.readNotification(notificationId: id);
       if (res.isSuccessful && res.body != null) {
         return right(null);
       } else {

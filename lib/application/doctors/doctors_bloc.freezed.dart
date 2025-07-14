@@ -466,6 +466,7 @@ mixin _$DoctorState {
   bool get doctorDetailsSuccess => throw _privateConstructorUsedError;
   ModelDoctor? get doctorDetails => throw _privateConstructorUsedError;
   List<DoctorsJob> get doctorsJob => throw _privateConstructorUsedError;
+  List<DoctorsInfo> get doctorInfoItems => throw _privateConstructorUsedError;
 
   /// Create a copy of DoctorState
   /// with the given fields replaced by the non-null parameter values.
@@ -489,7 +490,8 @@ abstract class $DoctorStateCopyWith<$Res> {
       bool doctorDetailsError,
       bool doctorDetailsSuccess,
       ModelDoctor? doctorDetails,
-      List<DoctorsJob> doctorsJob});
+      List<DoctorsJob> doctorsJob,
+      List<DoctorsInfo> doctorInfoItems});
 }
 
 /// @nodoc
@@ -516,6 +518,7 @@ class _$DoctorStateCopyWithImpl<$Res, $Val extends DoctorState>
     Object? doctorDetailsSuccess = null,
     Object? doctorDetails = freezed,
     Object? doctorsJob = null,
+    Object? doctorInfoItems = null,
   }) {
     return _then(_value.copyWith(
       loading: null == loading
@@ -554,6 +557,10 @@ class _$DoctorStateCopyWithImpl<$Res, $Val extends DoctorState>
           ? _value.doctorsJob
           : doctorsJob // ignore: cast_nullable_to_non_nullable
               as List<DoctorsJob>,
+      doctorInfoItems: null == doctorInfoItems
+          ? _value.doctorInfoItems
+          : doctorInfoItems // ignore: cast_nullable_to_non_nullable
+              as List<DoctorsInfo>,
     ) as $Val);
   }
 }
@@ -575,7 +582,8 @@ abstract class _$$DoctorStateImplCopyWith<$Res>
       bool doctorDetailsError,
       bool doctorDetailsSuccess,
       ModelDoctor? doctorDetails,
-      List<DoctorsJob> doctorsJob});
+      List<DoctorsJob> doctorsJob,
+      List<DoctorsInfo> doctorInfoItems});
 }
 
 /// @nodoc
@@ -600,6 +608,7 @@ class __$$DoctorStateImplCopyWithImpl<$Res>
     Object? doctorDetailsSuccess = null,
     Object? doctorDetails = freezed,
     Object? doctorsJob = null,
+    Object? doctorInfoItems = null,
   }) {
     return _then(_$DoctorStateImpl(
       loading: null == loading
@@ -638,6 +647,10 @@ class __$$DoctorStateImplCopyWithImpl<$Res>
           ? _value._doctorsJob
           : doctorsJob // ignore: cast_nullable_to_non_nullable
               as List<DoctorsJob>,
+      doctorInfoItems: null == doctorInfoItems
+          ? _value._doctorInfoItems
+          : doctorInfoItems // ignore: cast_nullable_to_non_nullable
+              as List<DoctorsInfo>,
     ));
   }
 }
@@ -654,8 +667,10 @@ class _$DoctorStateImpl extends _DoctorState {
       this.doctorDetailsError = false,
       this.doctorDetailsSuccess = false,
       this.doctorDetails = null,
-      final List<DoctorsJob> doctorsJob = const []})
+      final List<DoctorsJob> doctorsJob = const [],
+      final List<DoctorsInfo> doctorInfoItems = const []})
       : _doctorsJob = doctorsJob,
+        _doctorInfoItems = doctorInfoItems,
         super._();
 
   @override
@@ -692,9 +707,18 @@ class _$DoctorStateImpl extends _DoctorState {
     return EqualUnmodifiableListView(_doctorsJob);
   }
 
+  final List<DoctorsInfo> _doctorInfoItems;
+  @override
+  @JsonKey()
+  List<DoctorsInfo> get doctorInfoItems {
+    if (_doctorInfoItems is EqualUnmodifiableListView) return _doctorInfoItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_doctorInfoItems);
+  }
+
   @override
   String toString() {
-    return 'DoctorState(loading: $loading, error: $error, success: $success, doctors: $doctors, doctorDetailsLoading: $doctorDetailsLoading, doctorDetailsError: $doctorDetailsError, doctorDetailsSuccess: $doctorDetailsSuccess, doctorDetails: $doctorDetails, doctorsJob: $doctorsJob)';
+    return 'DoctorState(loading: $loading, error: $error, success: $success, doctors: $doctors, doctorDetailsLoading: $doctorDetailsLoading, doctorDetailsError: $doctorDetailsError, doctorDetailsSuccess: $doctorDetailsSuccess, doctorDetails: $doctorDetails, doctorsJob: $doctorsJob, doctorInfoItems: $doctorInfoItems)';
   }
 
   @override
@@ -715,7 +739,9 @@ class _$DoctorStateImpl extends _DoctorState {
             (identical(other.doctorDetails, doctorDetails) ||
                 other.doctorDetails == doctorDetails) &&
             const DeepCollectionEquality()
-                .equals(other._doctorsJob, _doctorsJob));
+                .equals(other._doctorsJob, _doctorsJob) &&
+            const DeepCollectionEquality()
+                .equals(other._doctorInfoItems, _doctorInfoItems));
   }
 
   @override
@@ -729,7 +755,8 @@ class _$DoctorStateImpl extends _DoctorState {
       doctorDetailsError,
       doctorDetailsSuccess,
       doctorDetails,
-      const DeepCollectionEquality().hash(_doctorsJob));
+      const DeepCollectionEquality().hash(_doctorsJob),
+      const DeepCollectionEquality().hash(_doctorInfoItems));
 
   /// Create a copy of DoctorState
   /// with the given fields replaced by the non-null parameter values.
@@ -750,7 +777,8 @@ abstract class _DoctorState extends DoctorState {
       final bool doctorDetailsError,
       final bool doctorDetailsSuccess,
       final ModelDoctor? doctorDetails,
-      final List<DoctorsJob> doctorsJob}) = _$DoctorStateImpl;
+      final List<DoctorsJob> doctorsJob,
+      final List<DoctorsInfo> doctorInfoItems}) = _$DoctorStateImpl;
   const _DoctorState._() : super._();
 
   @override
@@ -771,6 +799,8 @@ abstract class _DoctorState extends DoctorState {
   ModelDoctor? get doctorDetails;
   @override
   List<DoctorsJob> get doctorsJob;
+  @override
+  List<DoctorsInfo> get doctorInfoItems;
 
   /// Create a copy of DoctorState
   /// with the given fields replaced by the non-null parameter values.

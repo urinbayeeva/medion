@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -179,24 +181,24 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                     _services = snapshot.data;
 
                     // Check if ALL services have no available doctors
-                    bool allServicesHaveNoDoctors = snapshot.data!.every((service) {
-                      return service.companiesDoctors
-                          .expand((company) => company.doctors)
-                          .where((doctor) => doctor.schedules != null && doctor.schedules!.isNotEmpty)
-                          .isEmpty;
-                    });
+                    // bool allServicesHaveNoDoctors = snapshot.data!.every((service) {
+                    //   return service.companiesDoctors
+                    //       .expand((company) => company.doctors)
+                    //       .where((doctor) => doctor.schedules != null && doctor.schedules!.isNotEmpty)
+                    //       .isEmpty;
+                    // });
 
-                    if (allServicesHaveNoDoctors) {
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.7,
-                        child: Center(
-                          child: Text(
-                            "no_result_found".tr(),
-                            style: fonts.regularMain.copyWith(fontSize: 18.sp),
-                          ),
-                        ),
-                      );
-                    }
+                    // if (allServicesHaveNoDoctors) {
+                    //   return SizedBox(
+                    //     height: MediaQuery.of(context).size.height * 0.7,
+                    //     child: Center(
+                    //       child: Text(
+                    //         "no_result_found".tr(),
+                    //         style: fonts.regularMain.copyWith(fontSize: 18.sp),
+                    //       ),
+                    //     ),
+                    //   );
+                    // }
 
                     return CustomListView(
                       enablePullDown: false,
@@ -432,6 +434,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
 
                     // Use diagnosis or serviceName
                     String serviceName = appointment['diagnosis'] ?? 'Unknown Service';
+                    log("Image: ${appointment['doctorPhoto']}");
 
                     return Column(
                       mainAxisSize: MainAxisSize.min,

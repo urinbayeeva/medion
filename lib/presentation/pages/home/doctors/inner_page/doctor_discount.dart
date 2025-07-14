@@ -74,7 +74,7 @@ class _DoctorDiscountScreenState extends State<DoctorDiscountScreen> {
                           ),
                         ),
                         Text(
-                          widget.doctor.name.asString,
+                          widget.doctor.name,
                           style: fonts.smallMain,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,

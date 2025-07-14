@@ -4,12 +4,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
+import 'package:medion/infrastructure/services/download_service.dart';
+import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/c_outlined_button.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class WalletPage extends StatefulWidget {
   const WalletPage({super.key});
@@ -22,7 +26,6 @@ class _WalletPageState extends State<WalletPage> {
   @override
   void initState() {
     super.initState();
-    // Trigger wallet data fetch when page loads
     context.read<AuthBloc>().add(const AuthEvent.fetchMyWallet());
   }
 
@@ -40,7 +43,7 @@ class _WalletPageState extends State<WalletPage> {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
-      builder: (context, colors, fonts, icons, controller) {
+      builder: (ctx, colors, fonts, icons, controller) {
         return Scaffold(
           backgroundColor: colors.backgroundColor,
           appBar: AppBar(
@@ -56,7 +59,7 @@ class _WalletPageState extends State<WalletPage> {
             title: Text("wallet".tr(), style: fonts.regularMain),
           ),
           body: BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
+            builder: (ctx, state) {
               if (state.isFetchingPatientInfo) {
                 return Center(child: CupertinoActivityIndicator(color: colors.error500));
               }
@@ -144,7 +147,7 @@ class _WalletPageState extends State<WalletPage> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: state.myWallet?.payments.length ?? 0,
                         separatorBuilder: (_, __) => 12.h.verticalSpace,
-                        itemBuilder: (context, index) {
+                        itemBuilder: (ctx, index) {
                           final tr = state.myWallet!.payments[index];
                           return Column(
                             children: [
@@ -159,7 +162,7 @@ class _WalletPageState extends State<WalletPage> {
                                       Text(tr.date ?? "",
                                           style: fonts.xSmallText.copyWith(color: const Color(0xff596066))),
                                       Text(
-                                        "${tr.totalAmount} UZS",
+                                        "sum".tr(namedArgs: {"amount": _formatNumber(tr.totalAmount.toString())}),
                                         style: fonts.xSmallText.copyWith(color: const Color(0xff596066)),
                                       ),
                                     ],
@@ -176,13 +179,13 @@ class _WalletPageState extends State<WalletPage> {
                                         colors: colors,
                                         fonts: fonts,
                                         icons: icons,
-                                        name: transaction.invoiceName ?? '',
-                                        accountNumber: transaction.accountNumber ?? '',
+                                        name: transaction.name ?? '',
+                                        accountNumber: transaction.invoiceName ?? '',
                                         date: transaction.dateTime ?? "",
                                         paymentMethod: transaction.paymentMethod ?? '',
                                         inKass: transaction.cashier ?? "",
                                         status: transaction.status ?? "",
-                                        payment: "",
+                                        payment: transaction.accountNumber.toString(),
                                         fiscalCheck: transaction.fiscalCheck ?? '',
                                         paymentCheck: transaction.paymentCheck ?? '',
                                         amount: "${transaction.amount}",
@@ -241,11 +244,10 @@ class _WalletPageState extends State<WalletPage> {
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               Text(
-                                                ((transaction.amount ?? 0) > 0 ? "+" : "") +
-                                                    transaction.amount.toString(),
+                                                "+${_formatNumber(transaction.amount.toString())}",
                                                 style: fonts.smallTagSecond.copyWith(
                                                   fontSize: 14,
-                                                  color: ((transaction.amount ?? 0) > 0)
+                                                  color: transaction.isIncome ?? false
                                                       ? colors.success500
                                                       : colors.error500,
                                                 ),
@@ -301,7 +303,7 @@ class _WalletPageState extends State<WalletPage> {
             Text(title, style: fonts.smallLink),
             Text(
               "sum".tr(namedArgs: {"amount": _formatNumber(amount.toString())}),
-              style: fonts.regularMain,
+              style: fonts.smallMain,
             ),
           ],
         ),
@@ -327,6 +329,7 @@ class _WalletPageState extends State<WalletPage> {
     showModalBottomSheet(
       useSafeArea: true,
       useRootNavigator: true,
+      isScrollControlled: true,
       context: context,
       backgroundColor: Colors.transparent,
       builder: (ctx) {
@@ -383,6 +386,7 @@ class PaymentSingle extends StatelessWidget {
         return Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 12),
+          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.7),
           decoration: BoxDecoration(
             color: colors.shade0,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
@@ -412,11 +416,17 @@ class PaymentSingle extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
+                    10.verticalSpace,
                     withDivider(title: "Номер счета:", value: accountNumber, fonts: fonts, hasDivider: true),
+                    10.verticalSpace,
                     withDivider(title: "Дата:", value: date, fonts: fonts, hasDivider: true),
+                    10.verticalSpace,
                     withDivider(title: "Метод оплаты:", value: paymentMethod, fonts: fonts, hasDivider: true),
+                    10.verticalSpace,
                     withDivider(title: "Кассир:", value: inKass, fonts: fonts, hasDivider: true),
+                    10.verticalSpace,
                     withDivider(title: "Статус:", value: status, fonts: fonts, hasDivider: false),
+                    10.verticalSpace,
                   ],
                 ),
               ),
@@ -425,6 +435,7 @@ class PaymentSingle extends StatelessWidget {
                   color: const Color(0xffF2F4F5),
                   borderRadius: BorderRadius.circular(8),
                 ),
+                height: 57,
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
                 child: Column(
@@ -432,81 +443,99 @@ class PaymentSingle extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Оплачено:", style: fonts.xSmallMain),
-                    Text("$amount Sum", style: fonts.regularMain),
+                    Text("sum".tr(namedArgs: {"amount": amount}), style: fonts.regularMain),
                   ],
                 ),
               ),
+              1.verticalSpace,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 spacing: 8,
                 children: [
                   Expanded(
-                    child: WScaleAnimation(
-                      onTap: () {},
-                      child: Container(
-                        width: double.infinity,
-                        height: 68,
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(
-                          color: colors.shade0,
-                          border: Border.all(color: colors.error100),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: colors.error500,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: icons.invoice.svg(width: 20, height: 20, color: colors.shade0),
+                    child: IgnorePointer(
+                      ignoring: paymentCheck.isEmpty,
+                      child: WScaleAnimation(
+                        onTap: () async {
+                          // debugPrint("Payment check : $paymentCheck");
+                          // MyFunctions.openLink(paymentCheck);
+                          final service = FileDownloadService();
+
+                          await service.downloadPDFWithProgress(
+                            context: context,
+                            url: paymentCheck,
+                            fileName: name,
+                            colors: colors,
+                          );
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 80,
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          decoration: BoxDecoration(
+                            color: colors.shade0,
+                            border: Border.all(color: (paymentCheck.isEmpty) ? colors.neutral300 : colors.error100),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: (paymentCheck.isEmpty) ? colors.neutral300 : colors.error500,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: icons.paymentCheck.svg(width: 20, height: 20, color: colors.shade0),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Text("Платежный чек", style: fonts.xSmallMain)
-                            ],
+                                Text("Платежный чек", style: fonts.xSmallMain)
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: WScaleAnimation(
-                      onTap: () {},
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        width: double.infinity,
-                        height: 68,
-                        decoration: BoxDecoration(
-                          color: colors.shade0,
-                          border: Border.all(color: colors.error100),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: colors.error500,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: icons.quote.svg(width: 20, height: 20, color: colors.shade0),
+                    child: IgnorePointer(
+                      ignoring: fiscalCheck.isEmpty,
+                      child: WScaleAnimation(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          width: double.infinity,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: colors.shade0,
+                            border: Border.all(color: (fiscalCheck.isEmpty) ? colors.neutral300 : colors.error100),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: (fiscalCheck.isEmpty) ? colors.neutral300 : colors.error500,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: icons.qr.svg(width: 20, height: 20, color: colors.shade0),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Text("Фискальный чек", style: fonts.xSmallMain)
-                            ],
+                                Text("Фискальный чек", style: fonts.xSmallMain)
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -524,6 +553,8 @@ class PaymentSingle extends StatelessWidget {
 
   Widget withDivider({required String title, required String value, bool hasDivider = false, required FontSet fonts}) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 3,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -534,6 +565,42 @@ class PaymentSingle extends StatelessWidget {
         ),
         if (hasDivider) ...{const Divider()}
       ],
+    );
+  }
+}
+
+class PdfViewScreen extends StatelessWidget {
+  const PdfViewScreen({super.key, required this.path});
+
+  final String path;
+
+  @override
+  Widget build(BuildContext context) {
+    return PDFView(
+      filePath: path,
+      enableSwipe: true,
+      swipeHorizontal: true,
+      autoSpacing: false,
+      pageFling: false,
+      backgroundColor: Colors.grey,
+      onRender: (_pages) {
+        // setState(() {
+        //   pages = _pages;
+        //   isReady = true;
+        // });
+      },
+      onError: (error) {
+        print(error.toString());
+      },
+      onPageError: (page, error) {
+        print('$page: ${error.toString()}');
+      },
+      onViewCreated: (PDFViewController pdfViewController) {
+        // _controller.complete(pdfViewController);
+      },
+      onPageChanged: (page, total) {
+        print('page change: $page/$total');
+      },
     );
   }
 }

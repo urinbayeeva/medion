@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,7 @@ import 'package:medion/presentation/pages/appointment/component/verify_appointme
 import 'package:medion/presentation/pages/appointment/payment_web_view.dart';
 import 'package:medion/presentation/pages/appointment/widget/zigzag.dart';
 import 'package:medion/presentation/pages/main/main_page.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -37,6 +39,7 @@ String _formatNumber(double number) {
 
 class PaymentPage extends StatefulWidget {
   final bool isHome;
+
   const PaymentPage({super.key, this.isHome = false});
 
   @override
@@ -102,7 +105,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   right: 16.w,
                   child: CircleAvatar(
                     radius: 20.r,
-                    backgroundColor: Colors.white.withOpacity(0.8),
+                    backgroundColor: Colors.white.withValues(alpha: 0.8),
                     child: IconButton(
                       icon: Icon(Icons.close, size: 20.w),
                       onPressed: () {
@@ -119,6 +122,18 @@ class _PaymentPageState extends State<PaymentPage> {
         }
 
         return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: colors.shade0,
+            foregroundColor: colors.darkMode900,
+            scrolledUnderElevation: 0,
+            leading: WScaleAnimation(
+              child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+              onTap: () => Navigator.of(context).pop(),
+            ),
+            title: Text("payment".tr(), style: fonts.regularMain),
+          ),
           backgroundColor: colors.backgroundColor,
           body: BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
@@ -134,13 +149,6 @@ class _PaymentPageState extends State<PaymentPage> {
 
               return Column(
                 children: [
-                  if (widget.isHome)
-                    CAppBar(
-                      title: "payment".tr(),
-                      centerTitle: true,
-                      isBack: true,
-                      trailing: 24.w.horizontalSpace,
-                    ),
                   Expanded(
                     child: SingleChildScrollView(
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -152,42 +160,36 @@ class _PaymentPageState extends State<PaymentPage> {
                               CustomTextField(
                                 readOnly: true,
                                 padding: const EdgeInsets.only(bottom: 12),
-                                hintText:
-                                    patientInfo?.firstName ?? "Not available",
+                                hintText: patientInfo?.firstName ?? "Not available",
                                 title: "name".tr(),
                               ),
                               CustomTextField(
                                 readOnly: true,
                                 padding: const EdgeInsets.only(bottom: 12),
-                                hintText:
-                                    patientInfo?.lastName ?? "Not available",
+                                hintText: patientInfo?.lastName ?? "Not available",
                                 title: "second_name".tr(),
                               ),
                               CustomTextField(
                                 readOnly: true,
                                 padding: const EdgeInsets.only(bottom: 12),
-                                hintText: patientInfo?.patientId?.toString() ??
-                                    "Not available",
+                                hintText: patientInfo?.patientId?.toString() ?? "Not available",
                                 title: "ID",
                               ),
                               CustomTextField(
                                 readOnly: true,
                                 padding: const EdgeInsets.only(bottom: 12),
-                                hintText:
-                                    patientInfo?.phoneNumber ?? "Not available",
+                                hintText: patientInfo?.phoneNumber ?? "Not available",
                                 title: "contact_phone_number".tr(),
                               ),
                             ],
                           ),
                           12.h.verticalSpace,
                           ValueListenableBuilder<List<Map<String, String>>>(
-                            valueListenable:
-                                AppointmentState.selectedAppointments,
+                            valueListenable: AppointmentState.selectedAppointments,
                             builder: (context, selectedList, _) {
                               return Column(
                                 children: selectedList
-                                    .map((appointment) => _buildAppointmentItem(
-                                        appointment, context))
+                                    .map((appointment) => _buildAppointmentItem(appointment, context))
                                     .toList(),
                               );
                             },
@@ -220,8 +222,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           ),
                           12.h.verticalSpace,
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16.w, vertical: 8.h),
+                            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -233,34 +234,25 @@ class _PaymentPageState extends State<PaymentPage> {
                                   ),
                                 ),
                                 12.h.verticalSpace,
-                                ValueListenableBuilder<
-                                    List<Map<String, String>>>(
-                                  valueListenable:
-                                      AppointmentState.selectedAppointments,
+                                ValueListenableBuilder<List<Map<String, String>>>(
+                                  valueListenable: AppointmentState.selectedAppointments,
                                   builder: (context, selectedList, _) {
                                     double subtotal = 0;
 
                                     return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         ...selectedList.map((appointment) {
-                                          final price = double.tryParse(
-                                                  appointment['price'] ??
-                                                      '0') ??
-                                              0;
+                                          final price = double.tryParse(appointment['price'] ?? '0') ?? 0;
                                           subtotal += price;
 
                                           return Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 6.h),
+                                                padding: EdgeInsets.symmetric(vertical: 6.h),
                                                 child: Text(
-                                                  appointment['serviceName'] ??
-                                                      'Service',
+                                                  appointment['serviceName'] ?? 'Service',
                                                   style: TextStyle(
                                                     fontSize: 14.sp,
                                                     color: Style.neutral600,
@@ -270,34 +262,24 @@ class _PaymentPageState extends State<PaymentPage> {
                                               ),
                                               Text(
                                                 "${"_ _ _ _ _ _ _ _ _ _ "} ${"sum".tr(namedArgs: {
-                                                      "amount":
-                                                          _formatNumber(price)
+                                                      "amount": _formatNumber(price)
                                                     })}",
                                                 style: TextStyle(
                                                   fontSize: 14.sp,
                                                   color: Style.neutral500,
                                                 ),
                                               ),
-                                              if (selectedList
-                                                      .indexOf(appointment) !=
-                                                  selectedList.length - 1)
-                                                Divider(
-                                                    height: 1.h,
-                                                    color: Colors.grey[300]),
+                                              if (selectedList.indexOf(appointment) != selectedList.length - 1)
+                                                Divider(height: 1.h, color: Colors.grey[300]),
                                             ],
                                           );
                                         }).toList(),
-                                        Divider(
-                                            color: Colors.grey[300],
-                                            thickness: 1,
-                                            height: 16.h),
+                                        Divider(color: Colors.grey[300], thickness: 1, height: 16.h),
                                         Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 8.h),
+                                          padding: EdgeInsets.symmetric(vertical: 8.h),
                                           child: Text(
                                             "${"total".tr()}_ _ _ _ _ _ _ _${"sum".tr(namedArgs: {
-                                                  "amount":
-                                                      _formatNumber(subtotal)
+                                                  "amount": _formatNumber(subtotal)
                                                 })}",
                                             style: TextStyle(
                                               fontSize: 16.sp,
@@ -314,68 +296,70 @@ class _PaymentPageState extends State<PaymentPage> {
                             ),
                           ),
                           12.h.verticalSpace,
-                          Text("if_you_make_an_advance_payment".tr(),
-                              style: Style.smallLink()),
+                          Text("if_you_make_an_advance_payment".tr(), style: Style.smallLink()),
                           80.h.verticalSpace, // Extra space to avoid overlap
                         ],
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CButton(
-                          backgroundColor: Style.neutral200,
-                          textColor: Style.primary900,
-                          title: "pay_not_right_now".tr(),
-                          onTap: () async {
-                            context
-                                .read<BottomNavBarController>()
-                                .changeNavBar(false);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MainPage(index: 2)),
-                            );
-                          },
-                        ),
-                        8.h.verticalSpace,
-                        Consumer<PaymentProvider>(
-                          builder: (context, paymentProvider, _) {
-                            return CButton(
-                              title: "pay_right_now".tr(),
-                              onTap: () async {
-                                if (paymentProvider.multiUrl?.isNotEmpty ??
-                                    false) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => PaymentWebView(
-                                          url: paymentProvider.multiUrl!),
-                                    ),
-                                  );
-                                } else {
-                                  await _initializePaymentUrl();
-                                  if (paymentProvider.multiUrl?.isNotEmpty ??
-                                      false) {
-                                    _openPaymentWebView(
-                                        paymentProvider.multiUrl!);
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                            "payment_url_not_available".tr()),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: colors.shade0,
+                      border: Border(
+                        top: BorderSide(color: colors.neutral300),
+                        left: BorderSide(color: colors.neutral300),
+                        right: BorderSide(color: colors.neutral300),
+                      ),
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CButton(
+                            backgroundColor: Style.neutral200,
+                            textColor: Style.primary900,
+                            title: "pay_not_right_now".tr(),
+                            onTap: () async {
+                              context.read<BottomNavBarController>().changeNavBar(false);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const MainPage(index: 2)),
+                              );
+                            },
+                          ),
+                          8.h.verticalSpace,
+                          Consumer<PaymentProvider>(
+                            builder: (context, paymentProvider, _) {
+                              return CButton(
+                                title: "pay_right_now".tr(),
+                                onTap: () async {
+                                  if (paymentProvider.multiUrl?.isNotEmpty ?? false) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => PaymentWebView(url: paymentProvider.multiUrl!),
                                       ),
                                     );
+                                  } else {
+                                    await _initializePaymentUrl();
+                                    if (paymentProvider.multiUrl?.isNotEmpty ?? false) {
+                                      _openPaymentWebView(paymentProvider.multiUrl!);
+                                    } else {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("payment_url_not_available".tr()),
+                                        ),
+                                      );
+                                    }
                                   }
-                                }
-                              },
-                            );
-                          },
-                        ),
-                      ],
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -405,11 +389,10 @@ class _PaymentPageState extends State<PaymentPage> {
       diagnosis: appointment['serviceName'] ?? 'Unknown',
       procedure: appointment['specialty'] ?? 'Unknown',
       doctorName: 'Dr. ${appointment['doctorName'] ?? "Unknown"}',
-      price: "${appointment['price']}" ?? '0',
-      appointmentTime:
-          "$formattedDate ${appointmentTime.isNotEmpty ? appointmentTime : "Not available"}",
+      price: "${appointment['price']}",
+      appointmentTime: "$formattedDate ${appointmentTime.isNotEmpty ? appointmentTime : "Not available"}",
       location: appointment['location'] ?? 'Unknown',
-      imagePath: '',
+      imagePath: appointment['doctorPhoto'] ?? "",
       onCancel: () {
         final serviceId = appointment['serviceId'];
         if (serviceId != null) {

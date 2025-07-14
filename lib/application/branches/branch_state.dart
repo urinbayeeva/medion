@@ -11,6 +11,7 @@ class BranchState with _$BranchState {
     @Default('') String reviewBranch,
     @Default('') String reviewComment,
     @Default(-1) int reviewRank,
+    @Default(-1) int branchId,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus activityStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus branchDetailStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus getReviewStatus,

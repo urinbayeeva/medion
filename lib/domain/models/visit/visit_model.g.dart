@@ -12,6 +12,10 @@ Serializer<VisitRequest> _$visitRequestSerializer =
     new _$VisitRequestSerializer();
 Serializer<PatientAnalyse> _$patientAnalyseSerializer =
     new _$PatientAnalyseSerializer();
+Serializer<CancelVisitBody> _$cancelVisitBodySerializer =
+    new _$CancelVisitBodySerializer();
+Serializer<CancelVisitResult> _$cancelVisitResultSerializer =
+    new _$CancelVisitResultSerializer();
 Serializer<PatientOrder> _$patientOrderSerializer =
     new _$PatientOrderSerializer();
 Serializer<PaymentUrlModels> _$paymentUrlModelsSerializer =
@@ -353,6 +357,113 @@ class _$PatientAnalyseSerializer
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(PatientVisit)]))!
               as BuiltList<Object?>);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$CancelVisitBodySerializer
+    implements StructuredSerializer<CancelVisitBody> {
+  @override
+  final Iterable<Type> types = const [CancelVisitBody, _$CancelVisitBody];
+  @override
+  final String wireName = 'CancelVisitBody';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, CancelVisitBody object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'visit_id',
+      serializers.serialize(object.visitId, specifiedType: const FullType(int)),
+    ];
+
+    return result;
+  }
+
+  @override
+  CancelVisitBody deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new CancelVisitBodyBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'visit_id':
+          result.visitId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$CancelVisitResultSerializer
+    implements StructuredSerializer<CancelVisitResult> {
+  @override
+  final Iterable<Type> types = const [CancelVisitResult, _$CancelVisitResult];
+  @override
+  final String wireName = 'CancelVisitResult';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, CancelVisitResult object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[];
+    Object? value;
+    value = object.status;
+    if (value != null) {
+      result
+        ..add('status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.message;
+    if (value != null) {
+      result
+        ..add('message')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.visitId;
+    if (value != null) {
+      result
+        ..add('visit_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    return result;
+  }
+
+  @override
+  CancelVisitResult deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new CancelVisitResultBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'status':
+          result.status = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'message':
+          result.message = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'visit_id':
+          result.visitId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -1381,10 +1492,17 @@ class _$PatientReviewModelSerializer
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[];
     Object? value;
-    value = object.state;
+    value = object.name;
     if (value != null) {
       result
-        ..add('state')
+        ..add('name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.status;
+    if (value != null) {
+      result
+        ..add('status')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -1393,7 +1511,7 @@ class _$PatientReviewModelSerializer
       result
         ..add('create_date')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(Object)));
+            specifiedType: const FullType(String)));
     }
     value = object.location;
     if (value != null) {
@@ -1413,6 +1531,13 @@ class _$PatientReviewModelSerializer
     if (value != null) {
       result
         ..add('patient_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.ratings;
+    if (value != null) {
+      result
+        ..add('ratings')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -1437,13 +1562,17 @@ class _$PatientReviewModelSerializer
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
-        case 'state':
-          result.state = serializers.deserialize(value,
+        case 'name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'status':
+          result.status = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'create_date':
           result.createDate = serializers.deserialize(value,
-              specifiedType: const FullType(Object));
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'location':
           result.location = serializers.deserialize(value,
@@ -1455,6 +1584,10 @@ class _$PatientReviewModelSerializer
           break;
         case 'patient_name':
           result.patientName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'ratings':
+          result.ratings = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'id':
@@ -2163,6 +2296,198 @@ class PatientAnalyseBuilder
       }
       rethrow;
     }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$CancelVisitBody extends CancelVisitBody {
+  @override
+  final int visitId;
+
+  factory _$CancelVisitBody([void Function(CancelVisitBodyBuilder)? updates]) =>
+      (new CancelVisitBodyBuilder()..update(updates))._build();
+
+  _$CancelVisitBody._({required this.visitId}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        visitId, r'CancelVisitBody', 'visitId');
+  }
+
+  @override
+  CancelVisitBody rebuild(void Function(CancelVisitBodyBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  CancelVisitBodyBuilder toBuilder() =>
+      new CancelVisitBodyBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is CancelVisitBody && visitId == other.visitId;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, visitId.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'CancelVisitBody')
+          ..add('visitId', visitId))
+        .toString();
+  }
+}
+
+class CancelVisitBodyBuilder
+    implements Builder<CancelVisitBody, CancelVisitBodyBuilder> {
+  _$CancelVisitBody? _$v;
+
+  int? _visitId;
+  int? get visitId => _$this._visitId;
+  set visitId(int? visitId) => _$this._visitId = visitId;
+
+  CancelVisitBodyBuilder();
+
+  CancelVisitBodyBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _visitId = $v.visitId;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(CancelVisitBody other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$CancelVisitBody;
+  }
+
+  @override
+  void update(void Function(CancelVisitBodyBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  CancelVisitBody build() => _build();
+
+  _$CancelVisitBody _build() {
+    final _$result = _$v ??
+        new _$CancelVisitBody._(
+          visitId: BuiltValueNullFieldError.checkNotNull(
+              visitId, r'CancelVisitBody', 'visitId'),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$CancelVisitResult extends CancelVisitResult {
+  @override
+  final String? status;
+  @override
+  final String? message;
+  @override
+  final int? visitId;
+
+  factory _$CancelVisitResult(
+          [void Function(CancelVisitResultBuilder)? updates]) =>
+      (new CancelVisitResultBuilder()..update(updates))._build();
+
+  _$CancelVisitResult._({this.status, this.message, this.visitId}) : super._();
+
+  @override
+  CancelVisitResult rebuild(void Function(CancelVisitResultBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  CancelVisitResultBuilder toBuilder() =>
+      new CancelVisitResultBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is CancelVisitResult &&
+        status == other.status &&
+        message == other.message &&
+        visitId == other.visitId;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, status.hashCode);
+    _$hash = $jc(_$hash, message.hashCode);
+    _$hash = $jc(_$hash, visitId.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'CancelVisitResult')
+          ..add('status', status)
+          ..add('message', message)
+          ..add('visitId', visitId))
+        .toString();
+  }
+}
+
+class CancelVisitResultBuilder
+    implements Builder<CancelVisitResult, CancelVisitResultBuilder> {
+  _$CancelVisitResult? _$v;
+
+  String? _status;
+  String? get status => _$this._status;
+  set status(String? status) => _$this._status = status;
+
+  String? _message;
+  String? get message => _$this._message;
+  set message(String? message) => _$this._message = message;
+
+  int? _visitId;
+  int? get visitId => _$this._visitId;
+  set visitId(int? visitId) => _$this._visitId = visitId;
+
+  CancelVisitResultBuilder();
+
+  CancelVisitResultBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _status = $v.status;
+      _message = $v.message;
+      _visitId = $v.visitId;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(CancelVisitResult other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$CancelVisitResult;
+  }
+
+  @override
+  void update(void Function(CancelVisitResultBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  CancelVisitResult build() => _build();
+
+  _$CancelVisitResult _build() {
+    final _$result = _$v ??
+        new _$CancelVisitResult._(
+          status: status,
+          message: message,
+          visitId: visitId,
+        );
     replace(_$result);
     return _$result;
   }
@@ -3593,15 +3918,19 @@ class PatientVisitSingleModelBuilder
 
 class _$PatientReviewModel extends PatientReviewModel {
   @override
-  final String? state;
+  final String? name;
   @override
-  final Object? createDate;
+  final String? status;
+  @override
+  final String? createDate;
   @override
   final String? location;
   @override
   final String? review;
   @override
   final String? patientName;
+  @override
+  final String? ratings;
   @override
   final int? id;
 
@@ -3610,11 +3939,13 @@ class _$PatientReviewModel extends PatientReviewModel {
       (new PatientReviewModelBuilder()..update(updates))._build();
 
   _$PatientReviewModel._(
-      {this.state,
+      {this.name,
+      this.status,
       this.createDate,
       this.location,
       this.review,
       this.patientName,
+      this.ratings,
       this.id})
       : super._();
 
@@ -3631,22 +3962,26 @@ class _$PatientReviewModel extends PatientReviewModel {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is PatientReviewModel &&
-        state == other.state &&
+        name == other.name &&
+        status == other.status &&
         createDate == other.createDate &&
         location == other.location &&
         review == other.review &&
         patientName == other.patientName &&
+        ratings == other.ratings &&
         id == other.id;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, state.hashCode);
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, status.hashCode);
     _$hash = $jc(_$hash, createDate.hashCode);
     _$hash = $jc(_$hash, location.hashCode);
     _$hash = $jc(_$hash, review.hashCode);
     _$hash = $jc(_$hash, patientName.hashCode);
+    _$hash = $jc(_$hash, ratings.hashCode);
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -3655,11 +3990,13 @@ class _$PatientReviewModel extends PatientReviewModel {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'PatientReviewModel')
-          ..add('state', state)
+          ..add('name', name)
+          ..add('status', status)
           ..add('createDate', createDate)
           ..add('location', location)
           ..add('review', review)
           ..add('patientName', patientName)
+          ..add('ratings', ratings)
           ..add('id', id))
         .toString();
   }
@@ -3669,13 +4006,17 @@ class PatientReviewModelBuilder
     implements Builder<PatientReviewModel, PatientReviewModelBuilder> {
   _$PatientReviewModel? _$v;
 
-  String? _state;
-  String? get state => _$this._state;
-  set state(String? state) => _$this._state = state;
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
 
-  Object? _createDate;
-  Object? get createDate => _$this._createDate;
-  set createDate(Object? createDate) => _$this._createDate = createDate;
+  String? _status;
+  String? get status => _$this._status;
+  set status(String? status) => _$this._status = status;
+
+  String? _createDate;
+  String? get createDate => _$this._createDate;
+  set createDate(String? createDate) => _$this._createDate = createDate;
 
   String? _location;
   String? get location => _$this._location;
@@ -3689,6 +4030,10 @@ class PatientReviewModelBuilder
   String? get patientName => _$this._patientName;
   set patientName(String? patientName) => _$this._patientName = patientName;
 
+  String? _ratings;
+  String? get ratings => _$this._ratings;
+  set ratings(String? ratings) => _$this._ratings = ratings;
+
   int? _id;
   int? get id => _$this._id;
   set id(int? id) => _$this._id = id;
@@ -3698,11 +4043,13 @@ class PatientReviewModelBuilder
   PatientReviewModelBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _state = $v.state;
+      _name = $v.name;
+      _status = $v.status;
       _createDate = $v.createDate;
       _location = $v.location;
       _review = $v.review;
       _patientName = $v.patientName;
+      _ratings = $v.ratings;
       _id = $v.id;
       _$v = null;
     }
@@ -3726,11 +4073,13 @@ class PatientReviewModelBuilder
   _$PatientReviewModel _build() {
     final _$result = _$v ??
         new _$PatientReviewModel._(
-          state: state,
+          name: name,
+          status: status,
           createDate: createDate,
           location: location,
           review: review,
           patientName: patientName,
+          ratings: ratings,
           id: id,
         );
     replace(_$result);

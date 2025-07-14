@@ -87,8 +87,26 @@ abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
   @BuiltValueField(wireName: 'id')
   int get id;
 
+  @BuiltValueField(wireName: 'experience_year')
+  int? get experienceYear;
+
+  @BuiltValueField(wireName: 'is_there_free_time')
+  bool? get isThereFreeTime;
+
+  @BuiltValueField(wireName: 'can_patient_accept')
+  bool? get canPatientAccept;
+
+  @BuiltValueField(wireName: 'has_discount')
+  bool get hasDiscount;
+
   @BuiltValueField(wireName: 'name')
-  JsonObject get name;
+  String get name;
+
+  @BuiltValueField(wireName: 'background_image_url')
+  String get backgroundImageUrl;
+
+  @BuiltValueField(wireName: 'image')
+  String get image;
 
   @BuiltValueField(wireName: 'short_desc')
   JsonObject? get shortDesc;
@@ -100,6 +118,15 @@ abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
 
   @BuiltValueField(wireName: 'experience')
   BuiltList<Experience> get experience;
+
+  @BuiltValueField(wireName: 'articles')
+  BuiltList<Articles> get articles;
+
+  @BuiltValueField(wireName: 'gallery_items')
+  BuiltList<GalleryItems> get galleryItems;
+
+  @BuiltValueField(wireName: 'specializations')
+  BuiltList<String> get specializations;
 
   @BuiltValueField(wireName: 'education')
   BuiltList<Education> get education;
@@ -113,11 +140,11 @@ abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
   @BuiltValueField(wireName: 'gender')
   JsonObject? get gender;
 
+  @BuiltValueField(wireName: 'job_name')
+  String? get jobName;
+
   @BuiltValueField(wireName: 'job_id')
   String? get jobId;
-
-  @BuiltValueField(wireName: 'image')
-  JsonObject get image;
 
   @BuiltValueField(wireName: 'price_list')
   BuiltList<PriceItem> get priceList;
@@ -127,6 +154,9 @@ abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
 
   @BuiltValueField(wireName: 'academic_rank')
   JsonObject get academicRank;
+
+  @BuiltValueField(wireName: 'reviews')
+  BuiltList<DoctorReview> get reviews;
 
   ModelDoctor._();
 
@@ -173,6 +203,78 @@ abstract class ScheduleItem implements Built<ScheduleItem, ScheduleItemBuilder> 
   factory ScheduleItem([void Function(ScheduleItemBuilder) updates]) = _$ScheduleItem;
 }
 
+abstract class DoctorReview implements Built<DoctorReview, DoctorReviewBuilder> {
+  static Serializer<DoctorReview> get serializer => _$doctorReviewSerializer;
+
+  @BuiltValueField(wireName: 'id')
+  int get id;
+
+  @BuiltValueField(wireName: 'ratings')
+  BuiltList<String> get ratings;
+
+  @BuiltValueField(wireName: 'review')
+  String get review;
+
+  @BuiltValueField(wireName: 'company_id')
+  int get companyId;
+
+  @BuiltValueField(wireName: 'doctor_id')
+  int get doctorId;
+
+  DoctorReview._();
+
+  factory DoctorReview([void Function(DoctorReviewBuilder) updates]) = _$DoctorReview;
+}
+
+abstract class GalleryItems implements Built<GalleryItems, GalleryItemsBuilder> {
+  static Serializer<GalleryItems> get serializer => _$galleryItemsSerializer;
+
+  @BuiltValueField(wireName: 'id')
+  int get id;
+
+  @BuiltValueField(wireName: 'type')
+  String get type;
+
+  @BuiltValueField(wireName: 'file_name')
+  String get fileName;
+
+  @BuiltValueField(wireName: 'video_image')
+  String get videoImage;
+
+  @BuiltValueField(wireName: 'file_url')
+  String get fileUrl;
+
+  GalleryItems._();
+
+  factory GalleryItems([void Function(GalleryItemsBuilder) updates]) = _$GalleryItems;
+}
+
+abstract class Articles implements Built<Articles, ArticlesBuilder> {
+  static Serializer<Articles> get serializer => _$articlesSerializer;
+
+  @BuiltValueField(wireName: 'id')
+  int get id;
+
+  @BuiltValueField(wireName: 'type')
+  String get type;
+
+  @BuiltValueField(wireName: 'title')
+  String get title;
+
+  @BuiltValueField(wireName: 'description')
+  String get description;
+
+  @BuiltValueField(wireName: 'primary_image')
+  String get primaryImage;
+
+  @BuiltValueField(wireName: 'images')
+  BuiltList<String> get images;
+
+  Articles._();
+
+  factory Articles([void Function(ArticlesBuilder) updates]) = _$Articles;
+}
+
 abstract class Experience implements Built<Experience, ExperienceBuilder> {
   static Serializer<Experience> get serializer => _$experienceSerializer;
 
@@ -200,7 +302,7 @@ abstract class Education implements Built<Education, EducationBuilder> {
   JsonObject get date;
 
   @BuiltValueField(wireName: 'description')
-  JsonObject get description;
+  BuiltList<String> get description;
 
   Education._();
 
@@ -208,6 +310,15 @@ abstract class Education implements Built<Education, EducationBuilder> {
 }
 
 abstract class Award implements Built<Award, AwardBuilder> {
+  @BuiltValueField(wireName: 'title')
+  String? get title;
+
+  @BuiltValueField(wireName: 'date')
+  String? get date;
+
+  @BuiltValueField(wireName: 'description')
+  BuiltList<String>? get description;
+
   static Serializer<Award> get serializer => _$awardSerializer;
 
   Award._();

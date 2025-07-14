@@ -1,8 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
 import 'package:hive/hive.dart';
+import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/pages/visits/component/map_view_page.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/utils/enums/visits_enum.dart';
 
@@ -15,6 +20,8 @@ class AboutAdmission extends StatelessWidget {
     required this.admission,
     required this.paymentType,
     required this.fonts,
+    required this.lat,
+    required this.lon,
   });
 
   final CustomColorSet colors;
@@ -23,6 +30,7 @@ class AboutAdmission extends StatelessWidget {
   final String admission;
   final String paymentType;
   final FontSet fonts;
+  final double lat, lon;
 
   @override
   Widget build(BuildContext context) {
@@ -94,32 +102,75 @@ class AboutAdmission extends StatelessWidget {
               ),
             ),
           ),
-          Column(
-            children: [
-              CButton(
-                backgroundColor: colors.neutral200,
-                textColor: colors.primary900,
-                title: "open_invoice".tr(),
-                onTap: press,
-              ),
-              8.h.verticalSpace,
-              CButton(
-                title: "open_location_clinic".tr(),
-                onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => MapViewPage(
-                  //       latitude: widget.latitude,
-                  //       longitude: widget.longitude,
-                  //     ),
-                  //   ),
-                  // );
-                },
-                iconPath: "assets/icons/geolocation.svg",
-              ),
-              SizedBox(height: 10.h),
-            ],
+          BlocBuilder<AuthBloc, AuthState>(
+            buildWhen: (old, nyu) {
+              final status = old.cancelVisitStatus != nyu.cancelVisitStatus;
+              final result = old.cancelVisitResult != nyu.cancelVisitResult;
+              return status || result;
+            },
+            builder: (context, state) {
+              if (state.cancelVisitStatus.isInProgress) {
+                return Column(
+                  children: [
+                    CButton(
+                      backgroundColor: colors.neutral200,
+                      textColor: colors.primary900,
+                      title: "cancel_appointment".tr(),
+                      onTap: () {},
+                      child: const Center(child: CupertinoActivityIndicator()),
+                    ),
+                    8.h.verticalSpace,
+                    CButton(
+                      title: "open_location_clinic".tr(),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MapViewPage(
+                              latitude: lat,
+                              longitude: lon,
+                            ),
+                          ),
+                        );
+                      },
+                      iconPath: "assets/icons/geolocation.svg",
+                    ),
+                    SizedBox(height: 10.h),
+                  ],
+                );
+              }
+              return Column(
+                children: [
+                  if (!status.isCancel) ...{
+                    CButton(
+                      backgroundColor: colors.neutral200,
+                      textColor: colors.primary900,
+                      title: "cancel_appointment".tr(),
+                      onTap: press,
+                    ),
+                  } else ...{
+                    const SizedBox.shrink()
+                  },
+                  8.h.verticalSpace,
+                  CButton(
+                    title: "open_location_clinic".tr(),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MapViewPage(
+                            latitude: lat,
+                            longitude: lon,
+                          ),
+                        ),
+                      );
+                    },
+                    iconPath: "assets/icons/geolocation.svg",
+                  ),
+                  SizedBox(height: 10.h),
+                ],
+              );
+            },
           ),
         ],
       ),

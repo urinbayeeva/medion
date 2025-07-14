@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:lottie/lottie.dart';
 import 'package:medion/application/notification/notification_bloc.dart';
+import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/notification/notification_model.dart';
 import 'package:medion/infrastructure/services/download_service.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
@@ -13,19 +14,17 @@ import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
 import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
-import 'package:medion/presentation/pages/others/customer_review/customer_review.dart';
 import 'package:medion/presentation/pages/others/customer_review/review_card.dart';
 import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
 import 'package:medion/presentation/pages/others/feedbacks/feedback_view_vithout_location.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/notification_type_enum.dart';
-import 'notification_page.dart';
 
 class SingleNotification extends StatefulWidget {
   const SingleNotification({super.key, required this.id, required this.type, this.notification});
 
-  final dynamic id;
+  final int id;
   final NotificationModel? notification;
   final NotificationTypeEnum type;
 
@@ -36,9 +35,9 @@ class SingleNotification extends StatefulWidget {
 class _SingleNotificationState extends State<SingleNotification> {
   @override
   void initState() {
-    // if (widget.id != 0) {
-    //   context.read<NotificationBloc>().add(NotificationEvent.readNotification(index: widget.id));
-    // }
+    if (widget.id != 0) {
+      context.read<NotificationBloc>().add(NotificationEvent.readNotification(index: widget.id));
+    }
     super.initState();
   }
 
@@ -58,7 +57,7 @@ class _SingleNotificationState extends State<SingleNotification> {
               child: Icon(Icons.keyboard_arrow_left, size: 32.h),
               onTap: () => Navigator.of(context).pop(),
             ),
-            title: Text("${"notifications".tr()} -- ID: ${widget.id}", style: fonts.regularMain),
+            title: Text("notifications".tr(), style: fonts.regularMain),
           ),
           body: BlocConsumer<NotificationBloc, NotificationState>(
             listenWhen: (old, fresh) {
@@ -78,15 +77,13 @@ class _SingleNotificationState extends State<SingleNotification> {
               return postReview || single || status;
             },
             builder: (context, state) {
-              if (widget.id == 0 || state.notificationStatus.isFailure && state.singleNotification != null) {
+              if (widget.id == 0 || state.notificationStatus.isFailure && state.singleNotification == null) {
                 return Center(child: Lottie.asset("assets/anim/404.json"));
-              }
-              // else if (state.singleStatus.isInProgress && state.singleStatus.isInitial) {
-              //   return const Center(child: CupertinoActivityIndicator());
-              // }
+              } else if (state.singleStatus.isInProgress && state.singleStatus.isInitial) {
+                return const Center(child: CupertinoActivityIndicator());
+              } else {
+                final notification = state.singleNotification;
 
-              else {
-                final notification = state.singleNotification ?? notifications.first;
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: SingleChildScrollView(
@@ -113,13 +110,13 @@ class _SingleNotificationState extends State<SingleNotification> {
                           ),
                           Text(widget.notification!.body ?? '', style: fonts.xSmallMain),
                         } else ...{
-                          if (notification.title != null) ...{
+                          if (notification?.title != null) ...{
                             Text(
-                              notification.title ?? '',
+                              notification!.title ?? '',
                               style: fonts.mediumMain.copyWith(fontWeight: FontWeight.w700),
                             ),
                           },
-                          if (notification.createdAt != null) ...{
+                          if (notification!.createdAt != null) ...{
                             1.verticalSpace,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -302,14 +299,20 @@ class _SingleNotificationState extends State<SingleNotification> {
                         } else if (widget.type.isReview) ...{
                           ReviewCard(
                             margin: const EdgeInsets.only(top: 10),
-                            review: CustomerReviewModel(
-                              title: widget.notification!.review!.name ?? "",
-                              dateTime: widget.notification!.review!.createDate ?? "",
-                              location: widget.notification!.review!.location ?? "",
-                              description: widget.notification!.review!.review ?? "",
-                              rating: widget.notification!.review!.ratings?.length ?? 0,
-                              name: widget.notification!.review!.name ?? '',
-                            ),
+                            review: GetReviewModel((b) => b
+                                  ..review = widget.notification!.review!.review ?? ""
+                                  ..ratings = "${widget.notification!.review!.ratings?.length}"
+                                  ..name = "${widget.notification!.review!.name}"
+                                  ..location = "${widget.notification!.review!.location}"
+                                  ..title = '${widget.notification!.review!.name}'
+
+                                // title: widget.notification!.review!.name ?? "",
+                                // dateTime: widget.notification!.review!.createDate ?? "",
+                                // location: widget.notification!.review!.location ?? "",
+                                // description: widget.notification!.review!.review ?? "",
+                                // rating: widget.notification!.review!.ratings?.length ?? 0,
+                                // name: widget.notification!.review!.name ?? '',
+                                ),
                             colors: colors,
                             icons: icons,
                             fonts: fonts,

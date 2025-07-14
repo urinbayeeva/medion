@@ -119,8 +119,12 @@ class IconSet {
   final String comment;
   final String dragOnHand;
   final String checkCalendar;
+  final String qr;
+  final String paymentCheck;
 
   const IconSet._({
+    required this.qr,
+    required this.paymentCheck,
     required this.checkCalendar,
     required this.clockLaunch,
     required this.comment,
@@ -247,6 +251,8 @@ class IconSet {
 
   static IconSet get create {
     return const IconSet._(
+      paymentCheck: "assets/icons/payment_check.svg",
+      qr: "assets/icons/qr.svg",
       checkCalendar: "assets/icons/check_calendar.svg",
       clockLaunch: "assets/icons/clock_launch.svg",
       comment: "assets/icons/comment.svg",

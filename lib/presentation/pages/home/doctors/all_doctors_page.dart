@@ -13,6 +13,7 @@ import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctor_search_page.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -118,55 +119,55 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
       builder: (context, colors, fonts, icons, controller) {
         return Scaffold(
           backgroundColor: colors.backgroundColor,
-          body: Column(
-            children: [
-              CAppBar(
-                title: "\t\t\t\t\t\t\t\t\t ${"doctors".tr()}",
-                isBack: true,
-                centerTitle: true,
-                trailing: Row(
-                  spacing: 16,
-                  children: [
-                    AnimationButtonEffect(
-                      onTap: () async {
-                        final result = await showModalBottomSheet<Category>(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: colors.shade0,
-                          builder: (context) => const CFilterBottomsheet(),
-                        );
-                        if (result != null) {
-                          setState(() {
-                            selectedCategory = result;
-                          });
-                        }
-                      },
-                      child: icons.filter.svg(width: 20.w, height: 20.h),
-                    ),
-                    AnimationButtonEffect(
-                      onTap: () => Navigator.push(context, AppRoutes.getSearchPage()),
-                      child: icons.search.svg(color: colors.primary900, width: 20.w, height: 20.h),
-                    ),
-                  ],
-                ),
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: colors.shade0,
+            foregroundColor: colors.darkMode900,
+            scrolledUnderElevation: 0,
+            leading: WScaleAnimation(
+              child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+              onTap: () => Navigator.of(context).pop(),
+            ),
+            title: Text("doctors".tr(), style: fonts.regularMain),
+            actions: [
+              AnimationButtonEffect(
+                onTap: () async {
+                  final result = await showModalBottomSheet<Category>(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: colors.shade0,
+                    builder: (context) => const CFilterBottomsheet(),
+                  );
+                  if (result != null) {
+                    setState(() {
+                      selectedCategory = result;
+                    });
+                  }
+                },
+                child: icons.filter.svg(width: 20.w, height: 20.h),
               ),
-              Expanded(
-                child: BlocBuilder<DoctorBloc, DoctorState>(
-                  builder: (context, state) {
-                    if (state.loading || state.doctors == null) {
-                      return _buildShimmerView(colors);
-                    }
-                    if (state.error) {
-                      return Center(child: Text('something_went_wrong'.tr(), style: fonts.regularSemLink));
-                    }
-                    if (isSearchActive) {
-                      return _buildSearchResults(state, colors, fonts, icons);
-                    }
-                    return _buildDefaultView(state, colors, fonts, icons);
-                  },
-                ),
+              const SizedBox(width: 10),
+              AnimationButtonEffect(
+                onTap: () => Navigator.push(context, AppRoutes.getSearchPage()),
+                child: icons.search.svg(color: colors.primary900, width: 20.w, height: 20.h),
               ),
+              const SizedBox(width: 10)
             ],
+          ),
+          body: BlocBuilder<DoctorBloc, DoctorState>(
+            builder: (context, state) {
+              if (state.loading || state.doctors == null) {
+                return _buildShimmerView(colors);
+              }
+              if (state.error) {
+                return Center(child: Text('something_went_wrong'.tr(), style: fonts.regularSemLink));
+              }
+              if (isSearchActive) {
+                return _buildSearchResults(state, colors, fonts, icons);
+              }
+              return _buildDefaultView(state, colors, fonts, icons);
+            },
           ),
         );
       },
@@ -180,35 +181,33 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: List.generate(
-              3,
-              (index) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      12.h.verticalSpace,
-                      ShimmerContainer(
-                        width: 100.w,
-                        height: 20.h,
-                        borderRadius: 4.r,
-                        margin: EdgeInsets.only(bottom: 12.h),
-                      ),
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 12.0,
-                          mainAxisSpacing: 12.0,
-                          childAspectRatio: 0.5,
-                        ),
-                        itemCount: 4,
-                        itemBuilder: (_, __) => ShimmerContainer(
-                          height: 200.h,
-                          borderRadius: 8.r,
-                        ),
-                      ),
-                      16.h.verticalSpace,
-                    ],
-                  )),
+            3,
+            (index) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                12.h.verticalSpace,
+                ShimmerContainer(
+                  width: 100.w,
+                  height: 20.h,
+                  borderRadius: 4.r,
+                  margin: EdgeInsets.only(bottom: 12.h),
+                ),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12.0,
+                    mainAxisSpacing: 12.0,
+                    childAspectRatio: 0.5,
+                  ),
+                  itemCount: 4,
+                  itemBuilder: (_, __) => ShimmerContainer(height: 200.h, borderRadius: 8.r),
+                ),
+                16.h.verticalSpace,
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -344,35 +343,38 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 12.0,
                   mainAxisSpacing: 12.0,
-                  childAspectRatio: 0.45,
+                  childAspectRatio: 0.5,
                 ),
                 itemBuilder: (context, index) {
                   final doctor = searchResults[index];
-                  return DoctorsItem(
-                    academicRank: doctor["academic_rank"].toString(),
-                    home: false,
-                    isInnerPageUsed: true,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        AppRoutes.getAboutDoctorPage(
-                          doctor['name'].toString(),
-                          doctor['profession'],
-                          doctor['name'].toString(),
-                          doctor['image'].toString(),
-                          doctor['id'],
-                        ),
-                      ).then((_) {
-                        context.read<BottomNavBarController>().changeNavBar(true);
-                      });
-                    },
-                    categoryType: doctor['category'],
-                    imagePath: doctor['image'].toString(),
-                    name: doctor['name'].toString(),
-                    profession: doctor['profession'].toString(),
-                    status: doctor['status']?.toString() ?? 'N/A',
-                    candidateScience: false,
-                    doctorID: int.parse(doctor['id']),
+                  return ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.2),
+                    child: DoctorsItem(
+                      academicRank: doctor["academic_rank"].toString(),
+                      home: false,
+                      isInnerPageUsed: true,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          AppRoutes.getAboutDoctorPage(
+                            name: doctor['name'].toString(),
+                            profession: doctor['profession'],
+                            status: doctor['name'].toString(),
+                            image: doctor['image'].toString(),
+                            id: doctor['id'],
+                          ),
+                        ).then((_) {
+                          context.read<BottomNavBarController>().changeNavBar(true);
+                        });
+                      },
+                      categoryType: doctor['category'],
+                      imagePath: doctor['image'].toString(),
+                      name: doctor['name'].toString(),
+                      profession: doctor['profession'].toString(),
+                      status: doctor['status']?.toString() ?? 'N/A',
+                      candidateScience: false,
+                      doctorID: int.parse(doctor['id']),
+                    ),
                   );
                 },
               ),
@@ -529,7 +531,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               crossAxisCount: 2,
               crossAxisSpacing: 12.0,
               mainAxisSpacing: 12.0,
-              childAspectRatio: 0.45,
+              childAspectRatio: 0.50,
             ),
             itemBuilder: (context, index) {
               final doctor = allDoctors[index];
@@ -557,11 +559,11 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                   Navigator.push(
                     context,
                     AppRoutes.getAboutDoctorPage(
-                      doctor['name'].toString(),
-                      doctor['profession'],
-                      doctor['name'].toString(),
-                      doctor['image'].toString(),
-                      int.parse(doctor['id']),
+                      name: doctor['name'].toString(),
+                      profession: doctor['profession'],
+                      status: doctor['name'].toString(),
+                      image: doctor['image'].toString(),
+                      id: int.parse(doctor['id']),
                     ),
                   ).then((_) {
                     context.read<BottomNavBarController>().changeNavBar(true);
