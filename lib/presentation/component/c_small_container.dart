@@ -8,24 +8,22 @@ class CSmallContainer extends StatelessWidget {
   final Color color;
   final String icon;
   final VoidCallback onTap;
-  const CSmallContainer(
-      {super.key,
-      required this.color,
-      required this.icon,
-      required this.onTap});
+
+  const CSmallContainer({super.key, required this.color, required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return AnimationButtonEffect(
-        onTap: onTap,
-        child: Container(
-          padding: EdgeInsets.all(4.w),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.r), color: color),
-          child: SvgPicture.asset(icon, width: 24.w, height: 24),
-        ),
-      );
-    });
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        return AnimationButtonEffect(
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.all(4.w),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: color),
+            child: SvgPicture.asset(icon, width: 24.w, height: 24),
+          ),
+        );
+      },
+    );
   }
 }

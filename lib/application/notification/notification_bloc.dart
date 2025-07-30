@@ -23,6 +23,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   NotificationBloc(this.repository, this.service) : super(const NotificationState()) {
     on<_Started>(_onStarted);
     on<_GetNotification>(_onGetNotifications);
+    on<_GetSingleNotification>(_onGetSingleNotifications);
     on<_GetMoreNotification>(_onGetMoreNotifications);
     on<_MarkAllNotificationAsRead>(_onMarkAllNotification);
     on<_ReadNotification>(_onReadNotification);
@@ -50,7 +51,11 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   }
 
   FutureOr<void> _onFilterNotification(_FilterNotification event, Emitter<NotificationState> emit) async {
-    emit(state.copyWith(filterType: event.type, filterNotificationStatus: FormzSubmissionStatus.inProgress));
+    emit(state.copyWith(
+      filterType: event.type,
+      query: event.query,
+      filterNotificationStatus: FormzSubmissionStatus.inProgress,
+    ));
 
     final res = await repository.filterNotification(type: event.query);
 
@@ -71,25 +76,34 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     final oldFcm = service.getFcmToken;
     final fcm = await FirebaseMessaging.instance.getToken();
     final id = service.getUid;
-
-    log("set fcm token $fcm || id: $id \n\n");
-
     if (oldFcm != fcm || oldFcm.isEmpty) {
       if (id != null && fcm != null) {
         service.setFcmToken(fcm);
         final res = await repository.setFcmToken(id: id, token: fcm);
         res.fold(
-          (failure) {
-            log("registered  failed");
-          },
-          (success) {
-            log("registered successfully");
-          },
+          (failure) {},
+          (success) {},
         );
       } else {
         log("registered  failed \n token or id null");
       }
     }
+  }
+
+  FutureOr<void> _onGetSingleNotifications(_GetSingleNotification event, Emitter<NotificationState> emit) async {
+    emit(state.copyWith(singleStatus: FormzSubmissionStatus.inProgress));
+    final res = await repository.getNotificationSingle(pk: event.pk);
+    res.fold(
+      (failure) {
+        emit(state.copyWith(singleStatus: FormzSubmissionStatus.failure));
+      },
+      (success) {
+        emit(state.copyWith(
+          singleNotification: success,
+          singleStatus: FormzSubmissionStatus.success,
+        ));
+      },
+    );
   }
 
   FutureOr<void> _onGetNotifications(_GetNotification event, Emitter<NotificationState> emit) async {
@@ -115,6 +129,10 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
   FutureOr<void> _onMarkAllNotification(_MarkAllNotificationAsRead event, Emitter<NotificationState> emit) async {
     emit(state.copyWith(markAllNotificationStatus: FormzSubmissionStatus.inProgress));
+    if (event.query != null && event.query != null) {
+      emit(state.copyWith(filterType: event.type!, query: event.query!));
+    }
+
     final res = await repository.readNotifications();
     res.fold(
       (failure) {

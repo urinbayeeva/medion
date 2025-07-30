@@ -221,56 +221,41 @@ class _ResultsDataWidgetState extends State<ResultsDataWidget> {
                 borderRadius: BorderRadius.circular(8.r),
                 color: colors.shade0,
               ),
-              child: AnimationButtonEffect(
-                onTap: () {
-                  context.read<BottomNavBarController>().changeNavBar(true);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PaymentWebView(
-                        url: document['document_url'] ?? "",
-                      ),
+              child: ListTile(
+                title: Text(
+                  document['document_name'] ?? "Без названия",
+                  style: fonts.smallSemLink,
+                ),
+                subtitle: Text(
+                  _formatDate(context, document['date']),
+                  style: fonts.xSmallText.copyWith(color: colors.neutral600),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CSmallContainer(
+                      icon: icons.download,
+                      onTap: () async {
+                        if (document['document_url'] != null) {
+                          await downloadPdf(document['document_url']).then((_) {
+                            Navigator.of(context, rootNavigator: true).pop();
+                          });
+                        }
+                      },
+                      color: colors.neutral200,
                     ),
-                  ).then((_) {
-                    context.read<BottomNavBarController>().changeNavBar(false);
-                  });
-                },
-                child: ListTile(
-                  title: Text(
-                    document['document_name'] ?? "Без названия",
-                    style: fonts.smallSemLink,
-                  ),
-                  subtitle: Text(
-                    _formatDate(context, document['date']),
-                    style: fonts.xSmallText.copyWith(color: colors.neutral600),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CSmallContainer(
-                        icon: icons.download,
-                        onTap: () async {
-                          if (document['document_url'] != null) {
-                            await downloadPdf(document['document_url']).then((_) {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            });
-                          }
-                        },
-                        color: colors.neutral200,
-                      ),
-                      8.w.horizontalSpace,
-                      CSmallContainer(
-                        icon: icons.link,
-                        onTap: () {
-                          Share.share(
-                            document['document_url']!,
-                            subject: document['document_name'] ?? 'Medical document',
-                          );
-                        },
-                        color: colors.neutral200,
-                      ),
-                    ],
-                  ),
+                    8.w.horizontalSpace,
+                    CSmallContainer(
+                      icon: icons.link,
+                      onTap: () {
+                        Share.share(
+                          document['document_url']!,
+                          subject: document['document_name'] ?? 'Medical document',
+                        );
+                      },
+                      color: colors.neutral200,
+                    ),
+                  ],
                 ),
               ),
             );

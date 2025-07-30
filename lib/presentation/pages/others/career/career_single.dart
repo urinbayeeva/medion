@@ -16,6 +16,8 @@ import 'package:medion/presentation/pages/others/career/widgets/resume_filling.d
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/phone_utils.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class VacancySingle extends StatefulWidget {
@@ -44,10 +46,27 @@ class _VacancySingleState extends State<VacancySingle> {
       child: ThemeWrapper(
         builder: (context, colors, fonts, icons, controller) {
           return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              elevation: 0,
+              backgroundColor: colors.shade0,
+              foregroundColor: colors.darkMode900,
+              scrolledUnderElevation: 0,
+              leading: WScaleAnimation(
+                child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+                onTap: () => Navigator.of(context).pop(),
+              ),
+              title: Text("career".tr(), style: fonts.regularMain),
+            ),
             resizeToAvoidBottomInset: true,
             backgroundColor: colors.backgroundColor,
-            body: BlocBuilder<VacancyBloc, VacancyState>(
+            body: BlocConsumer<VacancyBloc, VacancyState>(
               bloc: widget.bloc,
+              listener: (context, lState) {
+                if (lState.uploadStatus.isSuccess) {
+                  Navigator.of(context).pop();
+                }
+              },
               builder: (context, state) {
                 if (state.vacancySingleStatus.isFailure) return const SizedBox.shrink();
                 if (state.vacancySingleStatus.isInitial || state.vacancySingleStatus.isInProgress) {
@@ -62,59 +81,42 @@ class _VacancySingleState extends State<VacancySingle> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CAppBar(
-                        bordered: true,
-                        title: "career".tr(),
-                        centerTitle: true,
-                        isBack: true,
-                        trailing: SizedBox(width: 24.w),
-                      ),
+                      1.2.h.verticalSpace,
                       Container(
+                        width: 1.sw,
                         padding: EdgeInsets.symmetric(vertical: 16.h),
                         decoration: BoxDecoration(
                           color: colors.shade0,
-                          image: DecorationImage(
-                            alignment: Alignment.centerLeft,
-                            colorFilter: const ColorFilter.mode(Colors.red, BlendMode.srcIn),
-                            fit: BoxFit.contain,
-                            image: AssetImage(icons.pattern),
-                          ),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w).copyWith(bottom: 10.h, top: 0),
-                          child: Row(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w).copyWith(top: 0),
+                          child: Column(
+                            spacing: 4,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Column(
-                                spacing: 4,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  /// "vacancy_money": "До {count} сум на руки",
-                                  Text(widget.vacancy.name, style: fonts.mediumMain),
-
-                                  Text(
-                                    'vacancy_money'.tr(
-                                      namedArgs: {
-                                        'count': '${state.vacancySingle?.salary}',
-                                        'som': '${state.vacancySingle?.currency}',
-                                      },
-                                    ),
-                                    style: fonts.mediumText,
-                                  ),
-                                  Text(
-                                    'required_experience'.tr(
-                                      namedArgs: {
-                                        'years': '${state.vacancySingle?.requiredExperienceYear}',
-                                      },
-                                    ),
-                                    style: fonts.mediumText,
-                                  ),
-                                  Text(
-                                    "${state.vacancySingle?.workType}",
-                                    style: fonts.mediumText,
-                                  ),
-                                ],
+                              Text(widget.vacancy.name, style: fonts.mediumMain),
+                              Text(
+                                'vacancy_money'.tr(
+                                  namedArgs: {
+                                    'count': '${state.vacancySingle?.salary}',
+                                    'som': '${state.vacancySingle?.currency}',
+                                  },
+                                ),
+                                style: fonts.smallMain,
+                              ),
+                              Text(
+                                'required_experience'.tr(
+                                  namedArgs: {
+                                    'years': '${state.vacancySingle?.requiredExperienceYear}',
+                                  },
+                                ),
+                                style: fonts.smallLink.copyWith(color: const Color(0xff66686C)),
+                              ),
+                              Text(
+                                "${state.vacancySingle?.workType}",
+                                style: fonts.smallLink.copyWith(color: const Color(0xff66686C)),
                               ),
                             ],
                           ),
@@ -201,28 +203,30 @@ class _VacancySingleState extends State<VacancySingle> {
                           children: [
                             _titleAndValue(
                               color: colors,
-                              icon: icons.mail.svg(height: 24.h, width: 24.w),
+                              icon: icons.mail.svg(height: 20.h, width: 20.w, color: const Color(0xff808284)),
                               title: "email".tr(),
                               value: "${state.vacancySingle?.email}",
                               fonts: fonts,
                             ),
                             _titleAndValue(
                               color: colors,
-                              icon: icons.callCenter.svg(height: 24.h, width: 24.w, color: colors.neutral600),
+                              icon: icons.callCenter.svg(height: 18.h, width: 18.w, color: const Color(0xff808284)),
                               title: "unique_call_center".tr(),
                               value: "${state.vacancySingle?.phone}",
                               fonts: fonts,
                             ),
                             _titleAndValue(
                               color: colors,
-                              icon: icons.phone.svg(height: 24.h, width: 24.w),
+                              icon: icons.phone.svg(height: 24.h, width: 24.w, color: const Color(0xff808284)),
                               title: "mobile_call_center".tr(),
                               value: "${state.vacancySingle?.phone}",
                               fonts: fonts,
                             ),
                             CButton(
                               title: "connect_with_us".tr(),
-                              onTap: () {},
+                              onTap: () {
+                                makePhoneCall(state.vacancySingle?.phone ?? "");
+                              },
                             ),
                           ],
                         ),
@@ -258,16 +262,31 @@ class _VacancySingleState extends State<VacancySingle> {
                                     WScaleAnimation(
                                       child: DecoratedBox(
                                         decoration: BoxDecoration(
-                                          color: colors.neutral100,
+                                          color: const Color(0xffF2F2F3),
                                           borderRadius: BorderRadius.circular(8),
                                         ),
                                         child: SizedBox(
                                           height: 48.h,
                                           width: 48.w,
-                                          child: icons.share.svg(),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 8.h),
+                                            child: icons.share.svg(),
+                                          ),
                                         ),
                                       ),
-                                      onTap: () {},
+                                      onTap: () {
+                                        final number = state.vacancySingle?.phone ?? '';
+                                        final email = state.vacancySingle?.email ?? '';
+                                        final job = state.vacancySingle?.name ?? '';
+
+                                        if (number.isNotEmpty && email.isNotEmpty && job.isNotEmpty) {
+                                          shareContactInfo(
+                                            number: number,
+                                            email: email,
+                                            job: job,
+                                          );
+                                        }
+                                      },
                                     )
                                   ],
                                 ),
@@ -286,6 +305,26 @@ class _VacancySingleState extends State<VacancySingle> {
         },
       ),
     );
+  }
+
+  void shareContactInfo({
+    required String number,
+    required String email,
+    required String job,
+  }) {
+    final buffer = StringBuffer();
+
+    if (number.isNotEmpty) buffer.writeln('📞 Number: $number');
+    if (email.isNotEmpty) buffer.writeln('📧 Email: $email');
+    if (job.isNotEmpty) buffer.writeln('💼 Job: $job');
+
+    final textToShare = buffer.toString().trim();
+
+    if (textToShare.isNotEmpty) {
+      Share.share(textToShare);
+    } else {
+      debugPrint("No information to share.");
+    }
   }
 
   void _fillingResumeDialog({

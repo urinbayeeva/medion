@@ -26,7 +26,6 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   void initState() {
     context.read<NotificationBloc>().add(const NotificationEvent.getNotifications());
-
     super.initState();
   }
 
@@ -48,40 +47,31 @@ class _NotificationPageState extends State<NotificationPage> {
             ),
             title: Text("notifications".tr(), style: fonts.regularMain),
             actions: [
-              if (context.read<NotificationBloc>().state.notifications.isNotEmpty) ...[
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: WScaleAnimation(
-                    child: const Icon(Icons.done_all),
-                    onTap: () {
-                      context.read<NotificationBloc>().add(const NotificationEvent.markAllNotificationAsRead());
-                    },
-                  ),
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: WScaleAnimation(
+                  child: const Icon(Icons.done_all),
+                  onTap: () {
+                    context.read<NotificationBloc>().add(
+                          const NotificationEvent.markAllNotificationAsRead(type: "All", query: ''),
+                        );
+                  },
                 ),
-              ]
+              ),
             ],
           ),
           body: BlocConsumer<NotificationBloc, NotificationState>(
             listenWhen: (old, nyu) {
               final markAll = old.markAllNotificationStatus != nyu.markAllNotificationStatus;
-              final notifications = old.notificationStatus != nyu.notificationStatus;
+              final notifications = old.readOnlyStatus != nyu.readOnlyStatus;
               return markAll || notifications;
             },
             listener: (context, state) {
-              if (state.markAllNotificationStatus.isSuccess) {
+              if (state.markAllNotificationStatus.isSuccess || state.readOnlyStatus.isSuccess) {
                 context.read<NotificationBloc>().add(const NotificationEvent.getNotifications());
                 context.showPopUp(
                   status: PopUpStatus.success,
                   message: "success".tr(),
-                  fonts: fonts,
-                  colors: colors,
-                  context: context,
-                );
-              }
-              if (state.markAllNotificationStatus.isFailure) {
-                context.showPopUp(
-                  status: PopUpStatus.warning,
-                  message: 'something_went_wrong'.tr(),
                   fonts: fonts,
                   colors: colors,
                   context: context,
@@ -101,26 +91,6 @@ class _NotificationPageState extends State<NotificationPage> {
                 return const Center(child: CupertinoActivityIndicator());
               }
 
-              if (state.notifications.isEmpty) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      icons.ringBell.svg(),
-                      Text(
-                        "no_notifications_yet".tr(),
-                        style: fonts.regularLink.copyWith(
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w400,
-                          color: colors.neutral600,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }
               return Column(
                 children: [
                   SingleChildScrollView(
@@ -150,34 +120,55 @@ class _NotificationPageState extends State<NotificationPage> {
                       ],
                     ),
                   ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: state.notifications.length,
-                      itemBuilder: (context, index) {
-                        final list = state.notifications;
-                        final notification = list[index];
-
-                        return NotificationCard(
-                          icons: icons,
-                          colors: colors,
-                          fonts: fonts,
-                          type: MyFunctions.getNotificationType(notification.type),
-                          notification: notification,
-                          onTap: () {
-                            Navigator.of(context, rootNavigator: true).push(
-                              MaterialPageRoute(
-                                builder: (context) => SingleNotification(
-                                  notification: notification,
-                                  id: notification.id ?? 0,
-                                  type: MyFunctions.getNotificationType(notification.type),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
+                  if (state.notifications.isEmpty) ...{
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(height: 0.3.sh),
+                          icons.ringBell.svg(),
+                          Text(
+                            "no_notifications_yet".tr(),
+                            style: fonts.regularLink.copyWith(
+                              fontSize: 17.sp,
+                              fontWeight: FontWeight.w400,
+                              color: colors.neutral600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                  } else ...{
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: state.notifications.length,
+                        itemBuilder: (context, index) {
+                          final list = state.notifications;
+                          final notification = list[index];
+                          return NotificationCard(
+                            icons: icons,
+                            colors: colors,
+                            fonts: fonts,
+                            type: MyFunctions.getNotificationType(notification.type),
+                            notification: notification,
+                            onTap: () {
+                              Navigator.of(context, rootNavigator: true).push(
+                                MaterialPageRoute(
+                                  builder: (context) => SingleNotification(
+                                    notification: notification,
+                                    id: notification.id ?? 0,
+                                    type: MyFunctions.getNotificationType(notification.type),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  }
                 ],
               );
             },

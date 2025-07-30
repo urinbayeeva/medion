@@ -6,10 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:lottie/lottie.dart';
 import 'package:medion/application/branches/branch_bloc.dart';
+import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/customer_review/review_card.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/feedback_status_enum.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CustomerReview extends StatefulWidget {
   const CustomerReview({super.key});
@@ -20,9 +23,11 @@ class CustomerReview extends StatefulWidget {
 
 class _CustomerReviewState extends State<CustomerReview> {
   late final TextEditingController _controller;
+  late final RefreshController _refresh;
 
   @override
   void initState() {
+    _refresh = RefreshController();
     context.read<BranchBloc>().add(const BranchEvent.getReviews());
     _controller = TextEditingController();
     super.initState();
@@ -65,18 +70,26 @@ class _CustomerReviewState extends State<CustomerReview> {
               if (state.getReviewStatus.isInProgress || state.getReviewStatus.isInitial) {
                 return const Center(child: CupertinoActivityIndicator());
               }
-              return ListView.builder(
-                itemCount: state.reviews.length,
-                itemBuilder: (context, index) {
-                  final review = state.reviews[index];
-                  return ReviewCard(
-                    review: review,
-                    colors: colors,
-                    icons: icons,
-                    fonts: fonts,
-                    status: FeedBackStatus.none,
-                  );
+              return SmartRefresher(
+                onRefresh: () async {
+                  context.read<BranchBloc>().add(const BranchEvent.getReviews());
                 },
+                controller: _refresh,
+                enablePullDown: true,
+                header: const WaterDropMaterialHeader(color: Style.shade0, backgroundColor: Style.error500),
+                child: ListView.builder(
+                  itemCount: state.reviews.length,
+                  itemBuilder: (context, index) {
+                    final review = state.reviews[index];
+                    return ReviewCard(
+                      review: review,
+                      colors: colors,
+                      icons: icons,
+                      fonts: fonts,
+                      status: MyFunctions.getFeedBackStatus(review.status),
+                    );
+                  },
+                ),
               );
             },
           ),

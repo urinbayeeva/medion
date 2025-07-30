@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +6,6 @@ import 'package:formz/formz.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
-import 'package:medion/presentation/component/custom_sliver_header_delegate.dart';
 import 'package:medion/presentation/component/custom_tabbar.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/visits/component/admission.dart';
@@ -17,7 +14,6 @@ import 'package:medion/presentation/pages/visits/component/review.dart';
 import 'package:medion/presentation/pages/visits/widgets/visit_info_detail_card.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/pop_up_status_enum.dart';
-import 'package:medion/utils/enums/visits_enum.dart';
 import 'package:medion/utils/extension/context_extension.dart';
 
 class VisitDetailPage extends StatefulWidget {
@@ -105,7 +101,6 @@ class _VisitDetailPageState extends State<VisitDetailPage> with AutomaticKeepAli
             return single || status;
           },
           builder: (context, state) {
-            log("Visit detail review: ${state.patientVisitSingle?.review}");
             return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
@@ -117,7 +112,7 @@ class _VisitDetailPageState extends State<VisitDetailPage> with AutomaticKeepAli
                   child: Icon(Icons.keyboard_arrow_left, size: 32.h),
                   onTap: () => Navigator.of(context).pop(),
                 ),
-                title: Text("${state.patientVisitSingle?.serviceName}", style: fonts.regularMain),
+                title: Text(state.patientVisitSingle?.serviceType ?? '', style: fonts.regularMain),
               ),
               backgroundColor: colors.backgroundColor,
               body: DefaultTabController(
@@ -141,22 +136,40 @@ class _VisitDetailPageState extends State<VisitDetailPage> with AutomaticKeepAli
                     controller: _controller,
                     physics: const AlwaysScrollableScrollPhysics(),
                     headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                      SliverPersistentHeader(
-                        delegate: CustomSliverHeaderDelegate(
-                          height: 180,
-                          child: VisitInfoDetailCard(
-                            categoryName: "${state.patientVisitSingle?.categoryName}",
-                            serviceName: "${state.patientVisitSingle?.serviceName}",
-                            doctorName: widget.doctorName,
-                            servicePrice: 20,
-                            visitStatus: "${state.patientVisitSingle?.visitStatus}",
-                            visitDate: widget.visitDate,
-                            visitPaymentByWhom: "${state.patientVisitSingle?.employerPays}",
-                            paymentMethod: "${state.patientVisitSingle?.paymentMethod}",
-                            data: widget.data,
-                            visitLocation: "${state.patientVisitSingle?.address}",
-                            image: widget.image,
-                          ),
+                      // SliverPersistentHeader(
+                      //   delegate: CustomSliverHeaderDelegate(
+                      //     height: 0.24.sh,
+                      //     child: VisitInfoDetailCard(
+                      //       categoryName:
+                      //           "${state.patientVisitSingle?.categoryName} ${state.patientVisitSingle?.categoryName} ${state.patientVisitSingle?.categoryName}",
+                      //       serviceName:
+                      //           "${state.patientVisitSingle?.serviceName}${state.patientVisitSingle?.serviceName}${state.patientVisitSingle?.serviceName}",
+                      //       doctorName: "${widget.doctorName}${widget.doctorName}${widget.doctorName}",
+                      //       servicePrice: 20,
+                      //       visitStatus: "${state.patientVisitSingle?.visitStatus}",
+                      //       visitDate: widget.visitDate,
+                      //       visitPaymentByWhom: "${state.patientVisitSingle?.employerPays}",
+                      //       paymentMethod: "${state.patientVisitSingle?.paymentMethod}",
+                      //       data: widget.data,
+                      //       visitLocation: "${state.patientVisitSingle?.address}",
+                      //       image: widget.image,
+                      //     ),
+                      //   ),
+                      // ),
+
+                      SliverToBoxAdapter(
+                        child: VisitInfoDetailCard(
+                          categoryName: "${state.patientVisitSingle?.categoryName}",
+                          serviceName: "${state.patientVisitSingle?.serviceName}",
+                          doctorName: "${widget.doctorName}",
+                          servicePrice: 20,
+                          visitStatus: "${state.patientVisitSingle?.visitStatus}",
+                          visitDate: widget.visitDate,
+                          visitPaymentByWhom: "${state.patientVisitSingle?.employerPays}",
+                          paymentMethod: "${state.patientVisitSingle?.paymentMethod}",
+                          data: widget.data,
+                          visitLocation: "${state.patientVisitSingle?.address}",
+                          image: widget.image,
                         ),
                       ),
                       SliverOverlapAbsorber(

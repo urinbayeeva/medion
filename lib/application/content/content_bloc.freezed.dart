@@ -396,6 +396,8 @@ mixin _$ContentState {
   FormzSubmissionStatus get teamStatus => throw _privateConstructorUsedError;
   FormzSubmissionStatus get activityStatus =>
       throw _privateConstructorUsedError;
+  FormzSubmissionStatus get fetchContentStatus =>
+      throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
   bool get success => throw _privateConstructorUsedError;
@@ -421,6 +423,7 @@ abstract class $ContentStateCopyWith<$Res> {
       List<String> jobTypes,
       FormzSubmissionStatus teamStatus,
       FormzSubmissionStatus activityStatus,
+      FormzSubmissionStatus fetchContentStatus,
       bool loading,
       bool error,
       bool success,
@@ -448,6 +451,7 @@ class _$ContentStateCopyWithImpl<$Res, $Val extends ContentState>
     Object? jobTypes = null,
     Object? teamStatus = null,
     Object? activityStatus = null,
+    Object? fetchContentStatus = null,
     Object? loading = null,
     Object? error = null,
     Object? success = null,
@@ -474,6 +478,10 @@ class _$ContentStateCopyWithImpl<$Res, $Val extends ContentState>
       activityStatus: null == activityStatus
           ? _value.activityStatus
           : activityStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      fetchContentStatus: null == fetchContentStatus
+          ? _value.fetchContentStatus
+          : fetchContentStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
       loading: null == loading
           ? _value.loading
@@ -513,6 +521,7 @@ abstract class _$$ContentStateImplCopyWith<$Res>
       List<String> jobTypes,
       FormzSubmissionStatus teamStatus,
       FormzSubmissionStatus activityStatus,
+      FormzSubmissionStatus fetchContentStatus,
       bool loading,
       bool error,
       bool success,
@@ -538,6 +547,7 @@ class __$$ContentStateImplCopyWithImpl<$Res>
     Object? jobTypes = null,
     Object? teamStatus = null,
     Object? activityStatus = null,
+    Object? fetchContentStatus = null,
     Object? loading = null,
     Object? error = null,
     Object? success = null,
@@ -564,6 +574,10 @@ class __$$ContentStateImplCopyWithImpl<$Res>
       activityStatus: null == activityStatus
           ? _value.activityStatus
           : activityStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      fetchContentStatus: null == fetchContentStatus
+          ? _value.fetchContentStatus
+          : fetchContentStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
       loading: null == loading
           ? _value.loading
@@ -599,6 +613,7 @@ class _$ContentStateImpl extends _ContentState {
       final List<String> jobTypes = const <String>[],
       this.teamStatus = FormzSubmissionStatus.initial,
       this.activityStatus = FormzSubmissionStatus.initial,
+      this.fetchContentStatus = FormzSubmissionStatus.initial,
       this.loading = false,
       this.error = false,
       this.success = false,
@@ -645,6 +660,9 @@ class _$ContentStateImpl extends _ContentState {
   final FormzSubmissionStatus activityStatus;
   @override
   @JsonKey()
+  final FormzSubmissionStatus fetchContentStatus;
+  @override
+  @JsonKey()
   final bool loading;
   @override
   @JsonKey()
@@ -666,7 +684,7 @@ class _$ContentStateImpl extends _ContentState {
 
   @override
   String toString() {
-    return 'ContentState(contentByType: $contentByType, team: $team, jobTypes: $jobTypes, teamStatus: $teamStatus, activityStatus: $activityStatus, loading: $loading, error: $error, success: $success, content: $content, medionModel: $medionModel)';
+    return 'ContentState(contentByType: $contentByType, team: $team, jobTypes: $jobTypes, teamStatus: $teamStatus, activityStatus: $activityStatus, fetchContentStatus: $fetchContentStatus, loading: $loading, error: $error, success: $success, content: $content, medionModel: $medionModel)';
   }
 
   @override
@@ -682,6 +700,8 @@ class _$ContentStateImpl extends _ContentState {
                 other.teamStatus == teamStatus) &&
             (identical(other.activityStatus, activityStatus) ||
                 other.activityStatus == activityStatus) &&
+            (identical(other.fetchContentStatus, fetchContentStatus) ||
+                other.fetchContentStatus == fetchContentStatus) &&
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.success, success) || other.success == success) &&
@@ -698,6 +718,7 @@ class _$ContentStateImpl extends _ContentState {
       const DeepCollectionEquality().hash(_jobTypes),
       teamStatus,
       activityStatus,
+      fetchContentStatus,
       loading,
       error,
       success,
@@ -720,6 +741,7 @@ abstract class _ContentState extends ContentState {
       final List<String> jobTypes,
       final FormzSubmissionStatus teamStatus,
       final FormzSubmissionStatus activityStatus,
+      final FormzSubmissionStatus fetchContentStatus,
       final bool loading,
       final bool error,
       final bool success,
@@ -737,6 +759,8 @@ abstract class _ContentState extends ContentState {
   FormzSubmissionStatus get teamStatus;
   @override
   FormzSubmissionStatus get activityStatus;
+  @override
+  FormzSubmissionStatus get fetchContentStatus;
   @override
   bool get loading;
   @override

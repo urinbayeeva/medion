@@ -107,7 +107,27 @@ abstract class BranchDetailModel implements Built<BranchDetailModel, BranchDetai
   @BuiltValueField(wireName: 'work_days')
   BuiltList<String>? get workDays;
 
+  @BuiltValueField(wireName: 'offers')
+  BuiltList<OffersModel>? get offers;
+
   static Serializer<BranchDetailModel> get serializer => _$branchDetailModelSerializer;
+}
+
+abstract class OffersModel implements Built<OffersModel, OffersModelBuilder> {
+  static Serializer<OffersModel> get serializer => _$offersModelSerializer;
+
+  @BuiltValueField(wireName: 'name')
+  String? get name;
+
+  @BuiltValueField(wireName: 'description')
+  String? get description;
+
+  @BuiltValueField(wireName: 'icon')
+  String? get icon;
+
+  OffersModel._();
+
+  factory OffersModel([void Function(OffersModelBuilder) updates]) = _$OffersModel;
 }
 
 abstract class AwardsModel implements Built<AwardsModel, AwardsModelBuilder> {
@@ -162,7 +182,7 @@ abstract class EducationModel implements Built<EducationModel, EducationModelBui
   String? get whyUs;
 
   @BuiltValueField(wireName: 'company_id')
-  int? get companyId;
+  int get companyId;
 
   @BuiltValueField(wireName: 'courses')
   BuiltList<Course>? get courses;
@@ -172,6 +192,36 @@ abstract class EducationModel implements Built<EducationModel, EducationModelBui
 
   @BuiltValueField(wireName: 'banner_image')
   String? get bannerImage;
+
+  @BuiltValueField(wireName: 'mission_title')
+  String? get missionTitle;
+
+  @BuiltValueField(wireName: 'mission_icon')
+  String? get missionIcon;
+
+  @BuiltValueField(wireName: 'values_title')
+  String? get valuesTitle;
+
+  @BuiltValueField(wireName: 'values_icon')
+  String? get valuesIcon;
+
+  @BuiltValueField(wireName: 'goals_title')
+  String? get goalsTitle;
+
+  @BuiltValueField(wireName: 'goals_icon')
+  String? get goalsIcon;
+
+  @BuiltValueField(wireName: 'audience_title')
+  String? get audienceTitle;
+
+  @BuiltValueField(wireName: 'audience_icon')
+  String? get audienceIcon;
+
+  @BuiltValueField(wireName: 'why_us_title')
+  String? get whyUsTitle;
+
+  @BuiltValueField(wireName: 'why_us_icon')
+  String? get whyUsIcon;
 
   String get decodedDescription => decodeHtml(description);
 
@@ -188,6 +238,37 @@ abstract class EducationModel implements Built<EducationModel, EducationModelBui
   EducationModel._();
 
   factory EducationModel([void Function(EducationModelBuilder) updates]) = _$EducationModel;
+}
+
+abstract class StudyLead implements Built<StudyLead, StudyLeadBuilder> {
+  static Serializer<StudyLead> get serializer => _$studyLeadSerializer;
+
+  @BuiltValueField(wireName: 'full_name')
+  String get name;
+
+  @BuiltValueField(wireName: 'phone')
+  String get phone;
+
+  @BuiltValueField(wireName: 'company_id')
+  int get companyId;
+
+  @BuiltValueField(wireName: 'course_id')
+  int get courseId;
+
+  StudyLead._();
+
+  factory StudyLead([void Function(StudyLeadBuilder) updates]) = _$StudyLead;
+}
+
+abstract class StudyLeadResult implements Built<StudyLeadResult, StudyLeadResultBuilder> {
+  static Serializer<StudyLeadResult> get serializer => _$studyLeadResultSerializer;
+
+  @BuiltValueField(wireName: 'status')
+  String get status;
+
+  StudyLeadResult._();
+
+  factory StudyLeadResult([void Function(StudyLeadResultBuilder) updates]) = _$StudyLeadResult;
 }
 
 abstract class Course implements Built<Course, CourseBuilder> {
@@ -392,6 +473,15 @@ abstract class GetReviewModel implements Built<GetReviewModel, GetReviewModelBui
 
   @BuiltValueField(wireName: "is_anonym")
   bool? get isAnonym;
+
+  @BuiltValueField(wireName: "address")
+  String? get address;
+
+  @BuiltValueField(wireName: "create_date")
+  String? get createDate;
+
+  @BuiltValueField(wireName: "status")
+  String? get status;
 
   GetReviewModel._();
 

@@ -43,9 +43,11 @@ class BranchesInfoCard extends StatelessWidget {
               // 16.h.verticalSpace,
               Center(
                 child: CachedImageComponent(
+                  borderRadius: 6.r,
                   height: 250,
                   width: double.infinity,
                   imageUrl: branch.image ?? '',
+                  fit: BoxFit.cover,
                 ),
               ),
 
@@ -76,7 +78,10 @@ class BranchesInfoCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 4.w,
                 children: [
-                  icons.clock.svg(width: 18.w, height: 18.h, color: colors.primary900),
+                  Padding(
+                    padding: EdgeInsets.only(left: 2.w),
+                    child: icons.clock.svg(width: 18.w, height: 18.h, color: colors.primary900),
+                  ),
                   Text(
                     semanticsLabel: branch.workTime,
                     branch.workTime,

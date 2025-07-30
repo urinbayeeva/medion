@@ -163,6 +163,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           registrationResponse: data,
         ));
       }
+
+      add(const AuthEvent.fetchPatientInfo());
     });
   }
 
@@ -225,12 +227,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> _fetchPatientInfoHandler(_FetchPatientInfo event, Emitter<AuthState> emit) async {
+    debugPrint("_fetchPatientInfoHandler 1");
     _hasToken(emit);
-    if (state.patientInfo != null) {
-      return;
-    }
+    // if (state.patientInfo != null) {
+    //   debugPrint("_fetchPatientInfoHandler 1");
+    //   return;
+    // }
 
     emit(state.copyWith(
+      userInfoStatus: FormzSubmissionStatus.inProgress,
       isFetchingPatientInfo: true,
       errorFetchingPatientInfo: false,
     ));
@@ -241,12 +246,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (error) {
         LogService.e(" ----> error fetching patient info: $error");
         emit(state.copyWith(
+          userInfoStatus: FormzSubmissionStatus.failure,
           isFetchingPatientInfo: false,
           errorFetchingPatientInfo: true,
         ));
       },
       (patientInfo) {
         emit(state.copyWith(
+          userInfoStatus: FormzSubmissionStatus.success,
           isFetchingPatientInfo: false,
           errorFetchingPatientInfo: false,
           patientInfo: patientInfo,

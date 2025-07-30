@@ -150,4 +150,20 @@ class BranchRepository implements IBranchRepository {
       return left(handleError(e));
     }
   }
+
+  @override
+  Future<Either<ResponseFailure, StudyLeadResult>> studyLead({required StudyLead report}) async {
+    try {
+      final response = await studyService.studyLead(report: report);
+      if (response.isSuccessful && response.body != null) {
+        final study = response.body!;
+        return right(study);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      //LogService.e(" ----> error on branch repo  : ${e.toString()}");
+      return left(handleError(e));
+    }
+  }
 }

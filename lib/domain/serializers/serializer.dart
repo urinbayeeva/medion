@@ -93,8 +93,11 @@ part 'serializer.g.dart';
   //Branches
   BranchModel,
   BranchDetailModel,
+  OffersModel,
   AwardsModel,
   EducationModel,
+  StudyLead,
+  StudyLeadResult,
   Course,
   ContentModel,
   ChildContentModel,

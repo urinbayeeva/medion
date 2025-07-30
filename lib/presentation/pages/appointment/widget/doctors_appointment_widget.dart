@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:medion/domain/models/models.dart';
 import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -29,23 +28,17 @@ class DoctorAppointmentWidget extends StatefulWidget {
   });
 
   @override
-  _DoctorAppointmentWidgetState createState() =>
-      _DoctorAppointmentWidgetState();
+  _DoctorAppointmentWidgetState createState() => _DoctorAppointmentWidgetState();
 }
 
 class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
   int selectedDateIndex = 0;
 
-  void _handleAppointmentSelection(
-      String time, String currentDate, bool isSelected) {
+  void _handleAppointmentSelection(String time, String currentDate, bool isSelected) {
     String calculateEndTime(String startTime) {
       final timeFormat = DateFormat('HH:mm');
-      final DateTime start = DateTime(
-          2024,
-          1,
-          1,
-          int.parse(startTime.split(':')[0]),
-          int.parse(startTime.split(':')[1]));
+      final DateTime start =
+          DateTime(2024, 1, 1, int.parse(startTime.split(':')[0]), int.parse(startTime.split(':')[1]));
       final DateTime end = start.add(const Duration(minutes: 30));
       return timeFormat.format(end);
     }
@@ -131,23 +124,26 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
     });
   }
 
-  Widget _buildDoctorHeader(colors, fonts, icons) {
+  Widget _buildDoctorHeader(CustomColorSet colors, fonts, icons) {
+    final available = widget.doctor.image.isNotEmpty;
+
     return Row(
       children: [
-        CircleAvatar(
-          radius: 30,
-          backgroundColor: colors.neutral500, // Updated to use theme color
-          backgroundImage: widget.doctor.image != null
-              ? NetworkImage(widget.doctor.image!)
-              : null,
-          child: widget.doctor.image == null
-              ? SvgPicture.asset(
-                  "assets/icons/non_user.svg",
-                  fit: BoxFit.cover,
-                  width: 30,
-                  height: 30,
-                )
-              : null,
+        DecoratedBox(
+          decoration: BoxDecoration(shape: BoxShape.circle, color: colors.darkMode900),
+          child: CircleAvatar(
+            radius: 30,
+            backgroundColor: colors.neutral300,
+            backgroundImage: available ? NetworkImage(widget.doctor.image) : null,
+            child: !available
+                ? SvgPicture.asset(
+                    "assets/icons/non_user.svg",
+                    fit: BoxFit.cover,
+                    width: 30,
+                    height: 30,
+                  )
+                : null,
+          ),
         ),
         12.w.horizontalSpace,
         Flexible(
@@ -156,8 +152,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             children: [
               Text(widget.doctor.name, style: fonts.smallMain),
               Text(widget.doctor.specialty,
-                  style: fonts.xSmallMain
-                      .copyWith(color: colors.neutral600, fontSize: 13.sp)),
+                  style: fonts.xSmallMain.copyWith(color: colors.neutral600, fontSize: 13.sp)),
             ],
           ),
         ),
@@ -178,9 +173,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             itemCount: widget.schedules.length,
             itemBuilder: (context, index) {
               String dateKey = widget.schedules[index].keys.first;
-              var formattedDate =
-                  DateFormat('EEE, dd MMMM', context.locale.toString())
-                      .format(DateTime.parse(dateKey));
+              var formattedDate = DateFormat('EEE, dd MMMM', context.locale.toString()).format(DateTime.parse(dateKey));
 
               bool isSelected = index == selectedDateIndex;
 
@@ -238,8 +231,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
           ),
           itemCount: widget.schedules[selectedDateIndex][currentDate].length,
           itemBuilder: (context, index) {
-            var timeSlot =
-                widget.schedules[selectedDateIndex][currentDate][index];
+            var timeSlot = widget.schedules[selectedDateIndex][currentDate][index];
             String time = timeSlot['time'];
             bool isActive = timeSlot['active'] ?? true;
 
@@ -261,8 +253,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
               onTap: isDisabled
                   ? null // Disable tap if not active or taken
                   : () {
-                      _handleAppointmentSelection(
-                          time, currentDate, isSelected);
+                      _handleAppointmentSelection(time, currentDate, isSelected);
                     },
               child: Container(
                 alignment: Alignment.center,

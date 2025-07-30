@@ -35,11 +35,11 @@ class ReviewCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text("${(review.title != null) ? review.title : ""}", style: fonts.regularMain),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+            child: Text("${(review.name != null) ? review.name : ""}", style: fonts.regularMain),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: 16.w).copyWith(bottom: 4.h),
             child: SizedBox(
               height: 20,
               child: GenerateStar(rank: int.tryParse(review.ratings ?? '') ?? 0, colors: colors, icons: icons),

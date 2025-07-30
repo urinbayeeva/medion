@@ -8,6 +8,8 @@ abstract class BranchEvent with _$BranchEvent {
 
   const factory BranchEvent.fetchStudy() = _FetchStudy;
 
+  const factory BranchEvent.studyLead({required StudyLead report}) = _StudyLead;
+
   const factory BranchEvent.fetchOfferta() = _FetchOfferta;
 
   const factory BranchEvent.fetchActivity() = _FetchActivity;

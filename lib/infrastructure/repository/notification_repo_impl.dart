@@ -28,6 +28,20 @@ class NotificationRepoImpl extends NotificationRepository {
   }
 
   @override
+  Future<Either<ResponseFailure, NotificationModel>> getNotificationSingle({int? pk}) async {
+    try {
+      final res = await service.getNotificationSingle(pk: pk);
+      if (res.isSuccessful && res.body != null) {
+        return right(res.body!);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      return left(handleError(e));
+    }
+  }
+
+  @override
   Future<Either<ResponseFailure, void>> readNotifications({int? id}) async {
     try {
       final res = await service.readNotification(notificationId: id);

@@ -2,14 +2,21 @@ package com.example.medion
 
 import android.os.Build
 import android.os.Bundle
-import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import android.app.Application
+import com.yandex.mapkit.MapKitFactory;
+import androidx.annotation.NonNull;
+import io.flutter.plugins.GeneratedPluginRegistrant
+import io.flutter.embedding.android.FlutterFragmentActivity
+
 
 class MainActivity : FlutterFragmentActivity() {
     private val DEVICE_INFO_CHANNEL = "device_info_channel"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+        MapKitFactory.setApiKey("5d6635a4-578e-47dd-b911-7221fe7c81d2")
+        GeneratedPluginRegistrant.registerWith(flutterEngine)
         super.configureFlutterEngine(flutterEngine)
 
         MethodChannel(

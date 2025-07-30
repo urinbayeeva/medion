@@ -21,6 +21,7 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
     on<_FetchBranches>(_fetchBranches);
     on<_FetchAwards>(_fetchAwards);
     on<_FetchStudy>(_fetchStudy);
+    on<_StudyLead>(_leadStudy);
     on<_FetchOfferta>(_fetchOfferta);
     on<_FetchActivity>(_fetchActivity);
     on<_GetBranchDetail>(_getBranchDetail);
@@ -136,7 +137,7 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
     final res = await _repository.fetchAwards();
     res.fold(
       (error) {
-        LogService.e("Error in fetching branches: $error");
+        LogService.e("Error in _fetchAwards: $error");
         EasyLoading.showError(error.message);
         emit(state.copyWith(loading: false, error: true));
       },
@@ -158,7 +159,7 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
     final res = await _repository.fetchStudy();
     res.fold(
       (error) {
-        LogService.e("Error in fetching branches: $error");
+        LogService.e("Error in _fetchStudy: $error");
         EasyLoading.showError(error.message);
         emit(state.copyWith(loading: false, error: true));
       },
@@ -173,6 +174,24 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
     );
   }
 
+  FutureOr<void> _leadStudy(_StudyLead event, Emitter<BranchState> emit) async {
+    emit(state.copyWith(studyLeadStatus: FormzSubmissionStatus.inProgress));
+    EasyLoading.show();
+
+    final res = await _repository.studyLead(report: event.report);
+    res.fold(
+      (error) {
+        emit(state.copyWith(studyLeadStatus: FormzSubmissionStatus.failure));
+        LogService.e("Error in study lead: $error");
+        EasyLoading.showError(error.message);
+      },
+      (data) {
+        emit(state.copyWith(studyLeadStatus: FormzSubmissionStatus.success));
+        EasyLoading.dismiss();
+      },
+    );
+  }
+
   FutureOr<void> _fetchOfferta(_FetchOfferta event, Emitter<BranchState> emit) async {
     emit(state.copyWith(loading: true, error: false, success: false));
     EasyLoading.show();
@@ -180,7 +199,7 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
     final res = await _repository.getOfferta();
     res.fold(
       (error) {
-        LogService.e("Error in fetching branches: $error");
+        LogService.e("Error in _fetchOfferta: $error");
         EasyLoading.showError(error.message);
         emit(state.copyWith(loading: false, error: true));
       },

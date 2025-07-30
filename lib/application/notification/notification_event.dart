@@ -6,9 +6,11 @@ class NotificationEvent with _$NotificationEvent {
 
   const factory NotificationEvent.getNotifications() = _GetNotification;
 
+  const factory NotificationEvent.getSingleNotification({int? pk}) = _GetSingleNotification;
+
   const factory NotificationEvent.getMoreNotifications() = _GetMoreNotification;
 
-  const factory NotificationEvent.markAllNotificationAsRead() = _MarkAllNotificationAsRead;
+  const factory NotificationEvent.markAllNotificationAsRead({String? type, String? query}) = _MarkAllNotificationAsRead;
 
   const factory NotificationEvent.readNotification({required int index}) = _ReadNotification;
 

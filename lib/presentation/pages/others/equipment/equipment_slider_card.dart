@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/presentation/component/w_html/w_html_has_readmore.dart';
 import 'package:medion/presentation/pages/others/component/common_image.dart';
-
 import 'package:medion/presentation/styles/theme.dart';
 
 class EquipmentCarouselCard extends StatefulWidget {
@@ -32,6 +31,7 @@ class _EquipmentCarouselCardState extends State<EquipmentCarouselCard> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CommonImage(
+              height: 142.h,
               imageUrl: widget.child.primaryImage,
               radius: const BorderRadius.only(
                 topRight: Radius.circular(8),
@@ -50,8 +50,8 @@ class _EquipmentCarouselCardState extends State<EquipmentCarouselCard> {
                     style: widget.fonts.regularMain,
                   ),
                   WHtmlReadLessMore(
-                    data: widget.child.description,
-                    isReadMore: true,
+                    data: "${widget.child.description} ",
+                    isReadMore: false,
                   ),
                 ],
               ),

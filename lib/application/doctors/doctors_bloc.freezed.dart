@@ -459,7 +459,8 @@ mixin _$DoctorState {
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
   bool get success => throw _privateConstructorUsedError;
-  DoctorCategory? get doctors =>
+  DoctorCategory? get doctors => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get doctorSingleStatus =>
       throw _privateConstructorUsedError; // Doctor details specific state
   bool get doctorDetailsLoading => throw _privateConstructorUsedError;
   bool get doctorDetailsError => throw _privateConstructorUsedError;
@@ -486,6 +487,7 @@ abstract class $DoctorStateCopyWith<$Res> {
       bool error,
       bool success,
       DoctorCategory? doctors,
+      FormzSubmissionStatus doctorSingleStatus,
       bool doctorDetailsLoading,
       bool doctorDetailsError,
       bool doctorDetailsSuccess,
@@ -513,6 +515,7 @@ class _$DoctorStateCopyWithImpl<$Res, $Val extends DoctorState>
     Object? error = null,
     Object? success = null,
     Object? doctors = freezed,
+    Object? doctorSingleStatus = null,
     Object? doctorDetailsLoading = null,
     Object? doctorDetailsError = null,
     Object? doctorDetailsSuccess = null,
@@ -537,6 +540,10 @@ class _$DoctorStateCopyWithImpl<$Res, $Val extends DoctorState>
           ? _value.doctors
           : doctors // ignore: cast_nullable_to_non_nullable
               as DoctorCategory?,
+      doctorSingleStatus: null == doctorSingleStatus
+          ? _value.doctorSingleStatus
+          : doctorSingleStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       doctorDetailsLoading: null == doctorDetailsLoading
           ? _value.doctorDetailsLoading
           : doctorDetailsLoading // ignore: cast_nullable_to_non_nullable
@@ -578,6 +585,7 @@ abstract class _$$DoctorStateImplCopyWith<$Res>
       bool error,
       bool success,
       DoctorCategory? doctors,
+      FormzSubmissionStatus doctorSingleStatus,
       bool doctorDetailsLoading,
       bool doctorDetailsError,
       bool doctorDetailsSuccess,
@@ -603,6 +611,7 @@ class __$$DoctorStateImplCopyWithImpl<$Res>
     Object? error = null,
     Object? success = null,
     Object? doctors = freezed,
+    Object? doctorSingleStatus = null,
     Object? doctorDetailsLoading = null,
     Object? doctorDetailsError = null,
     Object? doctorDetailsSuccess = null,
@@ -627,6 +636,10 @@ class __$$DoctorStateImplCopyWithImpl<$Res>
           ? _value.doctors
           : doctors // ignore: cast_nullable_to_non_nullable
               as DoctorCategory?,
+      doctorSingleStatus: null == doctorSingleStatus
+          ? _value.doctorSingleStatus
+          : doctorSingleStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       doctorDetailsLoading: null == doctorDetailsLoading
           ? _value.doctorDetailsLoading
           : doctorDetailsLoading // ignore: cast_nullable_to_non_nullable
@@ -663,6 +676,7 @@ class _$DoctorStateImpl extends _DoctorState {
       this.error = false,
       this.success = false,
       this.doctors = null,
+      this.doctorSingleStatus = FormzSubmissionStatus.initial,
       this.doctorDetailsLoading = false,
       this.doctorDetailsError = false,
       this.doctorDetailsSuccess = false,
@@ -685,6 +699,9 @@ class _$DoctorStateImpl extends _DoctorState {
   @override
   @JsonKey()
   final DoctorCategory? doctors;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus doctorSingleStatus;
 // Doctor details specific state
   @override
   @JsonKey()
@@ -718,7 +735,7 @@ class _$DoctorStateImpl extends _DoctorState {
 
   @override
   String toString() {
-    return 'DoctorState(loading: $loading, error: $error, success: $success, doctors: $doctors, doctorDetailsLoading: $doctorDetailsLoading, doctorDetailsError: $doctorDetailsError, doctorDetailsSuccess: $doctorDetailsSuccess, doctorDetails: $doctorDetails, doctorsJob: $doctorsJob, doctorInfoItems: $doctorInfoItems)';
+    return 'DoctorState(loading: $loading, error: $error, success: $success, doctors: $doctors, doctorSingleStatus: $doctorSingleStatus, doctorDetailsLoading: $doctorDetailsLoading, doctorDetailsError: $doctorDetailsError, doctorDetailsSuccess: $doctorDetailsSuccess, doctorDetails: $doctorDetails, doctorsJob: $doctorsJob, doctorInfoItems: $doctorInfoItems)';
   }
 
   @override
@@ -730,6 +747,8 @@ class _$DoctorStateImpl extends _DoctorState {
             (identical(other.error, error) || other.error == error) &&
             (identical(other.success, success) || other.success == success) &&
             (identical(other.doctors, doctors) || other.doctors == doctors) &&
+            (identical(other.doctorSingleStatus, doctorSingleStatus) ||
+                other.doctorSingleStatus == doctorSingleStatus) &&
             (identical(other.doctorDetailsLoading, doctorDetailsLoading) ||
                 other.doctorDetailsLoading == doctorDetailsLoading) &&
             (identical(other.doctorDetailsError, doctorDetailsError) ||
@@ -751,6 +770,7 @@ class _$DoctorStateImpl extends _DoctorState {
       error,
       success,
       doctors,
+      doctorSingleStatus,
       doctorDetailsLoading,
       doctorDetailsError,
       doctorDetailsSuccess,
@@ -773,6 +793,7 @@ abstract class _DoctorState extends DoctorState {
       final bool error,
       final bool success,
       final DoctorCategory? doctors,
+      final FormzSubmissionStatus doctorSingleStatus,
       final bool doctorDetailsLoading,
       final bool doctorDetailsError,
       final bool doctorDetailsSuccess,
@@ -788,7 +809,9 @@ abstract class _DoctorState extends DoctorState {
   @override
   bool get success;
   @override
-  DoctorCategory? get doctors; // Doctor details specific state
+  DoctorCategory? get doctors;
+  @override
+  FormzSubmissionStatus get doctorSingleStatus; // Doctor details specific state
   @override
   bool get doctorDetailsLoading;
   @override

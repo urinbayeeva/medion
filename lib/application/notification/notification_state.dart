@@ -12,6 +12,7 @@ class NotificationState with _$NotificationState {
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus filterNotificationStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus postNotificationReviewStatus,
     @Default('All') String filterType,
+    @Default('') String query,
     @Default('') String markAsReadErrorMsg,
     @Default('') String notificationsErrorMessage,
     @Default('') String notificationNext,

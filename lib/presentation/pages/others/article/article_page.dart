@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:formz/formz.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ArticlePage extends StatefulWidget {
   const ArticlePage({super.key});
@@ -21,8 +24,11 @@ class ArticlePage extends StatefulWidget {
 }
 
 class _ArticlePageState extends State<ArticlePage> {
+  late final RefreshController _refreshController;
+
   @override
   void initState() {
+    _refreshController = RefreshController();
     context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "article"));
     super.initState();
   }
@@ -47,9 +53,11 @@ class _ArticlePageState extends State<ArticlePage> {
           backgroundColor: colors.backgroundColor,
           body: BlocBuilder<ContentBloc, ContentState>(
             builder: (context, state) {
-              if (state.loading) return const Center(child: CupertinoActivityIndicator());
+              if (state.fetchContentStatus.isInProgress || state.fetchContentStatus.isInitial) {
+                return const Center(child: CupertinoActivityIndicator());
+              }
 
-              if (state.error) {
+              if (state.fetchContentStatus.isFailure) {
                 return Center(child: Text('something_went_wrong'.tr(), style: fonts.regularSemLink));
               }
 
@@ -68,42 +76,50 @@ class _ArticlePageState extends State<ArticlePage> {
                 );
               }
 
-              return ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  12.h.verticalSpace,
-                  GridView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 16,
-                      childAspectRatio: 0.75,
-                    ),
-                    itemCount: articles.length,
-                    itemBuilder: (context, index) {
-                      final article = articles[index];
-                      return ArticleCardWidget(
-                        onTap: () => Navigator.push(
-                          context,
-                          AppRoutes.getInfoViewAboutHealth(
-                            discountCondition: "",
-                            date: article.createDate,
-                            imagePath: [...article.images, article.primaryImage],
-                            title: article.title,
-                            desc: article.decodedDescription,
+              return SmartRefresher(
+                controller: _refreshController,
+                enablePullDown: true,
+                header: const WaterDropMaterialHeader(color: Style.shade0, backgroundColor: Style.error500),
+                onRefresh: () {
+                  context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "article"));
+                  _refreshController.refreshCompleted();
+                },
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    12.h.verticalSpace,
+                    GridView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 164.w,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        mainAxisExtent: 220.h,
+                      ),
+                      itemCount: articles.length,
+                      itemBuilder: (context, index) {
+                        final article = articles[index];
+                        return ArticleCardWidget(
+                          onTap: () => Navigator.push(
+                            context,
+                            AppRoutes.getInfoViewAboutHealth(
+                              discountCondition: "",
+                              date: article.createDate,
+                              imagePath: [...article.images, article.primaryImage],
+                              title: article.title,
+                              desc: article.decodedDescription,
+                            ),
                           ),
-                        ),
-                        title: article.title,
-                        description: article.decodedDescription,
-                        image: article.primaryImage,
-                      );
-                    },
-                  ),
-                  40.h.verticalSpace,
-                ],
+                          title: article.title,
+                          image: article.primaryImage,
+                        );
+                      },
+                    ),
+                    40.h.verticalSpace,
+                  ],
+                ),
               );
             },
           ),

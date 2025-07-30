@@ -45,7 +45,12 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
   }
 
   FutureOr<void> _fetchContent(_FetchContent event, Emitter<ContentState> emit) async {
-    emit(state.copyWith(loading: true, error: false, success: false));
+    emit(state.copyWith(
+      fetchContentStatus: FormzSubmissionStatus.inProgress,
+      loading: true,
+      error: false,
+      success: false,
+    ));
     // EasyLoading.show();
 
     final res = await _repository.fetchContents(type: event.type);
@@ -53,7 +58,7 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       (error) {
         LogService.e("Error in fetching content: $error");
         EasyLoading.showError(error.message);
-        emit(state.copyWith(loading: false, error: true));
+        emit(state.copyWith(loading: false, error: true, fetchContentStatus: FormzSubmissionStatus.failure));
       },
       (data) {
         EasyLoading.dismiss();
@@ -63,6 +68,7 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
         emit(state.copyWith(
           loading: false,
           success: true,
+          fetchContentStatus: FormzSubmissionStatus.success,
           contentByType: updatedContent,
         ));
       },

@@ -21,6 +21,7 @@ mixin _$BranchEvent {
     required TResult Function() fetchBranches,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
+    required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
     required TResult Function() getReviews,
@@ -35,6 +36,7 @@ mixin _$BranchEvent {
     TResult? Function()? fetchBranches,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
+    TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
     TResult? Function()? getReviews,
@@ -49,6 +51,7 @@ mixin _$BranchEvent {
     TResult Function()? fetchBranches,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
+    TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
     TResult Function()? getReviews,
@@ -64,6 +67,7 @@ mixin _$BranchEvent {
     required TResult Function(_FetchBranches value) fetchBranches,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
     required TResult Function(_GetReviews value) getReviews,
@@ -77,6 +81,7 @@ mixin _$BranchEvent {
     TResult? Function(_FetchBranches value)? fetchBranches,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
     TResult? Function(_GetReviews value)? getReviews,
@@ -90,6 +95,7 @@ mixin _$BranchEvent {
     TResult Function(_FetchBranches value)? fetchBranches,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
     TResult Function(_GetReviews value)? getReviews,
@@ -166,6 +172,7 @@ class _$FetchBranchesImpl implements _FetchBranches {
     required TResult Function() fetchBranches,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
+    required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
     required TResult Function() getReviews,
@@ -183,6 +190,7 @@ class _$FetchBranchesImpl implements _FetchBranches {
     TResult? Function()? fetchBranches,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
+    TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
     TResult? Function()? getReviews,
@@ -200,6 +208,7 @@ class _$FetchBranchesImpl implements _FetchBranches {
     TResult Function()? fetchBranches,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
+    TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
     TResult Function()? getReviews,
@@ -221,6 +230,7 @@ class _$FetchBranchesImpl implements _FetchBranches {
     required TResult Function(_FetchBranches value) fetchBranches,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
     required TResult Function(_GetReviews value) getReviews,
@@ -237,6 +247,7 @@ class _$FetchBranchesImpl implements _FetchBranches {
     TResult? Function(_FetchBranches value)? fetchBranches,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
     TResult? Function(_GetReviews value)? getReviews,
@@ -253,6 +264,7 @@ class _$FetchBranchesImpl implements _FetchBranches {
     TResult Function(_FetchBranches value)? fetchBranches,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
     TResult Function(_GetReviews value)? getReviews,
@@ -316,6 +328,7 @@ class _$FetchAwardsImpl implements _FetchAwards {
     required TResult Function() fetchBranches,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
+    required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
     required TResult Function() getReviews,
@@ -333,6 +346,7 @@ class _$FetchAwardsImpl implements _FetchAwards {
     TResult? Function()? fetchBranches,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
+    TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
     TResult? Function()? getReviews,
@@ -350,6 +364,7 @@ class _$FetchAwardsImpl implements _FetchAwards {
     TResult Function()? fetchBranches,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
+    TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
     TResult Function()? getReviews,
@@ -371,6 +386,7 @@ class _$FetchAwardsImpl implements _FetchAwards {
     required TResult Function(_FetchBranches value) fetchBranches,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
     required TResult Function(_GetReviews value) getReviews,
@@ -387,6 +403,7 @@ class _$FetchAwardsImpl implements _FetchAwards {
     TResult? Function(_FetchBranches value)? fetchBranches,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
     TResult? Function(_GetReviews value)? getReviews,
@@ -403,6 +420,7 @@ class _$FetchAwardsImpl implements _FetchAwards {
     TResult Function(_FetchBranches value)? fetchBranches,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
     TResult Function(_GetReviews value)? getReviews,
@@ -466,6 +484,7 @@ class _$FetchStudyImpl implements _FetchStudy {
     required TResult Function() fetchBranches,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
+    required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
     required TResult Function() getReviews,
@@ -483,6 +502,7 @@ class _$FetchStudyImpl implements _FetchStudy {
     TResult? Function()? fetchBranches,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
+    TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
     TResult? Function()? getReviews,
@@ -500,6 +520,7 @@ class _$FetchStudyImpl implements _FetchStudy {
     TResult Function()? fetchBranches,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
+    TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
     TResult Function()? getReviews,
@@ -521,6 +542,7 @@ class _$FetchStudyImpl implements _FetchStudy {
     required TResult Function(_FetchBranches value) fetchBranches,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
     required TResult Function(_GetReviews value) getReviews,
@@ -537,6 +559,7 @@ class _$FetchStudyImpl implements _FetchStudy {
     TResult? Function(_FetchBranches value)? fetchBranches,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
     TResult? Function(_GetReviews value)? getReviews,
@@ -553,6 +576,7 @@ class _$FetchStudyImpl implements _FetchStudy {
     TResult Function(_FetchBranches value)? fetchBranches,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
     TResult Function(_GetReviews value)? getReviews,
@@ -570,6 +594,197 @@ class _$FetchStudyImpl implements _FetchStudy {
 
 abstract class _FetchStudy implements BranchEvent {
   const factory _FetchStudy() = _$FetchStudyImpl;
+}
+
+/// @nodoc
+abstract class _$$StudyLeadImplCopyWith<$Res> {
+  factory _$$StudyLeadImplCopyWith(
+          _$StudyLeadImpl value, $Res Function(_$StudyLeadImpl) then) =
+      __$$StudyLeadImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({StudyLead report});
+}
+
+/// @nodoc
+class __$$StudyLeadImplCopyWithImpl<$Res>
+    extends _$BranchEventCopyWithImpl<$Res, _$StudyLeadImpl>
+    implements _$$StudyLeadImplCopyWith<$Res> {
+  __$$StudyLeadImplCopyWithImpl(
+      _$StudyLeadImpl _value, $Res Function(_$StudyLeadImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BranchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? report = null,
+  }) {
+    return _then(_$StudyLeadImpl(
+      report: null == report
+          ? _value.report
+          : report // ignore: cast_nullable_to_non_nullable
+              as StudyLead,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$StudyLeadImpl implements _StudyLead {
+  const _$StudyLeadImpl({required this.report});
+
+  @override
+  final StudyLead report;
+
+  @override
+  String toString() {
+    return 'BranchEvent.studyLead(report: $report)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StudyLeadImpl &&
+            (identical(other.report, report) || other.report == report));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, report);
+
+  /// Create a copy of BranchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StudyLeadImplCopyWith<_$StudyLeadImpl> get copyWith =>
+      __$$StudyLeadImplCopyWithImpl<_$StudyLeadImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBranches,
+    required TResult Function() fetchAwards,
+    required TResult Function() fetchStudy,
+    required TResult Function(StudyLead report) studyLead,
+    required TResult Function() fetchOfferta,
+    required TResult Function() fetchActivity,
+    required TResult Function() getReviews,
+    required TResult Function(PostReviewModel review) postReviews,
+    required TResult Function(int id) getBranchDetail,
+    required TResult Function(int rank, int id, String branch, String comment)
+        fillingReviewData,
+  }) {
+    return studyLead(report);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBranches,
+    TResult? Function()? fetchAwards,
+    TResult? Function()? fetchStudy,
+    TResult? Function(StudyLead report)? studyLead,
+    TResult? Function()? fetchOfferta,
+    TResult? Function()? fetchActivity,
+    TResult? Function()? getReviews,
+    TResult? Function(PostReviewModel review)? postReviews,
+    TResult? Function(int id)? getBranchDetail,
+    TResult? Function(int rank, int id, String branch, String comment)?
+        fillingReviewData,
+  }) {
+    return studyLead?.call(report);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBranches,
+    TResult Function()? fetchAwards,
+    TResult Function()? fetchStudy,
+    TResult Function(StudyLead report)? studyLead,
+    TResult Function()? fetchOfferta,
+    TResult Function()? fetchActivity,
+    TResult Function()? getReviews,
+    TResult Function(PostReviewModel review)? postReviews,
+    TResult Function(int id)? getBranchDetail,
+    TResult Function(int rank, int id, String branch, String comment)?
+        fillingReviewData,
+    required TResult orElse(),
+  }) {
+    if (studyLead != null) {
+      return studyLead(report);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_FetchAwards value) fetchAwards,
+    required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_StudyLead value) studyLead,
+    required TResult Function(_FetchOfferta value) fetchOfferta,
+    required TResult Function(_FetchActivity value) fetchActivity,
+    required TResult Function(_GetReviews value) getReviews,
+    required TResult Function(_PostReviews value) postReviews,
+    required TResult Function(_GetBranchDetail value) getBranchDetail,
+    required TResult Function(_FillingReviewData value) fillingReviewData,
+  }) {
+    return studyLead(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_FetchAwards value)? fetchAwards,
+    TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_StudyLead value)? studyLead,
+    TResult? Function(_FetchOfferta value)? fetchOfferta,
+    TResult? Function(_FetchActivity value)? fetchActivity,
+    TResult? Function(_GetReviews value)? getReviews,
+    TResult? Function(_PostReviews value)? postReviews,
+    TResult? Function(_GetBranchDetail value)? getBranchDetail,
+    TResult? Function(_FillingReviewData value)? fillingReviewData,
+  }) {
+    return studyLead?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_FetchAwards value)? fetchAwards,
+    TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_StudyLead value)? studyLead,
+    TResult Function(_FetchOfferta value)? fetchOfferta,
+    TResult Function(_FetchActivity value)? fetchActivity,
+    TResult Function(_GetReviews value)? getReviews,
+    TResult Function(_PostReviews value)? postReviews,
+    TResult Function(_GetBranchDetail value)? getBranchDetail,
+    TResult Function(_FillingReviewData value)? fillingReviewData,
+    required TResult orElse(),
+  }) {
+    if (studyLead != null) {
+      return studyLead(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _StudyLead implements BranchEvent {
+  const factory _StudyLead({required final StudyLead report}) = _$StudyLeadImpl;
+
+  StudyLead get report;
+
+  /// Create a copy of BranchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$StudyLeadImplCopyWith<_$StudyLeadImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -616,6 +831,7 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     required TResult Function() fetchBranches,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
+    required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
     required TResult Function() getReviews,
@@ -633,6 +849,7 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     TResult? Function()? fetchBranches,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
+    TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
     TResult? Function()? getReviews,
@@ -650,6 +867,7 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     TResult Function()? fetchBranches,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
+    TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
     TResult Function()? getReviews,
@@ -671,6 +889,7 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     required TResult Function(_FetchBranches value) fetchBranches,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
     required TResult Function(_GetReviews value) getReviews,
@@ -687,6 +906,7 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     TResult? Function(_FetchBranches value)? fetchBranches,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
     TResult? Function(_GetReviews value)? getReviews,
@@ -703,6 +923,7 @@ class _$FetchOffertaImpl implements _FetchOfferta {
     TResult Function(_FetchBranches value)? fetchBranches,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
     TResult Function(_GetReviews value)? getReviews,
@@ -766,6 +987,7 @@ class _$FetchActivityImpl implements _FetchActivity {
     required TResult Function() fetchBranches,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
+    required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
     required TResult Function() getReviews,
@@ -783,6 +1005,7 @@ class _$FetchActivityImpl implements _FetchActivity {
     TResult? Function()? fetchBranches,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
+    TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
     TResult? Function()? getReviews,
@@ -800,6 +1023,7 @@ class _$FetchActivityImpl implements _FetchActivity {
     TResult Function()? fetchBranches,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
+    TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
     TResult Function()? getReviews,
@@ -821,6 +1045,7 @@ class _$FetchActivityImpl implements _FetchActivity {
     required TResult Function(_FetchBranches value) fetchBranches,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
     required TResult Function(_GetReviews value) getReviews,
@@ -837,6 +1062,7 @@ class _$FetchActivityImpl implements _FetchActivity {
     TResult? Function(_FetchBranches value)? fetchBranches,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
     TResult? Function(_GetReviews value)? getReviews,
@@ -853,6 +1079,7 @@ class _$FetchActivityImpl implements _FetchActivity {
     TResult Function(_FetchBranches value)? fetchBranches,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
     TResult Function(_GetReviews value)? getReviews,
@@ -916,6 +1143,7 @@ class _$GetReviewsImpl implements _GetReviews {
     required TResult Function() fetchBranches,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
+    required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
     required TResult Function() getReviews,
@@ -933,6 +1161,7 @@ class _$GetReviewsImpl implements _GetReviews {
     TResult? Function()? fetchBranches,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
+    TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
     TResult? Function()? getReviews,
@@ -950,6 +1179,7 @@ class _$GetReviewsImpl implements _GetReviews {
     TResult Function()? fetchBranches,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
+    TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
     TResult Function()? getReviews,
@@ -971,6 +1201,7 @@ class _$GetReviewsImpl implements _GetReviews {
     required TResult Function(_FetchBranches value) fetchBranches,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
     required TResult Function(_GetReviews value) getReviews,
@@ -987,6 +1218,7 @@ class _$GetReviewsImpl implements _GetReviews {
     TResult? Function(_FetchBranches value)? fetchBranches,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
     TResult? Function(_GetReviews value)? getReviews,
@@ -1003,6 +1235,7 @@ class _$GetReviewsImpl implements _GetReviews {
     TResult Function(_FetchBranches value)? fetchBranches,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
     TResult Function(_GetReviews value)? getReviews,
@@ -1093,6 +1326,7 @@ class _$PostReviewsImpl implements _PostReviews {
     required TResult Function() fetchBranches,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
+    required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
     required TResult Function() getReviews,
@@ -1110,6 +1344,7 @@ class _$PostReviewsImpl implements _PostReviews {
     TResult? Function()? fetchBranches,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
+    TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
     TResult? Function()? getReviews,
@@ -1127,6 +1362,7 @@ class _$PostReviewsImpl implements _PostReviews {
     TResult Function()? fetchBranches,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
+    TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
     TResult Function()? getReviews,
@@ -1148,6 +1384,7 @@ class _$PostReviewsImpl implements _PostReviews {
     required TResult Function(_FetchBranches value) fetchBranches,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
     required TResult Function(_GetReviews value) getReviews,
@@ -1164,6 +1401,7 @@ class _$PostReviewsImpl implements _PostReviews {
     TResult? Function(_FetchBranches value)? fetchBranches,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
     TResult? Function(_GetReviews value)? getReviews,
@@ -1180,6 +1418,7 @@ class _$PostReviewsImpl implements _PostReviews {
     TResult Function(_FetchBranches value)? fetchBranches,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
     TResult Function(_GetReviews value)? getReviews,
@@ -1280,6 +1519,7 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
     required TResult Function() fetchBranches,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
+    required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
     required TResult Function() getReviews,
@@ -1297,6 +1537,7 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
     TResult? Function()? fetchBranches,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
+    TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
     TResult? Function()? getReviews,
@@ -1314,6 +1555,7 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
     TResult Function()? fetchBranches,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
+    TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
     TResult Function()? getReviews,
@@ -1335,6 +1577,7 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
     required TResult Function(_FetchBranches value) fetchBranches,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
     required TResult Function(_GetReviews value) getReviews,
@@ -1351,6 +1594,7 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
     TResult? Function(_FetchBranches value)? fetchBranches,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
     TResult? Function(_GetReviews value)? getReviews,
@@ -1367,6 +1611,7 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
     TResult Function(_FetchBranches value)? fetchBranches,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
     TResult Function(_GetReviews value)? getReviews,
@@ -1496,6 +1741,7 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
     required TResult Function() fetchBranches,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
+    required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
     required TResult Function() getReviews,
@@ -1513,6 +1759,7 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
     TResult? Function()? fetchBranches,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
+    TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
     TResult? Function()? getReviews,
@@ -1530,6 +1777,7 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
     TResult Function()? fetchBranches,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
+    TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
     TResult Function()? getReviews,
@@ -1551,6 +1799,7 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
     required TResult Function(_FetchBranches value) fetchBranches,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
     required TResult Function(_GetReviews value) getReviews,
@@ -1567,6 +1816,7 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
     TResult? Function(_FetchBranches value)? fetchBranches,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
     TResult? Function(_GetReviews value)? getReviews,
@@ -1583,6 +1833,7 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
     TResult Function(_FetchBranches value)? fetchBranches,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
     TResult Function(_GetReviews value)? getReviews,
@@ -1636,6 +1887,8 @@ mixin _$BranchState {
       throw _privateConstructorUsedError;
   FormzSubmissionStatus get getBranchesStatus =>
       throw _privateConstructorUsedError;
+  FormzSubmissionStatus get studyLeadStatus =>
+      throw _privateConstructorUsedError;
   List<GetReviewModel> get reviews => throw _privateConstructorUsedError;
   List<BranchModel> get branches => throw _privateConstructorUsedError;
   List<AwardsModel> get awards => throw _privateConstructorUsedError;
@@ -1670,6 +1923,7 @@ abstract class $BranchStateCopyWith<$Res> {
       FormzSubmissionStatus getReviewStatus,
       FormzSubmissionStatus postReviewStatus,
       FormzSubmissionStatus getBranchesStatus,
+      FormzSubmissionStatus studyLeadStatus,
       List<GetReviewModel> reviews,
       List<BranchModel> branches,
       List<AwardsModel> awards,
@@ -1706,6 +1960,7 @@ class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
     Object? getReviewStatus = null,
     Object? postReviewStatus = null,
     Object? getBranchesStatus = null,
+    Object? studyLeadStatus = null,
     Object? reviews = null,
     Object? branches = null,
     Object? awards = null,
@@ -1763,6 +2018,10 @@ class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
           ? _value.getBranchesStatus
           : getBranchesStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      studyLeadStatus: null == studyLeadStatus
+          ? _value.studyLeadStatus
+          : studyLeadStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       reviews: null == reviews
           ? _value.reviews
           : reviews // ignore: cast_nullable_to_non_nullable
@@ -1816,6 +2075,7 @@ abstract class _$$BranchStateImplCopyWith<$Res>
       FormzSubmissionStatus getReviewStatus,
       FormzSubmissionStatus postReviewStatus,
       FormzSubmissionStatus getBranchesStatus,
+      FormzSubmissionStatus studyLeadStatus,
       List<GetReviewModel> reviews,
       List<BranchModel> branches,
       List<AwardsModel> awards,
@@ -1850,6 +2110,7 @@ class __$$BranchStateImplCopyWithImpl<$Res>
     Object? getReviewStatus = null,
     Object? postReviewStatus = null,
     Object? getBranchesStatus = null,
+    Object? studyLeadStatus = null,
     Object? reviews = null,
     Object? branches = null,
     Object? awards = null,
@@ -1907,6 +2168,10 @@ class __$$BranchStateImplCopyWithImpl<$Res>
           ? _value.getBranchesStatus
           : getBranchesStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      studyLeadStatus: null == studyLeadStatus
+          ? _value.studyLeadStatus
+          : studyLeadStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       reviews: null == reviews
           ? _value._reviews
           : reviews // ignore: cast_nullable_to_non_nullable
@@ -1955,6 +2220,7 @@ class _$BranchStateImpl extends _BranchState {
       this.getReviewStatus = FormzSubmissionStatus.initial,
       this.postReviewStatus = FormzSubmissionStatus.initial,
       this.getBranchesStatus = FormzSubmissionStatus.initial,
+      this.studyLeadStatus = FormzSubmissionStatus.initial,
       final List<GetReviewModel> reviews = const [],
       final List<BranchModel> branches = const [],
       final List<AwardsModel> awards = const [],
@@ -2003,6 +2269,9 @@ class _$BranchStateImpl extends _BranchState {
   @override
   @JsonKey()
   final FormzSubmissionStatus getBranchesStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus studyLeadStatus;
   final List<GetReviewModel> _reviews;
   @override
   @JsonKey()
@@ -2045,7 +2314,7 @@ class _$BranchStateImpl extends _BranchState {
 
   @override
   String toString() {
-    return 'BranchState(loading: $loading, error: $error, success: $success, reviewBranch: $reviewBranch, reviewComment: $reviewComment, reviewRank: $reviewRank, branchId: $branchId, activityStatus: $activityStatus, branchDetailStatus: $branchDetailStatus, getReviewStatus: $getReviewStatus, postReviewStatus: $postReviewStatus, getBranchesStatus: $getBranchesStatus, reviews: $reviews, branches: $branches, awards: $awards, study: $study, branchDetail: $branchDetail, offerta: $offerta, medionActivity: $medionActivity)';
+    return 'BranchState(loading: $loading, error: $error, success: $success, reviewBranch: $reviewBranch, reviewComment: $reviewComment, reviewRank: $reviewRank, branchId: $branchId, activityStatus: $activityStatus, branchDetailStatus: $branchDetailStatus, getReviewStatus: $getReviewStatus, postReviewStatus: $postReviewStatus, getBranchesStatus: $getBranchesStatus, studyLeadStatus: $studyLeadStatus, reviews: $reviews, branches: $branches, awards: $awards, study: $study, branchDetail: $branchDetail, offerta: $offerta, medionActivity: $medionActivity)';
   }
 
   @override
@@ -2074,6 +2343,8 @@ class _$BranchStateImpl extends _BranchState {
                 other.postReviewStatus == postReviewStatus) &&
             (identical(other.getBranchesStatus, getBranchesStatus) ||
                 other.getBranchesStatus == getBranchesStatus) &&
+            (identical(other.studyLeadStatus, studyLeadStatus) ||
+                other.studyLeadStatus == studyLeadStatus) &&
             const DeepCollectionEquality().equals(other._reviews, _reviews) &&
             const DeepCollectionEquality().equals(other._branches, _branches) &&
             const DeepCollectionEquality().equals(other._awards, _awards) &&
@@ -2100,6 +2371,7 @@ class _$BranchStateImpl extends _BranchState {
         getReviewStatus,
         postReviewStatus,
         getBranchesStatus,
+        studyLeadStatus,
         const DeepCollectionEquality().hash(_reviews),
         const DeepCollectionEquality().hash(_branches),
         const DeepCollectionEquality().hash(_awards),
@@ -2132,6 +2404,7 @@ abstract class _BranchState extends BranchState {
       final FormzSubmissionStatus getReviewStatus,
       final FormzSubmissionStatus postReviewStatus,
       final FormzSubmissionStatus getBranchesStatus,
+      final FormzSubmissionStatus studyLeadStatus,
       final List<GetReviewModel> reviews,
       final List<BranchModel> branches,
       final List<AwardsModel> awards,
@@ -2165,6 +2438,8 @@ abstract class _BranchState extends BranchState {
   FormzSubmissionStatus get postReviewStatus;
   @override
   FormzSubmissionStatus get getBranchesStatus;
+  @override
+  FormzSubmissionStatus get studyLeadStatus;
   @override
   List<GetReviewModel> get reviews;
   @override

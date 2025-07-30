@@ -100,7 +100,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                                               currentDay: _today.value,
                                               focusedDay: DateTime(2025, 07, 30),
                                               firstDay: DateTime(2020, 06, 25),
-                                              lastDay: DateTime(2025, 09, 30),
+                                              lastDay: DateTime(2027, 09, 30),
                                             );
                                           },
                                         ),

@@ -24,9 +24,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
   @override
   void initState() {
     super.initState();
-    if (mounted) {
-      context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
-    }
+    context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
   }
 
   @override

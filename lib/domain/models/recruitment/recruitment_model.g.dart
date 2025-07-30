@@ -370,6 +370,9 @@ class _$UploadVacancyModelSerializer
       'resume',
       serializers.serialize(object.resume,
           specifiedType: const FullType(String)),
+      'phone',
+      serializers.serialize(object.phone,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -405,6 +408,10 @@ class _$UploadVacancyModelSerializer
           break;
         case 'resume':
           result.resume = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'phone':
+          result.phone = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
       }
@@ -1185,6 +1192,8 @@ class _$UploadVacancyModel extends UploadVacancyModel {
   final String lastName;
   @override
   final String resume;
+  @override
+  final String phone;
 
   factory _$UploadVacancyModel(
           [void Function(UploadVacancyModelBuilder)? updates]) =>
@@ -1195,7 +1204,8 @@ class _$UploadVacancyModel extends UploadVacancyModel {
       required this.companyId,
       required this.name,
       required this.lastName,
-      required this.resume})
+      required this.resume,
+      required this.phone})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'UploadVacancyModel', 'id');
     BuiltValueNullFieldError.checkNotNull(
@@ -1205,6 +1215,8 @@ class _$UploadVacancyModel extends UploadVacancyModel {
         lastName, r'UploadVacancyModel', 'lastName');
     BuiltValueNullFieldError.checkNotNull(
         resume, r'UploadVacancyModel', 'resume');
+    BuiltValueNullFieldError.checkNotNull(
+        phone, r'UploadVacancyModel', 'phone');
   }
 
   @override
@@ -1224,7 +1236,8 @@ class _$UploadVacancyModel extends UploadVacancyModel {
         companyId == other.companyId &&
         name == other.name &&
         lastName == other.lastName &&
-        resume == other.resume;
+        resume == other.resume &&
+        phone == other.phone;
   }
 
   @override
@@ -1235,6 +1248,7 @@ class _$UploadVacancyModel extends UploadVacancyModel {
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, lastName.hashCode);
     _$hash = $jc(_$hash, resume.hashCode);
+    _$hash = $jc(_$hash, phone.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -1246,7 +1260,8 @@ class _$UploadVacancyModel extends UploadVacancyModel {
           ..add('companyId', companyId)
           ..add('name', name)
           ..add('lastName', lastName)
-          ..add('resume', resume))
+          ..add('resume', resume)
+          ..add('phone', phone))
         .toString();
   }
 }
@@ -1275,6 +1290,10 @@ class UploadVacancyModelBuilder
   String? get resume => _$this._resume;
   set resume(String? resume) => _$this._resume = resume;
 
+  String? _phone;
+  String? get phone => _$this._phone;
+  set phone(String? phone) => _$this._phone = phone;
+
   UploadVacancyModelBuilder();
 
   UploadVacancyModelBuilder get _$this {
@@ -1285,6 +1304,7 @@ class UploadVacancyModelBuilder
       _name = $v.name;
       _lastName = $v.lastName;
       _resume = $v.resume;
+      _phone = $v.phone;
       _$v = null;
     }
     return this;
@@ -1317,6 +1337,8 @@ class UploadVacancyModelBuilder
               lastName, r'UploadVacancyModel', 'lastName'),
           resume: BuiltValueNullFieldError.checkNotNull(
               resume, r'UploadVacancyModel', 'resume'),
+          phone: BuiltValueNullFieldError.checkNotNull(
+              phone, r'UploadVacancyModel', 'phone'),
         );
     replace(_$result);
     return _$result;

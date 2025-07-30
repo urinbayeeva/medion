@@ -121,9 +121,13 @@ class IconSet {
   final String checkCalendar;
   final String qr;
   final String paymentCheck;
+  final String linkIcon;
+  final String donePay;
 
   const IconSet._({
     required this.qr,
+    required this.donePay,
+    required this.linkIcon,
     required this.paymentCheck,
     required this.checkCalendar,
     required this.clockLaunch,
@@ -251,6 +255,8 @@ class IconSet {
 
   static IconSet get create {
     return const IconSet._(
+      donePay: "assets/icons/done_payment.svg",
+      linkIcon: "assets/icons/link_icon.svg",
       paymentCheck: "assets/icons/payment_check.svg",
       qr: "assets/icons/qr.svg",
       checkCalendar: "assets/icons/check_calendar.svg",

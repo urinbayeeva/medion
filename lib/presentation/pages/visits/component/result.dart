@@ -47,17 +47,21 @@ class Result extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
+                  padding: EdgeInsets.fromLTRB(10.0.w, 20.h, 10.0.w, 10.0.h),
                   child: Row(
                     spacing: 8,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(docUrls[index].documentName ?? '', style: fonts.smallTagSecond),
-                          Text(docUrls[index].date ?? '', style: fonts.xSmallText.copyWith(color: colors.neutral600)),
-                        ],
+                      SizedBox(
+                        width: 0.60.sw,
+                        child: Column(
+                          spacing: 8.h,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(docUrls[index].documentName ?? '', style: fonts.smallTagSecond),
+                            Text(docUrls[index].date ?? '', style: fonts.xSmallText.copyWith(color: colors.neutral600)),
+                          ],
+                        ),
                       ),
                       const Spacer(),
                       WScaleAnimation(

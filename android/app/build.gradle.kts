@@ -12,7 +12,7 @@ plugins {
 android {
     namespace = "com.example.medion"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "27.0.12077973"
+    ndkVersion = "28.1.13356709"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -52,4 +52,5 @@ flutter {
 dependencies {
     implementation("androidx.core:core-ktx:1.10.1")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    implementation("com.yandex.android:maps.mobile:4.4.0-full")
 }

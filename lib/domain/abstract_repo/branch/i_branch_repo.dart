@@ -11,6 +11,8 @@ abstract class IBranchRepository {
 
   Future<Either<ResponseFailure, EducationModel>> fetchStudy();
 
+  Future<Either<ResponseFailure, StudyLeadResult>> studyLead({required StudyLead report});
+
   Future<Either<ResponseFailure, OfferModel>> getOfferta();
 
   Future<Either<ResponseFailure, MedionModel>> getMedionActivity();

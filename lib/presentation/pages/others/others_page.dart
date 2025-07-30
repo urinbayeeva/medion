@@ -13,7 +13,7 @@ class OthersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
-      builder: (context, colors, fonts, icons, controller) {
+      builder: (ctx, colors, fonts, icons, controller) {
         return Scaffold(
           resizeToAvoidBottomInset: true,
           backgroundColor: colors.backgroundColor,
@@ -30,10 +30,17 @@ class OthersPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _sectionHeader("about_the_company".tr(), fonts),
-                _sectionContent(othersData),
-                // _sectionHeader("others".tr(), fonts),
-                // _sectionContentSecond(othersDataSecond),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.h, bottom: 12.h),
+                  child: Text("about_the_company".tr(), style: fonts.regularSemLink),
+                ),
+                // _sectionContent(othersData),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 16.h, 0, 12.h),
+                  child: OthersPageComp(data: first),
+                ),
+                _sectionHeader("others".tr(), fonts),
+                _sectionContentSecond(second),
                 60.h.verticalSpace,
               ],
             ),
@@ -49,16 +56,9 @@ class OthersPage extends StatelessWidget {
       child: Text(title, style: fonts.regularSemLink),
     );
   }
-
-  Widget _sectionContent(List<dynamic> data) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 24.h),
-      child: OthersPageComp(data: data),
-    );
-  }
 }
 
-Widget _sectionContentSecond(List<dynamic> data) {
+Widget _sectionContentSecond(List<OthersPageData> data) {
   return Padding(
     padding: EdgeInsets.only(bottom: 24.h),
     child: SecondOthersPage(data: data),

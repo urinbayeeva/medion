@@ -234,15 +234,22 @@ abstract class NotificationService extends ChopperService {
     @Header('requires-token') String requiresToken = "true",
   });
 
+  @Get(path: "/notifications")
+  Future<Response<NotificationModel>> getNotificationSingle({
+    @Query('type') String? type,
+    @Query('pk') int? pk,
+    @Header('requires-token') String requiresToken = "true",
+  });
+
   @Post(path: "/send-review-visit")
   Future<Response<NotificationSendReview>> postNotificationReview({
     @Body() required PostVisitReviewModel visitReview,
     @Header('requires-token') String requiresToken = "true",
   });
 
-  @Put(path: "/notifications/{notification_id}/read", optionalBody: true)
-  Future<Response<BuiltList<NotificationModel>>> readNotification({
-    @Path('notification_id') int? notificationId,
+  @Patch(path: "/notifications/read", optionalBody: true)
+  Future<Response<NotificationModel>> readNotification({
+    @Query('notification_id') int? notificationId,
     @Header('requires-token') String requiresToken = "true",
   });
 
@@ -261,8 +268,15 @@ abstract class StudyService extends ChopperService {
   @Get(path: "/study")
   Future<Response<EducationModel>> getStudy();
 
+  @Post(path: "/study-lead")
+  Future<Response<StudyLeadResult>> studyLead({
+    @Body() required StudyLead report,
+  });
+
   @Get(path: "/company/get-reviews")
-  Future<Response<BuiltList<GetReviewModel>>> getReviews();
+  Future<Response<BuiltList<GetReviewModel>>> getReviews({
+    @Header('requires-token') String requiresToken = "true",
+  });
 
   @Post(path: "/company/send-review")
   Future<Response<PostReviewResult>> postReviews({

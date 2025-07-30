@@ -5,8 +5,7 @@ import 'package:medion/utils/helpers/decode_html.dart';
 
 part 'medical_services.g.dart';
 
-abstract class DiagnosticsModel
-    implements Built<DiagnosticsModel, DiagnosticsModelBuilder> {
+abstract class DiagnosticsModel implements Built<DiagnosticsModel, DiagnosticsModelBuilder> {
   @BuiltValueField(wireName: 'title')
   String get title;
 
@@ -30,19 +29,15 @@ abstract class DiagnosticsModel
 
   DiagnosticsModel._();
 
-  factory DiagnosticsModel([void Function(DiagnosticsModelBuilder) updates]) =
-      _$DiagnosticsModel;
+  factory DiagnosticsModel([void Function(DiagnosticsModelBuilder) updates]) = _$DiagnosticsModel;
 
-  static Serializer<DiagnosticsModel> get serializer =>
-      _$diagnosticsModelSerializer;
+  static Serializer<DiagnosticsModel> get serializer => _$diagnosticsModelSerializer;
 }
 
-abstract class DiseaseModle
-    implements Built<DiseaseModle, DiseaseModleBuilder> {
+abstract class DiseaseModle implements Built<DiseaseModle, DiseaseModleBuilder> {
   DiseaseModle._();
 
-  factory DiseaseModle([void Function(DiseaseModleBuilder) updates]) =
-      _$DiseaseModle;
+  factory DiseaseModle([void Function(DiseaseModleBuilder) updates]) = _$DiseaseModle;
 
   @BuiltValueField(wireName: 'name')
   String? get title;
@@ -73,6 +68,9 @@ abstract class AdModel implements Built<AdModel, AdModelBuilder> {
   @BuiltValueField(wireName: 'info')
   String? get info;
 
+  @BuiltValueField(wireName: 'type')
+  String? get type;
+
   @BuiltValueField(wireName: 'image')
   String? get image;
 
@@ -90,6 +88,9 @@ abstract class AdModel implements Built<AdModel, AdModelBuilder> {
 
   @BuiltValueField(wireName: "image_for_mobile_ru")
   String? get imageForMobileRu;
+
+  @BuiltValueField(wireName: "content_id")
+  int? get contentId;
 
   static Serializer<AdModel> get serializer => _$adModelSerializer;
 }

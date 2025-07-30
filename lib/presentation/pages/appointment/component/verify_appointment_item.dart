@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/presentation/component/c_divider.dart';
-import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/extensions.dart';
@@ -52,107 +51,117 @@ class VerifyAppointmentItem extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.r),
             color: colors.shade0,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
+            border: Border.all(color: colors.neutral200),
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Colors.black.withOpacity(0.05),
+            //     blurRadius: 4,
+            //     offset: const Offset(0, 2),
+            //   ),
+            // ],
           ),
-          child: Row(
+          // // Container(
+          // //   width: 80.w,
+          // //   height: 80.w,
+          // //   decoration: BoxDecoration(
+          // //     borderRadius: BorderRadius.circular(8.r),
+          // //     color: colors.shade0,
+          // //     border: Border.all(color: colors.neutral300),
+          // //   ),
+          // //   child: CachedImageComponent(
+          // //     height: 50.w,
+          // //     width: 50.w,
+          // //     imageUrl: imagePath,
+          // //   ),
+          // // ),
+          // 12.w.horizontalSpace,
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 80.w,
-                height: 80.w,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: colors.primary900),
-                child: CachedImageComponent(height: 50.w, width: 50.w, imageUrl: imagePath),
-              ),
-              12.w.horizontalSpace,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
                       diagnosis,
+                      maxLines: 2,
                       style: fonts.smallMain.copyWith(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w600,
                         color: colors.primary900,
                       ),
                     ),
-                    4.h.verticalSpace,
-                    Text(
-                      procedure,
-                      style: fonts.smallMain.copyWith(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w400,
+                  ),
+                  GestureDetector(
+                    onTap: onCancel,
+                    child: Container(
+                      padding: EdgeInsets.all(4.w),
+                      child: icons.cancel.svg(
+                        width: 20.w,
+                        height: 20.h,
                         color: colors.neutral600,
                       ),
                     ),
-                    8.h.verticalSpace,
-                    // Doctor Info
-                    const CDivider(),
-                    Text(
-                      doctorName,
-                      style: fonts.smallMain.copyWith(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w600,
-                        color: colors.primary900,
-                      ),
-                    ),
-                    4.h.verticalSpace,
-                    Text(
-                      "sum".tr(namedArgs: {"amount": _formatNumber(price)}),
-                      style: fonts.smallMain.copyWith(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w400,
-                        color: colors.neutral600,
-                      ),
-                    ),
-                    8.h.verticalSpace,
-                    const CDivider(),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      spacing: 4.h,
-                      children: [
-                        _buildInfoRow(
-                          icon: icons.calendar.svg(width: 16.w, height: 16.h, color: colors.error500),
-                          text: dateFormatted.toCapitalized(),
-                          colors: colors,
-                          fonts: fonts,
-                        ),
-                        _buildInfoRow(
-                          icon: icons.clock.svg(width: 16.w, height: 16.h, color: colors.error500),
-                          text: timeFormatted.toCapitalized(),
-                          colors: colors,
-                          fonts: fonts,
-                        ),
-                        _buildInfoRow(
-                          icon: icons.mapPin.svg(width: 16.w, height: 16.h, color: colors.error500),
-                          text: location,
-                          colors: colors,
-                          fonts: fonts,
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
+                ],
+              ),
+              4.h.verticalSpace,
+              Text(
+                procedure,
+                style: fonts.smallMain.copyWith(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w400,
+                  color: colors.neutral600,
                 ),
               ),
-              8.w.horizontalSpace,
-              GestureDetector(
-                onTap: onCancel,
-                child: Container(
-                  padding: EdgeInsets.all(4.w),
-                  child: icons.cancel.svg(
-                    width: 20.w,
-                    height: 20.h,
-                    color: colors.neutral600,
-                  ),
+              8.h.verticalSpace,
+              // Doctor Info
+              const CDivider(),
+              Text(
+                doctorName,
+                style: fonts.smallMain.copyWith(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w600,
+                  color: colors.primary900,
                 ),
+              ),
+              4.h.verticalSpace,
+              Text(
+                "sum".tr(namedArgs: {"amount": _formatNumber(price)}),
+                style: fonts.smallMain.copyWith(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w400,
+                  color: colors.neutral600,
+                ),
+              ),
+              8.h.verticalSpace,
+              const CDivider(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                spacing: 4.h,
+                children: [
+                  _buildInfoRow(
+                    icon: icons.calendar.svg(width: 16.w, height: 16.h, color: colors.neutral500),
+                    text: dateFormatted.toCapitalized(),
+                    colors: colors,
+                    fonts: fonts,
+                  ),
+                  _buildInfoRow(
+                    icon: icons.clock.svg(width: 16.w, height: 16.h, color: colors.neutral500),
+                    text: timeFormatted.toCapitalized(),
+                    colors: colors,
+                    fonts: fonts,
+                  ),
+                  _buildInfoRow(
+                    icon: icons.mapPin.svg(width: 16.w, height: 16.h, color: colors.neutral500),
+                    text: location,
+                    colors: colors,
+                    fonts: fonts,
+                  ),
+                ],
               ),
             ],
           ),
@@ -164,8 +173,8 @@ class VerifyAppointmentItem extends StatelessWidget {
   Widget _buildInfoRow({
     required Widget icon,
     required String text,
-    required colors,
-    required fonts,
+    required CustomColorSet colors,
+    required FontSet fonts,
   }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

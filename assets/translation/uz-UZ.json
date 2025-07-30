@@ -15,6 +15,7 @@
   "your_upcomings_and_visits": "Sizning kelajakdagi va oxirgi tashriflaringiz",
   "your_doctors_reports_and_test": "Sizning shifokor xulosalaringiz va tahlillaringiz",
   "enter_phone_number": "Telefon raqamingizni kiriting",
+  "enter_phone": "Telefon raqamingizni kiriting",
   "to_enter_make_appoints": "Kirish uchun, shifokor qabuliga yoziling va tashriflaringizni kuzating",
   "enter_email": "E-mail manzilingizni kiriting",
   "enter_verification_code": "Tasdiqlash kodini kiriting",
@@ -412,5 +413,8 @@
   "about_the_admission": "Adminstratsiya",
   "result": "Natijalar",
   "select_profile": "Profilni tanlang",
+  "go": "O'tish",
+  "connect_with_us": "Biz bilan bog'lanish",
+  "career_offer": "Biz muhim bo'lgan narsaga e'tibor beramiz va taklif qilamiz",
   "": ""
 }

@@ -2,8 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
+import 'package:medion/presentation/pages/home/doctors/inner_page/home_doctor_item.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -11,9 +13,10 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/helpers/decode_html.dart';
 
 class BuildDoctorsCategory extends StatelessWidget {
-  const BuildDoctorsCategory({super.key, required this.titleAndAction});
+  const BuildDoctorsCategory({super.key, required this.titleAndAction, required this.controller});
 
   final Widget titleAndAction;
+  final ScrollController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -51,42 +54,44 @@ class BuildDoctorsCategory extends StatelessWidget {
 
             return Column(
               children: [
-                titleAndAction,
+                Padding(
+                  padding: EdgeInsets.only(left: 12.0.w),
+                  child: titleAndAction,
+                ),
                 SizedBox(
-                  height: 330.h,
+                  height: 340.h,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.zero,
                     itemCount: limitedDoctors.length,
+                    key: const PageStorageKey<String>('home_doctors_category'),
                     itemBuilder: (context, index) {
                       final doctor = limitedDoctors[index];
-                      return DoctorsItem(
-                        onTap: () {
-                          context.read<BottomNavBarController>().changeNavBar(true);
-                          Navigator.push(
-                            context,
-                            AppRoutes.getAboutDoctorPage(
-                              name: doctor['name'].toString(),
-                              profession: doctor['profession'].toString(),
-                              status: doctor['name'].toString(),
-                              image: doctor['image'].toString(),
-                              id: doctor['id'],
-                            ),
-                          ).then((_) {
-                            context.read<BottomNavBarController>().changeNavBar(false);
-                          });
-                        },
-                        hasDiscount: doctor['has_discount'] ?? false,
-                        imagePath: doctor['image'].toString(),
-                        name: doctor['name'].toString(),
-                        profession: doctor['profession'].toString(),
-                        status: doctor['profession'].toString(),
-                        gender: doctor['gender'].toString(),
-                        candidateScience: false,
-                        isInnerPageUsed: true,
-                        doctorID: doctor['id'],
-                        experience: "experience".tr(namedArgs: {"count": doctor['work_experience'].toString()}),
-                        academicRank: doctor['academic_rank']?.toString() ?? "",
+                      return Padding(
+                        padding: EdgeInsets.only(left: (index == 0) ? 12.w : 0),
+                        child: HomeDoctorItem(
+                          onTap: () {
+                            Navigator.of(context, rootNavigator: true)
+                                .push(AppRoutes.getAboutDoctorPage(
+                                    name: doctor['name'].toString(),
+                                    profession: doctor['profession'].toString(),
+                                    status: doctor['name'].toString(),
+                                    image: doctor['image'].toString(),
+                                    id: doctor['id']))
+                                .then((v) {
+                              context.read<BottomNavBarController>().changeNavBar(false);
+                            });
+                          },
+                          hasDiscount: doctor['has_discount'] ?? false,
+                          imagePath: doctor['image'].toString(),
+                          name: doctor['name'].toString(),
+                          profession: doctor['profession'].toString(),
+                          infoDescription: doctor['info_description'].toString(),
+                          gender: doctor['gender'].toString(),
+                          doctorID: doctor['id'],
+                          experience: "experience".tr(namedArgs: {"count": doctor['work_experience'].toString()}),
+                          academicRank: doctor['academic_rank']?.toString() ?? "",
+                        ),
                       );
                     },
                   ),

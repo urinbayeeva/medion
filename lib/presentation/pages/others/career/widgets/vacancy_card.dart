@@ -62,7 +62,7 @@ class VacanciesCards extends StatelessWidget {
               CButton(
                 title: "get_know".tr(),
                 textColor: colors.darkMode900,
-                backgroundColor: colors.neutral100,
+                backgroundColor: colors.neutral200,
                 onTap: () {
                   Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(builder: (context) {
                     return VacancySingle(vacancy: vacancy, bloc: bloc);

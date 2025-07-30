@@ -638,6 +638,30 @@ final class _$NotificationService extends NotificationService {
   }
 
   @override
+  Future<Response<NotificationModel>> getNotificationSingle({
+    String? type,
+    int? pk,
+    String requiresToken = "true",
+  }) {
+    final Uri $url = Uri.parse('/notifications');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'type': type,
+      'pk': pk,
+    };
+    final Map<String, String> $headers = {
+      'requires-token': requiresToken,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      headers: $headers,
+    );
+    return client.send<NotificationModel, NotificationModel>($request);
+  }
+
+  @override
   Future<Response<NotificationSendReview>> postNotificationReview({
     required PostVisitReviewModel visitReview,
     String requiresToken = "true",
@@ -659,22 +683,25 @@ final class _$NotificationService extends NotificationService {
   }
 
   @override
-  Future<Response<BuiltList<NotificationModel>>> readNotification({
+  Future<Response<NotificationModel>> readNotification({
     int? notificationId,
     String requiresToken = "true",
   }) {
-    final Uri $url = Uri.parse('/notifications/${notificationId}/read');
+    final Uri $url = Uri.parse('/notifications/read');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'notification_id': notificationId
+    };
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
     };
     final Request $request = Request(
-      'PUT',
+      'PATCH',
       $url,
       client.baseUrl,
+      parameters: $params,
       headers: $headers,
     );
-    return client
-        .send<BuiltList<NotificationModel>, NotificationModel>($request);
+    return client.send<NotificationModel, NotificationModel>($request);
   }
 
   @override
@@ -721,12 +748,30 @@ final class _$StudyService extends StudyService {
   }
 
   @override
-  Future<Response<BuiltList<GetReviewModel>>> getReviews() {
+  Future<Response<StudyLeadResult>> studyLead({required StudyLead report}) {
+    final Uri $url = Uri.parse('/study-lead');
+    final $body = report;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<StudyLeadResult, StudyLeadResult>($request);
+  }
+
+  @override
+  Future<Response<BuiltList<GetReviewModel>>> getReviews(
+      {String requiresToken = "true"}) {
     final Uri $url = Uri.parse('/company/get-reviews');
+    final Map<String, String> $headers = {
+      'requires-token': requiresToken,
+    };
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
+      headers: $headers,
     );
     return client.send<BuiltList<GetReviewModel>, GetReviewModel>($request);
   }

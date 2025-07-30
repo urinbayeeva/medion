@@ -16,6 +16,7 @@ class AuthState with _$AuthState {
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus fetchRecommendationStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus fetchRecipeStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus cancelVisitStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus userInfoStatus,
     @Default([]) List<RecipeModel> recipes,
     @Default([]) List<Recommendation> recommendation,
     @Default([]) List<PatientOrder> moves,

@@ -17,6 +17,7 @@ class BranchState with _$BranchState {
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus getReviewStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus postReviewStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus getBranchesStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus studyLeadStatus,
     @Default([]) List<GetReviewModel> reviews,
     @Default([]) List<BranchModel> branches,
     @Default([]) List<AwardsModel> awards,

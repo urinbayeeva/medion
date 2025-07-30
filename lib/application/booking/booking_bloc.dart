@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
@@ -9,6 +10,7 @@ import 'package:medion/domain/models/third_service_model/third_service_model.dar
 import 'package:medion/infrastructure/repository/booking_repository.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
+import 'package:medion/presentation/pages/home/directions/component/inner_pages/directions_info_page.dart';
 
 part 'booking_bloc.freezed.dart';
 
@@ -232,11 +234,34 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           ));
         },
         (data) {
-          emit(state.copyWith(
-            loading: false,
-            success: true,
-            medicalModel: data,
-          ));
+          final items = <DirectionScrollingItem>[
+            DirectionScrollingItem(
+              checker: DirectionInfoEnum.info,
+              title: "all_informations",
+              itemKey: GlobalKey(),
+              canSee: data.decodedTitle.isNotEmpty,
+            ),
+            DirectionScrollingItem(
+              checker: DirectionInfoEnum.discounts,
+              title: "discounts",
+              itemKey: GlobalKey(),
+              canSee: data.discount.isNotEmpty,
+            ),
+            DirectionScrollingItem(
+              checker: DirectionInfoEnum.doctors,
+              title: "doctors",
+              itemKey: GlobalKey(),
+              canSee: data.doctors.isNotEmpty,
+            ),
+            DirectionScrollingItem(
+              checker: DirectionInfoEnum.services,
+              title: "services",
+              itemKey: GlobalKey(),
+              canSee: data.services.isNotEmpty,
+            ),
+          ];
+
+          emit(state.copyWith(loading: false, success: true, medicalModel: data, items: items));
         },
       );
     } catch (e) {

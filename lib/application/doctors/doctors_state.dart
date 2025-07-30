@@ -9,6 +9,7 @@ class DoctorState with _$DoctorState {
     @Default(false) bool error,
     @Default(false) bool success,
     @Default(null) DoctorCategory? doctors,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus doctorSingleStatus,
 
     // Doctor details specific state
     @Default(false) bool doctorDetailsLoading,

@@ -3550,6 +3550,8 @@ mixin _$AuthState {
       throw _privateConstructorUsedError;
   FormzSubmissionStatus get cancelVisitStatus =>
       throw _privateConstructorUsedError;
+  FormzSubmissionStatus get userInfoStatus =>
+      throw _privateConstructorUsedError;
   List<RecipeModel> get recipes => throw _privateConstructorUsedError;
   List<Recommendation> get recommendation => throw _privateConstructorUsedError;
   List<PatientOrder> get moves => throw _privateConstructorUsedError;
@@ -3605,6 +3607,7 @@ abstract class $AuthStateCopyWith<$Res> {
       FormzSubmissionStatus fetchRecommendationStatus,
       FormzSubmissionStatus fetchRecipeStatus,
       FormzSubmissionStatus cancelVisitStatus,
+      FormzSubmissionStatus userInfoStatus,
       List<RecipeModel> recipes,
       List<Recommendation> recommendation,
       List<PatientOrder> moves,
@@ -3660,6 +3663,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? fetchRecommendationStatus = null,
     Object? fetchRecipeStatus = null,
     Object? cancelVisitStatus = null,
+    Object? userInfoStatus = null,
     Object? recipes = null,
     Object? recommendation = null,
     Object? moves = null,
@@ -3729,6 +3733,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
       cancelVisitStatus: null == cancelVisitStatus
           ? _value.cancelVisitStatus
           : cancelVisitStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      userInfoStatus: null == userInfoStatus
+          ? _value.userInfoStatus
+          : userInfoStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
       recipes: null == recipes
           ? _value.recipes
@@ -3865,6 +3873,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       FormzSubmissionStatus fetchRecommendationStatus,
       FormzSubmissionStatus fetchRecipeStatus,
       FormzSubmissionStatus cancelVisitStatus,
+      FormzSubmissionStatus userInfoStatus,
       List<RecipeModel> recipes,
       List<Recommendation> recommendation,
       List<PatientOrder> moves,
@@ -3918,6 +3927,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? fetchRecommendationStatus = null,
     Object? fetchRecipeStatus = null,
     Object? cancelVisitStatus = null,
+    Object? userInfoStatus = null,
     Object? recipes = null,
     Object? recommendation = null,
     Object? moves = null,
@@ -3987,6 +3997,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
       cancelVisitStatus: null == cancelVisitStatus
           ? _value.cancelVisitStatus
           : cancelVisitStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      userInfoStatus: null == userInfoStatus
+          ? _value.userInfoStatus
+          : userInfoStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
       recipes: null == recipes
           ? _value._recipes
@@ -4118,6 +4132,7 @@ class _$AuthStateImpl extends _AuthState {
       this.fetchRecommendationStatus = FormzSubmissionStatus.initial,
       this.fetchRecipeStatus = FormzSubmissionStatus.initial,
       this.cancelVisitStatus = FormzSubmissionStatus.initial,
+      this.userInfoStatus = FormzSubmissionStatus.initial,
       final List<RecipeModel> recipes = const [],
       final List<Recommendation> recommendation = const [],
       final List<PatientOrder> moves = const [],
@@ -4183,6 +4198,9 @@ class _$AuthStateImpl extends _AuthState {
   @override
   @JsonKey()
   final FormzSubmissionStatus cancelVisitStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus userInfoStatus;
   final List<RecipeModel> _recipes;
   @override
   @JsonKey()
@@ -4300,7 +4318,7 @@ class _$AuthStateImpl extends _AuthState {
 
   @override
   String toString() {
-    return 'AuthState(proceedToHome: $proceedToHome, haveToken: $haveToken, userStatus: $userStatus, verifyStatus: $verifyStatus, fetchPatientAnalyseStatus: $fetchPatientAnalyseStatus, fetchPatientVisitStatus: $fetchPatientVisitStatus, fetchPatientVisitSingleStatus: $fetchPatientVisitSingleStatus, fetchRecommendationStatus: $fetchRecommendationStatus, fetchRecipeStatus: $fetchRecipeStatus, cancelVisitStatus: $cancelVisitStatus, recipes: $recipes, recommendation: $recommendation, moves: $moves, visits: $visits, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, patientVisitSingle: $patientVisitSingle, cancelVisitResult: $cancelVisitResult, registrationResponse: $registrationResponse)';
+    return 'AuthState(proceedToHome: $proceedToHome, haveToken: $haveToken, userStatus: $userStatus, verifyStatus: $verifyStatus, fetchPatientAnalyseStatus: $fetchPatientAnalyseStatus, fetchPatientVisitStatus: $fetchPatientVisitStatus, fetchPatientVisitSingleStatus: $fetchPatientVisitSingleStatus, fetchRecommendationStatus: $fetchRecommendationStatus, fetchRecipeStatus: $fetchRecipeStatus, cancelVisitStatus: $cancelVisitStatus, userInfoStatus: $userInfoStatus, recipes: $recipes, recommendation: $recommendation, moves: $moves, visits: $visits, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, patientVisitSingle: $patientVisitSingle, cancelVisitResult: $cancelVisitResult, registrationResponse: $registrationResponse)';
   }
 
   @override
@@ -4329,6 +4347,8 @@ class _$AuthStateImpl extends _AuthState {
                 other.fetchRecipeStatus == fetchRecipeStatus) &&
             (identical(other.cancelVisitStatus, cancelVisitStatus) ||
                 other.cancelVisitStatus == cancelVisitStatus) &&
+            (identical(other.userInfoStatus, userInfoStatus) ||
+                other.userInfoStatus == userInfoStatus) &&
             const DeepCollectionEquality().equals(other._recipes, _recipes) &&
             const DeepCollectionEquality()
                 .equals(other._recommendation, _recommendation) &&
@@ -4354,8 +4374,7 @@ class _$AuthStateImpl extends _AuthState {
                 other.isFetchingPatientInfo == isFetchingPatientInfo) &&
             (identical(other.errorFetchingPatientInfo, errorFetchingPatientInfo) ||
                 other.errorFetchingPatientInfo == errorFetchingPatientInfo) &&
-            (identical(other.pickedImagePath, pickedImagePath) ||
-                other.pickedImagePath == pickedImagePath) &&
+            (identical(other.pickedImagePath, pickedImagePath) || other.pickedImagePath == pickedImagePath) &&
             (identical(other.isLoadingVisits, isLoadingVisits) || other.isLoadingVisits == isLoadingVisits) &&
             (identical(other.errorFetchingVisits, errorFetchingVisits) || other.errorFetchingVisits == errorFetchingVisits) &&
             const DeepCollectionEquality().equals(other._patientVisits, _patientVisits) &&
@@ -4384,6 +4403,7 @@ class _$AuthStateImpl extends _AuthState {
         fetchRecommendationStatus,
         fetchRecipeStatus,
         cancelVisitStatus,
+        userInfoStatus,
         const DeepCollectionEquality().hash(_recipes),
         const DeepCollectionEquality().hash(_recommendation),
         const DeepCollectionEquality().hash(_moves),
@@ -4435,6 +4455,7 @@ abstract class _AuthState extends AuthState {
       final FormzSubmissionStatus fetchRecommendationStatus,
       final FormzSubmissionStatus fetchRecipeStatus,
       final FormzSubmissionStatus cancelVisitStatus,
+      final FormzSubmissionStatus userInfoStatus,
       final List<RecipeModel> recipes,
       final List<Recommendation> recommendation,
       final List<PatientOrder> moves,
@@ -4485,6 +4506,8 @@ abstract class _AuthState extends AuthState {
   FormzSubmissionStatus get fetchRecipeStatus;
   @override
   FormzSubmissionStatus get cancelVisitStatus;
+  @override
+  FormzSubmissionStatus get userInfoStatus;
   @override
   List<RecipeModel> get recipes;
   @override

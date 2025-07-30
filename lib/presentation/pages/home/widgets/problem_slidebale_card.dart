@@ -10,10 +10,23 @@ import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
-class ProblemSlidebaleCard extends StatelessWidget {
+class ProblemSlidebaleCard extends StatefulWidget {
+  const ProblemSlidebaleCard({super.key, required this.isChildren});
+
   final bool isChildren;
 
-  const ProblemSlidebaleCard({super.key, required this.isChildren});
+  @override
+  State<ProblemSlidebaleCard> createState() => _ProblemSlidebaleCardState();
+}
+
+class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
+  late final ScrollController _controller;
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +39,8 @@ class ProblemSlidebaleCard extends StatelessWidget {
           },
           builder: (context, state) {
             if (state.loading) return const SizedBox.shrink();
-            final filteredDiseases = state.diseases.where((disease) => disease.forChildren == isChildren).toList();
+            final filteredDiseases =
+                state.diseases.where((disease) => disease.forChildren == widget.isChildren).toList();
 
             if (filteredDiseases.isEmpty) {
               return Center(
@@ -41,59 +55,62 @@ class ProblemSlidebaleCard extends StatelessWidget {
             }
 
             return SingleChildScrollView(
+              controller: _controller,
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: List.generate(filteredDiseases.length, (index) {
-                  final disease = filteredDiseases[index];
+                key: const PageStorageKey<String>('problem_cards'),
+                children: List.generate(
+                  filteredDiseases.length,
+                  (index) {
+                    final disease = filteredDiseases[index];
 
-                  return Padding(
-                    padding: EdgeInsets.only(right: 8.w),
-                    child: AnimationButtonEffect(
-                      onTap: () {
-                        context.read<BottomNavBarController>().changeNavBar(true);
-                        Navigator.push(
-                          context,
-                          AppRoutes.getDirectionInfoPage(id: disease.categoryId!, name: disease.title!),
-                        ).then((_) {
-                          context.read<BottomNavBarController>().changeNavBar(false);
-                        });
-                      },
-                      child: Container(
-                        width: 109.w,
-                        height: 124.h,
-                        padding: EdgeInsets.all(8.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: colors.shade0,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(4.w),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.r),
-                                color: colors.error500.withOpacity(0.05),
+                    return Padding(
+                      padding: EdgeInsets.only(right: 8.w, left: (index == 0) ? 12.w : 0),
+                      child: AnimationButtonEffect(
+                        onTap: () {
+                          Navigator.of(context, rootNavigator: true)
+                              .push(AppRoutes.getDirectionInfoPage(id: disease.categoryId!, name: disease.title!))
+                              .then((_) {
+                            context.read<BottomNavBarController>().changeNavBar(false);
+                          });
+                        },
+                        child: Container(
+                          width: 109.w,
+                          height: 124.h,
+                          padding: EdgeInsets.all(8.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: colors.shade0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(4.w),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  color: colors.error500.withValues(alpha: 0.05),
+                                ),
+                                child: CachedImageComponent(height: 48.w, width: 48.w, imageUrl: disease.icon!),
                               ),
-                              child: CachedImageComponent(height: 48.w, width: 48.w, imageUrl: disease.icon!),
-                            ),
-                            8.h.verticalSpace,
-                            Text(
-                              disease.title ?? ''.tr(),
-                              style: fonts.xSmallText.copyWith(
-                                color: colors.primary900,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 13.sp,
+                              8.h.verticalSpace,
+                              Text(
+                                disease.title ?? ''.tr(),
+                                style: fonts.xSmallText.copyWith(
+                                  color: colors.primary900,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 13.sp,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  },
+                ),
               ),
             );
           },

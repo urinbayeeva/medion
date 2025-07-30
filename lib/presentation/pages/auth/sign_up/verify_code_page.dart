@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,6 +45,7 @@ class VerifyCodePage extends StatefulWidget {
 
 class _VerifyCodePageState extends State<VerifyCodePage> {
   late TextEditingController _smsController;
+  late final FocusNode _focusNode;
   late SmsAutoFill smsAutoFill;
   late String codeValue;
   int refresh = 0;
@@ -50,6 +53,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
   @override
   void initState() {
     _smsController = TextEditingController();
+    _focusNode = FocusNode();
     smsAutoFill = SmsAutoFill();
     codeValue = "";
     listenOtp();
@@ -59,6 +63,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
   @override
   void dispose() {
     _smsController.dispose();
+    _focusNode.dispose();
     SmsAutoFill().unregisterListener();
     super.dispose();
   }
@@ -83,7 +88,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           backgroundColor: Colors.white,
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(20),
             child: ConstrainedBox(
               constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.6),
               child: MultiUserSelection(users: users),
@@ -102,19 +107,8 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
             );
         context.read<DBService>().setLang(isSaved: true);
         context.read<BottomNavBarController>().changeNavBar(false);
-
+        _focusNode.unfocus();
         Navigator.pushAndRemoveUntil(context, AppRoutes.getMainPage(0), (route) => false);
-        // if (isNewPatient) {
-        //   context.read<BottomNavBarController>().changeNavBar(false);
-        //
-        //   Navigator.pushAndRemoveUntil(
-        //     context,
-        //     AppRoutes.getDataEntryPage(widget.phoneNumber),
-        //     (route) => false,
-        //   );
-        // } else {
-        //
-        // }
       }
     });
   }
@@ -137,6 +131,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
               if (state.isNewPatient == false) {
                 context.read<DBService>().setLang(isSaved: true);
                 context.read<BottomNavBarController>().changeNavBar(false);
+                _focusNode.unfocus();
                 Navigator.pushAndRemoveUntil(
                   context,
                   AppRoutes.getMainPage(0),
@@ -186,6 +181,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                     autoFocus: true,
                                     keyboardType: TextInputType.phone,
                                     controller: _smsController,
+                                    focusNode: _focusNode,
                                     currentCode: codeValue,
                                     cursor: Cursor(
                                       width: 2.w,
@@ -205,6 +201,10 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                                     ),
                                     onCodeChanged: (code) {
                                       codeValue = code!;
+
+                                      if (code.length >= 4) {
+                                        _focusNode.unfocus();
+                                      }
                                     },
                                   ),
                                 ),

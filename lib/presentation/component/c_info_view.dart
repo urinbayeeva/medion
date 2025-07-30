@@ -161,7 +161,9 @@ class _CInfoViewState extends State<CInfoView> {
                     ListTile(
                       leading: icons.calendarActive.svg(color: colors.neutral800),
                       title: Text(
-                        DateUtilsEx.formatDate(context, widget.date!).toCapitalized(),
+                        widget.date != null && widget.date!.isNotEmpty
+                            ? DateUtilsEx.formatDate(context, widget.date!).toCapitalized()
+                            : '',
                         style: fonts.xSmallText,
                       ),
                     ),

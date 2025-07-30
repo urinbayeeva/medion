@@ -315,7 +315,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                     child: GestureDetector(
-                      onTap: () => _showAppointmentsBottomSheet(context, selectedList, colors, fonts),
+                      onTap: () => _showAppointmentsBottomSheet(context, selectedList, colors, fonts, icons),
                       child: Column(
                         children: [
                           Row(
@@ -327,7 +327,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                   color: colors.neutral400,
                                 ),
                                 child: Text(
-                                  "${servicesWithSessions}/${totalSelectedServices}",
+                                  "$servicesWithSessions/$totalSelectedServices",
                                   style: fonts.xSmallText.copyWith(fontSize: 11.sp, fontWeight: FontWeight.w600),
                                 ),
                               ),
@@ -376,7 +376,12 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
   }
 
   void _showAppointmentsBottomSheet(
-      BuildContext context, List<Map<String, String>> selectedList, dynamic colors, dynamic fonts) {
+    BuildContext context,
+    List<Map<String, String>> selectedList,
+    CustomColorSet colors,
+    FontSet fonts,
+    IconSet icons,
+  ) {
     showModalBottomSheet(
       backgroundColor: colors.shade0,
       context: context,
@@ -442,7 +447,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                         Row(
                           children: [
                             CircleAvatar(
-                              backgroundColor: colors.neutral500,
+                              backgroundColor: colors.neutral300.withValues(alpha: 0.8),
                               radius: 34.r,
                               child: ClipOval(
                                 child: CachedImageComponent(
@@ -511,7 +516,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CircleAvatar(
-                                  backgroundColor: colors.neutral500,
+                                  backgroundColor: colors.neutral300,
                                   radius: 34.r,
                                   child: ClipOval(child: IconSet.create.nonUser.svg()),
                                 ),

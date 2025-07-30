@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,9 +37,10 @@ class SingleNotification extends StatefulWidget {
 class _SingleNotificationState extends State<SingleNotification> {
   @override
   void initState() {
-    if (widget.id != 0) {
+    if (widget.id != 0 || (widget.notification != null && widget.notification!.isRead == false)) {
       context.read<NotificationBloc>().add(NotificationEvent.readNotification(index: widget.id));
     }
+    context.read<NotificationBloc>().add(NotificationEvent.getSingleNotification(pk: widget.id));
     super.initState();
   }
 
@@ -77,6 +80,7 @@ class _SingleNotificationState extends State<SingleNotification> {
               return postReview || single || status;
             },
             builder: (context, state) {
+              log("build time ");
               if (widget.id == 0 || state.notificationStatus.isFailure && state.singleNotification == null) {
                 return Center(child: Lottie.asset("assets/anim/404.json"));
               } else if (state.singleStatus.isInProgress && state.singleStatus.isInitial) {
@@ -103,7 +107,11 @@ class _SingleNotificationState extends State<SingleNotification> {
                             children: [
                               icons.calendar.svg(height: 16, width: 16, color: const Color(0xFF596066)),
                               Text(
-                                widget.notification!.createdAt ?? '',
+                                widget.notification!.date ?? '',
+                                style: fonts.xxSmallText.copyWith(fontSize: 12, color: const Color(0xFF596066)),
+                              ),
+                              Text(
+                                widget.notification!.time ?? '',
                                 style: fonts.xxSmallText.copyWith(fontSize: 12, color: const Color(0xFF596066)),
                               )
                             ],
@@ -116,7 +124,7 @@ class _SingleNotificationState extends State<SingleNotification> {
                               style: fonts.mediumMain.copyWith(fontWeight: FontWeight.w700),
                             ),
                           },
-                          if (notification!.createdAt != null) ...{
+                          if (notification!.date != null) ...{
                             1.verticalSpace,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -124,7 +132,11 @@ class _SingleNotificationState extends State<SingleNotification> {
                               children: [
                                 icons.calendar.svg(height: 16, width: 16, color: const Color(0xFF596066)),
                                 Text(
-                                  notification.createdAt ?? '',
+                                  notification.date ?? '',
+                                  style: fonts.xxSmallText.copyWith(fontSize: 12, color: const Color(0xFF596066)),
+                                ),
+                                Text(
+                                  notification.time ?? '',
                                   style: fonts.xxSmallText.copyWith(fontSize: 12, color: const Color(0xFF596066)),
                                 )
                               ],
@@ -132,23 +144,27 @@ class _SingleNotificationState extends State<SingleNotification> {
                           },
                           if (notification.body != null) ...{
                             4.verticalSpace,
-                            Text("Вышел ваш результат от услуги Консультация/осмотр невролога",
-                                style: fonts.xSmallMain),
-                            // Text(notification!.body ?? '', style: fonts.xSmallMain),
+                            Text(widget.notification!.body ?? '', style: fonts.xSmallMain),
                           },
                         },
                         if (widget.type.isLink) ...{
                           10.verticalSpace,
                           CButton(
                             title: '',
-                            onTap: () => MyFunctions.openLink("${widget.notification?.link}"),
+                            onTap: () => MyFunctions.openLink(notification?.link ?? (widget.notification?.link ?? '')),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Перейти", style: fonts.regularMain.copyWith(color: colors.shade0)),
-                                  icons.link.svg(height: 22, width: 22, color: colors.shade0),
+                                  Text(
+                                    "go".tr(),
+                                    style: fonts.xSmallLink.copyWith(
+                                      color: colors.shade0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  icons.linkIcon.svg(height: 22, width: 22, color: colors.shade0),
                                 ],
                               ),
                             ),
@@ -157,9 +173,9 @@ class _SingleNotificationState extends State<SingleNotification> {
                         if (widget.type.isResult) ...{
                           10.verticalSpace,
                           ...List.generate(
-                            widget.notification?.labResult?.length ?? 0,
+                            notification?.labResult?.length ?? 0,
                             (i) {
-                              final res = widget.notification?.labResult?[i];
+                              final res = notification?.labResult?[i];
                               return Container(
                                 height: 56.h,
                                 width: double.infinity,
@@ -222,22 +238,24 @@ class _SingleNotificationState extends State<SingleNotification> {
                         },
                         if (widget.type.isDiscount) ...{
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.42,
-                            child: ArticleCardWidget(
+                            width: 163.w,
+                            height: 255.h,
+                            child: DiscountCard(
                               onTap: () {
                                 Navigator.of(context, rootNavigator: true).push(
                                   MaterialPageRoute(
                                     builder: (context) => DiscountPage(
-                                      discountId: widget.notification?.discount?.id ?? 0,
+                                      discountId: notification?.discount?.id ?? 0,
                                     ),
                                   ),
                                 );
                               },
-                              title: "${widget.notification?.discount?.title}",
-                              description: '',
-                              image: "${widget.notification?.discount?.image}",
+                              fonts: fonts,
+                              colors: colors,
+                              title: notification?.discount?.title ?? "",
+                              image: notification?.discount?.image ?? "",
                               date: "Акция до {date}".tr(namedArgs: {
-                                "date": "${widget.notification?.discount?.endDate}",
+                                "date": "${notification?.discount?.endDate}",
                               }),
                             ),
                           ),
@@ -260,21 +278,30 @@ class _SingleNotificationState extends State<SingleNotification> {
                                     height: 77,
                                     padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(shape: BoxShape.circle, color: colors.neutral50),
-                                    child: CommonImage(imageUrl: "${widget.notification?.reminder?.image}"),
+                                    child: CommonImage(imageUrl: "${notification?.reminder?.image}"),
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text("${widget.notification?.reminder?.doctorName}", style: fonts.regularMain),
+                                      Text(
+                                        notification?.reminder?.doctorName ?? '',
+                                        style: fonts.regularMain,
+                                      ),
                                       Row(
                                         spacing: 8,
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
-                                          icons.clock.svg(height: 17, width: 17),
-                                          Text("${widget.notification?.reminder?.startDate}", style: fonts.xSmallMain),
+                                          Padding(
+                                            padding: EdgeInsets.fromLTRB(2.w, 0, 0, 0),
+                                            child: icons.clock.svg(height: 17, width: 17),
+                                          ),
+                                          Text(
+                                            notification?.reminder?.startDate ?? '',
+                                            style: fonts.xSmallMain,
+                                          ),
                                         ],
                                       ),
                                       Row(
@@ -283,7 +310,10 @@ class _SingleNotificationState extends State<SingleNotification> {
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           icons.location.svg(height: 20, width: 20),
-                                          Text("${widget.notification?.reminder?.location}", style: fonts.xSmallMain),
+                                          Text(
+                                            notification?.reminder?.location ?? '',
+                                            style: fonts.xSmallMain,
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -293,30 +323,21 @@ class _SingleNotificationState extends State<SingleNotification> {
                             ),
                           )
                         },
-                        if (widget.type.isReview &&
-                            (widget.notification == null || widget.notification?.review == null)) ...{
+                        if (widget.type.isReview && (notification == null || notification.review == null)) ...{
                           FeedBackWithoutLocation(noBack: true, id: widget.notification?.visitId ?? 0),
                         } else if (widget.type.isReview) ...{
                           ReviewCard(
                             margin: const EdgeInsets.only(top: 10),
                             review: GetReviewModel((b) => b
-                                  ..review = widget.notification!.review!.review ?? ""
-                                  ..ratings = "${widget.notification!.review!.ratings?.length}"
-                                  ..name = "${widget.notification!.review!.name}"
-                                  ..location = "${widget.notification!.review!.location}"
-                                  ..title = '${widget.notification!.review!.name}'
-
-                                // title: widget.notification!.review!.name ?? "",
-                                // dateTime: widget.notification!.review!.createDate ?? "",
-                                // location: widget.notification!.review!.location ?? "",
-                                // description: widget.notification!.review!.review ?? "",
-                                // rating: widget.notification!.review!.ratings?.length ?? 0,
-                                // name: widget.notification!.review!.name ?? '',
-                                ),
+                              ..review = notification!.review!.review ?? ""
+                              ..ratings = "${notification.review!.ratings?.length}"
+                              ..name = "${notification.review!.name}"
+                              ..location = "${notification.review!.location}"
+                              ..title = '${notification.review!.name}'),
                             colors: colors,
                             icons: icons,
                             fonts: fonts,
-                            status: MyFunctions.getFeedBackStatus(""),
+                            status: MyFunctions.getFeedBackStatus(notification?.review?.status ?? ""),
                           ),
                         }
                       ],

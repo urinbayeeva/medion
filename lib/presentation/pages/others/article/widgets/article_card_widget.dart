@@ -9,18 +9,12 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 class ArticleCardWidget extends StatelessWidget {
   final String? image;
   final String? title;
-  final String? description;
-  final String? link;
-  final String? date;
   final VoidCallback onTap;
 
   const ArticleCardWidget({
     super.key,
     this.image,
     this.title,
-    this.description,
-    this.link,
-    this.date,
     required this.onTap,
   });
 
@@ -30,7 +24,9 @@ class ArticleCardWidget extends StatelessWidget {
       builder: (context, colors, fonts, icons, controller) {
         return AnimationButtonEffect(
           onTap: onTap,
-          child: DecoratedBox(
+          child: Container(
+            width: 164.w,
+            height: 220.h,
             decoration: BoxDecoration(color: colors.shade0, borderRadius: BorderRadius.circular(8.r)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,41 +39,12 @@ class ArticleCardWidget extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 8.w),
                   child: Text(
                     title ?? "",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    maxLines: 5,
+                    overflow: TextOverflow.visible,
                     style: fonts.xSmallLink.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w600),
                   ),
                 ),
                 4.h.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w),
-                  child: Text(
-                    description ?? '',
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: fonts.xSmallLink.copyWith(
-                      fontSize: 11.sp,
-                      fontWeight: FontWeight.w500,
-                      color: colors.neutral600,
-                    ),
-                  ),
-                ),
-                if (date != null && date!.isNotEmpty) ...{
-                  4.h.verticalSpace,
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w),
-                    child: Text(
-                      date ?? '',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: fonts.xSmallLink.copyWith(
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w500,
-                        color: colors.neutral600,
-                      ),
-                    ),
-                  ),
-                }
               ],
             ),
           ),

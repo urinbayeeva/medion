@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -69,7 +71,7 @@ class NotificationCard extends StatelessWidget {
                         )
                       },
                       if (notification.title != null) ...{
-                        Text("${notification.title!} -- ${notification.type}", style: fonts.regularMain),
+                        Text(notification.title ?? '', style: fonts.regularMain),
                       },
                       if (notification.body != null) ...{
                         Text(
@@ -82,7 +84,9 @@ class NotificationCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (type.subTitle.isNotEmpty && type.subTitle.length > 3) ...{
+
+                ///type.subTitle.isNotEmpty && type.subTitle.length > 3
+                if (type.isLink || type.isDiscount || type.isReview) ...{
                   Container(
                     width: double.infinity,
                     height: 41,

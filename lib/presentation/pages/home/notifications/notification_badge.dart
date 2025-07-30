@@ -15,16 +15,20 @@ class NotificationBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NotificationBloc, NotificationState>(
-      buildWhen: (o, n) => o.notifications.length != n.notifications.length,
+      buildWhen: (o, n) {
+        final count = o.unReadNotifications != n.unReadNotifications;
+        final notifications = o.notificationStatus != n.notificationStatus;
+        return count || notifications;
+      },
       builder: (context, state) {
-        if (state.notifications.length > 9) {
+        if (state.unReadNotifications > 9) {
           return WScaleAnimation(
             onTap: onTap,
             child: icons.notificationBadge.svg(width: 24.w, height: 24.h),
           );
-        } else if (state.notifications.length < 9 && state.notifications.isNotEmpty) {
+        } else if (state.unReadNotifications < 9 && state.unReadNotifications >= 1) {
           return Badge.count(
-            count: state.notifications.length + 2,
+            count: state.unReadNotifications,
             child: Transform.rotate(
               angle: 0.785398,
               child: WScaleAnimation(

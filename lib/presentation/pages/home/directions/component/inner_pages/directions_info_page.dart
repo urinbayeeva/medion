@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +18,7 @@ import 'package:medion/presentation/pages/home/directions/widgets/service_widget
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
 import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
@@ -34,12 +37,13 @@ class DirectionInfoPage extends StatefulWidget {
 }
 
 class _DirectionInfoPageState extends State<DirectionInfoPage> {
+  final ValueNotifier<String> _tabItem = ValueNotifier('');
+  final ValueNotifier<bool> _selectItemHelper = ValueNotifier(false);
   int selectedIndex = 0;
   bool changeSum = false;
   List<int> savedIds = [];
   double turns = 0.0;
   Set<int> selectedServiceIds = {};
-
   late DBService dbService;
 
   @override
@@ -47,6 +51,17 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
     super.initState();
     _initializeDBService();
     context.read<BookingBloc>().add(BookingEvent.fetchHomePageServiceDoctors(id: widget.id));
+  }
+
+  void select(BookingState state) {
+    if (_selectItemHelper.value == false) {
+      final visibleItem = state.items.firstWhere(
+        (item) => item.canSee,
+        orElse: () => state.items.first,
+      );
+      _tabItem.value = visibleItem.title;
+    }
+    _selectItemHelper.value = true;
   }
 
   void _showPhoneCallbackDialog(BuildContext context, dynamic colors, dynamic fonts, List<int> serviceIds) {
@@ -63,17 +78,23 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
     });
   }
 
-  final DateFormat _dateFormat = DateFormat('dd.MM.yyyy');
+  final ScrollController _controller = ScrollController();
 
-  String _formatDiscountDate(String? date) {
-    if (date == null || date.isEmpty) {
-      return 'дата не указана'.tr();
-    }
-    try {
-      return _dateFormat.format(DateTime.parse(date));
-    } catch (e) {
-      return 'неверный формат даты'.tr();
-    }
+  void tabForScrollSection(int index, List<DirectionScrollingItem> tabs) {
+    final GlobalKey key = tabs[index].itemKey;
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        final context = key.currentContext;
+        if (context != null) {
+          Scrollable.ensureVisible(
+            context,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            alignment: 0,
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -81,73 +102,212 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
         return Scaffold(
-          backgroundColor: colors.backgroundColor,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CAppBar(
-                bordered: true,
-                title: widget.name ?? "",
-                centerTitle: true,
-                onTap: () {
-                  Navigator.pop(context);
-                  context.read<BottomNavBarController>().changeNavBar(false);
-                },
-                isBack: true,
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AnimatedRotation(
-                      turns: turns,
-                      duration: const Duration(seconds: 1),
-                      child: AnimationButtonEffect(
-                        onTap: () {
-                          setState(() {
-                            turns += 2 / 4;
-                            changeSum = !changeSum;
-                            dbService.setCurrencyPreference(changeSum);
-                          });
-                        },
-                        child: icons.valyutaChange.svg(width: 20.w, height: 20.h),
-                      ),
-                    ),
-                    // 6.w.horizontalSpace,
-                    // AnimationButtonEffect(
-                    //   onTap: () {
-                    //     showModalBottomSheet(
-                    //       context: context,
-                    //       builder: (BuildContext context) {
-                    //         return CFilter(
-                    //           currentFilter: _currentFilter,
-                    //           onFilterChanged: _onFilterChanged,
-                    //         );
-                    //       },
-                    //     );
-                    //   },
-                    //   child: icons.filter.svg(width: 20.w, height: 20.h),
-                    // ),
-                  ],
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: colors.shade0,
+            foregroundColor: colors.darkMode900,
+            scrolledUnderElevation: 0,
+            leading: WScaleAnimation(
+              child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+              onTap: () {
+                Navigator.of(context).pop();
+                context.read<BottomNavBarController>().changeNavBar(false);
+              },
+            ),
+            title: Text("doctors".tr(), style: fonts.regularMain),
+            actions: [
+              AnimatedRotation(
+                turns: turns,
+                duration: const Duration(seconds: 1),
+                child: AnimationButtonEffect(
+                  onTap: () {
+                    setState(() {
+                      turns += 2 / 4;
+                      changeSum = !changeSum;
+                      dbService.setCurrencyPreference(changeSum);
+                    });
+                  },
+                  child: icons.valyutaChange.svg(width: 20.w, height: 20.h),
                 ),
               ),
-              BlocBuilder<BookingBloc, BookingState>(
-                builder: (context, state) {
-                  if (state.loading || state.medicalModel == null) {
-                    return Expanded(child: _buildShimmerView(colors));
-                  }
-                  return Expanded(
-                    child: _buildContent(context, state, colors, fonts, icons),
-                  );
-                },
-              ),
-              BlocBuilder<BookingBloc, BookingState>(
-                builder: (context, state) {
-                  if (selectedServiceIds.isEmpty || state.medicalModel == null) {
-                    return const SizedBox.shrink();
-                  }
-                  return _buildSelectedServicesContainer(context, state, colors, fonts);
-                },
-              ),
+              12.w.horizontalSpace,
             ],
+          ),
+          backgroundColor: colors.backgroundColor,
+          body: BlocBuilder<BookingBloc, BookingState>(
+            builder: (context, state) {
+              if (state.loading || state.medicalModel == null) {
+                return Expanded(child: _buildShimmerView(colors));
+              }
+              if (state.items.every((item) => !item.canSee)) {
+                return Center(
+                  child: Text(
+                    "no_result_found".tr(),
+                    style: fonts.regularMain,
+                  ),
+                );
+              }
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  6.h.verticalSpace,
+                  SizedBox(
+                    height: 36.h,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: state.items.length > 3 ? MainAxisAlignment.center : MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        spacing: 5.w,
+                        children: [
+                          ...List.generate(
+                            state.items.length,
+                            (index) {
+                              final item = state.items[index];
+                              if (item.canSee == false) return const SizedBox.shrink();
+                              return Padding(
+                                padding: EdgeInsets.only(left: index == 0 ? 10.0.w : 0.0),
+                                child: ValueListenableBuilder(
+                                  valueListenable: _tabItem,
+                                  builder: (context, value, child) {
+                                    select(state);
+                                    return WScaleAnimation(
+                                      onTap: () {
+                                        _tabItem.value = item.title;
+                                        tabForScrollSection(index, state.items);
+                                      },
+                                      child: Container(
+                                        constraints: BoxConstraints(minWidth: 0.2.sw),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8.r),
+                                          color: _tabItem.value == item.title ? colors.error500 : colors.shade0,
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 6.h),
+                                          child: Center(
+                                            child: Text(
+                                              item.title.tr(),
+                                              style: fonts.regularMain.copyWith(
+                                                fontSize: 14.sp,
+                                                color:
+                                                    _tabItem.value == item.title ? colors.shade0 : colors.darkMode900,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  6.h.verticalSpace,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      controller: _controller,
+                      child: Column(
+                        children: [
+                          ...List.generate(
+                            state.items.length,
+                            (index) {
+                              final item = state.items[index];
+                              return Column(
+                                key: item.itemKey,
+                                children: [
+                                  if (item.checker.isDiscount && item.canSee) ...{
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                          child: Text(
+                                            item.title.tr(),
+                                            textAlign: TextAlign.left,
+                                            style: fonts.regularMain,
+                                          ),
+                                        ),
+                                        DirectionDiscountGrid(state: state, colors: colors, fonts: fonts),
+                                      ],
+                                    )
+                                  },
+                                  if (item.checker.isInfo && item.canSee) ...{
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                          child: Text(
+                                            item.title.tr(),
+                                            textAlign: TextAlign.left,
+                                            style: fonts.regularMain,
+                                          ),
+                                        ),
+                                        CContainer(
+                                          margin: EdgeInsets.symmetric(horizontal: 12.w),
+                                          width: 1.sw,
+                                          text: state.medicalModel!.decodedTitle,
+                                        ),
+                                      ],
+                                    )
+                                  },
+                                  if (item.checker.isDoctors && item.canSee) ...{
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                          child: Text(
+                                            item.title.tr(),
+                                            textAlign: TextAlign.left,
+                                            style: fonts.regularMain,
+                                          ),
+                                        ),
+                                        DirectionDoctorsGrid(state: state),
+                                      ],
+                                    )
+                                  },
+                                  if (item.checker.isService && item.canSee) ...{
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                          child: Text(
+                                            item.title.tr(),
+                                            textAlign: TextAlign.left,
+                                            style: fonts.regularMain,
+                                          ),
+                                        ),
+                                        _buildServicesList(state),
+                                      ],
+                                    )
+                                  },
+                                ],
+                              );
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+          bottomNavigationBar: BlocBuilder<BookingBloc, BookingState>(
+            builder: (context, state) {
+              if (selectedServiceIds.isEmpty || state.medicalModel == null) {
+                return const SizedBox.shrink();
+              }
+              return _buildSelectedServicesContainer(context, state, colors, fonts);
+            },
           ),
         );
       },
@@ -209,207 +369,6 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
     );
   }
 
-  Widget _buildContent(
-    BuildContext context,
-    BookingState state,
-    dynamic colors,
-    dynamic fonts,
-    dynamic icons,
-  ) {
-    final hasDoctors = state.medicalModel!.doctors.isNotEmpty;
-    final hasDescription = state.medicalModel!.description?.isNotEmpty ?? false;
-    final hasServices = state.medicalModel!.services.isNotEmpty;
-    final hasDiscount = state.medicalModel!.discount.isNotEmpty;
-
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(12.0.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: double.infinity,
-            child: CustomToggle(
-              iconList: ['all_informations'.tr(), 'doctors'.tr(), 'services'.tr()]
-                  .asMap()
-                  .entries
-                  .map((entry) => Text(
-                        entry.value,
-                        style: fonts.xSmallLink.copyWith(
-                          color: selectedIndex == entry.key ? colors.shade0 : colors.primary900,
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ))
-                  .toList(),
-              onChanged: (value) => setState(() => selectedIndex = value),
-              current: selectedIndex,
-              values: const [0, 1, 2],
-              height: 38.h,
-              indicatorSize: Size(double.infinity, 40.h),
-              backgroundColor: colors.neutral200,
-              indicatorColor: colors.error500,
-              elevation: false,
-            ),
-          ),
-          if (selectedIndex == 0) ...[
-            if (!hasDoctors && !hasServices && !hasDescription) ...[
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.6,
-                child: Center(
-                  child: Text(
-                    "no_general_information_found".tr(),
-                    style: fonts.regularMain.copyWith(
-                      color: colors.primary900,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                ),
-              ),
-            ] else ...[
-              if (hasDescription) ...[
-                _buildSectionTitle('all_informations'.tr(), fonts),
-                CContainer(
-                  text: state.medicalModel!.decodedTitle,
-                ),
-              ],
-              if (hasDoctors) ...[
-                _buildSectionTitle('doctors'.tr(), fonts),
-                _buildDoctorsGrid(state, icons),
-              ],
-              if (hasServices) ...[
-                _buildSectionTitle('services'.tr(), fonts),
-                _buildServicesList(state),
-              ],
-              if (hasDiscount) ...[
-                12.h.verticalSpace,
-                Text(
-                  "discounts".tr(),
-                  style: fonts.regularMain,
-                ),
-                8.h.verticalSpace,
-                GridView.builder(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  itemCount: state.medicalModel!.discount.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                    // childAspectRatio: 0.6,
-                  ),
-                  itemBuilder: (context, index) {
-                    final discount = state.medicalModel!.discount[index];
-                    final endDateFormatted = _formatDiscountDate(discount.discountEndDate.toString());
-
-                    return ArticleCardWidget(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => DiscountPage(discountId: discount.id)),
-                        );
-                      },
-                      title: discount.name,
-                      description: "Акция до {date}".tr(namedArgs: {"date": endDateFormatted}),
-                      image: discount.image,
-                    );
-                  },
-                ),
-              ]
-            ],
-          ],
-          if (selectedIndex == 1) ...[
-            if (hasDoctors) ...[
-              _buildSectionTitle('doctors'.tr(), fonts),
-              _buildDoctorsGrid(state, icons),
-            ] else ...[
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.6,
-                child: Center(
-                  child: Text(
-                    "no_result_found".tr(),
-                    style: fonts.regularMain.copyWith(
-                      color: colors.primary900,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ],
-          if (selectedIndex == 2) ...[
-            if (hasServices) ...[
-              _buildSectionTitle('services'.tr(), fonts),
-              _buildServicesList(state),
-            ] else ...[
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.6,
-                child: Center(
-                  child: Text(
-                    "no_result_found".tr(),
-                    style: fonts.regularMain.copyWith(
-                      color: colors.primary900,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ],
-          SizedBox(height: selectedServiceIds.isNotEmpty ? 60.h : 0),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(String title, dynamic fonts) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 12.h),
-      child: Text(title, style: fonts.regularSemLink),
-    );
-  }
-
-  Widget _buildDoctorsGrid(BookingState state, dynamic icons) {
-    return GridView.builder(
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12.w,
-        mainAxisSpacing: 12.h,
-        childAspectRatio: 0.52,
-      ),
-      itemCount: state.medicalModel!.doctors.length,
-      itemBuilder: (_, index) {
-        final doctor = state.medicalModel!.doctors[index];
-        return DoctorsItem(
-          academicRank: doctor.academicRank ?? '',
-          gender: "male",
-          isInnerPageUsed: true,
-          imagePath: doctor.image,
-          onTap: () {
-            Navigator.push(
-              context,
-              AppRoutes.getAboutDoctorPage(
-                name: doctor.name!,
-                profession: doctor.jobName!,
-                status: "",
-                image: doctor.image!,
-                id: doctor.id!,
-              ),
-            ).then((_) {});
-          },
-          name: doctor.name ?? '',
-          profession: doctor.jobName ?? "No profession",
-          experience: "experience".tr(namedArgs: {"count": doctor.experienceYears.toString()}),
-          doctorID: doctor.id!,
-          home: false,
-        );
-      },
-    );
-  }
-
   Widget _buildServicesList(BookingState state) {
     return ListView.separated(
       separatorBuilder: (context, index) => const SizedBox(height: 6),
@@ -446,14 +405,15 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   Widget _buildSelectedServicesContainer(
     BuildContext context,
     BookingState state,
-    dynamic colors,
-    dynamic fonts,
+    CustomColorSet colors,
+    FontSet fonts,
   ) {
     return Container(
       decoration: BoxDecoration(
-          color: colors.shade0,
-          boxShadow: Style.shadowMMMM,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(8.r))),
+        color: colors.shade0,
+        boxShadow: Style.shadowMMMM,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(8.r)),
+      ),
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -507,8 +467,8 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   void _showSelectedServicesBottomSheet(
     BuildContext context,
     BookingState state,
-    dynamic colors,
-    dynamic fonts,
+    CustomColorSet colors,
+    FontSet fonts,
   ) {
     final selectedServices =
         state.medicalModel!.services.where((service) => selectedServiceIds.contains(service.id ?? -1)).toList();
@@ -593,5 +553,148 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
         );
       },
     );
+  }
+}
+
+class DirectionScrollingItem {
+  final String title;
+  final GlobalKey itemKey;
+  final bool canSee;
+  final DirectionInfoEnum checker;
+
+  const DirectionScrollingItem({
+    required this.title,
+    required this.itemKey,
+    required this.checker,
+    this.canSee = false,
+  });
+}
+
+enum DirectionInfoEnum {
+  info,
+  doctors,
+  services,
+  discounts;
+
+  bool get isInfo => this == DirectionInfoEnum.info;
+
+  bool get isDoctors => this == DirectionInfoEnum.doctors;
+
+  bool get isService => this == DirectionInfoEnum.services;
+
+  bool get isDiscount => this == DirectionInfoEnum.discounts;
+}
+
+class DirectionDoctorsGrid extends StatelessWidget {
+  const DirectionDoctorsGrid({super.key, required this.state});
+
+  final BookingState state;
+
+  @override
+  Widget build(BuildContext context) {
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controllers) {
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+          child: GridView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12.w,
+              mainAxisSpacing: 12.h,
+              childAspectRatio: 0.52.h,
+            ),
+            itemCount: state.medicalModel!.doctors.length,
+            itemBuilder: (_, index) {
+              final doctor = state.medicalModel!.doctors[index];
+              return DoctorsItem(
+                academicRank: doctor.academicRank ?? '',
+                gender: "male",
+                isInnerPageUsed: true,
+                imagePath: doctor.image,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    AppRoutes.getAboutDoctorPage(
+                      name: doctor.name!,
+                      profession: doctor.jobName!,
+                      status: "",
+                      image: doctor.image!,
+                      id: doctor.id!,
+                    ),
+                  ).then((_) {});
+                },
+                name: doctor.name ?? '',
+                profession: doctor.jobName ?? "No profession",
+                experience: "experience".tr(namedArgs: {"count": doctor.experienceYears.toString()}),
+                doctorID: doctor.id!,
+                home: false,
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
+
+class DirectionDiscountGrid extends StatelessWidget {
+  const DirectionDiscountGrid({super.key, required this.state, required this.colors, required this.fonts});
+
+  final BookingState state;
+  final CustomColorSet colors;
+  final FontSet fonts;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+      child: GridView.builder(
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        itemCount: state.medicalModel!.discount.length,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 8,
+          childAspectRatio: 0.67.h,
+        ),
+        itemBuilder: (context, index) {
+          final discount = state.medicalModel!.discount[index];
+          final endDateFormatted = _formatDiscountDate(discount.discountEndDate.toString());
+          log("Discount images: ${discount.image}");
+          return SizedBox(
+            width: 165.w,
+            child: DiscountCard(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DiscountPage(discountId: discount.id)),
+                );
+              },
+              colors: colors,
+              fonts: fonts,
+              title: discount.name + discount.name,
+              date: "Акция до {date}".tr(namedArgs: {"date": endDateFormatted}),
+              image: discount.image,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  String _formatDiscountDate(String? date) {
+    if (date == null || date.isEmpty) {
+      return 'дата не указана'.tr();
+    }
+    try {
+      return DateFormat('dd.MM.yyyy').format(DateTime.parse(date));
+    } catch (e) {
+      return 'неверный формат даты'.tr();
+    }
   }
 }

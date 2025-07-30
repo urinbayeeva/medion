@@ -3,6 +3,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/branches/branch_bloc.dart';
+import 'package:medion/infrastructure/services/my_functions.dart';
+import 'package:medion/presentation/pages/others/branches/component/single_branch_info.dart';
+import 'package:medion/presentation/pages/others/branches/widget/image_dialog.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/theme.dart';
 
 class Licenses extends StatelessWidget {
@@ -24,6 +28,7 @@ class Licenses extends StatelessWidget {
     if (!available) return const SizedBox.shrink();
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         12.h.verticalSpace,
         Padding(
@@ -40,24 +45,77 @@ class Licenses extends StatelessWidget {
           ),
         ),
         8.h.verticalSpace,
-        Row(
-          children: state.branchDetail!.licenses!.map((licenseUrl) {
-            final length = state.branchDetail!.licenses!.length;
-            return Padding(
-              padding: EdgeInsets.only(right: 8.w, left: length == 1 ? 16 : 0),
-              child: DecoratedBox(
-                decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 0)),
-                child: CachedNetworkImage(
-                  imageUrl: licenseUrl,
-                  width: 150.w,
-                  errorWidget: (context, url, error) => _buildLicensePlaceholder(colors, fonts),
-                ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              12.h.horizontalSpace,
+              ...state.branchDetail!.licenses!.map(
+                (licenseUrl) {
+                  final length = state.branchDetail!.licenses!.length;
+                  return Padding(
+                    padding: EdgeInsets.only(right: 8.w, left: length == 1 ? 16.w : 0),
+                    child: WScaleAnimation(
+                      onTap: () {
+                        final List<ContentBase> contentBaseList = state.branchDetail!.licenses!
+                            .where((item) => item.isNotEmpty)
+                            .map((item) => ContentBase(
+                                  isVideo: false,
+                                  fileLink: item,
+                                  coverImage: item,
+                                ))
+                            .toList();
+
+                        showImages(
+                          context: context,
+                          mainImage: licenseUrl,
+                          height: 496,
+                          width: 343,
+                          images: [...contentBaseList],
+                        );
+                      },
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 0)),
+                        child: CachedNetworkImage(
+                          imageUrl: licenseUrl,
+                          width: 150.w,
+                          errorWidget: (context, url, error) => _buildLicensePlaceholder(colors, fonts),
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          }).toList(),
+            ],
+          ),
         )
       ],
     );
+  }
+
+  void showImages({
+    required BuildContext context,
+    required String mainImage,
+    double height = 496,
+    double width = 343,
+    required List<ContentBase> images,
+  }) {
+    MyFunctions.showImages(
+      isVideo: false,
+      context: context,
+      mainImage: mainImage,
+      images: images,
+      height: height,
+      width: width,
+    );
+
+    // showDialog(
+    //   context: context,
+    //   builder: (_) {
+    //     return ImageDialog(mainImage: mainImage, images: images, height: height, width: width);
+    //   },
+    // );
   }
 
   Widget _buildLicensePlaceholder(colors, fonts) {

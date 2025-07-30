@@ -1,18 +1,18 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:medion/domain/sources/others_data.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
-import 'package:medion/presentation/pages/others/customer_review/customer_review.dart';
-import 'package:medion/presentation/pages/others/docs/docs_page.dart';
-import 'package:medion/presentation/pages/others/feedbacks/feedback_view.dart';
 import 'package:medion/presentation/pages/others/team/team_page.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/enums/others_page_items_enum.dart';
 import 'package:provider/provider.dart';
 
 class OthersPageComp extends StatelessWidget {
-  final List data;
+  final List<OthersPageData> data;
 
   const OthersPageComp({super.key, required this.data});
 
@@ -33,87 +33,133 @@ class OthersPageComp extends StatelessWidget {
             itemCount: data.length,
             itemBuilder: (context, index) {
               final item = data[index];
+              final String title = item.title;
               return Column(
                 children: [
                   AnimationButtonEffect(
                     onTap: () async {
                       final bottomNavBarController = context.read<BottomNavBarController>();
-                      bottomNavBarController.changeNavBar(true);
 
                       Future<void> navigateTo(Route route) {
-                        return Navigator.push(context, route).then((_) {
+                        return Navigator.of(context, rootNavigator: true).push(route).then((_) {
                           bottomNavBarController.changeNavBar(false);
                         });
                       }
 
-                      switch (index) {
-                        case 0:
-                          navigateTo(AppRoutes.getArticlePage());
-                          break;
-                        case 1:
-                          navigateTo(AppRoutes.getBranchesPage());
-                          break;
-                        case 2:
-                          navigateTo(AppRoutes.getEquipmentPage());
-                          break;
-                        case 3:
-                          navigateTo(AppRoutes.getAboutHealthPage());
-                          break;
-                        case 4:
-                          navigateTo(AppRoutes.getPartnersPage());
-                          break;
-                        case 5:
-                          navigateTo(AppRoutes.getAwardsPage());
-                          break;
-                        case 6:
-                          navigateTo(AppRoutes.getCareerPage());
-                        case 7:
-                          navigateTo(AppRoutes.getDiscountPage());
-                        case 8:
-                          navigateTo(AppRoutes.getServicesPage());
-                        case 9:
-                          navigateTo(AppRoutes.getOffertaPage());
-                        case 10:
-                          navigateTo(AppRoutes.getActivityPage());
-                        case 11:
-                          navigateTo(AppRoutes.getEducationPage());
-                        case 12:
-                          navigateTo(MaterialPageRoute(builder: (context) => const TeamPage()));
-                        case 13:
-                          navigateTo(MaterialPageRoute(builder: (context) => const CustomerReview()));
-                        case 14:
+                      switch (item.checker) {
+                        case OthersPageItemsEnum.article:
                           {
-                            // navigateTo(MaterialPageRoute(builder: (context) => const FeedbackView()));
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Dialog(
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                  insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                                  // dialog margin
-                                  child: ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      maxHeight: MediaQuery.of(context).size.height * 0.52,
-                                    ),
-                                    child: const FeedbackView(),
-                                  ),
-                                );
-                              },
-                            ).then((v) {
-                              bottomNavBarController.changeNavBar(false);
-                            });
+                            navigateTo(AppRoutes.getArticlePage());
+                            break;
                           }
-                        case 15:
-                          navigateTo(MaterialPageRoute(builder: (context) => const DocsPage()));
+                        case OthersPageItemsEnum.branch:
+                          {
+                            navigateTo(AppRoutes.getBranchesPage());
+                            break;
+                          }
 
+                        case OthersPageItemsEnum.equipment:
+                          {
+                            navigateTo(AppRoutes.getEquipmentPage());
+                            break;
+                          }
+                        case OthersPageItemsEnum.aboutHealth:
+                          {
+                            navigateTo(AppRoutes.getAboutHealthPage());
+                            break;
+                          }
+                        case OthersPageItemsEnum.partner:
+                          {
+                            navigateTo(AppRoutes.getPartnersPage());
+                            break;
+                          }
+                        case OthersPageItemsEnum.awards:
+                          {
+                            navigateTo(AppRoutes.getAwardsPage());
+                            break;
+                          }
+                        case OthersPageItemsEnum.career:
+                          {
+                            navigateTo(AppRoutes.getCareerPage());
+                            break;
+                          }
+                        case OthersPageItemsEnum.services:
+                          {
+                            navigateTo(AppRoutes.getServicesPage());
+                            break;
+                          }
+                        case OthersPageItemsEnum.offer:
+                          {
+                            navigateTo(AppRoutes.getOffertaPage());
+                            break;
+                          }
+                        case OthersPageItemsEnum.activity:
+                          {
+                            navigateTo(AppRoutes.getActivityPage());
+                            break;
+                          }
+                        case OthersPageItemsEnum.education:
+                          {
+                            navigateTo(AppRoutes.getEducationPage());
+                            break;
+                          }
+                        case OthersPageItemsEnum.team:
+                          {
+                            navigateTo(MaterialPageRoute(builder: (context) => const TeamPage()));
+                            break;
+                          }
+
+                        case OthersPageItemsEnum.checkUp:
+                          {
+                            print("Check Up");
+                            break;
+                          }
                         default:
-                          navigateTo(AppRoutes.getUnderDevPage(appBarTitle: item["title"]));
-                          break;
+                          {
+                            navigateTo(AppRoutes.getUnderDevPage(appBarTitle: item.title));
+                            break;
+                          }
                       }
+
+                      // switch (index) {
+                      //   case 0:
+                      //     navigateTo(AppRoutes.getArticlePage());
+                      //     break;
+                      //   case 1:
+                      //     navigateTo(AppRoutes.getBranchesPage());
+                      //     break;
+                      //   case 2:
+                      //     navigateTo(AppRoutes.getEquipmentPage());
+                      //     break;
+                      //   case 3:
+                      //     navigateTo(AppRoutes.getAboutHealthPage());
+                      //     break;
+                      //   case 4:
+                      //     navigateTo(AppRoutes.getPartnersPage());
+                      //     break;
+                      //   case 5:
+                      //     navigateTo(AppRoutes.getAwardsPage());
+                      //     break;
+                      //   case 6:
+                      //     navigateTo(AppRoutes.getCareerPage());
+                      //   case 7:
+                      //     navigateTo(AppRoutes.getServicesPage());
+                      //   case 8:
+                      //     navigateTo(AppRoutes.getOffertaPage());
+                      //   case 9:
+                      //     navigateTo(AppRoutes.getActivityPage());
+                      //   case 10:
+                      //     navigateTo(AppRoutes.getEducationPage());
+                      //   case 11:
+                      //     navigateTo(MaterialPageRoute(builder: (context) => const TeamPage()));
+                      //   default:
+                      //     navigateTo(AppRoutes.getUnderDevPage(appBarTitle: item["title"]));
+                      //     break;
+                      // }
                     },
                     child: ListTile(
-                      leading: SvgPicture.asset(item['icon']),
-                      title: Text(item['title'], style: fonts.smallLink),
+                      leading: SvgPicture.asset(item.icon),
+                      title: Text(title.tr(), style: fonts.smallLink),
                     ),
                   ),
                   if (index != data.length - 1) Divider(color: colors.neutral400, height: 1),

@@ -48,6 +48,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
   @override
   void dispose() {
     _phoneNumberController.dispose();
+    focusNode.unfocus();
     focusNode.dispose();
     super.dispose();
   }
@@ -59,15 +60,19 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
         return BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state.successSendCode) {
-              SmsAutoFill().getAppSignature.then((value) {
-                Navigator.pushReplacement(
+              SmsAutoFill().getAppSignature.then(
+                (value) {
+                  Navigator.pushReplacement(
                     context,
                     AppRoutes.getVerifyCodePage(
-                        additionalPhone: widget.additionalPhone,
-                        autofill: value,
-                        phoneNumber: formatPhoneNumberForBackend(_phoneNumberController.text),
-                        password: null));
-              });
+                      additionalPhone: widget.additionalPhone,
+                      autofill: value,
+                      phoneNumber: formatPhoneNumberForBackend(_phoneNumberController.text),
+                      password: null,
+                    ),
+                  );
+                },
+              );
             }
           },
           listenWhen: (previous, current) =>
@@ -102,7 +107,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                           title: "",
                           keyboardType: TextInputType.phone,
                           onChanged: (value) {
-                            if (value.length >= 17) {
+                            if (value.length <= 17) {
                               setState(() {});
                             }
                           },
@@ -182,20 +187,25 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
 
                       16.h.verticalSpace,
                       CustomButton(
-                          isDisabled: _phoneNumberController.text.length < 17 || _isAccepted == false,
-                          title: "send_code".tr(),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              focusNode.unfocus();
-                              final signature = await SmsAutoFill().getAppSignature;
-                              context.read<AuthBloc>().add(
-                                    AuthEvent.sendPhoneNumber(
-                                      request: PhoneNumberSendReq((p0) =>
-                                          p0..phoneNumber = formatPhoneNumberForBackend(_phoneNumberController.text)),
+                        isDisabled: _phoneNumberController.text.length < 17 || _isAccepted == false,
+                        title: "send_code".tr(),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            focusNode.unfocus();
+                            final signature = await SmsAutoFill().getAppSignature;
+                            context.read<AuthBloc>().add(
+                                  AuthEvent.sendPhoneNumber(
+                                    request: PhoneNumberSendReq(
+                                      (p0) => p0
+                                        ..phoneNumber = formatPhoneNumberForBackend(
+                                          _phoneNumberController.text,
+                                        ),
                                     ),
-                                  );
-                            }
-                          }),
+                                  ),
+                                );
+                          }
+                        },
+                      ),
                       27.h.verticalSpace,
                     ]),
                   ),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -223,6 +225,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
         'status': doctor.specialty?.toString() ?? 'N/A',
         'candidateScience': false,
         'work_experience': doctor.workExperience,
+        'has_discount': doctor.hasDiscount,
         'academic_rank': doctor.academicRank,
       };
     }).toList();
@@ -289,18 +292,11 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                         ),
                         child: Row(
                           children: [
-                            icons.clock.svg(
-                              width: 16.w,
-                              height: 16.h,
-                              color: colors.neutral600,
-                            ),
+                            icons.clock.svg(width: 16.w, height: 16.h, color: colors.neutral600),
                             8.w.horizontalSpace,
                             Text(
                               search['query'],
-                              style: fonts.regularMain.copyWith(
-                                fontSize: 14.sp,
-                                color: colors.neutral600,
-                              ),
+                              style: fonts.regularMain.copyWith(fontSize: 14.sp, color: colors.neutral600),
                             ),
                           ],
                         ),
@@ -373,6 +369,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                       profession: doctor['profession'].toString(),
                       status: doctor['status']?.toString() ?? 'N/A',
                       candidateScience: false,
+                      hasDiscount: doctor['has_discount'] ?? false,
                       doctorID: int.parse(doctor['id']),
                     ),
                   );
@@ -446,6 +443,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               'status': doctor.specialty?.toString() ?? 'N/A',
               'candidateScience': false,
               'work_experience': doctor.workExperience,
+              'has_discount': doctor.hasDiscount,
               'academic_rank': doctor.academicRank,
             })
         .toList();
@@ -535,6 +533,10 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
             ),
             itemBuilder: (context, index) {
               final doctor = allDoctors[index];
+              log("\n\nHas Discount ******************");
+              log("Doctor: $doctor}");
+              log("******************\n\n");
+
               if (doctor['name'] == 'Placeholder Doctor') {
                 return DoctorsItem(
                   academicRank: doctor["academic_rank"].toString(),
@@ -576,6 +578,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 profession: doctor['profession'].toString(),
                 status: doctor['status']?.toString() ?? 'N/A',
                 candidateScience: false,
+                hasDiscount: doctor['has_discount'] ?? false,
                 doctorID: int.parse(doctor['id']),
               );
             },

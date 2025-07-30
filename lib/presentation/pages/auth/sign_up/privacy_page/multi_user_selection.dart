@@ -33,6 +33,19 @@ class _MultiUserSelectionState extends State<MultiUserSelection> {
           constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.6),
           child: Scaffold(
             backgroundColor: colors.shade0,
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              backgroundColor: colors.shade0,
+              surfaceTintColor: Colors.black,
+              leadingWidth: 0.w,
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              title: Text("select_profile".tr(), style: fonts.regularMain),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Container(color: colors.neutral300, height: 1.0),
+              ),
+            ),
             body: SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
               child: SingleChildScrollView(
@@ -41,11 +54,6 @@ class _MultiUserSelectionState extends State<MultiUserSelection> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                      child: Text("select_profile".tr(), style: fonts.regularMain),
-                    ),
-                    const Divider(),
                     ...List.generate(
                       widget.users.length,
                       (i) {
@@ -57,12 +65,11 @@ class _MultiUserSelectionState extends State<MultiUserSelection> {
                             builder: (context, val, child) {
                               final active = _selected.value == widget.users[i];
                               String? backendImageUrl = user.image;
-
                               return Container(
                                 height: 78,
                                 width: double.infinity,
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.h),
+                                margin: EdgeInsets.fromLTRB(12.w, i == 0 ? 12.h : 8.h, 6.w, 8.h),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(color: (active) ? colors.error500 : colors.neutral300),

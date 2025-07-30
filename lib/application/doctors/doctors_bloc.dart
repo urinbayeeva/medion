@@ -1,13 +1,16 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:medion/presentation/pages/home/doctors/inner_page/about_doctor.dart';
+import 'package:medion/utils/enums/doctor_info_enum.dart';
 
 part 'doctors_bloc.freezed.dart';
 
@@ -49,6 +52,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
       doctorDetailsError: false,
       doctorDetailsSuccess: false,
       doctorDetails: null,
+      doctorSingleStatus: FormzSubmissionStatus.inProgress,
     ));
 
     final res = await _repository.getDoctorDetailInfo(event.doctorId);
@@ -58,6 +62,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
         emit(state.copyWith(
           doctorDetailsLoading: false,
           doctorDetailsError: true,
+          doctorSingleStatus: FormzSubmissionStatus.failure,
         ));
       },
       (doctor) {
@@ -69,26 +74,33 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
             checker: DoctorInfoEnum.about,
           ),
           DoctorsInfo(
+            canSee: doctor.workSchedule.friday.isNotEmpty ||
+                doctor.workSchedule.monday.isNotEmpty ||
+                doctor.workSchedule.tuesday.isNotEmpty ||
+                doctor.workSchedule.wednesday.isNotEmpty ||
+                doctor.workSchedule.saturday.isNotEmpty ||
+                doctor.workSchedule.thursday.isNotEmpty,
+            title: "working_hours",
+            itemKey: GlobalKey(),
+            checker: DoctorInfoEnum.workTime,
+          ),
+          DoctorsInfo(
             canSee: doctor.experience.isNotEmpty,
             title: "working_experience",
             itemKey: GlobalKey(),
             checker: DoctorInfoEnum.experience,
           ),
           DoctorsInfo(
+            canSee: doctor.discount.isNotEmpty,
+            title: "discounts",
+            itemKey: GlobalKey(),
+            checker: DoctorInfoEnum.discount,
+          ),
+          DoctorsInfo(
             canSee: doctor.education.isNotEmpty,
             title: "education",
             itemKey: GlobalKey(),
             checker: DoctorInfoEnum.education,
-          ),
-          DoctorsInfo(
-            canSee: doctor.workSchedule.friday.isNotEmpty ||
-                doctor.workSchedule.monday.isNotEmpty ||
-                doctor.workSchedule.tuesday.isNotEmpty ||
-                doctor.workSchedule.wednesday.isNotEmpty ||
-                doctor.workSchedule.thursday.isNotEmpty,
-            title: "working_hours",
-            itemKey: GlobalKey(),
-            checker: DoctorInfoEnum.workTime,
           ),
           DoctorsInfo(
             canSee: doctor.award.isNotEmpty,
@@ -115,7 +127,17 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
             checker: DoctorInfoEnum.articles,
           ),
         ];
+
+        final schedule = doctor.workSchedule;
+        final available = schedule.monday.isNotEmpty ||
+            schedule.thursday.isNotEmpty ||
+            schedule.tuesday.isNotEmpty ||
+            schedule.wednesday.isNotEmpty ||
+            schedule.saturday.isNotEmpty ||
+            schedule.friday.isNotEmpty;
+
         emit(state.copyWith(
+          doctorSingleStatus: FormzSubmissionStatus.success,
           doctorInfoItems: doctorInfo,
           doctorDetailsLoading: false,
           doctorDetailsSuccess: true,

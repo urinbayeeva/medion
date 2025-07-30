@@ -35,6 +35,8 @@
 		<string>${PRODUCT_NAME}</string>
 		<key>NSCameraUsageDescription</key>
 		<string>This app requires access to your camera to take photos.</string>
+		<key>NSMotionUsageDescription</key>
+        <string>This app requires access to motion sensors to enhance user experience and track movement accurately.</string>
 		<key>NSDocumentsFolderUsageDescription</key>
 		<string>Need to access downloaded files</string>
 		<key>NSDownloadsFolderUsageDescription</key>

@@ -30,10 +30,9 @@ class Reviews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (review != null) {
-      log("rating rank: ${review?.ratings}");
       return Column(
         children: [
-          const SizedBox(height: 75),
+          SizedBox(height: 60.h),
           ReviewCard(
             review: GetReviewModel(
               (b) => b

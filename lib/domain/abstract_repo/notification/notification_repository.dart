@@ -8,6 +8,8 @@ abstract class NotificationRepository {
 
   Future<Either<ResponseFailure, List<NotificationModel>>> getNotifications();
 
+  Future<Either<ResponseFailure, NotificationModel>> getNotificationSingle({int? pk});
+
   Future<Either<ResponseFailure, List<NotificationModel>>> filterNotification({required String type});
 
   Future<Either<ResponseFailure, void>> readNotifications({int? id});

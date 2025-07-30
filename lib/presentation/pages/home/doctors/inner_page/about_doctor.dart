@@ -1,21 +1,44 @@
 import 'dart:developer';
-
 import 'package:built_collection/built_collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';
+import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/custom_tabbar.dart';
+import 'package:medion/presentation/pages/home/doctors/inner_page/doctor_discount.dart';
+import 'package:medion/presentation/pages/home/doctors/inner_page/error_progress_ui.dart';
+import 'package:medion/presentation/pages/home/doctors/inner_page/video_widget.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/about_doctor_widget.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_shimmer.dart';
+import 'package:medion/presentation/pages/others/branches/widget/image_dialog.dart';
+import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/customer_review/review_card.dart';
+import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/enums/doctor_info_enum.dart';
 import 'package:medion/utils/enums/feedback_status_enum.dart';
+
+class DoctorsInfo {
+  final String title;
+  final bool canSee;
+  final GlobalKey itemKey;
+  final DoctorInfoEnum checker;
+
+  const DoctorsInfo({
+    required this.canSee,
+    required this.title,
+    required this.itemKey,
+    required this.checker,
+  });
+}
 
 class AboutDoctor extends StatefulWidget {
   final String? name;
@@ -60,14 +83,17 @@ class _AboutDoctorState extends State<AboutDoctor> {
 
   void tabForScrollSection(int index, List<DoctorsInfo> doctorInfoTabs) {
     final GlobalKey key = doctorInfoTabs[index].itemKey;
-    final context = key.currentContext;
-    if (context != null) {
-      Scrollable.ensureVisible(
-        context,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final context = key.currentContext;
+      if (context != null) {
+        Scrollable.ensureVisible(
+          context,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          alignment: 0.1,
+        );
+      }
+    });
   }
 
   @override
@@ -76,6 +102,13 @@ class _AboutDoctorState extends State<AboutDoctor> {
       builder: (context, colors, fonts, icons, controller) {
         return BlocBuilder<DoctorBloc, DoctorState>(
           builder: (context, state) {
+            if (state.doctorSingleStatus.isInProgress || state.doctorSingleStatus.isInitial) {
+              return const UiHelper(isFailure: false);
+            }
+            if (state.doctorSingleStatus.isFailure) {
+              return const UiHelper(isFailure: true);
+            }
+
             return DefaultTabController(
               length: state.doctorInfoItems.where((e) => e.canSee).toList().length,
               child: Scaffold(
@@ -123,104 +156,128 @@ class _AboutDoctorState extends State<AboutDoctor> {
                         ],
                       ),
                     ),
-                    if (state.loading || state.doctorDetails == null) ...{
-                      const AboutDoctorShimmer(),
-                    } else ...{
-                      Expanded(
-                        child: ListView.builder(
-                          controller: _controller,
-                          itemCount: state.doctorInfoItems.where((elem) => elem.canSee).toList().length,
-                          itemBuilder: (context, index) {
-                            final item = state.doctorInfoItems[index];
-                            final doctor = state.doctorDetails!;
-                            return Column(
-                              key: item.itemKey,
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (item.checker.isAbout && item.canSee) ...{
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                    child: Text(item.title.tr(), style: fonts.regularMain),
-                                  ),
-                                  about(context: context, colors: colors, doctor: doctor),
-                                },
-                                if (item.checker.isExperience && item.canSee) ...{
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                    child: Text(item.title.tr(), style: fonts.regularMain),
-                                  ),
-                                  _buildExperienceTab(doctor, colors, fonts, icons),
-                                },
-                                if (item.checker.isEducation && item.canSee) ...{
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                    child: Text(item.title.tr(), style: fonts.regularMain),
-                                  ),
-                                  _buildEducationTab(doctor, colors, fonts, icons),
-                                },
-                                if (item.checker.isWorkTime && item.canSee) ...{
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                    child: Text(item.title.tr(), style: fonts.regularMain),
-                                  ),
-                                  _buildWorkingHoursTab(doctor, colors, fonts),
-                                },
-                                if (item.checker.isAchievements && item.canSee) ...{
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                    child: Text(item.title.tr(), style: fonts.regularMain),
-                                  ),
-                                  _achievements(
-                                    awards: doctor.award.toList(),
-                                    colors: colors,
-                                    fonts: fonts,
-                                  ),
-                                },
-                                if (item.checker.isGallery && item.canSee) ...{
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                    child: Text(item.title.tr(), style: fonts.regularMain),
-                                  ),
-                                  _gallery(
-                                    gallery: doctor.galleryItems.toList(),
-                                    colors: colors,
-                                    fonts: fonts,
-                                  ),
-                                },
-                                if (item.checker.isReviews && item.canSee) ...{
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                    child: Text(item.title.tr(), style: fonts.regularMain),
-                                  ),
-                                  _reviews(
-                                    reviews: doctor.reviews.toList(),
-                                    colors: colors,
-                                    fonts: fonts,
-                                    icons: icons,
-                                  ),
-                                },
-                                if (item.checker.isArticles && item.canSee) ...{
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                    child: Text(item.title.tr(), style: fonts.regularMain),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: _articles(
-                                      articles: doctor.articles.toList(),
-                                      colors: colors,
-                                      fonts: fonts,
-                                    ),
-                                  )
-                                },
-                              ],
-                            );
-                          },
+                    Expanded(
+                      child: SingleChildScrollView(
+                        controller: _controller,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ...List.generate(
+                              state.doctorInfoItems.where((elem) => elem.canSee).toList().length + 1,
+                              (index) {
+                                final item = state.doctorInfoItems[index];
+                                final doctor = state.doctorDetails!;
+                                return Column(
+                                  key: item.itemKey,
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (item.checker.isAbout && item.canSee) ...{
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                            child: Text(
+                                              item.title.tr(),
+                                              textAlign: TextAlign.left,
+                                              style: fonts.regularMain,
+                                            ),
+                                          ),
+                                          about(context: context, colors: colors, doctor: doctor)
+                                        ],
+                                      )
+                                    },
+                                    if (item.checker.isDiscount && item.canSee) ...{
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                            child: Text(
+                                              item.title.tr(),
+                                              textAlign: TextAlign.left,
+                                              style: fonts.regularMain,
+                                            ),
+                                          ),
+                                          discount(context: context, colors: colors, fonts: fonts, doctor: doctor)
+                                        ],
+                                      )
+                                    },
+                                    if (item.checker.isExperience && item.canSee) ...{
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                        child: Text(item.title.tr(), style: fonts.regularMain),
+                                      ),
+                                      _buildExperienceTab(doctor, colors, fonts, icons),
+                                    },
+                                    if (item.checker.isEducation && item.canSee) ...{
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                        child: Text(item.title.tr(), style: fonts.regularMain),
+                                      ),
+                                      _buildEducationTab(doctor, colors, fonts, icons),
+                                    },
+                                    if (item.checker.isWorkTime && item.canSee) ...{
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                        child: Text(item.title.tr(), style: fonts.regularMain),
+                                      ),
+                                      _buildWorkingHoursTab(doctor, colors, fonts),
+                                    },
+                                    if (item.checker.isAchievements && item.canSee) ...{
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                        child: Text(item.title.tr(), style: fonts.regularMain),
+                                      ),
+                                      _achievements(
+                                        awards: doctor.award.toList(),
+                                        colors: colors,
+                                        fonts: fonts,
+                                      ),
+                                    },
+                                    if (item.checker.isGallery && item.canSee) ...{
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                        child: Text(item.title.tr(), style: fonts.regularMain),
+                                      ),
+                                      GalleryItemWidget(gallery: doctor.galleryItems.toList())
+                                    },
+                                    if (item.checker.isReviews && item.canSee) ...{
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                        child: Text(item.title.tr(), style: fonts.regularMain),
+                                      ),
+                                      _reviews(
+                                        reviews: doctor.reviews.toList(),
+                                        colors: colors,
+                                        fonts: fonts,
+                                        icons: icons,
+                                      ),
+                                    },
+                                    if (item.checker.isArticles && item.canSee) ...{
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                        child: Text(item.title.tr(), style: fonts.regularMain),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 10),
+                                        child: _articles(
+                                          articles: doctor.articles.toList(),
+                                          colors: colors,
+                                          fonts: fonts,
+                                        ),
+                                      )
+                                    },
+                                  ],
+                                );
+                              },
+                            )
+                          ],
                         ),
                       ),
-                    },
-                    const SizedBox(height: 10),
+                    ),
+                    SizedBox(height: 30.h),
                   ],
                 ),
               ),
@@ -305,7 +362,17 @@ class _AboutDoctorState extends State<AboutDoctor> {
                     children: [
                       Text(item.title, style: fonts.xSmallMain.copyWith(fontWeight: FontWeight.w500)),
                       WScaleAnimation(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context, rootNavigator: true).push(
+                            AppRoutes.getInfoViewAboutHealth(
+                              discountCondition: "",
+                              date: '',
+                              imagePath: [...item.images, item.primaryImage],
+                              title: item.title,
+                              desc: item.description,
+                            ),
+                          );
+                        },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -341,48 +408,6 @@ class _AboutDoctorState extends State<AboutDoctor> {
     );
   }
 
-  Widget _gallery({
-    required List<GalleryItems> gallery,
-    required CustomColorSet colors,
-    required FontSet fonts,
-  }) {
-    if (gallery.isEmpty) {
-      return _empty(colors, fonts);
-    }
-
-    return SizedBox(
-      height: 118,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          spacing: 8,
-          children: [
-            ...List.generate(
-              gallery.length,
-              (i) {
-                final item = gallery[i];
-                return Container(
-                  margin: EdgeInsets.fromLTRB(i == 0 ? 10 : 0, 0, 0, 0),
-                  constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width * 0.4),
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  decoration: BoxDecoration(color: colors.shade0, borderRadius: BorderRadius.circular(12)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("${item.fileName}", style: fonts.regularMain),
-                      Text("${item.type}", style: fonts.xSmallMain),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _achievements({
     required List<Award> awards,
     required CustomColorSet colors,
@@ -391,36 +416,31 @@ class _AboutDoctorState extends State<AboutDoctor> {
     if (awards.isEmpty) {
       return _empty(colors, fonts);
     }
-    return SizedBox(
-      height: 118,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          spacing: 8,
-          children: [
-            ...List.generate(
-              awards.length,
-              (i) {
-                final item = awards[i];
-                return Container(
-                  margin: EdgeInsets.fromLTRB(i == 0 ? 10 : 0, 0, 0, 0),
-                  constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width * 0.4),
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  decoration: BoxDecoration(color: colors.shade0, borderRadius: BorderRadius.circular(12)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("${item.title}", style: fonts.regularMain),
-                      Text("${item.date}", style: fonts.xSmallMain),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ],
+    return ListView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        ...List.generate(
+          awards.length,
+          (index) {
+            final item = awards[index];
+            return Container(
+              margin: EdgeInsets.fromLTRB(10.w, 0, 10.w, index != awards.length - 1 ? 8.h : 0),
+              width: 1.sw,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(color: colors.shade0, borderRadius: BorderRadius.circular(12)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(item.title ?? '', style: fonts.regularMain),
+                  Text(item.date ?? "", style: fonts.xSmallMain),
+                ],
+              ),
+            );
+          },
         ),
-      ),
+      ],
     );
   }
 
@@ -430,11 +450,55 @@ class _AboutDoctorState extends State<AboutDoctor> {
         maxHeight: MediaQuery.of(context).size.height * 0.3,
         maxWidth: MediaQuery.of(context).size.width,
       ),
+      width: 1.sw,
       margin: const EdgeInsets.symmetric(horizontal: 12),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(color: colors.shade0, borderRadius: BorderRadius.circular(12)),
       child: Text(doctor.decodedDescription),
     );
+  }
+
+  Widget discount({
+    required BuildContext context,
+    required CustomColorSet colors,
+    required FontSet fonts,
+    required ModelDoctor doctor,
+  }) {
+    if (doctor.hasDiscount && doctor.discount.isNotEmpty) {
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          spacing: 8,
+          children: [
+            ...List.generate(
+              doctor.discount.length + 1,
+              (i) {
+                if (i == 0) return const SizedBox(width: 12);
+                final item = doctor.discount[i - 1];
+                return SizedBox(
+                  width: 163.w,
+                  height: 255.h,
+                  child: DiscountCard(
+                    title: item.title ?? "",
+                    image: item.image ?? "",
+                    date: _formatDiscountDate(item.discountEndDate),
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true).push(
+                        MaterialPageRoute(builder: (context) => DoctorDiscountScreen(discount: item, doctor: doctor)),
+                      );
+                    },
+                    colors: colors,
+                    fonts: fonts,
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 
   Widget _buildExperienceTab(ModelDoctor doctor, dynamic colors, dynamic fonts, dynamic icons) {
@@ -601,10 +665,14 @@ class _AboutDoctorState extends State<AboutDoctor> {
                         color: colors.primary900,
                       ),
                     ),
-                    ...schedules
-                        .map((item) => Text(item.time.toString(),
-                            style: fonts.regularMain.copyWith(color: colors.neutral600, fontSize: 13.sp)))
-                        .toList(),
+                    ...schedules.map(
+                      (item) {
+                        return Text(
+                          item.time.toString(),
+                          style: fonts.regularMain.copyWith(color: colors.neutral600, fontSize: 13.sp),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -616,54 +684,134 @@ class _AboutDoctorState extends State<AboutDoctor> {
   }
 }
 
-// final List<DoctorsInfo> doctorInfoTabs = [
-//   DoctorsInfo(canSee: false, title: "about_the_doctor", itemKey: GlobalKey(), checker: DoctorInfoEnum.about),
-//   DoctorsInfo(canSee: true, title: "working_experience", itemKey: GlobalKey(), checker: DoctorInfoEnum.experience),
-//   DoctorsInfo(canSee: false, title: "education", itemKey: GlobalKey(), checker: DoctorInfoEnum.education),
-//   DoctorsInfo(canSee: true, title: "working_hours", itemKey: GlobalKey(), checker: DoctorInfoEnum.workTime),
-//   DoctorsInfo(canSee: false, title: "achievments", itemKey: GlobalKey(), checker: DoctorInfoEnum.achievements),
-//   DoctorsInfo(canSee: true, title: "gallery", itemKey: GlobalKey(), checker: DoctorInfoEnum.gallery),
-//   DoctorsInfo(canSee: false, title: "reviews", itemKey: GlobalKey(), checker: DoctorInfoEnum.reviews),
-//   DoctorsInfo(canSee: true, title: "articles", itemKey: GlobalKey(), checker: DoctorInfoEnum.articles),
-// ];
+class GalleryItemWidget extends StatefulWidget {
+  const GalleryItemWidget({
+    super.key,
+    required this.gallery,
+  });
 
-enum DoctorInfoEnum {
-  about,
-  experience,
-  education,
-  workTime,
-  achievements,
-  gallery,
-  reviews,
-  articles;
+  final List<GalleryItems> gallery;
 
-  bool get isAbout => this == DoctorInfoEnum.about;
-
-  bool get isExperience => this == DoctorInfoEnum.experience;
-
-  bool get isEducation => this == DoctorInfoEnum.education;
-
-  bool get isWorkTime => this == DoctorInfoEnum.workTime;
-
-  bool get isAchievements => this == DoctorInfoEnum.achievements;
-
-  bool get isGallery => this == DoctorInfoEnum.gallery;
-
-  bool get isReviews => this == DoctorInfoEnum.reviews;
-
-  bool get isArticles => this == DoctorInfoEnum.articles;
+  @override
+  State<GalleryItemWidget> createState() => _GalleryItemWidgetState();
 }
 
-class DoctorsInfo {
-  final String title;
-  final bool canSee;
-  final GlobalKey itemKey;
-  final DoctorInfoEnum checker;
+class _GalleryItemWidgetState extends State<GalleryItemWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return ThemeWrapper(
+      builder: (ctx, colors, fonts, icons, controller) {
+        if (widget.gallery.isEmpty) {
+          return _empty(colors, fonts);
+        }
 
-  const DoctorsInfo({
-    required this.canSee,
-    required this.title,
-    required this.itemKey,
-    required this.checker,
-  });
+        return Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: colors.shade0,
+          ),
+          margin: EdgeInsets.symmetric(horizontal: 12.w),
+          height: 160.h,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              spacing: 8,
+              children: [
+                ...List.generate(
+                  widget.gallery.length,
+                  (i) {
+                    final item = widget.gallery.reversed.toList()[i];
+                    bool hasVideo = item.type == "video";
+
+                    return WScaleAnimation(
+                      onTap: () {
+                        final List<ContentBase> contentBaseList = [
+                          ...widget.gallery.where((item) => item.fileUrl.isNotEmpty).map((item) => ContentBase(
+                                isVideo: item.type.toLowerCase() == 'video',
+                                fileLink: item.type.toLowerCase() == 'video'
+                                    ? "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4"
+                                    : item.fileUrl,
+                                coverImage: item.videoImage,
+                              ))
+                        ];
+
+                        final List<ContentBase> images = [...contentBaseList];
+                        MyFunctions.showImages(
+                          isVideo: hasVideo,
+                          context: context,
+                          mainImage: item.fileUrl,
+                          images: [...images],
+                        );
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4.w),
+                            child: Container(
+                              width: 0.75.sw,
+                              height: double.infinity,
+                              margin: EdgeInsets.fromLTRB(
+                                i == 0 ? 10 : 0,
+                                8.h,
+                                i == widget.gallery.length - 1 ? 10 : 0,
+                                8.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: colors.neutral200,
+                                borderRadius: BorderRadius.circular(6.r),
+                              ),
+                              constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width * 0.4),
+                              child: CommonImage(
+                                radius: BorderRadius.circular(6.r),
+                                imageUrl: hasVideo ? item.videoImage : item.fileUrl,
+                              ),
+                            ),
+                          ),
+                          if (hasVideo) ...{
+                            Center(
+                              child: SizedBox(
+                                height: 36.h,
+                                width: 36.w,
+                                child: icons.playButton.svg(),
+                              ),
+                            ),
+                          }
+                        ],
+                      ),
+                    );
+
+                    // if (hasVideo) {
+                    //   return VideoWidget(
+                    //     videos: [...videos],
+                    //     image: item.videoImage,
+                    //     videoUrl: item.fileUrl,
+                    //     // videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    //   );
+                    // } else {
+                    //
+                    // }
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _empty(CustomColorSet colors, FontSet fonts) {
+    return Container(
+      height: 118,
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        color: colors.shade0,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(child: Text("no_result_found".tr(), style: fonts.regularMain)),
+    );
+  }
 }

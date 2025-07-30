@@ -9,6 +9,7 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_choose.dart';
 import 'package:medion/presentation/pages/others/component/common_image.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -37,17 +38,22 @@ class _DoctorDiscountScreenState extends State<DoctorDiscountScreen> {
     return ThemeWrapper(
       builder: (ctx, colors, fonts, icons, controller) {
         return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: colors.shade0,
+            foregroundColor: colors.darkMode900,
+            scrolledUnderElevation: 0,
+            leading: WScaleAnimation(
+              child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+              onTap: () => Navigator.of(context).pop(),
+            ),
+            title: Text("discounts".tr(), style: fonts.regularMain),
+          ),
           backgroundColor: colors.shade0,
           body: SingleChildScrollView(
             child: Column(
               children: [
-                CAppBar(
-                  bordered: true,
-                  title: "discounts".tr(),
-                  isBack: true,
-                  centerTitle: true,
-                  trailing: 24.w.horizontalSpace,
-                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: SizedBox(

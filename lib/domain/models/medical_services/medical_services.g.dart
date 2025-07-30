@@ -210,6 +210,13 @@ class _$AdModelSerializer implements StructuredSerializer<AdModel> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.type;
+    if (value != null) {
+      result
+        ..add('type')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.image;
     if (value != null) {
       result
@@ -252,6 +259,12 @@ class _$AdModelSerializer implements StructuredSerializer<AdModel> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.contentId;
+    if (value != null) {
+      result
+        ..add('content_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -272,6 +285,10 @@ class _$AdModelSerializer implements StructuredSerializer<AdModel> {
           break;
         case 'info':
           result.info = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'type':
+          result.type = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'image':
@@ -297,6 +314,10 @@ class _$AdModelSerializer implements StructuredSerializer<AdModel> {
         case 'image_for_mobile_ru':
           result.imageForMobileRu = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'content_id':
+          result.contentId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -613,6 +634,8 @@ class _$AdModel extends AdModel {
   @override
   final String? info;
   @override
+  final String? type;
+  @override
   final String? image;
   @override
   final bool? important;
@@ -624,6 +647,8 @@ class _$AdModel extends AdModel {
   final String? imageForMobileEn;
   @override
   final String? imageForMobileRu;
+  @override
+  final int? contentId;
 
   factory _$AdModel([void Function(AdModelBuilder)? updates]) =>
       (new AdModelBuilder()..update(updates))._build();
@@ -631,12 +656,14 @@ class _$AdModel extends AdModel {
   _$AdModel._(
       {this.title,
       this.info,
+      this.type,
       this.image,
       this.important,
       this.link,
       this.imageForMobileUz,
       this.imageForMobileEn,
-      this.imageForMobileRu})
+      this.imageForMobileRu,
+      this.contentId})
       : super._();
 
   @override
@@ -652,12 +679,14 @@ class _$AdModel extends AdModel {
     return other is AdModel &&
         title == other.title &&
         info == other.info &&
+        type == other.type &&
         image == other.image &&
         important == other.important &&
         link == other.link &&
         imageForMobileUz == other.imageForMobileUz &&
         imageForMobileEn == other.imageForMobileEn &&
-        imageForMobileRu == other.imageForMobileRu;
+        imageForMobileRu == other.imageForMobileRu &&
+        contentId == other.contentId;
   }
 
   @override
@@ -665,12 +694,14 @@ class _$AdModel extends AdModel {
     var _$hash = 0;
     _$hash = $jc(_$hash, title.hashCode);
     _$hash = $jc(_$hash, info.hashCode);
+    _$hash = $jc(_$hash, type.hashCode);
     _$hash = $jc(_$hash, image.hashCode);
     _$hash = $jc(_$hash, important.hashCode);
     _$hash = $jc(_$hash, link.hashCode);
     _$hash = $jc(_$hash, imageForMobileUz.hashCode);
     _$hash = $jc(_$hash, imageForMobileEn.hashCode);
     _$hash = $jc(_$hash, imageForMobileRu.hashCode);
+    _$hash = $jc(_$hash, contentId.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -680,12 +711,14 @@ class _$AdModel extends AdModel {
     return (newBuiltValueToStringHelper(r'AdModel')
           ..add('title', title)
           ..add('info', info)
+          ..add('type', type)
           ..add('image', image)
           ..add('important', important)
           ..add('link', link)
           ..add('imageForMobileUz', imageForMobileUz)
           ..add('imageForMobileEn', imageForMobileEn)
-          ..add('imageForMobileRu', imageForMobileRu))
+          ..add('imageForMobileRu', imageForMobileRu)
+          ..add('contentId', contentId))
         .toString();
   }
 }
@@ -700,6 +733,10 @@ class AdModelBuilder implements Builder<AdModel, AdModelBuilder> {
   String? _info;
   String? get info => _$this._info;
   set info(String? info) => _$this._info = info;
+
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
 
   String? _image;
   String? get image => _$this._image;
@@ -728,6 +765,10 @@ class AdModelBuilder implements Builder<AdModel, AdModelBuilder> {
   set imageForMobileRu(String? imageForMobileRu) =>
       _$this._imageForMobileRu = imageForMobileRu;
 
+  int? _contentId;
+  int? get contentId => _$this._contentId;
+  set contentId(int? contentId) => _$this._contentId = contentId;
+
   AdModelBuilder();
 
   AdModelBuilder get _$this {
@@ -735,12 +776,14 @@ class AdModelBuilder implements Builder<AdModel, AdModelBuilder> {
     if ($v != null) {
       _title = $v.title;
       _info = $v.info;
+      _type = $v.type;
       _image = $v.image;
       _important = $v.important;
       _link = $v.link;
       _imageForMobileUz = $v.imageForMobileUz;
       _imageForMobileEn = $v.imageForMobileEn;
       _imageForMobileRu = $v.imageForMobileRu;
+      _contentId = $v.contentId;
       _$v = null;
     }
     return this;
@@ -765,12 +808,14 @@ class AdModelBuilder implements Builder<AdModel, AdModelBuilder> {
         new _$AdModel._(
           title: title,
           info: info,
+          type: type,
           image: image,
           important: important,
           link: link,
           imageForMobileUz: imageForMobileUz,
           imageForMobileEn: imageForMobileEn,
           imageForMobileRu: imageForMobileRu,
+          contentId: contentId,
         );
     replace(_$result);
     return _$result;

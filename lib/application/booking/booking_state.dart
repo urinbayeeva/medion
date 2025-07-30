@@ -17,6 +17,7 @@ class BookingState with _$BookingState {
     @Default(false) bool hasFetchedThirdServices,
     @Default([]) List<HomepageBookingCategory> homePageBookingCategory,
     @Default([]) List<MedicalServiceCategory> doctorServices,
+    @Default([]) List<DirectionScrollingItem> items,
     MedicalModel? medicalModel,
     int? selectedDoctorId,
     int? selectedServiceId,

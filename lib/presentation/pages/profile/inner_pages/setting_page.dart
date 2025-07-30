@@ -54,6 +54,8 @@ class _SettingPageState extends State<SettingPage> {
             child: Text("${"version".tr()} ${_version.value}"),
           ),
           body: ListView(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
             padding: EdgeInsets.zero,
             children: [
               Container(

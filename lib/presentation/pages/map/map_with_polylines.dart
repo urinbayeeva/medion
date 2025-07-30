@@ -1,18 +1,19 @@
-import 'dart:convert';
-import 'dart:developer';
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:yandex_mapkit/yandex_mapkit.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart' as http;
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:medion/presentation/pages/home/yandex_on_tap.dart';
+import 'package:medion/presentation/component/c_appbar.dart';
+import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/pages/map/widgets/map_polylines_widget.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/theme.dart';
-import 'package:medion/presentation/styles/style.dart';
+import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MapWithPolylines extends StatefulWidget {
   final Point destination;
@@ -33,16 +34,19 @@ class MapWithPolylines extends StatefulWidget {
 }
 
 class _MapWithPolylinesState extends State<MapWithPolylines> {
-  YandexMapController? _mapController;
+  final ValueNotifier<int> _notifier = ValueNotifier(0);
+  final Completer<YandexMapController> _controller = Completer();
+  late final YandexMapController _mapController;
   Point? _currentPosition;
-  List<MapObject> _mapObjects = [];
+  final List<MapObject> _mapObjects = [];
   double _distanceInKm = 0;
   String _travelTime = '';
 
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
+    _getCurrentLocation().then((value) {});
+    _addCompanyIcon();
   }
 
   Future<void> _getCurrentLocation() async {
@@ -60,14 +64,26 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
     if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
       permission = await Geolocator.requestPermission();
       if (permission != LocationPermission.whileInUse && permission != LocationPermission.always) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Location permission denied'.tr())),
+        showModalBottomSheet(
+          context: context,
+          backgroundColor: Colors.transparent,
+          useRootNavigator: true,
+          useSafeArea: true,
+          enableDrag: false,
+          builder: (ctx) {
+            return OpenSettingBottomSheet(
+              onTap: () async => await openAppSettings().then((value) {
+                _getCurrentLocation();
+                if (ctx.mounted) Navigator.of(ctx).pop();
+              }),
+            );
+          },
         );
         return;
       }
     }
-
     final position = await Geolocator.getCurrentPosition();
+
     if (mounted) {
       setState(() {
         _currentPosition = Point(
@@ -75,93 +91,266 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
           longitude: position.longitude,
         );
       });
+
+      if (_controller.isCompleted) {
+        final controller = await _controller.future;
+        await controller.moveCamera(
+          animation: const MapAnimation(type: MapAnimationType.linear, duration: 2),
+          CameraUpdate.newCameraPosition(
+            CameraPosition(target: _currentPosition!, zoom: 14),
+          ),
+        );
+      }
+
       await _fetchRoutePolyline();
       _calculateDistanceAndTime();
     }
   }
 
-  Future<void> _fetchRoutePolyline() async {
-    if (_currentPosition == null) return;
+  void move() async {
+    final controller = await _controller.future;
+    await controller.moveCamera(
+      animation: const MapAnimation(type: MapAnimationType.linear, duration: 2),
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: _currentPosition!, zoom: 16),
+      ),
+    );
+  }
 
-    final origin = _currentPosition!;
-    final destination = widget.destination;
-    const _key = 'a8ce6127-69d7-438e-bf1c-c7ea7bb81310';
-    const _keyOld = '3f886df1-7552-4a91-8dc7-3511e772780d';
-
-    final url =
-        'https://api.routing.yandex.net/v2/route?waypoints=${origin.latitude},${origin.longitude}|${destination.latitude},${destination.longitude}&apikey=$_keyOld';
-
-    final response = await http.get(Uri.parse(url));
-    log("APi Url: $url\n\n");
-    log("APi response status code: ${response.statusCode}");
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      print('API body: ${response.body}');
-
-      if (data['status'] != 'success') {
-        print('Error: ${data['error']}');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to fetch route: ${data['error']}'.tr())),
-        );
-        return;
-      }
-
-      if (data['routes'].isEmpty) {
-        print('No routes found.');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('No routes found'.tr())),
-        );
-        return;
-      }
-
-      final route = data['routes'][0];
-      final List<Point> polylinePoints = route['geometry']['coordinates']
-          .map<Point>((coord) => Point(latitude: coord[1], longitude: coord[0]))
-          .toList();
-
-      setState(() {
-        _mapObjects.clear();
-        _mapObjects.add(PolylineMapObject(
-          mapId: const MapObjectId('route'),
-          polyline: Polyline(points: polylinePoints),
-          strokeColor: Style.error500,
-          strokeWidth: 5.0,
-        ));
-
-        _mapObjects.add(PlacemarkMapObject(
-          mapId: const MapObjectId('current'),
-          point: _currentPosition!,
-          icon: PlacemarkIcon.single(
-            PlacemarkIconStyle(
-              image: BitmapDescriptor.fromAssetImage('assets/current.png'),
+  @override
+  Widget build(BuildContext context) {
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, controller) {
+        if (_currentPosition == null) {
+          return Scaffold(
+            body: Stack(
+              children: [
+                Positioned(
+                  top: 60,
+                  right: 20,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      icon: const Icon(Icons.close, color: Colors.black),
+                      onPressed: () {
+                        context.read<BottomNavBarController>().changeNavBar(false);
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ),
+                if (_distanceInKm > 0) ...{
+                  Positioned(
+                    top: 60,
+                    left: 20,
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.1),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${_distanceInKm.toStringAsFixed(1)} km',
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(_travelTime, style: const TextStyle(fontSize: 14, color: Colors.grey)),
+                        ],
+                      ),
+                    ),
+                  ),
+                },
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: MapPolylinesWidget(
+                    yandexTap: () async {
+                      await openYandexTaxi(widget.destination.latitude, widget.destination.longitude);
+                    },
+                    name: widget.name,
+                    workingHours: widget.workingHours,
+                    image: widget.image,
+                    distanceKm: _distanceInKm,
+                    travelTime: _travelTime,
+                  ),
+                ),
+              ],
             ),
+          );
+        }
+        return Scaffold(
+          body: Stack(
+            children: [
+              ValueListenableBuilder<int>(
+                valueListenable: _notifier,
+                builder: (context, value, child) {
+                  if (value == 1) move();
+
+                  return YandexMap(
+                    onMapCreated: (controller) async {
+                      _mapController = controller;
+                      if (!_controller.isCompleted) {
+                        _controller.complete(controller);
+                        if (_currentPosition != null) {
+                          _notifier.value = 1;
+                        }
+                      }
+                      await controller.toggleUserLayer(visible: true, autoZoomEnabled: true);
+                    },
+                    mapObjects: _mapObjects,
+                    onCameraPositionChanged: (position, reason, finished) {},
+                  );
+                },
+              ),
+              Positioned(
+                top: 60,
+                right: 20,
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: IconButton(
+                    icon: const Icon(Icons.close, color: Colors.black),
+                    onPressed: () {
+                      context.read<BottomNavBarController>().changeNavBar(false);
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ),
+              if (_distanceInKm > 0) ...{
+                Positioned(
+                  top: 60,
+                  left: 20,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.1),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${_distanceInKm.toStringAsFixed(1)} km',
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(_travelTime, style: const TextStyle(fontSize: 14, color: Colors.grey)),
+                      ],
+                    ),
+                  ),
+                ),
+              },
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: MapPolylinesWidget(
+                  yandexTap: () async {
+                    await openYandexTaxi(widget.destination.latitude, widget.destination.longitude);
+                  },
+                  name: widget.name,
+                  workingHours: widget.workingHours,
+                  image: widget.image,
+                  distanceKm: _distanceInKm,
+                  travelTime: _travelTime,
+                ),
+              ),
+            ],
           ),
-          text: const PlacemarkText(
-            text: 'Your Location',
-            style: PlacemarkTextStyle(),
-          ),
+        );
+      },
+    );
+  }
+
+  void _addCompanyIcon() {
+    final placeMark = PlacemarkMapObject(
+        mapId: const MapObjectId("company-location"),
+        point: Point(latitude: widget.destination.latitude, longitude: widget.destination.longitude),
+        icon: PlacemarkIcon.single(
+          PlacemarkIconStyle(image: BitmapDescriptor.fromAssetImage("assets/images/location.png")),
         ));
 
-        _mapObjects.add(PlacemarkMapObject(
-          mapId: const MapObjectId('destination'),
-          point: destination,
-          icon: PlacemarkIcon.single(
-            PlacemarkIconStyle(
-              image: BitmapDescriptor.fromAssetImage('assets/destination.png'),
-            ),
-          ),
-          text: PlacemarkText(text: widget.name, style: PlacemarkTextStyle()),
-        ));
-      });
+    _mapObjects.add(placeMark);
+  }
 
-      print('Polyline added with ${polylinePoints.length} points');
-      _fitMapToPolyline(polylinePoints);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to fetch route'.tr())),
+  Future<void> openYandexTaxi(double endLat, double endLon) async {
+    final startLat = _currentPosition?.latitude;
+    final startLon = _currentPosition?.longitude;
+
+    if (startLat == null || startLon == null) {
+      const defaultLat = 41.2995;
+      const defaultLon = 69.2401;
+
+      final url = Uri.parse(
+        'https://3.redirect.appmetrica.yandex.com/route?'
+        'start-lat=$defaultLat&start-lon=$defaultLon&'
+        'end-lat=$endLat&end-lon=$endLon&'
+        'appmetrica_tracking_id=1178268795219780156',
       );
-      print('Failed to fetch directions: ${response.body}');
+
+      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not launch Yandex Taxi')),
+        );
+      }
+      return;
+    }
+
+    final url = Uri.parse(
+      'https://3.redirect.appmetrica.yandex.com/route?'
+      'start-lat=$startLat&start-lon=$startLon&'
+      'end-lat=$endLat&end-lon=$endLon&'
+      'appmetrica_tracking_id=1178268795219780156',
+    );
+
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not launch Yandex Taxi')),
+      );
+    }
+  }
+
+  Future<void> _fetchRoutePolyline() async {
+    if (_currentPosition != null) {
+      final session = YandexDriving.requestRoutes(
+        points: [
+          RequestPoint(point: widget.destination, requestPointType: RequestPointType.wayPoint),
+          RequestPoint(point: _currentPosition!, requestPointType: RequestPointType.wayPoint),
+        ],
+        drivingOptions: const DrivingOptions(),
+      );
+
+      final result = await session.result;
+      if (result.routes != null && result.routes!.isNotEmpty) {
+        final route = result.routes!.first;
+
+        final polyLine = PolylineMapObject(
+          mapId: const MapObjectId("single-branch-line"),
+          polyline: Polyline(points: route.geometry),
+          strokeColor: Colors.red,
+          strokeWidth: 4,
+        );
+
+        _mapObjects.add(polyLine);
+      }
     }
   }
 
@@ -184,133 +373,44 @@ class _MapWithPolylinesState extends State<MapWithPolylines> {
 
     setState(() {});
   }
+}
 
-  void _fitMapToPolyline(List<Point> polylinePoints) {
-    if (_mapController == null || polylinePoints.isEmpty) return;
+class OpenSettingBottomSheet extends StatelessWidget {
+  const OpenSettingBottomSheet({super.key, required this.onTap});
 
-    final bounds = _createBoundsFromPointList(polylinePoints);
-    _mapController!.moveCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: bounds.target,
-          zoom: 14,
-        ),
-      ),
-    );
-  }
-
-  CameraPosition _createBoundsFromPointList(List<Point> list) {
-    assert(list.isNotEmpty);
-    double x0 = list.first.latitude;
-    double x1 = list.first.latitude;
-    double y0 = list.first.longitude;
-    double y1 = list.first.longitude;
-
-    for (var point in list) {
-      if (point.latitude > x1) x1 = point.latitude;
-      if (point.latitude < x0) x0 = point.latitude;
-      if (point.longitude > y1) y1 = point.longitude;
-      if (point.longitude < y0) y0 = point.longitude;
-    }
-
-    final center = Point(
-      latitude: (x0 + x1) / 2,
-      longitude: (y0 + y1) / 2,
-    );
-
-    return CameraPosition(target: center, zoom: 14);
-  }
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(
-      builder: (context, colors, fonts, icons, controller) {
-        if (_currentPosition == null) {
-          return Scaffold(body: Center(child: CupertinoActivityIndicator(color: colors.error500)));
-        }
-
-        return Scaffold(
-          body: Stack(
-            children: [
-              YandexMap(
-                onMapCreated: (controller) async {
-                  _mapController = controller;
-                  await controller.toggleUserLayer(
-                    visible: true,
-                    autoZoomEnabled: true,
-                  );
-                },
-                mapObjects: _mapObjects,
-                onCameraPositionChanged: (position, reason, finished) {},
-              ),
-              Positioned(
-                top: 60,
-                right: 20,
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: IconButton(
-                    icon: const Icon(Icons.close, color: Colors.black),
-                    onPressed: () {
-                      context.read<BottomNavBarController>().changeNavBar(false);
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-              ),
-              if (_distanceInKm > 0)
-                Positioned(
-                  top: 60,
-                  left: 20,
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${_distanceInKm.toStringAsFixed(1)} km',
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(_travelTime, style: const TextStyle(fontSize: 14, color: Colors.grey)),
-                      ],
-                    ),
-                  ),
-                ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: MapPolylinesWidget(
-                  yandexTap: () {
-                    print("Yandex Tap triggered for destination: ${widget.destination}");
-                    launchYandexTaxi(
-                      context,
-                      widget.destination.latitude,
-                      widget.destination.longitude,
-                    );
-                  },
-                  name: widget.name,
-                  workingHours: widget.workingHours,
-                  image: widget.image,
-                  distanceKm: _distanceInKm,
-                  travelTime: _travelTime,
-                ),
-              ),
+    return Container(
+      width: 1.sw,
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+      decoration: const BoxDecoration(
+        color: Color(0xffFFFFFF),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppBar(
+            title: Text(
+              'Location permission denied'.tr(),
+              style: const TextStyle(color: Color(0xff000000), fontSize: 15, fontWeight: FontWeight.w400),
+            ),
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+            backgroundColor: const Color(0xffFFFFFF),
+            actions: [
+              WScaleAnimation(onTap: () => Navigator.of(context).pop(), child: const Icon(Icons.clear)),
             ],
           ),
-        );
-      },
+          CButton(
+            title: "Open phone Setting",
+            onTap: onTap,
+          ),
+        ],
+      ),
     );
   }
 }

@@ -9,9 +9,13 @@ part of 'branch_model.dart';
 Serializer<BranchModel> _$branchModelSerializer = new _$BranchModelSerializer();
 Serializer<BranchDetailModel> _$branchDetailModelSerializer =
     new _$BranchDetailModelSerializer();
+Serializer<OffersModel> _$offersModelSerializer = new _$OffersModelSerializer();
 Serializer<AwardsModel> _$awardsModelSerializer = new _$AwardsModelSerializer();
 Serializer<EducationModel> _$educationModelSerializer =
     new _$EducationModelSerializer();
+Serializer<StudyLead> _$studyLeadSerializer = new _$StudyLeadSerializer();
+Serializer<StudyLeadResult> _$studyLeadResultSerializer =
+    new _$StudyLeadResultSerializer();
 Serializer<Course> _$courseSerializer = new _$CourseSerializer();
 Serializer<ContentModel> _$contentModelSerializer =
     new _$ContentModelSerializer();
@@ -324,6 +328,14 @@ class _$BranchDetailModelSerializer
             specifiedType:
                 const FullType(BuiltList, const [const FullType(String)])));
     }
+    value = object.offers;
+    if (value != null) {
+      result
+        ..add('offers')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(OffersModel)])));
+    }
     return result;
   }
 
@@ -398,6 +410,77 @@ class _$BranchDetailModelSerializer
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(String)]))!
               as BuiltList<Object?>);
+          break;
+        case 'offers':
+          result.offers.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(OffersModel)]))!
+              as BuiltList<Object?>);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$OffersModelSerializer implements StructuredSerializer<OffersModel> {
+  @override
+  final Iterable<Type> types = const [OffersModel, _$OffersModel];
+  @override
+  final String wireName = 'OffersModel';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, OffersModel object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[];
+    Object? value;
+    value = object.name;
+    if (value != null) {
+      result
+        ..add('name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.description;
+    if (value != null) {
+      result
+        ..add('description')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.icon;
+    if (value != null) {
+      result
+        ..add('icon')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  OffersModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new OffersModelBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'description':
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'icon':
+          result.icon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -501,7 +584,11 @@ class _$EducationModelSerializer
   @override
   Iterable<Object?> serialize(Serializers serializers, EducationModel object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[];
+    final result = <Object?>[
+      'company_id',
+      serializers.serialize(object.companyId,
+          specifiedType: const FullType(int)),
+    ];
     Object? value;
     value = object.name;
     if (value != null) {
@@ -552,12 +639,6 @@ class _$EducationModelSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.companyId;
-    if (value != null) {
-      result
-        ..add('company_id')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
-    }
     value = object.courses;
     if (value != null) {
       result
@@ -577,6 +658,76 @@ class _$EducationModelSerializer
     if (value != null) {
       result
         ..add('banner_image')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.missionTitle;
+    if (value != null) {
+      result
+        ..add('mission_title')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.missionIcon;
+    if (value != null) {
+      result
+        ..add('mission_icon')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.valuesTitle;
+    if (value != null) {
+      result
+        ..add('values_title')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.valuesIcon;
+    if (value != null) {
+      result
+        ..add('values_icon')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.goalsTitle;
+    if (value != null) {
+      result
+        ..add('goals_title')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.goalsIcon;
+    if (value != null) {
+      result
+        ..add('goals_icon')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.audienceTitle;
+    if (value != null) {
+      result
+        ..add('audience_title')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.audienceIcon;
+    if (value != null) {
+      result
+        ..add('audience_icon')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.whyUsTitle;
+    if (value != null) {
+      result
+        ..add('why_us_title')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.whyUsIcon;
+    if (value != null) {
+      result
+        ..add('why_us_icon')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -625,7 +776,7 @@ class _$EducationModelSerializer
           break;
         case 'company_id':
           result.companyId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+              specifiedType: const FullType(int))! as int;
           break;
         case 'courses':
           result.courses.replace(serializers.deserialize(value,
@@ -640,6 +791,148 @@ class _$EducationModelSerializer
         case 'banner_image':
           result.bannerImage = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'mission_title':
+          result.missionTitle = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'mission_icon':
+          result.missionIcon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'values_title':
+          result.valuesTitle = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'values_icon':
+          result.valuesIcon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'goals_title':
+          result.goalsTitle = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'goals_icon':
+          result.goalsIcon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'audience_title':
+          result.audienceTitle = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'audience_icon':
+          result.audienceIcon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'why_us_title':
+          result.whyUsTitle = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'why_us_icon':
+          result.whyUsIcon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$StudyLeadSerializer implements StructuredSerializer<StudyLead> {
+  @override
+  final Iterable<Type> types = const [StudyLead, _$StudyLead];
+  @override
+  final String wireName = 'StudyLead';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, StudyLead object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'full_name',
+      serializers.serialize(object.name, specifiedType: const FullType(String)),
+      'phone',
+      serializers.serialize(object.phone,
+          specifiedType: const FullType(String)),
+      'company_id',
+      serializers.serialize(object.companyId,
+          specifiedType: const FullType(int)),
+      'course_id',
+      serializers.serialize(object.courseId,
+          specifiedType: const FullType(int)),
+    ];
+
+    return result;
+  }
+
+  @override
+  StudyLead deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new StudyLeadBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'full_name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'phone':
+          result.phone = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'company_id':
+          result.companyId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'course_id':
+          result.courseId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$StudyLeadResultSerializer
+    implements StructuredSerializer<StudyLeadResult> {
+  @override
+  final Iterable<Type> types = const [StudyLeadResult, _$StudyLeadResult];
+  @override
+  final String wireName = 'StudyLeadResult';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, StudyLeadResult object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'status',
+      serializers.serialize(object.status,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  StudyLeadResult deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new StudyLeadResultBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'status':
+          result.status = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -1223,6 +1516,27 @@ class _$GetReviewModelSerializer
         ..add(
             serializers.serialize(value, specifiedType: const FullType(bool)));
     }
+    value = object.address;
+    if (value != null) {
+      result
+        ..add('address')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.createDate;
+    if (value != null) {
+      result
+        ..add('create_date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.status;
+    if (value != null) {
+      result
+        ..add('status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -1285,6 +1599,18 @@ class _$GetReviewModelSerializer
         case 'is_anonym':
           result.isAnonym = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'address':
+          result.address = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'create_date':
+          result.createDate = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'status':
+          result.status = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -1820,6 +2146,8 @@ class _$BranchDetailModel extends BranchDetailModel {
   final BuiltList<dynamic>? video;
   @override
   final BuiltList<String>? workDays;
+  @override
+  final BuiltList<OffersModel>? offers;
 
   factory _$BranchDetailModel(
           [void Function(BranchDetailModelBuilder)? updates]) =>
@@ -1838,7 +2166,8 @@ class _$BranchDetailModel extends BranchDetailModel {
       required this.latitude,
       required this.longitude,
       this.video,
-      this.workDays})
+      this.workDays,
+      this.offers})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'BranchDetailModel', 'id');
     BuiltValueNullFieldError.checkNotNull(
@@ -1871,7 +2200,8 @@ class _$BranchDetailModel extends BranchDetailModel {
         latitude == other.latitude &&
         longitude == other.longitude &&
         video == other.video &&
-        workDays == other.workDays;
+        workDays == other.workDays &&
+        offers == other.offers;
   }
 
   @override
@@ -1890,6 +2220,7 @@ class _$BranchDetailModel extends BranchDetailModel {
     _$hash = $jc(_$hash, longitude.hashCode);
     _$hash = $jc(_$hash, video.hashCode);
     _$hash = $jc(_$hash, workDays.hashCode);
+    _$hash = $jc(_$hash, offers.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -1909,7 +2240,8 @@ class _$BranchDetailModel extends BranchDetailModel {
           ..add('latitude', latitude)
           ..add('longitude', longitude)
           ..add('video', video)
-          ..add('workDays', workDays))
+          ..add('workDays', workDays)
+          ..add('offers', offers))
         .toString();
   }
 }
@@ -1975,6 +2307,11 @@ class BranchDetailModelBuilder
       _$this._workDays ??= new ListBuilder<String>();
   set workDays(ListBuilder<String>? workDays) => _$this._workDays = workDays;
 
+  ListBuilder<OffersModel>? _offers;
+  ListBuilder<OffersModel> get offers =>
+      _$this._offers ??= new ListBuilder<OffersModel>();
+  set offers(ListBuilder<OffersModel>? offers) => _$this._offers = offers;
+
   BranchDetailModelBuilder();
 
   BranchDetailModelBuilder get _$this {
@@ -1993,6 +2330,7 @@ class BranchDetailModelBuilder
       _longitude = $v.longitude;
       _video = $v.video?.toBuilder();
       _workDays = $v.workDays?.toBuilder();
+      _offers = $v.offers?.toBuilder();
       _$v = null;
     }
     return this;
@@ -2033,6 +2371,7 @@ class BranchDetailModelBuilder
                 longitude, r'BranchDetailModel', 'longitude'),
             video: _video?.build(),
             workDays: _workDays?.build(),
+            offers: _offers?.build(),
           );
     } catch (_) {
       late String _$failedField;
@@ -2046,12 +2385,117 @@ class BranchDetailModelBuilder
         _video?.build();
         _$failedField = 'workDays';
         _workDays?.build();
+        _$failedField = 'offers';
+        _offers?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'BranchDetailModel', _$failedField, e.toString());
       }
       rethrow;
     }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$OffersModel extends OffersModel {
+  @override
+  final String? name;
+  @override
+  final String? description;
+  @override
+  final String? icon;
+
+  factory _$OffersModel([void Function(OffersModelBuilder)? updates]) =>
+      (new OffersModelBuilder()..update(updates))._build();
+
+  _$OffersModel._({this.name, this.description, this.icon}) : super._();
+
+  @override
+  OffersModel rebuild(void Function(OffersModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  OffersModelBuilder toBuilder() => new OffersModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is OffersModel &&
+        name == other.name &&
+        description == other.description &&
+        icon == other.icon;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jc(_$hash, icon.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'OffersModel')
+          ..add('name', name)
+          ..add('description', description)
+          ..add('icon', icon))
+        .toString();
+  }
+}
+
+class OffersModelBuilder implements Builder<OffersModel, OffersModelBuilder> {
+  _$OffersModel? _$v;
+
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
+
+  String? _icon;
+  String? get icon => _$this._icon;
+  set icon(String? icon) => _$this._icon = icon;
+
+  OffersModelBuilder();
+
+  OffersModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _name = $v.name;
+      _description = $v.description;
+      _icon = $v.icon;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(OffersModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$OffersModel;
+  }
+
+  @override
+  void update(void Function(OffersModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  OffersModel build() => _build();
+
+  _$OffersModel _build() {
+    final _$result = _$v ??
+        new _$OffersModel._(
+          name: name,
+          description: description,
+          icon: icon,
+        );
     replace(_$result);
     return _$result;
   }
@@ -2200,13 +2644,33 @@ class _$EducationModel extends EducationModel {
   @override
   final String? whyUs;
   @override
-  final int? companyId;
+  final int companyId;
   @override
   final BuiltList<Course>? courses;
   @override
   final String? bannerLink;
   @override
   final String? bannerImage;
+  @override
+  final String? missionTitle;
+  @override
+  final String? missionIcon;
+  @override
+  final String? valuesTitle;
+  @override
+  final String? valuesIcon;
+  @override
+  final String? goalsTitle;
+  @override
+  final String? goalsIcon;
+  @override
+  final String? audienceTitle;
+  @override
+  final String? audienceIcon;
+  @override
+  final String? whyUsTitle;
+  @override
+  final String? whyUsIcon;
 
   factory _$EducationModel([void Function(EducationModelBuilder)? updates]) =>
       (new EducationModelBuilder()..update(updates))._build();
@@ -2219,11 +2683,24 @@ class _$EducationModel extends EducationModel {
       this.goals,
       this.audience,
       this.whyUs,
-      this.companyId,
+      required this.companyId,
       this.courses,
       this.bannerLink,
-      this.bannerImage})
-      : super._();
+      this.bannerImage,
+      this.missionTitle,
+      this.missionIcon,
+      this.valuesTitle,
+      this.valuesIcon,
+      this.goalsTitle,
+      this.goalsIcon,
+      this.audienceTitle,
+      this.audienceIcon,
+      this.whyUsTitle,
+      this.whyUsIcon})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        companyId, r'EducationModel', 'companyId');
+  }
 
   @override
   EducationModel rebuild(void Function(EducationModelBuilder) updates) =>
@@ -2247,7 +2724,17 @@ class _$EducationModel extends EducationModel {
         companyId == other.companyId &&
         courses == other.courses &&
         bannerLink == other.bannerLink &&
-        bannerImage == other.bannerImage;
+        bannerImage == other.bannerImage &&
+        missionTitle == other.missionTitle &&
+        missionIcon == other.missionIcon &&
+        valuesTitle == other.valuesTitle &&
+        valuesIcon == other.valuesIcon &&
+        goalsTitle == other.goalsTitle &&
+        goalsIcon == other.goalsIcon &&
+        audienceTitle == other.audienceTitle &&
+        audienceIcon == other.audienceIcon &&
+        whyUsTitle == other.whyUsTitle &&
+        whyUsIcon == other.whyUsIcon;
   }
 
   @override
@@ -2264,6 +2751,16 @@ class _$EducationModel extends EducationModel {
     _$hash = $jc(_$hash, courses.hashCode);
     _$hash = $jc(_$hash, bannerLink.hashCode);
     _$hash = $jc(_$hash, bannerImage.hashCode);
+    _$hash = $jc(_$hash, missionTitle.hashCode);
+    _$hash = $jc(_$hash, missionIcon.hashCode);
+    _$hash = $jc(_$hash, valuesTitle.hashCode);
+    _$hash = $jc(_$hash, valuesIcon.hashCode);
+    _$hash = $jc(_$hash, goalsTitle.hashCode);
+    _$hash = $jc(_$hash, goalsIcon.hashCode);
+    _$hash = $jc(_$hash, audienceTitle.hashCode);
+    _$hash = $jc(_$hash, audienceIcon.hashCode);
+    _$hash = $jc(_$hash, whyUsTitle.hashCode);
+    _$hash = $jc(_$hash, whyUsIcon.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -2281,7 +2778,17 @@ class _$EducationModel extends EducationModel {
           ..add('companyId', companyId)
           ..add('courses', courses)
           ..add('bannerLink', bannerLink)
-          ..add('bannerImage', bannerImage))
+          ..add('bannerImage', bannerImage)
+          ..add('missionTitle', missionTitle)
+          ..add('missionIcon', missionIcon)
+          ..add('valuesTitle', valuesTitle)
+          ..add('valuesIcon', valuesIcon)
+          ..add('goalsTitle', goalsTitle)
+          ..add('goalsIcon', goalsIcon)
+          ..add('audienceTitle', audienceTitle)
+          ..add('audienceIcon', audienceIcon)
+          ..add('whyUsTitle', whyUsTitle)
+          ..add('whyUsIcon', whyUsIcon))
         .toString();
   }
 }
@@ -2335,6 +2842,47 @@ class EducationModelBuilder
   String? get bannerImage => _$this._bannerImage;
   set bannerImage(String? bannerImage) => _$this._bannerImage = bannerImage;
 
+  String? _missionTitle;
+  String? get missionTitle => _$this._missionTitle;
+  set missionTitle(String? missionTitle) => _$this._missionTitle = missionTitle;
+
+  String? _missionIcon;
+  String? get missionIcon => _$this._missionIcon;
+  set missionIcon(String? missionIcon) => _$this._missionIcon = missionIcon;
+
+  String? _valuesTitle;
+  String? get valuesTitle => _$this._valuesTitle;
+  set valuesTitle(String? valuesTitle) => _$this._valuesTitle = valuesTitle;
+
+  String? _valuesIcon;
+  String? get valuesIcon => _$this._valuesIcon;
+  set valuesIcon(String? valuesIcon) => _$this._valuesIcon = valuesIcon;
+
+  String? _goalsTitle;
+  String? get goalsTitle => _$this._goalsTitle;
+  set goalsTitle(String? goalsTitle) => _$this._goalsTitle = goalsTitle;
+
+  String? _goalsIcon;
+  String? get goalsIcon => _$this._goalsIcon;
+  set goalsIcon(String? goalsIcon) => _$this._goalsIcon = goalsIcon;
+
+  String? _audienceTitle;
+  String? get audienceTitle => _$this._audienceTitle;
+  set audienceTitle(String? audienceTitle) =>
+      _$this._audienceTitle = audienceTitle;
+
+  String? _audienceIcon;
+  String? get audienceIcon => _$this._audienceIcon;
+  set audienceIcon(String? audienceIcon) => _$this._audienceIcon = audienceIcon;
+
+  String? _whyUsTitle;
+  String? get whyUsTitle => _$this._whyUsTitle;
+  set whyUsTitle(String? whyUsTitle) => _$this._whyUsTitle = whyUsTitle;
+
+  String? _whyUsIcon;
+  String? get whyUsIcon => _$this._whyUsIcon;
+  set whyUsIcon(String? whyUsIcon) => _$this._whyUsIcon = whyUsIcon;
+
   EducationModelBuilder();
 
   EducationModelBuilder get _$this {
@@ -2351,6 +2899,16 @@ class EducationModelBuilder
       _courses = $v.courses?.toBuilder();
       _bannerLink = $v.bannerLink;
       _bannerImage = $v.bannerImage;
+      _missionTitle = $v.missionTitle;
+      _missionIcon = $v.missionIcon;
+      _valuesTitle = $v.valuesTitle;
+      _valuesIcon = $v.valuesIcon;
+      _goalsTitle = $v.goalsTitle;
+      _goalsIcon = $v.goalsIcon;
+      _audienceTitle = $v.audienceTitle;
+      _audienceIcon = $v.audienceIcon;
+      _whyUsTitle = $v.whyUsTitle;
+      _whyUsIcon = $v.whyUsIcon;
       _$v = null;
     }
     return this;
@@ -2382,10 +2940,21 @@ class EducationModelBuilder
             goals: goals,
             audience: audience,
             whyUs: whyUs,
-            companyId: companyId,
+            companyId: BuiltValueNullFieldError.checkNotNull(
+                companyId, r'EducationModel', 'companyId'),
             courses: _courses?.build(),
             bannerLink: bannerLink,
             bannerImage: bannerImage,
+            missionTitle: missionTitle,
+            missionIcon: missionIcon,
+            valuesTitle: valuesTitle,
+            valuesIcon: valuesIcon,
+            goalsTitle: goalsTitle,
+            goalsIcon: goalsIcon,
+            audienceTitle: audienceTitle,
+            audienceIcon: audienceIcon,
+            whyUsTitle: whyUsTitle,
+            whyUsIcon: whyUsIcon,
           );
     } catch (_) {
       late String _$failedField;
@@ -2398,6 +2967,219 @@ class EducationModelBuilder
       }
       rethrow;
     }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$StudyLead extends StudyLead {
+  @override
+  final String name;
+  @override
+  final String phone;
+  @override
+  final int companyId;
+  @override
+  final int courseId;
+
+  factory _$StudyLead([void Function(StudyLeadBuilder)? updates]) =>
+      (new StudyLeadBuilder()..update(updates))._build();
+
+  _$StudyLead._(
+      {required this.name,
+      required this.phone,
+      required this.companyId,
+      required this.courseId})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(name, r'StudyLead', 'name');
+    BuiltValueNullFieldError.checkNotNull(phone, r'StudyLead', 'phone');
+    BuiltValueNullFieldError.checkNotNull(companyId, r'StudyLead', 'companyId');
+    BuiltValueNullFieldError.checkNotNull(courseId, r'StudyLead', 'courseId');
+  }
+
+  @override
+  StudyLead rebuild(void Function(StudyLeadBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  StudyLeadBuilder toBuilder() => new StudyLeadBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is StudyLead &&
+        name == other.name &&
+        phone == other.phone &&
+        companyId == other.companyId &&
+        courseId == other.courseId;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, phone.hashCode);
+    _$hash = $jc(_$hash, companyId.hashCode);
+    _$hash = $jc(_$hash, courseId.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'StudyLead')
+          ..add('name', name)
+          ..add('phone', phone)
+          ..add('companyId', companyId)
+          ..add('courseId', courseId))
+        .toString();
+  }
+}
+
+class StudyLeadBuilder implements Builder<StudyLead, StudyLeadBuilder> {
+  _$StudyLead? _$v;
+
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
+  String? _phone;
+  String? get phone => _$this._phone;
+  set phone(String? phone) => _$this._phone = phone;
+
+  int? _companyId;
+  int? get companyId => _$this._companyId;
+  set companyId(int? companyId) => _$this._companyId = companyId;
+
+  int? _courseId;
+  int? get courseId => _$this._courseId;
+  set courseId(int? courseId) => _$this._courseId = courseId;
+
+  StudyLeadBuilder();
+
+  StudyLeadBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _name = $v.name;
+      _phone = $v.phone;
+      _companyId = $v.companyId;
+      _courseId = $v.courseId;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(StudyLead other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$StudyLead;
+  }
+
+  @override
+  void update(void Function(StudyLeadBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  StudyLead build() => _build();
+
+  _$StudyLead _build() {
+    final _$result = _$v ??
+        new _$StudyLead._(
+          name:
+              BuiltValueNullFieldError.checkNotNull(name, r'StudyLead', 'name'),
+          phone: BuiltValueNullFieldError.checkNotNull(
+              phone, r'StudyLead', 'phone'),
+          companyId: BuiltValueNullFieldError.checkNotNull(
+              companyId, r'StudyLead', 'companyId'),
+          courseId: BuiltValueNullFieldError.checkNotNull(
+              courseId, r'StudyLead', 'courseId'),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$StudyLeadResult extends StudyLeadResult {
+  @override
+  final String status;
+
+  factory _$StudyLeadResult([void Function(StudyLeadResultBuilder)? updates]) =>
+      (new StudyLeadResultBuilder()..update(updates))._build();
+
+  _$StudyLeadResult._({required this.status}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(status, r'StudyLeadResult', 'status');
+  }
+
+  @override
+  StudyLeadResult rebuild(void Function(StudyLeadResultBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  StudyLeadResultBuilder toBuilder() =>
+      new StudyLeadResultBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is StudyLeadResult && status == other.status;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, status.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'StudyLeadResult')
+          ..add('status', status))
+        .toString();
+  }
+}
+
+class StudyLeadResultBuilder
+    implements Builder<StudyLeadResult, StudyLeadResultBuilder> {
+  _$StudyLeadResult? _$v;
+
+  String? _status;
+  String? get status => _$this._status;
+  set status(String? status) => _$this._status = status;
+
+  StudyLeadResultBuilder();
+
+  StudyLeadResultBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _status = $v.status;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(StudyLeadResult other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$StudyLeadResult;
+  }
+
+  @override
+  void update(void Function(StudyLeadResultBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  StudyLeadResult build() => _build();
+
+  _$StudyLeadResult _build() {
+    final _$result = _$v ??
+        new _$StudyLeadResult._(
+          status: BuiltValueNullFieldError.checkNotNull(
+              status, r'StudyLeadResult', 'status'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -3377,6 +4159,12 @@ class _$GetReviewModel extends GetReviewModel {
   final int? partnerId;
   @override
   final bool? isAnonym;
+  @override
+  final String? address;
+  @override
+  final String? createDate;
+  @override
+  final String? status;
 
   factory _$GetReviewModel([void Function(GetReviewModelBuilder)? updates]) =>
       (new GetReviewModelBuilder()..update(updates))._build();
@@ -3393,7 +4181,10 @@ class _$GetReviewModel extends GetReviewModel {
       this.doctorId,
       this.serviceId,
       this.partnerId,
-      this.isAnonym})
+      this.isAnonym,
+      this.address,
+      this.createDate,
+      this.status})
       : super._();
 
   @override
@@ -3419,7 +4210,10 @@ class _$GetReviewModel extends GetReviewModel {
         doctorId == other.doctorId &&
         serviceId == other.serviceId &&
         partnerId == other.partnerId &&
-        isAnonym == other.isAnonym;
+        isAnonym == other.isAnonym &&
+        address == other.address &&
+        createDate == other.createDate &&
+        status == other.status;
   }
 
   @override
@@ -3437,6 +4231,9 @@ class _$GetReviewModel extends GetReviewModel {
     _$hash = $jc(_$hash, serviceId.hashCode);
     _$hash = $jc(_$hash, partnerId.hashCode);
     _$hash = $jc(_$hash, isAnonym.hashCode);
+    _$hash = $jc(_$hash, address.hashCode);
+    _$hash = $jc(_$hash, createDate.hashCode);
+    _$hash = $jc(_$hash, status.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -3455,7 +4252,10 @@ class _$GetReviewModel extends GetReviewModel {
           ..add('doctorId', doctorId)
           ..add('serviceId', serviceId)
           ..add('partnerId', partnerId)
-          ..add('isAnonym', isAnonym))
+          ..add('isAnonym', isAnonym)
+          ..add('address', address)
+          ..add('createDate', createDate)
+          ..add('status', status))
         .toString();
   }
 }
@@ -3512,6 +4312,18 @@ class GetReviewModelBuilder
   bool? get isAnonym => _$this._isAnonym;
   set isAnonym(bool? isAnonym) => _$this._isAnonym = isAnonym;
 
+  String? _address;
+  String? get address => _$this._address;
+  set address(String? address) => _$this._address = address;
+
+  String? _createDate;
+  String? get createDate => _$this._createDate;
+  set createDate(String? createDate) => _$this._createDate = createDate;
+
+  String? _status;
+  String? get status => _$this._status;
+  set status(String? status) => _$this._status = status;
+
   GetReviewModelBuilder();
 
   GetReviewModelBuilder get _$this {
@@ -3529,6 +4341,9 @@ class GetReviewModelBuilder
       _serviceId = $v.serviceId;
       _partnerId = $v.partnerId;
       _isAnonym = $v.isAnonym;
+      _address = $v.address;
+      _createDate = $v.createDate;
+      _status = $v.status;
       _$v = null;
     }
     return this;
@@ -3563,6 +4378,9 @@ class GetReviewModelBuilder
           serviceId: serviceId,
           partnerId: partnerId,
           isAnonym: isAnonym,
+          address: address,
+          createDate: createDate,
+          status: status,
         );
     replace(_$result);
     return _$result;

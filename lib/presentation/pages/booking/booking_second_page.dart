@@ -238,7 +238,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                     'service_ids': serviceIds,
                   }),
                 );
-
+                debugPrint("Status Code: ${response.statusCode}");
                 Navigator.of(context).pop();
 
                 if (response.statusCode == 200) {

@@ -75,7 +75,7 @@ class _MainPageState extends State<MainPage> {
           return Scaffold(
             backgroundColor: colors.backgroundColor,
             body: Consumer<BottomNavBarController>(
-              builder: (context, navController, _) {
+              builder: (c, navController, _) {
                 return PersistentTabView(
                   context,
                   controller: _controller,

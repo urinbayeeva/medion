@@ -4,15 +4,24 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class CContainer extends StatelessWidget {
   final String? text;
+  final double width;
+  final EdgeInsetsGeometry margin;
 
-  const CContainer({super.key, this.text});
+  const CContainer({
+    super.key,
+    this.text,
+    this.margin = EdgeInsets.zero,
+    this.width = double.infinity,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
         return Container(
+          width: width,
           padding: EdgeInsets.all(12.w),
+          margin: margin,
           decoration: BoxDecoration(color: colors.shade0, borderRadius: BorderRadius.circular(8.r)),
           child: SingleChildScrollView(
             child: Text(

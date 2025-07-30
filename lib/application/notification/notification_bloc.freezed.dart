@@ -20,8 +20,10 @@ mixin _$NotificationEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getNotifications,
+    required TResult Function(int? pk) getSingleNotification,
     required TResult Function() getMoreNotifications,
-    required TResult Function() markAllNotificationAsRead,
+    required TResult Function(String? type, String? query)
+        markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
     required TResult Function(String type, String query) filterNotification,
     required TResult Function(PostVisitReviewModel review)
@@ -33,8 +35,9 @@ mixin _$NotificationEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getNotifications,
+    TResult? Function(int? pk)? getSingleNotification,
     TResult? Function()? getMoreNotifications,
-    TResult? Function()? markAllNotificationAsRead,
+    TResult? Function(String? type, String? query)? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
     TResult? Function(String type, String query)? filterNotification,
     TResult? Function(PostVisitReviewModel review)? postNotificationReview,
@@ -45,8 +48,9 @@ mixin _$NotificationEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getNotifications,
+    TResult Function(int? pk)? getSingleNotification,
     TResult Function()? getMoreNotifications,
-    TResult Function()? markAllNotificationAsRead,
+    TResult Function(String? type, String? query)? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
     TResult Function(String type, String query)? filterNotification,
     TResult Function(PostVisitReviewModel review)? postNotificationReview,
@@ -58,6 +62,8 @@ mixin _$NotificationEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetNotification value) getNotifications,
+    required TResult Function(_GetSingleNotification value)
+        getSingleNotification,
     required TResult Function(_GetMoreNotification value) getMoreNotifications,
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
@@ -72,6 +78,7 @@ mixin _$NotificationEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetNotification value)? getNotifications,
+    TResult? Function(_GetSingleNotification value)? getSingleNotification,
     TResult? Function(_GetMoreNotification value)? getMoreNotifications,
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -85,6 +92,7 @@ mixin _$NotificationEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetNotification value)? getNotifications,
+    TResult Function(_GetSingleNotification value)? getSingleNotification,
     TResult Function(_GetMoreNotification value)? getMoreNotifications,
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -161,8 +169,10 @@ class _$StartedImpl implements _Started {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getNotifications,
+    required TResult Function(int? pk) getSingleNotification,
     required TResult Function() getMoreNotifications,
-    required TResult Function() markAllNotificationAsRead,
+    required TResult Function(String? type, String? query)
+        markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
     required TResult Function(String type, String query) filterNotification,
     required TResult Function(PostVisitReviewModel review)
@@ -177,8 +187,9 @@ class _$StartedImpl implements _Started {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getNotifications,
+    TResult? Function(int? pk)? getSingleNotification,
     TResult? Function()? getMoreNotifications,
-    TResult? Function()? markAllNotificationAsRead,
+    TResult? Function(String? type, String? query)? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
     TResult? Function(String type, String query)? filterNotification,
     TResult? Function(PostVisitReviewModel review)? postNotificationReview,
@@ -192,8 +203,9 @@ class _$StartedImpl implements _Started {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getNotifications,
+    TResult Function(int? pk)? getSingleNotification,
     TResult Function()? getMoreNotifications,
-    TResult Function()? markAllNotificationAsRead,
+    TResult Function(String? type, String? query)? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
     TResult Function(String type, String query)? filterNotification,
     TResult Function(PostVisitReviewModel review)? postNotificationReview,
@@ -211,6 +223,8 @@ class _$StartedImpl implements _Started {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetNotification value) getNotifications,
+    required TResult Function(_GetSingleNotification value)
+        getSingleNotification,
     required TResult Function(_GetMoreNotification value) getMoreNotifications,
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
@@ -228,6 +242,7 @@ class _$StartedImpl implements _Started {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetNotification value)? getNotifications,
+    TResult? Function(_GetSingleNotification value)? getSingleNotification,
     TResult? Function(_GetMoreNotification value)? getMoreNotifications,
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -244,6 +259,7 @@ class _$StartedImpl implements _Started {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetNotification value)? getNotifications,
+    TResult Function(_GetSingleNotification value)? getSingleNotification,
     TResult Function(_GetMoreNotification value)? getMoreNotifications,
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -307,8 +323,10 @@ class _$GetNotificationImpl implements _GetNotification {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getNotifications,
+    required TResult Function(int? pk) getSingleNotification,
     required TResult Function() getMoreNotifications,
-    required TResult Function() markAllNotificationAsRead,
+    required TResult Function(String? type, String? query)
+        markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
     required TResult Function(String type, String query) filterNotification,
     required TResult Function(PostVisitReviewModel review)
@@ -323,8 +341,9 @@ class _$GetNotificationImpl implements _GetNotification {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getNotifications,
+    TResult? Function(int? pk)? getSingleNotification,
     TResult? Function()? getMoreNotifications,
-    TResult? Function()? markAllNotificationAsRead,
+    TResult? Function(String? type, String? query)? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
     TResult? Function(String type, String query)? filterNotification,
     TResult? Function(PostVisitReviewModel review)? postNotificationReview,
@@ -338,8 +357,9 @@ class _$GetNotificationImpl implements _GetNotification {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getNotifications,
+    TResult Function(int? pk)? getSingleNotification,
     TResult Function()? getMoreNotifications,
-    TResult Function()? markAllNotificationAsRead,
+    TResult Function(String? type, String? query)? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
     TResult Function(String type, String query)? filterNotification,
     TResult Function(PostVisitReviewModel review)? postNotificationReview,
@@ -357,6 +377,8 @@ class _$GetNotificationImpl implements _GetNotification {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetNotification value) getNotifications,
+    required TResult Function(_GetSingleNotification value)
+        getSingleNotification,
     required TResult Function(_GetMoreNotification value) getMoreNotifications,
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
@@ -374,6 +396,7 @@ class _$GetNotificationImpl implements _GetNotification {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetNotification value)? getNotifications,
+    TResult? Function(_GetSingleNotification value)? getSingleNotification,
     TResult? Function(_GetMoreNotification value)? getMoreNotifications,
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -390,6 +413,7 @@ class _$GetNotificationImpl implements _GetNotification {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetNotification value)? getNotifications,
+    TResult Function(_GetSingleNotification value)? getSingleNotification,
     TResult Function(_GetMoreNotification value)? getMoreNotifications,
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -408,6 +432,198 @@ class _$GetNotificationImpl implements _GetNotification {
 
 abstract class _GetNotification implements NotificationEvent {
   const factory _GetNotification() = _$GetNotificationImpl;
+}
+
+/// @nodoc
+abstract class _$$GetSingleNotificationImplCopyWith<$Res> {
+  factory _$$GetSingleNotificationImplCopyWith(
+          _$GetSingleNotificationImpl value,
+          $Res Function(_$GetSingleNotificationImpl) then) =
+      __$$GetSingleNotificationImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int? pk});
+}
+
+/// @nodoc
+class __$$GetSingleNotificationImplCopyWithImpl<$Res>
+    extends _$NotificationEventCopyWithImpl<$Res, _$GetSingleNotificationImpl>
+    implements _$$GetSingleNotificationImplCopyWith<$Res> {
+  __$$GetSingleNotificationImplCopyWithImpl(_$GetSingleNotificationImpl _value,
+      $Res Function(_$GetSingleNotificationImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? pk = freezed,
+  }) {
+    return _then(_$GetSingleNotificationImpl(
+      pk: freezed == pk
+          ? _value.pk
+          : pk // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetSingleNotificationImpl implements _GetSingleNotification {
+  const _$GetSingleNotificationImpl({this.pk});
+
+  @override
+  final int? pk;
+
+  @override
+  String toString() {
+    return 'NotificationEvent.getSingleNotification(pk: $pk)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetSingleNotificationImpl &&
+            (identical(other.pk, pk) || other.pk == pk));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, pk);
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetSingleNotificationImplCopyWith<_$GetSingleNotificationImpl>
+      get copyWith => __$$GetSingleNotificationImplCopyWithImpl<
+          _$GetSingleNotificationImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() getNotifications,
+    required TResult Function(int? pk) getSingleNotification,
+    required TResult Function() getMoreNotifications,
+    required TResult Function(String? type, String? query)
+        markAllNotificationAsRead,
+    required TResult Function(int index) readNotification,
+    required TResult Function(String type, String query) filterNotification,
+    required TResult Function(PostVisitReviewModel review)
+        postNotificationReview,
+    required TResult Function() setFCMToken,
+  }) {
+    return getSingleNotification(pk);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? getNotifications,
+    TResult? Function(int? pk)? getSingleNotification,
+    TResult? Function()? getMoreNotifications,
+    TResult? Function(String? type, String? query)? markAllNotificationAsRead,
+    TResult? Function(int index)? readNotification,
+    TResult? Function(String type, String query)? filterNotification,
+    TResult? Function(PostVisitReviewModel review)? postNotificationReview,
+    TResult? Function()? setFCMToken,
+  }) {
+    return getSingleNotification?.call(pk);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? getNotifications,
+    TResult Function(int? pk)? getSingleNotification,
+    TResult Function()? getMoreNotifications,
+    TResult Function(String? type, String? query)? markAllNotificationAsRead,
+    TResult Function(int index)? readNotification,
+    TResult Function(String type, String query)? filterNotification,
+    TResult Function(PostVisitReviewModel review)? postNotificationReview,
+    TResult Function()? setFCMToken,
+    required TResult orElse(),
+  }) {
+    if (getSingleNotification != null) {
+      return getSingleNotification(pk);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_GetNotification value) getNotifications,
+    required TResult Function(_GetSingleNotification value)
+        getSingleNotification,
+    required TResult Function(_GetMoreNotification value) getMoreNotifications,
+    required TResult Function(_MarkAllNotificationAsRead value)
+        markAllNotificationAsRead,
+    required TResult Function(_ReadNotification value) readNotification,
+    required TResult Function(_FilterNotification value) filterNotification,
+    required TResult Function(_PostNotificationReview value)
+        postNotificationReview,
+    required TResult Function(_SetFCMToken value) setFCMToken,
+  }) {
+    return getSingleNotification(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_GetNotification value)? getNotifications,
+    TResult? Function(_GetSingleNotification value)? getSingleNotification,
+    TResult? Function(_GetMoreNotification value)? getMoreNotifications,
+    TResult? Function(_MarkAllNotificationAsRead value)?
+        markAllNotificationAsRead,
+    TResult? Function(_ReadNotification value)? readNotification,
+    TResult? Function(_FilterNotification value)? filterNotification,
+    TResult? Function(_PostNotificationReview value)? postNotificationReview,
+    TResult? Function(_SetFCMToken value)? setFCMToken,
+  }) {
+    return getSingleNotification?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_GetNotification value)? getNotifications,
+    TResult Function(_GetSingleNotification value)? getSingleNotification,
+    TResult Function(_GetMoreNotification value)? getMoreNotifications,
+    TResult Function(_MarkAllNotificationAsRead value)?
+        markAllNotificationAsRead,
+    TResult Function(_ReadNotification value)? readNotification,
+    TResult Function(_FilterNotification value)? filterNotification,
+    TResult Function(_PostNotificationReview value)? postNotificationReview,
+    TResult Function(_SetFCMToken value)? setFCMToken,
+    required TResult orElse(),
+  }) {
+    if (getSingleNotification != null) {
+      return getSingleNotification(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetSingleNotification implements NotificationEvent {
+  const factory _GetSingleNotification({final int? pk}) =
+      _$GetSingleNotificationImpl;
+
+  int? get pk;
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GetSingleNotificationImplCopyWith<_$GetSingleNotificationImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -454,8 +670,10 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getNotifications,
+    required TResult Function(int? pk) getSingleNotification,
     required TResult Function() getMoreNotifications,
-    required TResult Function() markAllNotificationAsRead,
+    required TResult Function(String? type, String? query)
+        markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
     required TResult Function(String type, String query) filterNotification,
     required TResult Function(PostVisitReviewModel review)
@@ -470,8 +688,9 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getNotifications,
+    TResult? Function(int? pk)? getSingleNotification,
     TResult? Function()? getMoreNotifications,
-    TResult? Function()? markAllNotificationAsRead,
+    TResult? Function(String? type, String? query)? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
     TResult? Function(String type, String query)? filterNotification,
     TResult? Function(PostVisitReviewModel review)? postNotificationReview,
@@ -485,8 +704,9 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getNotifications,
+    TResult Function(int? pk)? getSingleNotification,
     TResult Function()? getMoreNotifications,
-    TResult Function()? markAllNotificationAsRead,
+    TResult Function(String? type, String? query)? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
     TResult Function(String type, String query)? filterNotification,
     TResult Function(PostVisitReviewModel review)? postNotificationReview,
@@ -504,6 +724,8 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetNotification value) getNotifications,
+    required TResult Function(_GetSingleNotification value)
+        getSingleNotification,
     required TResult Function(_GetMoreNotification value) getMoreNotifications,
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
@@ -521,6 +743,7 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetNotification value)? getNotifications,
+    TResult? Function(_GetSingleNotification value)? getSingleNotification,
     TResult? Function(_GetMoreNotification value)? getMoreNotifications,
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -537,6 +760,7 @@ class _$GetMoreNotificationImpl implements _GetMoreNotification {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetNotification value)? getNotifications,
+    TResult Function(_GetSingleNotification value)? getSingleNotification,
     TResult Function(_GetMoreNotification value)? getMoreNotifications,
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -563,6 +787,8 @@ abstract class _$$MarkAllNotificationAsReadImplCopyWith<$Res> {
           _$MarkAllNotificationAsReadImpl value,
           $Res Function(_$MarkAllNotificationAsReadImpl) then) =
       __$$MarkAllNotificationAsReadImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String? type, String? query});
 }
 
 /// @nodoc
@@ -577,42 +803,77 @@ class __$$MarkAllNotificationAsReadImplCopyWithImpl<$Res>
 
   /// Create a copy of NotificationEvent
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = freezed,
+    Object? query = freezed,
+  }) {
+    return _then(_$MarkAllNotificationAsReadImpl(
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      query: freezed == query
+          ? _value.query
+          : query // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
-  const _$MarkAllNotificationAsReadImpl();
+  const _$MarkAllNotificationAsReadImpl({this.type, this.query});
+
+  @override
+  final String? type;
+  @override
+  final String? query;
 
   @override
   String toString() {
-    return 'NotificationEvent.markAllNotificationAsRead()';
+    return 'NotificationEvent.markAllNotificationAsRead(type: $type, query: $query)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MarkAllNotificationAsReadImpl);
+            other is _$MarkAllNotificationAsReadImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.query, query) || other.query == query));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, type, query);
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MarkAllNotificationAsReadImplCopyWith<_$MarkAllNotificationAsReadImpl>
+      get copyWith => __$$MarkAllNotificationAsReadImplCopyWithImpl<
+          _$MarkAllNotificationAsReadImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getNotifications,
+    required TResult Function(int? pk) getSingleNotification,
     required TResult Function() getMoreNotifications,
-    required TResult Function() markAllNotificationAsRead,
+    required TResult Function(String? type, String? query)
+        markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
     required TResult Function(String type, String query) filterNotification,
     required TResult Function(PostVisitReviewModel review)
         postNotificationReview,
     required TResult Function() setFCMToken,
   }) {
-    return markAllNotificationAsRead();
+    return markAllNotificationAsRead(type, query);
   }
 
   @override
@@ -620,14 +881,15 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getNotifications,
+    TResult? Function(int? pk)? getSingleNotification,
     TResult? Function()? getMoreNotifications,
-    TResult? Function()? markAllNotificationAsRead,
+    TResult? Function(String? type, String? query)? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
     TResult? Function(String type, String query)? filterNotification,
     TResult? Function(PostVisitReviewModel review)? postNotificationReview,
     TResult? Function()? setFCMToken,
   }) {
-    return markAllNotificationAsRead?.call();
+    return markAllNotificationAsRead?.call(type, query);
   }
 
   @override
@@ -635,8 +897,9 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getNotifications,
+    TResult Function(int? pk)? getSingleNotification,
     TResult Function()? getMoreNotifications,
-    TResult Function()? markAllNotificationAsRead,
+    TResult Function(String? type, String? query)? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
     TResult Function(String type, String query)? filterNotification,
     TResult Function(PostVisitReviewModel review)? postNotificationReview,
@@ -644,7 +907,7 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
     required TResult orElse(),
   }) {
     if (markAllNotificationAsRead != null) {
-      return markAllNotificationAsRead();
+      return markAllNotificationAsRead(type, query);
     }
     return orElse();
   }
@@ -654,6 +917,8 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetNotification value) getNotifications,
+    required TResult Function(_GetSingleNotification value)
+        getSingleNotification,
     required TResult Function(_GetMoreNotification value) getMoreNotifications,
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
@@ -671,6 +936,7 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetNotification value)? getNotifications,
+    TResult? Function(_GetSingleNotification value)? getSingleNotification,
     TResult? Function(_GetMoreNotification value)? getMoreNotifications,
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -687,6 +953,7 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetNotification value)? getNotifications,
+    TResult Function(_GetSingleNotification value)? getSingleNotification,
     TResult Function(_GetMoreNotification value)? getMoreNotifications,
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -704,7 +971,18 @@ class _$MarkAllNotificationAsReadImpl implements _MarkAllNotificationAsRead {
 }
 
 abstract class _MarkAllNotificationAsRead implements NotificationEvent {
-  const factory _MarkAllNotificationAsRead() = _$MarkAllNotificationAsReadImpl;
+  const factory _MarkAllNotificationAsRead(
+      {final String? type,
+      final String? query}) = _$MarkAllNotificationAsReadImpl;
+
+  String? get type;
+  String? get query;
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MarkAllNotificationAsReadImplCopyWith<_$MarkAllNotificationAsReadImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -778,8 +1056,10 @@ class _$ReadNotificationImpl implements _ReadNotification {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getNotifications,
+    required TResult Function(int? pk) getSingleNotification,
     required TResult Function() getMoreNotifications,
-    required TResult Function() markAllNotificationAsRead,
+    required TResult Function(String? type, String? query)
+        markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
     required TResult Function(String type, String query) filterNotification,
     required TResult Function(PostVisitReviewModel review)
@@ -794,8 +1074,9 @@ class _$ReadNotificationImpl implements _ReadNotification {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getNotifications,
+    TResult? Function(int? pk)? getSingleNotification,
     TResult? Function()? getMoreNotifications,
-    TResult? Function()? markAllNotificationAsRead,
+    TResult? Function(String? type, String? query)? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
     TResult? Function(String type, String query)? filterNotification,
     TResult? Function(PostVisitReviewModel review)? postNotificationReview,
@@ -809,8 +1090,9 @@ class _$ReadNotificationImpl implements _ReadNotification {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getNotifications,
+    TResult Function(int? pk)? getSingleNotification,
     TResult Function()? getMoreNotifications,
-    TResult Function()? markAllNotificationAsRead,
+    TResult Function(String? type, String? query)? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
     TResult Function(String type, String query)? filterNotification,
     TResult Function(PostVisitReviewModel review)? postNotificationReview,
@@ -828,6 +1110,8 @@ class _$ReadNotificationImpl implements _ReadNotification {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetNotification value) getNotifications,
+    required TResult Function(_GetSingleNotification value)
+        getSingleNotification,
     required TResult Function(_GetMoreNotification value) getMoreNotifications,
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
@@ -845,6 +1129,7 @@ class _$ReadNotificationImpl implements _ReadNotification {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetNotification value)? getNotifications,
+    TResult? Function(_GetSingleNotification value)? getSingleNotification,
     TResult? Function(_GetMoreNotification value)? getMoreNotifications,
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -861,6 +1146,7 @@ class _$ReadNotificationImpl implements _ReadNotification {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetNotification value)? getNotifications,
+    TResult Function(_GetSingleNotification value)? getSingleNotification,
     TResult Function(_GetMoreNotification value)? getMoreNotifications,
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -969,8 +1255,10 @@ class _$FilterNotificationImpl implements _FilterNotification {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getNotifications,
+    required TResult Function(int? pk) getSingleNotification,
     required TResult Function() getMoreNotifications,
-    required TResult Function() markAllNotificationAsRead,
+    required TResult Function(String? type, String? query)
+        markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
     required TResult Function(String type, String query) filterNotification,
     required TResult Function(PostVisitReviewModel review)
@@ -985,8 +1273,9 @@ class _$FilterNotificationImpl implements _FilterNotification {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getNotifications,
+    TResult? Function(int? pk)? getSingleNotification,
     TResult? Function()? getMoreNotifications,
-    TResult? Function()? markAllNotificationAsRead,
+    TResult? Function(String? type, String? query)? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
     TResult? Function(String type, String query)? filterNotification,
     TResult? Function(PostVisitReviewModel review)? postNotificationReview,
@@ -1000,8 +1289,9 @@ class _$FilterNotificationImpl implements _FilterNotification {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getNotifications,
+    TResult Function(int? pk)? getSingleNotification,
     TResult Function()? getMoreNotifications,
-    TResult Function()? markAllNotificationAsRead,
+    TResult Function(String? type, String? query)? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
     TResult Function(String type, String query)? filterNotification,
     TResult Function(PostVisitReviewModel review)? postNotificationReview,
@@ -1019,6 +1309,8 @@ class _$FilterNotificationImpl implements _FilterNotification {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetNotification value) getNotifications,
+    required TResult Function(_GetSingleNotification value)
+        getSingleNotification,
     required TResult Function(_GetMoreNotification value) getMoreNotifications,
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
@@ -1036,6 +1328,7 @@ class _$FilterNotificationImpl implements _FilterNotification {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetNotification value)? getNotifications,
+    TResult? Function(_GetSingleNotification value)? getSingleNotification,
     TResult? Function(_GetMoreNotification value)? getMoreNotifications,
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -1052,6 +1345,7 @@ class _$FilterNotificationImpl implements _FilterNotification {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetNotification value)? getNotifications,
+    TResult Function(_GetSingleNotification value)? getSingleNotification,
     TResult Function(_GetMoreNotification value)? getMoreNotifications,
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -1156,8 +1450,10 @@ class _$PostNotificationReviewImpl implements _PostNotificationReview {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getNotifications,
+    required TResult Function(int? pk) getSingleNotification,
     required TResult Function() getMoreNotifications,
-    required TResult Function() markAllNotificationAsRead,
+    required TResult Function(String? type, String? query)
+        markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
     required TResult Function(String type, String query) filterNotification,
     required TResult Function(PostVisitReviewModel review)
@@ -1172,8 +1468,9 @@ class _$PostNotificationReviewImpl implements _PostNotificationReview {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getNotifications,
+    TResult? Function(int? pk)? getSingleNotification,
     TResult? Function()? getMoreNotifications,
-    TResult? Function()? markAllNotificationAsRead,
+    TResult? Function(String? type, String? query)? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
     TResult? Function(String type, String query)? filterNotification,
     TResult? Function(PostVisitReviewModel review)? postNotificationReview,
@@ -1187,8 +1484,9 @@ class _$PostNotificationReviewImpl implements _PostNotificationReview {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getNotifications,
+    TResult Function(int? pk)? getSingleNotification,
     TResult Function()? getMoreNotifications,
-    TResult Function()? markAllNotificationAsRead,
+    TResult Function(String? type, String? query)? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
     TResult Function(String type, String query)? filterNotification,
     TResult Function(PostVisitReviewModel review)? postNotificationReview,
@@ -1206,6 +1504,8 @@ class _$PostNotificationReviewImpl implements _PostNotificationReview {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetNotification value) getNotifications,
+    required TResult Function(_GetSingleNotification value)
+        getSingleNotification,
     required TResult Function(_GetMoreNotification value) getMoreNotifications,
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
@@ -1223,6 +1523,7 @@ class _$PostNotificationReviewImpl implements _PostNotificationReview {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetNotification value)? getNotifications,
+    TResult? Function(_GetSingleNotification value)? getSingleNotification,
     TResult? Function(_GetMoreNotification value)? getMoreNotifications,
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -1239,6 +1540,7 @@ class _$PostNotificationReviewImpl implements _PostNotificationReview {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetNotification value)? getNotifications,
+    TResult Function(_GetSingleNotification value)? getSingleNotification,
     TResult Function(_GetMoreNotification value)? getMoreNotifications,
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -1312,8 +1614,10 @@ class _$SetFCMTokenImpl implements _SetFCMToken {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getNotifications,
+    required TResult Function(int? pk) getSingleNotification,
     required TResult Function() getMoreNotifications,
-    required TResult Function() markAllNotificationAsRead,
+    required TResult Function(String? type, String? query)
+        markAllNotificationAsRead,
     required TResult Function(int index) readNotification,
     required TResult Function(String type, String query) filterNotification,
     required TResult Function(PostVisitReviewModel review)
@@ -1328,8 +1632,9 @@ class _$SetFCMTokenImpl implements _SetFCMToken {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getNotifications,
+    TResult? Function(int? pk)? getSingleNotification,
     TResult? Function()? getMoreNotifications,
-    TResult? Function()? markAllNotificationAsRead,
+    TResult? Function(String? type, String? query)? markAllNotificationAsRead,
     TResult? Function(int index)? readNotification,
     TResult? Function(String type, String query)? filterNotification,
     TResult? Function(PostVisitReviewModel review)? postNotificationReview,
@@ -1343,8 +1648,9 @@ class _$SetFCMTokenImpl implements _SetFCMToken {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getNotifications,
+    TResult Function(int? pk)? getSingleNotification,
     TResult Function()? getMoreNotifications,
-    TResult Function()? markAllNotificationAsRead,
+    TResult Function(String? type, String? query)? markAllNotificationAsRead,
     TResult Function(int index)? readNotification,
     TResult Function(String type, String query)? filterNotification,
     TResult Function(PostVisitReviewModel review)? postNotificationReview,
@@ -1362,6 +1668,8 @@ class _$SetFCMTokenImpl implements _SetFCMToken {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetNotification value) getNotifications,
+    required TResult Function(_GetSingleNotification value)
+        getSingleNotification,
     required TResult Function(_GetMoreNotification value) getMoreNotifications,
     required TResult Function(_MarkAllNotificationAsRead value)
         markAllNotificationAsRead,
@@ -1379,6 +1687,7 @@ class _$SetFCMTokenImpl implements _SetFCMToken {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetNotification value)? getNotifications,
+    TResult? Function(_GetSingleNotification value)? getSingleNotification,
     TResult? Function(_GetMoreNotification value)? getMoreNotifications,
     TResult? Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -1395,6 +1704,7 @@ class _$SetFCMTokenImpl implements _SetFCMToken {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetNotification value)? getNotifications,
+    TResult Function(_GetSingleNotification value)? getSingleNotification,
     TResult Function(_GetMoreNotification value)? getMoreNotifications,
     TResult Function(_MarkAllNotificationAsRead value)?
         markAllNotificationAsRead,
@@ -1432,6 +1742,7 @@ mixin _$NotificationState {
   FormzSubmissionStatus get postNotificationReviewStatus =>
       throw _privateConstructorUsedError;
   String get filterType => throw _privateConstructorUsedError;
+  String get query => throw _privateConstructorUsedError;
   String get markAsReadErrorMsg => throw _privateConstructorUsedError;
   String get notificationsErrorMessage => throw _privateConstructorUsedError;
   String get notificationNext => throw _privateConstructorUsedError;
@@ -1465,6 +1776,7 @@ abstract class $NotificationStateCopyWith<$Res> {
       FormzSubmissionStatus filterNotificationStatus,
       FormzSubmissionStatus postNotificationReviewStatus,
       String filterType,
+      String query,
       String markAsReadErrorMsg,
       String notificationsErrorMessage,
       String notificationNext,
@@ -1498,6 +1810,7 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
     Object? filterNotificationStatus = null,
     Object? postNotificationReviewStatus = null,
     Object? filterType = null,
+    Object? query = null,
     Object? markAsReadErrorMsg = null,
     Object? notificationsErrorMessage = null,
     Object? notificationNext = null,
@@ -1542,6 +1855,10 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
       filterType: null == filterType
           ? _value.filterType
           : filterType // ignore: cast_nullable_to_non_nullable
+              as String,
+      query: null == query
+          ? _value.query
+          : query // ignore: cast_nullable_to_non_nullable
               as String,
       markAsReadErrorMsg: null == markAsReadErrorMsg
           ? _value.markAsReadErrorMsg
@@ -1593,6 +1910,7 @@ abstract class _$$NotificationStateImplCopyWith<$Res>
       FormzSubmissionStatus filterNotificationStatus,
       FormzSubmissionStatus postNotificationReviewStatus,
       String filterType,
+      String query,
       String markAsReadErrorMsg,
       String notificationsErrorMessage,
       String notificationNext,
@@ -1624,6 +1942,7 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
     Object? filterNotificationStatus = null,
     Object? postNotificationReviewStatus = null,
     Object? filterType = null,
+    Object? query = null,
     Object? markAsReadErrorMsg = null,
     Object? notificationsErrorMessage = null,
     Object? notificationNext = null,
@@ -1668,6 +1987,10 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
       filterType: null == filterType
           ? _value.filterType
           : filterType // ignore: cast_nullable_to_non_nullable
+              as String,
+      query: null == query
+          ? _value.query
+          : query // ignore: cast_nullable_to_non_nullable
               as String,
       markAsReadErrorMsg: null == markAsReadErrorMsg
           ? _value.markAsReadErrorMsg
@@ -1714,6 +2037,7 @@ class _$NotificationStateImpl extends _NotificationState {
       this.filterNotificationStatus = FormzSubmissionStatus.initial,
       this.postNotificationReviewStatus = FormzSubmissionStatus.initial,
       this.filterType = 'All',
+      this.query = '',
       this.markAsReadErrorMsg = '',
       this.notificationsErrorMessage = '',
       this.notificationNext = '',
@@ -1753,6 +2077,9 @@ class _$NotificationStateImpl extends _NotificationState {
   final String filterType;
   @override
   @JsonKey()
+  final String query;
+  @override
+  @JsonKey()
   final String markAsReadErrorMsg;
   @override
   @JsonKey()
@@ -1779,7 +2106,7 @@ class _$NotificationStateImpl extends _NotificationState {
 
   @override
   String toString() {
-    return 'NotificationState(notificationsFetchMore: $notificationsFetchMore, notificationStatus: $notificationStatus, markAllNotificationStatus: $markAllNotificationStatus, readOnlyStatus: $readOnlyStatus, singleStatus: $singleStatus, setFcmTokenStatus: $setFcmTokenStatus, filterNotificationStatus: $filterNotificationStatus, postNotificationReviewStatus: $postNotificationReviewStatus, filterType: $filterType, markAsReadErrorMsg: $markAsReadErrorMsg, notificationsErrorMessage: $notificationsErrorMessage, notificationNext: $notificationNext, unReadNotifications: $unReadNotifications, notifications: $notifications, singleNotification: $singleNotification, review: $review)';
+    return 'NotificationState(notificationsFetchMore: $notificationsFetchMore, notificationStatus: $notificationStatus, markAllNotificationStatus: $markAllNotificationStatus, readOnlyStatus: $readOnlyStatus, singleStatus: $singleStatus, setFcmTokenStatus: $setFcmTokenStatus, filterNotificationStatus: $filterNotificationStatus, postNotificationReviewStatus: $postNotificationReviewStatus, filterType: $filterType, query: $query, markAsReadErrorMsg: $markAsReadErrorMsg, notificationsErrorMessage: $notificationsErrorMessage, notificationNext: $notificationNext, unReadNotifications: $unReadNotifications, notifications: $notifications, singleNotification: $singleNotification, review: $review)';
   }
 
   @override
@@ -1809,6 +2136,7 @@ class _$NotificationStateImpl extends _NotificationState {
                     postNotificationReviewStatus) &&
             (identical(other.filterType, filterType) ||
                 other.filterType == filterType) &&
+            (identical(other.query, query) || other.query == query) &&
             (identical(other.markAsReadErrorMsg, markAsReadErrorMsg) ||
                 other.markAsReadErrorMsg == markAsReadErrorMsg) &&
             (identical(other.notificationsErrorMessage,
@@ -1837,6 +2165,7 @@ class _$NotificationStateImpl extends _NotificationState {
       filterNotificationStatus,
       postNotificationReviewStatus,
       filterType,
+      query,
       markAsReadErrorMsg,
       notificationsErrorMessage,
       notificationNext,
@@ -1866,6 +2195,7 @@ abstract class _NotificationState extends NotificationState {
       final FormzSubmissionStatus filterNotificationStatus,
       final FormzSubmissionStatus postNotificationReviewStatus,
       final String filterType,
+      final String query,
       final String markAsReadErrorMsg,
       final String notificationsErrorMessage,
       final String notificationNext,
@@ -1893,6 +2223,8 @@ abstract class _NotificationState extends NotificationState {
   FormzSubmissionStatus get postNotificationReviewStatus;
   @override
   String get filterType;
+  @override
+  String get query;
   @override
   String get markAsReadErrorMsg;
   @override

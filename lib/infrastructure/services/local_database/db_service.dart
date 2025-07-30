@@ -135,8 +135,8 @@ class DBService {
   }
 
   String get getFcmToken {
-    final String fcm = _box?.get(fcmToken);
-    if (fcm.isNotEmpty && fcm.length > 5) {
+    final String? fcm = _box?.get(fcmToken);
+    if (fcm != null && fcm.isNotEmpty && fcm.length > 5) {
       return fcm;
     } else {
       return '';

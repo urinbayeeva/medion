@@ -2,9 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
-import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/w_html/w_html_has_ellipsis.dart';
-
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/equipment/equipment_slider_card.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -35,18 +34,24 @@ class _EquipmentDetailPageState extends State<EquipmentDetailPage> {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
         return Scaffold(
-          backgroundColor: colors.neutral200,
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: colors.shade0,
+            foregroundColor: colors.darkMode900,
+            scrolledUnderElevation: 0,
+            leading: WScaleAnimation(
+              child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+              onTap: () => Navigator.of(context).pop(),
+            ),
+            title: Text("equipment".tr(), style: fonts.regularMain),
+          ),
+          backgroundColor: colors.backgroundColor,
           body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CAppBar(
-                  title: "equipment".tr(),
-                  isBack: true,
-                  centerTitle: true,
-                  bordered: true,
-                  trailing: 24.w.horizontalSpace,
-                ),
+                2.h.verticalSpace,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -83,26 +88,29 @@ class _EquipmentDetailPageState extends State<EquipmentDetailPage> {
                     ),
                   )
                 ] else ...[
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...List.generate(
-                          widget.content.children.length,
-                          (i) {
-                            final child = widget.content.children[i];
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 8.0, bottom: 10),
-                              child: EquipmentCarouselCard(
-                                child: child,
-                                fonts: fonts,
-                                length: widget.content.children.length + 5,
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+                  SizedBox(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          12.w.horizontalSpace,
+                          ...List.generate(
+                            widget.content.children.length,
+                            (i) {
+                              final child = widget.content.children[i];
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8.0, bottom: 10),
+                                child: EquipmentCarouselCard(
+                                  child: child,
+                                  fonts: fonts,
+                                  length: widget.content.children.length + 5,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],

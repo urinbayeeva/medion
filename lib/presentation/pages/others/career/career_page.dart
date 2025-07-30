@@ -5,11 +5,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/vacancy_bloc/vacancy_bloc.dart';
+import 'package:medion/domain/models/recruitment/recruitment_model.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/others/career/widgets/resume_filling.dart';
 import 'package:medion/presentation/pages/others/career/widgets/vacancy_card.dart';
 import 'package:medion/presentation/pages/others/career/widgets/why_us_widget.dart';
+import 'package:medion/presentation/pages/others/component/common_image.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CareerPage extends StatefulWidget {
   const CareerPage({super.key});
@@ -20,18 +25,12 @@ class CareerPage extends StatefulWidget {
 
 class _CareerPageState extends State<CareerPage> {
   final ValueNotifier<int> _tabIndex = ValueNotifier<int>(0);
-  final CarouselSliderController _carouselController = CarouselSliderController();
-
-  final List<String> whyUsTexts = [
-    "понятная система оплаты, конкурентная заработная плата, своевременные выплаты и бонусы;",
-    "возможность карьерного роста и профессионального развития;",
-    "дружный коллектив и комфортные условия труда;",
-    "современное оборудование и инновационные технологии;",
-  ];
+  final RefreshController _refreshController = RefreshController();
 
   @override
   void initState() {
-    context.read<DoctorBloc>().add(const DoctorEvent.fetchDoctorsJob());
+    // context.read<DoctorBloc>().add(const DoctorEvent.fetchDoctorsJob());
+    context.read<VacancyBloc>().add(const VacancyEvent.fetchVacancies());
     super.initState();
   }
 
@@ -43,159 +42,115 @@ class _CareerPageState extends State<CareerPage> {
           length: 2,
           child: Scaffold(
             backgroundColor: colors.backgroundColor,
-            body: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CAppBar(
-                  bordered: true,
-                  title: "career".tr(),
-                  centerTitle: true,
-                  isBack: true,
-                  trailing: SizedBox(width: 24.w),
-                ),
-                TabBar(
-                  onTap: (index) => _tabIndex.value = index,
-                  labelColor: colors.error500,
-                  indicatorColor: colors.error500,
-                  indicatorSize: TabBarIndicatorSize.label,
-                  unselectedLabelColor: Colors.black,
-                  tabs: [Tab(text: "med".tr()), Tab(text: "office".tr())],
-                ),
-                Expanded(
-                  child: BlocBuilder<VacancyBloc, VacancyState>(
-                    builder: (context, state) {
-                      return SingleChildScrollView(
-                        padding: EdgeInsets.zero,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Мы внимательны к тому, что важно, и предлагаем: ", style: fonts.regularMain),
-                                  12.h.verticalSpace,
-                                  const Text(
-                                    "Мы в сети многопрофильных клиник «Medion» всегда ждем в своей команде новых специалистов. У нас врачи растут, развиваются и постоянно повышают свой профессиональный уровень, участвуя в российских и международных конференциях",
-                                  ),
-                                  12.h.verticalSpace,
-                                  ValueListenableBuilder(
-                                    valueListenable: _tabIndex,
-                                    builder: (BuildContext context, int value, Widget? child) {
-                                      return VacanciesCards(
-                                        index: _tabIndex.value,
-                                        fonts: fonts,
-                                        icons: icons,
-                                        colors: colors,
-                                        state: state,
-                                        bloc: context.read<VacancyBloc>(),
-                                      );
-                                    },
-                                  ),
-                                  12.h.verticalSpace,
-                                  Text("Вот почему стоит выбрать нас:", style: fonts.regularMain),
-                                  8.h.verticalSpace,
-                                  GridView.builder(
-                                    padding: EdgeInsets.zero,
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: whyUsTexts.length,
-                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      mainAxisSpacing: 12.h,
-                                      crossAxisSpacing: 12.w,
-                                      childAspectRatio: 1,
-                                    ),
-                                    itemBuilder: (context, index) {
-                                      return WhyUsWidget(text: whyUsTexts[index]);
-                                    },
-                                  ),
-                                  20.h.verticalSpace,
-                                ],
+            appBar: AppBar(
+              centerTitle: true,
+              elevation: 0,
+              backgroundColor: colors.shade0,
+              foregroundColor: colors.darkMode900,
+              scrolledUnderElevation: 0,
+              leading: WScaleAnimation(
+                child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+                onTap: () => Navigator.of(context).pop(),
+              ),
+              title: Text("career".tr(), style: fonts.regularMain),
+              bottom: TabBar(
+                onTap: (index) => _tabIndex.value = index,
+                labelColor: colors.error500,
+                indicatorColor: colors.error500,
+                indicatorSize: TabBarIndicatorSize.label,
+                unselectedLabelColor: Colors.black,
+                tabs: [Tab(text: "med".tr()), Tab(text: "office".tr())],
+              ),
+            ),
+            body: BlocBuilder<VacancyBloc, VacancyState>(
+              buildWhen: (o, n) {
+                final status = o.vacancyStatus != n.vacancyStatus;
+                final vacancies = o.vacancies != n.vacancies;
+                return status || vacancies;
+              },
+              builder: (context, state) {
+                return SmartRefresher(
+                  controller: _refreshController,
+                  enablePullDown: true,
+                  header: const WaterDropMaterialHeader(color: Style.shade0, backgroundColor: Style.error500),
+                  onRefresh: () {
+                    context.read<VacancyBloc>().add(const VacancyEvent.fetchVacancies());
+                    _refreshController.refreshCompleted();
+                  },
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.zero,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              12.h.verticalSpace,
+                              ValueListenableBuilder(
+                                valueListenable: _tabIndex,
+                                builder: (BuildContext context, int value, Widget? child) {
+                                  return VacanciesCards(
+                                    index: _tabIndex.value,
+                                    fonts: fonts,
+                                    icons: icons,
+                                    colors: colors,
+                                    state: state,
+                                    bloc: context.read<VacancyBloc>(),
+                                  );
+                                },
                               ),
-                            ),
-
-                            // Text("doctors".tr(), style: fonts.regularMain),
-                            // 8.h.verticalSpace,
-                            // BlocBuilder<DoctorBloc, DoctorState>(
-                            //   builder: (context, state) {
-                            //     return ListView.builder(
-                            //       padding: EdgeInsets.zero,
-                            //       shrinkWrap: true,
-                            //       physics: const NeverScrollableScrollPhysics(),
-                            //       itemCount: state.doctorsJob.length,
-                            //       itemBuilder: (context, index) {
-                            //         final data = state.doctorsJob[index];
-                            //         return CustomExpansionListTile(
-                            //           title: data.name,
-                            //           description: data.name + data.name,
-                            //           children: [
-                            //             Row(
-                            //               children: [
-                            //                 Column(
-                            //                   mainAxisSize: MainAxisSize.min,
-                            //                   crossAxisAlignment: CrossAxisAlignment.start,
-                            //                   children: [
-                            //                     Text(
-                            //                       data.id.toString(),
-                            //                       style: fonts.smallMain,
-                            //                     )
-                            //                   ],
-                            //                 ),
-                            //               ],
-                            //             ),
-                            //           ],
-                            //         );
-                            //       },
-                            //     );
-                            //   },
-                            // ),
-                            // 20.h.verticalSpace,
-
-                            ResumeFilling(
-                              bloc: context.read<VacancyBloc>(),
-                              jobId: -1,
-                              compId: -1,
-                            ),
-
-                            // Padding(
-                            //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-                            //   child: Column(
-                            //     mainAxisSize: MainAxisSize.min,
-                            //     crossAxisAlignment: CrossAxisAlignment.start,
-                            //     children: [
-                            //       Text("Работа в Medion — это работа по любви!", style: fonts.regularMain),
-                            //       8.h.verticalSpace,
-                            //       CButton(
-                            //         title: "reply".tr(),
-                            //         onTap: () {},
-                            //         // onTap: () => launchUrl(
-                            //         //   Uri.parse("https://medion.uz/"),
-                            //         //   mode: LaunchMode.externalApplication,
-                            //         // ),
-                            //       ),
-                            //       20.h.verticalSpace,
-                            //     ],
-                            //   ),
-                            // ),
-                            // Text("Наши отделения", style: fonts.regularMain),
-                            // 8.h.verticalSpace,
-                            // BlocBuilder<HomeBloc, HomeState>(
-                            //   builder: (context, state) {
-                            //     if (state.loading) return _buildAddressShimmer();
-                            //     return _buildAddressSection(context, colors, fonts, icons);
-                            //   },
-                            // ),
-                          ],
+                              6.h.verticalSpace,
+                              ...List.generate(
+                                (state.vacancies?.requirements.toList() ?? []).length,
+                                (index) {
+                                  final List<RequirementsModel> list = state.vacancies?.requirements.toList() ?? [];
+                                  final requirements = list[index];
+                                  return Container(
+                                    margin: EdgeInsets.symmetric(vertical: 4.h),
+                                    padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w),
+                                    width: 1.sw,
+                                    decoration: BoxDecoration(
+                                      color: colors.shade0,
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
+                                    child: Row(
+                                      spacing: 6.w,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 46.h,
+                                          width: 46.w,
+                                          child: CommonImage(imageUrl: requirements.icon),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            requirements.title,
+                                            style: fonts.smallText,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                              20.h.verticalSpace,
+                            ],
+                          ),
                         ),
-                      );
-                    },
+                        ResumeFilling(
+                          bloc: context.read<VacancyBloc>(),
+                          jobId: -1,
+                          compId: -1,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                );
+              },
             ),
           ),
         );

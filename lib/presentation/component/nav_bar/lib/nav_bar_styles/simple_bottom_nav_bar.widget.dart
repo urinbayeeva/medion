@@ -5,68 +5,63 @@ class BottomNavSimple extends StatelessWidget {
     super.key,
     this.navBarEssentials = const NavBarEssentials(items: null),
   });
+
   final NavBarEssentials? navBarEssentials;
 
-  Widget _buildItem(final PersistentBottomNavBarItem item,
-          final bool isSelected, final double? height, final bool isNavBar) =>
-      ThemeWrapper(
+  Widget _buildItem(PersistentBottomNavBarItem item, bool isSelected, double? height, bool isNavBar) => ThemeWrapper(
         builder: (context, colors, fonts, icons, controller) {
-          return navBarEssentials!.navBarHeight == 0
-              ? const SizedBox.shrink()
-              : AnimatedContainer(
-                  width: 150.w,
-                  height: height,
-                  color: Colors.transparent,
-                  duration: const Duration(milliseconds: 1000),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 1000),
-                    alignment: Alignment.center,
-                    height: height,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: isNavBar ? 0 : 8),
-                      child: Column(
-                        mainAxisAlignment: isNavBar
-                            ? MainAxisAlignment.center
-                            : MainAxisAlignment.start,
-                        children: <Widget>[
-                          IconTheme(
-                            data: IconThemeData(
-                                size: item.iconSize,
-                                color: isSelected
-                                    ? (item.activeColorSecondary ??
-                                        item.activeColorPrimary)
-                                    : item.inactiveColorPrimary ??
-                                        item.activeColorPrimary),
-                            child: isSelected
-                                ? item.icon
-                                : item.inactiveIcon ?? item.icon,
-                          ),
-                          if (item.title != null && !isNavBar)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 2),
-                              child: Material(
-                                type: MaterialType.transparency,
-                                child: FittedBox(
-                                    child: Text(
-                                  semanticsLabel: item.title!,
-                                  item.title!,
-                                  style: item.textStyle != null
-                                      ? (item.textStyle!.apply(
-                                          color: isSelected
-                                              ? (item.activeColorPrimary)
-                                              : item.inactiveColorPrimary))
-                                      : fonts.headlineText.copyWith(
-                                          color: isSelected
-                                              ? (item.activeColorPrimary)
-                                              : item.inactiveColorPrimary),
-                                )),
-                              ),
-                            )
-                        ],
+          if (navBarEssentials!.navBarHeight == 0) return const SizedBox.shrink();
+
+          return AnimatedContainer(
+            width: 150.w,
+            height: height,
+            color: Colors.transparent,
+            duration: const Duration(milliseconds: 1000),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 1000),
+              alignment: Alignment.center,
+              height: height,
+              child: Padding(
+                padding: EdgeInsets.only(top: isNavBar ? 0 : 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: isNavBar ? MainAxisAlignment.center : MainAxisAlignment.start,
+                  children: <Widget>[
+                    IconTheme(
+                      data: IconThemeData(
+                        size: item.iconSize,
+                        color: isSelected
+                            ? (item.activeColorSecondary ?? item.activeColorPrimary)
+                            : item.inactiveColorPrimary ?? item.activeColorPrimary,
                       ),
+                      child: isSelected ? item.icon : item.inactiveIcon ?? item.icon,
                     ),
-                  ),
-                );
+                    if (item.title != null && !isNavBar) ...{
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: FittedBox(
+                            child: Text(
+                              semanticsLabel: item.title!,
+                              item.title!,
+                              style: item.textStyle != null
+                                  ? (item.textStyle!.apply(
+                                      color: isSelected ? (item.activeColorPrimary) : item.inactiveColorPrimary,
+                                    ))
+                                  : fonts.headlineText.copyWith(
+                                      color: isSelected ? (item.activeColorPrimary) : item.inactiveColorPrimary,
+                                    ),
+                            ),
+                          ),
+                        ),
+                      )
+                    }
+                  ],
+                ),
+              ),
+            ),
+          );
         },
       );
 
@@ -130,17 +125,17 @@ class BottomNavSimple extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       if (navBarEssentials!.items![index].onPressed != null) {
-                        navBarEssentials!.items![index].onPressed!(
-                            navBarEssentials!.selectedScreenBuildContext);
+                        navBarEssentials!.items![index].onPressed!(navBarEssentials!.selectedScreenBuildContext);
                       } else {
                         navBarEssentials!.onItemSelected!(index);
                       }
                     },
                     child: _buildItem(
-                        item,
-                        navBarEssentials!.selectedIndex == index,
-                        navBarEssentials!.navBarHeight,
-                        false),
+                      item,
+                      navBarEssentials!.selectedIndex == index,
+                      navBarEssentials!.navBarHeight,
+                      false,
+                    ),
                   ),
                 );
               }).toList(),
@@ -157,43 +152,22 @@ class RPSCustomPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Path path_0 = Path();
     path_0.moveTo(size.width * 0.5000000, size.height * 0.9605263);
-    path_0.cubicTo(
-        size.width * 0.5680721,
-        size.height * 0.9605263,
-        size.width * 0.6232558,
-        size.height * 0.6483039,
-        size.width * 0.6232558,
-        size.height * 0.2631579);
-    path_0.cubicTo(
-        size.width * 0.6232558,
-        size.height * 0.1700500,
-        size.width * 0.6200302,
-        size.height * 0.08120355,
-        size.width * 0.6141791,
-        0);
+    path_0.cubicTo(size.width * 0.5680721, size.height * 0.9605263, size.width * 0.6232558, size.height * 0.6483039,
+        size.width * 0.6232558, size.height * 0.2631579);
+    path_0.cubicTo(size.width * 0.6232558, size.height * 0.1700500, size.width * 0.6200302, size.height * 0.08120355,
+        size.width * 0.6141791, 0);
     path_0.lineTo(size.width * 0.9627907, 0);
-    path_0.cubicTo(size.width * 0.9833419, 0, size.width,
-        size.height * 0.09425579, size.width, size.height * 0.2105263);
+    path_0.cubicTo(
+        size.width * 0.9833419, 0, size.width, size.height * 0.09425579, size.width, size.height * 0.2105263);
     path_0.lineTo(size.width, size.height);
     path_0.lineTo(0, size.height);
     path_0.lineTo(0, size.height * 0.2105263);
-    path_0.cubicTo(0, size.height * 0.09425579, size.width * 0.01665916, 0,
-        size.width * 0.03720930, 0);
+    path_0.cubicTo(0, size.height * 0.09425579, size.width * 0.01665916, 0, size.width * 0.03720930, 0);
     path_0.lineTo(size.width * 0.3858209, 0);
-    path_0.cubicTo(
-        size.width * 0.3799698,
-        size.height * 0.08120355,
-        size.width * 0.3767442,
-        size.height * 0.1700500,
-        size.width * 0.3767442,
-        size.height * 0.2631579);
-    path_0.cubicTo(
-        size.width * 0.3767442,
-        size.height * 0.6483039,
-        size.width * 0.4319279,
-        size.height * 0.9605263,
-        size.width * 0.5000000,
-        size.height * 0.9605263);
+    path_0.cubicTo(size.width * 0.3799698, size.height * 0.08120355, size.width * 0.3767442, size.height * 0.1700500,
+        size.width * 0.3767442, size.height * 0.2631579);
+    path_0.cubicTo(size.width * 0.3767442, size.height * 0.6483039, size.width * 0.4319279, size.height * 0.9605263,
+        size.width * 0.5000000, size.height * 0.9605263);
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
@@ -202,42 +176,25 @@ class RPSCustomPainter extends CustomPainter {
 
     Path path_1 = Path();
     path_1.moveTo(size.width * 0.5000000, size.height * 0.4342105);
+    path_1.cubicTo(size.width * 0.5294651, size.height * 0.4342105, size.width * 0.5550535, size.height * 0.3402553,
+        size.width * 0.5679140, size.height * 0.2024066);
     path_1.cubicTo(
-        size.width * 0.5294651,
-        size.height * 0.4342105,
-        size.width * 0.5550535,
-        size.height * 0.3402553,
-        size.width * 0.5679140,
-        size.height * 0.2024066);
-    path_1.cubicTo(size.width * 0.5775070, size.height * 0.09958158,
-        size.width * 0.5934023, 0, size.width * 0.6139535, 0);
+        size.width * 0.5775070, size.height * 0.09958158, size.width * 0.5934023, 0, size.width * 0.6139535, 0);
     path_1.lineTo(size.width * 0.9627907, 0);
-    path_1.cubicTo(size.width * 0.9833419, 0, size.width,
-        size.height * 0.09425579, size.width, size.height * 0.2105263);
+    path_1.cubicTo(
+        size.width * 0.9833419, 0, size.width, size.height * 0.09425579, size.width, size.height * 0.2105263);
     path_1.lineTo(size.width, size.height * 0.7894737);
-    path_1.cubicTo(size.width, size.height * 0.9057447, size.width * 0.9833419,
-        size.height, size.width * 0.9627907, size.height);
+    path_1.cubicTo(
+        size.width, size.height * 0.9057447, size.width * 0.9833419, size.height, size.width * 0.9627907, size.height);
     path_1.lineTo(size.width * 0.03720930, size.height);
-    path_1.cubicTo(size.width * 0.01665914, size.height, 0,
-        size.height * 0.9057447, 0, size.height * 0.7894737);
+    path_1.cubicTo(size.width * 0.01665914, size.height, 0, size.height * 0.9057447, 0, size.height * 0.7894737);
     path_1.lineTo(0, size.height * 0.2105263);
-    path_1.cubicTo(0, size.height * 0.09425579, size.width * 0.01665916, 0,
-        size.width * 0.03720930, 0);
+    path_1.cubicTo(0, size.height * 0.09425579, size.width * 0.01665916, 0, size.width * 0.03720930, 0);
     path_1.lineTo(size.width * 0.3860465, 0);
-    path_1.cubicTo(
-        size.width * 0.4065977,
-        0,
-        size.width * 0.4224930,
-        size.height * 0.09958158,
-        size.width * 0.4320860,
+    path_1.cubicTo(size.width * 0.4065977, 0, size.width * 0.4224930, size.height * 0.09958158, size.width * 0.4320860,
         size.height * 0.2024066);
-    path_1.cubicTo(
-        size.width * 0.4449465,
-        size.height * 0.3402553,
-        size.width * 0.4705349,
-        size.height * 0.4342105,
-        size.width * 0.5000000,
-        size.height * 0.4342105);
+    path_1.cubicTo(size.width * 0.4449465, size.height * 0.3402553, size.width * 0.4705349, size.height * 0.4342105,
+        size.width * 0.5000000, size.height * 0.4342105);
     path_1.close();
 
     Paint paintFill = Paint()..style = PaintingStyle.fill;

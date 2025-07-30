@@ -1,13 +1,14 @@
 enum FeedBackStatus {
-  moderation(icon: "assets/icons/timer.svg", title: "Moderation"),
-  published(icon: "", title: "Published"),
-  blocked(icon: "assets/icons/Simplification.svg", title: "Blocked"),
-  none(icon: "", title: "");
+  moderation(ipKey: "draft", icon: "assets/icons/timer.svg", title: "Moderation"),
+  published(ipKey: "published", icon: "", title: "Published"),
+  blocked(ipKey: "rejected", icon: "assets/icons/Simplification.svg", title: "Blocked"),
+  none(ipKey: "", icon: "", title: "");
 
   final String title;
   final String icon;
+  final String ipKey;
 
-  const FeedBackStatus({required this.title, required this.icon});
+  const FeedBackStatus({required this.title, required this.icon, required this.ipKey});
 
   bool get isModeration => this == FeedBackStatus.moderation;
 

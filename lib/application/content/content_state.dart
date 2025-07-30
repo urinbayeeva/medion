@@ -10,6 +10,7 @@ class ContentState with _$ContentState {
     @Default(<String>[]) List<String> jobTypes,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus teamStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus activityStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus fetchContentStatus,
     @Default(false) bool loading,
     @Default(false) bool error,
     @Default(false) bool success,

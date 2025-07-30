@@ -1,18 +1,22 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
 import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/profile/profile_bloc.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/profile/widget/nav_list_widget.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -34,24 +38,65 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (context, colors, fonts, icons, controller) {
         return Scaffold(
           backgroundColor: colors.backgroundColor,
-          body: BlocBuilder<AuthBloc, AuthState>(
+          body: BlocConsumer<AuthBloc, AuthState>(
+            listenWhen: (old, nyu) {
+              final register = old.verifyStatus != nyu.verifyStatus;
+              final sendCode = old.successSendCode != nyu.successSendCode;
+
+              return register || sendCode;
+            },
+            listener: (context, lState) {
+              context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
+            },
             buildWhen: (o, n) {
               final info = o.patientInfo != n.patientInfo;
-              return info;
+              final image = o.patientInfo?.image != n.patientInfo?.image;
+              final status = o.userInfoStatus != n.userInfoStatus;
+              return info || status || image;
             },
             builder: (context, state) {
+              String? backendImageUrl = state.patientInfo?.image;
               return Column(
                 spacing: 0.01.sh,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  if (state.patientInfo == null) ...{
+                  if (state.userInfoStatus.isInitial || state.userInfoStatus.isInProgress) ...{
+                    SafeArea(
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 16.w).copyWith(top: 10.h),
+                        padding: EdgeInsets.only(bottom: 12.h),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: colors.shade0,
+                        ),
+                        width: double.infinity,
+                        height: 175.h,
+                        child: Shimmer.fromColors(
+                          baseColor: colors.neutral200,
+                          highlightColor: colors.shade0,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 50.r,
+                                backgroundColor: Colors.black,
+                              ),
+                              12.h.verticalSpace,
+                              Text('profile'.tr(), style: fonts.regularText),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  } else if (state.patientInfo == null || state.userInfoStatus.isFailure) ...{
                     SafeArea(
                       child: Container(
                         margin: const EdgeInsets.symmetric(horizontal: 16).copyWith(top: 10),
                         padding: const EdgeInsets.only(bottom: 12),
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: colors.shade0),
                         width: double.infinity,
-                        height: 175,
+                        height: 175.h,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,8 +120,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: [
                                 BlocBuilder<ProfileBloc, ProfileState>(
                                   builder: (context, profileState) {
-                                    String? backendImageUrl = state.patientInfo?.image;
                                     String? pickedImagePath = profileState.pickedImagePath;
+
+                                    log("Image 1: $backendImageUrl");
+                                    log("Image 2: $pickedImagePath");
                                     return CircleAvatar(
                                       radius: 60.r,
                                       backgroundColor: colors.neutral200,

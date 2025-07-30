@@ -20,10 +20,6 @@ abstract class ResponseFailure with _$ResponseFailure {
     required String message,
   }) = NetworkFailure;
 
-  const factory ResponseFailure.parsingFailure({
-    required String message,
-  }) = ParsingFailure;
-
   const factory ResponseFailure.unknown({
     required String message,
   }) = Unknown;
@@ -49,8 +45,6 @@ ResponseFailure handleError(dynamic e) {
     return const NetworkFailure(message: "low_connection_internet");
   } else if (e is BackendException) {
     return NetworkFailure(message: e.message);
-  } else if (e is TypeError || e.toString().contains('Deserializing')) {
-    return ParsingFailure(message: "Parsing error: ${e.toString()}");
   } else {
     return const Unknown(message: 'unknown_error');
   }

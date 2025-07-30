@@ -143,6 +143,9 @@ abstract class UploadVacancyModel implements Built<UploadVacancyModel, UploadVac
   @BuiltValueField(wireName: 'resume')
   String get resume;
 
+  @BuiltValueField(wireName: 'phone')
+  String get phone;
+
   UploadVacancyModel._();
 
   factory UploadVacancyModel([void Function(UploadVacancyModelBuilder) updates]) = _$UploadVacancyModel;

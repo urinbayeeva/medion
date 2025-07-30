@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
+import 'package:medion/presentation/pages/others/component/common_image.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -203,24 +205,29 @@ class _DiscountPageState extends State<DiscountPage> {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 0.7,
+                    crossAxisSpacing: 8.h,
+                    mainAxisSpacing: 8.h,
+                    childAspectRatio: 0.64.h,
                   ),
                   itemCount: discountContent.length,
                   itemBuilder: (context, index) {
                     final discount = discountContent[index];
                     final endDateFormatted = _formatDiscountDate(discount.discountEndDate?.toString());
 
-                    return ArticleCardWidget(
+                    return DiscountCard(
+                      image: discount.primaryImage,
+                      title: discount.title.toCapitalized(),
+                      date: "Акция до {date}".tr(namedArgs: {"date": endDateFormatted}),
+                      colors: colors,
+                      fonts: fonts,
                       onTap: () {
                         Navigator.push(
                           context,
                           AppRoutes.getInfoViewAboutHealth(
-                            discountCondition: "",
-                            imagePath: discount.images.toList(),
+                            discountCondition: discount.discountCondition.toString(),
+                            imagePath: [...discount.images, discount.primaryImage],
                             title: discount.decodedTitle.toCapitalized(),
                             desc: discount.decodedDescription.toCapitalized(),
                             date: discount.createDate,
@@ -234,11 +241,6 @@ class _DiscountPageState extends State<DiscountPage> {
                           ),
                         );
                       },
-                      title: discount.title.toCapitalized(),
-                      description: "Акция до {date}".tr(namedArgs: {
-                        "date": endDateFormatted,
-                      }),
-                      image: discount.primaryImage,
                     );
                   },
                 ),
@@ -247,6 +249,70 @@ class _DiscountPageState extends State<DiscountPage> {
           ),
         );
       },
+    );
+  }
+}
+
+class DiscountCard extends StatelessWidget {
+  const DiscountCard({
+    super.key,
+    required this.image,
+    required this.colors,
+    required this.title,
+    required this.date,
+    required this.fonts,
+    required this.onTap,
+  });
+
+  final String image;
+  final String title;
+  final String date;
+  final CustomColorSet colors;
+  final FontSet fonts;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return WScaleAnimation(
+      onTap: onTap,
+      child: Container(
+        width: 92.w,
+        height: 160.h,
+        decoration: BoxDecoration(
+          color: colors.shade0,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 8.h,
+          children: [
+            CommonImage(
+              radius: const BorderRadius.vertical(top: Radius.circular(12)),
+              height: 163.h,
+              width: double.infinity,
+              imageUrl: image,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  title,
+                  style: fonts.xSmallLink,
+                  maxLines: 3,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0).copyWith(bottom: 6.h),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(date, style: fonts.xxSmallestText.copyWith(color: colors.neutral300), maxLines: 1),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
