@@ -131,7 +131,7 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
   }
 
   FutureOr<void> _fetchAwards(_FetchAwards event, Emitter<BranchState> emit) async {
-    emit(state.copyWith(loading: true, error: false, success: false));
+    emit(state.copyWith(awardStatus: FormzSubmissionStatus.inProgress));
     EasyLoading.show();
 
     final res = await _repository.fetchAwards();
@@ -139,21 +139,20 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
       (error) {
         LogService.e("Error in _fetchAwards: $error");
         EasyLoading.showError(error.message);
-        emit(state.copyWith(loading: false, error: true));
+        emit(state.copyWith(awardStatus: FormzSubmissionStatus.failure));
       },
       (data) {
         EasyLoading.dismiss();
         emit(state.copyWith(
-          loading: false,
-          success: true,
           awards: data,
+          awardStatus: FormzSubmissionStatus.success,
         ));
       },
     );
   }
 
   FutureOr<void> _fetchStudy(_FetchStudy event, Emitter<BranchState> emit) async {
-    emit(state.copyWith(loading: true, error: false, success: false));
+    emit(state.copyWith(educationStatus: FormzSubmissionStatus.initial));
     EasyLoading.show();
 
     final res = await _repository.fetchStudy();
@@ -161,13 +160,12 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
       (error) {
         LogService.e("Error in _fetchStudy: $error");
         EasyLoading.showError(error.message);
-        emit(state.copyWith(loading: false, error: true));
+        emit(state.copyWith(educationStatus: FormzSubmissionStatus.failure));
       },
       (data) {
         EasyLoading.dismiss();
         emit(state.copyWith(
-          loading: false,
-          success: true,
+          educationStatus: FormzSubmissionStatus.success,
           study: data,
         ));
       },
@@ -193,7 +191,7 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
   }
 
   FutureOr<void> _fetchOfferta(_FetchOfferta event, Emitter<BranchState> emit) async {
-    emit(state.copyWith(loading: true, error: false, success: false));
+    emit(state.copyWith(offertaStatus: FormzSubmissionStatus.inProgress));
     EasyLoading.show();
 
     final res = await _repository.getOfferta();
@@ -201,13 +199,12 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
       (error) {
         LogService.e("Error in _fetchOfferta: $error");
         EasyLoading.showError(error.message);
-        emit(state.copyWith(loading: false, error: true));
+        emit(state.copyWith(offertaStatus: FormzSubmissionStatus.failure));
       },
       (data) {
         EasyLoading.dismiss();
         emit(state.copyWith(
-          loading: false,
-          success: true,
+          offertaStatus: FormzSubmissionStatus.success,
           offerta: data,
         ));
       },

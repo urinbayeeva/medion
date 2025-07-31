@@ -100,6 +100,7 @@ part 'serializer.g.dart';
   StudyLeadResult,
   Course,
   ContentModel,
+  BannerModel,
   ChildContentModel,
   OfferModel,
   MedionModel,

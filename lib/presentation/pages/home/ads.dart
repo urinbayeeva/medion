@@ -16,6 +16,9 @@ import 'package:medion/presentation/pages/others/equipment/equipment_page.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/ads_enums.dart';
+import 'package:medion/utils/enums/content_type_enum.dart';
+import 'package:medion/utils/enums/pop_up_status_enum.dart';
+import 'package:medion/utils/extension/context_extension.dart';
 
 class Ads extends StatefulWidget {
   const Ads({super.key});
@@ -75,9 +78,22 @@ class _AdsState extends State<Ads> with AutomaticKeepAliveClientMixin {
                       );
                     }
                     if (type.isDiscount) {
-                      Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(builder: (context) => DiscountPage(discountId: ad.contentId)),
-                      );
+                      if (ad.contentId != null) {
+                        Navigator.of(context, rootNavigator: true).push(
+                          AppRoutes.getInfoViewAboutHealth(
+                            id: ad.contentId!,
+                            type: ContentTypeEnum.discount,
+                          ),
+                        );
+                      } else {
+                        context.showPopUp(
+                          status: PopUpStatus.warning,
+                          message: "Id not found",
+                          fonts: fonts,
+                          colors: colors,
+                          context: context,
+                        );
+                      }
                     }
                     if (type.isArticles) {
                       Navigator.of(context, rootNavigator: true).push(

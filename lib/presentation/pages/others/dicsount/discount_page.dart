@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +15,12 @@ import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/constants.dart';
+import 'package:medion/utils/enums/content_type_enum.dart';
 import 'package:medion/utils/extensions.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DiscountPage extends StatefulWidget {
-  final int? discountId;
-
-  const DiscountPage({super.key, this.discountId});
+  const DiscountPage({super.key});
 
   @override
   State<DiscountPage> createState() => _DiscountPageState();
@@ -33,13 +33,7 @@ class _DiscountPageState extends State<DiscountPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.discountId != null) {
-      // Fetch single discount by ID if provided
-      _fetchDiscountById(widget.discountId!);
-    } else {
-      // Fetch all discounts as before
-      context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "discount"));
-    }
+    context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "discount"));
   }
 
   @override
@@ -49,10 +43,8 @@ class _DiscountPageState extends State<DiscountPage> {
   }
 
   void _onRefresh() {
-    if (widget.discountId == null) {
-      context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "discount"));
-      _refreshController.refreshCompleted();
-    }
+    context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "discount"));
+    _refreshController.refreshCompleted();
     return;
   }
 
@@ -67,185 +59,105 @@ class _DiscountPageState extends State<DiscountPage> {
     }
   }
 
-  // Method to fetch discount by ID using http and navigate to details page
-  Future<void> _fetchDiscountById(int pk) async {
-    try {
-      final response = await http.get(
-        Uri.parse('${Constants.baseUrlP}/content/discount').replace(
-          queryParameters: {
-            'type': 'discount',
-            'pk': pk.toString(), // Use pk from widget.discountId
-            'lang': 'en_US',
-          },
-        ),
-      );
-
-      if (response.statusCode == 200) {
-        final jsonData = jsonDecode(response.body);
-        final discount = Discount.fromJson(jsonData);
-        final endDateFormatted = _formatDiscountDate(discount.discountEndDate?.toString());
-
-        // Navigate to the details page
-        // if (mounted) {
-        //   await Navigator.push(
-        //     context,
-        //     AppRoutes.getInfoViewAboutHealth(
-        //       discountCondition: "",
-        //       imagePath: discount.images,
-        //       title: discount.decodedTitle.toCapitalized(),
-        //       desc: discount.decodedDescription.toCapitalized(),
-        //       date: discount.createDate,
-        //       isDiscount: true,
-        //       discountAddress: discount.discountLocation ?? '',
-        //       discountDuration: discount.discountStartDate != null
-        //           ? "${_formatDiscountDate(discount.discountStartDate?.toString())} - $endDateFormatted"
-        //           : endDateFormatted,
-        //       phoneShortNumber: discount.phoneNumberShort ?? '',
-        //       phoneNumber: discount.phoneNumber ?? '',
-        //     ),
-        //   );
-        // Pop twice to go back two screens
-        // if (mounted && Navigator.canPop(context)) {
-        //   Navigator.pop(context);
-        // }
-        // }
-      } else {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('failed_to_fetch_discount'.tr())),
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('something_went_wrong'.tr())),
-        );
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
         return Scaffold(
-          backgroundColor: colors.backgroundColor,
-          body: Column(
-            children: [
-              CAppBar(
-                title: "discounts".tr(),
-                centerTitle: true,
-                isBack: true,
-                trailing: 28.w.horizontalSpace,
-              ),
-              if (widget.discountId != null) ...[
-                Expanded(child: _buildLoadingView(colors)),
-              ] else ...[
-                Expanded(child: _buildDiscountListView(colors, fonts, icons)),
-              ],
-            ],
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: colors.shade0,
+            foregroundColor: colors.darkMode900,
+            scrolledUnderElevation: 0,
+            leading: WScaleAnimation(
+              child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+              onTap: () => Navigator.of(context).pop(),
+            ),
+            title: Text("discounts".tr(), style: fonts.regularMain),
           ),
-        );
-      },
-    );
-  }
+          backgroundColor: colors.backgroundColor,
+          body: BlocBuilder<ContentBloc, ContentState>(
+            builder: (context, state) {
+              if (state.loading) {
+                return Center(
+                  child: CircularProgressIndicator(color: colors.error500),
+                );
+              }
 
-  Widget _buildLoadingView(colors) {
-    return Center(
-      child: CircularProgressIndicator(color: colors.error500),
-    );
-  }
-
-  Widget _buildDiscountListView(colors, fonts, icons) {
-    return BlocBuilder<ContentBloc, ContentState>(
-      builder: (context, state) {
-        if (state.loading) {
-          return Center(
-            child: CircularProgressIndicator(color: colors.error500),
-          );
-        }
-
-        if (state.error) {
-          return Center(
-            child: Text(
-              'something_went_wrong'.tr(),
-              style: fonts.regularSemLink,
-            ),
-          );
-        }
-
-        final discountContent = state.contentByType["discount"] ?? [];
-
-        if (discountContent.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                (icons as IconSet).emojiSad.svg(width: 80, height: 80),
-                4.h.verticalSpace,
-                Text(
-                  'no_result_found'.tr(),
-                  style: fonts.regularSemLink,
-                ),
-              ],
-            ),
-          );
-        }
-
-        return SmartRefresher(
-          controller: _refreshController,
-          onRefresh: _onRefresh,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                12.h.verticalSpace,
-                GridView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8.h,
-                    mainAxisSpacing: 8.h,
-                    childAspectRatio: 0.64.h,
+              if (state.error) {
+                return Center(
+                  child: Text(
+                    'something_went_wrong'.tr(),
+                    style: fonts.regularSemLink,
                   ),
-                  itemCount: discountContent.length,
-                  itemBuilder: (context, index) {
-                    final discount = discountContent[index];
-                    final endDateFormatted = _formatDiscountDate(discount.discountEndDate?.toString());
+                );
+              }
 
-                    return DiscountCard(
-                      image: discount.primaryImage,
-                      title: discount.title.toCapitalized(),
-                      date: "Акция до {date}".tr(namedArgs: {"date": endDateFormatted}),
-                      colors: colors,
-                      fonts: fonts,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          AppRoutes.getInfoViewAboutHealth(
-                            discountCondition: discount.discountCondition.toString(),
-                            imagePath: [...discount.images, discount.primaryImage],
-                            title: discount.decodedTitle.toCapitalized(),
-                            desc: discount.decodedDescription.toCapitalized(),
-                            date: discount.createDate,
-                            isDiscount: true,
-                            discountAddress: discount.discountLocation?.toString() ?? '',
-                            discountDuration: discount.discountStartDate != null
-                                ? "${_formatDiscountDate(discount.discountStartDate?.toString())} - $endDateFormatted"
-                                : endDateFormatted,
-                            phoneShortNumber: discount.phoneNumberShort?.toString() ?? '',
-                            phoneNumber: discount.phoneNumber?.toString() ?? '',
-                          ),
-                        );
-                      },
-                    );
-                  },
+              final discountContent = state.contentByType["discount"] ?? [];
+
+              if (discountContent.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      icons.emojiSad.svg(width: 80, height: 80),
+                      4.h.verticalSpace,
+                      Text(
+                        'no_result_found'.tr(),
+                        style: fonts.regularSemLink,
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return SmartRefresher(
+                controller: _refreshController,
+                onRefresh: _onRefresh,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      12.h.verticalSpace,
+                      GridView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 164.w,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          mainAxisExtent: 252.h,
+                        ),
+                        itemCount: discountContent.length,
+                        itemBuilder: (context, index) {
+                          final discount = discountContent[index];
+                          final endDateFormatted = _formatDiscountDate(discount.discountEndDate?.toString());
+
+                          return DiscountCard(
+                            image: discount.primaryImage,
+                            title: discount.title.toCapitalized(),
+                            date: "Акция до {date}".tr(namedArgs: {"date": endDateFormatted}),
+                            colors: colors,
+                            fonts: fonts,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                AppRoutes.getInfoViewAboutHealth(
+                                  id: discount.id,
+                                  type: ContentTypeEnum.discount,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              );
+            },
           ),
         );
       },
@@ -298,7 +210,7 @@ class DiscountCard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
                   title,
-                  style: fonts.xSmallLink,
+                  style: fonts.xSmallLink.copyWith(fontWeight: FontWeight.w500, color: colors.darkMode900),
                   maxLines: 3,
                 ),
               ),
@@ -307,7 +219,11 @@ class DiscountCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0).copyWith(bottom: 6.h),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(date, style: fonts.xxSmallestText.copyWith(color: colors.neutral300), maxLines: 1),
+                child: Text(
+                  date,
+                  style: fonts.xxSmallestText.copyWith(color: const Color(0xff66686C)),
+                  maxLines: 1,
+                ),
               ),
             ),
           ],

@@ -13,6 +13,7 @@ import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/content_enum.dart';
+import 'package:medion/utils/enums/content_type_enum.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class AboutHealthPage extends StatefulWidget {
@@ -117,13 +118,13 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          AppRoutes.getInfoViewAboutHealth(
-                            discountCondition: "",
-                            date: data.createDate,
-                            imagePath: [...data.images, data.primaryImage],
-                            title: data.title,
-                            desc: data.description,
-                          ),
+                          AppRoutes.getInfoViewAboutHealth(id: data.id, type: ContentTypeEnum.blogHealth
+                              // discountCondition: "",
+                              // date: data.createDate,
+                              // imagePath: [...data.images, data.primaryImage],
+                              // title: data.title,
+                              // desc: data.description,
+                              ),
                         );
                       },
                       descMaxLine: 4,

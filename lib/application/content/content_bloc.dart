@@ -22,6 +22,7 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
 
   ContentBloc(this._repository, this._companyService) : super(const ContentState()) {
     on<_FetchContent>(_fetchContent);
+    on<_GetSingleContent>(_fetchSingleContent);
     on<_GetTeams>(_getTeams);
   }
 
@@ -39,6 +40,25 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
           teamStatus: FormzSubmissionStatus.success,
           team: result,
           jobTypes: jobTypes,
+        ));
+      },
+    );
+  }
+
+  FutureOr<void> _fetchSingleContent(_GetSingleContent event, Emitter<ContentState> emit) async {
+    emit(state.copyWith(singleContentStatus: FormzSubmissionStatus.inProgress));
+    final res = await _repository.fetchSingleContents(pk: event.id, type: event.type);
+
+    res.fold(
+      (error) {
+        emit(state.copyWith(
+          singleContentStatus: FormzSubmissionStatus.failure,
+        ));
+      },
+      (success) {
+        emit(state.copyWith(
+          singleContent: success,
+          singleContentStatus: FormzSubmissionStatus.success,
         ));
       },
     );

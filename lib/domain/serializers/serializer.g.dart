@@ -11,6 +11,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Articles.serializer)
       ..add(Award.serializer)
       ..add(AwardsModel.serializer)
+      ..add(BannerModel.serializer)
       ..add(BookingTypeModel.serializer)
       ..add(BranchDetailModel.serializer)
       ..add(BranchModel.serializer)
@@ -317,6 +318,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ChildContentModel)]),
           () => new ListBuilder<ChildContentModel>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(BannerModel)]),
+          () => new ListBuilder<BannerModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

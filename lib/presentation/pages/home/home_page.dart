@@ -33,6 +33,7 @@ import 'package:medion/presentation/pages/others/component/w_scala_animation.dar
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/enums/content_type_enum.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
@@ -423,11 +424,13 @@ class _HomePageState extends State<HomePage> {
                                         Navigator.of(context, rootNavigator: true)
                                             .push(
                                           AppRoutes.getInfoViewAboutHealth(
-                                            discountCondition: "",
-                                            imagePath: news.images.toList(),
-                                            title: news.decodedTitle,
-                                            desc: news.decodedDescription,
-                                            date: news.createDate,
+                                            id: news.id,
+                                            type: ContentTypeEnum.news,
+                                            // discountCondition: "",
+                                            // imagePath: news.images.toList(),
+                                            // title: news.decodedTitle,
+                                            // desc: news.decodedDescription,
+                                            // date: news.createDate,
                                           ),
                                         )
                                             .then((_) {

@@ -30,4 +30,20 @@ class ContentServiceRepo implements IContentService {
       return left(handleError(e));
     }
   }
+
+  @override
+  Future<Either<ResponseFailure, ContentModel>> fetchSingleContents({required int pk, required String type}) async {
+    try {
+      final response = await _apiService.getSingleContent(type: type, pk: pk);
+
+      if (response.isSuccessful && response.body != null) {
+        final content = response.body!;
+        return right(content);
+      } else {
+        return left(InvalidCredentials(message: 'invalid_credential'.tr()));
+      }
+    } catch (e) {
+      return left(handleError(e));
+    }
+  }
 }

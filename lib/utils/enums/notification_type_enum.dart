@@ -1,10 +1,26 @@
+class NotificationTabs {
+  final String title;
+  final String subTitle;
+  final String itemKey;
+  final bool canSee;
+  final NotificationTypeEnum checker;
+
+  const NotificationTabs({
+    required this.title,
+    required this.subTitle,
+    required this.itemKey,
+    required this.canSee,
+    required this.checker,
+  });
+}
+
 enum NotificationTypeEnum {
-  all(title: "All", keyWord: "", subTitle: ""),
-  discount(title: "Discount", keyWord: "discount", subTitle: "Перейти к акции"),
-  reminders(title: "Reminders", keyWord: "info", subTitle: "Перейти к приёму"),
-  reviews(title: "Reviews", keyWord: "review", subTitle: ""),
-  results(title: "Results", keyWord: "lab_result", subTitle: ""),
-  links(title: "Links", keyWord: "link", subTitle: "Перейти");
+  all(title: "all", keyWord: "", subTitle: ""),
+  discount(title: "discounts", keyWord: "discount", subTitle: "Перейти к акции"),
+  reminders(title: "reminder", keyWord: "info", subTitle: "Перейти к приёму"),
+  reviews(title: "reviews", keyWord: "review", subTitle: ""),
+  results(title: "result", keyWord: "lab_result", subTitle: ""),
+  links(title: "link", keyWord: "link", subTitle: "Перейти");
 
   final String title;
   final String subTitle;

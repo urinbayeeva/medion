@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,11 +52,15 @@ class _AwardsPageState extends State<AwardsPage> {
           ),
           body: BlocBuilder<BranchBloc, BranchState>(
             buildWhen: (o, n) {
+              final status = o.awardStatus != n.awardStatus;
               final awards = o.awards != n.awards;
-              return awards;
+              return awards || status;
             },
             builder: (context, state) {
-              if (state.awards.isEmpty) {
+              if (state.awardStatus.isInitial || state.awardStatus.isInProgress) {
+                return const Center(child: CupertinoActivityIndicator());
+              }
+              if (state.awards.isEmpty || state.awardStatus.isFailure) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -72,6 +77,7 @@ class _AwardsPageState extends State<AwardsPage> {
                 refreshController: refreshController,
                 onRefresh: () {
                   setState(() {});
+                  context.read<BranchBloc>().add(const BranchEvent.fetchAwards());
                   refreshController.refreshCompleted();
                 },
                 itemBuilder: (int index, item) {

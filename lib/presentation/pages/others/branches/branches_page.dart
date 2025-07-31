@@ -65,7 +65,9 @@ class _BranchesPageState extends State<BranchesPage> {
               return branches || status;
             },
             builder: (context, state) {
-              if (state.loading) return const Center(child: CupertinoActivityIndicator());
+              if (state.getBranchesStatus.isInProgress || state.getBranchesStatus.isInitial) {
+                return const Center(child: CupertinoActivityIndicator());
+              }
 
               return SmartRefresher(
                 controller: _refreshController,

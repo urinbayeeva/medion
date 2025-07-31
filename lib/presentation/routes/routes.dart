@@ -67,6 +67,7 @@ import 'package:medion/presentation/pages/profile/inner_pages/user_details_page.
 import 'package:medion/presentation/pages/profile/inner_pages/wallet_page.dart';
 import 'package:medion/presentation/pages/visits/my_visits_page.dart';
 import 'package:medion/presentation/pages/visits/widgets/visit_info_detail_card.dart';
+import 'package:medion/utils/enums/content_type_enum.dart';
 
 class AppRoutes {
   static PageRoute onGenerateRoute({
@@ -518,31 +519,9 @@ class AppRoutes {
             ));
   }
 
-  static MaterialPageRoute getInfoViewAboutHealth({
-    required List<String>? imagePath,
-    required String? title,
-    required String? desc,
-    required String? date,
-    required String discountCondition,
-    bool? isDiscount,
-    String? discountAddress,
-    String? discountDuration,
-    String? phoneNumber,
-    String? phoneShortNumber,
-  }) {
+  static MaterialPageRoute getInfoViewAboutHealth({required ContentTypeEnum type, required int id}) {
     return MaterialPageRoute(
-      builder: (_) => CInfoView(
-        imagePaths: imagePath,
-        discountCondition: discountCondition,
-        title: title,
-        desc: desc,
-        date: date,
-        isDiscount: isDiscount,
-        discountAddress: discountAddress,
-        discountDuration: discountDuration,
-        phoneNumber: phoneNumber,
-        phoneShortNumber: phoneShortNumber,
-      ),
+      builder: (_) => CInfoView(id: id, type: type),
     );
   }
 

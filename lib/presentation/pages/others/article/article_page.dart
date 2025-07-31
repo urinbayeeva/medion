@@ -3,17 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 import 'package:medion/application/content/content_bloc.dart';
-import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/enums/content_type_enum.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ArticlePage extends StatefulWidget {
@@ -105,11 +103,13 @@ class _ArticlePageState extends State<ArticlePage> {
                           onTap: () => Navigator.push(
                             context,
                             AppRoutes.getInfoViewAboutHealth(
-                              discountCondition: "",
-                              date: article.createDate,
-                              imagePath: [...article.images, article.primaryImage],
-                              title: article.title,
-                              desc: article.decodedDescription,
+                              id: article.id,
+                              type: ContentTypeEnum.article,
+                              // discountCondition: "",
+                              // date: article.createDate,
+                              // imagePath: [...article.images, article.primaryImage],
+                              // title: article.title,
+                              // desc: article.decodedDescription,
                             ),
                           ),
                           title: article.title,

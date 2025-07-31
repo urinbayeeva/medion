@@ -11,10 +11,12 @@ class ContentState with _$ContentState {
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus teamStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus activityStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus fetchContentStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus singleContentStatus,
     @Default(false) bool loading,
     @Default(false) bool error,
     @Default(false) bool success,
     @Default([]) List<ContentModel> content,
+    ContentModel? singleContent,
     MedionModel? medionModel,
   }) = _ContentState;
 }

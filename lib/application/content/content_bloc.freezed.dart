@@ -21,18 +21,21 @@ mixin _$ContentEvent {
   TResult when<TResult extends Object?>({
     required TResult Function(String type) fetchContent,
     required TResult Function(String type) getTeams,
+    required TResult Function(int id, String type) getSingleContent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? fetchContent,
     TResult? Function(String type)? getTeams,
+    TResult? Function(int id, String type)? getSingleContent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? fetchContent,
     TResult Function(String type)? getTeams,
+    TResult Function(int id, String type)? getSingleContent,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -40,18 +43,21 @@ mixin _$ContentEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchContent value) fetchContent,
     required TResult Function(_GetTeams value) getTeams,
+    required TResult Function(_GetSingleContent value) getSingleContent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchContent value)? fetchContent,
     TResult? Function(_GetTeams value)? getTeams,
+    TResult? Function(_GetSingleContent value)? getSingleContent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchContent value)? fetchContent,
     TResult Function(_GetTeams value)? getTeams,
+    TResult Function(_GetSingleContent value)? getSingleContent,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -170,6 +176,7 @@ class _$FetchContentImpl implements _FetchContent {
   TResult when<TResult extends Object?>({
     required TResult Function(String type) fetchContent,
     required TResult Function(String type) getTeams,
+    required TResult Function(int id, String type) getSingleContent,
   }) {
     return fetchContent(type);
   }
@@ -179,6 +186,7 @@ class _$FetchContentImpl implements _FetchContent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? fetchContent,
     TResult? Function(String type)? getTeams,
+    TResult? Function(int id, String type)? getSingleContent,
   }) {
     return fetchContent?.call(type);
   }
@@ -188,6 +196,7 @@ class _$FetchContentImpl implements _FetchContent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? fetchContent,
     TResult Function(String type)? getTeams,
+    TResult Function(int id, String type)? getSingleContent,
     required TResult orElse(),
   }) {
     if (fetchContent != null) {
@@ -201,6 +210,7 @@ class _$FetchContentImpl implements _FetchContent {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchContent value) fetchContent,
     required TResult Function(_GetTeams value) getTeams,
+    required TResult Function(_GetSingleContent value) getSingleContent,
   }) {
     return fetchContent(this);
   }
@@ -210,6 +220,7 @@ class _$FetchContentImpl implements _FetchContent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchContent value)? fetchContent,
     TResult? Function(_GetTeams value)? getTeams,
+    TResult? Function(_GetSingleContent value)? getSingleContent,
   }) {
     return fetchContent?.call(this);
   }
@@ -219,6 +230,7 @@ class _$FetchContentImpl implements _FetchContent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchContent value)? fetchContent,
     TResult Function(_GetTeams value)? getTeams,
+    TResult Function(_GetSingleContent value)? getSingleContent,
     required TResult orElse(),
   }) {
     if (fetchContent != null) {
@@ -315,6 +327,7 @@ class _$GetTeamsImpl implements _GetTeams {
   TResult when<TResult extends Object?>({
     required TResult Function(String type) fetchContent,
     required TResult Function(String type) getTeams,
+    required TResult Function(int id, String type) getSingleContent,
   }) {
     return getTeams(type);
   }
@@ -324,6 +337,7 @@ class _$GetTeamsImpl implements _GetTeams {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? fetchContent,
     TResult? Function(String type)? getTeams,
+    TResult? Function(int id, String type)? getSingleContent,
   }) {
     return getTeams?.call(type);
   }
@@ -333,6 +347,7 @@ class _$GetTeamsImpl implements _GetTeams {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? fetchContent,
     TResult Function(String type)? getTeams,
+    TResult Function(int id, String type)? getSingleContent,
     required TResult orElse(),
   }) {
     if (getTeams != null) {
@@ -346,6 +361,7 @@ class _$GetTeamsImpl implements _GetTeams {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchContent value) fetchContent,
     required TResult Function(_GetTeams value) getTeams,
+    required TResult Function(_GetSingleContent value) getSingleContent,
   }) {
     return getTeams(this);
   }
@@ -355,6 +371,7 @@ class _$GetTeamsImpl implements _GetTeams {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchContent value)? fetchContent,
     TResult? Function(_GetTeams value)? getTeams,
+    TResult? Function(_GetSingleContent value)? getSingleContent,
   }) {
     return getTeams?.call(this);
   }
@@ -364,6 +381,7 @@ class _$GetTeamsImpl implements _GetTeams {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchContent value)? fetchContent,
     TResult Function(_GetTeams value)? getTeams,
+    TResult Function(_GetSingleContent value)? getSingleContent,
     required TResult orElse(),
   }) {
     if (getTeams != null) {
@@ -388,6 +406,168 @@ abstract class _GetTeams implements ContentEvent {
 }
 
 /// @nodoc
+abstract class _$$GetSingleContentImplCopyWith<$Res>
+    implements $ContentEventCopyWith<$Res> {
+  factory _$$GetSingleContentImplCopyWith(_$GetSingleContentImpl value,
+          $Res Function(_$GetSingleContentImpl) then) =
+      __$$GetSingleContentImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int id, String type});
+}
+
+/// @nodoc
+class __$$GetSingleContentImplCopyWithImpl<$Res>
+    extends _$ContentEventCopyWithImpl<$Res, _$GetSingleContentImpl>
+    implements _$$GetSingleContentImplCopyWith<$Res> {
+  __$$GetSingleContentImplCopyWithImpl(_$GetSingleContentImpl _value,
+      $Res Function(_$GetSingleContentImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ContentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? type = null,
+  }) {
+    return _then(_$GetSingleContentImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetSingleContentImpl implements _GetSingleContent {
+  const _$GetSingleContentImpl({required this.id, required this.type});
+
+  @override
+  final int id;
+  @override
+  final String type;
+
+  @override
+  String toString() {
+    return 'ContentEvent.getSingleContent(id: $id, type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetSingleContentImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id, type);
+
+  /// Create a copy of ContentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetSingleContentImplCopyWith<_$GetSingleContentImpl> get copyWith =>
+      __$$GetSingleContentImplCopyWithImpl<_$GetSingleContentImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type) fetchContent,
+    required TResult Function(String type) getTeams,
+    required TResult Function(int id, String type) getSingleContent,
+  }) {
+    return getSingleContent(id, type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type)? fetchContent,
+    TResult? Function(String type)? getTeams,
+    TResult? Function(int id, String type)? getSingleContent,
+  }) {
+    return getSingleContent?.call(id, type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type)? fetchContent,
+    TResult Function(String type)? getTeams,
+    TResult Function(int id, String type)? getSingleContent,
+    required TResult orElse(),
+  }) {
+    if (getSingleContent != null) {
+      return getSingleContent(id, type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchContent value) fetchContent,
+    required TResult Function(_GetTeams value) getTeams,
+    required TResult Function(_GetSingleContent value) getSingleContent,
+  }) {
+    return getSingleContent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchContent value)? fetchContent,
+    TResult? Function(_GetTeams value)? getTeams,
+    TResult? Function(_GetSingleContent value)? getSingleContent,
+  }) {
+    return getSingleContent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchContent value)? fetchContent,
+    TResult Function(_GetTeams value)? getTeams,
+    TResult Function(_GetSingleContent value)? getSingleContent,
+    required TResult orElse(),
+  }) {
+    if (getSingleContent != null) {
+      return getSingleContent(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetSingleContent implements ContentEvent {
+  const factory _GetSingleContent(
+      {required final int id,
+      required final String type}) = _$GetSingleContentImpl;
+
+  int get id;
+  @override
+  String get type;
+
+  /// Create a copy of ContentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GetSingleContentImplCopyWith<_$GetSingleContentImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$ContentState {
   Map<String, List<ContentModel>> get contentByType =>
       throw _privateConstructorUsedError;
@@ -398,10 +578,13 @@ mixin _$ContentState {
       throw _privateConstructorUsedError;
   FormzSubmissionStatus get fetchContentStatus =>
       throw _privateConstructorUsedError;
+  FormzSubmissionStatus get singleContentStatus =>
+      throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
   bool get success => throw _privateConstructorUsedError;
   List<ContentModel> get content => throw _privateConstructorUsedError;
+  ContentModel? get singleContent => throw _privateConstructorUsedError;
   MedionModel? get medionModel => throw _privateConstructorUsedError;
 
   /// Create a copy of ContentState
@@ -424,10 +607,12 @@ abstract class $ContentStateCopyWith<$Res> {
       FormzSubmissionStatus teamStatus,
       FormzSubmissionStatus activityStatus,
       FormzSubmissionStatus fetchContentStatus,
+      FormzSubmissionStatus singleContentStatus,
       bool loading,
       bool error,
       bool success,
       List<ContentModel> content,
+      ContentModel? singleContent,
       MedionModel? medionModel});
 }
 
@@ -452,10 +637,12 @@ class _$ContentStateCopyWithImpl<$Res, $Val extends ContentState>
     Object? teamStatus = null,
     Object? activityStatus = null,
     Object? fetchContentStatus = null,
+    Object? singleContentStatus = null,
     Object? loading = null,
     Object? error = null,
     Object? success = null,
     Object? content = null,
+    Object? singleContent = freezed,
     Object? medionModel = freezed,
   }) {
     return _then(_value.copyWith(
@@ -483,6 +670,10 @@ class _$ContentStateCopyWithImpl<$Res, $Val extends ContentState>
           ? _value.fetchContentStatus
           : fetchContentStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      singleContentStatus: null == singleContentStatus
+          ? _value.singleContentStatus
+          : singleContentStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -499,6 +690,10 @@ class _$ContentStateCopyWithImpl<$Res, $Val extends ContentState>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as List<ContentModel>,
+      singleContent: freezed == singleContent
+          ? _value.singleContent
+          : singleContent // ignore: cast_nullable_to_non_nullable
+              as ContentModel?,
       medionModel: freezed == medionModel
           ? _value.medionModel
           : medionModel // ignore: cast_nullable_to_non_nullable
@@ -522,10 +717,12 @@ abstract class _$$ContentStateImplCopyWith<$Res>
       FormzSubmissionStatus teamStatus,
       FormzSubmissionStatus activityStatus,
       FormzSubmissionStatus fetchContentStatus,
+      FormzSubmissionStatus singleContentStatus,
       bool loading,
       bool error,
       bool success,
       List<ContentModel> content,
+      ContentModel? singleContent,
       MedionModel? medionModel});
 }
 
@@ -548,10 +745,12 @@ class __$$ContentStateImplCopyWithImpl<$Res>
     Object? teamStatus = null,
     Object? activityStatus = null,
     Object? fetchContentStatus = null,
+    Object? singleContentStatus = null,
     Object? loading = null,
     Object? error = null,
     Object? success = null,
     Object? content = null,
+    Object? singleContent = freezed,
     Object? medionModel = freezed,
   }) {
     return _then(_$ContentStateImpl(
@@ -579,6 +778,10 @@ class __$$ContentStateImplCopyWithImpl<$Res>
           ? _value.fetchContentStatus
           : fetchContentStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      singleContentStatus: null == singleContentStatus
+          ? _value.singleContentStatus
+          : singleContentStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -595,6 +798,10 @@ class __$$ContentStateImplCopyWithImpl<$Res>
           ? _value._content
           : content // ignore: cast_nullable_to_non_nullable
               as List<ContentModel>,
+      singleContent: freezed == singleContent
+          ? _value.singleContent
+          : singleContent // ignore: cast_nullable_to_non_nullable
+              as ContentModel?,
       medionModel: freezed == medionModel
           ? _value.medionModel
           : medionModel // ignore: cast_nullable_to_non_nullable
@@ -614,10 +821,12 @@ class _$ContentStateImpl extends _ContentState {
       this.teamStatus = FormzSubmissionStatus.initial,
       this.activityStatus = FormzSubmissionStatus.initial,
       this.fetchContentStatus = FormzSubmissionStatus.initial,
+      this.singleContentStatus = FormzSubmissionStatus.initial,
       this.loading = false,
       this.error = false,
       this.success = false,
       final List<ContentModel> content = const [],
+      this.singleContent,
       this.medionModel})
       : _contentByType = contentByType,
         _team = team,
@@ -663,6 +872,9 @@ class _$ContentStateImpl extends _ContentState {
   final FormzSubmissionStatus fetchContentStatus;
   @override
   @JsonKey()
+  final FormzSubmissionStatus singleContentStatus;
+  @override
+  @JsonKey()
   final bool loading;
   @override
   @JsonKey()
@@ -680,11 +892,13 @@ class _$ContentStateImpl extends _ContentState {
   }
 
   @override
+  final ContentModel? singleContent;
+  @override
   final MedionModel? medionModel;
 
   @override
   String toString() {
-    return 'ContentState(contentByType: $contentByType, team: $team, jobTypes: $jobTypes, teamStatus: $teamStatus, activityStatus: $activityStatus, fetchContentStatus: $fetchContentStatus, loading: $loading, error: $error, success: $success, content: $content, medionModel: $medionModel)';
+    return 'ContentState(contentByType: $contentByType, team: $team, jobTypes: $jobTypes, teamStatus: $teamStatus, activityStatus: $activityStatus, fetchContentStatus: $fetchContentStatus, singleContentStatus: $singleContentStatus, loading: $loading, error: $error, success: $success, content: $content, singleContent: $singleContent, medionModel: $medionModel)';
   }
 
   @override
@@ -702,10 +916,14 @@ class _$ContentStateImpl extends _ContentState {
                 other.activityStatus == activityStatus) &&
             (identical(other.fetchContentStatus, fetchContentStatus) ||
                 other.fetchContentStatus == fetchContentStatus) &&
+            (identical(other.singleContentStatus, singleContentStatus) ||
+                other.singleContentStatus == singleContentStatus) &&
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.success, success) || other.success == success) &&
             const DeepCollectionEquality().equals(other._content, _content) &&
+            (identical(other.singleContent, singleContent) ||
+                other.singleContent == singleContent) &&
             (identical(other.medionModel, medionModel) ||
                 other.medionModel == medionModel));
   }
@@ -719,10 +937,12 @@ class _$ContentStateImpl extends _ContentState {
       teamStatus,
       activityStatus,
       fetchContentStatus,
+      singleContentStatus,
       loading,
       error,
       success,
       const DeepCollectionEquality().hash(_content),
+      singleContent,
       medionModel);
 
   /// Create a copy of ContentState
@@ -742,10 +962,12 @@ abstract class _ContentState extends ContentState {
       final FormzSubmissionStatus teamStatus,
       final FormzSubmissionStatus activityStatus,
       final FormzSubmissionStatus fetchContentStatus,
+      final FormzSubmissionStatus singleContentStatus,
       final bool loading,
       final bool error,
       final bool success,
       final List<ContentModel> content,
+      final ContentModel? singleContent,
       final MedionModel? medionModel}) = _$ContentStateImpl;
   const _ContentState._() : super._();
 
@@ -762,6 +984,8 @@ abstract class _ContentState extends ContentState {
   @override
   FormzSubmissionStatus get fetchContentStatus;
   @override
+  FormzSubmissionStatus get singleContentStatus;
+  @override
   bool get loading;
   @override
   bool get error;
@@ -769,6 +993,8 @@ abstract class _ContentState extends ContentState {
   bool get success;
   @override
   List<ContentModel> get content;
+  @override
+  ContentModel? get singleContent;
   @override
   MedionModel? get medionModel;
 

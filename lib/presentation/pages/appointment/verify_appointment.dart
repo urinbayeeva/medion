@@ -64,8 +64,9 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                           isBack: true,
                           trailing: 24.w.horizontalSpace,
                         ),
-                      ] else
+                      ] else ...{
                         const SafeArea(child: SizedBox.shrink()),
+                      },
                       Expanded(
                         child: SingleChildScrollView(
                           child: Padding(
@@ -87,7 +88,7 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                       DecoratedBox(
                         decoration: BoxDecoration(color: colors.shade0),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0).copyWith(top: 10.h),
+                          padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 8.h).copyWith(top: 10.h),
                           child: CButton(
                             title: 'next'.tr(),
                             onTap: () async {
@@ -114,6 +115,7 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                           ),
                         ),
                       ),
+                      10.h.verticalSpace
                     ],
                   ),
                 );

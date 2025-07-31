@@ -317,6 +317,12 @@ abstract class ContentService extends ChopperService {
   @Get(path: "/content/{type}")
   Future<Response<BuiltList<ContentModel>>> getContentType(@Path('type') String type);
 
+  @Get(path: "/content/{type}")
+  Future<Response<ContentModel>> getSingleContent({
+    @Path('type') required String type,
+    @Query('pk') required int pk,
+  });
+
   static ContentService create(DBService dbService) => _$ContentService(_Client(Constants.baseUrlP, true, dbService));
 }
 

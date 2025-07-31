@@ -900,6 +900,22 @@ final class _$ContentService extends ContentService {
     );
     return client.send<BuiltList<ContentModel>, ContentModel>($request);
   }
+
+  @override
+  Future<Response<ContentModel>> getSingleContent({
+    required String type,
+    required int pk,
+  }) {
+    final Uri $url = Uri.parse('/content/${type}');
+    final Map<String, dynamic> $params = <String, dynamic>{'pk': pk};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<ContentModel, ContentModel>($request);
+  }
 }
 
 // coverage:ignore-file

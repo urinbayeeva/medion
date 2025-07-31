@@ -8,6 +8,7 @@ import 'package:medion/presentation/pages/home/news/widgets/news_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/enums/content_type_enum.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class NewsPage extends StatefulWidget {
@@ -23,9 +24,7 @@ class _NewsPageState extends State<NewsPage> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<ContentBloc>()
-        .add(const ContentEvent.fetchContent(type: "news"));
+    context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "news"));
   }
 
   @override
@@ -35,9 +34,7 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   void _onRefresh() {
-    context
-        .read<ContentBloc>()
-        .add(const ContentEvent.fetchContent(type: "news"));
+    context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "news"));
     _refreshController.refreshCompleted();
   }
 
@@ -95,8 +92,7 @@ class _NewsPageState extends State<NewsPage> {
                     onRefresh: _onRefresh,
                     child: GridView.builder(
                       padding: EdgeInsets.all(8.w),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 4,
                         mainAxisSpacing: 8,
@@ -109,11 +105,8 @@ class _NewsPageState extends State<NewsPage> {
                             Navigator.push(
                               context,
                               AppRoutes.getInfoViewAboutHealth(
-                                discountCondition: "",
-                                date: item.createDate,
-                                imagePath: item.images.toList(),
-                                title: item.decodedTitle,
-                                desc: item.decodedDescription,
+                                id: item.id,
+                                type: ContentTypeEnum.news,
                               ),
                             );
                           },

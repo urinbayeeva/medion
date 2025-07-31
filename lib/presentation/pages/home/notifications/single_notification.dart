@@ -19,9 +19,13 @@ import 'package:medion/presentation/pages/others/component/w_scala_animation.dar
 import 'package:medion/presentation/pages/others/customer_review/review_card.dart';
 import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
 import 'package:medion/presentation/pages/others/feedbacks/feedback_view_vithout_location.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/enums/content_type_enum.dart';
 import 'package:medion/utils/enums/notification_type_enum.dart';
+import 'package:medion/utils/enums/pop_up_status_enum.dart';
+import 'package:medion/utils/extension/context_extension.dart';
 
 class SingleNotification extends StatefulWidget {
   const SingleNotification({super.key, required this.id, required this.type, this.notification});
@@ -242,13 +246,22 @@ class _SingleNotificationState extends State<SingleNotification> {
                             height: 255.h,
                             child: DiscountCard(
                               onTap: () {
-                                Navigator.of(context, rootNavigator: true).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => DiscountPage(
-                                      discountId: notification?.discount?.id ?? 0,
+                                if (notification?.id != null) {
+                                  Navigator.of(context, rootNavigator: true).push(
+                                    AppRoutes.getInfoViewAboutHealth(
+                                      id: notification!.id!,
+                                      type: ContentTypeEnum.discount,
                                     ),
-                                  ),
-                                );
+                                  );
+                                } else {
+                                  context.showPopUp(
+                                    status: PopUpStatus.warning,
+                                    message: "Id not found",
+                                    fonts: fonts,
+                                    colors: colors,
+                                    context: context,
+                                  );
+                                }
                               },
                               fonts: fonts,
                               colors: colors,

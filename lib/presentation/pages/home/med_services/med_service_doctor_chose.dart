@@ -332,8 +332,10 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                                 ),
                               ),
                               4.w.horizontalSpace,
-                              Text("count_session_selected".tr(namedArgs: {"count": selectedList.length.toString()}),
-                                  style: fonts.headlineMain.copyWith(fontSize: 16.sp)),
+                              Text(
+                                "count_session_selected".tr(namedArgs: {"count": selectedList.length.toString()}),
+                                style: fonts.headlineMain.copyWith(fontSize: 16.sp),
+                              ),
                               Spacer(),
                               icons.right.svg(color: colors.neutral600, width: 20.w, height: 20.h),
                             ],

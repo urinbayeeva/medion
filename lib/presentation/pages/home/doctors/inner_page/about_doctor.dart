@@ -23,8 +23,11 @@ import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/enums/content_type_enum.dart';
 import 'package:medion/utils/enums/doctor_info_enum.dart';
 import 'package:medion/utils/enums/feedback_status_enum.dart';
+import 'package:medion/utils/enums/pop_up_status_enum.dart';
+import 'package:medion/utils/extension/context_extension.dart';
 
 class DoctorsInfo {
   final String title;
@@ -365,11 +368,13 @@ class _AboutDoctorState extends State<AboutDoctor> {
                         onTap: () {
                           Navigator.of(context, rootNavigator: true).push(
                             AppRoutes.getInfoViewAboutHealth(
-                              discountCondition: "",
-                              date: '',
-                              imagePath: [...item.images, item.primaryImage],
-                              title: item.title,
-                              desc: item.description,
+                              id: item.id,
+                              type: ContentTypeEnum.article,
+                              // discountCondition: "",
+                              // date: '',
+                              // imagePath: [...item.images, item.primaryImage],
+                              // title: item.title,
+                              // desc: item.description,
                             ),
                           );
                         },
@@ -483,9 +488,23 @@ class _AboutDoctorState extends State<AboutDoctor> {
                     image: item.image ?? "",
                     date: _formatDiscountDate(item.discountEndDate),
                     onTap: () {
-                      Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(builder: (context) => DoctorDiscountScreen(discount: item, doctor: doctor)),
-                      );
+                      if (item.id != null) {
+                        Navigator.push(
+                          context,
+                          AppRoutes.getInfoViewAboutHealth(
+                            id: item.id!,
+                            type: ContentTypeEnum.discount,
+                          ),
+                        );
+                      } else {
+                        context.showPopUp(
+                          status: PopUpStatus.warning,
+                          message: "Id not found",
+                          fonts: fonts,
+                          colors: colors,
+                          context: context,
+                        );
+                      }
                     },
                     colors: colors,
                     fonts: fonts,

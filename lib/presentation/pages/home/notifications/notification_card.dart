@@ -9,8 +9,12 @@ import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
 import 'package:medion/presentation/pages/visits/component/visit_detail_page.dart';
+import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
+import 'package:medion/utils/enums/content_type_enum.dart';
 import 'package:medion/utils/enums/notification_type_enum.dart';
+import 'package:medion/utils/enums/pop_up_status_enum.dart';
+import 'package:medion/utils/extension/context_extension.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({
@@ -101,13 +105,22 @@ class NotificationCard extends StatelessWidget {
                         } else if (type.isLink) {
                           await MyFunctions.openLink(notification.link ?? "");
                         } else if (type.isDiscount) {
-                          Navigator.of(context, rootNavigator: true).push(
-                            MaterialPageRoute(
-                              builder: (context) => DiscountPage(
-                                discountId: notification.discount?.id ?? 0,
+                          if (notification.discount?.id != null) {
+                            Navigator.of(context, rootNavigator: true).push(
+                              AppRoutes.getInfoViewAboutHealth(
+                                id: notification.discount!.id!,
+                                type: ContentTypeEnum.discount,
                               ),
-                            ),
-                          );
+                            );
+                          } else {
+                            context.showPopUp(
+                              status: PopUpStatus.warning,
+                              message: "Id not found",
+                              fonts: fonts,
+                              colors: colors,
+                              context: context,
+                            );
+                          }
                         } else if (type.isReminder) {
                           Navigator.of(context, rootNavigator: true).push(
                             MaterialPageRoute(

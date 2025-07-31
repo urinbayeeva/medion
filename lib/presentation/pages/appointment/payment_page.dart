@@ -396,54 +396,51 @@ class _PaymentPageState extends State<PaymentPage> {
                                                   ],
                                                 ),
                                               );
-
-                                              // return Column(
-                                              //   crossAxisAlignment: CrossAxisAlignment.start,
-                                              //   children: [
-                                              //
-                                              //
-                                              //
-                                              //     Padding(
-                                              //       padding: EdgeInsets.symmetric(vertical: 6.h),
-                                              //       child: Text(
-                                              //         appointment['serviceName'] ?? 'Service',
-                                              //         style: TextStyle(
-                                              //           fontSize: 14.sp,
-                                              //           color: Style.neutral600,
-                                              //           fontWeight: FontWeight.w500,
-                                              //         ),
-                                              //       ),
-                                              //     ),
-                                              //     Text(
-                                              //       "${"_ _ _ _ _ _ _ _ _ _ "} ${"sum".tr(namedArgs: {
-                                              //             "amount": _formatNumber(price)
-                                              //           })}",
-                                              //       style: TextStyle(
-                                              //         fontSize: 14.sp,
-                                              //         color: Style.neutral500,
-                                              //       ),
-                                              //     ),
-                                              //     if (selectedList.indexOf(appointment) != selectedList.length - 1) ...{
-                                              //       Divider(height: 1.h, color: Colors.grey[300]),
-                                              //     }
-                                              //   ],
-                                              // );
                                             },
                                           ),
-                                          Divider(color: Colors.grey[300], thickness: 1, height: 16.h),
                                           Padding(
                                             padding: EdgeInsets.symmetric(vertical: 8.h),
-                                            child: Text(
-                                              "${"total".tr()}_ _ _ _ _ _ _ _${"sum".tr(namedArgs: {
-                                                    "amount": _formatNumber(subtotal)
-                                                  })}",
-                                              style: TextStyle(
-                                                fontSize: 16.sp,
-                                                color: Style.neutral600,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                            child: Row(
+                                              children: [
+                                                ConstrainedBox(
+                                                  constraints: BoxConstraints(maxWidth: 0.5.sw),
+                                                  child: Text(
+                                                    "total".tr(),
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: Style.neutral600,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 8),
+                                                Expanded(
+                                                  child: LayoutBuilder(
+                                                    builder: (context, constraints) {
+                                                      return Text(
+                                                        '_' * (constraints.maxWidth ~/ 8.6),
+                                                        style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontSize: 12.sp,
+                                                          letterSpacing: 2,
+                                                        ),
+                                                        overflow: TextOverflow.clip,
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "sum".tr(namedArgs: {"amount": _formatNumber(subtotal)}),
+                                                  style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    color: Style.neutral600,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                          )
                                         ],
                                       );
                                     },

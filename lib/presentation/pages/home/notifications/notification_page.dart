@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +55,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   child: const Icon(Icons.done_all),
                   onTap: () {
                     context.read<NotificationBloc>().add(
-                          const NotificationEvent.markAllNotificationAsRead(type: "All", query: ''),
+                          const NotificationEvent.markAllNotificationAsRead(type: "all", query: ''),
                         );
                   },
                 ),
@@ -92,29 +94,34 @@ class _NotificationPageState extends State<NotificationPage> {
               }
 
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
                         ...List.generate(
-                          NotificationTypeEnum.values.length,
+                          state.types.length,
                           (i) {
-                            final last = NotificationTypeEnum.values.length - 1;
-                            final type = NotificationTypeEnum.values[i];
-                            return FilterCard(
-                              i: i,
-                              type: type,
-                              last: last,
-                              fonts: fonts,
-                              colors: colors,
-                              filterType: state.filterType,
-                              onTap: () {
-                                context.read<NotificationBloc>().add(
-                                      NotificationEvent.filterNotification(type: type.title, query: type.keyWord),
-                                    );
-                              },
-                            );
+                            final last = state.types.length - 1;
+                            final type = state.types[i];
+                            if (type.canSee) {
+                              return FilterCard(
+                                i: i,
+                                type: type.checker,
+                                last: last,
+                                fonts: fonts,
+                                colors: colors,
+                                filterType: state.filterType,
+                                onTap: () {
+                                  context.read<NotificationBloc>().add(
+                                        NotificationEvent.filterNotification(type: type.title, query: type.itemKey),
+                                      );
+                                },
+                              );
+                            } else {
+                              return const SizedBox.shrink();
+                            }
                           },
                         )
                       ],
@@ -212,7 +219,7 @@ class FilterCard extends StatelessWidget {
         margin: EdgeInsets.fromLTRB((i == 0) ? 12 : 4, 10, (last == i) ? 12 : 4, 10),
         child: Center(
           child: Text(
-            type.title,
+            type.title.tr(),
             style: fonts.smallTagSecond.copyWith(
               color: filterType == type.title ? colors.shade0 : colors.darkMode900,
             ),

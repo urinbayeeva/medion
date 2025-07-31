@@ -5,9 +5,9 @@ class BranchState with _$BranchState {
   const BranchState._();
 
   const factory BranchState({
-    @Default(false) bool loading,
-    @Default(false) bool error,
-    @Default(false) bool success,
+    // @Default(false) bool loading,
+    // @Default(false) bool error,
+    // @Default(false) bool success,
     @Default('') String reviewBranch,
     @Default('') String reviewComment,
     @Default(-1) int reviewRank,
@@ -18,6 +18,10 @@ class BranchState with _$BranchState {
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus postReviewStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus getBranchesStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus studyLeadStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus branchStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus educationStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus awardStatus,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus offertaStatus,
     @Default([]) List<GetReviewModel> reviews,
     @Default([]) List<BranchModel> branches,
     @Default([]) List<AwardsModel> awards,

@@ -1749,6 +1749,7 @@ mixin _$NotificationState {
   int get unReadNotifications => throw _privateConstructorUsedError;
   List<NotificationModel> get notifications =>
       throw _privateConstructorUsedError;
+  List<NotificationTabs> get types => throw _privateConstructorUsedError;
   NotificationModel? get singleNotification =>
       throw _privateConstructorUsedError;
   NotificationSendReview? get review => throw _privateConstructorUsedError;
@@ -1782,6 +1783,7 @@ abstract class $NotificationStateCopyWith<$Res> {
       String notificationNext,
       int unReadNotifications,
       List<NotificationModel> notifications,
+      List<NotificationTabs> types,
       NotificationModel? singleNotification,
       NotificationSendReview? review});
 }
@@ -1816,6 +1818,7 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
     Object? notificationNext = null,
     Object? unReadNotifications = null,
     Object? notifications = null,
+    Object? types = null,
     Object? singleNotification = freezed,
     Object? review = freezed,
   }) {
@@ -1880,6 +1883,10 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
           ? _value.notifications
           : notifications // ignore: cast_nullable_to_non_nullable
               as List<NotificationModel>,
+      types: null == types
+          ? _value.types
+          : types // ignore: cast_nullable_to_non_nullable
+              as List<NotificationTabs>,
       singleNotification: freezed == singleNotification
           ? _value.singleNotification
           : singleNotification // ignore: cast_nullable_to_non_nullable
@@ -1916,6 +1923,7 @@ abstract class _$$NotificationStateImplCopyWith<$Res>
       String notificationNext,
       int unReadNotifications,
       List<NotificationModel> notifications,
+      List<NotificationTabs> types,
       NotificationModel? singleNotification,
       NotificationSendReview? review});
 }
@@ -1948,6 +1956,7 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
     Object? notificationNext = null,
     Object? unReadNotifications = null,
     Object? notifications = null,
+    Object? types = null,
     Object? singleNotification = freezed,
     Object? review = freezed,
   }) {
@@ -2012,6 +2021,10 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
           ? _value._notifications
           : notifications // ignore: cast_nullable_to_non_nullable
               as List<NotificationModel>,
+      types: null == types
+          ? _value._types
+          : types // ignore: cast_nullable_to_non_nullable
+              as List<NotificationTabs>,
       singleNotification: freezed == singleNotification
           ? _value.singleNotification
           : singleNotification // ignore: cast_nullable_to_non_nullable
@@ -2036,16 +2049,18 @@ class _$NotificationStateImpl extends _NotificationState {
       this.setFcmTokenStatus = FormzSubmissionStatus.initial,
       this.filterNotificationStatus = FormzSubmissionStatus.initial,
       this.postNotificationReviewStatus = FormzSubmissionStatus.initial,
-      this.filterType = 'All',
+      this.filterType = 'all',
       this.query = '',
       this.markAsReadErrorMsg = '',
       this.notificationsErrorMessage = '',
       this.notificationNext = '',
       this.unReadNotifications = 0,
       final List<NotificationModel> notifications = const [],
+      final List<NotificationTabs> types = const [],
       this.singleNotification,
       this.review})
       : _notifications = notifications,
+        _types = types,
         super._();
 
   @override
@@ -2099,6 +2114,15 @@ class _$NotificationStateImpl extends _NotificationState {
     return EqualUnmodifiableListView(_notifications);
   }
 
+  final List<NotificationTabs> _types;
+  @override
+  @JsonKey()
+  List<NotificationTabs> get types {
+    if (_types is EqualUnmodifiableListView) return _types;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_types);
+  }
+
   @override
   final NotificationModel? singleNotification;
   @override
@@ -2106,7 +2130,7 @@ class _$NotificationStateImpl extends _NotificationState {
 
   @override
   String toString() {
-    return 'NotificationState(notificationsFetchMore: $notificationsFetchMore, notificationStatus: $notificationStatus, markAllNotificationStatus: $markAllNotificationStatus, readOnlyStatus: $readOnlyStatus, singleStatus: $singleStatus, setFcmTokenStatus: $setFcmTokenStatus, filterNotificationStatus: $filterNotificationStatus, postNotificationReviewStatus: $postNotificationReviewStatus, filterType: $filterType, query: $query, markAsReadErrorMsg: $markAsReadErrorMsg, notificationsErrorMessage: $notificationsErrorMessage, notificationNext: $notificationNext, unReadNotifications: $unReadNotifications, notifications: $notifications, singleNotification: $singleNotification, review: $review)';
+    return 'NotificationState(notificationsFetchMore: $notificationsFetchMore, notificationStatus: $notificationStatus, markAllNotificationStatus: $markAllNotificationStatus, readOnlyStatus: $readOnlyStatus, singleStatus: $singleStatus, setFcmTokenStatus: $setFcmTokenStatus, filterNotificationStatus: $filterNotificationStatus, postNotificationReviewStatus: $postNotificationReviewStatus, filterType: $filterType, query: $query, markAsReadErrorMsg: $markAsReadErrorMsg, notificationsErrorMessage: $notificationsErrorMessage, notificationNext: $notificationNext, unReadNotifications: $unReadNotifications, notifications: $notifications, types: $types, singleNotification: $singleNotification, review: $review)';
   }
 
   @override
@@ -2148,6 +2172,7 @@ class _$NotificationStateImpl extends _NotificationState {
                 other.unReadNotifications == unReadNotifications) &&
             const DeepCollectionEquality()
                 .equals(other._notifications, _notifications) &&
+            const DeepCollectionEquality().equals(other._types, _types) &&
             (identical(other.singleNotification, singleNotification) ||
                 other.singleNotification == singleNotification) &&
             (identical(other.review, review) || other.review == review));
@@ -2171,6 +2196,7 @@ class _$NotificationStateImpl extends _NotificationState {
       notificationNext,
       unReadNotifications,
       const DeepCollectionEquality().hash(_notifications),
+      const DeepCollectionEquality().hash(_types),
       singleNotification,
       review);
 
@@ -2201,6 +2227,7 @@ abstract class _NotificationState extends NotificationState {
       final String notificationNext,
       final int unReadNotifications,
       final List<NotificationModel> notifications,
+      final List<NotificationTabs> types,
       final NotificationModel? singleNotification,
       final NotificationSendReview? review}) = _$NotificationStateImpl;
   const _NotificationState._() : super._();
@@ -2235,6 +2262,8 @@ abstract class _NotificationState extends NotificationState {
   int get unReadNotifications;
   @override
   List<NotificationModel> get notifications;
+  @override
+  List<NotificationTabs> get types;
   @override
   NotificationModel? get singleNotification;
   @override

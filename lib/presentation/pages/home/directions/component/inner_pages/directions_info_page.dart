@@ -24,6 +24,7 @@ import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/enums/content_type_enum.dart';
 import 'package:medion/utils/format_currency.dart';
 
 class DirectionInfoPage extends StatefulWidget {
@@ -600,11 +601,17 @@ class DirectionDoctorsGrid extends StatelessWidget {
             padding: EdgeInsets.zero,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12.w,
-              mainAxisSpacing: 12.h,
-              childAspectRatio: 0.52.h,
+            // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //   crossAxisCount: 2,
+            //   crossAxisSpacing: 12.w,
+            //   mainAxisSpacing: 12.h,
+            //   childAspectRatio: 0.52.h,
+            // ),
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 0.9.sw,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              mainAxisExtent: 355.h,
             ),
             itemCount: state.medicalModel!.doctors.length,
             itemBuilder: (_, index) {
@@ -665,15 +672,23 @@ class DirectionDiscountGrid extends StatelessWidget {
         itemBuilder: (context, index) {
           final discount = state.medicalModel!.discount[index];
           final endDateFormatted = _formatDiscountDate(discount.discountEndDate.toString());
-          log("Discount images: ${discount.image}");
           return SizedBox(
             width: 165.w,
             child: DiscountCard(
               onTap: () {
+                log("ID: ${discount.id}");
+
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DiscountPage(discountId: discount.id)),
+                  AppRoutes.getInfoViewAboutHealth(
+                    id: discount.id,
+                    type: ContentTypeEnum.discount,
+                  ),
                 );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => DiscountPage(discountId: discount.id)),
+                // );
               },
               colors: colors,
               fonts: fonts,

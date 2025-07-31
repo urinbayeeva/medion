@@ -1870,9 +1870,9 @@ abstract class _FillingReviewData implements BranchEvent {
 
 /// @nodoc
 mixin _$BranchState {
-  bool get loading => throw _privateConstructorUsedError;
-  bool get error => throw _privateConstructorUsedError;
-  bool get success => throw _privateConstructorUsedError;
+// @Default(false) bool loading,
+// @Default(false) bool error,
+// @Default(false) bool success,
   String get reviewBranch => throw _privateConstructorUsedError;
   String get reviewComment => throw _privateConstructorUsedError;
   int get reviewRank => throw _privateConstructorUsedError;
@@ -1889,6 +1889,11 @@ mixin _$BranchState {
       throw _privateConstructorUsedError;
   FormzSubmissionStatus get studyLeadStatus =>
       throw _privateConstructorUsedError;
+  FormzSubmissionStatus get branchStatus => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get educationStatus =>
+      throw _privateConstructorUsedError;
+  FormzSubmissionStatus get awardStatus => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get offertaStatus => throw _privateConstructorUsedError;
   List<GetReviewModel> get reviews => throw _privateConstructorUsedError;
   List<BranchModel> get branches => throw _privateConstructorUsedError;
   List<AwardsModel> get awards => throw _privateConstructorUsedError;
@@ -1911,10 +1916,7 @@ abstract class $BranchStateCopyWith<$Res> {
       _$BranchStateCopyWithImpl<$Res, BranchState>;
   @useResult
   $Res call(
-      {bool loading,
-      bool error,
-      bool success,
-      String reviewBranch,
+      {String reviewBranch,
       String reviewComment,
       int reviewRank,
       int branchId,
@@ -1924,6 +1926,10 @@ abstract class $BranchStateCopyWith<$Res> {
       FormzSubmissionStatus postReviewStatus,
       FormzSubmissionStatus getBranchesStatus,
       FormzSubmissionStatus studyLeadStatus,
+      FormzSubmissionStatus branchStatus,
+      FormzSubmissionStatus educationStatus,
+      FormzSubmissionStatus awardStatus,
+      FormzSubmissionStatus offertaStatus,
       List<GetReviewModel> reviews,
       List<BranchModel> branches,
       List<AwardsModel> awards,
@@ -1948,9 +1954,6 @@ class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? loading = null,
-    Object? error = null,
-    Object? success = null,
     Object? reviewBranch = null,
     Object? reviewComment = null,
     Object? reviewRank = null,
@@ -1961,6 +1964,10 @@ class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
     Object? postReviewStatus = null,
     Object? getBranchesStatus = null,
     Object? studyLeadStatus = null,
+    Object? branchStatus = null,
+    Object? educationStatus = null,
+    Object? awardStatus = null,
+    Object? offertaStatus = null,
     Object? reviews = null,
     Object? branches = null,
     Object? awards = null,
@@ -1970,18 +1977,6 @@ class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
     Object? medionActivity = freezed,
   }) {
     return _then(_value.copyWith(
-      loading: null == loading
-          ? _value.loading
-          : loading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as bool,
-      success: null == success
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
-              as bool,
       reviewBranch: null == reviewBranch
           ? _value.reviewBranch
           : reviewBranch // ignore: cast_nullable_to_non_nullable
@@ -2021,6 +2016,22 @@ class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
       studyLeadStatus: null == studyLeadStatus
           ? _value.studyLeadStatus
           : studyLeadStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      branchStatus: null == branchStatus
+          ? _value.branchStatus
+          : branchStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      educationStatus: null == educationStatus
+          ? _value.educationStatus
+          : educationStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      awardStatus: null == awardStatus
+          ? _value.awardStatus
+          : awardStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      offertaStatus: null == offertaStatus
+          ? _value.offertaStatus
+          : offertaStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
       reviews: null == reviews
           ? _value.reviews
@@ -2063,10 +2074,7 @@ abstract class _$$BranchStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool loading,
-      bool error,
-      bool success,
-      String reviewBranch,
+      {String reviewBranch,
       String reviewComment,
       int reviewRank,
       int branchId,
@@ -2076,6 +2084,10 @@ abstract class _$$BranchStateImplCopyWith<$Res>
       FormzSubmissionStatus postReviewStatus,
       FormzSubmissionStatus getBranchesStatus,
       FormzSubmissionStatus studyLeadStatus,
+      FormzSubmissionStatus branchStatus,
+      FormzSubmissionStatus educationStatus,
+      FormzSubmissionStatus awardStatus,
+      FormzSubmissionStatus offertaStatus,
       List<GetReviewModel> reviews,
       List<BranchModel> branches,
       List<AwardsModel> awards,
@@ -2098,9 +2110,6 @@ class __$$BranchStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? loading = null,
-    Object? error = null,
-    Object? success = null,
     Object? reviewBranch = null,
     Object? reviewComment = null,
     Object? reviewRank = null,
@@ -2111,6 +2120,10 @@ class __$$BranchStateImplCopyWithImpl<$Res>
     Object? postReviewStatus = null,
     Object? getBranchesStatus = null,
     Object? studyLeadStatus = null,
+    Object? branchStatus = null,
+    Object? educationStatus = null,
+    Object? awardStatus = null,
+    Object? offertaStatus = null,
     Object? reviews = null,
     Object? branches = null,
     Object? awards = null,
@@ -2120,18 +2133,6 @@ class __$$BranchStateImplCopyWithImpl<$Res>
     Object? medionActivity = freezed,
   }) {
     return _then(_$BranchStateImpl(
-      loading: null == loading
-          ? _value.loading
-          : loading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as bool,
-      success: null == success
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
-              as bool,
       reviewBranch: null == reviewBranch
           ? _value.reviewBranch
           : reviewBranch // ignore: cast_nullable_to_non_nullable
@@ -2172,6 +2173,22 @@ class __$$BranchStateImplCopyWithImpl<$Res>
           ? _value.studyLeadStatus
           : studyLeadStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      branchStatus: null == branchStatus
+          ? _value.branchStatus
+          : branchStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      educationStatus: null == educationStatus
+          ? _value.educationStatus
+          : educationStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      awardStatus: null == awardStatus
+          ? _value.awardStatus
+          : awardStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      offertaStatus: null == offertaStatus
+          ? _value.offertaStatus
+          : offertaStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       reviews: null == reviews
           ? _value._reviews
           : reviews // ignore: cast_nullable_to_non_nullable
@@ -2208,10 +2225,7 @@ class __$$BranchStateImplCopyWithImpl<$Res>
 
 class _$BranchStateImpl extends _BranchState {
   const _$BranchStateImpl(
-      {this.loading = false,
-      this.error = false,
-      this.success = false,
-      this.reviewBranch = '',
+      {this.reviewBranch = '',
       this.reviewComment = '',
       this.reviewRank = -1,
       this.branchId = -1,
@@ -2221,6 +2235,10 @@ class _$BranchStateImpl extends _BranchState {
       this.postReviewStatus = FormzSubmissionStatus.initial,
       this.getBranchesStatus = FormzSubmissionStatus.initial,
       this.studyLeadStatus = FormzSubmissionStatus.initial,
+      this.branchStatus = FormzSubmissionStatus.initial,
+      this.educationStatus = FormzSubmissionStatus.initial,
+      this.awardStatus = FormzSubmissionStatus.initial,
+      this.offertaStatus = FormzSubmissionStatus.initial,
       final List<GetReviewModel> reviews = const [],
       final List<BranchModel> branches = const [],
       final List<AwardsModel> awards = const [],
@@ -2233,15 +2251,9 @@ class _$BranchStateImpl extends _BranchState {
         _awards = awards,
         super._();
 
-  @override
-  @JsonKey()
-  final bool loading;
-  @override
-  @JsonKey()
-  final bool error;
-  @override
-  @JsonKey()
-  final bool success;
+// @Default(false) bool loading,
+// @Default(false) bool error,
+// @Default(false) bool success,
   @override
   @JsonKey()
   final String reviewBranch;
@@ -2272,6 +2284,18 @@ class _$BranchStateImpl extends _BranchState {
   @override
   @JsonKey()
   final FormzSubmissionStatus studyLeadStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus branchStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus educationStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus awardStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus offertaStatus;
   final List<GetReviewModel> _reviews;
   @override
   @JsonKey()
@@ -2314,7 +2338,7 @@ class _$BranchStateImpl extends _BranchState {
 
   @override
   String toString() {
-    return 'BranchState(loading: $loading, error: $error, success: $success, reviewBranch: $reviewBranch, reviewComment: $reviewComment, reviewRank: $reviewRank, branchId: $branchId, activityStatus: $activityStatus, branchDetailStatus: $branchDetailStatus, getReviewStatus: $getReviewStatus, postReviewStatus: $postReviewStatus, getBranchesStatus: $getBranchesStatus, studyLeadStatus: $studyLeadStatus, reviews: $reviews, branches: $branches, awards: $awards, study: $study, branchDetail: $branchDetail, offerta: $offerta, medionActivity: $medionActivity)';
+    return 'BranchState(reviewBranch: $reviewBranch, reviewComment: $reviewComment, reviewRank: $reviewRank, branchId: $branchId, activityStatus: $activityStatus, branchDetailStatus: $branchDetailStatus, getReviewStatus: $getReviewStatus, postReviewStatus: $postReviewStatus, getBranchesStatus: $getBranchesStatus, studyLeadStatus: $studyLeadStatus, branchStatus: $branchStatus, educationStatus: $educationStatus, awardStatus: $awardStatus, offertaStatus: $offertaStatus, reviews: $reviews, branches: $branches, awards: $awards, study: $study, branchDetail: $branchDetail, offerta: $offerta, medionActivity: $medionActivity)';
   }
 
   @override
@@ -2322,9 +2346,6 @@ class _$BranchStateImpl extends _BranchState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BranchStateImpl &&
-            (identical(other.loading, loading) || other.loading == loading) &&
-            (identical(other.error, error) || other.error == error) &&
-            (identical(other.success, success) || other.success == success) &&
             (identical(other.reviewBranch, reviewBranch) ||
                 other.reviewBranch == reviewBranch) &&
             (identical(other.reviewComment, reviewComment) ||
@@ -2345,6 +2366,14 @@ class _$BranchStateImpl extends _BranchState {
                 other.getBranchesStatus == getBranchesStatus) &&
             (identical(other.studyLeadStatus, studyLeadStatus) ||
                 other.studyLeadStatus == studyLeadStatus) &&
+            (identical(other.branchStatus, branchStatus) ||
+                other.branchStatus == branchStatus) &&
+            (identical(other.educationStatus, educationStatus) ||
+                other.educationStatus == educationStatus) &&
+            (identical(other.awardStatus, awardStatus) ||
+                other.awardStatus == awardStatus) &&
+            (identical(other.offertaStatus, offertaStatus) ||
+                other.offertaStatus == offertaStatus) &&
             const DeepCollectionEquality().equals(other._reviews, _reviews) &&
             const DeepCollectionEquality().equals(other._branches, _branches) &&
             const DeepCollectionEquality().equals(other._awards, _awards) &&
@@ -2359,9 +2388,6 @@ class _$BranchStateImpl extends _BranchState {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
-        loading,
-        error,
-        success,
         reviewBranch,
         reviewComment,
         reviewRank,
@@ -2372,6 +2398,10 @@ class _$BranchStateImpl extends _BranchState {
         postReviewStatus,
         getBranchesStatus,
         studyLeadStatus,
+        branchStatus,
+        educationStatus,
+        awardStatus,
+        offertaStatus,
         const DeepCollectionEquality().hash(_reviews),
         const DeepCollectionEquality().hash(_branches),
         const DeepCollectionEquality().hash(_awards),
@@ -2392,10 +2422,7 @@ class _$BranchStateImpl extends _BranchState {
 
 abstract class _BranchState extends BranchState {
   const factory _BranchState(
-      {final bool loading,
-      final bool error,
-      final bool success,
-      final String reviewBranch,
+      {final String reviewBranch,
       final String reviewComment,
       final int reviewRank,
       final int branchId,
@@ -2405,6 +2432,10 @@ abstract class _BranchState extends BranchState {
       final FormzSubmissionStatus postReviewStatus,
       final FormzSubmissionStatus getBranchesStatus,
       final FormzSubmissionStatus studyLeadStatus,
+      final FormzSubmissionStatus branchStatus,
+      final FormzSubmissionStatus educationStatus,
+      final FormzSubmissionStatus awardStatus,
+      final FormzSubmissionStatus offertaStatus,
       final List<GetReviewModel> reviews,
       final List<BranchModel> branches,
       final List<AwardsModel> awards,
@@ -2414,12 +2445,9 @@ abstract class _BranchState extends BranchState {
       final MedionModel? medionActivity}) = _$BranchStateImpl;
   const _BranchState._() : super._();
 
-  @override
-  bool get loading;
-  @override
-  bool get error;
-  @override
-  bool get success;
+// @Default(false) bool loading,
+// @Default(false) bool error,
+// @Default(false) bool success,
   @override
   String get reviewBranch;
   @override
@@ -2440,6 +2468,14 @@ abstract class _BranchState extends BranchState {
   FormzSubmissionStatus get getBranchesStatus;
   @override
   FormzSubmissionStatus get studyLeadStatus;
+  @override
+  FormzSubmissionStatus get branchStatus;
+  @override
+  FormzSubmissionStatus get educationStatus;
+  @override
+  FormzSubmissionStatus get awardStatus;
+  @override
+  FormzSubmissionStatus get offertaStatus;
   @override
   List<GetReviewModel> get reviews;
   @override

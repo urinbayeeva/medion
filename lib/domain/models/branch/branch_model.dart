@@ -341,11 +341,43 @@ abstract class ContentModel implements Built<ContentModel, ContentModelBuilder> 
   @BuiltValueField(wireName: 'phone_number_short')
   JsonObject? get phoneNumberShort;
 
+  @BuiltValueField(wireName: 'category_id')
+  int? get categoryId;
+
+  @BuiltValueField(wireName: 'banners')
+  BuiltList<BannerModel> get banners;
+
   String get decodedTitle => decodeHtml(title);
 
   String get decodedDescription => decodeHtml(description);
 
   static Serializer<ContentModel> get serializer => _$contentModelSerializer;
+}
+
+abstract class BannerModel implements Built<BannerModel, BannerModelBuilder> {
+  @BuiltValueField(wireName: 'name')
+  String get name;
+
+  @BuiltValueField(wireName: 'image')
+  String get image;
+
+  @BuiltValueField(wireName: 'image_mobile')
+  String get imageMobile;
+
+  @BuiltValueField(wireName: 'link')
+  String get link;
+
+  @BuiltValueField(wireName: 'button_text')
+  String get buttonText;
+
+  @BuiltValueField(wireName: 'horizontal')
+  bool get horizontal;
+
+  BannerModel._();
+
+  factory BannerModel([void Function(BannerModelBuilder) updates]) = _$BannerModel;
+
+  static Serializer<BannerModel> get serializer => _$bannerModelSerializer;
 }
 
 abstract class ChildContentModel implements Built<ChildContentModel, ChildContentModelBuilder> {

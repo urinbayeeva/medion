@@ -28,6 +28,18 @@ class Times {
 }
 
 sealed class MyFunctions {
+  static String formatDate({required String date, String type = 'dd.MM.yyyy'}) {
+    if (date.isEmpty) return '';
+
+    try {
+      final DateTime parsedDate = DateTime.parse(date);
+      final DateFormat dateFormat = DateFormat(type);
+      return dateFormat.format(parsedDate);
+    } catch (e) {
+      return '';
+    }
+  }
+
   static Future<String?> videoContentType(String url) async {
     try {
       final dio = Dio();

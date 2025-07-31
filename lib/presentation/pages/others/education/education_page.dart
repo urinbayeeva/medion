@@ -1,32 +1,27 @@
-import 'dart:developer';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
-import 'package:hive/hive.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
-import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
-import 'package:medion/presentation/component/w_html/w_html.dart';
 import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/education/widgets/study_info_card.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/pop_up_status_enum.dart';
 import 'package:medion/utils/extension/context_extension.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class EducationPage extends StatefulWidget {
   const EducationPage({super.key});
@@ -36,9 +31,12 @@ class EducationPage extends StatefulWidget {
 }
 
 class _EducationPageState extends State<EducationPage> {
+  late final RefreshController _refreshController;
+
   @override
   void initState() {
     super.initState();
+    _refreshController = RefreshController();
     context.read<BranchBloc>().add(const BranchEvent.fetchStudy());
   }
 
@@ -61,6 +59,11 @@ class _EducationPageState extends State<EducationPage> {
           ),
           backgroundColor: colors.backgroundColor,
           body: BlocBuilder<BranchBloc, BranchState>(
+            buildWhen: (o, n) {
+              final status = o.educationStatus != n.educationStatus;
+              final education = o.study != n.study;
+              return status || education;
+            },
             builder: (context, state) {
               List<Map<String, dynamic>> _getStudyItems(BranchState state) {
                 return [
@@ -92,227 +95,236 @@ class _EducationPageState extends State<EducationPage> {
                 ];
               }
 
-              // Show shimmer when loading
-              if (state.loading) return _buildShimmerLoading(colors, fonts);
+              if (state.educationStatus.isInitial || state.educationStatus.isInProgress) {
+                return _buildShimmerLoading(colors, fonts);
+              }
 
               final studyItems = _getStudyItems(state);
 
-              return ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  if (state.study?.bannerImage != null && state.study?.bannerLink != null) ...{
-                    DecoratedBox(
-                      decoration: BoxDecoration(color: colors.shade0),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(minHeight: 190.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(
-                              children: [
-                                CommonImage(
-                                  height: 188.h,
-                                  width: 1.sw,
-                                  imageUrl: state.study!.bannerImage ?? '',
-                                ),
-                                Positioned(
-                                  bottom: 12.h,
-                                  left: 0,
-                                  right: 0,
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                    child: CButton(
-                                      title: "",
-                                      onTap: () {
-                                        MyFunctions.openLink(state.study?.bannerLink ?? '');
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "podrobno".tr(),
-                                              style: fonts.xSmallLink.copyWith(
-                                                color: colors.shade0,
-                                                fontWeight: FontWeight.w600,
+              return SmartRefresher(
+                controller: _refreshController,
+                enablePullDown: true,
+                header: const WaterDropMaterialHeader(color: Style.shade0, backgroundColor: Style.error500),
+                onRefresh: () {
+                  _refreshController.refreshCompleted();
+                },
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    if (state.study?.bannerImage != null && state.study?.bannerLink != null) ...{
+                      DecoratedBox(
+                        decoration: BoxDecoration(color: colors.shade0),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(minHeight: 190.h),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Stack(
+                                children: [
+                                  CommonImage(
+                                    height: 188.h,
+                                    width: 1.sw,
+                                    imageUrl: state.study!.bannerImage ?? '',
+                                  ),
+                                  Positioned(
+                                    bottom: 12.h,
+                                    left: 0,
+                                    right: 0,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                      child: CButton(
+                                        title: "",
+                                        onTap: () {
+                                          MyFunctions.openLink(state.study?.bannerLink ?? '');
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "podrobno".tr(),
+                                                style: fonts.xSmallLink.copyWith(
+                                                  color: colors.shade0,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
-                                            ),
-                                            icons.linkIcon.svg(),
-                                          ],
+                                              icons.linkIcon.svg(),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            // Padding(
-                            //   padding: EdgeInsets.symmetric(horizontal: 12.w),
-                            //   child: Expanded(
-                            //     child: Text(
-                            //       state.study?.name ?? "",
-                            //       style: fonts.smallText.copyWith(fontWeight: FontWeight.w400),
-                            //     ),
-                            //   ),
-                            // )
-                          ],
+                                  )
+                                ],
+                              ),
+                              // Padding(
+                              //   padding: EdgeInsets.symmetric(horizontal: 12.w),
+                              //   child: Expanded(
+                              //     child: Text(
+                              //       state.study?.name ?? "",
+                              //       style: fonts.smallText.copyWith(fontWeight: FontWeight.w400),
+                              //     ),
+                              //   ),
+                              // )
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  },
+                      )
+                    },
 
-                  1.h.verticalSpace,
-                  if (state.study?.decodedDescription != null && state.study!.decodedDescription.isNotEmpty) ...{
-                    Container(
-                      decoration: BoxDecoration(
-                        color: colors.shade0,
-                        image: DecorationImage(
-                          alignment: Alignment.centerLeft,
-                          colorFilter: const ColorFilter.mode(Colors.red, BlendMode.srcIn),
-                          fit: BoxFit.contain,
-                          image: AssetImage(icons.pattern),
+                    1.h.verticalSpace,
+                    if (state.study?.decodedDescription != null && state.study!.decodedDescription.isNotEmpty) ...{
+                      Container(
+                        decoration: BoxDecoration(
+                          color: colors.shade0,
+                          image: DecorationImage(
+                            alignment: Alignment.centerLeft,
+                            colorFilter: const ColorFilter.mode(Colors.red, BlendMode.srcIn),
+                            fit: BoxFit.contain,
+                            image: AssetImage(icons.pattern),
+                          ),
                         ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            state.study?.decodedDescription ?? '',
-                            style: fonts.xSmallMain,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              state.study?.decodedDescription ?? '',
+                              style: fonts.xSmallMain,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  },
-                  // if (state.study?.name != null && state.study!.name!.isNotEmpty) ...[
-                  //   Stack(
-                  //     children: [
-                  //       CommonImage(
-                  //         imageUrl: state.study!.bannerLink!,
-                  //         fit: BoxFit.cover,
-                  //         errorImageAsset: icons.medionIcon,
-                  //         width: double.infinity,
-                  //       ),
-                  //       Positioned(
-                  //         child: Container(
-                  //           decoration: BoxDecoration(
-                  //             color: Colors.black.withValues(alpha: 0.3),
-                  //           ),
-                  //           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-                  //           height: MediaQuery.of(context).size.height * 0.7,
-                  //           child: Center(
-                  //             child: Column(
-                  //               mainAxisSize: MainAxisSize.min,
-                  //               children: [
-                  //                 Text(
-                  //                   state.study?.name ?? "",
-                  //                   style: fonts.regularMain.copyWith(color: Colors.white),
-                  //                   textAlign: TextAlign.center,
-                  //                 ),
-                  //                 8.h.verticalSpace,
-                  //                 Text(
-                  //                   state.study?.decodedDescription ?? "",
-                  //                   style: fonts.regularLink.copyWith(color: Colors.white70),
-                  //                   textAlign: TextAlign.center,
-                  //                   maxLines: 15,
-                  //                   overflow: TextOverflow.ellipsis,
-                  //                 ),
-                  //                 const Spacer(),
-                  //                 CButton(
-                  //                   backgroundColor: colors.neutral400,
-                  //                   textColor: colors.primary900,
-                  //                   onTap: () async {
-                  //                     final link =
-                  //                         (state.study?.bannerLink != null || state.study!.bannerLink!.isNotEmpty)
-                  //                             ? state.study!.bannerLink!
-                  //                             : "https://medion.uz";
-                  //                     await launchUrl(Uri.parse(link));
-                  //                   },
-                  //                   title: "open_our_web".tr(),
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ],
-                  12.h.verticalSpace,
-                  if ((state.study?.courses?.length ?? 0) != 0) ...[
+                    },
+                    // if (state.study?.name != null && state.study!.name!.isNotEmpty) ...[
+                    //   Stack(
+                    //     children: [
+                    //       CommonImage(
+                    //         imageUrl: state.study!.bannerLink!,
+                    //         fit: BoxFit.cover,
+                    //         errorImageAsset: icons.medionIcon,
+                    //         width: double.infinity,
+                    //       ),
+                    //       Positioned(
+                    //         child: Container(
+                    //           decoration: BoxDecoration(
+                    //             color: Colors.black.withValues(alpha: 0.3),
+                    //           ),
+                    //           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                    //           height: MediaQuery.of(context).size.height * 0.7,
+                    //           child: Center(
+                    //             child: Column(
+                    //               mainAxisSize: MainAxisSize.min,
+                    //               children: [
+                    //                 Text(
+                    //                   state.study?.name ?? "",
+                    //                   style: fonts.regularMain.copyWith(color: Colors.white),
+                    //                   textAlign: TextAlign.center,
+                    //                 ),
+                    //                 8.h.verticalSpace,
+                    //                 Text(
+                    //                   state.study?.decodedDescription ?? "",
+                    //                   style: fonts.regularLink.copyWith(color: Colors.white70),
+                    //                   textAlign: TextAlign.center,
+                    //                   maxLines: 15,
+                    //                   overflow: TextOverflow.ellipsis,
+                    //                 ),
+                    //                 const Spacer(),
+                    //                 CButton(
+                    //                   backgroundColor: colors.neutral400,
+                    //                   textColor: colors.primary900,
+                    //                   onTap: () async {
+                    //                     final link =
+                    //                         (state.study?.bannerLink != null || state.study!.bannerLink!.isNotEmpty)
+                    //                             ? state.study!.bannerLink!
+                    //                             : "https://medion.uz";
+                    //                     await launchUrl(Uri.parse(link));
+                    //                   },
+                    //                   title: "open_our_web".tr(),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ],
+                    12.h.verticalSpace,
+                    if ((state.study?.courses?.length ?? 0) != 0) ...[
+                      ListView.builder(
+                        itemCount: state.study?.courses?.length ?? 0,
+                        padding: EdgeInsets.zero,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final studyInfo = state.study?.courses?[index];
+                          return StudyInfoCard(
+                            title: studyInfo?.name ?? "",
+                            description: studyInfo?.description ?? "No Description",
+                            imagePath: studyInfo?.image ?? "",
+                            moreInfoOnTap: () async {
+                              final patient = context.read<AuthBloc>().state.patientInfo;
+                              if (patient != null) {
+                                showMoreInfoDialog(
+                                  bloc: context.read<BranchBloc>(),
+                                  patient: patient,
+                                  id: studyInfo?.id ?? -1,
+                                );
+                              } else {
+                                context.showPopUp(
+                                  status: PopUpStatus.error,
+                                  message: "User not found",
+                                  fonts: fonts,
+                                  colors: colors,
+                                  context: context,
+                                );
+                              }
+                            },
+                            applyOnTap: () {
+                              final info = context.read<AuthBloc>().state.patientInfo;
+                              if (info != null) {
+                                showApply(
+                                  id: studyInfo?.id ?? -1,
+                                  info: info,
+                                  bloc: context.read<BranchBloc>(),
+                                );
+                              }
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                    24.h.verticalSpace,
                     ListView.builder(
-                      itemCount: state.study?.courses?.length ?? 0,
                       padding: EdgeInsets.zero,
-                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: studyItems.length,
                       itemBuilder: (context, index) {
-                        final studyInfo = state.study?.courses?[index];
-                        return StudyInfoCard(
-                          title: studyInfo?.name ?? "",
-                          description: studyInfo?.description ?? "No Description",
-                          imagePath: studyInfo?.image ?? "",
-                          moreInfoOnTap: () async {
-                            final patient = context.read<AuthBloc>().state.patientInfo;
-                            if (patient != null) {
-                              showMoreInfoDialog(
-                                bloc: context.read<BranchBloc>(),
-                                patient: patient,
-                                id: studyInfo?.id ?? -1,
-                              );
-                            } else {
-                              context.showPopUp(
-                                status: PopUpStatus.error,
-                                message: "User not found",
-                                fonts: fonts,
-                                colors: colors,
-                                context: context,
-                              );
-                            }
-                          },
-                          applyOnTap: () {
-                            final info = context.read<AuthBloc>().state.patientInfo;
-                            if (info != null) {
-                              showApply(
-                                id: studyInfo?.id ?? -1,
-                                info: info,
-                                bloc: context.read<BranchBloc>(),
-                              );
-                            }
-                          },
+                        final item = studyItems[index];
+                        return Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: CustomExpansionListTile(
+                            hasIcon: item['image'],
+                            title: item['title'],
+                            description: "", // You can modify this if needed
+                            children: [
+                              Text(
+                                item['data'] ?? "no_result_found".tr(),
+                                style: fonts.smallLink,
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),
+                    24.h.verticalSpace,
                   ],
-                  24.h.verticalSpace,
-                  ListView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: studyItems.length,
-                    itemBuilder: (context, index) {
-                      final item = studyItems[index];
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: CustomExpansionListTile(
-                          hasIcon: item['image'],
-                          title: item['title'],
-                          description: "", // You can modify this if needed
-                          children: [
-                            Text(
-                              item['data'] ?? "no_result_found".tr(),
-                              style: fonts.smallLink,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  24.h.verticalSpace,
-                ],
+                ),
               );
             },
           ),

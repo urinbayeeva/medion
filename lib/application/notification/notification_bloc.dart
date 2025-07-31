@@ -9,6 +9,8 @@ import 'package:medion/domain/abstract_repo/notification/notification_repository
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/notification/notification_model.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
+import 'package:medion/presentation/pages/home/notifications/notification_page.dart';
+import 'package:medion/utils/enums/notification_type_enum.dart';
 
 part 'notification_bloc.freezed.dart';
 
@@ -116,7 +118,57 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       (success) {
         final unreadCount = success.where((e) => !(e.isRead ?? false)).length;
 
+        final notifications = <NotificationModel>[
+          ...success,
+        ];
+
+        final list = <NotificationTabs>[
+          NotificationTabs(
+            subTitle: "Перейти к акции",
+            title: "all",
+            itemKey: "",
+            canSee: notifications.isNotEmpty,
+            checker: NotificationTypeEnum.all,
+          ),
+          NotificationTabs(
+            subTitle: "Перейти к акции",
+            title: "discounts",
+            itemKey: "discount",
+            canSee: notifications.any((n) => n.type == "discount"),
+            checker: NotificationTypeEnum.discount,
+          ),
+          NotificationTabs(
+            subTitle: "Перейти к приёму",
+            title: "reminder",
+            itemKey: "reminder",
+            canSee: notifications.any((n) => n.type == "reminder"),
+            checker: NotificationTypeEnum.reminders,
+          ),
+          NotificationTabs(
+            subTitle: "",
+            title: "reviews",
+            itemKey: "review",
+            canSee: notifications.any((n) => n.type == "review"),
+            checker: NotificationTypeEnum.reviews,
+          ),
+          NotificationTabs(
+            subTitle: "",
+            title: "result",
+            itemKey: "lab_result",
+            canSee: notifications.any((n) => n.type == "lab_result"),
+            checker: NotificationTypeEnum.results,
+          ),
+          NotificationTabs(
+            subTitle: "Перейти",
+            title: "link",
+            itemKey: "link",
+            canSee: notifications.any((n) => n.type == " link"),
+            checker: NotificationTypeEnum.links,
+          ),
+        ];
+
         emit(state.copyWith(
+          types: list,
           notifications: success,
           notificationStatus: FormzSubmissionStatus.success,
           unReadNotifications: unreadCount,
