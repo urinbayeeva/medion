@@ -222,6 +222,17 @@ final class _$BookingService extends BookingService {
   }
 
   @override
+  Future<Response<void>> getDoctorDays() {
+    final Uri $url = Uri.parse('/booking/doctor/day');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<void, void>($request);
+  }
+
+  @override
   Future<Response<MedicalServiceCategory>> getHomePageBookingDoctorsByID(
       int id) {
     final Uri $url = Uri.parse('/booking/services_by_doctor/${id}');

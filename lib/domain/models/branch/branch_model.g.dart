@@ -8,7 +8,6 @@ part of 'branch_model.dart';
 
 Serializer<BranchModel> _$branchModelSerializer = new _$BranchModelSerializer();
 Serializer<BranchDetailModel> _$branchDetailModelSerializer = new _$BranchDetailModelSerializer();
-Serializer<OffersModel> _$offersModelSerializer = new _$OffersModelSerializer();
 Serializer<AwardsModel> _$awardsModelSerializer = new _$AwardsModelSerializer();
 Serializer<EducationModel> _$educationModelSerializer = new _$EducationModelSerializer();
 Serializer<StudyLead> _$studyLeadSerializer = new _$StudyLeadSerializer();
@@ -205,6 +204,9 @@ class _$BranchDetailModelSerializer implements StructuredSerializer<BranchDetail
       serializers.serialize(object.latitude, specifiedType: const FullType(double)),
       'longitude',
       serializers.serialize(object.longitude, specifiedType: const FullType(double)),
+      'offers',
+      serializers.serialize(object.offers,
+          specifiedType: const FullType(BuiltList, const [const FullType(OfferModel)])),
     ];
     Object? value;
     value = object.name;
@@ -267,13 +269,6 @@ class _$BranchDetailModelSerializer implements StructuredSerializer<BranchDetail
         ..add('work_days')
         ..add(serializers.serialize(value, specifiedType: const FullType(BuiltList, const [const FullType(String)])));
     }
-    value = object.offers;
-    if (value != null) {
-      result
-        ..add('offers')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(BuiltList, const [const FullType(OffersModel)])));
-    }
     return result;
   }
 
@@ -333,66 +328,7 @@ class _$BranchDetailModelSerializer implements StructuredSerializer<BranchDetail
           break;
         case 'offers':
           result.offers.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(OffersModel)]))! as BuiltList<Object?>);
-          break;
-      }
-    }
-
-    return result.build();
-  }
-}
-
-class _$OffersModelSerializer implements StructuredSerializer<OffersModel> {
-  @override
-  final Iterable<Type> types = const [OffersModel, _$OffersModel];
-  @override
-  final String wireName = 'OffersModel';
-
-  @override
-  Iterable<Object?> serialize(Serializers serializers, OffersModel object,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[];
-    Object? value;
-    value = object.name;
-    if (value != null) {
-      result
-        ..add('name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
-    }
-    value = object.description;
-    if (value != null) {
-      result
-        ..add('description')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
-    }
-    value = object.icon;
-    if (value != null) {
-      result
-        ..add('icon')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
-    }
-    return result;
-  }
-
-  @override
-  OffersModel deserialize(Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new OffersModelBuilder();
-
-    final iterator = serialized.iterator;
-    while (iterator.moveNext()) {
-      final key = iterator.current! as String;
-      iterator.moveNext();
-      final Object? value = iterator.current;
-      switch (key) {
-        case 'name':
-          result.name = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
-          break;
-        case 'description':
-          result.description = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
-          break;
-        case 'icon':
-          result.icon = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+              specifiedType: const FullType(BuiltList, const [const FullType(OfferModel)]))! as BuiltList<Object?>);
           break;
       }
     }
@@ -1971,7 +1907,7 @@ class _$BranchDetailModel extends BranchDetailModel {
   @override
   final BuiltList<String>? workDays;
   @override
-  final BuiltList<OffersModel>? offers;
+  final BuiltList<OfferModel> offers;
 
   factory _$BranchDetailModel([void Function(BranchDetailModelBuilder)? updates]) =>
       (new BranchDetailModelBuilder()..update(updates))._build();
@@ -1990,11 +1926,12 @@ class _$BranchDetailModel extends BranchDetailModel {
       required this.longitude,
       this.video,
       this.workDays,
-      this.offers})
+      required this.offers})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'BranchDetailModel', 'id');
     BuiltValueNullFieldError.checkNotNull(latitude, r'BranchDetailModel', 'latitude');
     BuiltValueNullFieldError.checkNotNull(longitude, r'BranchDetailModel', 'longitude');
+    BuiltValueNullFieldError.checkNotNull(offers, r'BranchDetailModel', 'offers');
   }
 
   @override
@@ -2146,11 +2083,11 @@ class BranchDetailModelBuilder implements Builder<BranchDetailModel, BranchDetai
 
   set workDays(ListBuilder<String>? workDays) => _$this._workDays = workDays;
 
-  ListBuilder<OffersModel>? _offers;
+  ListBuilder<OfferModel>? _offers;
 
-  ListBuilder<OffersModel> get offers => _$this._offers ??= new ListBuilder<OffersModel>();
+  ListBuilder<OfferModel> get offers => _$this._offers ??= new ListBuilder<OfferModel>();
 
-  set offers(ListBuilder<OffersModel>? offers) => _$this._offers = offers;
+  set offers(ListBuilder<OfferModel>? offers) => _$this._offers = offers;
 
   BranchDetailModelBuilder();
 
@@ -2170,7 +2107,7 @@ class BranchDetailModelBuilder implements Builder<BranchDetailModel, BranchDetai
       _longitude = $v.longitude;
       _video = $v.video?.toBuilder();
       _workDays = $v.workDays?.toBuilder();
-      _offers = $v.offers?.toBuilder();
+      _offers = $v.offers.toBuilder();
       _$v = null;
     }
     return this;
@@ -2208,7 +2145,7 @@ class BranchDetailModelBuilder implements Builder<BranchDetailModel, BranchDetai
             longitude: BuiltValueNullFieldError.checkNotNull(longitude, r'BranchDetailModel', 'longitude'),
             video: _video?.build(),
             workDays: _workDays?.build(),
-            offers: _offers?.build(),
+            offers: offers.build(),
           );
     } catch (_) {
       late String _$failedField;
@@ -2223,117 +2160,12 @@ class BranchDetailModelBuilder implements Builder<BranchDetailModel, BranchDetai
         _$failedField = 'workDays';
         _workDays?.build();
         _$failedField = 'offers';
-        _offers?.build();
+        offers.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(r'BranchDetailModel', _$failedField, e.toString());
       }
       rethrow;
     }
-    replace(_$result);
-    return _$result;
-  }
-}
-
-class _$OffersModel extends OffersModel {
-  @override
-  final String? name;
-  @override
-  final String? description;
-  @override
-  final String? icon;
-
-  factory _$OffersModel([void Function(OffersModelBuilder)? updates]) =>
-      (new OffersModelBuilder()..update(updates))._build();
-
-  _$OffersModel._({this.name, this.description, this.icon}) : super._();
-
-  @override
-  OffersModel rebuild(void Function(OffersModelBuilder) updates) => (toBuilder()..update(updates)).build();
-
-  @override
-  OffersModelBuilder toBuilder() => new OffersModelBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is OffersModel && name == other.name && description == other.description && icon == other.icon;
-  }
-
-  @override
-  int get hashCode {
-    var _$hash = 0;
-    _$hash = $jc(_$hash, name.hashCode);
-    _$hash = $jc(_$hash, description.hashCode);
-    _$hash = $jc(_$hash, icon.hashCode);
-    _$hash = $jf(_$hash);
-    return _$hash;
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper(r'OffersModel')
-          ..add('name', name)
-          ..add('description', description)
-          ..add('icon', icon))
-        .toString();
-  }
-}
-
-class OffersModelBuilder implements Builder<OffersModel, OffersModelBuilder> {
-  _$OffersModel? _$v;
-
-  String? _name;
-
-  String? get name => _$this._name;
-
-  set name(String? name) => _$this._name = name;
-
-  String? _description;
-
-  String? get description => _$this._description;
-
-  set description(String? description) => _$this._description = description;
-
-  String? _icon;
-
-  String? get icon => _$this._icon;
-
-  set icon(String? icon) => _$this._icon = icon;
-
-  OffersModelBuilder();
-
-  OffersModelBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _name = $v.name;
-      _description = $v.description;
-      _icon = $v.icon;
-      _$v = null;
-    }
-    return this;
-  }
-
-  @override
-  void replace(OffersModel other) {
-    ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$OffersModel;
-  }
-
-  @override
-  void update(void Function(OffersModelBuilder)? updates) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  OffersModel build() => _build();
-
-  _$OffersModel _build() {
-    final _$result = _$v ??
-        new _$OffersModel._(
-          name: name,
-          description: description,
-          icon: icon,
-        );
     replace(_$result);
     return _$result;
   }

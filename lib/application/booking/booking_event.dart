@@ -5,7 +5,7 @@ abstract class BookingEvent with _$BookingEvent {
   const factory BookingEvent.fetchBookingTypes() = _FetchBookingTypes;
 
   const factory BookingEvent.selectService({required int id}) = _SelectService; // New Event
-  
+
   const factory BookingEvent.refreshServices() = _RefreshServices;
 
   const factory BookingEvent.selectInnerServiceID({required List<int> ids}) = _SelectInnerServiceID;
@@ -25,4 +25,14 @@ abstract class BookingEvent with _$BookingEvent {
   const factory BookingEvent.fetchHomePageServiceDoctors({required int id}) = _FetchHomePageServiceDoctors;
 
   const factory BookingEvent.fetchServicesByDoctorId({required int doctorId}) = _FetchServicesByDoctorId;
+
+  const factory BookingEvent.addService({
+    required int id,
+    required String name,
+    required Service service,
+  }) = _AddService;
+
+  const factory BookingEvent.removeService({required int id, required Service service}) = _RemoveService;
+
+  const factory BookingEvent.removeAllService() = _RemoveAllService;
 }

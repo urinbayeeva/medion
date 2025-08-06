@@ -67,7 +67,7 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
               return status;
             },
             builder: (context, state) {
-              if (state.loading) {
+              if (state.fetchContentStatus.isInProgress || state.fetchContentStatus.isInProgress) {
                 return const Center(
                   child: CircularProgressIndicator(
                     color: Style.error500,
@@ -75,7 +75,7 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
                 );
               }
 
-              if (state.error) {
+              if (state.fetchContentStatus.isFailure) {
                 return Center(
                   child: Text(
                     'something_went_wrong'.tr(),

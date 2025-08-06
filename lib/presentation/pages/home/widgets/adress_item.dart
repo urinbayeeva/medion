@@ -1,106 +1,58 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:medion/presentation/component/animation_effect.dart';
-import 'package:medion/presentation/component/c_bottom_icon.dart';
-import 'package:medion/presentation/component/c_icon_button.dart';
+import 'package:medion/domain/models/map/map_model.dart';
 import 'package:medion/presentation/pages/others/component/common_image.dart';
-import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/styles/theme.dart';
 
-class AdressItem extends StatelessWidget {
-  final VoidCallback onTap;
-  final String address;
-  final String url;
-  final String name;
-  final VoidCallback yandexOnTap;
-
-  const AdressItem({
+class HomeLocationCard extends StatelessWidget {
+  const HomeLocationCard({
     super.key,
-    required this.address,
-    required this.url,
+    required this.location,
+    required this.colors,
     required this.onTap,
-    required this.yandexOnTap,
-    required this.name,
+    required this.fonts,
   });
+
+  final LocationModel location;
+  final CustomColorSet colors;
+  final FontSet fonts;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return ThemeWrapper(builder: (context, colors, fonts, icons, controller) {
-      return Container(
-        margin: EdgeInsets.only(bottom: 8.h),
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-        width: double.infinity,
+    return WScaleAnimation(
+      onTap: onTap,
+      child: Container(
+        width: 1.sw,
+        height: 64.h,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.r),
           color: colors.shade0,
+          borderRadius: BorderRadius.circular(12),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          spacing: 2.w,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: 64.h,
-                  width: 64.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8.r), bottomLeft: Radius.circular(8.r)),
-                    color: colors.shade0,
-                  ),
-                  child: Center(
-                    child: CommonImage(
-                      imageUrl: url,
-                      height: 40.h,
-                      width: 40.h,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: fonts.smallLink.copyWith(fontSize: 14.sp, fontWeight: FontWeight.w600),
-                      ),
-                      4.h.verticalSpace,
-                      Text(
-                        address,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: fonts.smallLink.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: CButtonIcon(
-                title: "show_address".tr(),
-                onTap: onTap,
-                iconPath: icons.location,
-                backgroundColor: colors.neutral200,
-                textColor: colors.primary900,
+              padding: EdgeInsets.only(left: 8.0.w, bottom: 4.h, top: 4.h, right: 6.w),
+              child: CommonImage(
+                width: 60.w,
+                height: 64.h,
+                imageUrl: location.icon,
+                fit: BoxFit.cover,
               ),
             ),
-            8.h.verticalSpace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: CIconButton(
-                title: "order_taxi".tr(),
-                iconPath: "assets/images/yandex_png.png",
-                onTap: yandexOnTap,
-                // backgroundColor: colors.neutral200,
-                // textColor: colors.primary900,
-              ),
+            Container(
+              height: double.infinity,
+              width: 1.w,
+              color: colors.neutral400,
             ),
+            3.horizontalSpace,
+            Expanded(child: Text(location.address, style: fonts.smallLink))
           ],
         ),
-      );
-    });
+      ),
+    );
   }
 }

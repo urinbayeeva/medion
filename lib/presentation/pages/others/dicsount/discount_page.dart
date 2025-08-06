@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
 import 'package:http/http.dart' as http;
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
@@ -79,13 +80,13 @@ class _DiscountPageState extends State<DiscountPage> {
           backgroundColor: colors.backgroundColor,
           body: BlocBuilder<ContentBloc, ContentState>(
             builder: (context, state) {
-              if (state.loading) {
+              if (state.fetchContentStatus.isInitial || state.fetchContentStatus.isInProgress) {
                 return Center(
                   child: CircularProgressIndicator(color: colors.error500),
                 );
               }
 
-              if (state.error) {
+              if (state.fetchContentStatus.isFailure) {
                 return Center(
                   child: Text(
                     'something_went_wrong'.tr(),
@@ -125,7 +126,7 @@ class _DiscountPageState extends State<DiscountPage> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 164.w,
+                          maxCrossAxisExtent: 200.w,
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                           mainAxisExtent: 252.h,

@@ -14,8 +14,10 @@ import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/profile/widget/nav_list_widget.dart';
 import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -26,10 +28,18 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final RefreshController _refreshController = RefreshController();
+
   @override
   void initState() {
     super.initState();
     context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
+  }
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
   }
 
   @override
@@ -56,118 +66,139 @@ class _ProfilePageState extends State<ProfilePage> {
             },
             builder: (context, state) {
               String? backendImageUrl = state.patientInfo?.image;
-              return Column(
-                spacing: 0.01.sh,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  if (state.userInfoStatus.isInitial || state.userInfoStatus.isInProgress) ...{
-                    SafeArea(
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 16.w).copyWith(top: 10.h),
-                        padding: EdgeInsets.only(bottom: 12.h),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: colors.shade0,
-                        ),
-                        width: double.infinity,
-                        height: 175.h,
-                        child: Shimmer.fromColors(
-                          baseColor: colors.neutral200,
-                          highlightColor: colors.shade0,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                radius: 50.r,
-                                backgroundColor: Colors.black,
-                              ),
-                              12.h.verticalSpace,
-                              Text('profile'.tr(), style: fonts.regularText),
-                            ],
+              return SmartRefresher(
+                onRefresh: () {
+                  context.read<AuthBloc>().add(const AuthEvent.fetchPatientInfo());
+                  _refreshController.refreshCompleted();
+                },
+                controller: _refreshController,
+                enablePullDown: true,
+                header: const WaterDropMaterialHeader(color: Style.shade0, backgroundColor: Style.error500),
+                child: ListView(
+                  // physics: ,
+                  // addAutomaticKeepAlives: ,
+                  // scrollDirection: ,
+                  // shrinkWrap: ,
+                  // clipBehavior: ,
+                  // controller: ,
+                  // addRepaintBoundaries: ,
+                  // addSemanticIndexes: ,
+                  // dragStartBehavior: ,
+                  // hitTestBehavior: ,
+                  // itemExtentBuilder: ,
+                  // keyboardDismissBehavior: ,
+                  // restorationId: ,
+                  // prototypeItem: ,
+                  // primary: ,
+                  // itemExtent: ,
+                  // cacheExtent: ,
+                  children: [
+                    if (state.userInfoStatus.isInitial || state.userInfoStatus.isInProgress) ...{
+                      SafeArea(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 16.w).copyWith(top: 10.h),
+                          padding: EdgeInsets.only(bottom: 12.h),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: colors.shade0,
                           ),
-                        ),
-                      ),
-                    )
-                  } else if (state.patientInfo == null || state.userInfoStatus.isFailure) ...{
-                    SafeArea(
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 16).copyWith(top: 10),
-                        padding: const EdgeInsets.only(bottom: 12),
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: colors.shade0),
-                        width: double.infinity,
-                        height: 175.h,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(child: Lottie.asset("assets/anim/sad.json")),
-                            Text('something_went_wrong'.tr(), style: fonts.regularText),
-                          ],
-                        ),
-                      ),
-                    )
-                  } else ...{
-                    SizedBox(
-                      height: 0.26.sh,
-                      child: GestureDetector(
-                        onTap: () => Navigator.push(context, AppRoutes.getUserDetailsPage()),
-                        child: SafeArea(
-                          child: Align(
-                            alignment: Alignment.topCenter,
-                            child: Stack(
-                              clipBehavior: Clip.none,
+                          width: double.infinity,
+                          height: 175.h,
+                          child: Shimmer.fromColors(
+                            baseColor: colors.neutral200,
+                            highlightColor: colors.shade0,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                BlocBuilder<ProfileBloc, ProfileState>(
-                                  builder: (context, profileState) {
-                                    String? pickedImagePath = profileState.pickedImagePath;
-
-                                    log("Image 1: $backendImageUrl");
-                                    log("Image 2: $pickedImagePath");
-                                    return CircleAvatar(
-                                      radius: 60.r,
-                                      backgroundColor: colors.neutral200,
-                                      backgroundImage: backendImageUrl != null && backendImageUrl.isNotEmpty
-                                          ? NetworkImage(backendImageUrl)
-                                          : pickedImagePath != null
-                                              ? FileImage(File(pickedImagePath)) as ImageProvider
-                                              : null,
-                                      child: (backendImageUrl == null || backendImageUrl.isEmpty) &&
-                                              pickedImagePath == null
-                                          ? icons.nonUser.svg(height: 110.h, color: colors.neutral500)
-                                          : null,
-                                    );
-                                  },
+                                CircleAvatar(
+                                  radius: 50.r,
+                                  backgroundColor: Colors.black,
                                 ),
-                                Positioned(
-                                  bottom: -20,
-                                  left: 0,
-                                  right: 0,
-                                  child: CircleAvatar(
-                                    radius: 20.r,
-                                    backgroundColor: colors.error500,
-                                    child: icons.edit.svg(width: 16.w, height: 16.h),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: -50,
-                                  left: 0,
-                                  right: 0,
-                                  child: Text(
-                                    state.patientInfo?.firstName ?? '',
-                                    textAlign: TextAlign.center,
-                                    style: fonts.regularLink.copyWith(fontSize: 16.sp, color: colors.neutral900),
-                                  ),
-                                ),
+                                12.h.verticalSpace,
+                                Text('profile'.tr(), style: fonts.regularText),
                               ],
                             ),
                           ),
                         ),
+                      )
+                    } else if (state.patientInfo == null || state.userInfoStatus.isFailure) ...{
+                      SafeArea(
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16).copyWith(top: 10),
+                          padding: const EdgeInsets.only(bottom: 12),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: colors.shade0),
+                          width: double.infinity,
+                          height: 175.h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(child: Lottie.asset("assets/anim/sad.json")),
+                              Text('something_went_wrong'.tr(), style: fonts.regularText),
+                            ],
+                          ),
+                        ),
+                      )
+                    } else ...{
+                      SizedBox(
+                        height: 0.28.sh,
+                        child: GestureDetector(
+                          onTap: () => Navigator.push(context, AppRoutes.getUserDetailsPage()),
+                          child: SafeArea(
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  BlocBuilder<ProfileBloc, ProfileState>(
+                                    builder: (context, profileState) {
+                                      String? pickedImagePath = profileState.pickedImagePath;
+                                      return CircleAvatar(
+                                        radius: 60.r,
+                                        backgroundColor: colors.neutral200,
+                                        backgroundImage: backendImageUrl != null && backendImageUrl.isNotEmpty
+                                            ? NetworkImage(backendImageUrl)
+                                            : pickedImagePath != null
+                                                ? FileImage(File(pickedImagePath)) as ImageProvider
+                                                : null,
+                                        child: (backendImageUrl == null || backendImageUrl.isEmpty) &&
+                                                pickedImagePath == null
+                                            ? icons.nonUser.svg(height: 110.h, color: colors.neutral500)
+                                            : null,
+                                      );
+                                    },
+                                  ),
+                                  Positioned(
+                                    bottom: -20.h,
+                                    left: 0,
+                                    right: 0,
+                                    child: CircleAvatar(
+                                      radius: 20.r,
+                                      backgroundColor: colors.error500,
+                                      child: icons.edit.svg(width: 16.w, height: 16.h),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: -50.h,
+                                    left: 0,
+                                    right: 0,
+                                    child: Text(
+                                      state.patientInfo?.firstName ?? '',
+                                      textAlign: TextAlign.center,
+                                      style: fonts.regularLink.copyWith(fontSize: 16.sp, color: colors.neutral900),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  },
-                  const NavListWidget(),
-                ],
+                    },
+                    const NavListWidget(),
+                  ],
+                ),
               );
             },
           ),

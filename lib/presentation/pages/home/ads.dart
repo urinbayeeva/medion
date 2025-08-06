@@ -14,6 +14,7 @@ import 'package:medion/presentation/pages/others/article/article_page.dart';
 import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
 import 'package:medion/presentation/pages/others/equipment/equipment_page.dart';
 import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/ads_enums.dart';
 import 'package:medion/utils/enums/content_type_enum.dart';
@@ -52,7 +53,7 @@ class _AdsState extends State<Ads> with AutomaticKeepAliveClientMixin {
 
             return length || ads;
           },
-          builder: (context, state) {
+          builder: (ctx, state) {
             if (state.ads.isEmpty) {
               return CarouselSlider(
                 items: List.generate(1, (_) => _buildShimmerAd()),
@@ -72,10 +73,21 @@ class _AdsState extends State<Ads> with AutomaticKeepAliveClientMixin {
                 final AdsEnum type = MyFunctions.findAdsType(ad.type);
                 return AnimationButtonEffect(
                   onTap: () {
-                    if (type.isNews) {
-                      Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(builder: (context) => const NewsPage()),
+                    if (ad.contentId == null && ad.link.toString().isEmpty) {
+                      context.showPopUp(
+                        status: PopUpStatus.warning,
+                        message: "Invalid Id",
+                        fonts: fonts,
+                        colors: colors,
+                        context: context,
                       );
+                      return;
+                    }
+
+                    if (type.isNews) {
+                      Navigator.of(context, rootNavigator: true)
+                          .push(AppRoutes.getInfoViewAboutHealth(id: ad.contentId!, type: ContentTypeEnum.news))
+                          .then((_) => context.read<BottomNavBarController>().changeNavBar(false));
                     }
                     if (type.isDiscount) {
                       if (ad.contentId != null) {
@@ -96,9 +108,12 @@ class _AdsState extends State<Ads> with AutomaticKeepAliveClientMixin {
                       }
                     }
                     if (type.isArticles) {
-                      Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(builder: (context) => const ArticlePage()),
-                      );
+                      // Navigator.of(context, rootNavigator: true).push(
+                      //   MaterialPageRoute(builder: (context) => const ArticlePage()),
+                      // );
+                      Navigator.of(context, rootNavigator: true)
+                          .push(AppRoutes.getInfoViewAboutHealth(id: ad.contentId!, type: ContentTypeEnum.article))
+                          .then((_) => context.read<BottomNavBarController>().changeNavBar(false));
                     }
                     if (type.isEquipment) {
                       Navigator.of(context, rootNavigator: true).push(

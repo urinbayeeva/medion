@@ -69,7 +69,10 @@ class _NotificationPageState extends State<NotificationPage> {
               return markAll || notifications;
             },
             listener: (context, state) {
-              if (state.markAllNotificationStatus.isSuccess || state.readOnlyStatus.isSuccess) {
+              if (state.readOnlyStatus.isSuccess) {
+                context.read<NotificationBloc>().add(const NotificationEvent.getNotifications());
+              }
+              if (state.markAllNotificationStatus.isSuccess) {
                 context.read<NotificationBloc>().add(const NotificationEvent.getNotifications());
                 context.showPopUp(
                   status: PopUpStatus.success,
@@ -161,7 +164,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             type: MyFunctions.getNotificationType(notification.type),
                             notification: notification,
                             onTap: () {
-                              Navigator.of(context, rootNavigator: true).push(
+                              Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => SingleNotification(
                                     notification: notification,

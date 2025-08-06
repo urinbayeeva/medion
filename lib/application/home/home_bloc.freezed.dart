@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() fetchNews,
     required TResult Function() fetchDiseases,
     required TResult Function() fetchAds,
     required TResult Function() fetchMedicalServices,
@@ -27,7 +26,6 @@ mixin _$HomeEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fetchNews,
     TResult? Function()? fetchDiseases,
     TResult? Function()? fetchAds,
     TResult? Function()? fetchMedicalServices,
@@ -36,7 +34,6 @@ mixin _$HomeEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetchNews,
     TResult Function()? fetchDiseases,
     TResult Function()? fetchAds,
     TResult Function()? fetchMedicalServices,
@@ -46,7 +43,6 @@ mixin _$HomeEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_FetchNews value) fetchNews,
     required TResult Function(_FetchDiseases value) fetchDiseases,
     required TResult Function(_FetchAds value) fetchAds,
     required TResult Function(_FetchMedicalServices value) fetchMedicalServices,
@@ -55,7 +51,6 @@ mixin _$HomeEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_FetchNews value)? fetchNews,
     TResult? Function(_FetchDiseases value)? fetchDiseases,
     TResult? Function(_FetchAds value)? fetchAds,
     TResult? Function(_FetchMedicalServices value)? fetchMedicalServices,
@@ -64,7 +59,6 @@ mixin _$HomeEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_FetchNews value)? fetchNews,
     TResult Function(_FetchDiseases value)? fetchDiseases,
     TResult Function(_FetchAds value)? fetchAds,
     TResult Function(_FetchMedicalServices value)? fetchMedicalServices,
@@ -92,129 +86,6 @@ class _$HomeEventCopyWithImpl<$Res, $Val extends HomeEvent>
 
   /// Create a copy of HomeEvent
   /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-abstract class _$$FetchNewsImplCopyWith<$Res> {
-  factory _$$FetchNewsImplCopyWith(
-          _$FetchNewsImpl value, $Res Function(_$FetchNewsImpl) then) =
-      __$$FetchNewsImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$FetchNewsImplCopyWithImpl<$Res>
-    extends _$HomeEventCopyWithImpl<$Res, _$FetchNewsImpl>
-    implements _$$FetchNewsImplCopyWith<$Res> {
-  __$$FetchNewsImplCopyWithImpl(
-      _$FetchNewsImpl _value, $Res Function(_$FetchNewsImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of HomeEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$FetchNewsImpl implements _FetchNews {
-  const _$FetchNewsImpl();
-
-  @override
-  String toString() {
-    return 'HomeEvent.fetchNews()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$FetchNewsImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() fetchNews,
-    required TResult Function() fetchDiseases,
-    required TResult Function() fetchAds,
-    required TResult Function() fetchMedicalServices,
-    required TResult Function() fetchCompanyLocation,
-  }) {
-    return fetchNews();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fetchNews,
-    TResult? Function()? fetchDiseases,
-    TResult? Function()? fetchAds,
-    TResult? Function()? fetchMedicalServices,
-    TResult? Function()? fetchCompanyLocation,
-  }) {
-    return fetchNews?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetchNews,
-    TResult Function()? fetchDiseases,
-    TResult Function()? fetchAds,
-    TResult Function()? fetchMedicalServices,
-    TResult Function()? fetchCompanyLocation,
-    required TResult orElse(),
-  }) {
-    if (fetchNews != null) {
-      return fetchNews();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_FetchNews value) fetchNews,
-    required TResult Function(_FetchDiseases value) fetchDiseases,
-    required TResult Function(_FetchAds value) fetchAds,
-    required TResult Function(_FetchMedicalServices value) fetchMedicalServices,
-    required TResult Function(_FetchCompanyLocation value) fetchCompanyLocation,
-  }) {
-    return fetchNews(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_FetchNews value)? fetchNews,
-    TResult? Function(_FetchDiseases value)? fetchDiseases,
-    TResult? Function(_FetchAds value)? fetchAds,
-    TResult? Function(_FetchMedicalServices value)? fetchMedicalServices,
-    TResult? Function(_FetchCompanyLocation value)? fetchCompanyLocation,
-  }) {
-    return fetchNews?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_FetchNews value)? fetchNews,
-    TResult Function(_FetchDiseases value)? fetchDiseases,
-    TResult Function(_FetchAds value)? fetchAds,
-    TResult Function(_FetchMedicalServices value)? fetchMedicalServices,
-    TResult Function(_FetchCompanyLocation value)? fetchCompanyLocation,
-    required TResult orElse(),
-  }) {
-    if (fetchNews != null) {
-      return fetchNews(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _FetchNews implements HomeEvent {
-  const factory _FetchNews() = _$FetchNewsImpl;
 }
 
 /// @nodoc
@@ -258,7 +129,6 @@ class _$FetchDiseasesImpl implements _FetchDiseases {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() fetchNews,
     required TResult Function() fetchDiseases,
     required TResult Function() fetchAds,
     required TResult Function() fetchMedicalServices,
@@ -270,7 +140,6 @@ class _$FetchDiseasesImpl implements _FetchDiseases {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fetchNews,
     TResult? Function()? fetchDiseases,
     TResult? Function()? fetchAds,
     TResult? Function()? fetchMedicalServices,
@@ -282,7 +151,6 @@ class _$FetchDiseasesImpl implements _FetchDiseases {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetchNews,
     TResult Function()? fetchDiseases,
     TResult Function()? fetchAds,
     TResult Function()? fetchMedicalServices,
@@ -298,7 +166,6 @@ class _$FetchDiseasesImpl implements _FetchDiseases {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_FetchNews value) fetchNews,
     required TResult Function(_FetchDiseases value) fetchDiseases,
     required TResult Function(_FetchAds value) fetchAds,
     required TResult Function(_FetchMedicalServices value) fetchMedicalServices,
@@ -310,7 +177,6 @@ class _$FetchDiseasesImpl implements _FetchDiseases {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_FetchNews value)? fetchNews,
     TResult? Function(_FetchDiseases value)? fetchDiseases,
     TResult? Function(_FetchAds value)? fetchAds,
     TResult? Function(_FetchMedicalServices value)? fetchMedicalServices,
@@ -322,7 +188,6 @@ class _$FetchDiseasesImpl implements _FetchDiseases {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_FetchNews value)? fetchNews,
     TResult Function(_FetchDiseases value)? fetchDiseases,
     TResult Function(_FetchAds value)? fetchAds,
     TResult Function(_FetchMedicalServices value)? fetchMedicalServices,
@@ -381,7 +246,6 @@ class _$FetchAdsImpl implements _FetchAds {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() fetchNews,
     required TResult Function() fetchDiseases,
     required TResult Function() fetchAds,
     required TResult Function() fetchMedicalServices,
@@ -393,7 +257,6 @@ class _$FetchAdsImpl implements _FetchAds {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fetchNews,
     TResult? Function()? fetchDiseases,
     TResult? Function()? fetchAds,
     TResult? Function()? fetchMedicalServices,
@@ -405,7 +268,6 @@ class _$FetchAdsImpl implements _FetchAds {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetchNews,
     TResult Function()? fetchDiseases,
     TResult Function()? fetchAds,
     TResult Function()? fetchMedicalServices,
@@ -421,7 +283,6 @@ class _$FetchAdsImpl implements _FetchAds {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_FetchNews value) fetchNews,
     required TResult Function(_FetchDiseases value) fetchDiseases,
     required TResult Function(_FetchAds value) fetchAds,
     required TResult Function(_FetchMedicalServices value) fetchMedicalServices,
@@ -433,7 +294,6 @@ class _$FetchAdsImpl implements _FetchAds {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_FetchNews value)? fetchNews,
     TResult? Function(_FetchDiseases value)? fetchDiseases,
     TResult? Function(_FetchAds value)? fetchAds,
     TResult? Function(_FetchMedicalServices value)? fetchMedicalServices,
@@ -445,7 +305,6 @@ class _$FetchAdsImpl implements _FetchAds {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_FetchNews value)? fetchNews,
     TResult Function(_FetchDiseases value)? fetchDiseases,
     TResult Function(_FetchAds value)? fetchAds,
     TResult Function(_FetchMedicalServices value)? fetchMedicalServices,
@@ -505,7 +364,6 @@ class _$FetchMedicalServicesImpl implements _FetchMedicalServices {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() fetchNews,
     required TResult Function() fetchDiseases,
     required TResult Function() fetchAds,
     required TResult Function() fetchMedicalServices,
@@ -517,7 +375,6 @@ class _$FetchMedicalServicesImpl implements _FetchMedicalServices {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fetchNews,
     TResult? Function()? fetchDiseases,
     TResult? Function()? fetchAds,
     TResult? Function()? fetchMedicalServices,
@@ -529,7 +386,6 @@ class _$FetchMedicalServicesImpl implements _FetchMedicalServices {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetchNews,
     TResult Function()? fetchDiseases,
     TResult Function()? fetchAds,
     TResult Function()? fetchMedicalServices,
@@ -545,7 +401,6 @@ class _$FetchMedicalServicesImpl implements _FetchMedicalServices {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_FetchNews value) fetchNews,
     required TResult Function(_FetchDiseases value) fetchDiseases,
     required TResult Function(_FetchAds value) fetchAds,
     required TResult Function(_FetchMedicalServices value) fetchMedicalServices,
@@ -557,7 +412,6 @@ class _$FetchMedicalServicesImpl implements _FetchMedicalServices {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_FetchNews value)? fetchNews,
     TResult? Function(_FetchDiseases value)? fetchDiseases,
     TResult? Function(_FetchAds value)? fetchAds,
     TResult? Function(_FetchMedicalServices value)? fetchMedicalServices,
@@ -569,7 +423,6 @@ class _$FetchMedicalServicesImpl implements _FetchMedicalServices {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_FetchNews value)? fetchNews,
     TResult Function(_FetchDiseases value)? fetchDiseases,
     TResult Function(_FetchAds value)? fetchAds,
     TResult Function(_FetchMedicalServices value)? fetchMedicalServices,
@@ -629,7 +482,6 @@ class _$FetchCompanyLocationImpl implements _FetchCompanyLocation {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() fetchNews,
     required TResult Function() fetchDiseases,
     required TResult Function() fetchAds,
     required TResult Function() fetchMedicalServices,
@@ -641,7 +493,6 @@ class _$FetchCompanyLocationImpl implements _FetchCompanyLocation {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fetchNews,
     TResult? Function()? fetchDiseases,
     TResult? Function()? fetchAds,
     TResult? Function()? fetchMedicalServices,
@@ -653,7 +504,6 @@ class _$FetchCompanyLocationImpl implements _FetchCompanyLocation {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetchNews,
     TResult Function()? fetchDiseases,
     TResult Function()? fetchAds,
     TResult Function()? fetchMedicalServices,
@@ -669,7 +519,6 @@ class _$FetchCompanyLocationImpl implements _FetchCompanyLocation {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_FetchNews value) fetchNews,
     required TResult Function(_FetchDiseases value) fetchDiseases,
     required TResult Function(_FetchAds value) fetchAds,
     required TResult Function(_FetchMedicalServices value) fetchMedicalServices,
@@ -681,7 +530,6 @@ class _$FetchCompanyLocationImpl implements _FetchCompanyLocation {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_FetchNews value)? fetchNews,
     TResult? Function(_FetchDiseases value)? fetchDiseases,
     TResult? Function(_FetchAds value)? fetchAds,
     TResult? Function(_FetchMedicalServices value)? fetchMedicalServices,
@@ -693,7 +541,6 @@ class _$FetchCompanyLocationImpl implements _FetchCompanyLocation {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_FetchNews value)? fetchNews,
     TResult Function(_FetchDiseases value)? fetchDiseases,
     TResult Function(_FetchAds value)? fetchAds,
     TResult Function(_FetchMedicalServices value)? fetchMedicalServices,
@@ -716,7 +563,6 @@ mixin _$HomeState {
   bool get loading => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
   bool get success => throw _privateConstructorUsedError;
-  List<News> get news => throw _privateConstructorUsedError;
   List<DiseaseModle> get diseases => throw _privateConstructorUsedError;
   List<AdModel> get ads => throw _privateConstructorUsedError;
   List<DiagnosticsModel> get medicalServices =>
@@ -740,7 +586,6 @@ abstract class $HomeStateCopyWith<$Res> {
       {bool loading,
       bool error,
       bool success,
-      List<News> news,
       List<DiseaseModle> diseases,
       List<AdModel> ads,
       List<DiagnosticsModel> medicalServices,
@@ -765,7 +610,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? loading = null,
     Object? error = null,
     Object? success = null,
-    Object? news = null,
     Object? diseases = null,
     Object? ads = null,
     Object? medicalServices = null,
@@ -784,10 +628,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      news: null == news
-          ? _value.news
-          : news // ignore: cast_nullable_to_non_nullable
-              as List<News>,
       diseases: null == diseases
           ? _value.diseases
           : diseases // ignore: cast_nullable_to_non_nullable
@@ -820,7 +660,6 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       {bool loading,
       bool error,
       bool success,
-      List<News> news,
       List<DiseaseModle> diseases,
       List<AdModel> ads,
       List<DiagnosticsModel> medicalServices,
@@ -843,7 +682,6 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? loading = null,
     Object? error = null,
     Object? success = null,
-    Object? news = null,
     Object? diseases = null,
     Object? ads = null,
     Object? medicalServices = null,
@@ -862,10 +700,6 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      news: null == news
-          ? _value._news
-          : news // ignore: cast_nullable_to_non_nullable
-              as List<News>,
       diseases: null == diseases
           ? _value._diseases
           : diseases // ignore: cast_nullable_to_non_nullable
@@ -893,13 +727,11 @@ class _$HomeStateImpl extends _HomeState {
       {this.loading = false,
       this.error = false,
       this.success = false,
-      final List<News> news = const [],
       final List<DiseaseModle> diseases = const [],
       final List<AdModel> ads = const [],
       final List<DiagnosticsModel> medicalServices = const [],
       final List<LocationModel> companyLocations = const []})
-      : _news = news,
-        _diseases = diseases,
+      : _diseases = diseases,
         _ads = ads,
         _medicalServices = medicalServices,
         _companyLocations = companyLocations,
@@ -914,15 +746,6 @@ class _$HomeStateImpl extends _HomeState {
   @override
   @JsonKey()
   final bool success;
-  final List<News> _news;
-  @override
-  @JsonKey()
-  List<News> get news {
-    if (_news is EqualUnmodifiableListView) return _news;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_news);
-  }
-
   final List<DiseaseModle> _diseases;
   @override
   @JsonKey()
@@ -962,7 +785,7 @@ class _$HomeStateImpl extends _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(loading: $loading, error: $error, success: $success, news: $news, diseases: $diseases, ads: $ads, medicalServices: $medicalServices, companyLocations: $companyLocations)';
+    return 'HomeState(loading: $loading, error: $error, success: $success, diseases: $diseases, ads: $ads, medicalServices: $medicalServices, companyLocations: $companyLocations)';
   }
 
   @override
@@ -973,7 +796,6 @@ class _$HomeStateImpl extends _HomeState {
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.success, success) || other.success == success) &&
-            const DeepCollectionEquality().equals(other._news, _news) &&
             const DeepCollectionEquality().equals(other._diseases, _diseases) &&
             const DeepCollectionEquality().equals(other._ads, _ads) &&
             const DeepCollectionEquality()
@@ -988,7 +810,6 @@ class _$HomeStateImpl extends _HomeState {
       loading,
       error,
       success,
-      const DeepCollectionEquality().hash(_news),
       const DeepCollectionEquality().hash(_diseases),
       const DeepCollectionEquality().hash(_ads),
       const DeepCollectionEquality().hash(_medicalServices),
@@ -1008,7 +829,6 @@ abstract class _HomeState extends HomeState {
       {final bool loading,
       final bool error,
       final bool success,
-      final List<News> news,
       final List<DiseaseModle> diseases,
       final List<AdModel> ads,
       final List<DiagnosticsModel> medicalServices,
@@ -1021,8 +841,6 @@ abstract class _HomeState extends HomeState {
   bool get error;
   @override
   bool get success;
-  @override
-  List<News> get news;
   @override
   List<DiseaseModle> get diseases;
   @override

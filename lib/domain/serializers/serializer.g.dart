@@ -68,7 +68,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(NotificationReview.serializer)
       ..add(NotificationSendReview.serializer)
       ..add(OfferModel.serializer)
-      ..add(OffersModel.serializer)
       ..add(OrderVisit.serializer)
       ..add(PatientAnalyse.serializer)
       ..add(PatientAnalysis.serializer)
@@ -343,8 +342,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(OffersModel)]),
-          () => new ListBuilder<OffersModel>())
+          const FullType(BuiltList, const [const FullType(OfferModel)]),
+          () => new ListBuilder<OfferModel>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(ThirdBookingCompanyDoctor)]),

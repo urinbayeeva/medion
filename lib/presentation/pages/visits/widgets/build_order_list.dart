@@ -8,11 +8,14 @@ import 'package:medion/presentation/pages/visits/widgets/order_card_w.dart';
 import 'package:medion/presentation/pages/visits/widgets/visits_new_design_card.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class BuildOrderList extends StatelessWidget {
-  const BuildOrderList({super.key, required this.state});
+  const BuildOrderList({super.key, required this.state, required this.onRefresh, required this.refreshController});
 
   final AuthState state;
+  final VoidCallback onRefresh;
+  final RefreshController refreshController;
 
   @override
   Widget build(BuildContext context) {
@@ -22,45 +25,51 @@ class BuildOrderList extends StatelessWidget {
     if (state.moves.isEmpty) return EmptyState(title: 'no_result_found'.tr());
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
-        return ListView.builder(
-          itemCount: state.moves.length,
-          padding: EdgeInsets.zero,
-          itemBuilder: (_, index) {
-            final order = state.moves[index];
-            final service = order.saleOrderLines.isNotEmpty ? (order.saleOrderLines.first.service ?? "") : '';
+        return SmartRefresher(
+          onRefresh: onRefresh,
+          controller: refreshController,
+          enablePullDown: true,
+          header: const WaterDropMaterialHeader(color: Style.shade0, backgroundColor: Style.error500),
+          child: ListView.builder(
+            itemCount: state.moves.length,
+            padding: EdgeInsets.zero,
+            itemBuilder: (_, index) {
+              final order = state.moves[index];
+              final service = order.saleOrderLines.isNotEmpty ? (order.saleOrderLines.first.service ?? "") : '';
 
-            return OrderCard(
-              colors: colors,
-              order: order,
-              fonts: fonts,
-              child: ListView.separated(
-                padding: EdgeInsets.zero,
-                separatorBuilder: (context, count) {
-                  return const Divider();
-                },
-                itemCount: order.saleOrderLines.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (ctx, i) {
-                  final card = order.saleOrderLines[i];
-                  return DynamicVisitsCard(
-                    doctorName: card.doctorFullName ?? '',
-                    doctorJob: card.service ?? '',
-                    serviceName: service,
-                    visitTime: "${card.createDate}",
-                    paymentStatus: order.saleOrderPaymentStatus == 'paid',
-                    listEnum: MyFunctions.getVisitStatus("ordered"),
-                    radius: BorderRadius.vertical(
-                      bottom: (i == order.saleOrderLines.length - 1) ? const Radius.circular(12) : Radius.zero,
-                    ),
-                    padding: EdgeInsets.zero,
-                    fonts: fonts,
-                    colors: colors,
-                  );
-                },
-              ),
-            );
-          },
+              return OrderCard(
+                colors: colors,
+                order: order,
+                fonts: fonts,
+                child: ListView.separated(
+                  padding: EdgeInsets.zero,
+                  separatorBuilder: (context, count) {
+                    return const Divider();
+                  },
+                  itemCount: order.saleOrderLines.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (ctx, i) {
+                    final card = order.saleOrderLines[i];
+                    return DynamicVisitsCard(
+                      doctorName: card.doctorFullName ?? '',
+                      doctorJob: card.service ?? '',
+                      serviceName: service,
+                      visitTime: "${card.createDate}",
+                      paymentStatus: order.saleOrderPaymentStatus == 'paid',
+                      listEnum: MyFunctions.getVisitStatus("ordered"),
+                      radius: BorderRadius.vertical(
+                        bottom: (i == order.saleOrderLines.length - 1) ? const Radius.circular(12) : Radius.zero,
+                      ),
+                      padding: EdgeInsets.zero,
+                      fonts: fonts,
+                      colors: colors,
+                    );
+                  },
+                ),
+              );
+            },
+          ),
         );
       },
     );

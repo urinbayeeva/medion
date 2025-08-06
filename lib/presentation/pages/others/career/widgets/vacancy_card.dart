@@ -40,15 +40,15 @@ class VacanciesCards extends StatelessWidget {
     }
     if (state.vacancyStatus.isFailure || vacancies.isEmpty) return const SizedBox.shrink();
 
-    return ListView.builder(
-      padding: EdgeInsets.zero,
+    return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: vacancies.length,
+      separatorBuilder: (context, index) => SizedBox(height: 6.h),
       itemBuilder: (context, index) {
         final vacancy = vacancies[index];
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h).copyWith(top: 0),
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: colors.shade0),
           child: Column(
             spacing: 4,
@@ -68,7 +68,8 @@ class VacanciesCards extends StatelessWidget {
                     return VacancySingle(vacancy: vacancy, bloc: bloc);
                   }));
                 },
-              )
+              ),
+              4.h.verticalSpace,
             ],
           ),
         );

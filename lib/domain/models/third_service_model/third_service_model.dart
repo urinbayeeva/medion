@@ -4,23 +4,19 @@ import 'package:built_value/serializer.dart';
 
 part 'third_service_model.g.dart';
 
-abstract class DoctorsRequest
-    implements Built<DoctorsRequest, DoctorsRequestBuilder> {
+abstract class DoctorsRequest implements Built<DoctorsRequest, DoctorsRequestBuilder> {
   @BuiltValueField(wireName: 'service_ids')
   BuiltList<int>? get serviceIds; // Changed from List<int>? to BuiltList<int>?
 
   DoctorsRequest._();
 
-  factory DoctorsRequest([void Function(DoctorsRequestBuilder) updates]) =
-      _$DoctorsRequest;
+  factory DoctorsRequest([void Function(DoctorsRequestBuilder) updates]) = _$DoctorsRequest;
 
-  static Serializer<DoctorsRequest> get serializer =>
-      _$doctorsRequestSerializer;
+  static Serializer<DoctorsRequest> get serializer => _$doctorsRequestSerializer;
 }
 
 abstract class ThirdBookingDoctorSchedule
-    implements
-        Built<ThirdBookingDoctorSchedule, ThirdBookingDoctorScheduleBuilder> {
+    implements Built<ThirdBookingDoctorSchedule, ThirdBookingDoctorScheduleBuilder> {
   @BuiltValueField(wireName: 'time')
   String? get time;
 
@@ -32,16 +28,13 @@ abstract class ThirdBookingDoctorSchedule
 
   ThirdBookingDoctorSchedule._();
 
-  factory ThirdBookingDoctorSchedule(
-          [void Function(ThirdBookingDoctorScheduleBuilder) updates]) =
+  factory ThirdBookingDoctorSchedule([void Function(ThirdBookingDoctorScheduleBuilder) updates]) =
       _$ThirdBookingDoctorSchedule;
 
-  static Serializer<ThirdBookingDoctorSchedule> get serializer =>
-      _$thirdBookingDoctorScheduleSerializer;
+  static Serializer<ThirdBookingDoctorSchedule> get serializer => _$thirdBookingDoctorScheduleSerializer;
 }
 
-abstract class ThirdBookingDoctor
-    implements Built<ThirdBookingDoctor, ThirdBookingDoctorBuilder> {
+abstract class ThirdBookingDoctor implements Built<ThirdBookingDoctor, ThirdBookingDoctorBuilder> {
   @BuiltValueField(wireName: 'id')
   int? get id;
 
@@ -74,17 +67,12 @@ abstract class ThirdBookingDoctor
 
   ThirdBookingDoctor._();
 
-  factory ThirdBookingDoctor(
-          [void Function(ThirdBookingDoctorBuilder) updates]) =
-      _$ThirdBookingDoctor;
+  factory ThirdBookingDoctor([void Function(ThirdBookingDoctorBuilder) updates]) = _$ThirdBookingDoctor;
 
-  static Serializer<ThirdBookingDoctor> get serializer =>
-      _$thirdBookingDoctorSerializer;
+  static Serializer<ThirdBookingDoctor> get serializer => _$thirdBookingDoctorSerializer;
 }
 
-abstract class ThirdBookingCompanyDoctor
-    implements
-        Built<ThirdBookingCompanyDoctor, ThirdBookingCompanyDoctorBuilder> {
+abstract class ThirdBookingCompanyDoctor implements Built<ThirdBookingCompanyDoctor, ThirdBookingCompanyDoctorBuilder> {
   @BuiltValueField(wireName: 'company_id')
   double? get companyId;
 
@@ -96,16 +84,52 @@ abstract class ThirdBookingCompanyDoctor
 
   ThirdBookingCompanyDoctor._();
 
-  factory ThirdBookingCompanyDoctor(
-          [void Function(ThirdBookingCompanyDoctorBuilder) updates]) =
+  factory ThirdBookingCompanyDoctor([void Function(ThirdBookingCompanyDoctorBuilder) updates]) =
       _$ThirdBookingCompanyDoctor;
 
-  static Serializer<ThirdBookingCompanyDoctor> get serializer =>
-      _$thirdBookingCompanyDoctorSerializer;
+  static Serializer<ThirdBookingCompanyDoctor> get serializer => _$thirdBookingCompanyDoctorSerializer;
 }
 
-abstract class ThirdBookingService
-    implements Built<ThirdBookingService, ThirdBookingServiceBuilder> {
+final list = [
+  {
+    "service_id": 0,
+    "service_name": "string",
+    "companies_doctors": [
+      {
+        "company_id": 0,
+        "company_name": "string",
+        "doctor": [
+          {
+            "id": 0,
+            "name": "string",
+            "gender": "string",
+            "image": "string",
+            "specialty": "string",
+            "experience": "string",
+            "price": 0,
+            "location": "string",
+            "work_experience": 0,
+            "schedules": [
+              {
+                "additionalProp1": [
+                  {"additionalProp1": {}}
+                ],
+                "additionalProp2": [
+                  {"additionalProp1": {}}
+                ],
+                "additionalProp3": [
+                  {"additionalProp1": {}}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+];
+
+abstract class ThirdBookingService implements Built<ThirdBookingService, ThirdBookingServiceBuilder> {
   @BuiltValueField(wireName: 'service_id')
   int? get serviceId;
 
@@ -117,10 +141,7 @@ abstract class ThirdBookingService
 
   ThirdBookingService._();
 
-  factory ThirdBookingService(
-          [void Function(ThirdBookingServiceBuilder) updates]) =
-      _$ThirdBookingService;
+  factory ThirdBookingService([void Function(ThirdBookingServiceBuilder) updates]) = _$ThirdBookingService;
 
-  static Serializer<ThirdBookingService> get serializer =>
-      _$thirdBookingServiceSerializer;
+  static Serializer<ThirdBookingService> get serializer => _$thirdBookingServiceSerializer;
 }

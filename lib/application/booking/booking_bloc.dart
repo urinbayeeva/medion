@@ -1,15 +1,18 @@
 import 'dart:async';
+import 'dart:developer';
 
-import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/booking/booking_type_model.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/infrastructure/repository/booking_repository.dart';
-import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
+import 'package:medion/presentation/component/easy_loading.dart';
+import 'package:medion/presentation/pages/appointment/verify_appointment.dart';
+import 'package:medion/presentation/pages/booking/booking_second_page.dart';
 import 'package:medion/presentation/pages/home/directions/component/inner_pages/directions_info_page.dart';
 
 part 'booking_bloc.freezed.dart';
@@ -32,6 +35,9 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<_FetchHomePageServiceDoctors>(_onFetchHomePageServiceDoctors);
     on<_FetchThirdBookingServices>(_onFetchThirdBookingServices);
     on<_FetchServicesByDoctorId>(_fetchServicesByDoctorIdHandler);
+    on<_AddService>(_addService);
+    on<_RemoveService>(_removeService);
+    on<_RemoveAllService>(_removeAllService);
   }
 
   @override
@@ -40,10 +46,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     return super.close();
   }
 
-  void _onSelectedInnerServiceID(
-    _SelectInnerServiceID event,
-    Emitter<BookingState> emit,
-  ) {
+  void _onSelectedInnerServiceID(_SelectInnerServiceID event, Emitter<BookingState> emit) {
     emit(state.copyWith(selectedInnerServiceIds: event.ids));
     LogService.i('Updated selectedInnerServiceIds: ${event.ids}');
   }
@@ -52,33 +55,46 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     emit(state.copyWith(selectedServiceId: event.id));
   }
 
-  FutureOr<void> _refreshServices(
-    _RefreshServices event,
-    Emitter<BookingState> emit,
-  ) async {
+  FutureOr<void> _addService(_AddService event, Emitter<BookingState> emit) async {
+    final updated = List<BookingInfo>.from(state.services);
+
+    if (!updated.any((e) => e.service.id == event.service.id)) {
+      BookingInfo s = BookingInfo(serviceId: event.id, serviceName: event.name, service: event.service);
+      updated.add(s);
+    }
+
+    emit(state.copyWith(services: updated));
+  }
+
+  FutureOr<void> _removeService(_RemoveService event, Emitter<BookingState> emit) async {
+    final updated = List<BookingInfo>.from(state.services)..removeWhere((e) => e.service.id == event.service.id);
+
+    emit(state.copyWith(services: updated));
+  }
+
+  FutureOr<void> _removeAllService(_RemoveAllService event, Emitter<BookingState> emit) async {
+    emit(state.copyWith(selectedServices: const {}, services: const []));
+  }
+
+  FutureOr<void> _refreshServices(_RefreshServices event, Emitter<BookingState> emit) async {
     final selectedId = state.selectedServiceId;
     if (selectedId != null) {
-      emit(state.copyWith(loading: true, error: false, success: false));
+      emit(state.copyWith(refreshServiceStatus: FormzSubmissionStatus.inProgress));
 
       try {
-        // EasyLoading.show();
-
-        final res = await _repository.fetchCategoryServices(
-          selectedId,
-        );
+        final res = await _repository.fetchCategoryServices(selectedId);
 
         if (isClosed) return; // Early exit if bloc is closed
 
         res.fold(
           (error) {
             LogService.e("Error refreshing category services: ${error.message}");
-            emit(state.copyWith(loading: false, error: true));
+            emit(state.copyWith(refreshServiceStatus: FormzSubmissionStatus.failure));
             // EasyLoading.showError(error.message);
           },
           (data) {
             emit(state.copyWith(
-              loading: false,
-              success: true,
+              refreshServiceStatus: FormzSubmissionStatus.success,
               categoryServices: data.toList(),
             ));
           },
@@ -86,7 +102,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       } catch (e) {
         LogService.e("Unexpected error in _refreshServices: $e");
         if (!isClosed) {
-          emit(state.copyWith(loading: false, error: true));
+          emit(state.copyWith(refreshServiceStatus: FormzSubmissionStatus.failure));
           EasyLoading.showError('Unexpected error occurred');
         }
       } finally {
@@ -95,11 +111,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     }
   }
 
-  FutureOr<void> _fetchBookingTypesHandler(
-    _FetchBookingTypes event,
-    Emitter<BookingState> emit,
-  ) async {
-    emit(state.copyWith(loading: true, error: false, success: false));
+  FutureOr<void> _fetchBookingTypesHandler(_FetchBookingTypes event, Emitter<BookingState> emit) async {
+    emit(state.copyWith(fetchBookingTypesStatus: FormzSubmissionStatus.inProgress));
 
     try {
       // EasyLoading.show();
@@ -111,12 +124,11 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       res.fold(
         (error) {
           LogService.e("Error fetching booking types: ${error.message}");
-          emit(state.copyWith(loading: false, error: true));
+          emit(state.copyWith(fetchBookingTypesStatus: FormzSubmissionStatus.failure));
         },
         (data) {
           emit(state.copyWith(
-            loading: false,
-            success: true,
+            fetchBookingTypesStatus: FormzSubmissionStatus.success,
             bookingTypes: data,
           ));
         },
@@ -124,7 +136,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     } catch (e) {
       LogService.e("Unexpected error in _fetchBookingTypesHandler: $e");
       if (!isClosed) {
-        emit(state.copyWith(loading: false, error: true));
+        emit(state.copyWith(fetchBookingTypesStatus: FormzSubmissionStatus.failure));
         EasyLoading.showError('Unexpected error occurred');
       }
     } finally {
@@ -133,10 +145,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   }
 
   FutureOr<void> _onFetchHomePageServicesBooking(
-    _FetchHomePageServicesBooking event,
-    Emitter<BookingState> emit,
-  ) async {
-    emit(state.copyWith(loading: true, error: false, success: false));
+      _FetchHomePageServicesBooking event, Emitter<BookingState> emit) async {
+    emit(state.copyWith(fetchBookingTypesStatus: FormzSubmissionStatus.inProgress));
 
     try {
       // EasyLoading.show();
@@ -148,12 +158,11 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       res.fold(
         (error) {
           LogService.e("Error fetching home page services: ${error.message}");
-          emit(state.copyWith(loading: false, error: true));
+          emit(state.copyWith(fetchHomePageBookingCategoriesStatus: FormzSubmissionStatus.failure));
         },
         (data) {
           emit(state.copyWith(
-            loading: false,
-            success: true,
+            fetchHomePageBookingCategoriesStatus: FormzSubmissionStatus.success,
             homePageBookingCategory: data,
           ));
         },
@@ -161,7 +170,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     } catch (e) {
       LogService.e("Unexpected error in _onFetchHomePageServicesBooking: $e");
       if (!isClosed) {
-        emit(state.copyWith(loading: false, error: true));
+        emit(state.copyWith(fetchHomePageBookingCategoriesStatus: FormzSubmissionStatus.failure));
         EasyLoading.showError('Unexpected error occurred');
       }
     } finally {
@@ -169,30 +178,24 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     }
   }
 
-  FutureOr<void> _fetchCategoryServices(
-    _FetchCategoryServices event,
-    Emitter<BookingState> emit,
-  ) async {
-    emit(state.copyWith(loading: true, error: false, success: false));
+  FutureOr<void> _fetchCategoryServices(_FetchCategoryServices event, Emitter<BookingState> emit) async {
+    emit(state.copyWith(fetchCategoryServicesStatus: FormzSubmissionStatus.inProgress));
 
     try {
       // EasyLoading.show();
 
-      final res = await _repository.fetchCategoryServices(
-        event.id,
-      );
+      final res = await _repository.fetchCategoryServices(event.id);
 
       if (isClosed) return; // Early exit if bloc is closed
 
       res.fold(
         (error) {
           LogService.e("Error fetching category services: ${error.message}");
-          emit(state.copyWith(loading: false, error: true));
+          emit(state.copyWith(fetchCategoryServicesStatus: FormzSubmissionStatus.failure));
         },
         (data) {
           emit(state.copyWith(
-            loading: false,
-            success: true,
+            fetchCategoryServicesStatus: FormzSubmissionStatus.success,
             categoryServices: data.toList(),
           ));
         },
@@ -200,7 +203,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     } catch (e) {
       LogService.e("Unexpected error in _fetchCategoryServices: $e");
       if (!isClosed) {
-        emit(state.copyWith(loading: false, error: true));
+        emit(state.copyWith(fetchCategoryServicesStatus: FormzSubmissionStatus.failure));
         EasyLoading.showError('Unexpected error occurred');
       }
     } finally {
@@ -211,9 +214,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   FutureOr<void> _onFetchHomePageServiceDoctors(_FetchHomePageServiceDoctors event, Emitter<BookingState> emit) async {
     // Step 1: Emit a loading state with medicalModel cleared
     emit(state.copyWith(
-      loading: true,
-      error: false,
-      success: false,
+      fetchHomePageBookingDoctorsStatus: FormzSubmissionStatus.inProgress,
       medicalModel: null, // Explicitly clear previous data
     ));
 
@@ -228,8 +229,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         (error) {
           LogService.e("Error fetching home page doctors: ${error.message}");
           emit(state.copyWith(
-            loading: false,
-            error: true,
+            fetchHomePageBookingDoctorsStatus: FormzSubmissionStatus.failure,
             medicalModel: null, // Ensure no stale data remains
           ));
         },
@@ -261,15 +261,18 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             ),
           ];
 
-          emit(state.copyWith(loading: false, success: true, medicalModel: data, items: items));
+          emit(state.copyWith(
+            fetchHomePageBookingDoctorsStatus: FormzSubmissionStatus.success,
+            medicalModel: data,
+            items: items,
+          ));
         },
       );
     } catch (e) {
       LogService.e("Unexpected error in _onFetchHomePageServiceDoctors: $e");
       if (!isClosed) {
         emit(state.copyWith(
-          loading: false,
-          error: true,
+          fetchHomePageBookingDoctorsStatus: FormzSubmissionStatus.failure,
           medicalModel: null, // Clear data on error
         ));
         EasyLoading.showError('Unexpected error occurred');
@@ -279,33 +282,25 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     }
   }
 
-  Future<void> _onFetchThirdBookingServices(
-    _FetchThirdBookingServices event,
-    Emitter<BookingState> emit,
-  ) async {
-    emit(state.copyWith(loading: true, error: false, success: false));
+  Future<void> _onFetchThirdBookingServices(_FetchThirdBookingServices event, Emitter<BookingState> emit) async {
+    emit(state.copyWith(getDoctorsStatus: FormzSubmissionStatus.inProgress));
 
     try {
-      final result = await _repository.getDoctors(
-        serviceIds: event.request,
-      );
+      final result = await _repository.getDoctors(serviceIds: event.request);
 
       if (isClosed) return; // Early exit if bloc is closed
 
       result.fold(
         (failure) {
           emit(state.copyWith(
-            loading: false,
-            error: true,
+            getDoctorsStatus: FormzSubmissionStatus.failure,
             errorMessage: failure.message,
             thirdBookingServices: [],
           ));
         },
         (services) {
           emit(state.copyWith(
-            loading: false,
-            success: true,
-            error: false,
+            getDoctorsStatus: FormzSubmissionStatus.success,
             errorMessage: '',
             thirdBookingServices: services.toList(),
             hasFetchedThirdServices: true,
@@ -315,8 +310,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     } catch (e) {
       if (!isClosed) {
         emit(state.copyWith(
-          loading: false,
-          error: true,
+          getDoctorsStatus: FormzSubmissionStatus.failure,
           errorMessage: e.toString(),
           thirdBookingServices: [],
         ));
@@ -324,16 +318,10 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     }
   }
 
-  FutureOr<void> _fetchServicesByDoctorIdHandler(
-    _FetchServicesByDoctorId event,
-    Emitter<BookingState> emit,
-  ) async {
+  FutureOr<void> _fetchServicesByDoctorIdHandler(_FetchServicesByDoctorId event, Emitter<BookingState> emit) async {
     emit(state.copyWith(
-      loading: true,
-      error: false,
-      success: false,
+      getServicesByDoctorIdStatus: FormzSubmissionStatus.inProgress,
       doctorServices: [],
-      // Clear previous data
       selectedDoctorId: event.doctorId,
     ));
 
@@ -347,8 +335,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       result.fold(
         (failure) {
           emit(state.copyWith(
-            loading: false,
-            error: true,
+            getServicesByDoctorIdStatus: FormzSubmissionStatus.failure,
             errorMessage: failure.message,
             doctorServices: [],
           ));
@@ -356,8 +343,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         },
         (services) {
           emit(state.copyWith(
-            loading: false,
-            success: true,
+            getServicesByDoctorIdStatus: FormzSubmissionStatus.success,
             doctorServices: services.toList(),
           ));
         },
@@ -366,8 +352,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       LogService.e("Error fetching doctor services: ${e.toString()}");
       if (!isClosed) {
         emit(state.copyWith(
-          loading: false,
-          error: true,
+          getServicesByDoctorIdStatus: FormzSubmissionStatus.failure,
           errorMessage: 'Failed to load doctor services',
           doctorServices: [],
         ));

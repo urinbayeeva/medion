@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
@@ -12,6 +13,7 @@ import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_container.dart';
 import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
+import 'package:medion/presentation/component/custom_tabbar.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/booking/phone_callback_dialog.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/service_widget.dart';
@@ -39,6 +41,7 @@ class DirectionInfoPage extends StatefulWidget {
 
 class _DirectionInfoPageState extends State<DirectionInfoPage> {
   final ValueNotifier<String> _tabItem = ValueNotifier('');
+  final ValueNotifier<int> _index = ValueNotifier(0);
   final ValueNotifier<bool> _selectItemHelper = ValueNotifier(false);
   int selectedIndex = 0;
   bool changeSum = false;
@@ -102,214 +105,219 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
   Widget build(BuildContext context) {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
-        return Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            elevation: 0,
-            backgroundColor: colors.shade0,
-            foregroundColor: colors.darkMode900,
-            scrolledUnderElevation: 0,
-            leading: WScaleAnimation(
-              child: Icon(Icons.keyboard_arrow_left, size: 32.h),
-              onTap: () {
-                Navigator.of(context).pop();
-                context.read<BottomNavBarController>().changeNavBar(false);
-              },
-            ),
-            title: Text("doctors".tr(), style: fonts.regularMain),
-            actions: [
-              AnimatedRotation(
-                turns: turns,
-                duration: const Duration(seconds: 1),
-                child: AnimationButtonEffect(
-                  onTap: () {
-                    setState(() {
-                      turns += 2 / 4;
-                      changeSum = !changeSum;
-                      dbService.setCurrencyPreference(changeSum);
-                    });
-                  },
-                  child: icons.valyutaChange.svg(width: 20.w, height: 20.h),
-                ),
-              ),
-              12.w.horizontalSpace,
-            ],
-          ),
-          backgroundColor: colors.backgroundColor,
-          body: BlocBuilder<BookingBloc, BookingState>(
-            builder: (context, state) {
-              if (state.loading || state.medicalModel == null) {
-                return Expanded(child: _buildShimmerView(colors));
-              }
-              if (state.items.every((item) => !item.canSee)) {
-                return Center(
-                  child: Text(
-                    "no_result_found".tr(),
-                    style: fonts.regularMain,
+        return BlocBuilder<BookingBloc, BookingState>(
+          buildWhen: (o, n) {
+            final status = o.fetchHomePageBookingDoctorsStatus != n.fetchHomePageBookingDoctorsStatus;
+            final model = o.medicalModel != n.medicalModel;
+            final item = o.items != n.items;
+
+            return status || model || item;
+          },
+          builder: (context, state) {
+            if (state.fetchHomePageBookingDoctorsStatus.isInProgress ||
+                state.fetchHomePageBookingDoctorsStatus.isInitial) {
+              return Scaffold(
+                appBar: AppBar(
+                  centerTitle: true,
+                  elevation: 0,
+                  backgroundColor: colors.shade0,
+                  foregroundColor: colors.darkMode900,
+                  scrolledUnderElevation: 0,
+                  leading: WScaleAnimation(
+                    child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      context.read<BottomNavBarController>().changeNavBar(false);
+                    },
                   ),
-                );
-              }
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  6.h.verticalSpace,
-                  SizedBox(
-                    height: 36.h,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: state.items.length > 3 ? MainAxisAlignment.center : MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        spacing: 5.w,
-                        children: [
-                          ...List.generate(
-                            state.items.length,
-                            (index) {
-                              final item = state.items[index];
-                              if (item.canSee == false) return const SizedBox.shrink();
-                              return Padding(
-                                padding: EdgeInsets.only(left: index == 0 ? 10.0.w : 0.0),
-                                child: ValueListenableBuilder(
-                                  valueListenable: _tabItem,
-                                  builder: (context, value, child) {
-                                    select(state);
-                                    return WScaleAnimation(
-                                      onTap: () {
-                                        _tabItem.value = item.title;
-                                        tabForScrollSection(index, state.items);
-                                      },
-                                      child: Container(
-                                        constraints: BoxConstraints(minWidth: 0.2.sw),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8.r),
-                                          color: _tabItem.value == item.title ? colors.error500 : colors.shade0,
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 6.h),
-                                          child: Center(
+                  title: Text(widget.name ?? "doctors".tr(), style: fonts.regularMain),
+                ),
+                backgroundColor: colors.backgroundColor,
+                body: _buildShimmerView(colors),
+              );
+            }
+            if (state.items.every((item) => !item.canSee || state.medicalModel == null)) {
+              return Scaffold(
+                appBar: AppBar(
+                  centerTitle: true,
+                  elevation: 0,
+                  backgroundColor: colors.shade0,
+                  foregroundColor: colors.darkMode900,
+                  scrolledUnderElevation: 0,
+                  leading: WScaleAnimation(
+                    child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      context.read<BottomNavBarController>().changeNavBar(false);
+                    },
+                  ),
+                  title: Text(widget.name ?? "doctors".tr(), style: fonts.regularMain),
+                ),
+                backgroundColor: colors.backgroundColor,
+                body: Center(
+                  child: Text("no_result_found".tr(), style: fonts.regularMain),
+                ),
+              );
+            }
+            return DefaultTabController(
+              length: state.items.where((item) => item.canSee).length,
+              child: Scaffold(
+                appBar: AppBar(
+                  centerTitle: true,
+                  elevation: 0,
+                  backgroundColor: colors.shade0,
+                  foregroundColor: colors.darkMode900,
+                  scrolledUnderElevation: 0,
+                  leading: WScaleAnimation(
+                    child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      context.read<BottomNavBarController>().changeNavBar(false);
+                    },
+                  ),
+                  title: Text(widget.name ?? "doctors".tr(), style: fonts.regularMain),
+                  actions: [
+                    AnimatedRotation(
+                      turns: turns,
+                      duration: const Duration(seconds: 1),
+                      child: AnimationButtonEffect(
+                        onTap: () {
+                          setState(() {
+                            turns += 2 / 4;
+                            changeSum = !changeSum;
+                            dbService.setCurrencyPreference(changeSum);
+                          });
+                        },
+                        child: icons.valyutaChange.svg(width: 20.w, height: 20.h),
+                      ),
+                    ),
+                    12.w.horizontalSpace,
+                  ],
+                  bottom: PreferredSize(
+                    preferredSize: Size(1.sw, 42.h),
+                    child: ValueListenableBuilder(
+                      valueListenable: _index,
+                      builder: (ctx, val, child) {
+                        return CustomTabbarBlack(
+                          tabs: state.items.where((e) => e.canSee).map((e) => e.title.tr()).toList(),
+                          onTap: (val) {
+                            _index.value = val;
+                            tabForScrollSection(val, state.items);
+                          },
+                          selectedIndex: _index.value,
+                          padding: EdgeInsets.only(right: 12.w),
+                          labelPadding: EdgeInsets.only(right: 16.w, left: 12),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                backgroundColor: colors.backgroundColor,
+                body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    6.h.verticalSpace,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        controller: _controller,
+                        child: Column(
+                          children: [
+                            ...List.generate(
+                              state.items.length,
+                              (index) {
+                                final item = state.items[index];
+                                return Column(
+                                  key: item.itemKey,
+                                  children: [
+                                    if (item.checker.isDiscount && item.canSee) ...{
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                             child: Text(
                                               item.title.tr(),
-                                              style: fonts.regularMain.copyWith(
-                                                fontSize: 14.sp,
-                                                color:
-                                                    _tabItem.value == item.title ? colors.shade0 : colors.darkMode900,
-                                              ),
+                                              textAlign: TextAlign.left,
+                                              style: fonts.regularMain,
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                          )
-                        ],
+                                          DirectionDiscountGrid(state: state, colors: colors, fonts: fonts),
+                                        ],
+                                      )
+                                    },
+                                    if (item.checker.isInfo && item.canSee) ...{
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                            child: Text(
+                                              item.title.tr(),
+                                              textAlign: TextAlign.left,
+                                              style: fonts.regularMain,
+                                            ),
+                                          ),
+                                          CContainer(
+                                            margin: EdgeInsets.symmetric(horizontal: 12.w),
+                                            width: 1.sw,
+                                            text: state.medicalModel!.decodedTitle,
+                                          ),
+                                        ],
+                                      )
+                                    },
+                                    if (item.checker.isDoctors && item.canSee) ...{
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                            child: Text(
+                                              item.title.tr(),
+                                              textAlign: TextAlign.left,
+                                              style: fonts.regularMain,
+                                            ),
+                                          ),
+                                          DirectionDoctorsGrid(state: state),
+                                        ],
+                                      )
+                                    },
+                                    if (item.checker.isService && item.canSee) ...{
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                            child: Text(
+                                              item.title.tr(),
+                                              textAlign: TextAlign.left,
+                                              style: fonts.regularMain,
+                                            ),
+                                          ),
+                                          _buildServicesList(state),
+                                        ],
+                                      )
+                                    },
+                                  ],
+                                );
+                              },
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  6.h.verticalSpace,
-                  Expanded(
-                    child: SingleChildScrollView(
-                      controller: _controller,
-                      child: Column(
-                        children: [
-                          ...List.generate(
-                            state.items.length,
-                            (index) {
-                              final item = state.items[index];
-                              return Column(
-                                key: item.itemKey,
-                                children: [
-                                  if (item.checker.isDiscount && item.canSee) ...{
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                          child: Text(
-                                            item.title.tr(),
-                                            textAlign: TextAlign.left,
-                                            style: fonts.regularMain,
-                                          ),
-                                        ),
-                                        DirectionDiscountGrid(state: state, colors: colors, fonts: fonts),
-                                      ],
-                                    )
-                                  },
-                                  if (item.checker.isInfo && item.canSee) ...{
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                          child: Text(
-                                            item.title.tr(),
-                                            textAlign: TextAlign.left,
-                                            style: fonts.regularMain,
-                                          ),
-                                        ),
-                                        CContainer(
-                                          margin: EdgeInsets.symmetric(horizontal: 12.w),
-                                          width: 1.sw,
-                                          text: state.medicalModel!.decodedTitle,
-                                        ),
-                                      ],
-                                    )
-                                  },
-                                  if (item.checker.isDoctors && item.canSee) ...{
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                          child: Text(
-                                            item.title.tr(),
-                                            textAlign: TextAlign.left,
-                                            style: fonts.regularMain,
-                                          ),
-                                        ),
-                                        DirectionDoctorsGrid(state: state),
-                                      ],
-                                    )
-                                  },
-                                  if (item.checker.isService && item.canSee) ...{
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                          child: Text(
-                                            item.title.tr(),
-                                            textAlign: TextAlign.left,
-                                            style: fonts.regularMain,
-                                          ),
-                                        ),
-                                        _buildServicesList(state),
-                                      ],
-                                    )
-                                  },
-                                ],
-                              );
-                            },
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-          bottomNavigationBar: BlocBuilder<BookingBloc, BookingState>(
-            builder: (context, state) {
-              if (selectedServiceIds.isEmpty || state.medicalModel == null) {
-                return const SizedBox.shrink();
-              }
-              return _buildSelectedServicesContainer(context, state, colors, fonts);
-            },
-          ),
+                  ],
+                ),
+                bottomNavigationBar: BlocBuilder<BookingBloc, BookingState>(
+                  builder: (context, state) {
+                    if (selectedServiceIds.isEmpty || state.medicalModel == null) {
+                      return const SizedBox.shrink();
+                    }
+                    return _buildSelectedServicesContainer(context, state, colors, fonts);
+                  },
+                ),
+              ),
+            );
+          },
         );
       },
     );
@@ -601,12 +609,6 @@ class DirectionDoctorsGrid extends StatelessWidget {
             padding: EdgeInsets.zero,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //   crossAxisCount: 2,
-            //   crossAxisSpacing: 12.w,
-            //   mainAxisSpacing: 12.h,
-            //   childAspectRatio: 0.52.h,
-            // ),
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 0.9.sw,
               mainAxisSpacing: 10,

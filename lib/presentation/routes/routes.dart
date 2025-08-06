@@ -346,14 +346,14 @@ class AppRoutes {
     );
   }
 
-  static MaterialPageRoute getAppointmentPage(int index, List<int> services) {
-    return MaterialPageRoute(
-      builder: (_) => AppointmentPage(
-        index: index,
-        services: services,
-      ),
-    );
-  }
+  // static MaterialPageRoute getAppointmentPage(int index, List<int> services) {
+  //   return MaterialPageRoute(
+  //     builder: (_) => AppointmentPage(
+  //       index: index,
+  //       services: services,
+  //     ),
+  //   );
+  // }
 
   static MaterialPageRoute getCareerPage() {
     return MaterialPageRoute(

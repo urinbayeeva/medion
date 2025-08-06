@@ -13,7 +13,6 @@ import 'package:medion/domain/models/notification/notification_model.dart';
 import 'package:medion/infrastructure/services/download_service.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/c_button.dart';
-import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
 import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/customer_review/review_card.dart';
@@ -41,8 +40,11 @@ class SingleNotification extends StatefulWidget {
 class _SingleNotificationState extends State<SingleNotification> {
   @override
   void initState() {
-    if (widget.id != 0 || (widget.notification != null && widget.notification!.isRead == false)) {
+    if (widget.id != 0) {
       context.read<NotificationBloc>().add(NotificationEvent.readNotification(index: widget.id));
+    }
+    if (widget.notification?.id != null) {
+      context.read<NotificationBloc>().add(NotificationEvent.readNotification(index: widget.notification!.id!));
     }
     context.read<NotificationBloc>().add(NotificationEvent.getSingleNotification(pk: widget.id));
     super.initState();

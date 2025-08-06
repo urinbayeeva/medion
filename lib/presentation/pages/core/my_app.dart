@@ -68,8 +68,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<DBService>(create: (_) => dbService),
-        ChangeNotifierProvider(create: (_) => SelectedServicesProvider()),
-        ChangeNotifierProvider(create: (_) => SelectedServiceIdsProvider()),
+        // ChangeNotifierProvider(create: (_) => SelectedServicesProvider()),
+        // ChangeNotifierProvider(create: (_) => SelectedServiceIdsProvider()),
         ChangeNotifierProvider(create: (_) => TimeSelectionProvider()),
         ChangeNotifierProvider(create: (_) => CurrencyChangeProvider()),
         ChangeNotifierProvider(create: (_) => ServicesPageProvider()),

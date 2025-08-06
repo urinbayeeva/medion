@@ -1,17 +1,15 @@
 import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
-import 'package:hive/hive.dart';
 import 'package:medion/application/vacancy_bloc/vacancy_bloc.dart';
 import 'package:medion/domain/models/recruitment/recruitment_model.dart';
-import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/w_html/w_html.dart';
-import 'package:medion/presentation/pages/others/career/career_page.dart';
 import 'package:medion/presentation/pages/others/career/widgets/resume_filling.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -410,32 +408,29 @@ class _VacancySingleState extends State<VacancySingle> {
     required CustomColorSet colors,
     required FontSet fonts,
   }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.shade0,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: SizedBox(
-          width: double.infinity,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 14.w),
-                child: Text(title, style: fonts.regularMain),
-              ),
-              WHtml(
-                data: htmlText,
-                backgroundColor: colors.shade0,
-                margin: Margins.symmetric(horizontal: 4.w, vertical: 2.h).copyWith(bottom: Margin(0)),
-              ),
-            ],
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 4.h),
+      padding: EdgeInsets.symmetric(vertical: 10.h),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: colors.shade0,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 14.w),
+            child: Text(title, style: fonts.regularMain),
           ),
-        ),
+          WHtml(
+            data: htmlText,
+            backgroundColor: colors.shade0,
+            margin: Margins.symmetric(horizontal: 4.w, vertical: 2.h).copyWith(bottom: Margin(0)),
+          ),
+        ],
       ),
     );
   }

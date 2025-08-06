@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +24,11 @@ import 'package:medion/presentation/component/custom_button.dart';
 import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/component/phone_number_component.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
-import 'package:medion/presentation/pages/appointment/component/service_selection_model.dart';
 import 'package:medion/presentation/pages/booking/phone_callback_dialog.dart';
+import 'package:medion/presentation/pages/booking/widgets/show_selected_service.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
 import 'package:medion/presentation/pages/main/main_page.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -35,15 +37,29 @@ import 'package:medion/utils/format_currency.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+class BookingInfo {
+  final int serviceId;
+  final String serviceName;
+  final Service service;
+
+  const BookingInfo({
+    required this.serviceId,
+    required this.serviceName,
+    required this.service,
+  });
+}
+
 class BookingSecondPage extends StatefulWidget {
   final bool isUSD;
   final int serviceId;
+  final String serviceName;
   final bool show;
 
   const BookingSecondPage({
     super.key,
     required this.isUSD,
     required this.serviceId,
+    required this.serviceName,
     required this.show,
   });
 
@@ -52,8 +68,9 @@ class BookingSecondPage extends StatefulWidget {
 }
 
 class _BookingSecondPageState extends State<BookingSecondPage> {
-  late final SelectedServiceIdsProvider _serviceIdsProvider;
-  late final SelectedServicesProvider _servicesProvider;
+  // late final SelectedServiceIdsProvider _serviceIdsProvider;
+  // late final SelectedServicesProvider _servicesProvider;
+  late final BookingBloc _bloc;
   int chose = 0;
   int? selectedIndex;
   List<Service> selectedServices = [];
@@ -62,7 +79,8 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
   bool changeSum = false;
   late DBService dbService;
   late FocusNode focusNode;
-  late GlobalKey<FormState> _formKey;
+
+  // late GlobalKey<FormState> _formKey;
   late TextEditingController _phoneNumberController;
   late TextEditingController _searchController;
   List<Category> _filteredCategories = [];
@@ -71,70 +89,70 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
   @override
   void initState() {
     super.initState();
+    _bloc = context.read<BookingBloc>();
     _phoneNumberController = TextEditingController(text: "+998 ");
     _searchController = TextEditingController();
-    _formKey = GlobalKey<FormState>();
+    // _formKey = GlobalKey<FormState>();
     focusNode = FocusNode();
-    _initializeDBService();
-    _serviceIdsProvider = Provider.of<SelectedServiceIdsProvider>(context, listen: false);
-    _servicesProvider = Provider.of<SelectedServicesProvider>(context, listen: false);
+    // _initializeDBService();
+    // _serviceIdsProvider = Provider.of<SelectedServiceIdsProvider>(context, listen: false);
+    // _servicesProvider = Provider.of<SelectedServicesProvider>(context, listen: false);
     // Clear services for the current serviceId
-    _servicesProvider.clearServices(widget.serviceId);
-    _serviceIdsProvider.clearServiceIds(widget.serviceId);
-    _serviceIdsProvider.addListener(_updateSelectedServices);
+    /// _servicesProvider.clearServices(widget.serviceId);
+    /// _serviceIdsProvider.clearServiceIds(widget.serviceId);
+    // _serviceIdsProvider.addListener(_updateSelectedServices);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<BookingBloc>().add(
-            BookingEvent.fetchCategoryServices(id: widget.serviceId),
-          );
+      _bloc.add(BookingEvent.fetchCategoryServices(id: widget.serviceId));
+      // _serviceIdsProvider.clearServiceIds(widget.serviceId);
     });
 
-    _updateSelectedServices();
+    // _updateSelectedServices();
   }
 
   @override
   void dispose() {
-    _serviceIdsProvider.removeListener(_updateSelectedServices);
     _phoneNumberController.dispose();
     _searchController.dispose();
     focusNode.dispose();
     _searchDebounce?.cancel();
+    // _serviceIdsProvider.removeListener(_updateSelectedServices);
     // Clear services for the current serviceId
-    _servicesProvider.clearServices(widget.serviceId);
-    _serviceIdsProvider.clearServiceIds(widget.serviceId);
+    /// _servicesProvider.clearServices(widget.serviceId);
+    /// _serviceIdsProvider.clearServiceIds(widget.serviceId);
     super.dispose();
   }
 
-  Future<void> _initializeDBService() async {
-    dbService = await DBService.create;
-    setState(() {
-      changeSum = dbService.getCurrencyPreference;
-    });
-  }
+  // Future<void> _initializeDBService() async {
+  //   dbService = await DBService.create;
+  //   setState(() {
+  //     changeSum = dbService.getCurrencyPreference;
+  //   });
+  // }
 
-  void _updateSelectedServices() {
-    if (!mounted) return;
-    final bookingState = context.read<BookingBloc>().state;
-    final selectedIds = _serviceIdsProvider.getSelectedServiceIds(widget.serviceId);
-
-    setState(() {
-      selectedServices = bookingState.categoryServices
-          .expand((category) => category.services)
-          .where((service) => selectedIds.contains(service.id))
-          .toList();
-
-      chose = selectedServices.length;
-      selectedServiceIDCatch
-        ..clear()
-        ..addAll(selectedIds);
-
-      if (_searchController.text.isEmpty) {
-        _filteredCategories = bookingState.categoryServices.toList();
-      }
-
-      // Warn if there are selected services from a different serviceId
-    });
-  }
+  // void _updateSelectedServices() {
+  //   if (!mounted) return;
+  //   final bookingState = context.read<BookingBloc>().state;
+  //   // final selectedIds = _serviceIdsProvider.getSelectedServiceIds(widget.serviceId);
+  //
+  //   setState(() {
+  //     selectedServices = bookingState.categoryServices
+  //         .expand((category) => category.services)
+  //         .where((service) => selectedIds.contains(service.id))
+  //         .toList();
+  //
+  //     chose = selectedServices.length;
+  //     selectedServiceIDCatch
+  //       ..clear()
+  //       ..addAll(selectedIds);
+  //
+  //     if (_searchController.text.isEmpty) {
+  //       _filteredCategories = bookingState.categoryServices.toList();
+  //     }
+  //
+  //     // Warn if there are selected services from a different serviceId
+  //   });
+  // }
 
   void _filterServices(String query) {
     if (!mounted) return;
@@ -157,7 +175,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
       final lowercaseQuery = query.toLowerCase();
       try {
         final filtered = bookingState.categoryServices.where((category) {
-          final categoryName = category.name?.toString().toLowerCase() ?? '';
+          final categoryName = category.name.toString().toLowerCase();
           return categoryName.contains(lowercaseQuery) ||
               category.services.any((service) {
                 final serviceName = service.name?.toLowerCase() ?? '';
@@ -186,107 +204,22 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
   }
 
   void _showPhoneCallbackDialog(BuildContext context, colors, fonts, List<int> serviceIds) async {
-    bool? confirmCallBack = await showDialog<bool>(
+    await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: colors.shade0,
-        content: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Center(
-              child: Text(
-                "Обратный звонок".tr(),
-                style: fonts.mediumMain,
-              ),
-            ),
-            12.h.verticalSpace,
-            Text(
-              textAlign: TextAlign.center,
-              "Оставьте свой номер телефона и мы вам перезвоним".tr(),
-              style: fonts.xSmallMain.copyWith(fontSize: 14.sp),
-            ),
-            12.h.verticalSpace,
-            Text("contact_phone_number".tr(), style: fonts.regularLink),
-            CustomTextField(
-              autoFocus: true,
-              title: "",
-              keyboardType: TextInputType.phone,
-              onChanged: (value) {
-                if (value.length >= 17) {
-                  setState(() {});
-                }
-              },
-              controller: _phoneNumberController,
-              formatter: <TextInputFormatter>[InternationalPhoneFormatter()],
-              hintText: '+998',
-              validator: (String? text) {},
-            ),
-            30.h.verticalSpace,
-            CButton(
-              title: "send".tr(),
-              onTap: () async {
-                final phone = _phoneNumberController.text;
-
-                final response = await http.post(
-                  Uri.parse('${Constants.baseUrlP}/help/call'),
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: jsonEncode({
-                    'phone': phone,
-                    'service_ids': serviceIds,
-                  }),
-                );
-                debugPrint("Status Code: ${response.statusCode}");
-                Navigator.of(context).pop();
-
-                if (response.statusCode == 200) {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        backgroundColor: colors.shade0,
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset("assets/icons/done.svg"),
-                            8.h.verticalSpace,
-                            Text("Заявка оставлена", style: fonts.mediumMain),
-                            4.h.verticalSpace,
-                            Text(
-                              textAlign: TextAlign.center,
-                              "В скором времени мы вам перезвоним по поводу вашей заявки",
-                              style: fonts.xSmallMain,
-                            ),
-                            30.h.verticalSpace,
-                            CButton(
-                              title: "back".tr(),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const MainPage(index: 0),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Ошибка отправки данных")),
-                  );
-                }
-              },
-            ),
-          ],
+        content: PhoneCallBack(
+          fonts: fonts,
+          onChanged: (value) {
+            if (value.length >= 17) {
+              setState(() {});
+            }
+          },
+          controller: _phoneNumberController,
+          serviceIds: serviceIds,
+          colors: colors,
         ),
-        actions: [],
+        actions: const [],
       ),
     );
   }
@@ -328,23 +261,15 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                   style: fonts.regularLink,
                                 ),
                                 actions: [
-                                  TextButton(
-                                    style: ButtonStyle(
-                                      foregroundColor: MaterialStateProperty.all(Colors.black),
-                                      overlayColor: MaterialStateProperty.all(Colors.black.withOpacity(0.1)),
+                                  WScaleAnimation(
+                                    onTap: () => Navigator.of(context).pop(),
+                                    child: Text(
+                                      "cancel".tr(),
+                                      style: fonts.regularMain.copyWith(color: colors.error500),
                                     ),
-                                    child: Text("cancel".tr()),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
                                   ),
-                                  TextButton(
-                                    style: ButtonStyle(
-                                      foregroundColor: MaterialStateProperty.all(Colors.red),
-                                      overlayColor: MaterialStateProperty.all(Colors.red.withOpacity(0.1)),
-                                    ),
-                                    child: Text("confirm".tr()),
-                                    onPressed: () {
+                                  WScaleAnimation(
+                                    onTap: () {
                                       Navigator.of(context).pop();
                                       setState(() {
                                         turns += 2 / 4;
@@ -352,6 +277,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                         dbService.setCurrencyPreference(changeSum);
                                       });
                                     },
+                                    child: Text("confirm".tr(), style: fonts.regularMain),
                                   ),
                                 ],
                               );
@@ -383,7 +309,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                         ],
                       ),
                     ),
-                    CustomProgressBar(count: 2, allCount: 5),
+                    const CustomProgressBar(count: 2, allCount: 5),
                     2.h.verticalSpace,
                     CustomTextField(
                       controller: _searchController,
@@ -396,6 +322,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                 ),
               ),
               BlocConsumer<BookingBloc, BookingState>(
+                bloc: _bloc,
                 listener: (context, state) {
                   if (state.categoryServices.isNotEmpty && mounted) {
                     setState(() {
@@ -405,8 +332,16 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                     });
                   }
                 },
+                buildWhen: (o, n) {
+                  final services = o.selectedServices != n.selectedServices;
+                  final status = o.fetchCategoryServicesStatus != n.fetchCategoryServicesStatus;
+                  final items = o.services != n.services;
+                  final length = o.services.length != n.services.length;
+
+                  return services || status || items || length;
+                },
                 builder: (context, state) {
-                  if (state.loading) {
+                  if (state.fetchCategoryServicesStatus.isInProgress || state.fetchCategoryServicesStatus.isInitial) {
                     return Expanded(
                       child: ShimmerView(
                         child: ListView.builder(
@@ -488,7 +423,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                     );
                   }
 
-                  if (state.error || state.categoryServices.isEmpty) {
+                  if (state.fetchCategoryServicesStatus.isFailure || state.categoryServices.isEmpty) {
                     return SizedBox(
                       height: MediaQuery.of(context).size.height * 0.6,
                       child: Center(
@@ -516,10 +451,8 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                       child: CustomListView(
                         onRefresh: () async {
                           if (!mounted) return;
-                          final selectedId = context.read<BookingBloc>().state.selectedServiceId;
-                          context.read<BookingBloc>().add(
-                                BookingEvent.fetchCategoryServices(id: selectedId!),
-                              );
+                          final selectedId = _bloc.state.selectedServiceId;
+                          _bloc.add(BookingEvent.fetchCategoryServices(id: selectedId!));
                           refreshController.refreshCompleted();
                         },
                         refreshController: refreshController,
@@ -595,51 +528,69 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                             ),
                                           ),
                                           const Spacer(),
-                                          AnimationButtonEffect(
-                                            onTap: () {
-                                              if (service.canReceiveCallBack == true) {
-                                                _showPhoneCallbackDialog(context, colors, fonts, [service.id!]);
-                                              } else {
-                                                setState(() {
-                                                  if (_servicesProvider
-                                                      .getSelectedServices(widget.serviceId)
-                                                      .contains(service)) {
-                                                    _servicesProvider.removeService(widget.serviceId, service);
-                                                    _serviceIdsProvider.removeServiceId(widget.serviceId, service.id!);
+                                          Builder(
+                                            builder: (context) {
+                                              final isSelected = state.services.any((e) => e.service == service);
+
+                                              return AnimationButtonEffect(
+                                                onTap: () {
+                                                  if (service.canReceiveCallBack == true) {
+                                                    _showPhoneCallbackDialog(context, colors, fonts, [service.id!]);
                                                   } else {
-                                                    _servicesProvider.addService(widget.serviceId, service);
-                                                    _serviceIdsProvider.addServiceId(widget.serviceId, service.id!);
+                                                    if (isSelected) {
+                                                      _bloc.add(
+                                                        BookingEvent.removeService(
+                                                          id: widget.serviceId,
+                                                          service: service,
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      _bloc.add(
+                                                        BookingEvent.addService(
+                                                          name: widget.serviceName,
+                                                          id: widget.serviceId,
+                                                          service: service,
+                                                        ),
+                                                      );
+                                                    }
+
+                                                    // setState(() {
+                                                    //   if (_servicesProvider
+                                                    //       .getSelectedServices(widget.serviceId)
+                                                    //       .contains(service)) {
+                                                    //     _servicesProvider.removeService(widget.serviceId, service);
+                                                    //     _serviceIdsProvider.removeServiceId(widget.serviceId, service.id!);
+                                                    //   } else {
+                                                    //     _servicesProvider.addService(widget.serviceId, service);
+                                                    //     _serviceIdsProvider.addServiceId(widget.serviceId, service.id!);
+                                                    //   }
+                                                    //   selectedServiceIDCatch
+                                                    //     ..clear()
+                                                    //     ..addAll(
+                                                    //         _serviceIdsProvider.getSelectedServiceIds(widget.serviceId));
+                                                    // });
                                                   }
-                                                  selectedServiceIDCatch
-                                                    ..clear()
-                                                    ..addAll(
-                                                        _serviceIdsProvider.getSelectedServiceIds(widget.serviceId));
-                                                });
-                                              }
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(12.w),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(8.r),
+                                                    color: isSelected
+                                                        // _servicesProvider
+                                                        //         .getSelectedServices(widget.serviceId)
+                                                        //         .contains(service)
+                                                        ? colors.error500
+                                                        : colors.neutral200,
+                                                  ),
+                                                  child: service.canReceiveCallBack == true
+                                                      ? icons.phone
+                                                          .svg(color: isSelected ? colors.shade0 : colors.primary900)
+                                                      : isSelected
+                                                          ? icons.check.svg(color: colors.shade0)
+                                                          : icons.plus.svg(color: colors.primary900),
+                                                ),
+                                              );
                                             },
-                                            child: Container(
-                                              padding: EdgeInsets.all(12.w),
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(8.r),
-                                                color: _servicesProvider
-                                                        .getSelectedServices(widget.serviceId)
-                                                        .contains(service)
-                                                    ? colors.error500
-                                                    : colors.neutral200,
-                                              ),
-                                              child: service.canReceiveCallBack == true
-                                                  ? icons.phone.svg(
-                                                      color: _servicesProvider
-                                                              .getSelectedServices(widget.serviceId)
-                                                              .contains(service)
-                                                          ? colors.shade0
-                                                          : colors.primary900)
-                                                  : _servicesProvider
-                                                          .getSelectedServices(widget.serviceId)
-                                                          .contains(service)
-                                                      ? icons.check.svg(color: colors.shade0)
-                                                      : icons.plus.svg(color: colors.primary900),
-                                            ),
                                           ),
                                         ],
                                       ),
@@ -659,8 +610,13 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                 },
               ),
               BlocBuilder<BookingBloc, BookingState>(
+                bloc: _bloc,
+                buildWhen: (o, n) {
+                  final length = o.services.length != n.services.length;
+                  return length;
+                },
                 builder: (context, state) {
-                  if (state.categoryServices.isEmpty && !state.loading) {
+                  if (state.categoryServices.isEmpty && !state.fetchCategoryServicesStatus.isInProgress) {
                     return const SizedBox.shrink();
                   }
                   return Container(
@@ -682,11 +638,8 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "count_services_selected".tr(namedArgs: {"count": "$chose"}),
-                              style: fonts.xSmallLink.copyWith(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              "count_services_selected".tr(namedArgs: {"count": "${state.services.length}"}),
+                              style: fonts.xSmallLink.copyWith(fontSize: 13.sp, fontWeight: FontWeight.bold),
                             ),
                             AnimationButtonEffect(
                               onTap: () {
@@ -699,45 +652,47 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                     maxHeight: MediaQuery.of(context).size.height * 0.8,
                                   ),
                                   builder: (context) {
-                                    return StatefulBuilder(
-                                      builder: (BuildContext context, StateSetter setModalState) {
-                                        return ListenableProvider.value(
-                                          value: _servicesProvider,
-                                          child: Consumer<SelectedServicesProvider>(
-                                            builder: (context, provider, child) {
-                                              return ConstrainedBox(
-                                                constraints: const BoxConstraints(),
-                                                child: SingleChildScrollView(
-                                                  child: ServiceSelectionModal(
-                                                    selectedServices: provider.getSelectedServices(widget.serviceId),
-                                                    chose: provider.getSelectedServices(widget.serviceId).length,
-                                                    onRemoveService: (service) {
-                                                      if (!mounted) return;
-                                                      _servicesProvider.removeService(widget.serviceId, service);
-                                                      _serviceIdsProvider.removeServiceId(
-                                                          widget.serviceId, service.id!);
-                                                    },
-                                                    onRemoveAllServices: () {
-                                                      if (!mounted) return;
-                                                      _servicesProvider.clearServices(widget.serviceId);
-                                                      _serviceIdsProvider.clearServiceIds(widget.serviceId);
-                                                    },
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      },
+                                    return ShowSelectedService(
+                                      bloc: _bloc,
+                                      colors: colors,
+                                      fonts: fonts,
+                                      icons: icons,
                                     );
+                                    // return StatefulBuilder(
+                                    //   builder: (BuildContext context, StateSetter setModalState) {
+                                    //     return ListenableProvider.value(
+                                    //       value: _servicesProvider,
+                                    //       child: Consumer<SelectedServicesProvider>(
+                                    //         builder: (context, provider, child) {
+                                    //           return ConstrainedBox(
+                                    //             constraints: const BoxConstraints(),
+                                    //             child: SingleChildScrollView(
+                                    //               child: ServiceSelectionModal(
+                                    //                 selectedServices: provider.getSelectedServices(widget.serviceId),
+                                    //                 chose: provider.getSelectedServices(widget.serviceId).length,
+                                    //                 onRemoveService: (service) {
+                                    //                   if (!mounted) return;
+                                    //                   _servicesProvider.removeService(widget.serviceId, service);
+                                    //                   _serviceIdsProvider.removeServiceId(
+                                    //                       widget.serviceId, service.id!);
+                                    //                 },
+                                    //                 onRemoveAllServices: () {
+                                    //                   if (!mounted) return;
+                                    //                   _servicesProvider.clearServices(widget.serviceId);
+                                    //                   _serviceIdsProvider.clearServiceIds(widget.serviceId);
+                                    //                 },
+                                    //               ),
+                                    //             ),
+                                    //           );
+                                    //         },
+                                    //       ),
+                                    //     );
+                                    //   },
+                                    // );
                                   },
                                 );
                               },
-                              child: icons.right.svg(
-                                width: 20.w,
-                                height: 20.h,
-                                color: colors.iconGreyColor,
-                              ),
+                              child: icons.right.svg(width: 20.w, height: 20.h, color: colors.iconGreyColor),
                             ),
                           ],
                         ),
@@ -745,7 +700,7 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                         CustomButton(
                           borderRadius: 8.r,
                           title: "continue".tr(),
-                          isDisabled: chose == 0,
+                          isDisabled: state.services.isEmpty,
                           onPressed: () async {
                             final selectedServices = state.categoryServices
                                 .expand((category) => category.services)
@@ -763,12 +718,17 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                 ),
                               );
                             } else {
+                              final List<BookingInfo> services = state.services;
+                              final allIds =
+                                  services.where((e) => e.service.id != null).map((e) => e.service.id!).toList();
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => MedServiceDoctorChose(
                                     isHome: true,
-                                    servicesID: _serviceIdsProvider.getSelectedServiceIds(widget.serviceId),
+                                    servicesID: [...allIds],
+                                    // servicesID: _serviceIdsProvider.getSelectedServiceIds(widget.serviceId),
                                   ),
                                 ),
                               );
@@ -784,6 +744,117 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
           ),
         );
       },
+    );
+  }
+}
+
+class PhoneCallBack extends StatelessWidget {
+  const PhoneCallBack({
+    super.key,
+    required this.fonts,
+    required this.onChanged,
+    required this.controller,
+    required this.serviceIds,
+    required this.colors,
+  });
+
+  final FontSet fonts;
+  final CustomColorSet colors;
+  final void Function(String)? onChanged;
+  final TextEditingController controller;
+  final List<int> serviceIds;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Center(
+          child: Text(
+            "Обратный звонок".tr(),
+            style: fonts.mediumMain,
+          ),
+        ),
+        12.h.verticalSpace,
+        Text(
+          textAlign: TextAlign.center,
+          "Оставьте свой номер телефона и мы вам перезвоним".tr(),
+          style: fonts.xSmallMain.copyWith(fontSize: 14.sp),
+        ),
+        12.h.verticalSpace,
+        Text("contact_phone_number".tr(), style: fonts.regularLink),
+        CustomTextField(
+          autoFocus: true,
+          title: "",
+          keyboardType: TextInputType.phone,
+          onChanged: onChanged,
+          // onChanged: (value) {
+          //   if (value.length >= 17) {
+          //     setState(() {});
+          //   }
+          // },
+          controller: controller,
+          formatter: <TextInputFormatter>[InternationalPhoneFormatter()],
+          hintText: '+998',
+          validator: (text) => "",
+        ),
+        30.h.verticalSpace,
+        CButton(
+          title: "send".tr(),
+          onTap: () async {
+            final phone = controller.text;
+            log("Status Phone: $phone");
+            final response = await http.post(
+              Uri.parse('${Constants.baseUrlP}/help/call'),
+              headers: {'Content-Type': 'application/json'},
+              body: jsonEncode({'phone': phone, 'service_ids': serviceIds}),
+            );
+            log("Status Code: ${response.statusCode}");
+            Navigator.of(context).pop();
+
+            if (response.statusCode == 200) {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    backgroundColor: colors.shade0,
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset("assets/icons/done.svg"),
+                        8.h.verticalSpace,
+                        Text("Заявка оставлена", style: fonts.mediumMain),
+                        4.h.verticalSpace,
+                        Text(
+                          textAlign: TextAlign.center,
+                          "В скором времени мы вам перезвоним по поводу вашей заявки",
+                          style: fonts.xSmallMain,
+                        ),
+                        30.h.verticalSpace,
+                        CButton(
+                          title: "back".tr(),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const MainPage(index: 0)),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Ошибка отправки данных")),
+              );
+            }
+          },
+        ),
+      ],
     );
   }
 }

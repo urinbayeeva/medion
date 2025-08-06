@@ -108,27 +108,27 @@ abstract class BranchDetailModel implements Built<BranchDetailModel, BranchDetai
   BuiltList<String>? get workDays;
 
   @BuiltValueField(wireName: 'offers')
-  BuiltList<OffersModel>? get offers;
+  BuiltList<OfferModel> get offers;
 
   static Serializer<BranchDetailModel> get serializer => _$branchDetailModelSerializer;
 }
 
-abstract class OffersModel implements Built<OffersModel, OffersModelBuilder> {
-  static Serializer<OffersModel> get serializer => _$offersModelSerializer;
-
-  @BuiltValueField(wireName: 'name')
-  String? get name;
-
-  @BuiltValueField(wireName: 'description')
-  String? get description;
-
-  @BuiltValueField(wireName: 'icon')
-  String? get icon;
-
-  OffersModel._();
-
-  factory OffersModel([void Function(OffersModelBuilder) updates]) = _$OffersModel;
-}
+// abstract class OffersModel implements Built<OffersModel, OffersModelBuilder> {
+//   static Serializer<OffersModel> get serializer => _$offersModelSerializer;
+//
+//   @BuiltValueField(wireName: 'name')
+//   String? get name;
+//
+//   @BuiltValueField(wireName: 'description')
+//   String? get description;
+//
+//   @BuiltValueField(wireName: 'icon')
+//   String? get icon;
+//
+//   OffersModel._();
+//
+//   factory OffersModel([void Function(OffersModelBuilder) updates]) = _$OffersModel;
+// }
 
 abstract class AwardsModel implements Built<AwardsModel, AwardsModelBuilder> {
   static Serializer<AwardsModel> get serializer => _$awardsModelSerializer;

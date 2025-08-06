@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medion/domain/models/models.dart';
+import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class DoctorAppointmentWidget extends StatefulWidget {
-  final Doctor doctor;
-  final List<Map<String, dynamic>> schedules;
+  // final Doctor doctor;
+  // final List<Map<String, dynamic>> schedules;
+  final ThirdBookingDoctor doctor;
+  final List<ThirdBookingDoctorSchedule> schedules;
   final int? serviceId;
   final String? serviceName;
   final String? companyID;
@@ -55,15 +58,17 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             "doctorName": widget.doctor.name,
             "doctorPhoto": widget.doctor.image ?? "",
             "price": widget.doctor.price.toString(),
-            "location": widget.doctor.location,
-            "specialty": widget.doctor.specialty,
+            "location": widget.doctor.location ?? "",
+            "specialty": widget.doctor.specialty ?? '',
             "doctorID": widget.doctor.id.toString(),
             "companyID": widget.companyID ?? "",
           };
 
     if (newAppointment != null) {
+      // add appointment
       AppointmentState.addAppointment(newAppointment);
     } else {
+      // remove appointment
       AppointmentState.removeAppointment(widget.serviceId.toString());
     }
 
@@ -125,7 +130,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
   }
 
   Widget _buildDoctorHeader(CustomColorSet colors, fonts, icons) {
-    final available = widget.doctor.image.isNotEmpty;
+    final available = (widget.doctor.image != null && widget.doctor.image!.isNotEmpty) ? true : false;
 
     return Row(
       children: [
@@ -134,7 +139,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
           child: CircleAvatar(
             radius: 30,
             backgroundColor: colors.neutral300,
-            backgroundImage: available ? NetworkImage(widget.doctor.image) : null,
+            backgroundImage: available ? NetworkImage(widget.doctor.image ?? '') : null,
             child: !available
                 ? SvgPicture.asset(
                     "assets/icons/non_user.svg",
@@ -150,9 +155,11 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(widget.doctor.name, style: fonts.smallMain),
-              Text(widget.doctor.specialty,
-                  style: fonts.xSmallMain.copyWith(color: colors.neutral600, fontSize: 13.sp)),
+              Text(widget.doctor.name ?? "", style: fonts.smallMain),
+              Text(
+                widget.doctor.specialty ?? "",
+                style: fonts.xSmallMain.copyWith(color: colors.neutral600, fontSize: 13.sp),
+              ),
             ],
           ),
         ),
@@ -172,6 +179,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             scrollDirection: Axis.horizontal,
             itemCount: widget.schedules.length,
             itemBuilder: (context, index) {
+              ///String dateKey = widget.schedules[index].time.toString();
               String dateKey = widget.schedules[index].keys.first;
               var formattedDate = DateFormat('EEE, dd MMMM', context.locale.toString()).format(DateTime.parse(dateKey));
 
@@ -210,9 +218,9 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
   }
 
   Widget _buildTimeSlots(
-    context,
-    colors,
-    fonts,
+    BuildContext context,
+    CustomColorSet colors,
+    FontSet fonts,
     currentDate,
     Map<String, String> currentAppointment,
   ) {
@@ -286,6 +294,78 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
         ),
+
+        ///       GridView.builder(
+        //           padding: EdgeInsets.zero,
+        //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //             crossAxisCount: 4,
+        //             childAspectRatio: 2.2,
+        //             crossAxisSpacing: 8.w,
+        //             mainAxisSpacing: 8.h,
+        //           ),
+        //           itemCount: widget.schedules[selectedDateIndex][currentDate].length,
+        //           itemBuilder: (context, index) {
+        //             var timeSlot = widget.schedules[selectedDateIndex][currentDate][index];
+        //             String time = timeSlot['time'];
+        //             bool isActive = timeSlot['active'] ?? true;
+        //
+        //             // Check if this time slot is selected for THIS doctor
+        //             bool isSelected = currentAppointment['date'] == currentDate &&
+        //                 currentAppointment['time'] == time &&
+        //                 currentAppointment['doctorID'] == widget.doctor.id.toString();
+        //
+        //             // Check if the time slot is taken by ANOTHER doctor
+        //             // bool isDisabledForOtherDoctors = AppointmentState.isTimeSlotTaken(
+        //             //   currentDate,
+        //             //   time,
+        //             //   widget.doctor.id.toString(),
+        //             // );
+        //             //
+        //             // bool isDisabled = !isActive || isDisabledForOtherDoctors;
+        //
+        //             return GestureDetector(
+        //               // onTap: isDisabled
+        //               //     ? null // Disable tap if not active or taken
+        //               //     : () {
+        //               //         _handleAppointmentSelection(time, currentDate, isSelected);
+        //               //       },
+        //               onTap: () {},
+        //               child: Container(
+        //                 alignment: Alignment.center,
+        //                 decoration: BoxDecoration(
+        //                   color:
+        //                       // isDisabled
+        //                       3 > 9
+        //                           ? colors.error500.withOpacity(0.2) // Use theme color
+        //                           : isSelected
+        //                               ? colors.primary500
+        //                               : colors.neutral200,
+        //                   borderRadius: BorderRadius.circular(8),
+        //                   border: Border.all(
+        //                     color: isSelected ? colors.error500 : colors.neutral200,
+        //                     width: 2,
+        //                   ),
+        //                 ),
+        //                 child: Text(
+        //                   time,
+        //                   style: TextStyle(
+        //                     color:
+        //                         // isDisabled
+        //
+        //                         3 > 9
+        //                             ? colors.neutral600.withOpacity(0.7)
+        //                             : isSelected
+        //                                 ? colors.shade0
+        //                                 : colors.primary900,
+        //                     fontSize: 13.sp,
+        //                   ),
+        //                 ),
+        //               ),
+        //             );
+        //           },
+        //           shrinkWrap: true,
+        //           physics: const NeverScrollableScrollPhysics(),
+        //         ),
       ],
     );
   }

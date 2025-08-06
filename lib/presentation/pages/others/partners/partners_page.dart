@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
@@ -59,11 +60,11 @@ class _PartnersPageState extends State<PartnersPage> {
           body: BlocBuilder<ContentBloc, ContentState>(
             builder: (context, state) {
               try {
-                if (state.loading) {
+                if (state.fetchContentStatus.isInProgress || state.fetchContentStatus.isInitial) {
                   return Center(child: CircularProgressIndicator(color: colors.error500));
                 }
 
-                if (state.error) {
+                if (state.fetchContentStatus.isFailure) {
                   return Center(
                     child: Text('something_went_wrong'.tr(), style: fonts.regularSemLink),
                   );

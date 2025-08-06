@@ -1,36 +1,34 @@
-import 'dart:developer';
-
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/application/notification/notification_bloc.dart';
-import 'package:medion/domain/models/map/map_model.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/infrastructure/services/push_notification.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
-import 'package:medion/presentation/component/custom_pagination.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
+import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/home/ads.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/pages/home/news/widgets/news_item.dart';
 import 'package:medion/presentation/pages/home/notifications/notification_badge.dart';
 import 'package:medion/presentation/pages/home/notifications/single_notification.dart';
+import 'package:medion/presentation/pages/home/widgets/adress_item.dart';
 import 'package:medion/presentation/pages/home/widgets/build_doctors.dart';
 import 'package:medion/presentation/pages/home/widgets/problem_slidebale_card.dart';
 import 'package:medion/presentation/pages/map/map_with_polylines.dart';
-import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/routes/routes.dart';
+import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/content_type_enum.dart';
@@ -81,7 +79,7 @@ class _HomePageState extends State<HomePage> {
       (message) {
         final Map<String, dynamic> data = message.data;
         if (data.isNotEmpty) {
-          log("subscribeToNotifications onMessageOpenedApp");
+          debugPrint("-- subscribeToNotifications onMessageOpenedApp");
           openMessageApp(data: data, context: context);
         }
       },
@@ -93,7 +91,7 @@ class _HomePageState extends State<HomePage> {
   void handleInitialMessage(BuildContext context) async {
     RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
 
-    log("\n\nhandleInitialMessage initial message: $initialMessage\n\n");
+    debugPrint("-- \n\nhandleInitialMessage initial message: $initialMessage\n\n");
 
     if (initialMessage != null && initialMessage.data.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -104,13 +102,13 @@ class _HomePageState extends State<HomePage> {
 
   void openMessageApp({required Map<String, dynamic> data, required BuildContext context}) async {
     if (_isSingleNotificationScreenOpen) {
-      log("Notification screen already open. Skipping...");
+      debugPrint("-- Notification screen already open. Skipping...");
       return;
     }
 
     _isSingleNotificationScreenOpen = true;
 
-    log("Navigating to SingleNotification screen...");
+    debugPrint("-- Navigating to SingleNotification screen...");
     Navigator.of(context, rootNavigator: true)
         .push(
       MaterialPageRoute(
@@ -119,7 +117,7 @@ class _HomePageState extends State<HomePage> {
     )
         .then((_) {
       _isSingleNotificationScreenOpen = false;
-      log("SingleNotification screen closed. Resetting flag.");
+      debugPrint("-- SingleNotification screen closed. Resetting flag.");
     });
   }
 
@@ -150,56 +148,59 @@ class _HomePageState extends State<HomePage> {
             }
           },
           child: BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) {
-              return CustomPagination(
-                enablePullDown: true,
-                enablePullUp: true,
-                onRetry: () {
-                  context.read<HomeBloc>().add(const HomeEvent.fetchNews());
-                  context.read<BookingBloc>().add(const BookingEvent.fetchHomePageServicesBooking());
-                  context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "news"));
-                  setState(() {});
-
-                  _refreshController.refreshCompleted();
-                },
-                controller: _refreshController,
-                child: Scaffold(
-                  backgroundColor: colors.backgroundColor,
-                  appBar: AppBar(
-                    centerTitle: true,
-                    elevation: 0,
-                    backgroundColor: colors.shade0,
-                    foregroundColor: colors.darkMode900,
-                    scrolledUnderElevation: 0,
-                    title: Text("main".tr(), style: fonts.regularMain),
-                    actions: [
-                      Padding(
-                        padding: EdgeInsets.only(right: 12.w),
-                        child: WScaleAnimation(
-                          onTap: () {
-                            Navigator.of(context, rootNavigator: true).push(AppRoutes.getSearchPage());
-                          },
-                          child: icons.search.svg(height: 19.h),
-                        ),
+            builder: (ctx, state) {
+              return Scaffold(
+                backgroundColor: colors.backgroundColor,
+                appBar: AppBar(
+                  centerTitle: true,
+                  elevation: 0,
+                  backgroundColor: colors.shade0,
+                  foregroundColor: colors.darkMode900,
+                  scrolledUnderElevation: 0,
+                  title: Text("main".tr(), style: fonts.regularMain),
+                  actions: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 12.w),
+                      child: WScaleAnimation(
+                        onTap: () {
+                          Navigator.of(context, rootNavigator: true).push(AppRoutes.getSearchPage());
+                        },
+                        child: icons.search.svg(height: 19.h),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 16.w),
-                        child: NotificationBadge(
-                          icons: icons,
-                          colors: colors,
-                          onTap: () {
-                            context.read<BottomNavBarController>().changeNavBar(true);
-                            Navigator.push(context, AppRoutes.getNotificationPage()).then((value) {
-                              context.read<BottomNavBarController>().changeNavBar(false);
-                            });
-                          },
-                        ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 16.w),
+                      child: NotificationBadge(
+                        icons: icons,
+                        colors: colors,
+                        onTap: () {
+                          Navigator.of(context, rootNavigator: true)
+                              .push(AppRoutes.getNotificationPage())
+                              .then((value) => context.read<BottomNavBarController>().changeNavBar(false));
+                        },
                       ),
-                    ],
-                  ),
-                  body: Padding(
-                    padding: EdgeInsets.zero,
+                    ),
+                  ],
+                ),
+                body: Padding(
+                  padding: EdgeInsets.zero,
+                  child: SmartRefresher(
+                    onRefresh: () {
+                      context.read<BookingBloc>().add(const BookingEvent.fetchHomePageServicesBooking());
+                      // context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "news"));
+                      // context.read<DoctorBloc>().add(const DoctorEvent.fetchDoctors());
+                      // context.read<HomeBloc>().add(const HomeEvent.fetchMedicalServices());
+                      // context.read<HomeBloc>().add(const HomeEvent.fetchCompanyLocation());
+                      // context.read<HomeBloc>().add(const HomeEvent.fetchAds());
+                      // context.read<HomeBloc>().add(const HomeEvent.fetchDiseases());
+                      setState(() {});
+                      _refreshController.refreshCompleted();
+                    },
+                    controller: _refreshController,
+                    enablePullDown: true,
+                    header: const WaterDropMaterialHeader(color: Style.shade0, backgroundColor: Style.error500),
                     child: ListView(
+                      addAutomaticKeepAlives: true,
                       key: const PageStorageKey<String>('home_list_view'),
                       padding: EdgeInsets.zero,
                       children: [
@@ -213,7 +214,13 @@ class _HomePageState extends State<HomePage> {
                         12.h.verticalSpace,
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: _buildOptionsRow(colors, fonts),
+                          child: Row(
+                            children: [
+                              _buildOptionButton("adult", !isChildren, colors, fonts),
+                              4.w.horizontalSpace,
+                              _buildOptionButton("child", isChildren, colors, fonts),
+                            ],
+                          ),
                         ),
                         12.h.verticalSpace,
                         ProblemSlidebaleCard(isChildren: isChildren),
@@ -255,15 +262,9 @@ class _HomePageState extends State<HomePage> {
                                     child: AnimationButtonEffect(
                                       onTap: () {
                                         Navigator.of(context, rootNavigator: true)
-                                            .push(
-                                          AppRoutes.getDirectionInfoPage(
-                                            id: medicalService.categoryId!,
-                                            name: medicalService.title,
-                                          ),
-                                        )
-                                            .then((_) {
-                                          context.read<BottomNavBarController>().changeNavBar(false);
-                                        });
+                                            .push(AppRoutes.getDirectionInfoPage(
+                                                id: medicalService.categoryId!, name: medicalService.title))
+                                            .then((_) => context.read<BottomNavBarController>().changeNavBar(false));
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
@@ -313,10 +314,15 @@ class _HomePageState extends State<HomePage> {
                             buildWhen: (o, n) {
                               final category = o.homePageBookingCategory != n.homePageBookingCategory;
                               final length = o.homePageBookingCategory.length != n.homePageBookingCategory.length;
-                              return category || length;
+                              final status =
+                                  o.fetchHomePageBookingCategoriesStatus != n.fetchHomePageBookingCategoriesStatus;
+                              return category || length || status;
                             },
                             builder: (ctX, state) {
-                              if (state.loading) return _buildDirectionsShimmer(fonts);
+                              if (state.fetchHomePageBookingCategoriesStatus.isInProgress ||
+                                  state.fetchHomePageBookingCategoriesStatus.isInitial) {
+                                return _buildDirectionsShimmer(fonts);
+                              }
                               if (state.homePageBookingCategory.isEmpty) return const SizedBox.shrink();
 
                               final limitedItems = state.homePageBookingCategory.take(10).toList();
@@ -392,13 +398,14 @@ class _HomePageState extends State<HomePage> {
                         BlocBuilder<ContentBloc, ContentState>(
                           buildWhen: (o, n) {
                             final nws = o.contentByType["news"] != n.contentByType["news"];
-                            return nws;
+                            final status = o.fetchContentStatus != n.fetchContentStatus;
+                            return nws || status;
                           },
                           builder: (context, state) {
-                            if (state.loading) {
+                            if (state.fetchContentStatus.isInProgress) {
                               return _buildNewsShimmer();
                             }
-                            if (state.error) {
+                            if (state.fetchContentStatus.isFailure) {
                               return Center(
                                 child: Text('something_went_wrong'.tr(), style: fonts.regularSemLink),
                               );
@@ -496,17 +503,9 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ShimmerContainer(
-                      height: 100.h,
-                      width: 135.w,
-                      borderRadius: 8.r,
-                    ),
+                    ShimmerContainer(height: 100.h, width: 135.w, borderRadius: 8.r),
                     5.h.verticalSpace,
-                    ShimmerContainer(
-                      height: 16.h,
-                      width: 100.w,
-                      borderRadius: 4.r,
-                    ),
+                    ShimmerContainer(height: 16.h, width: 100.w, borderRadius: 4.r),
                   ],
                 ),
               ),
@@ -557,13 +556,7 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(right: 12.w),
-            child: ShimmerView(
-              child: ShimmerContainer(
-                height: 260.h,
-                width: 200.w,
-                borderRadius: 12.r,
-              ),
-            ),
+            child: ShimmerView(child: ShimmerContainer(height: 260.h, width: 200.w, borderRadius: 12.r)),
           );
         },
       ),
@@ -583,16 +576,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildOptionsRow(colors, fonts) {
-    return Row(
-      children: [
-        _buildOptionButton("adult", !isChildren, colors, fonts),
-        4.w.horizontalSpace,
-        _buildOptionButton("child", isChildren, colors, fonts),
-      ],
     );
   }
 
@@ -732,57 +715,5 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _refreshController.dispose();
     super.dispose();
-  }
-}
-
-class HomeLocationCard extends StatelessWidget {
-  const HomeLocationCard({
-    super.key,
-    required this.location,
-    required this.colors,
-    required this.onTap,
-    required this.fonts,
-  });
-
-  final LocationModel location;
-  final CustomColorSet colors;
-  final FontSet fonts;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return WScaleAnimation(
-      onTap: onTap,
-      child: Container(
-        width: 1.sw,
-        height: 64.h,
-        decoration: BoxDecoration(
-          color: colors.shade0,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          spacing: 2.w,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 8.0.w, bottom: 4.h, top: 4.h, right: 6.w),
-              child: CommonImage(
-                width: 60.w,
-                height: 64.h,
-                imageUrl: location.icon,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Container(
-              height: double.infinity,
-              width: 1.w,
-              color: colors.neutral400,
-            ),
-            3.horizontalSpace,
-            Expanded(child: Text(location.address, style: fonts.smallLink))
-          ],
-        ),
-      ),
-    );
   }
 }

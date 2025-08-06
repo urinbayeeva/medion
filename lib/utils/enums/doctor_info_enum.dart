@@ -1,3 +1,19 @@
+import 'package:flutter/material.dart';
+
+class DoctorsInfo {
+  final String title;
+  final bool canSee;
+  final GlobalKey itemKey;
+  final DoctorInfoEnum checker;
+
+  const DoctorsInfo({
+    required this.canSee,
+    required this.title,
+    required this.itemKey,
+    required this.checker,
+  });
+}
+
 enum DoctorInfoEnum {
   about,
   experience,

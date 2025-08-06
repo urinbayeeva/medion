@@ -10,8 +10,7 @@ import 'package:formz/formz.dart';
 import 'package:http/http.dart' as http;
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/selected_provider.dart';
-import 'package:medion/domain/models/booking/booking_type_model.dart'
-    show Service;
+import 'package:medion/domain/models/booking/booking_type_model.dart' show Service;
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
@@ -45,24 +44,22 @@ class SecondServicePage extends StatefulWidget {
 }
 
 class _SecondServicePageState extends State<SecondServicePage> {
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
-  late final SelectedServiceIdsProvider _serviceIdsProvider;
-  late final SelectedServicesProvider _servicesProvider;
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+
+  // late final SelectedServiceIdsProvider _serviceIdsProvider;
+  // late final SelectedServicesProvider _servicesProvider;
   late TextEditingController _phoneNumberController;
 
   @override
   void initState() {
     super.initState();
     _phoneNumberController = TextEditingController(text: "+998 ");
-    _serviceIdsProvider =
-        Provider.of<SelectedServiceIdsProvider>(context, listen: false);
-    _servicesProvider =
-        Provider.of<SelectedServicesProvider>(context, listen: false);
+    // _serviceIdsProvider = Provider.of<SelectedServiceIdsProvider>(context, listen: false);
+    // _servicesProvider = Provider.of<SelectedServicesProvider>(context, listen: false);
     // Clear services for the current widget.id
-    _servicesProvider.clearServices(widget.id);
-    _serviceIdsProvider.clearServiceIds(widget.id);
-    _serviceIdsProvider.addListener(_updateSelectedServices);
+    // _servicesProvider.clearServices(widget.id);
+    // _serviceIdsProvider.clearServiceIds(widget.id);
+    // _serviceIdsProvider.addListener(_updateSelectedServices);
 
     // Fetch category services for the current widget.id
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -74,12 +71,12 @@ class _SecondServicePageState extends State<SecondServicePage> {
 
   @override
   void dispose() {
-    _serviceIdsProvider.removeListener(_updateSelectedServices);
+    // _serviceIdsProvider.removeListener(_updateSelectedServices);
     _refreshController.dispose();
     _phoneNumberController.dispose();
     // Clear services for the current widget.id
-    _servicesProvider.clearServices(widget.id);
-    _serviceIdsProvider.clearServiceIds(widget.id);
+    // _servicesProvider.clearServices(widget.id);
+    // _serviceIdsProvider.clearServiceIds(widget.id);
     super.dispose();
   }
 
@@ -90,8 +87,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
     });
   }
 
-  int get _selectedServicesCount =>
-      _servicesProvider.getSelectedServices(widget.id).length;
+  // int get _selectedServicesCount => _servicesProvider.getSelectedServices(widget.id).length;
 
   Future<void> _handleRefresh() async {
     if (!mounted) return;
@@ -103,13 +99,13 @@ class _SecondServicePageState extends State<SecondServicePage> {
 
   Future<void> _handleServiceSelection(Service service) async {
     setState(() {
-      if (_servicesProvider.getSelectedServices(widget.id).contains(service)) {
-        _servicesProvider.removeService(widget.id, service);
-        _serviceIdsProvider.removeServiceId(widget.id, service.id!);
-      } else {
-        _servicesProvider.addService(widget.id, service);
-        _serviceIdsProvider.addServiceId(widget.id, service.id!);
-      }
+      // if (_servicesProvider.getSelectedServices(widget.id).contains(service)) {
+      //   _servicesProvider.removeService(widget.id, service);
+      //   _serviceIdsProvider.removeServiceId(widget.id, service.id!);
+      // } else {
+      //   _servicesProvider.addService(widget.id, service);
+      //   _serviceIdsProvider.addServiceId(widget.id, service.id!);
+      // }
     });
   }
 
@@ -135,8 +131,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 12),
-                Text("contact_phone_number".tr(),
-                    style: Theme.of(context).textTheme.labelLarge),
+                Text("contact_phone_number".tr(), style: Theme.of(context).textTheme.labelLarge),
                 CustomTextField(
                   autoFocus: true,
                   title: "",
@@ -155,43 +150,40 @@ class _SecondServicePageState extends State<SecondServicePage> {
                     final phone = _phoneNumberController.text;
                     if (phone.isEmpty || phone.length < 13) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content:
-                                Text("Please enter a valid phone number".tr())),
+                        SnackBar(content: Text("Please enter a valid phone number".tr())),
                       );
                       return;
                     }
 
-                    try {
-                      final response = await http.post(
-                        Uri.parse('${Constants.baseUrlP}/help/call'),
-                        headers: {'Content-Type': 'application/json'},
-                        body: jsonEncode({
-                          'phone': phone,
-                          'service_ids': _serviceIdsProvider
-                              .getSelectedServiceIds(widget.id)
-                              .toList(),
-                        }),
-                      );
-
-                      if (!mounted) return;
-
-                      Navigator.of(context).pop(response.statusCode == 200);
-
-                      if (response.statusCode == 200) {
-                        _showSuccessDialog(context);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text("Ошибка отправки данных".tr())),
-                        );
-                      }
-                    } catch (e) {
-                      if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Connection error".tr())),
-                      );
-                    }
+                    // try {
+                    //   final response = await http.post(
+                    //     Uri.parse('${Constants.baseUrlP}/help/call'),
+                    //     headers: {'Content-Type': 'application/json'},
+                    //     body: jsonEncode({
+                    //       'phone': phone,
+                    //       'service_ids': _serviceIdsProvider
+                    //           .getSelectedServiceIds(widget.id)
+                    //           .toList(),
+                    //     }),
+                    //   );
+                    //
+                    //   if (!mounted) return;
+                    //
+                    //   Navigator.of(context).pop(response.statusCode == 200);
+                    //
+                    //   if (response.statusCode == 200) {
+                    //     _showSuccessDialog(context);
+                    //   } else {
+                    //     ScaffoldMessenger.of(context).showSnackBar(
+                    //       SnackBar(content: Text("Ошибка отправки данных".tr())),
+                    //     );
+                    //   }
+                    // } catch (e) {
+                    //   if (!mounted) return;
+                    //   ScaffoldMessenger.of(context).showSnackBar(
+                    //     SnackBar(content: Text("Connection error".tr())),
+                    //   );
+                    // }
                   },
                 ),
               ],
@@ -212,8 +204,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
           children: [
             SvgPicture.asset("assets/icons/done.svg"),
             const SizedBox(height: 8),
-            Text("Заявка оставлена",
-                style: Theme.of(context).textTheme.titleMedium),
+            Text("Заявка оставлена", style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 4),
             Text(
               textAlign: TextAlign.center,
@@ -226,8 +217,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
               onTap: () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const MainPage(index: 0)),
+                  MaterialPageRoute(builder: (context) => const MainPage(index: 0)),
                   (route) => false,
                 );
               },
@@ -239,26 +229,26 @@ class _SecondServicePageState extends State<SecondServicePage> {
   }
 
   Future<void> _navigateToAppointmentPage(BuildContext context) async {
-    final requiresCallBack = _servicesProvider
-        .getSelectedServices(widget.id)
-        .any((service) => service.canReceiveCallBack == true);
-
-    if (requiresCallBack) {
-      final success = await _showCallBackDialog(context);
-      if (success) return;
-    }
-
-    if (!mounted) return;
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AppointmentPage(
-          index: 2,
-          selectedServiceIds:
-              _serviceIdsProvider.getSelectedServiceIds(widget.id).toSet(),
-        ),
-      ),
-    );
+    // final requiresCallBack = _servicesProvider
+    //     .getSelectedServices(widget.id)
+    //     .any((service) => service.canReceiveCallBack == true);
+    //
+    // if (requiresCallBack) {
+    //   final success = await _showCallBackDialog(context);
+    //   if (success) return;
+    // }
+    //
+    // if (!mounted) return;
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => AppointmentPage(
+    //       index: 2,
+    //       selectedServiceIds:
+    //           _serviceIdsProvider.getSelectedServiceIds(widget.id).toSet(),
+    //     ),
+    //   ),
+    // );
   }
 
   @override
@@ -294,30 +284,24 @@ class _SecondServicePageState extends State<SecondServicePage> {
 
                       return CustomExpansionListTile(
                         title: item.name?.toString() ?? "",
-                        description: item.services.isEmpty
-                            ? 'no_services_available'.tr()
-                            : 'services_list'.tr(),
+                        description: item.services.isEmpty ? 'no_services_available'.tr() : 'services_list'.tr(),
                         children: item.services.map((service) {
                           return Container(
                             decoration: BoxDecoration(
                               border: Border(
-                                top: BorderSide(
-                                    width: 1, color: colors.neutral200),
-                                bottom: BorderSide(
-                                    width: 1, color: colors.neutral200),
+                                top: BorderSide(width: 1, color: colors.neutral200),
+                                bottom: BorderSide(width: 1, color: colors.neutral200),
                               ),
                             ),
                             child: Padding(
                               padding: EdgeInsets.symmetric(vertical: 12.h),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Flexible(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           service.name ?? "",
@@ -335,13 +319,9 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           ),
                                         Text(
                                           !widget.isUSD
-                                              ? "sum".tr(namedArgs: {
-                                                  "amount":
-                                                      "${formatNumber(service.priceUzs)}"
-                                                })
+                                              ? "sum".tr(namedArgs: {"amount": "${formatNumber(service.priceUzs)}"})
                                               : "sum".tr(namedArgs: {
-                                                  "amount":
-                                                      "${formatNumber(service.priceUsd, isDecimal: true)}"
+                                                  "amount": "${formatNumber(service.priceUsd, isDecimal: true)}"
                                                 }),
                                           style: fonts.smallLink.copyWith(
                                             color: colors.primary900,
@@ -350,34 +330,31 @@ class _SecondServicePageState extends State<SecondServicePage> {
                                           ),
                                         ),
                                         Text("with_vat".tr(),
-                                            style: fonts.regularLink.copyWith(
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w500)),
+                                            style: fonts.regularLink
+                                                .copyWith(fontSize: 12.sp, fontWeight: FontWeight.w500)),
                                       ],
                                     ),
                                   ),
                                   const Spacer(),
                                   AnimationButtonEffect(
-                                    onTap: () =>
-                                        _handleServiceSelection(service),
+                                    onTap: () => _handleServiceSelection(service),
                                     child: Container(
                                       padding: EdgeInsets.all(12.w),
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.r),
-                                        color: _servicesProvider
-                                                .getSelectedServices(widget.id)
-                                                .contains(service)
+                                        borderRadius: BorderRadius.circular(8.r),
+                                        color: 3 > 2
+                                            // _servicesProvider
+                                            //         .getSelectedServices(widget.id)
+                                            //         .contains(service)
                                             ? colors.error500
                                             : colors.neutral200,
                                       ),
-                                      child: _servicesProvider
-                                              .getSelectedServices(widget.id)
-                                              .contains(service)
-                                          ? icons.check
-                                              .svg(color: colors.shade0)
-                                          : icons.plus
-                                              .svg(color: colors.primary900),
+                                      child: 3 > 2
+                                          // _servicesProvider
+                                          //         .getSelectedServices(widget.id)
+                                          //         .contains(service)
+                                          ? icons.check.svg(color: colors.shade0)
+                                          : icons.plus.svg(color: colors.primary900),
                                     ),
                                   ),
                                 ],
@@ -395,8 +372,7 @@ class _SecondServicePageState extends State<SecondServicePage> {
               ),
               if (state.categoryServices.isNotEmpty)
                 Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   width: double.infinity,
                   decoration: BoxDecoration(
                     border: Border.all(width: 1, color: colors.neutral200),
@@ -414,7 +390,8 @@ class _SecondServicePageState extends State<SecondServicePage> {
                         children: [
                           Text(
                             "count_services_selected".tr(namedArgs: {
-                              "count": "$_selectedServicesCount"
+                              // "count": "$_selectedServicesCount"
+                              "count": "88"
                             }),
                             style: fonts.xSmallLink.copyWith(
                               fontSize: 13.sp,
@@ -423,32 +400,32 @@ class _SecondServicePageState extends State<SecondServicePage> {
                           ),
                           AnimationButtonEffect(
                             onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                isDismissible: true,
-                                isScrollControlled: true,
-                                enableDrag: true,
-                                constraints: BoxConstraints(
-                                  maxHeight:
-                                      MediaQuery.of(context).size.height * 0.8,
-                                ),
-                                builder: (context) => ServiceSelectionModal(
-                                  selectedServices: _servicesProvider
-                                      .getSelectedServices(widget.id),
-                                  chose: _selectedServicesCount,
-                                  onRemoveService: (service) {
-                                    _servicesProvider.removeService(
-                                        widget.id, service);
-                                    _serviceIdsProvider.removeServiceId(
-                                        widget.id, service.id!);
-                                  },
-                                  onRemoveAllServices: () {
-                                    _servicesProvider.clearServices(widget.id);
-                                    _serviceIdsProvider
-                                        .clearServiceIds(widget.id);
-                                  },
-                                ),
-                              );
+                              // showModalBottomSheet(
+                              //   context: context,
+                              //   isDismissible: true,
+                              //   isScrollControlled: true,
+                              //   enableDrag: true,
+                              //   constraints: BoxConstraints(
+                              //     maxHeight:
+                              //         MediaQuery.of(context).size.height * 0.8,
+                              //   ),
+                              //   builder: (context) => ServiceSelectionModal(
+                              //     selectedServices: _servicesProvider
+                              //         .getSelectedServices(widget.id),
+                              //     chose: _selectedServicesCount,
+                              //     onRemoveService: (service) {
+                              //       _servicesProvider.removeService(
+                              //           widget.id, service);
+                              //       _serviceIdsProvider.removeServiceId(
+                              //           widget.id, service.id!);
+                              //     },
+                              //     onRemoveAllServices: () {
+                              //       _servicesProvider.clearServices(widget.id);
+                              //       _serviceIdsProvider
+                              //           .clearServiceIds(widget.id);
+                              //     },
+                              //   ),
+                              // );
                             },
                             child: icons.right.svg(
                               width: 20.w,
@@ -462,7 +439,8 @@ class _SecondServicePageState extends State<SecondServicePage> {
                       CustomButton(
                         borderRadius: 8.r,
                         title: "next".tr(),
-                        isDisabled: _selectedServicesCount == 0,
+                        // isDisabled: _selectedServicesCount == 0,
+
                         onPressed: () => _navigateToAppointmentPage(context),
                       ),
                     ],

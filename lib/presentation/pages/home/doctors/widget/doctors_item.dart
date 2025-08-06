@@ -245,22 +245,6 @@ class DoctorsItem extends StatelessWidget {
         },
       ),
       4.h.verticalSpace,
-      ThemeWrapper(
-        builder: (context, colors, fonts, icons, controller) {
-          return SizedBox(
-            width: 164.w,
-            child: Text(
-              status ?? "",
-              overflow: TextOverflow.ellipsis,
-              style: fonts.headlineMain.copyWith(
-                fontSize: 11.sp,
-                fontWeight: FontWeight.w400,
-                color: const Color(0xff66686C),
-              ),
-            ),
-          );
-        },
-      ),
       if (experience != null) ...[
         ThemeWrapper(
           builder: (context, colors, fonts, icons, controller) {

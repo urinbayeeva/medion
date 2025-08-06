@@ -91,7 +91,7 @@ class _ArticlePageState extends State<ArticlePage> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 164.w,
+                        maxCrossAxisExtent: 0.6.sw,
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
                         mainAxisExtent: 220.h,

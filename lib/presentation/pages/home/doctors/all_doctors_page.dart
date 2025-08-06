@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';
+import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_filter_bottomsheet.dart';
@@ -408,9 +409,9 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
     );
   }
 
-  Widget _buildDefaultView(state, colors, fonts, icons) {
+  Widget _buildDefaultView(DoctorState state, colors, fonts, icons) {
     // Handle null or empty doctorData
-    final doctorData = state.doctors?.doctorData ?? [];
+    final List<DoctorData> doctorData = state.doctors?.doctorData?.toList() ?? [];
     if (doctorData.isEmpty) {
       return SizedBox(
         height: MediaQuery.of(context).size.height * 0.7,
@@ -440,7 +441,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
               'profession': doctor.specialty?.toString() ?? 'N/A',
               'image': doctor.image?.toString() ?? '',
               'id': doctor.id.toString(),
-              'status': doctor.specialty?.toString() ?? 'N/A',
+              'status': doctor.infoDescription?.toString() ?? 'N/A',
               'candidateScience': false,
               'work_experience': doctor.workExperience,
               'has_discount': doctor.hasDiscount,
@@ -525,17 +526,14 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
             itemCount: allDoctors.length,
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12.0,
-              mainAxisSpacing: 12.0,
-              childAspectRatio: 0.50,
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 0.6.sw,
+              mainAxisSpacing: 10.h,
+              crossAxisSpacing: 6.w,
+              mainAxisExtent: 310.h,
             ),
             itemBuilder: (context, index) {
               final doctor = allDoctors[index];
-              log("\n\nHas Discount ******************");
-              log("Doctor: $doctor}");
-              log("******************\n\n");
 
               if (doctor['name'] == 'Placeholder Doctor') {
                 return DoctorsItem(
@@ -553,6 +551,10 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                   doctorID: int.parse(doctor['id'].toString().split('_').last),
                 );
               }
+
+              final status = MyFunctions.decodedText(doctor['status'].toString());
+
+              log("message: $status");
               return DoctorsItem(
                 academicRank: doctor["academic_rank"].toString(),
                 home: false,
@@ -563,7 +565,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                     AppRoutes.getAboutDoctorPage(
                       name: doctor['name'].toString(),
                       profession: doctor['profession'],
-                      status: doctor['name'].toString(),
+                      status: status,
                       image: doctor['image'].toString(),
                       id: int.parse(doctor['id']),
                     ),
@@ -576,7 +578,7 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                 imagePath: doctor['image'].toString(),
                 name: doctor['name'].toString(),
                 profession: doctor['profession'].toString(),
-                status: doctor['status']?.toString() ?? 'N/A',
+                status: status.isEmpty ? status : 'N/A',
                 candidateScience: false,
                 hasDiscount: doctor['has_discount'] ?? false,
                 doctorID: int.parse(doctor['id']),

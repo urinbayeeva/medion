@@ -20,7 +20,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeRepository _repository;
 
   HomeBloc(this._repository) : super(const HomeState()) {
-    on<_FetchNews>(_fetchNews);
     on<_FetchDiseases>(_fetchDiseases);
     on<_FetchAds>(_fetchAds);
     on<_FetchMedicalServices>(_fetchMedicalServices);
@@ -46,30 +45,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           loading: false,
           success: true,
           companyLocations: data,
-        ));
-      },
-    );
-  }
-
-  FutureOr<void> _fetchNews(_FetchNews event, Emitter<HomeState> emit) async {
-    emit(state.copyWith(loading: true, error: false, success: false));
-
-    // EasyLoading.show();
-
-    final res = await _repository.getNews();
-
-    res.fold(
-      (error) {
-        LogService.e("Error in fetching news: $error");
-        EasyLoading.showError(error.message);
-        emit(state.copyWith(loading: false, error: true));
-      },
-      (data) {
-        EasyLoading.dismiss();
-        emit(state.copyWith(
-          loading: false,
-          success: true,
-          news: data,
         ));
       },
     );

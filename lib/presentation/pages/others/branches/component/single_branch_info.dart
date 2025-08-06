@@ -286,9 +286,10 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                           child: Row(
                             children: [
                               ...List.generate(
-                                state.branchDetail!.offers?.length ?? 0,
+                                state.branchDetail?.offers.length ?? 0,
                                 (i) {
-                                  OfferModel model = widget.branch.ourOffer![i];
+                                  List<OfferModel> offers = state.branchDetail?.offers.toList() ?? [];
+                                  OfferModel model = offers[i];
                                   return Container(
                                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
                                     child: Column(

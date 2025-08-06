@@ -14,6 +14,7 @@ import 'package:medion/presentation/pages/visits/widgets/build_order_list.dart';
 import 'package:medion/presentation/pages/visits/widgets/build_visits_list.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MyVisitsPage extends StatefulWidget {
   const MyVisitsPage({super.key});
@@ -23,6 +24,8 @@ class MyVisitsPage extends StatefulWidget {
 }
 
 class _MyVisitsPageState extends State<MyVisitsPage> {
+  final RefreshController _visitController = RefreshController();
+  final RefreshController _orderController = RefreshController();
   final ValueNotifier<bool> _showVisits = ValueNotifier(true);
   final ValueNotifier<DateTime?> _today = ValueNotifier(null);
 
@@ -41,6 +44,13 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
       }
     });
     context.read<AuthBloc>().add(const AuthEvent.fetchPatientVisits(time: ''));
+  }
+
+  @override
+  void dispose() {
+    _visitController.dispose();
+    _orderController.dispose();
+    super.dispose();
   }
 
   @override
@@ -135,7 +145,29 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                           ),
                         ),
                       ),
-                      Expanded(child: _showVisits.value ? BuildVisitList(state: state) : BuildOrderList(state: state)),
+                      if (_showVisits.value) ...{
+                        Expanded(
+                          child: BuildVisitList(
+                            state: state,
+                            onRefresh: () async {
+                              context.read<AuthBloc>().add(const AuthEvent.fetchPatientVisits(time: ''));
+                              _visitController.refreshCompleted();
+                            },
+                            refreshController: _visitController,
+                          ),
+                        )
+                      } else ...{
+                        Expanded(
+                          child: BuildOrderList(
+                            state: state,
+                            onRefresh: () async {
+                              context.read<AuthBloc>().add(const AuthEvent.fetchPatientVisits(time: ''));
+                              _orderController.refreshCompleted();
+                            },
+                            refreshController: _orderController,
+                          ),
+                        )
+                      },
                       60.h.verticalSpace,
                     ],
                   );

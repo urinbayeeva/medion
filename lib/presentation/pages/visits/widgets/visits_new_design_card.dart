@@ -127,12 +127,6 @@ class VisitsNewDesignCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: fonts.xSmallMain.copyWith(fontSize: 14),
                     ),
-                    Text(
-                      id,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: fonts.xSmallMain.copyWith(fontSize: 14),
-                    ),
                     const Spacer(),
                     DecoratedBox(
                       decoration: BoxDecoration(

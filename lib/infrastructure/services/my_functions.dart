@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:google_api_availability/google_api_availability.dart';
+import 'package:html/parser.dart' as html_parser;
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/pages/others/branches/widget/image_dialog.dart';
 import 'package:medion/utils/enums/ads_enums.dart';
@@ -28,6 +29,12 @@ class Times {
 }
 
 sealed class MyFunctions {
+  static String decodedText(String text) {
+    final document = html_parser.parse(text);
+    final String parsedText = document.body?.text ?? '';
+    return parsedText.trim();
+  }
+
   static String formatDate({required String date, String type = 'dd.MM.yyyy'}) {
     if (date.isEmpty) return '';
 

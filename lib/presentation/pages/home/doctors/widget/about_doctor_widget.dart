@@ -65,7 +65,6 @@ class AboutDoctorWidget extends StatelessWidget {
                   width: 164,
                   title: "appointment_nav_bar".tr(),
                   onTap: () {
-                    print("PASSING DOCTOR ID: ${doctorID}");
                     context.read<BottomNavBarController>().changeNavBar(true);
                     Navigator.push(
                         context,

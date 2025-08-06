@@ -1,39 +1,23 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:formz/formz.dart';
-import 'package:medion/application/booking/booking_bloc.dart';
-import 'package:medion/application/selected_provider.dart';
-import 'package:medion/domain/models/booking/booking_type_model.dart';
+import 'package:http/http.dart' as http;
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_divider.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
-import 'package:medion/presentation/component/c_progress_bar.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
-import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
-import 'package:medion/presentation/component/phone_number_component.dart';
-import 'package:medion/presentation/pages/appointment/appointment_page.dart';
-import 'package:medion/presentation/pages/appointment/component/service_selection_model.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
-import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:http/http.dart' as http;
 import 'package:medion/utils/constants.dart';
-import 'package:medion/utils/format_currency.dart';
-import 'dart:convert';
-import 'package:medion/utils/helpers/decode_html.dart';
-import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MedServiceChoose extends StatefulWidget {
   final int? serviceTypeId;
@@ -52,15 +36,13 @@ class MedServiceChoose extends StatefulWidget {
 }
 
 class _MedServiceChooseState extends State<MedServiceChoose> {
-  late final SelectedServiceIdsProvider _serviceIdsProvider;
-  late final SelectedServicesProvider _servicesProvider;
+  // late final SelectedServiceIdsProvider _serviceIdsProvider;
+  // late final SelectedServicesProvider _servicesProvider;
   int chose = 0;
   int? selectedIndex;
-
   List<dynamic> _categories = [];
   bool _isLoading = true;
   String? _error;
-
   List<Map<String, dynamic>> selectedServices = [];
   Set<int> selectedServiceIDCatch = {};
   double turns = 0.0;
@@ -98,11 +80,9 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
         _isSearching = true;
         _filteredBySearch = _filteredCategories
             .map((category) {
-              final filteredServices =
-                  (category['services'] as List).where((service) {
+              final filteredServices = (category['services'] as List).where((service) {
                 final name = service['name']?.toString().toLowerCase() ?? '';
-                final description =
-                    service['description']?.toString().toLowerCase() ?? '';
+                final description = service['description']?.toString().toLowerCase() ?? '';
                 return name.contains(query) || description.contains(query);
               }).toList();
 
@@ -168,8 +148,7 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
 
     final filtered = _categories
         .map((category) {
-          final filteredServices =
-              (category['services'] as List).where((service) {
+          final filteredServices = (category['services'] as List).where((service) {
             if (_currentFilter == 'adult') return service['is_child'] == false;
             if (_currentFilter == 'child') return service['is_child'] == true;
             return true;
@@ -301,12 +280,9 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                                 dbService?.setCurrencyPreference(changeSum);
                               });
                             },
-                            child: icons.valyutaChange
-                                .svg(width: 20.w, height: 20.h))),
+                            child: icons.valyutaChange.svg(width: 20.w, height: 20.h))),
                     6.w.horizontalSpace,
-                    AnimationButtonEffect(
-                        onTap: _showFilterDialog,
-                        child: icons.filter.svg(width: 20.w, height: 20.h)),
+                    AnimationButtonEffect(onTap: _showFilterDialog, child: icons.filter.svg(width: 20.w, height: 20.h)),
                   ],
                 )),
             Expanded(
@@ -330,8 +306,7 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
       return Center(child: Text(_error!));
     }
 
-    final displayCategories =
-        _isSearching ? _filteredBySearch : _filteredCategories;
+    final displayCategories = _isSearching ? _filteredBySearch : _filteredCategories;
 
     if (displayCategories.isEmpty) {
       return Center(
@@ -344,9 +319,7 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
             height: 78.h,
           ),
           Text(
-            _isSearching
-                ? 'try_different_search'.tr()
-                : 'no_results_found'.tr(),
+            _isSearching ? 'try_different_search'.tr() : 'no_results_found'.tr(),
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
           ),
         ],
@@ -363,8 +336,7 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
               final category = displayCategories[index];
               return _ServiceCategoryTile(
                 categoryName: category['category_name'] ?? 'Unnamed Category',
-                services:
-                    List<Map<String, dynamic>>.from(category['services'] ?? []),
+                services: List<Map<String, dynamic>>.from(category['services'] ?? []),
                 colors: colors,
                 fonts: fonts,
                 icons: icons,
@@ -398,10 +370,8 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "count_services_selected"
-                            .tr(namedArgs: {"count": "$chose"}),
-                        style: fonts.xSmallLink.copyWith(
-                            fontSize: 13.sp, fontWeight: FontWeight.bold),
+                        "count_services_selected".tr(namedArgs: {"count": "$chose"}),
+                        style: fonts.xSmallLink.copyWith(fontSize: 13.sp, fontWeight: FontWeight.bold),
                       ),
                       AnimationButtonEffect(
                         disabled: chose == 0 ? true : false,
@@ -419,8 +389,7 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                                 onRemoveService: (serviceToRemove) {
                                   setState(() {
                                     selectedServices.remove(serviceToRemove);
-                                    selectedServiceIDCatch
-                                        .remove(serviceToRemove['id']);
+                                    selectedServiceIDCatch.remove(serviceToRemove['id']);
                                     chose--;
                                   });
                                 },
@@ -449,17 +418,13 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                               MaterialPageRoute(
                                   builder: (context) => MedServiceDoctorChose(
                                         doctorsID: widget.doctorId,
-                                        servicesID: selectedServices
-                                            .map((s) => s['id'] as int)
-                                            .toList(),
+                                        servicesID: selectedServices.map((s) => s['id'] as int).toList(),
                                       )))
                           : Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MedServiceDoctorChose(
-                                        servicesID: selectedServices
-                                            .map((s) => s['id'] as int)
-                                            .toList(),
+                                        servicesID: selectedServices.map((s) => s['id'] as int).toList(),
                                       )));
                     }
                   },
@@ -505,9 +470,7 @@ class _ServiceCategoryTileState extends State<_ServiceCategoryTile> {
     if (widget.services.isEmpty) return const SizedBox.shrink();
 
     return CustomExpansionListTile(
-      description: widget.services.isEmpty
-          ? 'no_services_available'.tr()
-          : 'services_list'.tr(),
+      description: widget.services.isEmpty ? 'no_services_available'.tr() : 'services_list'.tr(),
       title: widget.categoryName,
       children: widget.services.map((service) {
         return _ServiceItem(
@@ -629,13 +592,9 @@ class _ServiceItem extends StatelessWidget {
                     4.h.verticalSpace,
                     Text(
                       !changeSum
-                          ? "sum".tr(namedArgs: {
-                              "amount":
-                                  "${formatNumber(service['doctor_price_start_uzs'])}"
-                            })
+                          ? "sum".tr(namedArgs: {"amount": "${formatNumber(service['doctor_price_start_uzs'])}"})
                           : "sum".tr(namedArgs: {
-                              "amount":
-                                  "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)}"
+                              "amount": "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)}"
                             }),
                       style: fonts.smallLink.copyWith(
                         color: colors.primary900,
@@ -663,9 +622,7 @@ class _ServiceItem extends StatelessWidget {
                   color: isSelected ? colors.primary500 : colors.neutral200,
                 ),
                 child: SvgPicture.asset(
-                  isSelected
-                      ? "assets/icons/check.svg"
-                      : "assets/icons/plus.svg",
+                  isSelected ? "assets/icons/check.svg" : "assets/icons/plus.svg",
                   color: isSelected ? Colors.white : null,
                 ),
               ),
@@ -789,8 +746,7 @@ class _ServiceSelectionModalState extends State<ServiceSelectionModal> {
                 width: double.infinity,
                 child: Text(
                   "Выбраны ${_currentChose} услуги",
-                  style: fonts.smallSemLink
-                      .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500),
+                  style: fonts.smallSemLink.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500),
                 ),
               ),
             ),
@@ -804,14 +760,11 @@ class _ServiceSelectionModalState extends State<ServiceSelectionModal> {
                             width: double.infinity,
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "${service['name']}",
-                                    style: fonts.smallSemLink.copyWith(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w600),
+                                    style: fonts.smallSemLink.copyWith(fontSize: 14.sp, fontWeight: FontWeight.w600),
                                   ),
                                   // Text(
                                   //   decodeHtml(
@@ -829,9 +782,7 @@ class _ServiceSelectionModalState extends State<ServiceSelectionModal> {
                                     !widget.changeSum
                                         ? "${formatNumber(service['doctor_price_start_uzs'])} UZS"
                                         : "${formatNumber(service['doctor_price_start_usd'], isDecimal: true)} USD",
-                                    style: fonts.smallSemLink.copyWith(
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeight.w500),
+                                    style: fonts.smallSemLink.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500),
                                   ),
                                 ]),
                           ),
@@ -966,9 +917,7 @@ class _FilterDialogState extends State<FilterDialog> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: _selectedFilter == value
-                      ? colors.primary500
-                      : colors.neutral400,
+                  color: _selectedFilter == value ? colors.primary500 : colors.neutral400,
                   width: 2.w,
                 ),
               ),

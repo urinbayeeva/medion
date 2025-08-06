@@ -580,9 +580,6 @@ mixin _$ContentState {
       throw _privateConstructorUsedError;
   FormzSubmissionStatus get singleContentStatus =>
       throw _privateConstructorUsedError;
-  bool get loading => throw _privateConstructorUsedError;
-  bool get error => throw _privateConstructorUsedError;
-  bool get success => throw _privateConstructorUsedError;
   List<ContentModel> get content => throw _privateConstructorUsedError;
   ContentModel? get singleContent => throw _privateConstructorUsedError;
   MedionModel? get medionModel => throw _privateConstructorUsedError;
@@ -608,9 +605,6 @@ abstract class $ContentStateCopyWith<$Res> {
       FormzSubmissionStatus activityStatus,
       FormzSubmissionStatus fetchContentStatus,
       FormzSubmissionStatus singleContentStatus,
-      bool loading,
-      bool error,
-      bool success,
       List<ContentModel> content,
       ContentModel? singleContent,
       MedionModel? medionModel});
@@ -638,9 +632,6 @@ class _$ContentStateCopyWithImpl<$Res, $Val extends ContentState>
     Object? activityStatus = null,
     Object? fetchContentStatus = null,
     Object? singleContentStatus = null,
-    Object? loading = null,
-    Object? error = null,
-    Object? success = null,
     Object? content = null,
     Object? singleContent = freezed,
     Object? medionModel = freezed,
@@ -674,18 +665,6 @@ class _$ContentStateCopyWithImpl<$Res, $Val extends ContentState>
           ? _value.singleContentStatus
           : singleContentStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
-      loading: null == loading
-          ? _value.loading
-          : loading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as bool,
-      success: null == success
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
-              as bool,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -718,9 +697,6 @@ abstract class _$$ContentStateImplCopyWith<$Res>
       FormzSubmissionStatus activityStatus,
       FormzSubmissionStatus fetchContentStatus,
       FormzSubmissionStatus singleContentStatus,
-      bool loading,
-      bool error,
-      bool success,
       List<ContentModel> content,
       ContentModel? singleContent,
       MedionModel? medionModel});
@@ -746,9 +722,6 @@ class __$$ContentStateImplCopyWithImpl<$Res>
     Object? activityStatus = null,
     Object? fetchContentStatus = null,
     Object? singleContentStatus = null,
-    Object? loading = null,
-    Object? error = null,
-    Object? success = null,
     Object? content = null,
     Object? singleContent = freezed,
     Object? medionModel = freezed,
@@ -782,18 +755,6 @@ class __$$ContentStateImplCopyWithImpl<$Res>
           ? _value.singleContentStatus
           : singleContentStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
-      loading: null == loading
-          ? _value.loading
-          : loading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as bool,
-      success: null == success
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
-              as bool,
       content: null == content
           ? _value._content
           : content // ignore: cast_nullable_to_non_nullable
@@ -822,9 +783,6 @@ class _$ContentStateImpl extends _ContentState {
       this.activityStatus = FormzSubmissionStatus.initial,
       this.fetchContentStatus = FormzSubmissionStatus.initial,
       this.singleContentStatus = FormzSubmissionStatus.initial,
-      this.loading = false,
-      this.error = false,
-      this.success = false,
       final List<ContentModel> content = const [],
       this.singleContent,
       this.medionModel})
@@ -873,15 +831,6 @@ class _$ContentStateImpl extends _ContentState {
   @override
   @JsonKey()
   final FormzSubmissionStatus singleContentStatus;
-  @override
-  @JsonKey()
-  final bool loading;
-  @override
-  @JsonKey()
-  final bool error;
-  @override
-  @JsonKey()
-  final bool success;
   final List<ContentModel> _content;
   @override
   @JsonKey()
@@ -898,7 +847,7 @@ class _$ContentStateImpl extends _ContentState {
 
   @override
   String toString() {
-    return 'ContentState(contentByType: $contentByType, team: $team, jobTypes: $jobTypes, teamStatus: $teamStatus, activityStatus: $activityStatus, fetchContentStatus: $fetchContentStatus, singleContentStatus: $singleContentStatus, loading: $loading, error: $error, success: $success, content: $content, singleContent: $singleContent, medionModel: $medionModel)';
+    return 'ContentState(contentByType: $contentByType, team: $team, jobTypes: $jobTypes, teamStatus: $teamStatus, activityStatus: $activityStatus, fetchContentStatus: $fetchContentStatus, singleContentStatus: $singleContentStatus, content: $content, singleContent: $singleContent, medionModel: $medionModel)';
   }
 
   @override
@@ -918,9 +867,6 @@ class _$ContentStateImpl extends _ContentState {
                 other.fetchContentStatus == fetchContentStatus) &&
             (identical(other.singleContentStatus, singleContentStatus) ||
                 other.singleContentStatus == singleContentStatus) &&
-            (identical(other.loading, loading) || other.loading == loading) &&
-            (identical(other.error, error) || other.error == error) &&
-            (identical(other.success, success) || other.success == success) &&
             const DeepCollectionEquality().equals(other._content, _content) &&
             (identical(other.singleContent, singleContent) ||
                 other.singleContent == singleContent) &&
@@ -938,9 +884,6 @@ class _$ContentStateImpl extends _ContentState {
       activityStatus,
       fetchContentStatus,
       singleContentStatus,
-      loading,
-      error,
-      success,
       const DeepCollectionEquality().hash(_content),
       singleContent,
       medionModel);
@@ -963,9 +906,6 @@ abstract class _ContentState extends ContentState {
       final FormzSubmissionStatus activityStatus,
       final FormzSubmissionStatus fetchContentStatus,
       final FormzSubmissionStatus singleContentStatus,
-      final bool loading,
-      final bool error,
-      final bool success,
       final List<ContentModel> content,
       final ContentModel? singleContent,
       final MedionModel? medionModel}) = _$ContentStateImpl;
@@ -985,12 +925,6 @@ abstract class _ContentState extends ContentState {
   FormzSubmissionStatus get fetchContentStatus;
   @override
   FormzSubmissionStatus get singleContentStatus;
-  @override
-  bool get loading;
-  @override
-  bool get error;
-  @override
-  bool get success;
   @override
   List<ContentModel> get content;
   @override

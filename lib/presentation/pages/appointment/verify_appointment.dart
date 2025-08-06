@@ -25,14 +25,48 @@ import 'package:medion/utils/constants.dart';
 import 'package:medion/utils/extensions.dart';
 import 'package:provider/provider.dart';
 
+class AppointmentItem {
+  final String time;
+  final String date;
+  final String startTime;
+  final String endTime;
+  final String serviceId;
+  final String serviceName;
+  final String doctorName;
+  final String price;
+  final String location;
+  final String imagePath;
+  final String specialty;
+  final String doctorID;
+  final String companyID;
+
+  const AppointmentItem({
+    required this.doctorName,
+    required this.price,
+    required this.location,
+    required this.imagePath,
+    required this.time,
+    required this.date,
+    required this.startTime,
+    required this.endTime,
+    required this.serviceId,
+    required this.serviceName,
+    required this.specialty,
+    required this.doctorID,
+    required this.companyID,
+  });
+}
+
 class VerifyAppointment extends StatefulWidget {
   final bool isHome;
   final VoidCallback onTap;
+  final List<AppointmentItem> appointments;
 
   const VerifyAppointment({
     super.key,
     required this.onTap,
     this.isHome = false,
+    required this.appointments,
   });
 
   @SemanticsHintOverrides()

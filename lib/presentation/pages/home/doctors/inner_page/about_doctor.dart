@@ -1,5 +1,3 @@
-import 'dart:developer';
-import 'package:built_collection/built_collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,15 +6,11 @@ import 'package:formz/formz.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';
-import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/custom_tabbar.dart';
-import 'package:medion/presentation/pages/home/doctors/inner_page/doctor_discount.dart';
 import 'package:medion/presentation/pages/home/doctors/inner_page/error_progress_ui.dart';
-import 'package:medion/presentation/pages/home/doctors/inner_page/video_widget.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/about_doctor_widget.dart';
-import 'package:medion/presentation/pages/home/doctors/widget/doctors_shimmer.dart';
-import 'package:medion/presentation/pages/others/branches/widget/image_dialog.dart';
-import 'package:medion/presentation/pages/others/component/common_image.dart';
+import 'package:medion/presentation/pages/home/doctors/widget/build_schedule.dart';
+import 'package:medion/presentation/pages/home/doctors/widget/gallery_item_widget.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/customer_review/review_card.dart';
 import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
@@ -28,20 +22,6 @@ import 'package:medion/utils/enums/doctor_info_enum.dart';
 import 'package:medion/utils/enums/feedback_status_enum.dart';
 import 'package:medion/utils/enums/pop_up_status_enum.dart';
 import 'package:medion/utils/extension/context_extension.dart';
-
-class DoctorsInfo {
-  final String title;
-  final bool canSee;
-  final GlobalKey itemKey;
-  final DoctorInfoEnum checker;
-
-  const DoctorsInfo({
-    required this.canSee,
-    required this.title,
-    required this.itemKey,
-    required this.checker,
-  });
-}
 
 class AboutDoctor extends StatefulWidget {
   final String? name;
@@ -64,6 +44,7 @@ class AboutDoctor extends StatefulWidget {
 }
 
 class _AboutDoctorState extends State<AboutDoctor> {
+  final ValueNotifier<int> _index = ValueNotifier(0);
   final DateFormat _dateFormat = DateFormat('dd.MM.yyyy');
   final ScrollController _controller = ScrollController();
 
@@ -142,19 +123,26 @@ class _AboutDoctorState extends State<AboutDoctor> {
                             padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             child: AboutDoctorWidget(
                               doctorID: widget.id,
-                              name: widget.name,
+                              name: state.doctorDetails?.name ?? "",
                               profession: widget.profession,
                               specialty: widget.status,
                               image: widget.image,
                             ),
                           ),
-                          CustomTabbarBlack(
-                            tabs: state.doctorInfoItems.where((e) => e.canSee).map((e) => e.title.tr()).toList(),
-                            onTap: (val) {
-                              tabForScrollSection(val, state.doctorInfoItems);
+                          ValueListenableBuilder(
+                            valueListenable: _index,
+                            builder: (ctx, val, child) {
+                              return CustomTabbarBlack(
+                                tabs: state.doctorInfoItems.where((e) => e.canSee).map((e) => e.title.tr()).toList(),
+                                onTap: (val) {
+                                  _index.value = val;
+                                  tabForScrollSection(val, state.doctorInfoItems);
+                                },
+                                selectedIndex: _index.value,
+                                padding: EdgeInsets.only(right: 12.w),
+                                labelPadding: EdgeInsets.only(right: 16.w, left: 12),
+                              );
                             },
-                            padding: EdgeInsets.only(right: 12.w),
-                            labelPadding: EdgeInsets.only(right: 16.w, left: 12),
                           ),
                         ],
                       ),
@@ -166,7 +154,8 @@ class _AboutDoctorState extends State<AboutDoctor> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ...List.generate(
-                              state.doctorInfoItems.where((elem) => elem.canSee).toList().length + 1,
+                              // state.doctorInfoItems.where((elem) => elem.canSee).toList().length + 1,
+                              state.doctorInfoItems.length,
                               (index) {
                                 final item = state.doctorInfoItems[index];
                                 final doctor = state.doctorDetails!;
@@ -226,7 +215,12 @@ class _AboutDoctorState extends State<AboutDoctor> {
                                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                         child: Text(item.title.tr(), style: fonts.regularMain),
                                       ),
-                                      _buildWorkingHoursTab(doctor, colors, fonts),
+                                      BuildSchedule(
+                                        schedule: doctor.workSchedule,
+                                        colors: colors,
+                                        fonts: fonts,
+                                        doctor: doctor,
+                                      )
                                     },
                                     if (item.checker.isAchievements && item.canSee) ...{
                                       Padding(
@@ -615,222 +609,6 @@ class _AboutDoctorState extends State<AboutDoctor> {
           );
         }).toList(),
       ),
-    );
-  }
-
-  Widget _buildWorkingHoursTab(ModelDoctor doctor, dynamic colors, dynamic fonts) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if ((doctor.workSchedule.monday.isNotEmpty ||
-              doctor.workSchedule.tuesday.isNotEmpty ||
-              doctor.workSchedule.wednesday.isNotEmpty ||
-              doctor.workSchedule.thursday.isNotEmpty ||
-              doctor.workSchedule.friday.isNotEmpty ||
-              doctor.workSchedule.saturday.isNotEmpty)) ...[
-            _buildSchedule(doctor.workSchedule, colors, fonts)
-          ] else ...[
-            const SizedBox.shrink()
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSchedule(WorkSchedule schedule, dynamic colors, dynamic fonts) {
-    final days = [
-      {'day': 'monday'.tr(), 'schedules': schedule.monday},
-      {'day': 'tuesday'.tr(), 'schedules': schedule.tuesday},
-      {'day': 'wednesday'.tr(), 'schedules': schedule.wednesday},
-      {'day': 'thursday'.tr(), 'schedules': schedule.thursday},
-      {'day': 'friday'.tr(), 'schedules': schedule.friday},
-      {'day': 'saturday'.tr(), 'schedules': schedule.saturday},
-    ];
-
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.r),
-        color: colors.shade0,
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: days.map((day) {
-            final dayName = day['day'] as String;
-            final schedules = day['schedules'] as BuiltList<ScheduleItem>;
-
-            if (schedules.isEmpty) return const SizedBox.shrink();
-
-            return Container(
-              margin: EdgeInsets.only(right: 10.w),
-              padding: EdgeInsets.all(8.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                color: const Color(0xFFF9F9F9),
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(bottom: 16.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      dayName,
-                      style: fonts.mediumMain.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.sp,
-                        color: colors.primary900,
-                      ),
-                    ),
-                    ...schedules.map(
-                      (item) {
-                        return Text(
-                          item.time.toString(),
-                          style: fonts.regularMain.copyWith(color: colors.neutral600, fontSize: 13.sp),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-}
-
-class GalleryItemWidget extends StatefulWidget {
-  const GalleryItemWidget({
-    super.key,
-    required this.gallery,
-  });
-
-  final List<GalleryItems> gallery;
-
-  @override
-  State<GalleryItemWidget> createState() => _GalleryItemWidgetState();
-}
-
-class _GalleryItemWidgetState extends State<GalleryItemWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return ThemeWrapper(
-      builder: (ctx, colors, fonts, icons, controller) {
-        if (widget.gallery.isEmpty) {
-          return _empty(colors, fonts);
-        }
-
-        return Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: colors.shade0,
-          ),
-          margin: EdgeInsets.symmetric(horizontal: 12.w),
-          height: 160.h,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              spacing: 8,
-              children: [
-                ...List.generate(
-                  widget.gallery.length,
-                  (i) {
-                    final item = widget.gallery.reversed.toList()[i];
-                    bool hasVideo = item.type == "video";
-
-                    return WScaleAnimation(
-                      onTap: () {
-                        final List<ContentBase> contentBaseList = [
-                          ...widget.gallery.where((item) => item.fileUrl.isNotEmpty).map((item) => ContentBase(
-                                isVideo: item.type.toLowerCase() == 'video',
-                                fileLink: item.type.toLowerCase() == 'video'
-                                    ? "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4"
-                                    : item.fileUrl,
-                                coverImage: item.videoImage,
-                              ))
-                        ];
-
-                        final List<ContentBase> images = [...contentBaseList];
-                        MyFunctions.showImages(
-                          isVideo: hasVideo,
-                          context: context,
-                          mainImage: item.fileUrl,
-                          images: [...images],
-                        );
-                      },
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.w),
-                            child: Container(
-                              width: 0.75.sw,
-                              height: double.infinity,
-                              margin: EdgeInsets.fromLTRB(
-                                i == 0 ? 10 : 0,
-                                8.h,
-                                i == widget.gallery.length - 1 ? 10 : 0,
-                                8.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: colors.neutral200,
-                                borderRadius: BorderRadius.circular(6.r),
-                              ),
-                              constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width * 0.4),
-                              child: CommonImage(
-                                radius: BorderRadius.circular(6.r),
-                                imageUrl: hasVideo ? item.videoImage : item.fileUrl,
-                              ),
-                            ),
-                          ),
-                          if (hasVideo) ...{
-                            Center(
-                              child: SizedBox(
-                                height: 36.h,
-                                width: 36.w,
-                                child: icons.playButton.svg(),
-                              ),
-                            ),
-                          }
-                        ],
-                      ),
-                    );
-
-                    // if (hasVideo) {
-                    //   return VideoWidget(
-                    //     videos: [...videos],
-                    //     image: item.videoImage,
-                    //     videoUrl: item.fileUrl,
-                    //     // videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                    //   );
-                    // } else {
-                    //
-                    // }
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _empty(CustomColorSet colors, FontSet fonts) {
-    return Container(
-      height: 118,
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        color: colors.shade0,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Center(child: Text("no_result_found".tr(), style: fonts.regularMain)),
     );
   }
 }

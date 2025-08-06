@@ -11,9 +11,11 @@ class ApiService {
     final token = dbService.token;
 
     if (token.accessToken == null || token.accessToken!.isEmpty) {
+      log("ApiService -- No authentication token found");
       throw Exception('No authentication token found');
     }
     if (dbService.isTokenExpired(token.accessToken!)) {
+      log("ApiService -- Token expired");
       throw Exception('Token has expired');
     }
 
@@ -38,6 +40,10 @@ class ApiService {
       },
       body: jsonEncode(requestBody),
     );
+    log("ApiService -- Url: $uri");
+    log("ApiService -- Url Path: ${uri.path}");
+    log("ApiService -- Response status code: ${response.statusCode}");
+    log("ApiService -- Service ids: $serviceIds");
 
     if (response.statusCode == 200) {
       log("Response data: ${response.body}");

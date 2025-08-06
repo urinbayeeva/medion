@@ -40,7 +40,7 @@ class VisitInfoDetailCard extends StatelessWidget {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
         return ConstrainedBox(
-          constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height * 0.3),
+          constraints: BoxConstraints(minHeight: 0.2.sh),
           child: Container(
             margin: EdgeInsets.fromLTRB(16, 8.h, 16, 1.h),
             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
@@ -66,156 +66,106 @@ class VisitInfoDetailCard extends StatelessWidget {
                     width: 118.w,
                     imageUrl: image ?? "",
                   ),
-                  SingleChildScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    child: SizedBox(
-                      width: 1.sw - 200.w,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        spacing: 4.h,
-                        children: [
-                          _buildOverflowText(
-                            serviceName ?? "N/A",
-                            fonts,
-                            colors,
-                            context,
-                            size: 13.sp,
-                            maxLine: 6,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          _buildOverflowText(
-                            categoryName ?? "N/A",
-                            fonts,
-                            colors,
-                            context,
-                            maxLine: 3,
-                            size: 11.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          DecoratedBox(
-                            decoration: BoxDecoration(color: colors.neutral300),
-                            child: SizedBox(width: 0.46.sw, height: 1),
-                          ),
-                          _buildOverflowText(
-                            doctorName ?? "N/A",
-                            fonts,
-                            colors,
-                            context,
-                            maxLine: 3,
-                            size: 13.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          _buildOverflowText(
-                            "$servicePrice UZS",
-                            fonts,
-                            colors,
-                            context,
-                            size: 11.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          DecoratedBox(
-                            decoration: BoxDecoration(color: colors.neutral300),
-                            child: SizedBox(width: 0.46.sw, height: 1),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: 4.w,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.0.w),
-                                child: icons.clock.svg(width: 15.w, height: 13.h),
-                              ),
-                              _buildOverflowText(
-                                visitDate?.toCapitalized() ?? "N/A",
-                                fonts,
-                                colors,
-                                context,
-                                size: 11.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: 4.w,
-                            children: [
-                              icons.location.svg(width: 15.w, height: 16.h),
-                              SizedBox(
-                                width: 1.sw - 220.w,
-                                child: _buildOverflowText(
-                                  visitLocation ?? "N/A",
-                                  maxLine: 3,
+                  IntrinsicWidth(
+                    child: SingleChildScrollView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      child: SizedBox(
+                        width: 1.sw - 200.w,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          spacing: 4.h,
+                          children: [
+                            _buildOverflowText(
+                              serviceName ?? "N/A",
+                              fonts,
+                              colors,
+                              context,
+                              size: 13.sp,
+                              maxLine: 6,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            _buildOverflowText(
+                              categoryName ?? "N/A",
+                              fonts,
+                              colors,
+                              context,
+                              maxLine: 3,
+                              size: 11.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            DecoratedBox(
+                              decoration: BoxDecoration(color: colors.neutral300),
+                              child: SizedBox(width: 0.46.sw, height: 1),
+                            ),
+                            _buildOverflowText(
+                              doctorName ?? "N/A",
+                              fonts,
+                              colors,
+                              context,
+                              maxLine: 3,
+                              size: 13.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            _buildOverflowText(
+                              "$servicePrice UZS",
+                              fonts,
+                              colors,
+                              context,
+                              size: 11.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            DecoratedBox(
+                              decoration: BoxDecoration(color: colors.neutral300),
+                              child: SizedBox(width: 0.46.sw, height: 1),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              spacing: 4.w,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 2.0.w),
+                                  child: icons.clock.svg(width: 15.w, height: 13.h),
+                                ),
+                                _buildOverflowText(
+                                  visitDate?.toCapitalized() ?? "N/A",
                                   fonts,
                                   colors,
                                   context,
                                   size: 11.sp,
                                   fontWeight: FontWeight.w400,
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              spacing: 4.w,
+                              children: [
+                                icons.location.svg(width: 15.w, height: 16.h),
+                                SizedBox(
+                                  width: 1.sw - 222.w,
+                                  child: _buildOverflowText(
+                                    visitLocation ?? "N/A",
+                                    maxLine: 3,
+                                    fonts,
+                                    colors,
+                                    context,
+                                    size: 11.sp,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   )
-                  // SingleChildScrollView(
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-
-                  // _buildOverflowText(serviceName ?? "N/A", fonts, colors, size: 11.sp, fontWeight: FontWeight.w500),
-                  // const CDivider(),
-                  // _buildOverflowText(doctorName ?? "N/A", fonts, colors, size: 13.sp, fontWeight: FontWeight.w600),
-                  // _buildOverflowText("$servicePrice UZS", fonts, colors, size: 11.sp, fontWeight: FontWeight.w500),
-                  // const CDivider(),
-                  // SizedBox(
-                  //   height: 16,
-                  //   child: Row(
-                  //     crossAxisAlignment: CrossAxisAlignment.center,
-                  //     children: [
-                  //       icons.clock.svg(width: 12.w, height: 12.h),
-                  //       4.w.horizontalSpace,
-                  //       Expanded(
-                  //         child: _buildOverflowText(
-                  //           visitDate?.toCapitalized() ?? "N/A",
-                  //           fonts,
-                  //           colors,
-                  //           size: 13.sp,
-                  //           fontWeight: FontWeight.w600,
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 16,
-                  //   child: Row(
-                  //     crossAxisAlignment: CrossAxisAlignment.center,
-                  //     children: [
-                  //       icons.location.svg(width: 12.w, height: 12.h),
-                  //       4.w.horizontalSpace,
-                  //       Expanded(
-                  //         child: _buildOverflowText(
-                  //           visitLocation ?? "N/A",
-                  //           fonts,
-                  //           colors,
-                  //           size: 11.sp,
-                  //           fontWeight: FontWeight.w500,
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  // const CDivider(),
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
             ),

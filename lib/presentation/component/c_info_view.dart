@@ -53,10 +53,34 @@ class _CInfoViewState extends State<CInfoView> {
             return single || status;
           },
           builder: (ctx, state) {
+            if (state.singleContentStatus.isInProgress || state.singleContentStatus.isInitial) {
+              return Scaffold(
+                backgroundColor: colors.backgroundColor,
+                appBar: AppBar(
+                  centerTitle: true,
+                  automaticallyImplyLeading: false,
+                  backgroundColor: colors.shade0,
+                  surfaceTintColor: Colors.black,
+                  elevation: 0,
+                  scrolledUnderElevation: 0,
+                  leading: WScaleAnimation(
+                    child: Icon(Icons.keyboard_arrow_left, size: 32.h),
+                    onTap: () => Navigator.of(context).pop(),
+                  ),
+                  title: Shimmer.fromColors(
+                    baseColor: colors.neutral300,
+                    highlightColor: colors.shade0,
+                    child: Text(widget.type.title.tr(), style: fonts.regularMain),
+                  ),
+                ),
+                body: const Center(child: CupertinoActivityIndicator()),
+              );
+            }
             if (state.singleContentStatus.isFailure || state.singleContent == null) {
               return Scaffold(
                 backgroundColor: colors.backgroundColor,
                 appBar: AppBar(
+                  centerTitle: true,
                   automaticallyImplyLeading: false,
                   backgroundColor: colors.shade0,
                   surfaceTintColor: Colors.black,
@@ -74,28 +98,6 @@ class _CInfoViewState extends State<CInfoView> {
                     child: Lottie.asset("assets/anim/404.json"),
                   ),
                 ),
-              );
-            }
-            if (state.singleContentStatus.isInProgress || state.singleContentStatus.isInitial) {
-              return Scaffold(
-                backgroundColor: colors.backgroundColor,
-                appBar: AppBar(
-                  automaticallyImplyLeading: false,
-                  backgroundColor: colors.shade0,
-                  surfaceTintColor: Colors.black,
-                  elevation: 0,
-                  scrolledUnderElevation: 0,
-                  leading: WScaleAnimation(
-                    child: Icon(Icons.keyboard_arrow_left, size: 32.h),
-                    onTap: () => Navigator.of(context).pop(),
-                  ),
-                  title: Shimmer.fromColors(
-                    baseColor: colors.neutral300,
-                    highlightColor: colors.shade0,
-                    child: Text(widget.type.title.tr(), style: fonts.regularMain),
-                  ),
-                ),
-                body: const Center(child: CupertinoActivityIndicator()),
               );
             }
 

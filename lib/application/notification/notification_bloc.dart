@@ -109,7 +109,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   }
 
   FutureOr<void> _onGetNotifications(_GetNotification event, Emitter<NotificationState> emit) async {
-    emit(state.copyWith(notificationStatus: FormzSubmissionStatus.inProgress));
+    emit(state.copyWith(filterType: "all", query: '', notificationStatus: FormzSubmissionStatus.inProgress));
     final res = await repository.getNotifications();
     res.fold(
       (failure) {
@@ -140,8 +140,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           NotificationTabs(
             subTitle: "Перейти к приёму",
             title: "reminder",
-            itemKey: "reminder",
-            canSee: notifications.any((n) => n.type == "reminder"),
+            itemKey: "info",
+            canSee: notifications.any((n) => n.type == "info"),
             checker: NotificationTypeEnum.reminders,
           ),
           NotificationTabs(
@@ -162,7 +162,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             subTitle: "Перейти",
             title: "link",
             itemKey: "link",
-            canSee: notifications.any((n) => n.type == " link"),
+            canSee: notifications.any((n) => n.type == "link"),
             checker: NotificationTypeEnum.links,
           ),
         ];
