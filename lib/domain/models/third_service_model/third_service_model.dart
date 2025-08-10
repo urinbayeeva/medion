@@ -17,6 +17,21 @@ abstract class DoctorsRequest implements Built<DoctorsRequest, DoctorsRequestBui
 
 abstract class ThirdBookingDoctorSchedule
     implements Built<ThirdBookingDoctorSchedule, ThirdBookingDoctorScheduleBuilder> {
+  @BuiltValueField(wireName: 'date')
+  String? get date;
+
+  @BuiltValueField(wireName: 'schedule')
+  BuiltList<ScheduleDetail>? get scheduleList;
+
+  ThirdBookingDoctorSchedule._();
+
+  factory ThirdBookingDoctorSchedule([void Function(ThirdBookingDoctorScheduleBuilder) updates]) =
+      _$ThirdBookingDoctorSchedule;
+
+  static Serializer<ThirdBookingDoctorSchedule> get serializer => _$thirdBookingDoctorScheduleSerializer;
+}
+
+abstract class ScheduleDetail implements Built<ScheduleDetail, ScheduleDetailBuilder> {
   @BuiltValueField(wireName: 'time')
   String? get time;
 
@@ -26,12 +41,11 @@ abstract class ThirdBookingDoctorSchedule
   @BuiltValueField(wireName: 'duration')
   double? get duration;
 
-  ThirdBookingDoctorSchedule._();
+  ScheduleDetail._();
 
-  factory ThirdBookingDoctorSchedule([void Function(ThirdBookingDoctorScheduleBuilder) updates]) =
-      _$ThirdBookingDoctorSchedule;
+  factory ScheduleDetail([void Function(ScheduleDetailBuilder) updates]) = _$ScheduleDetail;
 
-  static Serializer<ThirdBookingDoctorSchedule> get serializer => _$thirdBookingDoctorScheduleSerializer;
+  static Serializer<ScheduleDetail> get serializer => _$scheduleDetailSerializer;
 }
 
 abstract class ThirdBookingDoctor implements Built<ThirdBookingDoctor, ThirdBookingDoctorBuilder> {
@@ -54,7 +68,7 @@ abstract class ThirdBookingDoctor implements Built<ThirdBookingDoctor, ThirdBook
   String? get experience;
 
   @BuiltValueField(wireName: 'schedules')
-  BuiltList<ThirdBookingDoctorSchedule> get schedules;
+  BuiltList<ThirdBookingDoctorSchedule>? get schedules;
 
   @BuiltValueField(wireName: 'price')
   double? get price;
@@ -74,7 +88,7 @@ abstract class ThirdBookingDoctor implements Built<ThirdBookingDoctor, ThirdBook
 
 abstract class ThirdBookingCompanyDoctor implements Built<ThirdBookingCompanyDoctor, ThirdBookingCompanyDoctorBuilder> {
   @BuiltValueField(wireName: 'company_id')
-  double? get companyId;
+  int? get companyId;
 
   @BuiltValueField(wireName: 'company_name')
   String? get companyName;
@@ -89,45 +103,6 @@ abstract class ThirdBookingCompanyDoctor implements Built<ThirdBookingCompanyDoc
 
   static Serializer<ThirdBookingCompanyDoctor> get serializer => _$thirdBookingCompanyDoctorSerializer;
 }
-
-final list = [
-  {
-    "service_id": 0,
-    "service_name": "string",
-    "companies_doctors": [
-      {
-        "company_id": 0,
-        "company_name": "string",
-        "doctor": [
-          {
-            "id": 0,
-            "name": "string",
-            "gender": "string",
-            "image": "string",
-            "specialty": "string",
-            "experience": "string",
-            "price": 0,
-            "location": "string",
-            "work_experience": 0,
-            "schedules": [
-              {
-                "additionalProp1": [
-                  {"additionalProp1": {}}
-                ],
-                "additionalProp2": [
-                  {"additionalProp1": {}}
-                ],
-                "additionalProp3": [
-                  {"additionalProp1": {}}
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-];
 
 abstract class ThirdBookingService implements Built<ThirdBookingService, ThirdBookingServiceBuilder> {
   @BuiltValueField(wireName: 'service_id')

@@ -120,8 +120,8 @@ final class _$VisitCreateService extends VisitCreateService {
   final Type definitionType = VisitCreateService;
 
   @override
-  Future<Response<BuiltList<VisitOrder>>> visitCreate({
-    required VisitRequest request,
+  Future<Response<CreateVisitResponse>> visitCreate({
+    required BuiltList<VisitRequest> request,
     String requiresToken = "true",
   }) {
     final Uri $url = Uri.parse('create_visit');
@@ -136,7 +136,7 @@ final class _$VisitCreateService extends VisitCreateService {
       body: $body,
       headers: $headers,
     );
-    return client.send<BuiltList<VisitOrder>, VisitOrder>($request);
+    return client.send<CreateVisitResponse, CreateVisitResponse>($request);
   }
 }
 
@@ -179,7 +179,7 @@ final class _$BookingService extends BookingService {
     int? days,
     required DoctorsRequest request,
   }) {
-    final Uri $url = Uri.parse('/booking/doctors');
+    final Uri $url = Uri.parse('/booking/doctor-time-slots-mobile');
     final Map<String, dynamic> $params = <String, dynamic>{'days': days};
     final Map<String, String> $headers = {
       'requires-token': requiresToken,

@@ -10,6 +10,8 @@ Serializer<DoctorsRequest> _$doctorsRequestSerializer =
     new _$DoctorsRequestSerializer();
 Serializer<ThirdBookingDoctorSchedule> _$thirdBookingDoctorScheduleSerializer =
     new _$ThirdBookingDoctorScheduleSerializer();
+Serializer<ScheduleDetail> _$scheduleDetailSerializer =
+    new _$ScheduleDetailSerializer();
 Serializer<ThirdBookingDoctor> _$thirdBookingDoctorSerializer =
     new _$ThirdBookingDoctorSerializer();
 Serializer<ThirdBookingCompanyDoctor> _$thirdBookingCompanyDoctorSerializer =
@@ -81,6 +83,65 @@ class _$ThirdBookingDoctorScheduleSerializer
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[];
     Object? value;
+    value = object.date;
+    if (value != null) {
+      result
+        ..add('date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.scheduleList;
+    if (value != null) {
+      result
+        ..add('schedule')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(ScheduleDetail)])));
+    }
+    return result;
+  }
+
+  @override
+  ThirdBookingDoctorSchedule deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new ThirdBookingDoctorScheduleBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'date':
+          result.date = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'schedule':
+          result.scheduleList.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(ScheduleDetail)]))!
+              as BuiltList<Object?>);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$ScheduleDetailSerializer
+    implements StructuredSerializer<ScheduleDetail> {
+  @override
+  final Iterable<Type> types = const [ScheduleDetail, _$ScheduleDetail];
+  @override
+  final String wireName = 'ScheduleDetail';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, ScheduleDetail object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[];
+    Object? value;
     value = object.time;
     if (value != null) {
       result
@@ -106,10 +167,10 @@ class _$ThirdBookingDoctorScheduleSerializer
   }
 
   @override
-  ThirdBookingDoctorSchedule deserialize(
+  ScheduleDetail deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ThirdBookingDoctorScheduleBuilder();
+    final result = new ScheduleDetailBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -147,12 +208,7 @@ class _$ThirdBookingDoctorSerializer
   Iterable<Object?> serialize(
       Serializers serializers, ThirdBookingDoctor object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'schedules',
-      serializers.serialize(object.schedules,
-          specifiedType: const FullType(
-              BuiltList, const [const FullType(ThirdBookingDoctorSchedule)])),
-    ];
+    final result = <Object?>[];
     Object? value;
     value = object.id;
     if (value != null) {
@@ -194,6 +250,14 @@ class _$ThirdBookingDoctorSerializer
         ..add('experience')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
+    }
+    value = object.schedules;
+    if (value != null) {
+      result
+        ..add('schedules')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(BuiltList,
+                const [const FullType(ThirdBookingDoctorSchedule)])));
     }
     value = object.price;
     if (value != null) {
@@ -299,8 +363,7 @@ class _$ThirdBookingCompanyDoctorSerializer
     if (value != null) {
       result
         ..add('company_id')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
     value = object.companyName;
     if (value != null) {
@@ -334,7 +397,7 @@ class _$ThirdBookingCompanyDoctorSerializer
       switch (key) {
         case 'company_id':
           result.companyId = serializers.deserialize(value,
-              specifiedType: const FullType(double)) as double?;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'company_name':
           result.companyName = serializers.deserialize(value,
@@ -525,18 +588,15 @@ class DoctorsRequestBuilder
 
 class _$ThirdBookingDoctorSchedule extends ThirdBookingDoctorSchedule {
   @override
-  final String? time;
+  final String? date;
   @override
-  final bool? active;
-  @override
-  final double? duration;
+  final BuiltList<ScheduleDetail>? scheduleList;
 
   factory _$ThirdBookingDoctorSchedule(
           [void Function(ThirdBookingDoctorScheduleBuilder)? updates]) =>
       (new ThirdBookingDoctorScheduleBuilder()..update(updates))._build();
 
-  _$ThirdBookingDoctorSchedule._({this.time, this.active, this.duration})
-      : super._();
+  _$ThirdBookingDoctorSchedule._({this.date, this.scheduleList}) : super._();
 
   @override
   ThirdBookingDoctorSchedule rebuild(
@@ -551,17 +611,15 @@ class _$ThirdBookingDoctorSchedule extends ThirdBookingDoctorSchedule {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is ThirdBookingDoctorSchedule &&
-        time == other.time &&
-        active == other.active &&
-        duration == other.duration;
+        date == other.date &&
+        scheduleList == other.scheduleList;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, time.hashCode);
-    _$hash = $jc(_$hash, active.hashCode);
-    _$hash = $jc(_$hash, duration.hashCode);
+    _$hash = $jc(_$hash, date.hashCode);
+    _$hash = $jc(_$hash, scheduleList.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -569,9 +627,8 @@ class _$ThirdBookingDoctorSchedule extends ThirdBookingDoctorSchedule {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'ThirdBookingDoctorSchedule')
-          ..add('time', time)
-          ..add('active', active)
-          ..add('duration', duration))
+          ..add('date', date)
+          ..add('scheduleList', scheduleList))
         .toString();
   }
 }
@@ -581,26 +638,23 @@ class ThirdBookingDoctorScheduleBuilder
         Builder<ThirdBookingDoctorSchedule, ThirdBookingDoctorScheduleBuilder> {
   _$ThirdBookingDoctorSchedule? _$v;
 
-  String? _time;
-  String? get time => _$this._time;
-  set time(String? time) => _$this._time = time;
+  String? _date;
+  String? get date => _$this._date;
+  set date(String? date) => _$this._date = date;
 
-  bool? _active;
-  bool? get active => _$this._active;
-  set active(bool? active) => _$this._active = active;
-
-  double? _duration;
-  double? get duration => _$this._duration;
-  set duration(double? duration) => _$this._duration = duration;
+  ListBuilder<ScheduleDetail>? _scheduleList;
+  ListBuilder<ScheduleDetail> get scheduleList =>
+      _$this._scheduleList ??= new ListBuilder<ScheduleDetail>();
+  set scheduleList(ListBuilder<ScheduleDetail>? scheduleList) =>
+      _$this._scheduleList = scheduleList;
 
   ThirdBookingDoctorScheduleBuilder();
 
   ThirdBookingDoctorScheduleBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _time = $v.time;
-      _active = $v.active;
-      _duration = $v.duration;
+      _date = $v.date;
+      _scheduleList = $v.scheduleList?.toBuilder();
       _$v = null;
     }
     return this;
@@ -621,8 +675,125 @@ class ThirdBookingDoctorScheduleBuilder
   ThirdBookingDoctorSchedule build() => _build();
 
   _$ThirdBookingDoctorSchedule _build() {
+    _$ThirdBookingDoctorSchedule _$result;
+    try {
+      _$result = _$v ??
+          new _$ThirdBookingDoctorSchedule._(
+            date: date,
+            scheduleList: _scheduleList?.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'scheduleList';
+        _scheduleList?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'ThirdBookingDoctorSchedule', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ScheduleDetail extends ScheduleDetail {
+  @override
+  final String? time;
+  @override
+  final bool? active;
+  @override
+  final double? duration;
+
+  factory _$ScheduleDetail([void Function(ScheduleDetailBuilder)? updates]) =>
+      (new ScheduleDetailBuilder()..update(updates))._build();
+
+  _$ScheduleDetail._({this.time, this.active, this.duration}) : super._();
+
+  @override
+  ScheduleDetail rebuild(void Function(ScheduleDetailBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ScheduleDetailBuilder toBuilder() =>
+      new ScheduleDetailBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ScheduleDetail &&
+        time == other.time &&
+        active == other.active &&
+        duration == other.duration;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, time.hashCode);
+    _$hash = $jc(_$hash, active.hashCode);
+    _$hash = $jc(_$hash, duration.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'ScheduleDetail')
+          ..add('time', time)
+          ..add('active', active)
+          ..add('duration', duration))
+        .toString();
+  }
+}
+
+class ScheduleDetailBuilder
+    implements Builder<ScheduleDetail, ScheduleDetailBuilder> {
+  _$ScheduleDetail? _$v;
+
+  String? _time;
+  String? get time => _$this._time;
+  set time(String? time) => _$this._time = time;
+
+  bool? _active;
+  bool? get active => _$this._active;
+  set active(bool? active) => _$this._active = active;
+
+  double? _duration;
+  double? get duration => _$this._duration;
+  set duration(double? duration) => _$this._duration = duration;
+
+  ScheduleDetailBuilder();
+
+  ScheduleDetailBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _time = $v.time;
+      _active = $v.active;
+      _duration = $v.duration;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ScheduleDetail other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ScheduleDetail;
+  }
+
+  @override
+  void update(void Function(ScheduleDetailBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ScheduleDetail build() => _build();
+
+  _$ScheduleDetail _build() {
     final _$result = _$v ??
-        new _$ThirdBookingDoctorSchedule._(
+        new _$ScheduleDetail._(
           time: time,
           active: active,
           duration: duration,
@@ -646,7 +817,7 @@ class _$ThirdBookingDoctor extends ThirdBookingDoctor {
   @override
   final String? experience;
   @override
-  final BuiltList<ThirdBookingDoctorSchedule> schedules;
+  final BuiltList<ThirdBookingDoctorSchedule>? schedules;
   @override
   final double? price;
   @override
@@ -665,14 +836,11 @@ class _$ThirdBookingDoctor extends ThirdBookingDoctor {
       this.image,
       this.specialty,
       this.experience,
-      required this.schedules,
+      this.schedules,
       this.price,
       this.location,
       this.workExperience})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        schedules, r'ThirdBookingDoctor', 'schedules');
-  }
+      : super._();
 
   @override
   ThirdBookingDoctor rebuild(
@@ -791,7 +959,7 @@ class ThirdBookingDoctorBuilder
       _image = $v.image;
       _specialty = $v.specialty;
       _experience = $v.experience;
-      _schedules = $v.schedules.toBuilder();
+      _schedules = $v.schedules?.toBuilder();
       _price = $v.price;
       _location = $v.location;
       _workExperience = $v.workExperience;
@@ -825,7 +993,7 @@ class ThirdBookingDoctorBuilder
             image: image,
             specialty: specialty,
             experience: experience,
-            schedules: schedules.build(),
+            schedules: _schedules?.build(),
             price: price,
             location: location,
             workExperience: workExperience,
@@ -834,7 +1002,7 @@ class ThirdBookingDoctorBuilder
       late String _$failedField;
       try {
         _$failedField = 'schedules';
-        schedules.build();
+        _schedules?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'ThirdBookingDoctor', _$failedField, e.toString());
@@ -848,7 +1016,7 @@ class ThirdBookingDoctorBuilder
 
 class _$ThirdBookingCompanyDoctor extends ThirdBookingCompanyDoctor {
   @override
-  final double? companyId;
+  final int? companyId;
   @override
   final String? companyName;
   @override
@@ -904,9 +1072,9 @@ class ThirdBookingCompanyDoctorBuilder
         Builder<ThirdBookingCompanyDoctor, ThirdBookingCompanyDoctorBuilder> {
   _$ThirdBookingCompanyDoctor? _$v;
 
-  double? _companyId;
-  double? get companyId => _$this._companyId;
-  set companyId(double? companyId) => _$this._companyId = companyId;
+  int? _companyId;
+  int? get companyId => _$this._companyId;
+  set companyId(int? companyId) => _$this._companyId = companyId;
 
   String? _companyName;
   String? get companyName => _$this._companyName;

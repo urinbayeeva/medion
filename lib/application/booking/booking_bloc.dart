@@ -38,6 +38,9 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<_AddService>(_addService);
     on<_RemoveService>(_removeService);
     on<_RemoveAllService>(_removeAllService);
+    on<_AddAppointment>(_addAppointment);
+    on<_RemoveAppointment>(_removeAppointment);
+    on<_ClearAll>(_clearAllData);
   }
 
   @override
@@ -53,6 +56,31 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
 
   void _onSelectService(_SelectService event, Emitter<BookingState> emit) {
     emit(state.copyWith(selectedServiceId: event.id));
+  }
+
+  FutureOr<void> _addAppointment(_AddAppointment event, Emitter<BookingState> emit) async {
+    List<AppointmentItem> selectedAppointments = [...state.selectedAppointments];
+    final existingIndex = selectedAppointments.indexWhere((a) => a.serviceId == event.appointment.serviceId);
+
+    if (existingIndex != -1) {
+      final newList = List<AppointmentItem>.from(selectedAppointments);
+      newList[existingIndex] = event.appointment;
+      selectedAppointments = newList;
+    } else {
+      selectedAppointments = [...selectedAppointments, event.appointment];
+    }
+    emit(state.copyWith(selectedAppointments: selectedAppointments));
+  }
+
+  FutureOr<void> _clearAllData(_ClearAll event, Emitter<BookingState> emit) async {
+    emit(state.copyWith(services: [], selectedAppointments: []));
+  }
+
+  FutureOr<void> _removeAppointment(_RemoveAppointment event, Emitter<BookingState> emit) async {
+    List<AppointmentItem> selectedAppointments = [...state.selectedAppointments];
+    selectedAppointments.removeWhere((a) => a.serviceId == event.serviceId);
+
+    emit(state.copyWith(selectedAppointments: selectedAppointments));
   }
 
   FutureOr<void> _addService(_AddService event, Emitter<BookingState> emit) async {

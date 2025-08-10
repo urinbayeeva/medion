@@ -1,7 +1,10 @@
+import 'dart:convert';
+
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:medion/domain/models/profile/profile_model.dart';
+import 'package:medion/domain/serializers/serializer.dart';
 
 part 'visit_model.g.dart';
 
@@ -85,6 +88,9 @@ abstract class VisitRequest implements Built<VisitRequest, VisitRequestBuilder> 
   @BuiltValueField(wireName: 'doctor_id')
   int get doctorId;
 
+  @BuiltValueField(wireName: 'order_detail_id')
+  int? get orderDetailId;
+
   @BuiltValueField(wireName: 'start_time')
   String get startTime;
 
@@ -94,11 +100,90 @@ abstract class VisitRequest implements Built<VisitRequest, VisitRequestBuilder> 
   @BuiltValueField(wireName: 'date')
   String get date;
 
+  @BuiltValueField(wireName: 'lang_code')
+  String get langCode;
+
   VisitRequest._();
 
   factory VisitRequest([void Function(VisitRequestBuilder) updates]) = _$VisitRequest;
 
   static Serializer<VisitRequest> get serializer => _$visitRequestSerializer;
+
+  String toJson() {
+    return json.encode(serializers.serializeWith(VisitRequest.serializer, this));
+  }
+}
+
+abstract class CreateVisitResponse implements Built<CreateVisitResponse, CreateVisitResponseBuilder> {
+  @BuiltValueField(wireName: 'services')
+  BuiltList<VisitResponseService> get services;
+
+  @BuiltValueField(wireName: 'payment_urls')
+  BuiltList<VisitResponseUrls> get paymentUrls;
+
+  CreateVisitResponse._();
+
+  factory CreateVisitResponse([void Function(CreateVisitResponseBuilder) updates]) = _$CreateVisitResponse;
+
+  static Serializer<CreateVisitResponse> get serializer => _$createVisitResponseSerializer;
+}
+
+abstract class VisitResponseService implements Built<VisitResponseService, VisitResponseServiceBuilder> {
+  @BuiltValueField(wireName: 'id')
+  int get id;
+
+  @BuiltValueField(wireName: 'doctor_id')
+  String get doctorId;
+
+  @BuiltValueField(wireName: 'image')
+  String get image;
+
+  @BuiltValueField(wireName: 'company_id')
+  String get companyId;
+
+  @BuiltValueField(wireName: 'main_service_id')
+  String? get mainServiceId;
+
+  @BuiltValueField(wireName: 'product_type')
+  String? get productType;
+
+  @BuiltValueField(wireName: 'doctor_first_visit_price_uzs')
+  double? get doctorFirstVisitPriceUzs;
+
+  @BuiltValueField(wireName: 'doctor_first_visit_price_uzd')
+  double? get doctorFirstVisitPriceUzd;
+
+  @BuiltValueField(wireName: 'doctor_revisit_price_uzs')
+  double? get doctorRevisitPriceUzs;
+
+  @BuiltValueField(wireName: 'doctor_revisit_price_uzd')
+  double? get doctorRevisitPriceUzd;
+
+  @BuiltValueField(wireName: 'date')
+  String? get date;
+
+  @BuiltValueField(wireName: 'start_time')
+  String? get startTime;
+
+  VisitResponseService._();
+
+  factory VisitResponseService([void Function(VisitResponseServiceBuilder) updates]) = _$VisitResponseService;
+
+  static Serializer<VisitResponseService> get serializer => _$visitResponseServiceSerializer;
+}
+
+abstract class VisitResponseUrls implements Built<VisitResponseUrls, VisitResponseUrlsBuilder> {
+  @BuiltValueField(wireName: 'type')
+  String get type;
+
+  @BuiltValueField(wireName: 'url')
+  String get url;
+
+  VisitResponseUrls._();
+
+  factory VisitResponseUrls([void Function(VisitResponseUrlsBuilder) updates]) = _$VisitResponseUrls;
+
+  static Serializer<VisitResponseUrls> get serializer => _$visitResponseUrlsSerializer;
 }
 
 abstract class PatientAnalyse implements Built<PatientAnalyse, PatientAnalyseBuilder> {
@@ -406,14 +491,6 @@ abstract class PatientVisitSingleModel implements Built<PatientVisitSingleModel,
   static Serializer<PatientVisitSingleModel> get serializer => _$patientVisitSingleModelSerializer;
 }
 
-/// "review": {
-//     "name": "Jon Doe",
-//     "ratings": "3",
-//     "review": "jbjbjbjbjj ",
-//     "status": "published",
-//     "location": "г. Ташкент, Шайхантахурский р-н, ул. Хадра, 39",
-//     "create_date": "2025.07.10"
-//   },
 abstract class PatientReviewModel implements Built<PatientReviewModel, PatientReviewModelBuilder> {
   @BuiltValueField(wireName: 'name')
   String? get name;

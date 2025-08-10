@@ -3,6 +3,7 @@ class Constants {
   static const String appNameDev = "Medion Dev";
   static const String appNameBeta = "Medion Test";
   static const String awsRegion = "ap-northeast-2";
+  static const String baseUrlT = "https://test-dev1.aurora.caretech.uz";
   static const String baseUrlP = "https://his.uicgroup.tech/apiweb";
   static const String baseUrl = "https://medion.uz/apiweb";
 

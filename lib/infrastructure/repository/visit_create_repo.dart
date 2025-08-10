@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:built_collection/built_collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/failurs/booking/i_visit_facade.dart';
@@ -11,23 +14,16 @@ class VisitRepository implements IVisitFacade {
   VisitRepository(this._visitCreateService);
 
   @override
-  Future<Either<ResponseFailure, List<VisitOrder>>> createVisit(VisitRequest request) async {
+  Future<Either<ResponseFailure, CreateVisitResponse>> createVisit(List<VisitRequest> request) async {
     try {
-      final response = await _visitCreateService.visitCreate(request: request);
-      //LogService.d('Response Status: ${response.statusCode}');
-      //LogService.d('Response Body: ${response.body}');
-
-      if (response.isSuccessful && response.body != null) {
-        //LogService.d('Raw Response Body: ${response.body}');
-
-        return right(response.body!.toList());
+      final response = await _visitCreateService.visitCreate(request: BuiltList<VisitRequest>(request));
+      if (response.isSuccessful) {
+        return right(response.body!);
       } else {
         return left(const InvalidCredentials(message: 'Invalid Credentials'));
       }
     } catch (e, stackTrace) {
-      //LogService.e(" ----> Error on repo: ${e.toString()}");
-      //LogService.e(" ----> StackTrace: $stackTrace");
-
+      log("Error Message catch $e");
       return left(handleError(e));
     }
   }

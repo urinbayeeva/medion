@@ -15,9 +15,7 @@ class Service {
     return Service(
       serviceId: json['service_id'],
       serviceName: json['service_name'],
-      companiesDoctors: (json['companies_doctors'] as List)
-          .map((cd) => CompanyDoctor.fromJson(cd))
-          .toList(),
+      companiesDoctors: (json['companies_doctors'] as List).map((cd) => CompanyDoctor.fromJson(cd)).toList(),
     );
   }
 }
@@ -51,7 +49,7 @@ class Doctor {
   final String location;
   final int workExperience;
   final String image;
-  final List<Map<String, dynamic>> schedules;
+  final List<Map<String, List<Schedule>>> schedules;
 
   Doctor({
     required this.id,
@@ -66,6 +64,15 @@ class Doctor {
   });
 
   factory Doctor.fromJson(Map<String, dynamic> json) {
+    final rawSchedules = json['schedules'] as List<dynamic>? ?? [];
+
+    final parsedSchedules = rawSchedules.map<Map<String, List<Schedule>>>((dayMap) {
+      final dayKey = dayMap.keys.first;
+      final rawList = dayMap[dayKey] as List;
+      final scheduleList = rawList.map((item) => Schedule.fromJson(item)).toList();
+
+      return {dayKey: scheduleList};
+    }).toList();
     return Doctor(
       id: json['id'],
       name: json['name'],
@@ -75,7 +82,27 @@ class Doctor {
       price: json['price'],
       location: json['location'],
       workExperience: json['work_experience'],
-      schedules: (json['schedules'] as List).cast<Map<String, dynamic>>(),
+      schedules: parsedSchedules,
     );
+  }
+}
+
+class Schedule {
+  final String time;
+  final int duration;
+  final bool active;
+
+  Schedule({this.time = '', this.duration = -1, this.active = false});
+
+  factory Schedule.fromJson(Map<String, dynamic> json) {
+    return Schedule(
+      time: json['time'] ?? '',
+      duration: json['duration'] ?? 0,
+      active: json['active'] ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'time': time, 'duration': duration, 'active': active};
   }
 }

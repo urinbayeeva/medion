@@ -19,6 +19,7 @@ import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/domain/models/visit/visit_new_model.dart';
 import 'package:medion/domain/success_model/response_model.dart';
 import 'package:medion/domain/success_model/success_model.dart';
+
 import 'package:medion/domain/upload_image/upload_image.dart';
 
 part 'serializer.g.dart';
@@ -69,6 +70,7 @@ part 'serializer.g.dart';
 
   DoctorsRequest,
   ThirdBookingDoctorSchedule,
+  ScheduleDetail,
   ThirdBookingDoctor,
   ThirdBookingCompanyDoctor,
   ThirdBookingService,
@@ -133,7 +135,9 @@ part 'serializer.g.dart';
   VisitRequest,
   VisitOrder,
   OrderVisit,
-  VisitResponse,
+  CreateVisitResponse,
+  VisitResponseService,
+  VisitResponseUrls,
   Visit,
   PatientAnalyse,
   CancelVisitBody,

@@ -411,21 +411,23 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                 ],
                 CButton(
                   onTap: () {
-                    if (chose >= 1) {
-                      widget.isDoctorService
-                          ? Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MedServiceDoctorChose(
-                                        doctorsID: widget.doctorId,
-                                        servicesID: selectedServices.map((s) => s['id'] as int).toList(),
-                                      )))
-                          : Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MedServiceDoctorChose(
-                                        servicesID: selectedServices.map((s) => s['id'] as int).toList(),
-                                      )));
+                    if (chose > 1) {
+                      final allId = selectedServices.map((e) => e['id'] as int).toList();
+                      final List<SelectedServices> selectedServicesList =
+                          allId.map((id) => SelectedServices(serviceId: id)).toList();
+
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                        if (widget.isDoctorService) {
+                          return MedServiceDoctorChose(
+                            doctorsID: widget.doctorId,
+                            servicesIDes: [...selectedServicesList],
+                          );
+                        } else {
+                          return MedServiceDoctorChose(
+                            servicesIDes: [...selectedServicesList],
+                          );
+                        }
+                      }));
                     }
                   },
                   title: 'next'.tr(),

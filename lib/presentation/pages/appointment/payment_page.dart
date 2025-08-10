@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
+import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/payment_provider.dart';
+import 'package:medion/application/visit/visit_bloc.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_radio_tile.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
@@ -11,11 +15,14 @@ import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
 import 'package:medion/presentation/pages/appointment/component/user_info_widget.dart';
 import 'package:medion/presentation/pages/appointment/component/verify_appointment_item.dart';
 import 'package:medion/presentation/pages/appointment/payment_web_view.dart';
+import 'package:medion/presentation/pages/appointment/verify_appointment.dart';
 import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
+import 'package:medion/utils/enums/pop_up_status_enum.dart';
+import 'package:medion/utils/extension/context_extension.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -31,8 +38,15 @@ String _formatNumber(double number) {
 
 class PaymentPage extends StatefulWidget {
   final bool isHome;
+  final List<AppointmentItem> appointments;
+  final BookingBloc bloc;
 
-  const PaymentPage({super.key, this.isHome = false});
+  const PaymentPage({
+    super.key,
+    this.isHome = false,
+    required this.appointments,
+    required this.bloc,
+  });
 
   @override
   State<PaymentPage> createState() => _PaymentPageState();
@@ -40,7 +54,7 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   final ValueNotifier<String> _paymentMethod = ValueNotifier('');
-  final ValueNotifier<String> paymentUrl = ValueNotifier('');
+  final ValueNotifier<String> _url = ValueNotifier('');
   String _selectedOption = "";
   bool _showWebView = false;
   String? _paymentUrl;
@@ -53,16 +67,6 @@ class _PaymentPageState extends State<PaymentPage> {
     if (authBloc.state.patientInfo == null) {
       authBloc.add(const AuthEvent.fetchPatientInfo());
     }
-    _initializePaymentUrl();
-  }
-
-  Future<void> _initializePaymentUrl() async {
-    final paymentProvider = Provider.of<PaymentProvider>(
-      context,
-      listen: false,
-    );
-
-    paymentUrl.value = paymentProvider.clickUrl ?? paymentProvider.paymeUrl ?? paymentProvider.multiUrl ?? '';
   }
 
   void _openPaymentWebView(String url) {
@@ -91,31 +95,31 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget build(BuildContext context) {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
-        if (_showWebView && _paymentUrl != null) {
-          return Scaffold(
-            body: Stack(
-              children: [
-                WebViewWidget(controller: _webViewController),
-                Positioned(
-                  top: 40.h,
-                  right: 16.w,
-                  child: CircleAvatar(
-                    radius: 20.r,
-                    backgroundColor: Colors.white.withValues(alpha: 0.8),
-                    child: IconButton(
-                      icon: Icon(Icons.close, size: 20.w),
-                      onPressed: () {
-                        setState(() {
-                          _showWebView = false;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
+        // if (_showWebView && _paymentUrl != null) {
+        //   return Scaffold(
+        //     body: Stack(
+        //       children: [
+        //         WebViewWidget(controller: _webViewController),
+        //         Positioned(
+        //           top: 40.h,
+        //           right: 16.w,
+        //           child: CircleAvatar(
+        //             radius: 20.r,
+        //             backgroundColor: Colors.white.withValues(alpha: 0.8),
+        //             child: IconButton(
+        //               icon: Icon(Icons.close, size: 20.w),
+        //               onPressed: () {
+        //                 setState(() {
+        //                   _showWebView = false;
+        //                 });
+        //               },
+        //             ),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   );
+        // }
 
         return Scaffold(
           appBar: AppBar(
@@ -129,61 +133,15 @@ class _PaymentPageState extends State<PaymentPage> {
               onTap: () => Navigator.of(context).pop(),
             ),
             title: Text("payment".tr(), style: fonts.regularMain),
-            // actions: [
-            //   WScaleAnimation(
-            //     onTap: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) =>
-            //               const PaymentWebView(url: "https://his.uicgroup.tech/apimulticard/2270?callback=true"),
-            //         ),
-            //       );
-            //     },
-            //     child: icons.share.svg(),
-            //   ),
-            //   12.w.horizontalSpace,
-            //   WScaleAnimation(
-            //     onTap: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) =>
-            //               const PaymentWebView(url: "https://his.uicgroup.tech/apipayme/2269?callback=true"),
-            //         ),
-            //       );
-            //     },
-            //     child: icons.download.svg(),
-            //   ),
-            //   12.w.horizontalSpace,
-            //   WScaleAnimation(
-            //     onTap: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) =>
-            //               const PaymentWebView(url: "https://his.uicgroup.tech/apiclick/2270?callback=true"),
-            //         ),
-            //       );
-            //     },
-            //     child: icons.phone.svg(),
-            //   ),
-            //   12.w.horizontalSpace,
-            // ],
           ),
           backgroundColor: colors.backgroundColor,
-          body: BlocBuilder<AuthBloc, AuthState>(
+          body: BlocBuilder<VisitBloc, VisitState>(
+            buildWhen: (o, n) {
+              final status = o.createVisitStatus != n.createVisitStatus;
+              final info = o.visits != n.visits;
+              return status || info;
+            },
             builder: (context, state) {
-              if (state.patientInfo == null) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Style.error500,
-                  ),
-                );
-              }
-
-              final patientInfo = state.patientInfo;
-
               return Column(
                 children: [
                   Expanded(
@@ -192,34 +150,51 @@ class _PaymentPageState extends State<PaymentPage> {
                       child: Column(
                         children: [
                           12.h.verticalSpace,
-                          UserInfoWidget(
-                            title: "your_info".tr(),
-                            children: [
-                              CustomTextField(
-                                readOnly: true,
-                                padding: const EdgeInsets.only(bottom: 12),
-                                hintText: patientInfo?.firstName ?? "Not available",
-                                title: "name".tr(),
-                              ),
-                              CustomTextField(
-                                readOnly: true,
-                                padding: const EdgeInsets.only(bottom: 12),
-                                hintText: patientInfo?.lastName ?? "Not available",
-                                title: "second_name".tr(),
-                              ),
-                              CustomTextField(
-                                readOnly: true,
-                                padding: const EdgeInsets.only(bottom: 12),
-                                hintText: patientInfo?.patientId?.toString() ?? "Not available",
-                                title: "ID",
-                              ),
-                              CustomTextField(
-                                readOnly: true,
-                                padding: const EdgeInsets.only(bottom: 12),
-                                hintText: patientInfo?.phoneNumber ?? "Not available",
-                                title: "contact_phone_number".tr(),
-                              ),
-                            ],
+                          BlocBuilder<AuthBloc, AuthState>(
+                            buildWhen: (o, n) {
+                              final info = o.patientInfo != n.patientInfo;
+                              return info;
+                            },
+                            builder: (context, state) {
+                              if (state.patientInfo == null) {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Style.error500,
+                                  ),
+                                );
+                              }
+
+                              final patientInfo = state.patientInfo;
+                              return UserInfoWidget(
+                                title: "your_info".tr(),
+                                children: [
+                                  CustomTextField(
+                                    readOnly: true,
+                                    padding: const EdgeInsets.only(bottom: 12),
+                                    hintText: patientInfo?.firstName ?? "Not available",
+                                    title: "name".tr(),
+                                  ),
+                                  CustomTextField(
+                                    readOnly: true,
+                                    padding: const EdgeInsets.only(bottom: 12),
+                                    hintText: patientInfo?.lastName ?? "Not available",
+                                    title: "second_name".tr(),
+                                  ),
+                                  CustomTextField(
+                                    readOnly: true,
+                                    padding: const EdgeInsets.only(bottom: 12),
+                                    hintText: patientInfo?.patientId?.toString() ?? "Not available",
+                                    title: "ID",
+                                  ),
+                                  CustomTextField(
+                                    readOnly: true,
+                                    padding: const EdgeInsets.only(bottom: 12),
+                                    hintText: patientInfo?.phoneNumber ?? "Not available",
+                                    title: "contact_phone_number".tr(),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                           12.h.verticalSpace,
                           Container(
@@ -228,15 +203,18 @@ class _PaymentPageState extends State<PaymentPage> {
                               color: colors.shade0,
                             ),
                             padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 12.h),
-                            child: ValueListenableBuilder<List<Map<String, String>>>(
-                              valueListenable: AppointmentState.selectedAppointments,
-                              builder: (context, selectedList, _) {
+                            child: Builder(
+                              builder: (context) {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text("your_techniques".tr(), style: fonts.regularMain),
                                     10.verticalSpace,
-                                    ...selectedList.map((appointment) => _buildAppointmentItem(appointment, context)),
+                                    ...widget.appointments.map((appointment) => _buildAppointmentItem(
+                                          appointment: appointment,
+                                          context: context,
+                                          bloc: widget.bloc,
+                                        )),
                                   ],
                                 );
                               },
@@ -273,7 +251,6 @@ class _PaymentPageState extends State<PaymentPage> {
                             valueListenable: _paymentMethod,
                             builder: (context, value, child) {
                               return Container(
-                                height: 110.h,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
@@ -286,37 +263,35 @@ class _PaymentPageState extends State<PaymentPage> {
                                   spacing: 10.h,
                                   children: [
                                     Text("Способ оплаты", style: fonts.regularMain),
-                                    Row(
-                                      spacing: 8.w,
-                                      children: [
-                                        Expanded(
-                                          child: PaymentButton(
-                                            image: Image.asset("assets/images/payme_img.png"),
-                                            title: "Payme",
+                                    if (state.visits != null) ...{
+                                      ...List.generate(
+                                        state.visits!.paymentUrls.length,
+                                        (i) {
+                                          final item = state.visits!.paymentUrls[i];
+                                          final type = state.visits!.paymentUrls[i].type;
+                                          final isPayme = type.toLowerCase().contains("payme");
+                                          final isClick = type.toLowerCase().contains("click");
+                                          final isMultiCard = type.toLowerCase().contains("card");
+
+                                          return PaymentButton(
+                                            image: (isPayme)
+                                                ? Image.asset("assets/images/payme_img.png")
+                                                : (isClick)
+                                                    ? icons.click.svg()
+                                                    : SizedBox(),
+                                            title: state.visits!.paymentUrls[i].type,
                                             colors: colors,
                                             fonts: fonts,
                                             onTap: () {
-                                              _paymentMethod.value = 'payme';
+                                              _url.value = item.url;
+                                              _paymentMethod.value = type.toLowerCase();
                                             },
                                             icons: icons,
-                                            isSelected: _paymentMethod.value == "payme",
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: PaymentButton(
-                                            image: icons.click.svg(),
-                                            title: "Click",
-                                            colors: colors,
-                                            fonts: fonts,
-                                            icons: icons,
-                                            isSelected: _paymentMethod.value == "click",
-                                            onTap: () {
-                                              _paymentMethod.value = 'click';
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    )
+                                            isSelected: _paymentMethod.value == type.toLowerCase(),
+                                          );
+                                        },
+                                      ),
+                                    },
                                   ],
                                 ),
                               );
@@ -341,16 +316,15 @@ class _PaymentPageState extends State<PaymentPage> {
                                     ),
                                   ),
                                   12.h.verticalSpace,
-                                  ValueListenableBuilder<List<Map<String, String>>>(
-                                    valueListenable: AppointmentState.selectedAppointments,
-                                    builder: (context, selectedList, _) {
+                                  Builder(
+                                    builder: (context) {
                                       double subtotal = 0;
                                       return Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          ...selectedList.map(
+                                          ...widget.appointments.map(
                                             (appointment) {
-                                              final price = double.tryParse(appointment['price'] ?? '0') ?? 0;
+                                              final price = double.tryParse(appointment.price ?? '0') ?? 0;
                                               subtotal += price;
 
                                               return Padding(
@@ -360,7 +334,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                                     ConstrainedBox(
                                                       constraints: BoxConstraints(maxWidth: 0.5.sw),
                                                       child: Text(
-                                                        appointment['serviceName'] ?? 'Service',
+                                                        appointment.serviceName ?? 'Service',
                                                         maxLines: 2,
                                                         style: TextStyle(
                                                           fontSize: 16.sp,
@@ -468,6 +442,8 @@ class _PaymentPageState extends State<PaymentPage> {
                             textColor: Style.primary900,
                             title: "pay_not_right_now".tr(),
                             onTap: () async {
+                              widget.bloc.add(const BookingEvent.clearAllAppointmentAndService());
+
                               context.read<BottomNavBarController>().changeNavBar(false);
                               Navigator.push(
                                 context,
@@ -476,32 +452,26 @@ class _PaymentPageState extends State<PaymentPage> {
                             },
                           ),
                           8.h.verticalSpace,
-                          Consumer<PaymentProvider>(
-                            builder: (context, paymentProvider, _) {
-                              return CButton(
-                                title: "pay_right_now".tr(),
-                                onTap: () async {
-                                  if (paymentProvider.multiUrl?.isNotEmpty ?? false) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => PaymentWebView(url: paymentProvider.multiUrl!),
-                                      ),
-                                    );
-                                  } else {
-                                    await _initializePaymentUrl();
-                                    if (paymentProvider.multiUrl?.isNotEmpty ?? false) {
-                                      _openPaymentWebView(paymentProvider.multiUrl!);
-                                    } else {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text("payment_url_not_available".tr()),
-                                        ),
-                                      );
-                                    }
-                                  }
-                                },
-                              );
+                          CButton(
+                            title: "pay_right_now".tr(),
+                            onTap: () async {
+                              if (_url.value.length > 4) {
+                                widget.bloc.add(const BookingEvent.clearAllAppointmentAndService());
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PaymentWebView(url: _url.value),
+                                  ),
+                                );
+                              } else {
+                                context.showPopUp(
+                                  status: PopUpStatus.warning,
+                                  message: "no_selected_payment_type".tr(),
+                                  fonts: fonts,
+                                  colors: colors,
+                                  context: context,
+                                );
+                              }
                             },
                           ),
                         ],
@@ -517,12 +487,13 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  Widget _buildAppointmentItem(
-    Map<String, String> appointment,
-    BuildContext context,
-  ) {
-    String appointmentDate = appointment['date'] ?? '';
-    String appointmentTime = appointment['time'] ?? '';
+  Widget _buildAppointmentItem({
+    required AppointmentItem appointment,
+    required BuildContext context,
+    required BookingBloc bloc,
+  }) {
+    String appointmentDate = appointment.date ?? '';
+    String appointmentTime = appointment.time ?? '';
 
     String formattedDate = appointmentDate.isNotEmpty
         ? DateFormat('EEE, dd MMMM', context.locale.toString()).format(
@@ -532,18 +503,19 @@ class _PaymentPageState extends State<PaymentPage> {
 
     return VerifyAppointmentItem(
       hasImage: false,
-      diagnosis: appointment['serviceName'] ?? 'Unknown',
-      procedure: appointment['specialty'] ?? 'Unknown',
-      doctorName: 'Dr. ${appointment['doctorName'] ?? "Unknown"}',
-      price: "${appointment['price']}",
+      diagnosis: appointment.serviceName ?? 'Unknown',
+      procedure: appointment.specialty ?? 'Unknown',
+      doctorName: 'Dr. ${appointment.doctorName ?? "Unknown"}',
+      price: appointment.price,
       appointmentTime: "$formattedDate ${appointmentTime.isNotEmpty ? appointmentTime : "Not available"}",
-      location: appointment['location'] ?? 'Unknown',
-      imagePath: appointment['doctorPhoto'] ?? "",
+      location: appointment.location ?? 'Unknown',
+      imagePath: appointment.imagePath ?? "",
       onCancel: () {
-        final serviceId = appointment['serviceId'];
-        if (serviceId != null) {
-          AppointmentState.removeAppointment(serviceId);
-        }
+        bloc.add(BookingEvent.removeAppointment(serviceId: appointment.serviceId));
+        // final serviceId = appointment['serviceId'];
+        // if (serviceId != null) {
+        //   AppointmentState.removeAppointment(serviceId);
+        // }
       },
     );
   }

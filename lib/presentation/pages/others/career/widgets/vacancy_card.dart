@@ -48,7 +48,7 @@ class VacanciesCards extends StatelessWidget {
       itemBuilder: (context, index) {
         final vacancy = vacancies[index];
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: colors.shade0),
           child: Column(
             spacing: 4,

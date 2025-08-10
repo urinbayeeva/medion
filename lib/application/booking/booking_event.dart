@@ -26,13 +26,16 @@ abstract class BookingEvent with _$BookingEvent {
 
   const factory BookingEvent.fetchServicesByDoctorId({required int doctorId}) = _FetchServicesByDoctorId;
 
-  const factory BookingEvent.addService({
-    required int id,
-    required String name,
-    required Service service,
-  }) = _AddService;
+  const factory BookingEvent.addService({required int id, required String name, required Service service}) =
+      _AddService;
 
   const factory BookingEvent.removeService({required int id, required Service service}) = _RemoveService;
 
   const factory BookingEvent.removeAllService() = _RemoveAllService;
+
+  const factory BookingEvent.addAppointment({required AppointmentItem appointment}) = _AddAppointment;
+
+  const factory BookingEvent.removeAppointment({required int serviceId}) = _RemoveAppointment;
+
+  const factory BookingEvent.clearAllAppointmentAndService() = _ClearAll;
 }

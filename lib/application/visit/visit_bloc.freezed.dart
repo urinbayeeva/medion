@@ -16,20 +16,20 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$VisitEvent {
-  VisitRequest get request => throw _privateConstructorUsedError;
+  List<VisitRequest> get request => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(VisitRequest request) createVisit,
+    required TResult Function(List<VisitRequest> request) createVisit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(VisitRequest request)? createVisit,
+    TResult? Function(List<VisitRequest> request)? createVisit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(VisitRequest request)? createVisit,
+    TResult Function(List<VisitRequest> request)? createVisit,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -63,7 +63,7 @@ abstract class $VisitEventCopyWith<$Res> {
           VisitEvent value, $Res Function(VisitEvent) then) =
       _$VisitEventCopyWithImpl<$Res, VisitEvent>;
   @useResult
-  $Res call({VisitRequest request});
+  $Res call({List<VisitRequest> request});
 }
 
 /// @nodoc
@@ -87,7 +87,7 @@ class _$VisitEventCopyWithImpl<$Res, $Val extends VisitEvent>
       request: null == request
           ? _value.request
           : request // ignore: cast_nullable_to_non_nullable
-              as VisitRequest,
+              as List<VisitRequest>,
     ) as $Val);
   }
 }
@@ -100,7 +100,7 @@ abstract class _$$CreateVisitImplCopyWith<$Res>
       __$$CreateVisitImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({VisitRequest request});
+  $Res call({List<VisitRequest> request});
 }
 
 /// @nodoc
@@ -120,9 +120,9 @@ class __$$CreateVisitImplCopyWithImpl<$Res>
   }) {
     return _then(_$CreateVisitImpl(
       request: null == request
-          ? _value.request
+          ? _value._request
           : request // ignore: cast_nullable_to_non_nullable
-              as VisitRequest,
+              as List<VisitRequest>,
     ));
   }
 }
@@ -130,10 +130,16 @@ class __$$CreateVisitImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CreateVisitImpl implements _CreateVisit {
-  const _$CreateVisitImpl({required this.request});
+  const _$CreateVisitImpl({required final List<VisitRequest> request})
+      : _request = request;
 
+  final List<VisitRequest> _request;
   @override
-  final VisitRequest request;
+  List<VisitRequest> get request {
+    if (_request is EqualUnmodifiableListView) return _request;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_request);
+  }
 
   @override
   String toString() {
@@ -145,11 +151,12 @@ class _$CreateVisitImpl implements _CreateVisit {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateVisitImpl &&
-            (identical(other.request, request) || other.request == request));
+            const DeepCollectionEquality().equals(other._request, _request));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, request);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_request));
 
   /// Create a copy of VisitEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -162,7 +169,7 @@ class _$CreateVisitImpl implements _CreateVisit {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(VisitRequest request) createVisit,
+    required TResult Function(List<VisitRequest> request) createVisit,
   }) {
     return createVisit(request);
   }
@@ -170,7 +177,7 @@ class _$CreateVisitImpl implements _CreateVisit {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(VisitRequest request)? createVisit,
+    TResult? Function(List<VisitRequest> request)? createVisit,
   }) {
     return createVisit?.call(request);
   }
@@ -178,7 +185,7 @@ class _$CreateVisitImpl implements _CreateVisit {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(VisitRequest request)? createVisit,
+    TResult Function(List<VisitRequest> request)? createVisit,
     required TResult orElse(),
   }) {
     if (createVisit != null) {
@@ -217,11 +224,11 @@ class _$CreateVisitImpl implements _CreateVisit {
 }
 
 abstract class _CreateVisit implements VisitEvent {
-  const factory _CreateVisit({required final VisitRequest request}) =
+  const factory _CreateVisit({required final List<VisitRequest> request}) =
       _$CreateVisitImpl;
 
   @override
-  VisitRequest get request;
+  List<VisitRequest> get request;
 
   /// Create a copy of VisitEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -233,10 +240,9 @@ abstract class _CreateVisit implements VisitEvent {
 
 /// @nodoc
 mixin _$VisitState {
-  bool get loading => throw _privateConstructorUsedError;
-  bool get error => throw _privateConstructorUsedError;
-  bool get success => throw _privateConstructorUsedError;
-  List<VisitOrder> get visits => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get createVisitStatus =>
+      throw _privateConstructorUsedError;
+  CreateVisitResponse? get visits => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
 
   /// Create a copy of VisitState
@@ -253,10 +259,8 @@ abstract class $VisitStateCopyWith<$Res> {
       _$VisitStateCopyWithImpl<$Res, VisitState>;
   @useResult
   $Res call(
-      {bool loading,
-      bool error,
-      bool success,
-      List<VisitOrder> visits,
+      {FormzSubmissionStatus createVisitStatus,
+      CreateVisitResponse? visits,
       String errorMessage});
 }
 
@@ -275,29 +279,19 @@ class _$VisitStateCopyWithImpl<$Res, $Val extends VisitState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? loading = null,
-    Object? error = null,
-    Object? success = null,
-    Object? visits = null,
+    Object? createVisitStatus = null,
+    Object? visits = freezed,
     Object? errorMessage = null,
   }) {
     return _then(_value.copyWith(
-      loading: null == loading
-          ? _value.loading
-          : loading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as bool,
-      success: null == success
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
-              as bool,
-      visits: null == visits
+      createVisitStatus: null == createVisitStatus
+          ? _value.createVisitStatus
+          : createVisitStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      visits: freezed == visits
           ? _value.visits
           : visits // ignore: cast_nullable_to_non_nullable
-              as List<VisitOrder>,
+              as CreateVisitResponse?,
       errorMessage: null == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -315,10 +309,8 @@ abstract class _$$VisitStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool loading,
-      bool error,
-      bool success,
-      List<VisitOrder> visits,
+      {FormzSubmissionStatus createVisitStatus,
+      CreateVisitResponse? visits,
       String errorMessage});
 }
 
@@ -335,29 +327,19 @@ class __$$VisitStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? loading = null,
-    Object? error = null,
-    Object? success = null,
-    Object? visits = null,
+    Object? createVisitStatus = null,
+    Object? visits = freezed,
     Object? errorMessage = null,
   }) {
     return _then(_$VisitStateImpl(
-      loading: null == loading
-          ? _value.loading
-          : loading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as bool,
-      success: null == success
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
-              as bool,
-      visits: null == visits
-          ? _value._visits
+      createVisitStatus: null == createVisitStatus
+          ? _value.createVisitStatus
+          : createVisitStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      visits: freezed == visits
+          ? _value.visits
           : visits // ignore: cast_nullable_to_non_nullable
-              as List<VisitOrder>,
+              as CreateVisitResponse?,
       errorMessage: null == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -370,39 +352,23 @@ class __$$VisitStateImplCopyWithImpl<$Res>
 
 class _$VisitStateImpl extends _VisitState {
   const _$VisitStateImpl(
-      {this.loading = false,
-      this.error = false,
-      this.success = false,
-      final List<VisitOrder> visits = const [],
+      {this.createVisitStatus = FormzSubmissionStatus.initial,
+      this.visits,
       this.errorMessage = ''})
-      : _visits = visits,
-        super._();
+      : super._();
 
   @override
   @JsonKey()
-  final bool loading;
+  final FormzSubmissionStatus createVisitStatus;
   @override
-  @JsonKey()
-  final bool error;
-  @override
-  @JsonKey()
-  final bool success;
-  final List<VisitOrder> _visits;
-  @override
-  @JsonKey()
-  List<VisitOrder> get visits {
-    if (_visits is EqualUnmodifiableListView) return _visits;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_visits);
-  }
-
+  final CreateVisitResponse? visits;
   @override
   @JsonKey()
   final String errorMessage;
 
   @override
   String toString() {
-    return 'VisitState(loading: $loading, error: $error, success: $success, visits: $visits, errorMessage: $errorMessage)';
+    return 'VisitState(createVisitStatus: $createVisitStatus, visits: $visits, errorMessage: $errorMessage)';
   }
 
   @override
@@ -410,17 +376,16 @@ class _$VisitStateImpl extends _VisitState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$VisitStateImpl &&
-            (identical(other.loading, loading) || other.loading == loading) &&
-            (identical(other.error, error) || other.error == error) &&
-            (identical(other.success, success) || other.success == success) &&
-            const DeepCollectionEquality().equals(other._visits, _visits) &&
+            (identical(other.createVisitStatus, createVisitStatus) ||
+                other.createVisitStatus == createVisitStatus) &&
+            (identical(other.visits, visits) || other.visits == visits) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, loading, error, success,
-      const DeepCollectionEquality().hash(_visits), errorMessage);
+  int get hashCode =>
+      Object.hash(runtimeType, createVisitStatus, visits, errorMessage);
 
   /// Create a copy of VisitState
   /// with the given fields replaced by the non-null parameter values.
@@ -433,21 +398,15 @@ class _$VisitStateImpl extends _VisitState {
 
 abstract class _VisitState extends VisitState {
   const factory _VisitState(
-      {final bool loading,
-      final bool error,
-      final bool success,
-      final List<VisitOrder> visits,
+      {final FormzSubmissionStatus createVisitStatus,
+      final CreateVisitResponse? visits,
       final String errorMessage}) = _$VisitStateImpl;
   const _VisitState._() : super._();
 
   @override
-  bool get loading;
+  FormzSubmissionStatus get createVisitStatus;
   @override
-  bool get error;
-  @override
-  bool get success;
-  @override
-  List<VisitOrder> get visits;
+  CreateVisitResponse? get visits;
   @override
   String get errorMessage;
 

@@ -665,8 +665,7 @@ class _$RecommendationInfoSerializer
     if (value != null) {
       result
         ..add('order_detail_id')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(double)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
     return result;
   }
@@ -701,7 +700,7 @@ class _$RecommendationInfoSerializer
           break;
         case 'order_detail_id':
           result.orderDetailId = serializers.deserialize(value,
-              specifiedType: const FullType(double)) as double?;
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -2022,7 +2021,7 @@ class _$RecommendationInfo extends RecommendationInfo {
   @override
   final double? price;
   @override
-  final double? orderDetailId;
+  final int? orderDetailId;
 
   factory _$RecommendationInfo(
           [void Function(RecommendationInfoBuilder)? updates]) =>
@@ -2100,9 +2099,9 @@ class RecommendationInfoBuilder
   double? get price => _$this._price;
   set price(double? price) => _$this._price = price;
 
-  double? _orderDetailId;
-  double? get orderDetailId => _$this._orderDetailId;
-  set orderDetailId(double? orderDetailId) =>
+  int? _orderDetailId;
+  int? get orderDetailId => _$this._orderDetailId;
+  set orderDetailId(int? orderDetailId) =>
       _$this._orderDetailId = orderDetailId;
 
   RecommendationInfoBuilder();

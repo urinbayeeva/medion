@@ -71,10 +71,14 @@ class _SingleNotificationState extends State<SingleNotification> {
           body: BlocConsumer<NotificationBloc, NotificationState>(
             listenWhen: (old, fresh) {
               final postReview = old.postNotificationReviewStatus != fresh.postNotificationReviewStatus;
+              final readOnly = old.readOnlyStatus != fresh.readOnlyStatus;
 
-              return postReview;
+              return postReview || readOnly;
             },
             listener: (context, lState) {
+              if (lState.readOnlyStatus.isSuccess) {
+                context.read<NotificationBloc>().add(const NotificationEvent.getNotifications());
+              }
               if (lState.postNotificationReviewStatus.isSuccess) {
                 context.read<NotificationBloc>().add(NotificationEvent.readNotification(index: widget.id));
               }
@@ -86,7 +90,6 @@ class _SingleNotificationState extends State<SingleNotification> {
               return postReview || single || status;
             },
             builder: (context, state) {
-              log("build time ");
               if (widget.id == 0 || state.notificationStatus.isFailure && state.singleNotification == null) {
                 return Center(child: Lottie.asset("assets/anim/404.json"));
               } else if (state.singleStatus.isInProgress && state.singleStatus.isInitial) {

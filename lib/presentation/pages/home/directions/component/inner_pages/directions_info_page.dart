@@ -452,12 +452,12 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
           CButton(
             title: "next".tr(),
             onTap: () {
+              final List<SelectedServices> selectedServicesList =
+                  selectedServiceIds.map((id) => SelectedServices(serviceId: id)).toList();
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MedServiceDoctorChose(
-                    servicesID: selectedServiceIds.toList(),
-                  ),
+                  builder: (context) => MedServiceDoctorChose(servicesIDes: [...selectedServicesList]),
                 ),
               ).then(
                 (value) {

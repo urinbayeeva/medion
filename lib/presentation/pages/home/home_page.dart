@@ -187,12 +187,12 @@ class _HomePageState extends State<HomePage> {
                   child: SmartRefresher(
                     onRefresh: () {
                       context.read<BookingBloc>().add(const BookingEvent.fetchHomePageServicesBooking());
-                      // context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "news"));
-                      // context.read<DoctorBloc>().add(const DoctorEvent.fetchDoctors());
-                      // context.read<HomeBloc>().add(const HomeEvent.fetchMedicalServices());
-                      // context.read<HomeBloc>().add(const HomeEvent.fetchCompanyLocation());
-                      // context.read<HomeBloc>().add(const HomeEvent.fetchAds());
-                      // context.read<HomeBloc>().add(const HomeEvent.fetchDiseases());
+                      context.read<ContentBloc>().add(const ContentEvent.fetchContent(type: "news"));
+                      context.read<DoctorBloc>().add(const DoctorEvent.fetchDoctors());
+                      context.read<HomeBloc>().add(const HomeEvent.fetchMedicalServices());
+                      context.read<HomeBloc>().add(const HomeEvent.fetchCompanyLocation());
+                      context.read<HomeBloc>().add(const HomeEvent.fetchAds());
+                      context.read<HomeBloc>().add(const HomeEvent.fetchDiseases());
                       setState(() {});
                       _refreshController.refreshCompleted();
                     },
@@ -204,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                       key: const PageStorageKey<String>('home_list_view'),
                       padding: EdgeInsets.zero,
                       children: [
-                        4.h.verticalSpace,
+                        12.h.verticalSpace,
                         const Ads(),
                         16.h.verticalSpace,
                         Padding(

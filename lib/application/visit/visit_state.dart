@@ -5,10 +5,8 @@ class VisitState with _$VisitState {
   const VisitState._();
 
   const factory VisitState({
-    @Default(false) bool loading,
-    @Default(false) bool error,
-    @Default(false) bool success,
-    @Default([]) List<VisitOrder> visits,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus createVisitStatus,
+    CreateVisitResponse? visits,
     @Default('') String errorMessage,
   }) = _VisitState;
 

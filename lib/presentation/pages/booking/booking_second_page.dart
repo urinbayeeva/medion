@@ -68,19 +68,12 @@ class BookingSecondPage extends StatefulWidget {
 }
 
 class _BookingSecondPageState extends State<BookingSecondPage> {
-  // late final SelectedServiceIdsProvider _serviceIdsProvider;
-  // late final SelectedServicesProvider _servicesProvider;
   late final BookingBloc _bloc;
-  int chose = 0;
-  int? selectedIndex;
-  List<Service> selectedServices = [];
   final List<int> selectedServiceIDCatch = [];
   double turns = 0.0;
   bool changeSum = false;
   late DBService dbService;
   late FocusNode focusNode;
-
-  // late GlobalKey<FormState> _formKey;
   late TextEditingController _phoneNumberController;
   late TextEditingController _searchController;
   List<Category> _filteredCategories = [];
@@ -92,22 +85,12 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
     _bloc = context.read<BookingBloc>();
     _phoneNumberController = TextEditingController(text: "+998 ");
     _searchController = TextEditingController();
-    // _formKey = GlobalKey<FormState>();
     focusNode = FocusNode();
-    // _initializeDBService();
-    // _serviceIdsProvider = Provider.of<SelectedServiceIdsProvider>(context, listen: false);
-    // _servicesProvider = Provider.of<SelectedServicesProvider>(context, listen: false);
-    // Clear services for the current serviceId
-    /// _servicesProvider.clearServices(widget.serviceId);
-    /// _serviceIdsProvider.clearServiceIds(widget.serviceId);
-    // _serviceIdsProvider.addListener(_updateSelectedServices);
+    _initializeDBService();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _bloc.add(BookingEvent.fetchCategoryServices(id: widget.serviceId));
-      // _serviceIdsProvider.clearServiceIds(widget.serviceId);
     });
-
-    // _updateSelectedServices();
   }
 
   @override
@@ -116,43 +99,15 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
     _searchController.dispose();
     focusNode.dispose();
     _searchDebounce?.cancel();
-    // _serviceIdsProvider.removeListener(_updateSelectedServices);
-    // Clear services for the current serviceId
-    /// _servicesProvider.clearServices(widget.serviceId);
-    /// _serviceIdsProvider.clearServiceIds(widget.serviceId);
     super.dispose();
   }
 
-  // Future<void> _initializeDBService() async {
-  //   dbService = await DBService.create;
-  //   setState(() {
-  //     changeSum = dbService.getCurrencyPreference;
-  //   });
-  // }
-
-  // void _updateSelectedServices() {
-  //   if (!mounted) return;
-  //   final bookingState = context.read<BookingBloc>().state;
-  //   // final selectedIds = _serviceIdsProvider.getSelectedServiceIds(widget.serviceId);
-  //
-  //   setState(() {
-  //     selectedServices = bookingState.categoryServices
-  //         .expand((category) => category.services)
-  //         .where((service) => selectedIds.contains(service.id))
-  //         .toList();
-  //
-  //     chose = selectedServices.length;
-  //     selectedServiceIDCatch
-  //       ..clear()
-  //       ..addAll(selectedIds);
-  //
-  //     if (_searchController.text.isEmpty) {
-  //       _filteredCategories = bookingState.categoryServices.toList();
-  //     }
-  //
-  //     // Warn if there are selected services from a different serviceId
-  //   });
-  // }
+  Future<void> _initializeDBService() async {
+    dbService = await DBService.create;
+    setState(() {
+      changeSum = dbService.getCurrencyPreference;
+    });
+  }
 
   void _filterServices(String query) {
     if (!mounted) return;
@@ -651,45 +606,12 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                                   constraints: BoxConstraints(
                                     maxHeight: MediaQuery.of(context).size.height * 0.8,
                                   ),
-                                  builder: (context) {
-                                    return ShowSelectedService(
-                                      bloc: _bloc,
-                                      colors: colors,
-                                      fonts: fonts,
-                                      icons: icons,
-                                    );
-                                    // return StatefulBuilder(
-                                    //   builder: (BuildContext context, StateSetter setModalState) {
-                                    //     return ListenableProvider.value(
-                                    //       value: _servicesProvider,
-                                    //       child: Consumer<SelectedServicesProvider>(
-                                    //         builder: (context, provider, child) {
-                                    //           return ConstrainedBox(
-                                    //             constraints: const BoxConstraints(),
-                                    //             child: SingleChildScrollView(
-                                    //               child: ServiceSelectionModal(
-                                    //                 selectedServices: provider.getSelectedServices(widget.serviceId),
-                                    //                 chose: provider.getSelectedServices(widget.serviceId).length,
-                                    //                 onRemoveService: (service) {
-                                    //                   if (!mounted) return;
-                                    //                   _servicesProvider.removeService(widget.serviceId, service);
-                                    //                   _serviceIdsProvider.removeServiceId(
-                                    //                       widget.serviceId, service.id!);
-                                    //                 },
-                                    //                 onRemoveAllServices: () {
-                                    //                   if (!mounted) return;
-                                    //                   _servicesProvider.clearServices(widget.serviceId);
-                                    //                   _serviceIdsProvider.clearServiceIds(widget.serviceId);
-                                    //                 },
-                                    //               ),
-                                    //             ),
-                                    //           );
-                                    //         },
-                                    //       ),
-                                    //     );
-                                    //   },
-                                    // );
-                                  },
+                                  builder: (context) => ShowSelectedService(
+                                    bloc: _bloc,
+                                    colors: colors,
+                                    fonts: fonts,
+                                    icons: icons,
+                                  ),
                                 );
                               },
                               child: icons.right.svg(width: 20.w, height: 20.h, color: colors.iconGreyColor),
@@ -719,16 +641,17 @@ class _BookingSecondPageState extends State<BookingSecondPage> {
                               );
                             } else {
                               final List<BookingInfo> services = state.services;
-                              final allIds =
+                              final List<int> allIds =
                                   services.where((e) => e.service.id != null).map((e) => e.service.id!).toList();
 
+                              final List<SelectedServices> selectedServicesList =
+                                  allIds.map((id) => SelectedServices(serviceId: id)).toList();
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => MedServiceDoctorChose(
                                     isHome: true,
-                                    servicesID: [...allIds],
-                                    // servicesID: _serviceIdsProvider.getSelectedServiceIds(widget.serviceId),
+                                    servicesIDes: <SelectedServices>[...selectedServicesList],
                                   ),
                                 ),
                               );

@@ -7,21 +7,30 @@ part of 'branch_model.dart';
 // **************************************************************************
 
 Serializer<BranchModel> _$branchModelSerializer = new _$BranchModelSerializer();
-Serializer<BranchDetailModel> _$branchDetailModelSerializer = new _$BranchDetailModelSerializer();
+Serializer<BranchDetailModel> _$branchDetailModelSerializer =
+    new _$BranchDetailModelSerializer();
 Serializer<AwardsModel> _$awardsModelSerializer = new _$AwardsModelSerializer();
-Serializer<EducationModel> _$educationModelSerializer = new _$EducationModelSerializer();
+Serializer<EducationModel> _$educationModelSerializer =
+    new _$EducationModelSerializer();
 Serializer<StudyLead> _$studyLeadSerializer = new _$StudyLeadSerializer();
-Serializer<StudyLeadResult> _$studyLeadResultSerializer = new _$StudyLeadResultSerializer();
+Serializer<StudyLeadResult> _$studyLeadResultSerializer =
+    new _$StudyLeadResultSerializer();
 Serializer<Course> _$courseSerializer = new _$CourseSerializer();
-Serializer<ContentModel> _$contentModelSerializer = new _$ContentModelSerializer();
+Serializer<ContentModel> _$contentModelSerializer =
+    new _$ContentModelSerializer();
 Serializer<BannerModel> _$bannerModelSerializer = new _$BannerModelSerializer();
-Serializer<ChildContentModel> _$childContentModelSerializer = new _$ChildContentModelSerializer();
+Serializer<ChildContentModel> _$childContentModelSerializer =
+    new _$ChildContentModelSerializer();
 Serializer<MedionModel> _$medionModelSerializer = new _$MedionModelSerializer();
 Serializer<OfferModel> _$offerModelSerializer = new _$OfferModelSerializer();
-Serializer<GetReviewModel> _$getReviewModelSerializer = new _$GetReviewModelSerializer();
-Serializer<PostReviewModel> _$postReviewModelSerializer = new _$PostReviewModelSerializer();
-Serializer<PostReviewResult> _$postReviewResultSerializer = new _$PostReviewResultSerializer();
-Serializer<PostVisitReviewModel> _$postVisitReviewModelSerializer = new _$PostVisitReviewModelSerializer();
+Serializer<GetReviewModel> _$getReviewModelSerializer =
+    new _$GetReviewModelSerializer();
+Serializer<PostReviewModel> _$postReviewModelSerializer =
+    new _$PostReviewModelSerializer();
+Serializer<PostReviewResult> _$postReviewResultSerializer =
+    new _$PostReviewResultSerializer();
+Serializer<PostVisitReviewModel> _$postVisitReviewModelSerializer =
+    new _$PostVisitReviewModelSerializer();
 
 class _$BranchModelSerializer implements StructuredSerializer<BranchModel> {
   @override
@@ -36,85 +45,102 @@ class _$BranchModelSerializer implements StructuredSerializer<BranchModel> {
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'latitude',
-      serializers.serialize(object.latitude, specifiedType: const FullType(double)),
+      serializers.serialize(object.latitude,
+          specifiedType: const FullType(double)),
       'longitude',
-      serializers.serialize(object.longitude, specifiedType: const FullType(double)),
+      serializers.serialize(object.longitude,
+          specifiedType: const FullType(double)),
       'work_time',
-      serializers.serialize(object.workTime, specifiedType: const FullType(String)),
+      serializers.serialize(object.workTime,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.image;
     if (value != null) {
       result
         ..add('image')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.name;
     if (value != null) {
       result
         ..add('name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.address;
     if (value != null) {
       result
         ..add('address')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.phone;
     if (value != null) {
       result
         ..add('phone')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.workDays;
     if (value != null) {
       result
         ..add('work_days')
-        ..add(serializers.serialize(value, specifiedType: const FullType(BuiltList, const [const FullType(String)])));
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
     }
     value = object.description;
     if (value != null) {
       result
         ..add('description')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.title;
     if (value != null) {
       result
         ..add('title')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.workingAllDays;
     if (value != null) {
       result
         ..add('working_all_days')
-        ..add(serializers.serialize(value, specifiedType: const FullType(bool)));
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
     value = object.extraDescription;
     if (value != null) {
       result
         ..add('extra_description')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.ourOffer;
     if (value != null) {
       result
         ..add('offers')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(BuiltList, const [const FullType(OfferModel)])));
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(OfferModel)])));
     }
     value = object.icon;
     if (value != null) {
       result
         ..add('icon')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.licenses;
     if (value != null) {
       result
         ..add('licenses')
-        ..add(serializers.serialize(value, specifiedType: const FullType(BuiltList, const [const FullType(String)])));
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
     }
     return result;
   }
@@ -131,55 +157,74 @@ class _$BranchModelSerializer implements StructuredSerializer<BranchModel> {
       final Object? value = iterator.current;
       switch (key) {
         case 'id':
-          result.id = serializers.deserialize(value, specifiedType: const FullType(int))! as int;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'image':
-          result.image = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.image = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'name':
-          result.name = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'address':
-          result.address = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.address = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'phone':
-          result.phone = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.phone = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'latitude':
-          result.latitude = serializers.deserialize(value, specifiedType: const FullType(double))! as double;
+          result.latitude = serializers.deserialize(value,
+              specifiedType: const FullType(double))! as double;
           break;
         case 'longitude':
-          result.longitude = serializers.deserialize(value, specifiedType: const FullType(double))! as double;
+          result.longitude = serializers.deserialize(value,
+              specifiedType: const FullType(double))! as double;
           break;
         case 'work_time':
-          result.workTime = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.workTime = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'work_days':
           result.workDays.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(String)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
         case 'description':
-          result.description = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'title':
-          result.title = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'working_all_days':
-          result.workingAllDays = serializers.deserialize(value, specifiedType: const FullType(bool)) as bool?;
+          result.workingAllDays = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'extra_description':
-          result.extraDescription = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.extraDescription = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'offers':
           result.ourOffer.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(OfferModel)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(OfferModel)]))!
+              as BuiltList<Object?>);
           break;
         case 'icon':
-          result.icon = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.icon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'licenses':
           result.licenses.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(String)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -188,7 +233,8 @@ class _$BranchModelSerializer implements StructuredSerializer<BranchModel> {
   }
 }
 
-class _$BranchDetailModelSerializer implements StructuredSerializer<BranchDetailModel> {
+class _$BranchDetailModelSerializer
+    implements StructuredSerializer<BranchDetailModel> {
   @override
   final Iterable<Type> types = const [BranchDetailModel, _$BranchDetailModel];
   @override
@@ -201,79 +247,97 @@ class _$BranchDetailModelSerializer implements StructuredSerializer<BranchDetail
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'latitude',
-      serializers.serialize(object.latitude, specifiedType: const FullType(double)),
+      serializers.serialize(object.latitude,
+          specifiedType: const FullType(double)),
       'longitude',
-      serializers.serialize(object.longitude, specifiedType: const FullType(double)),
+      serializers.serialize(object.longitude,
+          specifiedType: const FullType(double)),
       'offers',
       serializers.serialize(object.offers,
-          specifiedType: const FullType(BuiltList, const [const FullType(OfferModel)])),
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(OfferModel)])),
     ];
     Object? value;
     value = object.name;
     if (value != null) {
       result
         ..add('name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.address;
     if (value != null) {
       result
         ..add('address')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.phone;
     if (value != null) {
       result
         ..add('phone')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.workTime;
     if (value != null) {
       result
         ..add('work_time')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.description;
     if (value != null) {
       result
         ..add('description')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.workingAllDays;
     if (value != null) {
       result
         ..add('working_all_days')
-        ..add(serializers.serialize(value, specifiedType: const FullType(bool)));
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
     value = object.licenses;
     if (value != null) {
       result
         ..add('licenses')
-        ..add(serializers.serialize(value, specifiedType: const FullType(BuiltList, const [const FullType(String)])));
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
     }
     value = object.images;
     if (value != null) {
       result
         ..add('image')
-        ..add(serializers.serialize(value, specifiedType: const FullType(BuiltList, const [const FullType(String)])));
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
     }
     value = object.video;
     if (value != null) {
       result
         ..add('video')
-        ..add(serializers.serialize(value, specifiedType: const FullType(BuiltList, const [const FullType(dynamic)])));
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(dynamic)])));
     }
     value = object.workDays;
     if (value != null) {
       result
         ..add('work_days')
-        ..add(serializers.serialize(value, specifiedType: const FullType(BuiltList, const [const FullType(String)])));
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
     }
     return result;
   }
 
   @override
-  BranchDetailModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+  BranchDetailModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new BranchDetailModelBuilder();
 
@@ -284,51 +348,70 @@ class _$BranchDetailModelSerializer implements StructuredSerializer<BranchDetail
       final Object? value = iterator.current;
       switch (key) {
         case 'id':
-          result.id = serializers.deserialize(value, specifiedType: const FullType(int))! as int;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'name':
-          result.name = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'address':
-          result.address = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.address = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'phone':
-          result.phone = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.phone = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'work_time':
-          result.workTime = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.workTime = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'description':
-          result.description = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'working_all_days':
-          result.workingAllDays = serializers.deserialize(value, specifiedType: const FullType(bool)) as bool?;
+          result.workingAllDays = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'licenses':
           result.licenses.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(String)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
         case 'image':
           result.images.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(String)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
         case 'latitude':
-          result.latitude = serializers.deserialize(value, specifiedType: const FullType(double))! as double;
+          result.latitude = serializers.deserialize(value,
+              specifiedType: const FullType(double))! as double;
           break;
         case 'longitude':
-          result.longitude = serializers.deserialize(value, specifiedType: const FullType(double))! as double;
+          result.longitude = serializers.deserialize(value,
+              specifiedType: const FullType(double))! as double;
           break;
         case 'video':
           result.video.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(dynamic)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(dynamic)]))!
+              as BuiltList<Object?>);
           break;
         case 'work_days':
           result.workDays.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(String)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
         case 'offers':
           result.offers.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(OfferModel)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(OfferModel)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -364,19 +447,22 @@ class _$AwardsModelSerializer implements StructuredSerializer<AwardsModel> {
     if (value != null) {
       result
         ..add('title')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.description;
     if (value != null) {
       result
         ..add('description')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.image;
     if (value != null) {
       result
         ..add('image')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
@@ -393,19 +479,24 @@ class _$AwardsModelSerializer implements StructuredSerializer<AwardsModel> {
       final Object? value = iterator.current;
       switch (key) {
         case 'branch_id':
-          result.branchId = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.branchId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'id':
-          result.id = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'title':
-          result.title = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'description':
-          result.description = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'image':
-          result.image = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.image = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -414,7 +505,8 @@ class _$AwardsModelSerializer implements StructuredSerializer<AwardsModel> {
   }
 }
 
-class _$EducationModelSerializer implements StructuredSerializer<EducationModel> {
+class _$EducationModelSerializer
+    implements StructuredSerializer<EducationModel> {
   @override
   final Iterable<Type> types = const [EducationModel, _$EducationModel];
   @override
@@ -425,134 +517,157 @@ class _$EducationModelSerializer implements StructuredSerializer<EducationModel>
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'company_id',
-      serializers.serialize(object.companyId, specifiedType: const FullType(int)),
+      serializers.serialize(object.companyId,
+          specifiedType: const FullType(int)),
     ];
     Object? value;
     value = object.name;
     if (value != null) {
       result
         ..add('name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.description;
     if (value != null) {
       result
         ..add('description')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.mission;
     if (value != null) {
       result
         ..add('mission')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.values;
     if (value != null) {
       result
         ..add('values')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.goals;
     if (value != null) {
       result
         ..add('goals')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.audience;
     if (value != null) {
       result
         ..add('audience')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.whyUs;
     if (value != null) {
       result
         ..add('why_us')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.courses;
     if (value != null) {
       result
         ..add('courses')
-        ..add(serializers.serialize(value, specifiedType: const FullType(BuiltList, const [const FullType(Course)])));
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(Course)])));
     }
     value = object.bannerLink;
     if (value != null) {
       result
         ..add('banner_link')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.bannerImage;
     if (value != null) {
       result
         ..add('banner_image')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.missionTitle;
     if (value != null) {
       result
         ..add('mission_title')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.missionIcon;
     if (value != null) {
       result
         ..add('mission_icon')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.valuesTitle;
     if (value != null) {
       result
         ..add('values_title')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.valuesIcon;
     if (value != null) {
       result
         ..add('values_icon')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.goalsTitle;
     if (value != null) {
       result
         ..add('goals_title')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.goalsIcon;
     if (value != null) {
       result
         ..add('goals_icon')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.audienceTitle;
     if (value != null) {
       result
         ..add('audience_title')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.audienceIcon;
     if (value != null) {
       result
         ..add('audience_icon')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.whyUsTitle;
     if (value != null) {
       result
         ..add('why_us_title')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.whyUsIcon;
     if (value != null) {
       result
         ..add('why_us_icon')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  EducationModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+  EducationModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new EducationModelBuilder();
 
@@ -563,68 +678,90 @@ class _$EducationModelSerializer implements StructuredSerializer<EducationModel>
       final Object? value = iterator.current;
       switch (key) {
         case 'name':
-          result.name = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'description':
-          result.description = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'mission':
-          result.mission = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.mission = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'values':
-          result.values = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.values = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'goals':
-          result.goals = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.goals = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'audience':
-          result.audience = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.audience = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'why_us':
-          result.whyUs = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.whyUs = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'company_id':
-          result.companyId = serializers.deserialize(value, specifiedType: const FullType(int))! as int;
+          result.companyId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'courses':
           result.courses.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(Course)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(Course)]))!
+              as BuiltList<Object?>);
           break;
         case 'banner_link':
-          result.bannerLink = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.bannerLink = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'banner_image':
-          result.bannerImage = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.bannerImage = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'mission_title':
-          result.missionTitle = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.missionTitle = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'mission_icon':
-          result.missionIcon = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.missionIcon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'values_title':
-          result.valuesTitle = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.valuesTitle = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'values_icon':
-          result.valuesIcon = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.valuesIcon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'goals_title':
-          result.goalsTitle = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.goalsTitle = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'goals_icon':
-          result.goalsIcon = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.goalsIcon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'audience_title':
-          result.audienceTitle = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.audienceTitle = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'audience_icon':
-          result.audienceIcon = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.audienceIcon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'why_us_title':
-          result.whyUsTitle = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.whyUsTitle = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'why_us_icon':
-          result.whyUsIcon = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.whyUsIcon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -646,11 +783,14 @@ class _$StudyLeadSerializer implements StructuredSerializer<StudyLead> {
       'full_name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
       'phone',
-      serializers.serialize(object.phone, specifiedType: const FullType(String)),
+      serializers.serialize(object.phone,
+          specifiedType: const FullType(String)),
       'company_id',
-      serializers.serialize(object.companyId, specifiedType: const FullType(int)),
+      serializers.serialize(object.companyId,
+          specifiedType: const FullType(int)),
       'course_id',
-      serializers.serialize(object.courseId, specifiedType: const FullType(int)),
+      serializers.serialize(object.courseId,
+          specifiedType: const FullType(int)),
     ];
 
     return result;
@@ -668,16 +808,20 @@ class _$StudyLeadSerializer implements StructuredSerializer<StudyLead> {
       final Object? value = iterator.current;
       switch (key) {
         case 'full_name':
-          result.name = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'phone':
-          result.phone = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.phone = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'company_id':
-          result.companyId = serializers.deserialize(value, specifiedType: const FullType(int))! as int;
+          result.companyId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'course_id':
-          result.courseId = serializers.deserialize(value, specifiedType: const FullType(int))! as int;
+          result.courseId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
       }
     }
@@ -686,7 +830,8 @@ class _$StudyLeadSerializer implements StructuredSerializer<StudyLead> {
   }
 }
 
-class _$StudyLeadResultSerializer implements StructuredSerializer<StudyLeadResult> {
+class _$StudyLeadResultSerializer
+    implements StructuredSerializer<StudyLeadResult> {
   @override
   final Iterable<Type> types = const [StudyLeadResult, _$StudyLeadResult];
   @override
@@ -697,14 +842,16 @@ class _$StudyLeadResultSerializer implements StructuredSerializer<StudyLeadResul
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'status',
-      serializers.serialize(object.status, specifiedType: const FullType(String)),
+      serializers.serialize(object.status,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
   }
 
   @override
-  StudyLeadResult deserialize(Serializers serializers, Iterable<Object?> serialized,
+  StudyLeadResult deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new StudyLeadResultBuilder();
 
@@ -715,7 +862,8 @@ class _$StudyLeadResultSerializer implements StructuredSerializer<StudyLeadResul
       final Object? value = iterator.current;
       switch (key) {
         case 'status':
-          result.status = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.status = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -731,7 +879,8 @@ class _$CourseSerializer implements StructuredSerializer<Course> {
   final String wireName = 'Course';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, Course object, {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(Serializers serializers, Course object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[];
     Object? value;
     value = object.id;
@@ -744,19 +893,22 @@ class _$CourseSerializer implements StructuredSerializer<Course> {
     if (value != null) {
       result
         ..add('name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.description;
     if (value != null) {
       result
         ..add('description')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.image;
     if (value != null) {
       result
         ..add('image')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
@@ -773,16 +925,20 @@ class _$CourseSerializer implements StructuredSerializer<Course> {
       final Object? value = iterator.current;
       switch (key) {
         case 'id':
-          result.id = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'name':
-          result.name = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'description':
-          result.description = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'image':
-          result.image = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.image = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -806,60 +962,75 @@ class _$ContentModelSerializer implements StructuredSerializer<ContentModel> {
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'create_date',
-      serializers.serialize(object.createDate, specifiedType: const FullType(String)),
+      serializers.serialize(object.createDate,
+          specifiedType: const FullType(String)),
       'title',
-      serializers.serialize(object.title, specifiedType: const FullType(String)),
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
       'description',
-      serializers.serialize(object.description, specifiedType: const FullType(String)),
+      serializers.serialize(object.description,
+          specifiedType: const FullType(String)),
       'link',
-      serializers.serialize(object.link, specifiedType: const FullType(JsonObject)),
+      serializers.serialize(object.link,
+          specifiedType: const FullType(JsonObject)),
       'primary_image',
-      serializers.serialize(object.primaryImage, specifiedType: const FullType(String)),
+      serializers.serialize(object.primaryImage,
+          specifiedType: const FullType(String)),
       'images',
-      serializers.serialize(object.images, specifiedType: const FullType(BuiltList, const [const FullType(String)])),
+      serializers.serialize(object.images,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
       'children',
       serializers.serialize(object.children,
-          specifiedType: const FullType(BuiltList, const [const FullType(ChildContentModel)])),
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(ChildContentModel)])),
       'banners',
       serializers.serialize(object.banners,
-          specifiedType: const FullType(BuiltList, const [const FullType(BannerModel)])),
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(BannerModel)])),
     ];
     Object? value;
     value = object.discountCondition;
     if (value != null) {
       result
         ..add('discount_condition')
-        ..add(serializers.serialize(value, specifiedType: const FullType(JsonObject)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
     }
     value = object.discountLocation;
     if (value != null) {
       result
         ..add('discount_location')
-        ..add(serializers.serialize(value, specifiedType: const FullType(JsonObject)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
     }
     value = object.discountStartDate;
     if (value != null) {
       result
         ..add('discount_start_date')
-        ..add(serializers.serialize(value, specifiedType: const FullType(JsonObject)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
     }
     value = object.discountEndDate;
     if (value != null) {
       result
         ..add('discount_end_date')
-        ..add(serializers.serialize(value, specifiedType: const FullType(JsonObject)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
     }
     value = object.phoneNumber;
     if (value != null) {
       result
         ..add('phone_number')
-        ..add(serializers.serialize(value, specifiedType: const FullType(JsonObject)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
     }
     value = object.phoneNumberShort;
     if (value != null) {
       result
         ..add('phone_number_short')
-        ..add(serializers.serialize(value, specifiedType: const FullType(JsonObject)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(JsonObject)));
     }
     value = object.categoryId;
     if (value != null) {
@@ -871,7 +1042,8 @@ class _$ContentModelSerializer implements StructuredSerializer<ContentModel> {
   }
 
   @override
-  ContentModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+  ContentModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new ContentModelBuilder();
 
@@ -882,64 +1054,78 @@ class _$ContentModelSerializer implements StructuredSerializer<ContentModel> {
       final Object? value = iterator.current;
       switch (key) {
         case 'type':
-          result.type = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.type = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'id':
-          result.id = serializers.deserialize(value, specifiedType: const FullType(int))! as int;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'create_date':
-          result.createDate = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.createDate = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'title':
-          result.title = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'description':
-          result.description = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'link':
-          result.link = serializers.deserialize(value, specifiedType: const FullType(JsonObject))! as JsonObject;
+          result.link = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject))! as JsonObject;
           break;
         case 'primary_image':
-          result.primaryImage = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.primaryImage = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'images':
           result.images.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(String)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
         case 'children':
           result.children.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(BuiltList, const [const FullType(ChildContentModel)]))!
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(ChildContentModel)]))!
               as BuiltList<Object?>);
           break;
         case 'discount_condition':
-          result.discountCondition =
-              serializers.deserialize(value, specifiedType: const FullType(JsonObject)) as JsonObject?;
+          result.discountCondition = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'discount_location':
-          result.discountLocation =
-              serializers.deserialize(value, specifiedType: const FullType(JsonObject)) as JsonObject?;
+          result.discountLocation = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'discount_start_date':
-          result.discountStartDate =
-              serializers.deserialize(value, specifiedType: const FullType(JsonObject)) as JsonObject?;
+          result.discountStartDate = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'discount_end_date':
-          result.discountEndDate =
-              serializers.deserialize(value, specifiedType: const FullType(JsonObject)) as JsonObject?;
+          result.discountEndDate = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'phone_number':
-          result.phoneNumber = serializers.deserialize(value, specifiedType: const FullType(JsonObject)) as JsonObject?;
+          result.phoneNumber = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'phone_number_short':
-          result.phoneNumberShort =
-              serializers.deserialize(value, specifiedType: const FullType(JsonObject)) as JsonObject?;
+          result.phoneNumberShort = serializers.deserialize(value,
+              specifiedType: const FullType(JsonObject)) as JsonObject?;
           break;
         case 'category_id':
-          result.categoryId = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.categoryId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'banners':
           result.banners.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(BannerModel)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(BannerModel)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -961,15 +1147,19 @@ class _$BannerModelSerializer implements StructuredSerializer<BannerModel> {
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
       'image',
-      serializers.serialize(object.image, specifiedType: const FullType(String)),
+      serializers.serialize(object.image,
+          specifiedType: const FullType(String)),
       'image_mobile',
-      serializers.serialize(object.imageMobile, specifiedType: const FullType(String)),
+      serializers.serialize(object.imageMobile,
+          specifiedType: const FullType(String)),
       'link',
       serializers.serialize(object.link, specifiedType: const FullType(String)),
       'button_text',
-      serializers.serialize(object.buttonText, specifiedType: const FullType(String)),
+      serializers.serialize(object.buttonText,
+          specifiedType: const FullType(String)),
       'horizontal',
-      serializers.serialize(object.horizontal, specifiedType: const FullType(bool)),
+      serializers.serialize(object.horizontal,
+          specifiedType: const FullType(bool)),
     ];
 
     return result;
@@ -987,22 +1177,28 @@ class _$BannerModelSerializer implements StructuredSerializer<BannerModel> {
       final Object? value = iterator.current;
       switch (key) {
         case 'name':
-          result.name = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'image':
-          result.image = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.image = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'image_mobile':
-          result.imageMobile = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.imageMobile = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'link':
-          result.link = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.link = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'button_text':
-          result.buttonText = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.buttonText = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'horizontal':
-          result.horizontal = serializers.deserialize(value, specifiedType: const FullType(bool))! as bool;
+          result.horizontal = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -1011,7 +1207,8 @@ class _$BannerModelSerializer implements StructuredSerializer<BannerModel> {
   }
 }
 
-class _$ChildContentModelSerializer implements StructuredSerializer<ChildContentModel> {
+class _$ChildContentModelSerializer
+    implements StructuredSerializer<ChildContentModel> {
   @override
   final Iterable<Type> types = const [ChildContentModel, _$ChildContentModel];
   @override
@@ -1024,20 +1221,25 @@ class _$ChildContentModelSerializer implements StructuredSerializer<ChildContent
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'title',
-      serializers.serialize(object.title, specifiedType: const FullType(String)),
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
       'description',
-      serializers.serialize(object.description, specifiedType: const FullType(String)),
+      serializers.serialize(object.description,
+          specifiedType: const FullType(String)),
       'primary_image',
-      serializers.serialize(object.primaryImage, specifiedType: const FullType(String)),
+      serializers.serialize(object.primaryImage,
+          specifiedType: const FullType(String)),
       'create_date',
-      serializers.serialize(object.createDate, specifiedType: const FullType(String)),
+      serializers.serialize(object.createDate,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
   }
 
   @override
-  ChildContentModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+  ChildContentModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new ChildContentModelBuilder();
 
@@ -1048,19 +1250,24 @@ class _$ChildContentModelSerializer implements StructuredSerializer<ChildContent
       final Object? value = iterator.current;
       switch (key) {
         case 'id':
-          result.id = serializers.deserialize(value, specifiedType: const FullType(int))! as int;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'title':
-          result.title = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'description':
-          result.description = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'primary_image':
-          result.primaryImage = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.primaryImage = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'create_date':
-          result.createDate = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.createDate = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -1080,26 +1287,33 @@ class _$MedionModelSerializer implements StructuredSerializer<MedionModel> {
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'description',
-      serializers.serialize(object.description, specifiedType: const FullType(String)),
+      serializers.serialize(object.description,
+          specifiedType: const FullType(String)),
       'about',
-      serializers.serialize(object.about, specifiedType: const FullType(String)),
+      serializers.serialize(object.about,
+          specifiedType: const FullType(String)),
       'history',
-      serializers.serialize(object.history, specifiedType: const FullType(String)),
+      serializers.serialize(object.history,
+          specifiedType: const FullType(String)),
       'mission',
-      serializers.serialize(object.mission, specifiedType: const FullType(String)),
+      serializers.serialize(object.mission,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.name;
     if (value != null) {
       result
         ..add('name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.licenses;
     if (value != null) {
       result
         ..add('licenses')
-        ..add(serializers.serialize(value, specifiedType: const FullType(BuiltList, const [const FullType(String)])));
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
     }
     return result;
   }
@@ -1116,23 +1330,30 @@ class _$MedionModelSerializer implements StructuredSerializer<MedionModel> {
       final Object? value = iterator.current;
       switch (key) {
         case 'name':
-          result.name = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'description':
-          result.description = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'about':
-          result.about = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.about = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'history':
-          result.history = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.history = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'mission':
-          result.mission = serializers.deserialize(value, specifiedType: const FullType(String))! as String;
+          result.mission = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'licenses':
           result.licenses.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [const FullType(String)]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -1156,31 +1377,36 @@ class _$OfferModelSerializer implements StructuredSerializer<OfferModel> {
     if (value != null) {
       result
         ..add('offerta')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.companyName;
     if (value != null) {
       result
         ..add('company_name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.name;
     if (value != null) {
       result
         ..add('name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.description;
     if (value != null) {
       result
         ..add('description')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.icon;
     if (value != null) {
       result
         ..add('icon')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
@@ -1197,19 +1423,24 @@ class _$OfferModelSerializer implements StructuredSerializer<OfferModel> {
       final Object? value = iterator.current;
       switch (key) {
         case 'offerta':
-          result.offerta = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.offerta = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'company_name':
-          result.companyName = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.companyName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'name':
-          result.name = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'description':
-          result.description = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'icon':
-          result.icon = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.icon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -1218,7 +1449,8 @@ class _$OfferModelSerializer implements StructuredSerializer<OfferModel> {
   }
 }
 
-class _$GetReviewModelSerializer implements StructuredSerializer<GetReviewModel> {
+class _$GetReviewModelSerializer
+    implements StructuredSerializer<GetReviewModel> {
   @override
   final Iterable<Type> types = const [GetReviewModel, _$GetReviewModel];
   @override
@@ -1239,37 +1471,43 @@ class _$GetReviewModelSerializer implements StructuredSerializer<GetReviewModel>
     if (value != null) {
       result
         ..add('title')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.dateTime;
     if (value != null) {
       result
         ..add('create_date')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.location;
     if (value != null) {
       result
         ..add('address')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.name;
     if (value != null) {
       result
         ..add('name')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.ratings;
     if (value != null) {
       result
         ..add('ratings')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.review;
     if (value != null) {
       result
         ..add('review')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.companyId;
     if (value != null) {
@@ -1299,31 +1537,36 @@ class _$GetReviewModelSerializer implements StructuredSerializer<GetReviewModel>
     if (value != null) {
       result
         ..add('is_anonym')
-        ..add(serializers.serialize(value, specifiedType: const FullType(bool)));
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
     value = object.address;
     if (value != null) {
       result
         ..add('address')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.createDate;
     if (value != null) {
       result
         ..add('create_date')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.status;
     if (value != null) {
       result
         ..add('status')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  GetReviewModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+  GetReviewModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new GetReviewModelBuilder();
 
@@ -1334,49 +1577,64 @@ class _$GetReviewModelSerializer implements StructuredSerializer<GetReviewModel>
       final Object? value = iterator.current;
       switch (key) {
         case 'id':
-          result.id = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'title':
-          result.title = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'create_date':
-          result.dateTime = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.dateTime = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'address':
-          result.location = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.location = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'name':
-          result.name = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'ratings':
-          result.ratings = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.ratings = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'review':
-          result.review = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.review = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'company_id':
-          result.companyId = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.companyId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'doctor_id':
-          result.doctorId = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.doctorId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'service_id':
-          result.serviceId = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.serviceId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'partner_id':
-          result.partnerId = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.partnerId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'is_anonym':
-          result.isAnonym = serializers.deserialize(value, specifiedType: const FullType(bool)) as bool?;
+          result.isAnonym = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'address':
-          result.address = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.address = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'create_date':
-          result.createDate = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.createDate = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'status':
-          result.status = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.status = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -1385,7 +1643,8 @@ class _$GetReviewModelSerializer implements StructuredSerializer<GetReviewModel>
   }
 }
 
-class _$PostReviewModelSerializer implements StructuredSerializer<PostReviewModel> {
+class _$PostReviewModelSerializer
+    implements StructuredSerializer<PostReviewModel> {
   @override
   final Iterable<Type> types = const [PostReviewModel, _$PostReviewModel];
   @override
@@ -1400,7 +1659,8 @@ class _$PostReviewModelSerializer implements StructuredSerializer<PostReviewMode
     if (value != null) {
       result
         ..add('is_anonym')
-        ..add(serializers.serialize(value, specifiedType: const FullType(bool)));
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
     value = object.companyId;
     if (value != null) {
@@ -1412,19 +1672,22 @@ class _$PostReviewModelSerializer implements StructuredSerializer<PostReviewMode
     if (value != null) {
       result
         ..add('ratings')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.review;
     if (value != null) {
       result
         ..add('review')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  PostReviewModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+  PostReviewModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new PostReviewModelBuilder();
 
@@ -1435,16 +1698,20 @@ class _$PostReviewModelSerializer implements StructuredSerializer<PostReviewMode
       final Object? value = iterator.current;
       switch (key) {
         case 'is_anonym':
-          result.isAnonym = serializers.deserialize(value, specifiedType: const FullType(bool)) as bool?;
+          result.isAnonym = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'company_id':
-          result.companyId = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.companyId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'ratings':
-          result.ratings = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.ratings = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'review':
-          result.review = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.review = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -1453,7 +1720,8 @@ class _$PostReviewModelSerializer implements StructuredSerializer<PostReviewMode
   }
 }
 
-class _$PostReviewResultSerializer implements StructuredSerializer<PostReviewResult> {
+class _$PostReviewResultSerializer
+    implements StructuredSerializer<PostReviewResult> {
   @override
   final Iterable<Type> types = const [PostReviewResult, _$PostReviewResult];
   @override
@@ -1468,19 +1736,22 @@ class _$PostReviewResultSerializer implements StructuredSerializer<PostReviewRes
     if (value != null) {
       result
         ..add('status')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.message;
     if (value != null) {
       result
         ..add('message')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  PostReviewResult deserialize(Serializers serializers, Iterable<Object?> serialized,
+  PostReviewResult deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new PostReviewResultBuilder();
 
@@ -1491,10 +1762,12 @@ class _$PostReviewResultSerializer implements StructuredSerializer<PostReviewRes
       final Object? value = iterator.current;
       switch (key) {
         case 'status':
-          result.status = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.status = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'message':
-          result.message = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.message = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -1503,14 +1776,19 @@ class _$PostReviewResultSerializer implements StructuredSerializer<PostReviewRes
   }
 }
 
-class _$PostVisitReviewModelSerializer implements StructuredSerializer<PostVisitReviewModel> {
+class _$PostVisitReviewModelSerializer
+    implements StructuredSerializer<PostVisitReviewModel> {
   @override
-  final Iterable<Type> types = const [PostVisitReviewModel, _$PostVisitReviewModel];
+  final Iterable<Type> types = const [
+    PostVisitReviewModel,
+    _$PostVisitReviewModel
+  ];
   @override
   final String wireName = 'PostVisitReviewModel';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, PostVisitReviewModel object,
+  Iterable<Object?> serialize(
+      Serializers serializers, PostVisitReviewModel object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[];
     Object? value;
@@ -1518,13 +1796,15 @@ class _$PostVisitReviewModelSerializer implements StructuredSerializer<PostVisit
     if (value != null) {
       result
         ..add('ratings')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.review;
     if (value != null) {
       result
         ..add('review')
-        ..add(serializers.serialize(value, specifiedType: const FullType(String)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.visitId;
     if (value != null) {
@@ -1536,7 +1816,8 @@ class _$PostVisitReviewModelSerializer implements StructuredSerializer<PostVisit
   }
 
   @override
-  PostVisitReviewModel deserialize(Serializers serializers, Iterable<Object?> serialized,
+  PostVisitReviewModel deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new PostVisitReviewModelBuilder();
 
@@ -1547,13 +1828,16 @@ class _$PostVisitReviewModelSerializer implements StructuredSerializer<PostVisit
       final Object? value = iterator.current;
       switch (key) {
         case 'ratings':
-          result.ratings = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.ratings = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'review':
-          result.review = serializers.deserialize(value, specifiedType: const FullType(String)) as String?;
+          result.review = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'visit_id':
-          result.visitId = serializers.deserialize(value, specifiedType: const FullType(int)) as int?;
+          result.visitId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -1619,12 +1903,14 @@ class _$BranchModel extends BranchModel {
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'BranchModel', 'id');
     BuiltValueNullFieldError.checkNotNull(latitude, r'BranchModel', 'latitude');
-    BuiltValueNullFieldError.checkNotNull(longitude, r'BranchModel', 'longitude');
+    BuiltValueNullFieldError.checkNotNull(
+        longitude, r'BranchModel', 'longitude');
     BuiltValueNullFieldError.checkNotNull(workTime, r'BranchModel', 'workTime');
   }
 
   @override
-  BranchModel rebuild(void Function(BranchModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  BranchModel rebuild(void Function(BranchModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   BranchModelBuilder toBuilder() => new BranchModelBuilder()..replace(this);
@@ -1701,99 +1987,73 @@ class BranchModelBuilder implements Builder<BranchModel, BranchModelBuilder> {
   _$BranchModel? _$v;
 
   int? _id;
-
   int? get id => _$this._id;
-
   set id(int? id) => _$this._id = id;
 
   String? _image;
-
   String? get image => _$this._image;
-
   set image(String? image) => _$this._image = image;
 
   String? _name;
-
   String? get name => _$this._name;
-
   set name(String? name) => _$this._name = name;
 
   String? _address;
-
   String? get address => _$this._address;
-
   set address(String? address) => _$this._address = address;
 
   String? _phone;
-
   String? get phone => _$this._phone;
-
   set phone(String? phone) => _$this._phone = phone;
 
   double? _latitude;
-
   double? get latitude => _$this._latitude;
-
   set latitude(double? latitude) => _$this._latitude = latitude;
 
   double? _longitude;
-
   double? get longitude => _$this._longitude;
-
   set longitude(double? longitude) => _$this._longitude = longitude;
 
   String? _workTime;
-
   String? get workTime => _$this._workTime;
-
   set workTime(String? workTime) => _$this._workTime = workTime;
 
   ListBuilder<String>? _workDays;
-
-  ListBuilder<String> get workDays => _$this._workDays ??= new ListBuilder<String>();
-
+  ListBuilder<String> get workDays =>
+      _$this._workDays ??= new ListBuilder<String>();
   set workDays(ListBuilder<String>? workDays) => _$this._workDays = workDays;
 
   String? _description;
-
   String? get description => _$this._description;
-
   set description(String? description) => _$this._description = description;
 
   String? _title;
-
   String? get title => _$this._title;
-
   set title(String? title) => _$this._title = title;
 
   bool? _workingAllDays;
-
   bool? get workingAllDays => _$this._workingAllDays;
-
-  set workingAllDays(bool? workingAllDays) => _$this._workingAllDays = workingAllDays;
+  set workingAllDays(bool? workingAllDays) =>
+      _$this._workingAllDays = workingAllDays;
 
   String? _extraDescription;
-
   String? get extraDescription => _$this._extraDescription;
-
-  set extraDescription(String? extraDescription) => _$this._extraDescription = extraDescription;
+  set extraDescription(String? extraDescription) =>
+      _$this._extraDescription = extraDescription;
 
   ListBuilder<OfferModel>? _ourOffer;
-
-  ListBuilder<OfferModel> get ourOffer => _$this._ourOffer ??= new ListBuilder<OfferModel>();
-
-  set ourOffer(ListBuilder<OfferModel>? ourOffer) => _$this._ourOffer = ourOffer;
+  ListBuilder<OfferModel> get ourOffer =>
+      _$this._ourOffer ??= new ListBuilder<OfferModel>();
+  set ourOffer(ListBuilder<OfferModel>? ourOffer) =>
+      _$this._ourOffer = ourOffer;
 
   String? _icon;
-
   String? get icon => _$this._icon;
-
   set icon(String? icon) => _$this._icon = icon;
 
   ListBuilder<String>? _licenses;
-
-  ListBuilder<String> get licenses => _$this._licenses ??= new ListBuilder<String>();
-
+  ListBuilder<String> get licenses =>
+      _$this._licenses ??= new ListBuilder<String>();
   set licenses(ListBuilder<String>? licenses) => _$this._licenses = licenses;
 
   BranchModelBuilder();
@@ -1846,9 +2106,12 @@ class BranchModelBuilder implements Builder<BranchModel, BranchModelBuilder> {
             name: name,
             address: address,
             phone: phone,
-            latitude: BuiltValueNullFieldError.checkNotNull(latitude, r'BranchModel', 'latitude'),
-            longitude: BuiltValueNullFieldError.checkNotNull(longitude, r'BranchModel', 'longitude'),
-            workTime: BuiltValueNullFieldError.checkNotNull(workTime, r'BranchModel', 'workTime'),
+            latitude: BuiltValueNullFieldError.checkNotNull(
+                latitude, r'BranchModel', 'latitude'),
+            longitude: BuiltValueNullFieldError.checkNotNull(
+                longitude, r'BranchModel', 'longitude'),
+            workTime: BuiltValueNullFieldError.checkNotNull(
+                workTime, r'BranchModel', 'workTime'),
             workDays: _workDays?.build(),
             description: description,
             title: title,
@@ -1870,7 +2133,8 @@ class BranchModelBuilder implements Builder<BranchModel, BranchModelBuilder> {
         _$failedField = 'licenses';
         _licenses?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(r'BranchModel', _$failedField, e.toString());
+        throw new BuiltValueNestedFieldError(
+            r'BranchModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -1909,7 +2173,8 @@ class _$BranchDetailModel extends BranchDetailModel {
   @override
   final BuiltList<OfferModel> offers;
 
-  factory _$BranchDetailModel([void Function(BranchDetailModelBuilder)? updates]) =>
+  factory _$BranchDetailModel(
+          [void Function(BranchDetailModelBuilder)? updates]) =>
       (new BranchDetailModelBuilder()..update(updates))._build();
 
   _$BranchDetailModel._(
@@ -1929,16 +2194,21 @@ class _$BranchDetailModel extends BranchDetailModel {
       required this.offers})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'BranchDetailModel', 'id');
-    BuiltValueNullFieldError.checkNotNull(latitude, r'BranchDetailModel', 'latitude');
-    BuiltValueNullFieldError.checkNotNull(longitude, r'BranchDetailModel', 'longitude');
-    BuiltValueNullFieldError.checkNotNull(offers, r'BranchDetailModel', 'offers');
+    BuiltValueNullFieldError.checkNotNull(
+        latitude, r'BranchDetailModel', 'latitude');
+    BuiltValueNullFieldError.checkNotNull(
+        longitude, r'BranchDetailModel', 'longitude');
+    BuiltValueNullFieldError.checkNotNull(
+        offers, r'BranchDetailModel', 'offers');
   }
 
   @override
-  BranchDetailModel rebuild(void Function(BranchDetailModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  BranchDetailModel rebuild(void Function(BranchDetailModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
-  BranchDetailModelBuilder toBuilder() => new BranchDetailModelBuilder()..replace(this);
+  BranchDetailModelBuilder toBuilder() =>
+      new BranchDetailModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2002,91 +2272,70 @@ class _$BranchDetailModel extends BranchDetailModel {
   }
 }
 
-class BranchDetailModelBuilder implements Builder<BranchDetailModel, BranchDetailModelBuilder> {
+class BranchDetailModelBuilder
+    implements Builder<BranchDetailModel, BranchDetailModelBuilder> {
   _$BranchDetailModel? _$v;
 
   int? _id;
-
   int? get id => _$this._id;
-
   set id(int? id) => _$this._id = id;
 
   String? _name;
-
   String? get name => _$this._name;
-
   set name(String? name) => _$this._name = name;
 
   String? _address;
-
   String? get address => _$this._address;
-
   set address(String? address) => _$this._address = address;
 
   String? _phone;
-
   String? get phone => _$this._phone;
-
   set phone(String? phone) => _$this._phone = phone;
 
   String? _workTime;
-
   String? get workTime => _$this._workTime;
-
   set workTime(String? workTime) => _$this._workTime = workTime;
 
   String? _description;
-
   String? get description => _$this._description;
-
   set description(String? description) => _$this._description = description;
 
   bool? _workingAllDays;
-
   bool? get workingAllDays => _$this._workingAllDays;
-
-  set workingAllDays(bool? workingAllDays) => _$this._workingAllDays = workingAllDays;
+  set workingAllDays(bool? workingAllDays) =>
+      _$this._workingAllDays = workingAllDays;
 
   ListBuilder<String>? _licenses;
-
-  ListBuilder<String> get licenses => _$this._licenses ??= new ListBuilder<String>();
-
+  ListBuilder<String> get licenses =>
+      _$this._licenses ??= new ListBuilder<String>();
   set licenses(ListBuilder<String>? licenses) => _$this._licenses = licenses;
 
   ListBuilder<String>? _images;
-
-  ListBuilder<String> get images => _$this._images ??= new ListBuilder<String>();
-
+  ListBuilder<String> get images =>
+      _$this._images ??= new ListBuilder<String>();
   set images(ListBuilder<String>? images) => _$this._images = images;
 
   double? _latitude;
-
   double? get latitude => _$this._latitude;
-
   set latitude(double? latitude) => _$this._latitude = latitude;
 
   double? _longitude;
-
   double? get longitude => _$this._longitude;
-
   set longitude(double? longitude) => _$this._longitude = longitude;
 
   ListBuilder<dynamic>? _video;
-
-  ListBuilder<dynamic> get video => _$this._video ??= new ListBuilder<dynamic>();
-
+  ListBuilder<dynamic> get video =>
+      _$this._video ??= new ListBuilder<dynamic>();
   set video(ListBuilder<dynamic>? video) => _$this._video = video;
 
   ListBuilder<String>? _workDays;
-
-  ListBuilder<String> get workDays => _$this._workDays ??= new ListBuilder<String>();
-
+  ListBuilder<String> get workDays =>
+      _$this._workDays ??= new ListBuilder<String>();
   set workDays(ListBuilder<String>? workDays) => _$this._workDays = workDays;
 
   ListBuilder<OfferModel>? _offers;
-
-  ListBuilder<OfferModel> get offers => _$this._offers ??= new ListBuilder<OfferModel>();
-
+  ListBuilder<OfferModel> get offers =>
+      _$this._offers ??= new ListBuilder<OfferModel>();
   set offers(ListBuilder<OfferModel>? offers) => _$this._offers = offers;
 
   BranchDetailModelBuilder();
@@ -2132,7 +2381,8 @@ class BranchDetailModelBuilder implements Builder<BranchDetailModel, BranchDetai
     try {
       _$result = _$v ??
           new _$BranchDetailModel._(
-            id: BuiltValueNullFieldError.checkNotNull(id, r'BranchDetailModel', 'id'),
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'BranchDetailModel', 'id'),
             name: name,
             address: address,
             phone: phone,
@@ -2141,8 +2391,10 @@ class BranchDetailModelBuilder implements Builder<BranchDetailModel, BranchDetai
             workingAllDays: workingAllDays,
             licenses: _licenses?.build(),
             images: _images?.build(),
-            latitude: BuiltValueNullFieldError.checkNotNull(latitude, r'BranchDetailModel', 'latitude'),
-            longitude: BuiltValueNullFieldError.checkNotNull(longitude, r'BranchDetailModel', 'longitude'),
+            latitude: BuiltValueNullFieldError.checkNotNull(
+                latitude, r'BranchDetailModel', 'latitude'),
+            longitude: BuiltValueNullFieldError.checkNotNull(
+                longitude, r'BranchDetailModel', 'longitude'),
             video: _video?.build(),
             workDays: _workDays?.build(),
             offers: offers.build(),
@@ -2162,7 +2414,8 @@ class BranchDetailModelBuilder implements Builder<BranchDetailModel, BranchDetai
         _$failedField = 'offers';
         offers.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(r'BranchDetailModel', _$failedField, e.toString());
+        throw new BuiltValueNestedFieldError(
+            r'BranchDetailModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -2186,10 +2439,13 @@ class _$AwardsModel extends AwardsModel {
   factory _$AwardsModel([void Function(AwardsModelBuilder)? updates]) =>
       (new AwardsModelBuilder()..update(updates))._build();
 
-  _$AwardsModel._({this.branchId, this.id, this.title, this.description, this.image}) : super._();
+  _$AwardsModel._(
+      {this.branchId, this.id, this.title, this.description, this.image})
+      : super._();
 
   @override
-  AwardsModel rebuild(void Function(AwardsModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  AwardsModel rebuild(void Function(AwardsModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   AwardsModelBuilder toBuilder() => new AwardsModelBuilder()..replace(this);
@@ -2233,33 +2489,23 @@ class AwardsModelBuilder implements Builder<AwardsModel, AwardsModelBuilder> {
   _$AwardsModel? _$v;
 
   int? _branchId;
-
   int? get branchId => _$this._branchId;
-
   set branchId(int? branchId) => _$this._branchId = branchId;
 
   int? _id;
-
   int? get id => _$this._id;
-
   set id(int? id) => _$this._id = id;
 
   String? _title;
-
   String? get title => _$this._title;
-
   set title(String? title) => _$this._title = title;
 
   String? _description;
-
   String? get description => _$this._description;
-
   set description(String? description) => _$this._description = description;
 
   String? _image;
-
   String? get image => _$this._image;
-
   set image(String? image) => _$this._image = image;
 
   AwardsModelBuilder();
@@ -2375,14 +2621,17 @@ class _$EducationModel extends EducationModel {
       this.whyUsTitle,
       this.whyUsIcon})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(companyId, r'EducationModel', 'companyId');
+    BuiltValueNullFieldError.checkNotNull(
+        companyId, r'EducationModel', 'companyId');
   }
 
   @override
-  EducationModel rebuild(void Function(EducationModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  EducationModel rebuild(void Function(EducationModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
-  EducationModelBuilder toBuilder() => new EducationModelBuilder()..replace(this);
+  EducationModelBuilder toBuilder() =>
+      new EducationModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2467,133 +2716,94 @@ class _$EducationModel extends EducationModel {
   }
 }
 
-class EducationModelBuilder implements Builder<EducationModel, EducationModelBuilder> {
+class EducationModelBuilder
+    implements Builder<EducationModel, EducationModelBuilder> {
   _$EducationModel? _$v;
 
   String? _name;
-
   String? get name => _$this._name;
-
   set name(String? name) => _$this._name = name;
 
   String? _description;
-
   String? get description => _$this._description;
-
   set description(String? description) => _$this._description = description;
 
   String? _mission;
-
   String? get mission => _$this._mission;
-
   set mission(String? mission) => _$this._mission = mission;
 
   String? _values;
-
   String? get values => _$this._values;
-
   set values(String? values) => _$this._values = values;
 
   String? _goals;
-
   String? get goals => _$this._goals;
-
   set goals(String? goals) => _$this._goals = goals;
 
   String? _audience;
-
   String? get audience => _$this._audience;
-
   set audience(String? audience) => _$this._audience = audience;
 
   String? _whyUs;
-
   String? get whyUs => _$this._whyUs;
-
   set whyUs(String? whyUs) => _$this._whyUs = whyUs;
 
   int? _companyId;
-
   int? get companyId => _$this._companyId;
-
   set companyId(int? companyId) => _$this._companyId = companyId;
 
   ListBuilder<Course>? _courses;
-
-  ListBuilder<Course> get courses => _$this._courses ??= new ListBuilder<Course>();
-
+  ListBuilder<Course> get courses =>
+      _$this._courses ??= new ListBuilder<Course>();
   set courses(ListBuilder<Course>? courses) => _$this._courses = courses;
 
   String? _bannerLink;
-
   String? get bannerLink => _$this._bannerLink;
-
   set bannerLink(String? bannerLink) => _$this._bannerLink = bannerLink;
 
   String? _bannerImage;
-
   String? get bannerImage => _$this._bannerImage;
-
   set bannerImage(String? bannerImage) => _$this._bannerImage = bannerImage;
 
   String? _missionTitle;
-
   String? get missionTitle => _$this._missionTitle;
-
   set missionTitle(String? missionTitle) => _$this._missionTitle = missionTitle;
 
   String? _missionIcon;
-
   String? get missionIcon => _$this._missionIcon;
-
   set missionIcon(String? missionIcon) => _$this._missionIcon = missionIcon;
 
   String? _valuesTitle;
-
   String? get valuesTitle => _$this._valuesTitle;
-
   set valuesTitle(String? valuesTitle) => _$this._valuesTitle = valuesTitle;
 
   String? _valuesIcon;
-
   String? get valuesIcon => _$this._valuesIcon;
-
   set valuesIcon(String? valuesIcon) => _$this._valuesIcon = valuesIcon;
 
   String? _goalsTitle;
-
   String? get goalsTitle => _$this._goalsTitle;
-
   set goalsTitle(String? goalsTitle) => _$this._goalsTitle = goalsTitle;
 
   String? _goalsIcon;
-
   String? get goalsIcon => _$this._goalsIcon;
-
   set goalsIcon(String? goalsIcon) => _$this._goalsIcon = goalsIcon;
 
   String? _audienceTitle;
-
   String? get audienceTitle => _$this._audienceTitle;
-
-  set audienceTitle(String? audienceTitle) => _$this._audienceTitle = audienceTitle;
+  set audienceTitle(String? audienceTitle) =>
+      _$this._audienceTitle = audienceTitle;
 
   String? _audienceIcon;
-
   String? get audienceIcon => _$this._audienceIcon;
-
   set audienceIcon(String? audienceIcon) => _$this._audienceIcon = audienceIcon;
 
   String? _whyUsTitle;
-
   String? get whyUsTitle => _$this._whyUsTitle;
-
   set whyUsTitle(String? whyUsTitle) => _$this._whyUsTitle = whyUsTitle;
 
   String? _whyUsIcon;
-
   String? get whyUsIcon => _$this._whyUsIcon;
-
   set whyUsIcon(String? whyUsIcon) => _$this._whyUsIcon = whyUsIcon;
 
   EducationModelBuilder();
@@ -2653,7 +2863,8 @@ class EducationModelBuilder implements Builder<EducationModel, EducationModelBui
             goals: goals,
             audience: audience,
             whyUs: whyUs,
-            companyId: BuiltValueNullFieldError.checkNotNull(companyId, r'EducationModel', 'companyId'),
+            companyId: BuiltValueNullFieldError.checkNotNull(
+                companyId, r'EducationModel', 'companyId'),
             courses: _courses?.build(),
             bannerLink: bannerLink,
             bannerImage: bannerImage,
@@ -2674,7 +2885,8 @@ class EducationModelBuilder implements Builder<EducationModel, EducationModelBui
         _$failedField = 'courses';
         _courses?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(r'EducationModel', _$failedField, e.toString());
+        throw new BuiltValueNestedFieldError(
+            r'EducationModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -2693,9 +2905,14 @@ class _$StudyLead extends StudyLead {
   @override
   final int courseId;
 
-  factory _$StudyLead([void Function(StudyLeadBuilder)? updates]) => (new StudyLeadBuilder()..update(updates))._build();
+  factory _$StudyLead([void Function(StudyLeadBuilder)? updates]) =>
+      (new StudyLeadBuilder()..update(updates))._build();
 
-  _$StudyLead._({required this.name, required this.phone, required this.companyId, required this.courseId})
+  _$StudyLead._(
+      {required this.name,
+      required this.phone,
+      required this.companyId,
+      required this.courseId})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(name, r'StudyLead', 'name');
     BuiltValueNullFieldError.checkNotNull(phone, r'StudyLead', 'phone');
@@ -2704,7 +2921,8 @@ class _$StudyLead extends StudyLead {
   }
 
   @override
-  StudyLead rebuild(void Function(StudyLeadBuilder) updates) => (toBuilder()..update(updates)).build();
+  StudyLead rebuild(void Function(StudyLeadBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   StudyLeadBuilder toBuilder() => new StudyLeadBuilder()..replace(this);
@@ -2745,27 +2963,19 @@ class StudyLeadBuilder implements Builder<StudyLead, StudyLeadBuilder> {
   _$StudyLead? _$v;
 
   String? _name;
-
   String? get name => _$this._name;
-
   set name(String? name) => _$this._name = name;
 
   String? _phone;
-
   String? get phone => _$this._phone;
-
   set phone(String? phone) => _$this._phone = phone;
 
   int? _companyId;
-
   int? get companyId => _$this._companyId;
-
   set companyId(int? companyId) => _$this._companyId = companyId;
 
   int? _courseId;
-
   int? get courseId => _$this._courseId;
-
   set courseId(int? courseId) => _$this._courseId = courseId;
 
   StudyLeadBuilder();
@@ -2799,10 +3009,14 @@ class StudyLeadBuilder implements Builder<StudyLead, StudyLeadBuilder> {
   _$StudyLead _build() {
     final _$result = _$v ??
         new _$StudyLead._(
-          name: BuiltValueNullFieldError.checkNotNull(name, r'StudyLead', 'name'),
-          phone: BuiltValueNullFieldError.checkNotNull(phone, r'StudyLead', 'phone'),
-          companyId: BuiltValueNullFieldError.checkNotNull(companyId, r'StudyLead', 'companyId'),
-          courseId: BuiltValueNullFieldError.checkNotNull(courseId, r'StudyLead', 'courseId'),
+          name:
+              BuiltValueNullFieldError.checkNotNull(name, r'StudyLead', 'name'),
+          phone: BuiltValueNullFieldError.checkNotNull(
+              phone, r'StudyLead', 'phone'),
+          companyId: BuiltValueNullFieldError.checkNotNull(
+              companyId, r'StudyLead', 'companyId'),
+          courseId: BuiltValueNullFieldError.checkNotNull(
+              courseId, r'StudyLead', 'courseId'),
         );
     replace(_$result);
     return _$result;
@@ -2821,10 +3035,12 @@ class _$StudyLeadResult extends StudyLeadResult {
   }
 
   @override
-  StudyLeadResult rebuild(void Function(StudyLeadResultBuilder) updates) => (toBuilder()..update(updates)).build();
+  StudyLeadResult rebuild(void Function(StudyLeadResultBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
-  StudyLeadResultBuilder toBuilder() => new StudyLeadResultBuilder()..replace(this);
+  StudyLeadResultBuilder toBuilder() =>
+      new StudyLeadResultBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2842,17 +3058,18 @@ class _$StudyLeadResult extends StudyLeadResult {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'StudyLeadResult')..add('status', status)).toString();
+    return (newBuiltValueToStringHelper(r'StudyLeadResult')
+          ..add('status', status))
+        .toString();
   }
 }
 
-class StudyLeadResultBuilder implements Builder<StudyLeadResult, StudyLeadResultBuilder> {
+class StudyLeadResultBuilder
+    implements Builder<StudyLeadResult, StudyLeadResultBuilder> {
   _$StudyLeadResult? _$v;
 
   String? _status;
-
   String? get status => _$this._status;
-
   set status(String? status) => _$this._status = status;
 
   StudyLeadResultBuilder();
@@ -2883,7 +3100,8 @@ class StudyLeadResultBuilder implements Builder<StudyLeadResult, StudyLeadResult
   _$StudyLeadResult _build() {
     final _$result = _$v ??
         new _$StudyLeadResult._(
-          status: BuiltValueNullFieldError.checkNotNull(status, r'StudyLeadResult', 'status'),
+          status: BuiltValueNullFieldError.checkNotNull(
+              status, r'StudyLeadResult', 'status'),
         );
     replace(_$result);
     return _$result;
@@ -2900,12 +3118,14 @@ class _$Course extends Course {
   @override
   final String? image;
 
-  factory _$Course([void Function(CourseBuilder)? updates]) => (new CourseBuilder()..update(updates))._build();
+  factory _$Course([void Function(CourseBuilder)? updates]) =>
+      (new CourseBuilder()..update(updates))._build();
 
   _$Course._({this.id, this.name, this.description, this.image}) : super._();
 
   @override
-  Course rebuild(void Function(CourseBuilder) updates) => (toBuilder()..update(updates)).build();
+  Course rebuild(void Function(CourseBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   CourseBuilder toBuilder() => new CourseBuilder()..replace(this);
@@ -2946,27 +3166,19 @@ class CourseBuilder implements Builder<Course, CourseBuilder> {
   _$Course? _$v;
 
   int? _id;
-
   int? get id => _$this._id;
-
   set id(int? id) => _$this._id = id;
 
   String? _name;
-
   String? get name => _$this._name;
-
   set name(String? name) => _$this._name = name;
 
   String? _description;
-
   String? get description => _$this._description;
-
   set description(String? description) => _$this._description = description;
 
   String? _image;
-
   String? get image => _$this._image;
-
   set image(String? image) => _$this._image = image;
 
   CourseBuilder();
@@ -3070,18 +3282,23 @@ class _$ContentModel extends ContentModel {
       : super._() {
     BuiltValueNullFieldError.checkNotNull(type, r'ContentModel', 'type');
     BuiltValueNullFieldError.checkNotNull(id, r'ContentModel', 'id');
-    BuiltValueNullFieldError.checkNotNull(createDate, r'ContentModel', 'createDate');
+    BuiltValueNullFieldError.checkNotNull(
+        createDate, r'ContentModel', 'createDate');
     BuiltValueNullFieldError.checkNotNull(title, r'ContentModel', 'title');
-    BuiltValueNullFieldError.checkNotNull(description, r'ContentModel', 'description');
+    BuiltValueNullFieldError.checkNotNull(
+        description, r'ContentModel', 'description');
     BuiltValueNullFieldError.checkNotNull(link, r'ContentModel', 'link');
-    BuiltValueNullFieldError.checkNotNull(primaryImage, r'ContentModel', 'primaryImage');
+    BuiltValueNullFieldError.checkNotNull(
+        primaryImage, r'ContentModel', 'primaryImage');
     BuiltValueNullFieldError.checkNotNull(images, r'ContentModel', 'images');
-    BuiltValueNullFieldError.checkNotNull(children, r'ContentModel', 'children');
+    BuiltValueNullFieldError.checkNotNull(
+        children, r'ContentModel', 'children');
     BuiltValueNullFieldError.checkNotNull(banners, r'ContentModel', 'banners');
   }
 
   @override
-  ContentModel rebuild(void Function(ContentModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  ContentModel rebuild(void Function(ContentModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   ContentModelBuilder toBuilder() => new ContentModelBuilder()..replace(this);
@@ -3157,109 +3374,85 @@ class _$ContentModel extends ContentModel {
   }
 }
 
-class ContentModelBuilder implements Builder<ContentModel, ContentModelBuilder> {
+class ContentModelBuilder
+    implements Builder<ContentModel, ContentModelBuilder> {
   _$ContentModel? _$v;
 
   String? _type;
-
   String? get type => _$this._type;
-
   set type(String? type) => _$this._type = type;
 
   int? _id;
-
   int? get id => _$this._id;
-
   set id(int? id) => _$this._id = id;
 
   String? _createDate;
-
   String? get createDate => _$this._createDate;
-
   set createDate(String? createDate) => _$this._createDate = createDate;
 
   String? _title;
-
   String? get title => _$this._title;
-
   set title(String? title) => _$this._title = title;
 
   String? _description;
-
   String? get description => _$this._description;
-
   set description(String? description) => _$this._description = description;
 
   JsonObject? _link;
-
   JsonObject? get link => _$this._link;
-
   set link(JsonObject? link) => _$this._link = link;
 
   String? _primaryImage;
-
   String? get primaryImage => _$this._primaryImage;
-
   set primaryImage(String? primaryImage) => _$this._primaryImage = primaryImage;
 
   ListBuilder<String>? _images;
-
-  ListBuilder<String> get images => _$this._images ??= new ListBuilder<String>();
-
+  ListBuilder<String> get images =>
+      _$this._images ??= new ListBuilder<String>();
   set images(ListBuilder<String>? images) => _$this._images = images;
 
   ListBuilder<ChildContentModel>? _children;
-
-  ListBuilder<ChildContentModel> get children => _$this._children ??= new ListBuilder<ChildContentModel>();
-
-  set children(ListBuilder<ChildContentModel>? children) => _$this._children = children;
+  ListBuilder<ChildContentModel> get children =>
+      _$this._children ??= new ListBuilder<ChildContentModel>();
+  set children(ListBuilder<ChildContentModel>? children) =>
+      _$this._children = children;
 
   JsonObject? _discountCondition;
-
   JsonObject? get discountCondition => _$this._discountCondition;
-
-  set discountCondition(JsonObject? discountCondition) => _$this._discountCondition = discountCondition;
+  set discountCondition(JsonObject? discountCondition) =>
+      _$this._discountCondition = discountCondition;
 
   JsonObject? _discountLocation;
-
   JsonObject? get discountLocation => _$this._discountLocation;
-
-  set discountLocation(JsonObject? discountLocation) => _$this._discountLocation = discountLocation;
+  set discountLocation(JsonObject? discountLocation) =>
+      _$this._discountLocation = discountLocation;
 
   JsonObject? _discountStartDate;
-
   JsonObject? get discountStartDate => _$this._discountStartDate;
-
-  set discountStartDate(JsonObject? discountStartDate) => _$this._discountStartDate = discountStartDate;
+  set discountStartDate(JsonObject? discountStartDate) =>
+      _$this._discountStartDate = discountStartDate;
 
   JsonObject? _discountEndDate;
-
   JsonObject? get discountEndDate => _$this._discountEndDate;
-
-  set discountEndDate(JsonObject? discountEndDate) => _$this._discountEndDate = discountEndDate;
+  set discountEndDate(JsonObject? discountEndDate) =>
+      _$this._discountEndDate = discountEndDate;
 
   JsonObject? _phoneNumber;
-
   JsonObject? get phoneNumber => _$this._phoneNumber;
-
   set phoneNumber(JsonObject? phoneNumber) => _$this._phoneNumber = phoneNumber;
 
   JsonObject? _phoneNumberShort;
-
   JsonObject? get phoneNumberShort => _$this._phoneNumberShort;
-
-  set phoneNumberShort(JsonObject? phoneNumberShort) => _$this._phoneNumberShort = phoneNumberShort;
+  set phoneNumberShort(JsonObject? phoneNumberShort) =>
+      _$this._phoneNumberShort = phoneNumberShort;
 
   int? _categoryId;
-
   int? get categoryId => _$this._categoryId;
-
   set categoryId(int? categoryId) => _$this._categoryId = categoryId;
 
   ListBuilder<BannerModel>? _banners;
-
-  ListBuilder<BannerModel> get banners => _$this._banners ??= new ListBuilder<BannerModel>();
-
+  ListBuilder<BannerModel> get banners =>
+      _$this._banners ??= new ListBuilder<BannerModel>();
   set banners(ListBuilder<BannerModel>? banners) => _$this._banners = banners;
 
   ContentModelBuilder();
@@ -3308,13 +3501,20 @@ class ContentModelBuilder implements Builder<ContentModel, ContentModelBuilder> 
     try {
       _$result = _$v ??
           new _$ContentModel._(
-            type: BuiltValueNullFieldError.checkNotNull(type, r'ContentModel', 'type'),
-            id: BuiltValueNullFieldError.checkNotNull(id, r'ContentModel', 'id'),
-            createDate: BuiltValueNullFieldError.checkNotNull(createDate, r'ContentModel', 'createDate'),
-            title: BuiltValueNullFieldError.checkNotNull(title, r'ContentModel', 'title'),
-            description: BuiltValueNullFieldError.checkNotNull(description, r'ContentModel', 'description'),
-            link: BuiltValueNullFieldError.checkNotNull(link, r'ContentModel', 'link'),
-            primaryImage: BuiltValueNullFieldError.checkNotNull(primaryImage, r'ContentModel', 'primaryImage'),
+            type: BuiltValueNullFieldError.checkNotNull(
+                type, r'ContentModel', 'type'),
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'ContentModel', 'id'),
+            createDate: BuiltValueNullFieldError.checkNotNull(
+                createDate, r'ContentModel', 'createDate'),
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'ContentModel', 'title'),
+            description: BuiltValueNullFieldError.checkNotNull(
+                description, r'ContentModel', 'description'),
+            link: BuiltValueNullFieldError.checkNotNull(
+                link, r'ContentModel', 'link'),
+            primaryImage: BuiltValueNullFieldError.checkNotNull(
+                primaryImage, r'ContentModel', 'primaryImage'),
             images: images.build(),
             children: children.build(),
             discountCondition: discountCondition,
@@ -3337,7 +3537,8 @@ class ContentModelBuilder implements Builder<ContentModel, ContentModelBuilder> 
         _$failedField = 'banners';
         banners.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(r'ContentModel', _$failedField, e.toString());
+        throw new BuiltValueNestedFieldError(
+            r'ContentModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -3373,14 +3574,18 @@ class _$BannerModel extends BannerModel {
       : super._() {
     BuiltValueNullFieldError.checkNotNull(name, r'BannerModel', 'name');
     BuiltValueNullFieldError.checkNotNull(image, r'BannerModel', 'image');
-    BuiltValueNullFieldError.checkNotNull(imageMobile, r'BannerModel', 'imageMobile');
+    BuiltValueNullFieldError.checkNotNull(
+        imageMobile, r'BannerModel', 'imageMobile');
     BuiltValueNullFieldError.checkNotNull(link, r'BannerModel', 'link');
-    BuiltValueNullFieldError.checkNotNull(buttonText, r'BannerModel', 'buttonText');
-    BuiltValueNullFieldError.checkNotNull(horizontal, r'BannerModel', 'horizontal');
+    BuiltValueNullFieldError.checkNotNull(
+        buttonText, r'BannerModel', 'buttonText');
+    BuiltValueNullFieldError.checkNotNull(
+        horizontal, r'BannerModel', 'horizontal');
   }
 
   @override
-  BannerModel rebuild(void Function(BannerModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  BannerModel rebuild(void Function(BannerModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   BannerModelBuilder toBuilder() => new BannerModelBuilder()..replace(this);
@@ -3427,39 +3632,27 @@ class BannerModelBuilder implements Builder<BannerModel, BannerModelBuilder> {
   _$BannerModel? _$v;
 
   String? _name;
-
   String? get name => _$this._name;
-
   set name(String? name) => _$this._name = name;
 
   String? _image;
-
   String? get image => _$this._image;
-
   set image(String? image) => _$this._image = image;
 
   String? _imageMobile;
-
   String? get imageMobile => _$this._imageMobile;
-
   set imageMobile(String? imageMobile) => _$this._imageMobile = imageMobile;
 
   String? _link;
-
   String? get link => _$this._link;
-
   set link(String? link) => _$this._link = link;
 
   String? _buttonText;
-
   String? get buttonText => _$this._buttonText;
-
   set buttonText(String? buttonText) => _$this._buttonText = buttonText;
 
   bool? _horizontal;
-
   bool? get horizontal => _$this._horizontal;
-
   set horizontal(bool? horizontal) => _$this._horizontal = horizontal;
 
   BannerModelBuilder();
@@ -3495,12 +3688,18 @@ class BannerModelBuilder implements Builder<BannerModel, BannerModelBuilder> {
   _$BannerModel _build() {
     final _$result = _$v ??
         new _$BannerModel._(
-          name: BuiltValueNullFieldError.checkNotNull(name, r'BannerModel', 'name'),
-          image: BuiltValueNullFieldError.checkNotNull(image, r'BannerModel', 'image'),
-          imageMobile: BuiltValueNullFieldError.checkNotNull(imageMobile, r'BannerModel', 'imageMobile'),
-          link: BuiltValueNullFieldError.checkNotNull(link, r'BannerModel', 'link'),
-          buttonText: BuiltValueNullFieldError.checkNotNull(buttonText, r'BannerModel', 'buttonText'),
-          horizontal: BuiltValueNullFieldError.checkNotNull(horizontal, r'BannerModel', 'horizontal'),
+          name: BuiltValueNullFieldError.checkNotNull(
+              name, r'BannerModel', 'name'),
+          image: BuiltValueNullFieldError.checkNotNull(
+              image, r'BannerModel', 'image'),
+          imageMobile: BuiltValueNullFieldError.checkNotNull(
+              imageMobile, r'BannerModel', 'imageMobile'),
+          link: BuiltValueNullFieldError.checkNotNull(
+              link, r'BannerModel', 'link'),
+          buttonText: BuiltValueNullFieldError.checkNotNull(
+              buttonText, r'BannerModel', 'buttonText'),
+          horizontal: BuiltValueNullFieldError.checkNotNull(
+              horizontal, r'BannerModel', 'horizontal'),
         );
     replace(_$result);
     return _$result;
@@ -3519,7 +3718,8 @@ class _$ChildContentModel extends ChildContentModel {
   @override
   final String createDate;
 
-  factory _$ChildContentModel([void Function(ChildContentModelBuilder)? updates]) =>
+  factory _$ChildContentModel(
+          [void Function(ChildContentModelBuilder)? updates]) =>
       (new ChildContentModelBuilder()..update(updates))._build();
 
   _$ChildContentModel._(
@@ -3531,16 +3731,21 @@ class _$ChildContentModel extends ChildContentModel {
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'ChildContentModel', 'id');
     BuiltValueNullFieldError.checkNotNull(title, r'ChildContentModel', 'title');
-    BuiltValueNullFieldError.checkNotNull(description, r'ChildContentModel', 'description');
-    BuiltValueNullFieldError.checkNotNull(primaryImage, r'ChildContentModel', 'primaryImage');
-    BuiltValueNullFieldError.checkNotNull(createDate, r'ChildContentModel', 'createDate');
+    BuiltValueNullFieldError.checkNotNull(
+        description, r'ChildContentModel', 'description');
+    BuiltValueNullFieldError.checkNotNull(
+        primaryImage, r'ChildContentModel', 'primaryImage');
+    BuiltValueNullFieldError.checkNotNull(
+        createDate, r'ChildContentModel', 'createDate');
   }
 
   @override
-  ChildContentModel rebuild(void Function(ChildContentModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  ChildContentModel rebuild(void Function(ChildContentModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
-  ChildContentModelBuilder toBuilder() => new ChildContentModelBuilder()..replace(this);
+  ChildContentModelBuilder toBuilder() =>
+      new ChildContentModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -3577,37 +3782,28 @@ class _$ChildContentModel extends ChildContentModel {
   }
 }
 
-class ChildContentModelBuilder implements Builder<ChildContentModel, ChildContentModelBuilder> {
+class ChildContentModelBuilder
+    implements Builder<ChildContentModel, ChildContentModelBuilder> {
   _$ChildContentModel? _$v;
 
   int? _id;
-
   int? get id => _$this._id;
-
   set id(int? id) => _$this._id = id;
 
   String? _title;
-
   String? get title => _$this._title;
-
   set title(String? title) => _$this._title = title;
 
   String? _description;
-
   String? get description => _$this._description;
-
   set description(String? description) => _$this._description = description;
 
   String? _primaryImage;
-
   String? get primaryImage => _$this._primaryImage;
-
   set primaryImage(String? primaryImage) => _$this._primaryImage = primaryImage;
 
   String? _createDate;
-
   String? get createDate => _$this._createDate;
-
   set createDate(String? createDate) => _$this._createDate = createDate;
 
   ChildContentModelBuilder();
@@ -3642,11 +3838,16 @@ class ChildContentModelBuilder implements Builder<ChildContentModel, ChildConten
   _$ChildContentModel _build() {
     final _$result = _$v ??
         new _$ChildContentModel._(
-          id: BuiltValueNullFieldError.checkNotNull(id, r'ChildContentModel', 'id'),
-          title: BuiltValueNullFieldError.checkNotNull(title, r'ChildContentModel', 'title'),
-          description: BuiltValueNullFieldError.checkNotNull(description, r'ChildContentModel', 'description'),
-          primaryImage: BuiltValueNullFieldError.checkNotNull(primaryImage, r'ChildContentModel', 'primaryImage'),
-          createDate: BuiltValueNullFieldError.checkNotNull(createDate, r'ChildContentModel', 'createDate'),
+          id: BuiltValueNullFieldError.checkNotNull(
+              id, r'ChildContentModel', 'id'),
+          title: BuiltValueNullFieldError.checkNotNull(
+              title, r'ChildContentModel', 'title'),
+          description: BuiltValueNullFieldError.checkNotNull(
+              description, r'ChildContentModel', 'description'),
+          primaryImage: BuiltValueNullFieldError.checkNotNull(
+              primaryImage, r'ChildContentModel', 'primaryImage'),
+          createDate: BuiltValueNullFieldError.checkNotNull(
+              createDate, r'ChildContentModel', 'createDate'),
         );
     replace(_$result);
     return _$result;
@@ -3678,14 +3879,16 @@ class _$MedionModel extends MedionModel {
       required this.mission,
       this.licenses})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(description, r'MedionModel', 'description');
+    BuiltValueNullFieldError.checkNotNull(
+        description, r'MedionModel', 'description');
     BuiltValueNullFieldError.checkNotNull(about, r'MedionModel', 'about');
     BuiltValueNullFieldError.checkNotNull(history, r'MedionModel', 'history');
     BuiltValueNullFieldError.checkNotNull(mission, r'MedionModel', 'mission');
   }
 
   @override
-  MedionModel rebuild(void Function(MedionModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  MedionModel rebuild(void Function(MedionModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   MedionModelBuilder toBuilder() => new MedionModelBuilder()..replace(this);
@@ -3732,39 +3935,28 @@ class MedionModelBuilder implements Builder<MedionModel, MedionModelBuilder> {
   _$MedionModel? _$v;
 
   String? _name;
-
   String? get name => _$this._name;
-
   set name(String? name) => _$this._name = name;
 
   String? _description;
-
   String? get description => _$this._description;
-
   set description(String? description) => _$this._description = description;
 
   String? _about;
-
   String? get about => _$this._about;
-
   set about(String? about) => _$this._about = about;
 
   String? _history;
-
   String? get history => _$this._history;
-
   set history(String? history) => _$this._history = history;
 
   String? _mission;
-
   String? get mission => _$this._mission;
-
   set mission(String? mission) => _$this._mission = mission;
 
   ListBuilder<String>? _licenses;
-
-  ListBuilder<String> get licenses => _$this._licenses ??= new ListBuilder<String>();
-
+  ListBuilder<String> get licenses =>
+      _$this._licenses ??= new ListBuilder<String>();
   set licenses(ListBuilder<String>? licenses) => _$this._licenses = licenses;
 
   MedionModelBuilder();
@@ -3803,10 +3995,14 @@ class MedionModelBuilder implements Builder<MedionModel, MedionModelBuilder> {
       _$result = _$v ??
           new _$MedionModel._(
             name: name,
-            description: BuiltValueNullFieldError.checkNotNull(description, r'MedionModel', 'description'),
-            about: BuiltValueNullFieldError.checkNotNull(about, r'MedionModel', 'about'),
-            history: BuiltValueNullFieldError.checkNotNull(history, r'MedionModel', 'history'),
-            mission: BuiltValueNullFieldError.checkNotNull(mission, r'MedionModel', 'mission'),
+            description: BuiltValueNullFieldError.checkNotNull(
+                description, r'MedionModel', 'description'),
+            about: BuiltValueNullFieldError.checkNotNull(
+                about, r'MedionModel', 'about'),
+            history: BuiltValueNullFieldError.checkNotNull(
+                history, r'MedionModel', 'history'),
+            mission: BuiltValueNullFieldError.checkNotNull(
+                mission, r'MedionModel', 'mission'),
             licenses: _licenses?.build(),
           );
     } catch (_) {
@@ -3815,7 +4011,8 @@ class MedionModelBuilder implements Builder<MedionModel, MedionModelBuilder> {
         _$failedField = 'licenses';
         _licenses?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(r'MedionModel', _$failedField, e.toString());
+        throw new BuiltValueNestedFieldError(
+            r'MedionModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -3839,10 +4036,13 @@ class _$OfferModel extends OfferModel {
   factory _$OfferModel([void Function(OfferModelBuilder)? updates]) =>
       (new OfferModelBuilder()..update(updates))._build();
 
-  _$OfferModel._({this.offerta, this.companyName, this.name, this.description, this.icon}) : super._();
+  _$OfferModel._(
+      {this.offerta, this.companyName, this.name, this.description, this.icon})
+      : super._();
 
   @override
-  OfferModel rebuild(void Function(OfferModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  OfferModel rebuild(void Function(OfferModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   OfferModelBuilder toBuilder() => new OfferModelBuilder()..replace(this);
@@ -3886,33 +4086,23 @@ class OfferModelBuilder implements Builder<OfferModel, OfferModelBuilder> {
   _$OfferModel? _$v;
 
   String? _offerta;
-
   String? get offerta => _$this._offerta;
-
   set offerta(String? offerta) => _$this._offerta = offerta;
 
   String? _companyName;
-
   String? get companyName => _$this._companyName;
-
   set companyName(String? companyName) => _$this._companyName = companyName;
 
   String? _name;
-
   String? get name => _$this._name;
-
   set name(String? name) => _$this._name = name;
 
   String? _description;
-
   String? get description => _$this._description;
-
   set description(String? description) => _$this._description = description;
 
   String? _icon;
-
   String? get icon => _$this._icon;
-
   set icon(String? icon) => _$this._icon = icon;
 
   OfferModelBuilder();
@@ -3968,11 +4158,13 @@ class _$PrivacyModel extends PrivacyModel {
       (new PrivacyModelBuilder()..update(updates))._build();
 
   _$PrivacyModel._({this.privacy, required this.companyName}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(companyName, r'PrivacyModel', 'companyName');
+    BuiltValueNullFieldError.checkNotNull(
+        companyName, r'PrivacyModel', 'companyName');
   }
 
   @override
-  PrivacyModel rebuild(void Function(PrivacyModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  PrivacyModel rebuild(void Function(PrivacyModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   PrivacyModelBuilder toBuilder() => new PrivacyModelBuilder()..replace(this);
@@ -3980,7 +4172,9 @@ class _$PrivacyModel extends PrivacyModel {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is PrivacyModel && privacy == other.privacy && companyName == other.companyName;
+    return other is PrivacyModel &&
+        privacy == other.privacy &&
+        companyName == other.companyName;
   }
 
   @override
@@ -4001,19 +4195,16 @@ class _$PrivacyModel extends PrivacyModel {
   }
 }
 
-class PrivacyModelBuilder implements Builder<PrivacyModel, PrivacyModelBuilder> {
+class PrivacyModelBuilder
+    implements Builder<PrivacyModel, PrivacyModelBuilder> {
   _$PrivacyModel? _$v;
 
   String? _privacy;
-
   String? get privacy => _$this._privacy;
-
   set privacy(String? privacy) => _$this._privacy = privacy;
 
   String? _companyName;
-
   String? get companyName => _$this._companyName;
-
   set companyName(String? companyName) => _$this._companyName = companyName;
 
   PrivacyModelBuilder();
@@ -4046,7 +4237,8 @@ class PrivacyModelBuilder implements Builder<PrivacyModel, PrivacyModelBuilder> 
     final _$result = _$v ??
         new _$PrivacyModel._(
           privacy: privacy,
-          companyName: BuiltValueNullFieldError.checkNotNull(companyName, r'PrivacyModel', 'companyName'),
+          companyName: BuiltValueNullFieldError.checkNotNull(
+              companyName, r'PrivacyModel', 'companyName'),
         );
     replace(_$result);
     return _$result;
@@ -4107,10 +4299,12 @@ class _$GetReviewModel extends GetReviewModel {
       : super._();
 
   @override
-  GetReviewModel rebuild(void Function(GetReviewModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  GetReviewModel rebuild(void Function(GetReviewModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
-  GetReviewModelBuilder toBuilder() => new GetReviewModelBuilder()..replace(this);
+  GetReviewModelBuilder toBuilder() =>
+      new GetReviewModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -4177,97 +4371,68 @@ class _$GetReviewModel extends GetReviewModel {
   }
 }
 
-class GetReviewModelBuilder implements Builder<GetReviewModel, GetReviewModelBuilder> {
+class GetReviewModelBuilder
+    implements Builder<GetReviewModel, GetReviewModelBuilder> {
   _$GetReviewModel? _$v;
 
   int? _id;
-
   int? get id => _$this._id;
-
   set id(int? id) => _$this._id = id;
 
   String? _title;
-
   String? get title => _$this._title;
-
   set title(String? title) => _$this._title = title;
 
   String? _dateTime;
-
   String? get dateTime => _$this._dateTime;
-
   set dateTime(String? dateTime) => _$this._dateTime = dateTime;
 
   String? _location;
-
   String? get location => _$this._location;
-
   set location(String? location) => _$this._location = location;
 
   String? _name;
-
   String? get name => _$this._name;
-
   set name(String? name) => _$this._name = name;
 
   String? _ratings;
-
   String? get ratings => _$this._ratings;
-
   set ratings(String? ratings) => _$this._ratings = ratings;
 
   String? _review;
-
   String? get review => _$this._review;
-
   set review(String? review) => _$this._review = review;
 
   int? _companyId;
-
   int? get companyId => _$this._companyId;
-
   set companyId(int? companyId) => _$this._companyId = companyId;
 
   int? _doctorId;
-
   int? get doctorId => _$this._doctorId;
-
   set doctorId(int? doctorId) => _$this._doctorId = doctorId;
 
   int? _serviceId;
-
   int? get serviceId => _$this._serviceId;
-
   set serviceId(int? serviceId) => _$this._serviceId = serviceId;
 
   int? _partnerId;
-
   int? get partnerId => _$this._partnerId;
-
   set partnerId(int? partnerId) => _$this._partnerId = partnerId;
 
   bool? _isAnonym;
-
   bool? get isAnonym => _$this._isAnonym;
-
   set isAnonym(bool? isAnonym) => _$this._isAnonym = isAnonym;
 
   String? _address;
-
   String? get address => _$this._address;
-
   set address(String? address) => _$this._address = address;
 
   String? _createDate;
-
   String? get createDate => _$this._createDate;
-
   set createDate(String? createDate) => _$this._createDate = createDate;
 
   String? _status;
-
   String? get status => _$this._status;
-
   set status(String? status) => _$this._status = status;
 
   GetReviewModelBuilder();
@@ -4346,13 +4511,17 @@ class _$PostReviewModel extends PostReviewModel {
   factory _$PostReviewModel([void Function(PostReviewModelBuilder)? updates]) =>
       (new PostReviewModelBuilder()..update(updates))._build();
 
-  _$PostReviewModel._({this.isAnonym, this.companyId, this.ratings, this.review}) : super._();
+  _$PostReviewModel._(
+      {this.isAnonym, this.companyId, this.ratings, this.review})
+      : super._();
 
   @override
-  PostReviewModel rebuild(void Function(PostReviewModelBuilder) updates) => (toBuilder()..update(updates)).build();
+  PostReviewModel rebuild(void Function(PostReviewModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
-  PostReviewModelBuilder toBuilder() => new PostReviewModelBuilder()..replace(this);
+  PostReviewModelBuilder toBuilder() =>
+      new PostReviewModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -4386,31 +4555,24 @@ class _$PostReviewModel extends PostReviewModel {
   }
 }
 
-class PostReviewModelBuilder implements Builder<PostReviewModel, PostReviewModelBuilder> {
+class PostReviewModelBuilder
+    implements Builder<PostReviewModel, PostReviewModelBuilder> {
   _$PostReviewModel? _$v;
 
   bool? _isAnonym;
-
   bool? get isAnonym => _$this._isAnonym;
-
   set isAnonym(bool? isAnonym) => _$this._isAnonym = isAnonym;
 
   int? _companyId;
-
   int? get companyId => _$this._companyId;
-
   set companyId(int? companyId) => _$this._companyId = companyId;
 
   String? _ratings;
-
   String? get ratings => _$this._ratings;
-
   set ratings(String? ratings) => _$this._ratings = ratings;
 
   String? _review;
-
   String? get review => _$this._review;
-
   set review(String? review) => _$this._review = review;
 
   PostReviewModelBuilder();
@@ -4460,21 +4622,26 @@ class _$PostReviewResult extends PostReviewResult {
   @override
   final String? message;
 
-  factory _$PostReviewResult([void Function(PostReviewResultBuilder)? updates]) =>
+  factory _$PostReviewResult(
+          [void Function(PostReviewResultBuilder)? updates]) =>
       (new PostReviewResultBuilder()..update(updates))._build();
 
   _$PostReviewResult._({this.status, this.message}) : super._();
 
   @override
-  PostReviewResult rebuild(void Function(PostReviewResultBuilder) updates) => (toBuilder()..update(updates)).build();
+  PostReviewResult rebuild(void Function(PostReviewResultBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
-  PostReviewResultBuilder toBuilder() => new PostReviewResultBuilder()..replace(this);
+  PostReviewResultBuilder toBuilder() =>
+      new PostReviewResultBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is PostReviewResult && status == other.status && message == other.message;
+    return other is PostReviewResult &&
+        status == other.status &&
+        message == other.message;
   }
 
   @override
@@ -4495,19 +4662,16 @@ class _$PostReviewResult extends PostReviewResult {
   }
 }
 
-class PostReviewResultBuilder implements Builder<PostReviewResult, PostReviewResultBuilder> {
+class PostReviewResultBuilder
+    implements Builder<PostReviewResult, PostReviewResultBuilder> {
   _$PostReviewResult? _$v;
 
   String? _status;
-
   String? get status => _$this._status;
-
   set status(String? status) => _$this._status = status;
 
   String? _message;
-
   String? get message => _$this._message;
-
   set message(String? message) => _$this._message = message;
 
   PostReviewResultBuilder();
@@ -4555,17 +4719,21 @@ class _$PostVisitReviewModel extends PostVisitReviewModel {
   @override
   final int? visitId;
 
-  factory _$PostVisitReviewModel([void Function(PostVisitReviewModelBuilder)? updates]) =>
+  factory _$PostVisitReviewModel(
+          [void Function(PostVisitReviewModelBuilder)? updates]) =>
       (new PostVisitReviewModelBuilder()..update(updates))._build();
 
-  _$PostVisitReviewModel._({this.ratings, this.review, this.visitId}) : super._();
+  _$PostVisitReviewModel._({this.ratings, this.review, this.visitId})
+      : super._();
 
   @override
-  PostVisitReviewModel rebuild(void Function(PostVisitReviewModelBuilder) updates) =>
+  PostVisitReviewModel rebuild(
+          void Function(PostVisitReviewModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  PostVisitReviewModelBuilder toBuilder() => new PostVisitReviewModelBuilder()..replace(this);
+  PostVisitReviewModelBuilder toBuilder() =>
+      new PostVisitReviewModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -4596,25 +4764,20 @@ class _$PostVisitReviewModel extends PostVisitReviewModel {
   }
 }
 
-class PostVisitReviewModelBuilder implements Builder<PostVisitReviewModel, PostVisitReviewModelBuilder> {
+class PostVisitReviewModelBuilder
+    implements Builder<PostVisitReviewModel, PostVisitReviewModelBuilder> {
   _$PostVisitReviewModel? _$v;
 
   String? _ratings;
-
   String? get ratings => _$this._ratings;
-
   set ratings(String? ratings) => _$this._ratings = ratings;
 
   String? _review;
-
   String? get review => _$this._review;
-
   set review(String? review) => _$this._review = review;
 
   int? _visitId;
-
   int? get visitId => _$this._visitId;
-
   set visitId(int? visitId) => _$this._visitId = visitId;
 
   PostVisitReviewModelBuilder();

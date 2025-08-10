@@ -180,7 +180,7 @@ abstract class RecommendationInfo implements Built<RecommendationInfo, Recommend
   double? get price;
 
   @BuiltValueField(wireName: 'order_detail_id')
-  double? get orderDetailId;
+  int? get orderDetailId;
 
   RecommendationInfo._();
 

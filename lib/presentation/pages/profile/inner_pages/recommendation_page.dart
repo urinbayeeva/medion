@@ -32,12 +32,12 @@ class RecommendationPage extends StatefulWidget {
 }
 
 class _RecommendationPageState extends State<RecommendationPage> {
-  late final ValueNotifier<List<int>> _serviceIds;
+  late final ValueNotifier<List<SelectedServices>> _serviceIds;
   late final ValueNotifier<List<RecommendationInfo>> _recommendations;
 
   @override
   void initState() {
-    _serviceIds = ValueNotifier(<int>[]);
+    _serviceIds = ValueNotifier(<SelectedServices>[]);
     _recommendations = ValueNotifier(<RecommendationInfo>[]);
     context.read<AuthBloc>().add(const AuthEvent.fetchRecommendation());
     super.initState();
@@ -127,7 +127,8 @@ class _RecommendationPageState extends State<RecommendationPage> {
                                 ),
                                 children: item.recommendations!.map(
                                   (service) {
-                                    final isSelected = _serviceIds.value.contains(service.serviceId);
+                                    final id = service.serviceId ?? -1;
+                                    final isSelected = _serviceIds.value.contains(SelectedServices(serviceId: id));
                                     return Container(
                                       decoration: const BoxDecoration(
                                         border: Border(
@@ -174,17 +175,37 @@ class _RecommendationPageState extends State<RecommendationPage> {
                                                 const Spacer(),
                                                 AnimationButtonEffect(
                                                   onTap: () {
+                                                    final selectedService = SelectedServices(
+                                                      serviceId: service.serviceId!,
+                                                      orderDetailId: service.orderDetailId,
+                                                    );
+
+                                                    log("Service id: ${selectedService.serviceId}");
+                                                    log("order id: ${selectedService.orderDetailId}");
+
                                                     if (!isSelected) {
                                                       _serviceIds.value = List.from(_serviceIds.value)
-                                                        ..add(service.serviceId!);
+                                                        ..add(selectedService);
                                                       _recommendations.value = List.from(_recommendations.value)
                                                         ..add(service);
                                                     } else {
                                                       _serviceIds.value = List.from(_serviceIds.value)
-                                                        ..remove(service.serviceId!);
+                                                        ..remove(selectedService);
                                                       _recommendations.value = List.from(_recommendations.value)
                                                         ..remove(service);
                                                     }
+
+                                                    // if (!isSelected) {
+                                                    //   _serviceIds.value = List.from(_serviceIds.value)
+                                                    //     ..add(service.serviceId!);
+                                                    //   _recommendations.value = List.from(_recommendations.value)
+                                                    //     ..add(service);
+                                                    // } else {
+                                                    //   _serviceIds.value = List.from(_serviceIds.value)
+                                                    //     ..remove(service.serviceId!);
+                                                    //   _recommendations.value = List.from(_recommendations.value)
+                                                    //     ..remove(service);
+                                                    // }
                                                   },
                                                   child: Container(
                                                     padding: EdgeInsets.all(12.w),
@@ -254,11 +275,7 @@ class _RecommendationPageState extends State<RecommendationPage> {
                                           );
                                         }
                                       },
-                                      child: icons.right.svg(
-                                        width: 20.w,
-                                        height: 20.h,
-                                        color: colors.iconGreyColor,
-                                      ),
+                                      child: icons.right.svg(width: 20.w, height: 20.h, color: colors.iconGreyColor),
                                     ),
                                   }
                                 ],
@@ -273,7 +290,7 @@ class _RecommendationPageState extends State<RecommendationPage> {
                                       MaterialPageRoute(
                                         builder: (context) => MedServiceDoctorChose(
                                           isHome: false,
-                                          servicesID: _serviceIds.value,
+                                          servicesIDes: _serviceIds.value,
                                         ),
                                       ),
                                     );
@@ -305,7 +322,7 @@ class _RecommendationPageState extends State<RecommendationPage> {
 
   void lookSelectedService({
     required ValueNotifier<List<RecommendationInfo>> recommendations,
-    required ValueNotifier<List<int>> serviceIds,
+    required ValueNotifier<List<SelectedServices>> serviceIds,
     required CustomColorSet colors,
     required FontSet fonts,
   }) {
@@ -324,64 +341,69 @@ class _RecommendationPageState extends State<RecommendationPage> {
       ),
       builder: (context) {
         return ValueListenableBuilder(
-            valueListenable: serviceIds,
-            builder: (ctx, val, child) {
-              if (recommendations.value.isEmpty) {
-                Navigator.of(context).pop();
-              }
-              return ListView.separated(
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Selected Services", style: fonts.regularMain.copyWith(fontSize: 14)),
-                        WScaleAnimation(
-                          onTap: () {
-                            serviceIds.value = [];
-                            recommendations.value = [];
-                          },
-                          child: Text(
-                            "Remove all",
-                            style: fonts.regularMain.copyWith(color: colors.error500, fontSize: 14),
-                          ),
-                        )
-                      ],
-                    );
-                  }
-
-                  final rec = _recommendations.value[index - 1];
-                  return SizedBox(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width - 25,
-                    child: Row(
-                      children: [
-                        Expanded(child: Text("${rec.serviceName}", style: fonts.regularMain)),
-                        WScaleAnimation(
-                          onTap: () {
-                            _serviceIds.value = List.from(_serviceIds.value)..remove(rec.serviceId!);
-                            _recommendations.value = List.from(_recommendations.value)..remove(rec);
-                          },
-                          child: Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              color: colors.neutral300,
-                            ),
-                            child: const Icon(Icons.delete_forever_outlined),
-                          ),
-                        )
-                      ],
-                    ),
+          valueListenable: serviceIds,
+          builder: (ctx, val, child) {
+            if (recommendations.value.isEmpty) {
+              Navigator.of(context).pop();
+            }
+            return ListView.separated(
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Selected Services", style: fonts.regularMain.copyWith(fontSize: 14)),
+                      WScaleAnimation(
+                        onTap: () {
+                          serviceIds.value = [];
+                          recommendations.value = [];
+                        },
+                        child: Text(
+                          "Remove all",
+                          style: fonts.regularMain.copyWith(color: colors.error500, fontSize: 14),
+                        ),
+                      )
+                    ],
                   );
-                },
-                separatorBuilder: (context, index) => const Divider(),
-                itemCount: recommendations.value.length + 1,
-              );
-            });
+                }
+
+                final rec = _recommendations.value[index - 1];
+                return SizedBox(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width - 25,
+                  child: Row(
+                    children: [
+                      Expanded(child: Text("${rec.serviceName}", style: fonts.regularMain)),
+                      WScaleAnimation(
+                        onTap: () {
+                          // _serviceIds.value = List.from(_serviceIds.value)..remove(rec.serviceId!);
+                          // _recommendations.value = List.from(_recommendations.value)..remove(rec);
+                          _serviceIds.value = List.from(_serviceIds.value)
+                            ..remove(SelectedServices(serviceId: rec.serviceId!, orderDetailId: rec.orderDetailId));
+
+                          _recommendations.value = List.from(_recommendations.value)..remove(rec);
+                        },
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            color: colors.neutral300,
+                          ),
+                          child: const Icon(Icons.delete_forever_outlined),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) => const Divider(),
+              itemCount: recommendations.value.length + 1,
+            );
+          },
+        );
       },
     );
   }

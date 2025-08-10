@@ -16,6 +16,7 @@ import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shimmer/shimmer.dart';
 
 class BookingFirstPage extends StatefulWidget {
   const BookingFirstPage({super.key});
@@ -26,6 +27,7 @@ class BookingFirstPage extends StatefulWidget {
 
 class _BookingFirstPageState extends State<BookingFirstPage> {
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
+  final RefreshController _refreshShimmer = RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
 
   @override
   void dispose() {
+    _refreshShimmer.dispose();
     _refreshController.dispose();
     super.dispose();
   }
@@ -90,43 +93,53 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                 builder: (_, state) {
                   if (state.fetchBookingTypesStatus.isInitial || state.fetchBookingTypesStatus.isInProgress) {
                     return Expanded(
-                      child: ShimmerView(
+                      child: SmartRefresher(
+                        onRefresh: () {
+                          context.read<BookingBloc>().add(const BookingEvent.fetchBookingTypes());
+                          _refreshShimmer.refreshCompleted();
+                        },
+                        controller: _refreshShimmer,
+                        enablePullDown: true,
+                        header: const WaterDropMaterialHeader(color: Style.shade0, backgroundColor: Style.error500),
                         child: ListView.builder(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          itemCount: 5, // Show 5 shimmer placeholders
+                          itemCount: 12,
                           itemBuilder: (context, index) {
-                            return ShimmerContainer(
-                              margin: EdgeInsets.symmetric(vertical: 8.h),
-                              height: 80.h, // Approximate height of MedicalDirectionItem
-                              borderRadius: 12.r,
-                              child: Row(
-                                children: [
-                                  ShimmerContainer(
-                                    width: 40.w,
-                                    height: 40.h,
-                                    borderRadius: 8.r,
-                                    margin: EdgeInsets.all(8.w),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        ShimmerContainer(
-                                          width: 150.w,
-                                          height: 16.h,
-                                          borderRadius: 4.r,
-                                          margin: EdgeInsets.only(bottom: 8.h),
-                                        ),
-                                        ShimmerContainer(
-                                          width: 100.w,
-                                          height: 12.h,
-                                          borderRadius: 4.r,
-                                        ),
-                                      ],
+                            return Shimmer.fromColors(
+                              baseColor: colors.neutral300.withValues(alpha: 0.3),
+                              highlightColor: colors.shade0,
+                              child: ShimmerContainer(
+                                margin: EdgeInsets.symmetric(vertical: 8.h),
+                                borderRadius: 12.r,
+                                child: Row(
+                                  children: [
+                                    ShimmerContainer(
+                                      width: 40.w,
+                                      height: 40.h,
+                                      borderRadius: 8.r,
+                                      margin: EdgeInsets.all(8.w),
                                     ),
-                                  ),
-                                ],
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          ShimmerContainer(
+                                            width: 150.w,
+                                            height: 16.h,
+                                            borderRadius: 4.r,
+                                            margin: EdgeInsets.only(bottom: 8.h),
+                                          ),
+                                          ShimmerContainer(
+                                            width: 100.w,
+                                            height: 12.h,
+                                            borderRadius: 4.r,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           },
@@ -185,7 +198,7 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                 builder: (context, state) {
                   return AnimatedContainer(
                     width: 1.sw,
-                    height: (state.services.isEmpty) ? 0 : 100.h,
+                    height: (state.services.isEmpty) ? 0 : 116.h,
                     duration: const Duration(milliseconds: 400),
                     decoration: BoxDecoration(
                       color: colors.shade0,

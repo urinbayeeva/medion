@@ -33,6 +33,9 @@ mixin _$BookingEvent {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -52,6 +55,9 @@ mixin _$BookingEvent {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -71,6 +77,9 @@ mixin _$BookingEvent {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -97,6 +106,9 @@ mixin _$BookingEvent {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -120,6 +132,9 @@ mixin _$BookingEvent {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -142,6 +157,9 @@ mixin _$BookingEvent {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -224,6 +242,9 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return fetchBookingTypes();
   }
@@ -246,6 +267,9 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return fetchBookingTypes?.call();
   }
@@ -268,6 +292,9 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (fetchBookingTypes != null) {
@@ -300,6 +327,9 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return fetchBookingTypes(this);
   }
@@ -326,6 +356,9 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return fetchBookingTypes?.call(this);
   }
@@ -351,6 +384,9 @@ class _$FetchBookingTypesImpl implements _FetchBookingTypes {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (fetchBookingTypes != null) {
@@ -447,6 +483,9 @@ class _$SelectServiceImpl implements _SelectService {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return selectService(id);
   }
@@ -469,6 +508,9 @@ class _$SelectServiceImpl implements _SelectService {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return selectService?.call(id);
   }
@@ -491,6 +533,9 @@ class _$SelectServiceImpl implements _SelectService {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (selectService != null) {
@@ -523,6 +568,9 @@ class _$SelectServiceImpl implements _SelectService {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return selectService(this);
   }
@@ -549,6 +597,9 @@ class _$SelectServiceImpl implements _SelectService {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return selectService?.call(this);
   }
@@ -574,6 +625,9 @@ class _$SelectServiceImpl implements _SelectService {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (selectService != null) {
@@ -651,6 +705,9 @@ class _$RefreshServicesImpl implements _RefreshServices {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return refreshServices();
   }
@@ -673,6 +730,9 @@ class _$RefreshServicesImpl implements _RefreshServices {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return refreshServices?.call();
   }
@@ -695,6 +755,9 @@ class _$RefreshServicesImpl implements _RefreshServices {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (refreshServices != null) {
@@ -727,6 +790,9 @@ class _$RefreshServicesImpl implements _RefreshServices {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return refreshServices(this);
   }
@@ -753,6 +819,9 @@ class _$RefreshServicesImpl implements _RefreshServices {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return refreshServices?.call(this);
   }
@@ -778,6 +847,9 @@ class _$RefreshServicesImpl implements _RefreshServices {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (refreshServices != null) {
@@ -882,6 +954,9 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return selectInnerServiceID(ids);
   }
@@ -904,6 +979,9 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return selectInnerServiceID?.call(ids);
   }
@@ -926,6 +1004,9 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (selectInnerServiceID != null) {
@@ -958,6 +1039,9 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return selectInnerServiceID(this);
   }
@@ -984,6 +1068,9 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return selectInnerServiceID?.call(this);
   }
@@ -1009,6 +1096,9 @@ class _$SelectInnerServiceIDImpl implements _SelectInnerServiceID {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (selectInnerServiceID != null) {
@@ -1116,6 +1206,9 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return fetchCategoryServices(id);
   }
@@ -1138,6 +1231,9 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return fetchCategoryServices?.call(id);
   }
@@ -1160,6 +1256,9 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (fetchCategoryServices != null) {
@@ -1192,6 +1291,9 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return fetchCategoryServices(this);
   }
@@ -1218,6 +1320,9 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return fetchCategoryServices?.call(this);
   }
@@ -1243,6 +1348,9 @@ class _$FetchCategoryServicesImpl implements _FetchCategoryServices {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (fetchCategoryServices != null) {
@@ -1355,6 +1463,9 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return getDoctorsTime(id);
   }
@@ -1377,6 +1488,9 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return getDoctorsTime?.call(id);
   }
@@ -1399,6 +1513,9 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (getDoctorsTime != null) {
@@ -1431,6 +1548,9 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return getDoctorsTime(this);
   }
@@ -1457,6 +1577,9 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return getDoctorsTime?.call(this);
   }
@@ -1482,6 +1605,9 @@ class _$GetDoctorsTimeImpl implements _GetDoctorsTime {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (getDoctorsTime != null) {
@@ -1590,6 +1716,9 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return filterDoctorsBySpecialty(specialty);
   }
@@ -1612,6 +1741,9 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return filterDoctorsBySpecialty?.call(specialty);
   }
@@ -1634,6 +1766,9 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (filterDoctorsBySpecialty != null) {
@@ -1666,6 +1801,9 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return filterDoctorsBySpecialty(this);
   }
@@ -1692,6 +1830,9 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return filterDoctorsBySpecialty?.call(this);
   }
@@ -1717,6 +1858,9 @@ class _$FilterDoctorsBySpecialtyImpl implements _FilterDoctorsBySpecialty {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (filterDoctorsBySpecialty != null) {
@@ -1825,6 +1969,9 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return filterDoctorsByPrice(maxPrice);
   }
@@ -1847,6 +1994,9 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return filterDoctorsByPrice?.call(maxPrice);
   }
@@ -1869,6 +2019,9 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (filterDoctorsByPrice != null) {
@@ -1901,6 +2054,9 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return filterDoctorsByPrice(this);
   }
@@ -1927,6 +2083,9 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return filterDoctorsByPrice?.call(this);
   }
@@ -1952,6 +2111,9 @@ class _$FilterDoctorsByPriceImpl implements _FilterDoctorsByPrice {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (filterDoctorsByPrice != null) {
@@ -2067,6 +2229,9 @@ class _$FetchThirdBookingServicesImpl implements _FetchThirdBookingServices {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return fetchThirdBookingServices(request);
   }
@@ -2089,6 +2254,9 @@ class _$FetchThirdBookingServicesImpl implements _FetchThirdBookingServices {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return fetchThirdBookingServices?.call(request);
   }
@@ -2111,6 +2279,9 @@ class _$FetchThirdBookingServicesImpl implements _FetchThirdBookingServices {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (fetchThirdBookingServices != null) {
@@ -2143,6 +2314,9 @@ class _$FetchThirdBookingServicesImpl implements _FetchThirdBookingServices {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return fetchThirdBookingServices(this);
   }
@@ -2169,6 +2343,9 @@ class _$FetchThirdBookingServicesImpl implements _FetchThirdBookingServices {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return fetchThirdBookingServices?.call(this);
   }
@@ -2194,6 +2371,9 @@ class _$FetchThirdBookingServicesImpl implements _FetchThirdBookingServices {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (fetchThirdBookingServices != null) {
@@ -2276,6 +2456,9 @@ class _$FetchHomePageServicesBookingImpl
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return fetchHomePageServicesBooking();
   }
@@ -2298,6 +2481,9 @@ class _$FetchHomePageServicesBookingImpl
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return fetchHomePageServicesBooking?.call();
   }
@@ -2320,6 +2506,9 @@ class _$FetchHomePageServicesBookingImpl
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (fetchHomePageServicesBooking != null) {
@@ -2352,6 +2541,9 @@ class _$FetchHomePageServicesBookingImpl
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return fetchHomePageServicesBooking(this);
   }
@@ -2378,6 +2570,9 @@ class _$FetchHomePageServicesBookingImpl
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return fetchHomePageServicesBooking?.call(this);
   }
@@ -2403,6 +2598,9 @@ class _$FetchHomePageServicesBookingImpl
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (fetchHomePageServicesBooking != null) {
@@ -2504,6 +2702,9 @@ class _$FetchHomePageServiceDoctorsImpl
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return fetchHomePageServiceDoctors(id);
   }
@@ -2526,6 +2727,9 @@ class _$FetchHomePageServiceDoctorsImpl
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return fetchHomePageServiceDoctors?.call(id);
   }
@@ -2548,6 +2752,9 @@ class _$FetchHomePageServiceDoctorsImpl
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (fetchHomePageServiceDoctors != null) {
@@ -2580,6 +2787,9 @@ class _$FetchHomePageServiceDoctorsImpl
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return fetchHomePageServiceDoctors(this);
   }
@@ -2606,6 +2816,9 @@ class _$FetchHomePageServiceDoctorsImpl
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return fetchHomePageServiceDoctors?.call(this);
   }
@@ -2631,6 +2844,9 @@ class _$FetchHomePageServiceDoctorsImpl
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (fetchHomePageServiceDoctors != null) {
@@ -2740,6 +2956,9 @@ class _$FetchServicesByDoctorIdImpl implements _FetchServicesByDoctorId {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return fetchServicesByDoctorId(doctorId);
   }
@@ -2762,6 +2981,9 @@ class _$FetchServicesByDoctorIdImpl implements _FetchServicesByDoctorId {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return fetchServicesByDoctorId?.call(doctorId);
   }
@@ -2784,6 +3006,9 @@ class _$FetchServicesByDoctorIdImpl implements _FetchServicesByDoctorId {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (fetchServicesByDoctorId != null) {
@@ -2816,6 +3041,9 @@ class _$FetchServicesByDoctorIdImpl implements _FetchServicesByDoctorId {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return fetchServicesByDoctorId(this);
   }
@@ -2842,6 +3070,9 @@ class _$FetchServicesByDoctorIdImpl implements _FetchServicesByDoctorId {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return fetchServicesByDoctorId?.call(this);
   }
@@ -2867,6 +3098,9 @@ class _$FetchServicesByDoctorIdImpl implements _FetchServicesByDoctorId {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (fetchServicesByDoctorId != null) {
@@ -2989,6 +3223,9 @@ class _$AddServiceImpl implements _AddService {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return addService(id, name, service);
   }
@@ -3011,6 +3248,9 @@ class _$AddServiceImpl implements _AddService {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return addService?.call(id, name, service);
   }
@@ -3033,6 +3273,9 @@ class _$AddServiceImpl implements _AddService {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (addService != null) {
@@ -3065,6 +3308,9 @@ class _$AddServiceImpl implements _AddService {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return addService(this);
   }
@@ -3091,6 +3337,9 @@ class _$AddServiceImpl implements _AddService {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return addService?.call(this);
   }
@@ -3116,6 +3365,9 @@ class _$AddServiceImpl implements _AddService {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (addService != null) {
@@ -3233,6 +3485,9 @@ class _$RemoveServiceImpl implements _RemoveService {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return removeService(id, service);
   }
@@ -3255,6 +3510,9 @@ class _$RemoveServiceImpl implements _RemoveService {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return removeService?.call(id, service);
   }
@@ -3277,6 +3535,9 @@ class _$RemoveServiceImpl implements _RemoveService {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (removeService != null) {
@@ -3309,6 +3570,9 @@ class _$RemoveServiceImpl implements _RemoveService {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return removeService(this);
   }
@@ -3335,6 +3599,9 @@ class _$RemoveServiceImpl implements _RemoveService {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return removeService?.call(this);
   }
@@ -3360,6 +3627,9 @@ class _$RemoveServiceImpl implements _RemoveService {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (removeService != null) {
@@ -3440,6 +3710,9 @@ class _$RemoveAllServiceImpl implements _RemoveAllService {
     required TResult Function(int id, String name, Service service) addService,
     required TResult Function(int id, Service service) removeService,
     required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
   }) {
     return removeAllService();
   }
@@ -3462,6 +3735,9 @@ class _$RemoveAllServiceImpl implements _RemoveAllService {
     TResult? Function(int id, String name, Service service)? addService,
     TResult? Function(int id, Service service)? removeService,
     TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
   }) {
     return removeAllService?.call();
   }
@@ -3484,6 +3760,9 @@ class _$RemoveAllServiceImpl implements _RemoveAllService {
     TResult Function(int id, String name, Service service)? addService,
     TResult Function(int id, Service service)? removeService,
     TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (removeAllService != null) {
@@ -3516,6 +3795,9 @@ class _$RemoveAllServiceImpl implements _RemoveAllService {
     required TResult Function(_AddService value) addService,
     required TResult Function(_RemoveService value) removeService,
     required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
   }) {
     return removeAllService(this);
   }
@@ -3542,6 +3824,9 @@ class _$RemoveAllServiceImpl implements _RemoveAllService {
     TResult? Function(_AddService value)? addService,
     TResult? Function(_RemoveService value)? removeService,
     TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
   }) {
     return removeAllService?.call(this);
   }
@@ -3567,6 +3852,9 @@ class _$RemoveAllServiceImpl implements _RemoveAllService {
     TResult Function(_AddService value)? addService,
     TResult Function(_RemoveService value)? removeService,
     TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
     required TResult orElse(),
   }) {
     if (removeAllService != null) {
@@ -3578,6 +3866,724 @@ class _$RemoveAllServiceImpl implements _RemoveAllService {
 
 abstract class _RemoveAllService implements BookingEvent {
   const factory _RemoveAllService() = _$RemoveAllServiceImpl;
+}
+
+/// @nodoc
+abstract class _$$AddAppointmentImplCopyWith<$Res> {
+  factory _$$AddAppointmentImplCopyWith(_$AddAppointmentImpl value,
+          $Res Function(_$AddAppointmentImpl) then) =
+      __$$AddAppointmentImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({AppointmentItem appointment});
+}
+
+/// @nodoc
+class __$$AddAppointmentImplCopyWithImpl<$Res>
+    extends _$BookingEventCopyWithImpl<$Res, _$AddAppointmentImpl>
+    implements _$$AddAppointmentImplCopyWith<$Res> {
+  __$$AddAppointmentImplCopyWithImpl(
+      _$AddAppointmentImpl _value, $Res Function(_$AddAppointmentImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? appointment = null,
+  }) {
+    return _then(_$AddAppointmentImpl(
+      appointment: null == appointment
+          ? _value.appointment
+          : appointment // ignore: cast_nullable_to_non_nullable
+              as AppointmentItem,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$AddAppointmentImpl implements _AddAppointment {
+  const _$AddAppointmentImpl({required this.appointment});
+
+  @override
+  final AppointmentItem appointment;
+
+  @override
+  String toString() {
+    return 'BookingEvent.addAppointment(appointment: $appointment)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AddAppointmentImpl &&
+            (identical(other.appointment, appointment) ||
+                other.appointment == appointment));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, appointment);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AddAppointmentImplCopyWith<_$AddAppointmentImpl> get copyWith =>
+      __$$AddAppointmentImplCopyWithImpl<_$AddAppointmentImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBookingTypes,
+    required TResult Function(int id) selectService,
+    required TResult Function() refreshServices,
+    required TResult Function(List<int> ids) selectInnerServiceID,
+    required TResult Function(int id) fetchCategoryServices,
+    required TResult Function(List<int> id) getDoctorsTime,
+    required TResult Function(String specialty) filterDoctorsBySpecialty,
+    required TResult Function(int maxPrice) filterDoctorsByPrice,
+    required TResult Function(List<int> request) fetchThirdBookingServices,
+    required TResult Function() fetchHomePageServicesBooking,
+    required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(int doctorId) fetchServicesByDoctorId,
+    required TResult Function(int id, String name, Service service) addService,
+    required TResult Function(int id, Service service) removeService,
+    required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
+  }) {
+    return addAppointment(appointment);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBookingTypes,
+    TResult? Function(int id)? selectService,
+    TResult? Function()? refreshServices,
+    TResult? Function(List<int> ids)? selectInnerServiceID,
+    TResult? Function(int id)? fetchCategoryServices,
+    TResult? Function(List<int> id)? getDoctorsTime,
+    TResult? Function(String specialty)? filterDoctorsBySpecialty,
+    TResult? Function(int maxPrice)? filterDoctorsByPrice,
+    TResult? Function(List<int> request)? fetchThirdBookingServices,
+    TResult? Function()? fetchHomePageServicesBooking,
+    TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(int doctorId)? fetchServicesByDoctorId,
+    TResult? Function(int id, String name, Service service)? addService,
+    TResult? Function(int id, Service service)? removeService,
+    TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
+  }) {
+    return addAppointment?.call(appointment);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBookingTypes,
+    TResult Function(int id)? selectService,
+    TResult Function()? refreshServices,
+    TResult Function(List<int> ids)? selectInnerServiceID,
+    TResult Function(int id)? fetchCategoryServices,
+    TResult Function(List<int> id)? getDoctorsTime,
+    TResult Function(String specialty)? filterDoctorsBySpecialty,
+    TResult Function(int maxPrice)? filterDoctorsByPrice,
+    TResult Function(List<int> request)? fetchThirdBookingServices,
+    TResult Function()? fetchHomePageServicesBooking,
+    TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(int doctorId)? fetchServicesByDoctorId,
+    TResult Function(int id, String name, Service service)? addService,
+    TResult Function(int id, Service service)? removeService,
+    TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
+    required TResult orElse(),
+  }) {
+    if (addAppointment != null) {
+      return addAppointment(appointment);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
+    required TResult Function(_SelectService value) selectService,
+    required TResult Function(_RefreshServices value) refreshServices,
+    required TResult Function(_SelectInnerServiceID value) selectInnerServiceID,
+    required TResult Function(_FetchCategoryServices value)
+        fetchCategoryServices,
+    required TResult Function(_GetDoctorsTime value) getDoctorsTime,
+    required TResult Function(_FilterDoctorsBySpecialty value)
+        filterDoctorsBySpecialty,
+    required TResult Function(_FilterDoctorsByPrice value) filterDoctorsByPrice,
+    required TResult Function(_FetchThirdBookingServices value)
+        fetchThirdBookingServices,
+    required TResult Function(_FetchHomePageServicesBooking value)
+        fetchHomePageServicesBooking,
+    required TResult Function(_FetchHomePageServiceDoctors value)
+        fetchHomePageServiceDoctors,
+    required TResult Function(_FetchServicesByDoctorId value)
+        fetchServicesByDoctorId,
+    required TResult Function(_AddService value) addService,
+    required TResult Function(_RemoveService value) removeService,
+    required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
+  }) {
+    return addAppointment(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_RefreshServices value)? refreshServices,
+    TResult? Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult? Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult? Function(_FilterDoctorsBySpecialty value)?
+        filterDoctorsBySpecialty,
+    TResult? Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+    TResult? Function(_FetchThirdBookingServices value)?
+        fetchThirdBookingServices,
+    TResult? Function(_FetchHomePageServicesBooking value)?
+        fetchHomePageServicesBooking,
+    TResult? Function(_FetchHomePageServiceDoctors value)?
+        fetchHomePageServiceDoctors,
+    TResult? Function(_FetchServicesByDoctorId value)? fetchServicesByDoctorId,
+    TResult? Function(_AddService value)? addService,
+    TResult? Function(_RemoveService value)? removeService,
+    TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
+  }) {
+    return addAppointment?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult Function(_SelectService value)? selectService,
+    TResult Function(_RefreshServices value)? refreshServices,
+    TResult Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult Function(_FilterDoctorsBySpecialty value)? filterDoctorsBySpecialty,
+    TResult Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+    TResult Function(_FetchThirdBookingServices value)?
+        fetchThirdBookingServices,
+    TResult Function(_FetchHomePageServicesBooking value)?
+        fetchHomePageServicesBooking,
+    TResult Function(_FetchHomePageServiceDoctors value)?
+        fetchHomePageServiceDoctors,
+    TResult Function(_FetchServicesByDoctorId value)? fetchServicesByDoctorId,
+    TResult Function(_AddService value)? addService,
+    TResult Function(_RemoveService value)? removeService,
+    TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
+    required TResult orElse(),
+  }) {
+    if (addAppointment != null) {
+      return addAppointment(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _AddAppointment implements BookingEvent {
+  const factory _AddAppointment({required final AppointmentItem appointment}) =
+      _$AddAppointmentImpl;
+
+  AppointmentItem get appointment;
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$AddAppointmentImplCopyWith<_$AddAppointmentImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RemoveAppointmentImplCopyWith<$Res> {
+  factory _$$RemoveAppointmentImplCopyWith(_$RemoveAppointmentImpl value,
+          $Res Function(_$RemoveAppointmentImpl) then) =
+      __$$RemoveAppointmentImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int serviceId});
+}
+
+/// @nodoc
+class __$$RemoveAppointmentImplCopyWithImpl<$Res>
+    extends _$BookingEventCopyWithImpl<$Res, _$RemoveAppointmentImpl>
+    implements _$$RemoveAppointmentImplCopyWith<$Res> {
+  __$$RemoveAppointmentImplCopyWithImpl(_$RemoveAppointmentImpl _value,
+      $Res Function(_$RemoveAppointmentImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? serviceId = null,
+  }) {
+    return _then(_$RemoveAppointmentImpl(
+      serviceId: null == serviceId
+          ? _value.serviceId
+          : serviceId // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$RemoveAppointmentImpl implements _RemoveAppointment {
+  const _$RemoveAppointmentImpl({required this.serviceId});
+
+  @override
+  final int serviceId;
+
+  @override
+  String toString() {
+    return 'BookingEvent.removeAppointment(serviceId: $serviceId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RemoveAppointmentImpl &&
+            (identical(other.serviceId, serviceId) ||
+                other.serviceId == serviceId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, serviceId);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RemoveAppointmentImplCopyWith<_$RemoveAppointmentImpl> get copyWith =>
+      __$$RemoveAppointmentImplCopyWithImpl<_$RemoveAppointmentImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBookingTypes,
+    required TResult Function(int id) selectService,
+    required TResult Function() refreshServices,
+    required TResult Function(List<int> ids) selectInnerServiceID,
+    required TResult Function(int id) fetchCategoryServices,
+    required TResult Function(List<int> id) getDoctorsTime,
+    required TResult Function(String specialty) filterDoctorsBySpecialty,
+    required TResult Function(int maxPrice) filterDoctorsByPrice,
+    required TResult Function(List<int> request) fetchThirdBookingServices,
+    required TResult Function() fetchHomePageServicesBooking,
+    required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(int doctorId) fetchServicesByDoctorId,
+    required TResult Function(int id, String name, Service service) addService,
+    required TResult Function(int id, Service service) removeService,
+    required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
+  }) {
+    return removeAppointment(serviceId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBookingTypes,
+    TResult? Function(int id)? selectService,
+    TResult? Function()? refreshServices,
+    TResult? Function(List<int> ids)? selectInnerServiceID,
+    TResult? Function(int id)? fetchCategoryServices,
+    TResult? Function(List<int> id)? getDoctorsTime,
+    TResult? Function(String specialty)? filterDoctorsBySpecialty,
+    TResult? Function(int maxPrice)? filterDoctorsByPrice,
+    TResult? Function(List<int> request)? fetchThirdBookingServices,
+    TResult? Function()? fetchHomePageServicesBooking,
+    TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(int doctorId)? fetchServicesByDoctorId,
+    TResult? Function(int id, String name, Service service)? addService,
+    TResult? Function(int id, Service service)? removeService,
+    TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
+  }) {
+    return removeAppointment?.call(serviceId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBookingTypes,
+    TResult Function(int id)? selectService,
+    TResult Function()? refreshServices,
+    TResult Function(List<int> ids)? selectInnerServiceID,
+    TResult Function(int id)? fetchCategoryServices,
+    TResult Function(List<int> id)? getDoctorsTime,
+    TResult Function(String specialty)? filterDoctorsBySpecialty,
+    TResult Function(int maxPrice)? filterDoctorsByPrice,
+    TResult Function(List<int> request)? fetchThirdBookingServices,
+    TResult Function()? fetchHomePageServicesBooking,
+    TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(int doctorId)? fetchServicesByDoctorId,
+    TResult Function(int id, String name, Service service)? addService,
+    TResult Function(int id, Service service)? removeService,
+    TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
+    required TResult orElse(),
+  }) {
+    if (removeAppointment != null) {
+      return removeAppointment(serviceId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
+    required TResult Function(_SelectService value) selectService,
+    required TResult Function(_RefreshServices value) refreshServices,
+    required TResult Function(_SelectInnerServiceID value) selectInnerServiceID,
+    required TResult Function(_FetchCategoryServices value)
+        fetchCategoryServices,
+    required TResult Function(_GetDoctorsTime value) getDoctorsTime,
+    required TResult Function(_FilterDoctorsBySpecialty value)
+        filterDoctorsBySpecialty,
+    required TResult Function(_FilterDoctorsByPrice value) filterDoctorsByPrice,
+    required TResult Function(_FetchThirdBookingServices value)
+        fetchThirdBookingServices,
+    required TResult Function(_FetchHomePageServicesBooking value)
+        fetchHomePageServicesBooking,
+    required TResult Function(_FetchHomePageServiceDoctors value)
+        fetchHomePageServiceDoctors,
+    required TResult Function(_FetchServicesByDoctorId value)
+        fetchServicesByDoctorId,
+    required TResult Function(_AddService value) addService,
+    required TResult Function(_RemoveService value) removeService,
+    required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
+  }) {
+    return removeAppointment(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_RefreshServices value)? refreshServices,
+    TResult? Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult? Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult? Function(_FilterDoctorsBySpecialty value)?
+        filterDoctorsBySpecialty,
+    TResult? Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+    TResult? Function(_FetchThirdBookingServices value)?
+        fetchThirdBookingServices,
+    TResult? Function(_FetchHomePageServicesBooking value)?
+        fetchHomePageServicesBooking,
+    TResult? Function(_FetchHomePageServiceDoctors value)?
+        fetchHomePageServiceDoctors,
+    TResult? Function(_FetchServicesByDoctorId value)? fetchServicesByDoctorId,
+    TResult? Function(_AddService value)? addService,
+    TResult? Function(_RemoveService value)? removeService,
+    TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
+  }) {
+    return removeAppointment?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult Function(_SelectService value)? selectService,
+    TResult Function(_RefreshServices value)? refreshServices,
+    TResult Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult Function(_FilterDoctorsBySpecialty value)? filterDoctorsBySpecialty,
+    TResult Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+    TResult Function(_FetchThirdBookingServices value)?
+        fetchThirdBookingServices,
+    TResult Function(_FetchHomePageServicesBooking value)?
+        fetchHomePageServicesBooking,
+    TResult Function(_FetchHomePageServiceDoctors value)?
+        fetchHomePageServiceDoctors,
+    TResult Function(_FetchServicesByDoctorId value)? fetchServicesByDoctorId,
+    TResult Function(_AddService value)? addService,
+    TResult Function(_RemoveService value)? removeService,
+    TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
+    required TResult orElse(),
+  }) {
+    if (removeAppointment != null) {
+      return removeAppointment(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RemoveAppointment implements BookingEvent {
+  const factory _RemoveAppointment({required final int serviceId}) =
+      _$RemoveAppointmentImpl;
+
+  int get serviceId;
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RemoveAppointmentImplCopyWith<_$RemoveAppointmentImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ClearAllImplCopyWith<$Res> {
+  factory _$$ClearAllImplCopyWith(
+          _$ClearAllImpl value, $Res Function(_$ClearAllImpl) then) =
+      __$$ClearAllImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ClearAllImplCopyWithImpl<$Res>
+    extends _$BookingEventCopyWithImpl<$Res, _$ClearAllImpl>
+    implements _$$ClearAllImplCopyWith<$Res> {
+  __$$ClearAllImplCopyWithImpl(
+      _$ClearAllImpl _value, $Res Function(_$ClearAllImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BookingEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$ClearAllImpl implements _ClearAll {
+  const _$ClearAllImpl();
+
+  @override
+  String toString() {
+    return 'BookingEvent.clearAllAppointmentAndService()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$ClearAllImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBookingTypes,
+    required TResult Function(int id) selectService,
+    required TResult Function() refreshServices,
+    required TResult Function(List<int> ids) selectInnerServiceID,
+    required TResult Function(int id) fetchCategoryServices,
+    required TResult Function(List<int> id) getDoctorsTime,
+    required TResult Function(String specialty) filterDoctorsBySpecialty,
+    required TResult Function(int maxPrice) filterDoctorsByPrice,
+    required TResult Function(List<int> request) fetchThirdBookingServices,
+    required TResult Function() fetchHomePageServicesBooking,
+    required TResult Function(int id) fetchHomePageServiceDoctors,
+    required TResult Function(int doctorId) fetchServicesByDoctorId,
+    required TResult Function(int id, String name, Service service) addService,
+    required TResult Function(int id, Service service) removeService,
+    required TResult Function() removeAllService,
+    required TResult Function(AppointmentItem appointment) addAppointment,
+    required TResult Function(int serviceId) removeAppointment,
+    required TResult Function() clearAllAppointmentAndService,
+  }) {
+    return clearAllAppointmentAndService();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBookingTypes,
+    TResult? Function(int id)? selectService,
+    TResult? Function()? refreshServices,
+    TResult? Function(List<int> ids)? selectInnerServiceID,
+    TResult? Function(int id)? fetchCategoryServices,
+    TResult? Function(List<int> id)? getDoctorsTime,
+    TResult? Function(String specialty)? filterDoctorsBySpecialty,
+    TResult? Function(int maxPrice)? filterDoctorsByPrice,
+    TResult? Function(List<int> request)? fetchThirdBookingServices,
+    TResult? Function()? fetchHomePageServicesBooking,
+    TResult? Function(int id)? fetchHomePageServiceDoctors,
+    TResult? Function(int doctorId)? fetchServicesByDoctorId,
+    TResult? Function(int id, String name, Service service)? addService,
+    TResult? Function(int id, Service service)? removeService,
+    TResult? Function()? removeAllService,
+    TResult? Function(AppointmentItem appointment)? addAppointment,
+    TResult? Function(int serviceId)? removeAppointment,
+    TResult? Function()? clearAllAppointmentAndService,
+  }) {
+    return clearAllAppointmentAndService?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBookingTypes,
+    TResult Function(int id)? selectService,
+    TResult Function()? refreshServices,
+    TResult Function(List<int> ids)? selectInnerServiceID,
+    TResult Function(int id)? fetchCategoryServices,
+    TResult Function(List<int> id)? getDoctorsTime,
+    TResult Function(String specialty)? filterDoctorsBySpecialty,
+    TResult Function(int maxPrice)? filterDoctorsByPrice,
+    TResult Function(List<int> request)? fetchThirdBookingServices,
+    TResult Function()? fetchHomePageServicesBooking,
+    TResult Function(int id)? fetchHomePageServiceDoctors,
+    TResult Function(int doctorId)? fetchServicesByDoctorId,
+    TResult Function(int id, String name, Service service)? addService,
+    TResult Function(int id, Service service)? removeService,
+    TResult Function()? removeAllService,
+    TResult Function(AppointmentItem appointment)? addAppointment,
+    TResult Function(int serviceId)? removeAppointment,
+    TResult Function()? clearAllAppointmentAndService,
+    required TResult orElse(),
+  }) {
+    if (clearAllAppointmentAndService != null) {
+      return clearAllAppointmentAndService();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBookingTypes value) fetchBookingTypes,
+    required TResult Function(_SelectService value) selectService,
+    required TResult Function(_RefreshServices value) refreshServices,
+    required TResult Function(_SelectInnerServiceID value) selectInnerServiceID,
+    required TResult Function(_FetchCategoryServices value)
+        fetchCategoryServices,
+    required TResult Function(_GetDoctorsTime value) getDoctorsTime,
+    required TResult Function(_FilterDoctorsBySpecialty value)
+        filterDoctorsBySpecialty,
+    required TResult Function(_FilterDoctorsByPrice value) filterDoctorsByPrice,
+    required TResult Function(_FetchThirdBookingServices value)
+        fetchThirdBookingServices,
+    required TResult Function(_FetchHomePageServicesBooking value)
+        fetchHomePageServicesBooking,
+    required TResult Function(_FetchHomePageServiceDoctors value)
+        fetchHomePageServiceDoctors,
+    required TResult Function(_FetchServicesByDoctorId value)
+        fetchServicesByDoctorId,
+    required TResult Function(_AddService value) addService,
+    required TResult Function(_RemoveService value) removeService,
+    required TResult Function(_RemoveAllService value) removeAllService,
+    required TResult Function(_AddAppointment value) addAppointment,
+    required TResult Function(_RemoveAppointment value) removeAppointment,
+    required TResult Function(_ClearAll value) clearAllAppointmentAndService,
+  }) {
+    return clearAllAppointmentAndService(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult? Function(_SelectService value)? selectService,
+    TResult? Function(_RefreshServices value)? refreshServices,
+    TResult? Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult? Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult? Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult? Function(_FilterDoctorsBySpecialty value)?
+        filterDoctorsBySpecialty,
+    TResult? Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+    TResult? Function(_FetchThirdBookingServices value)?
+        fetchThirdBookingServices,
+    TResult? Function(_FetchHomePageServicesBooking value)?
+        fetchHomePageServicesBooking,
+    TResult? Function(_FetchHomePageServiceDoctors value)?
+        fetchHomePageServiceDoctors,
+    TResult? Function(_FetchServicesByDoctorId value)? fetchServicesByDoctorId,
+    TResult? Function(_AddService value)? addService,
+    TResult? Function(_RemoveService value)? removeService,
+    TResult? Function(_RemoveAllService value)? removeAllService,
+    TResult? Function(_AddAppointment value)? addAppointment,
+    TResult? Function(_RemoveAppointment value)? removeAppointment,
+    TResult? Function(_ClearAll value)? clearAllAppointmentAndService,
+  }) {
+    return clearAllAppointmentAndService?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBookingTypes value)? fetchBookingTypes,
+    TResult Function(_SelectService value)? selectService,
+    TResult Function(_RefreshServices value)? refreshServices,
+    TResult Function(_SelectInnerServiceID value)? selectInnerServiceID,
+    TResult Function(_FetchCategoryServices value)? fetchCategoryServices,
+    TResult Function(_GetDoctorsTime value)? getDoctorsTime,
+    TResult Function(_FilterDoctorsBySpecialty value)? filterDoctorsBySpecialty,
+    TResult Function(_FilterDoctorsByPrice value)? filterDoctorsByPrice,
+    TResult Function(_FetchThirdBookingServices value)?
+        fetchThirdBookingServices,
+    TResult Function(_FetchHomePageServicesBooking value)?
+        fetchHomePageServicesBooking,
+    TResult Function(_FetchHomePageServiceDoctors value)?
+        fetchHomePageServiceDoctors,
+    TResult Function(_FetchServicesByDoctorId value)? fetchServicesByDoctorId,
+    TResult Function(_AddService value)? addService,
+    TResult Function(_RemoveService value)? removeService,
+    TResult Function(_RemoveAllService value)? removeAllService,
+    TResult Function(_AddAppointment value)? addAppointment,
+    TResult Function(_RemoveAppointment value)? removeAppointment,
+    TResult Function(_ClearAll value)? clearAllAppointmentAndService,
+    required TResult orElse(),
+  }) {
+    if (clearAllAppointmentAndService != null) {
+      return clearAllAppointmentAndService(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ClearAll implements BookingEvent {
+  const factory _ClearAll() = _$ClearAllImpl;
 }
 
 /// @nodoc
@@ -3608,7 +4614,8 @@ mixin _$BookingState {
       throw _privateConstructorUsedError;
   List<DirectionScrollingItem> get items => throw _privateConstructorUsedError;
   List<BookingInfo> get services => throw _privateConstructorUsedError;
-  List<AppointmentItem> get appointments => throw _privateConstructorUsedError;
+  List<AppointmentItem> get selectedAppointments =>
+      throw _privateConstructorUsedError;
   Map<int, List<Service>> get selectedServices =>
       throw _privateConstructorUsedError;
   String get selectedSpecialty => throw _privateConstructorUsedError;
@@ -3648,7 +4655,7 @@ abstract class $BookingStateCopyWith<$Res> {
       List<MedicalServiceCategory> doctorServices,
       List<DirectionScrollingItem> items,
       List<BookingInfo> services,
-      List<AppointmentItem> appointments,
+      List<AppointmentItem> selectedAppointments,
       Map<int, List<Service>> selectedServices,
       String selectedSpecialty,
       String errorMessage,
@@ -3689,7 +4696,7 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
     Object? doctorServices = null,
     Object? items = null,
     Object? services = null,
-    Object? appointments = null,
+    Object? selectedAppointments = null,
     Object? selectedServices = null,
     Object? selectedSpecialty = null,
     Object? errorMessage = null,
@@ -3765,9 +4772,9 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
           ? _value.services
           : services // ignore: cast_nullable_to_non_nullable
               as List<BookingInfo>,
-      appointments: null == appointments
-          ? _value.appointments
-          : appointments // ignore: cast_nullable_to_non_nullable
+      selectedAppointments: null == selectedAppointments
+          ? _value.selectedAppointments
+          : selectedAppointments // ignore: cast_nullable_to_non_nullable
               as List<AppointmentItem>,
       selectedServices: null == selectedServices
           ? _value.selectedServices
@@ -3826,7 +4833,7 @@ abstract class _$$BookingStateImplCopyWith<$Res>
       List<MedicalServiceCategory> doctorServices,
       List<DirectionScrollingItem> items,
       List<BookingInfo> services,
-      List<AppointmentItem> appointments,
+      List<AppointmentItem> selectedAppointments,
       Map<int, List<Service>> selectedServices,
       String selectedSpecialty,
       String errorMessage,
@@ -3865,7 +4872,7 @@ class __$$BookingStateImplCopyWithImpl<$Res>
     Object? doctorServices = null,
     Object? items = null,
     Object? services = null,
-    Object? appointments = null,
+    Object? selectedAppointments = null,
     Object? selectedServices = null,
     Object? selectedSpecialty = null,
     Object? errorMessage = null,
@@ -3941,9 +4948,9 @@ class __$$BookingStateImplCopyWithImpl<$Res>
           ? _value._services
           : services // ignore: cast_nullable_to_non_nullable
               as List<BookingInfo>,
-      appointments: null == appointments
-          ? _value._appointments
-          : appointments // ignore: cast_nullable_to_non_nullable
+      selectedAppointments: null == selectedAppointments
+          ? _value._selectedAppointments
+          : selectedAppointments // ignore: cast_nullable_to_non_nullable
               as List<AppointmentItem>,
       selectedServices: null == selectedServices
           ? _value._selectedServices
@@ -3997,7 +5004,7 @@ class _$BookingStateImpl extends _BookingState {
       final List<MedicalServiceCategory> doctorServices = const [],
       final List<DirectionScrollingItem> items = const [],
       final List<BookingInfo> services = const [],
-      final List<AppointmentItem> appointments = const [],
+      final List<AppointmentItem> selectedAppointments = const [],
       final Map<int, List<Service>> selectedServices =
           const <int, List<Service>>{},
       this.selectedSpecialty = '',
@@ -4014,7 +5021,7 @@ class _$BookingStateImpl extends _BookingState {
         _doctorServices = doctorServices,
         _items = items,
         _services = services,
-        _appointments = appointments,
+        _selectedAppointments = selectedAppointments,
         _selectedServices = selectedServices,
         super._();
 
@@ -4118,13 +5125,14 @@ class _$BookingStateImpl extends _BookingState {
     return EqualUnmodifiableListView(_services);
   }
 
-  final List<AppointmentItem> _appointments;
+  final List<AppointmentItem> _selectedAppointments;
   @override
   @JsonKey()
-  List<AppointmentItem> get appointments {
-    if (_appointments is EqualUnmodifiableListView) return _appointments;
+  List<AppointmentItem> get selectedAppointments {
+    if (_selectedAppointments is EqualUnmodifiableListView)
+      return _selectedAppointments;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_appointments);
+    return EqualUnmodifiableListView(_selectedAppointments);
   }
 
   final Map<int, List<Service>> _selectedServices;
@@ -4154,7 +5162,7 @@ class _$BookingStateImpl extends _BookingState {
 
   @override
   String toString() {
-    return 'BookingState(serviceStatus: $serviceStatus, refreshServiceStatus: $refreshServiceStatus, fetchBookingTypesStatus: $fetchBookingTypesStatus, fetchHomePageBookingCategoriesStatus: $fetchHomePageBookingCategoriesStatus, fetchCategoryServicesStatus: $fetchCategoryServicesStatus, fetchHomePageBookingDoctorsStatus: $fetchHomePageBookingDoctorsStatus, getDoctorsStatus: $getDoctorsStatus, getServicesByDoctorIdStatus: $getServicesByDoctorIdStatus, bookingTypes: $bookingTypes, categoryServices: $categoryServices, selectedInnerServiceIds: $selectedInnerServiceIds, thirdBookingServices: $thirdBookingServices, homePageBookingCategory: $homePageBookingCategory, doctorServices: $doctorServices, items: $items, services: $services, appointments: $appointments, selectedServices: $selectedServices, selectedSpecialty: $selectedSpecialty, errorMessage: $errorMessage, hasFetchedThirdServices: $hasFetchedThirdServices, medicalModel: $medicalModel, selectedDoctorId: $selectedDoctorId, selectedServiceId: $selectedServiceId)';
+    return 'BookingState(serviceStatus: $serviceStatus, refreshServiceStatus: $refreshServiceStatus, fetchBookingTypesStatus: $fetchBookingTypesStatus, fetchHomePageBookingCategoriesStatus: $fetchHomePageBookingCategoriesStatus, fetchCategoryServicesStatus: $fetchCategoryServicesStatus, fetchHomePageBookingDoctorsStatus: $fetchHomePageBookingDoctorsStatus, getDoctorsStatus: $getDoctorsStatus, getServicesByDoctorIdStatus: $getServicesByDoctorIdStatus, bookingTypes: $bookingTypes, categoryServices: $categoryServices, selectedInnerServiceIds: $selectedInnerServiceIds, thirdBookingServices: $thirdBookingServices, homePageBookingCategory: $homePageBookingCategory, doctorServices: $doctorServices, items: $items, services: $services, selectedAppointments: $selectedAppointments, selectedServices: $selectedServices, selectedSpecialty: $selectedSpecialty, errorMessage: $errorMessage, hasFetchedThirdServices: $hasFetchedThirdServices, medicalModel: $medicalModel, selectedDoctorId: $selectedDoctorId, selectedServiceId: $selectedServiceId)';
   }
 
   @override
@@ -4197,7 +5205,7 @@ class _$BookingStateImpl extends _BookingState {
             const DeepCollectionEquality().equals(other._items, _items) &&
             const DeepCollectionEquality().equals(other._services, _services) &&
             const DeepCollectionEquality()
-                .equals(other._appointments, _appointments) &&
+                .equals(other._selectedAppointments, _selectedAppointments) &&
             const DeepCollectionEquality()
                 .equals(other._selectedServices, _selectedServices) &&
             (identical(other.selectedSpecialty, selectedSpecialty) ||
@@ -4228,7 +5236,7 @@ class _$BookingStateImpl extends _BookingState {
         const DeepCollectionEquality().hash(_doctorServices),
         const DeepCollectionEquality().hash(_items),
         const DeepCollectionEquality().hash(_services),
-        const DeepCollectionEquality().hash(_appointments),
+        const DeepCollectionEquality().hash(_selectedAppointments),
         const DeepCollectionEquality().hash(_selectedServices),
         selectedSpecialty,
         errorMessage,
@@ -4265,7 +5273,7 @@ abstract class _BookingState extends BookingState {
       final List<MedicalServiceCategory> doctorServices,
       final List<DirectionScrollingItem> items,
       final List<BookingInfo> services,
-      final List<AppointmentItem> appointments,
+      final List<AppointmentItem> selectedAppointments,
       final Map<int, List<Service>> selectedServices,
       final String selectedSpecialty,
       final String errorMessage,
@@ -4308,7 +5316,7 @@ abstract class _BookingState extends BookingState {
   @override
   List<BookingInfo> get services;
   @override
-  List<AppointmentItem> get appointments;
+  List<AppointmentItem> get selectedAppointments;
   @override
   Map<int, List<Service>> get selectedServices;
   @override

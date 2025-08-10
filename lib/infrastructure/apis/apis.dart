@@ -77,8 +77,8 @@ abstract class RefreshService extends ChopperService {
 @ChopperApi(baseUrl: "")
 abstract class VisitCreateService extends ChopperService {
   @Post(path: "create_visit")
-  Future<Response<BuiltList<VisitOrder>>> visitCreate({
-    @Body() required VisitRequest request,
+  Future<Response<CreateVisitResponse>> visitCreate({
+    @Body() required BuiltList<VisitRequest> request,
     @Header('requires-token') String requiresToken = "true",
   });
 
@@ -95,7 +95,7 @@ abstract class BookingService extends ChopperService {
   @Get(path: 'category_services/{service_type_id}')
   Future<Response<BuiltList<Category>>> getServiceId(@Path('service_type_id') int id);
 
-  @Post(path: 'doctors')
+  @Post(path: 'doctor-time-slots-mobile')
   Future<Response<BuiltList<ThirdBookingService>>> fetchDoctors({
     @Header('requires-token') String requiresToken = 'true',
     @Query("days") int? days,
@@ -196,7 +196,9 @@ abstract class PatientService extends ChopperService {
   Future<Response<PaymentResponse>> getMyWallet({@Header('requires-token') String requiresToken = "true"});
 
   @Get(path: "recommendations")
-  Future<Response<BuiltList<Recommendation>>> recommendation({@Header('requires-token') String requiresToken = "true"});
+  Future<Response<BuiltList<Recommendation>>> recommendation({
+    @Header('requires-token') String requiresToken = "true",
+  });
 
   @Get(path: "patient_prescription")
   Future<Response<BuiltList<RecipeModel>>> recipes({@Header('requires-token') String requiresToken = "true"});
@@ -342,7 +344,7 @@ abstract class RecruitmentService extends ChopperService {
 }
 
 base class _Client extends ChopperClient {
-  _Client(String baseUrl, bool useInterceptors, DBService dbService, {int timeout = 5})
+  _Client(String baseUrl, bool useInterceptors, DBService dbService, {int timeout = 15})
       : super(
           client: TimeoutHttpClient(Client(), timeout: Duration(seconds: timeout)),
           baseUrl: Uri.parse(baseUrl),

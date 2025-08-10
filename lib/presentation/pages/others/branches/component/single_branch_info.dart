@@ -17,6 +17,7 @@ import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_bottom_icon.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/w_html/w_html.dart';
+import 'package:medion/presentation/component/w_html/w_html_has_readmore.dart';
 import 'package:medion/presentation/pages/map/map_with_polylines.dart';
 import 'package:medion/presentation/pages/others/branches/component/license.dart';
 import 'package:medion/presentation/pages/others/branches/widget/image_dialog.dart';
@@ -284,6 +285,8 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 6.w,
                             children: [
                               ...List.generate(
                                 state.branchDetail?.offers.length ?? 0,
@@ -291,13 +294,32 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                                   List<OfferModel> offers = state.branchDetail?.offers.toList() ?? [];
                                   OfferModel model = offers[i];
                                   return Container(
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                                    width: 200.w,
+                                    height: 250.h,
+                                    decoration: BoxDecoration(
+                                      color: colors.shade0,
+                                      borderRadius: BorderRadius.circular(10.r),
+                                    ),
+                                    margin: EdgeInsets.symmetric(horizontal: 10.w),
                                     child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(model.name ?? ''),
-                                        Text(model.description ?? ''),
-                                        Text(model.icon ?? ''),
+                                        CommonImage(
+                                          radius: BorderRadius.vertical(top: Radius.circular(10.r)),
+                                          imageUrl: model.icon ?? "",
+                                          width: double.infinity,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                          child: Text(model.name ?? '', maxLines: 2),
+                                        ),
+                                        12.h.verticalSpace,
+                                        // WHtmlReadLessMore(
+                                        //   data: model.description ?? "",
+                                        //   isReadMore: true,
+                                        // ),
+                                        // Text(model.description ?? ''),
                                       ],
                                     ),
                                   );

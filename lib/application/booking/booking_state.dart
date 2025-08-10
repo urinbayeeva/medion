@@ -21,7 +21,7 @@ class BookingState with _$BookingState {
     @Default([]) List<MedicalServiceCategory> doctorServices,
     @Default([]) List<DirectionScrollingItem> items,
     @Default([]) List<BookingInfo> services,
-    @Default([]) List<AppointmentItem> appointments,
+    @Default([]) List<AppointmentItem> selectedAppointments,
     @Default(<int, List<Service>>{}) Map<int, List<Service>> selectedServices,
     @Default('') String selectedSpecialty,
     @Default('') String errorMessage,
