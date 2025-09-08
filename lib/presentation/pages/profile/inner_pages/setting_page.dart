@@ -175,9 +175,7 @@ class _SettingPageState extends State<SettingPage> {
       showModalBottomSheet(
         context: context,
         builder: (item) => CBottomsheetProfile(
-          onTapBack: () {
-            // context.read<BottomNavBarController>().changeNavBar(false);
-          },
+          onTapBack: () => Navigator.of(context).pop(),
           onTapLogOut: () async {
             context.read<DBService>().setLang(isSaved: false);
             context.read<DBService>().signOut();

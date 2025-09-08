@@ -14,6 +14,7 @@ class LogInterceptor implements Interceptor {
     log('\n\n🟡 [REQUEST] → [${request.method}] ${request.url}');
     log('🔹 Headers: ${request.headers}');
     log('🔹 Body: ${request.body}');
+    log('🔹 Query: ${request.parameters}');
 
     try {
       response = await chain.proceed(request);
@@ -34,8 +35,8 @@ class LogInterceptor implements Interceptor {
       log('🔹 Body: ${request.body}');
       log('🔹 Error: $error');
       log('🔹 Response Error : ${(error as BackendExceptionForSentry).response.error}');
-      log('🔹 Error Response Body: ${(error as BackendExceptionForSentry).response.body}');
-      log('🔹 Error Response BodyString: ${(error as BackendExceptionForSentry).response.bodyString}');
+      log('🔹 Error Response Body: ${(error).response.body}');
+      log('🔹 Error Response BodyString: ${(error).response.bodyString}');
 
       log('🔴 [EXCEPTION END]\n');
       rethrow;

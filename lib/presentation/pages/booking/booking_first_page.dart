@@ -12,6 +12,7 @@ import 'package:medion/presentation/pages/booking/booking_second_page.dart';
 import 'package:medion/presentation/pages/booking/widgets/show_selected_service.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -64,21 +65,24 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                         children: [
                           TextSpan(
                             text: 'step'.tr(namedArgs: {"count": "1", "total": "5"}),
-                            style: fonts.xSmallLink
-                                .copyWith(color: colors.neutral600, fontSize: 13.sp, fontWeight: FontWeight.w600),
+                            style: fonts.xSmallLink.copyWith(
+                              color: colors.neutral600,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                           TextSpan(
                             text: "  ${"selecting_service_type".tr()}",
-                            style: fonts.xSmallLink
-                                .copyWith(color: colors.primary900, fontSize: 13.sp, fontWeight: FontWeight.w600),
+                            style: fonts.xSmallLink.copyWith(
+                              color: colors.primary900,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    const CustomProgressBar(
-                      count: 1,
-                      allCount: 5,
-                    ),
+                    const CustomProgressBar(count: 1, allCount: 5),
                   ],
                 ),
               ),
@@ -147,7 +151,14 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                       ),
                     );
                   }
-
+                  if (state.fetchBookingTypesStatus.isFailure || state.bookingTypes.isEmpty) {
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 230.h),
+                        child: EmptyState(title: "no_results_found".tr()),
+                      ),
+                    );
+                  }
                   return Expanded(
                     child: SmartRefresher(
                       onRefresh: () {
@@ -170,13 +181,16 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                               context.read<BookingBloc>().add(BookingEvent.selectService(id: item.id));
 
                               Navigator.of(context, rootNavigator: true)
-                                  .push(MaterialPageRoute(
-                                      builder: (context) => BookingSecondPage(
-                                            isUSD: false,
-                                            serviceName: item?.name ?? "",
-                                            serviceId: item.id,
-                                            show: true,
-                                          )))
+                                  .push(
+                                MaterialPageRoute(
+                                  builder: (context) => BookingSecondPage(
+                                    isUSD: false,
+                                    serviceName: item.name,
+                                    serviceId: item.id,
+                                    show: true,
+                                  ),
+                                ),
+                              )
                                   .then((_) {
                                 context.read<BottomNavBarController>().changeNavBar(false);
                               });
@@ -213,10 +227,7 @@ class _BookingFirstPageState extends State<BookingFirstPage> {
                         children: [
                           Text(
                             "count_services_selected".tr(namedArgs: {"count": "${state.services.length}"}),
-                            style: fonts.xSmallLink.copyWith(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: fonts.xSmallLink.copyWith(fontSize: 13.sp, fontWeight: FontWeight.bold),
                           ),
                           WScaleAnimation(
                             onTap: () {

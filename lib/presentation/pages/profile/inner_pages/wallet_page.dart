@@ -8,12 +8,12 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/infrastructure/services/download_service.dart';
-import 'package:medion/infrastructure/services/my_functions.dart';
+import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_outlined_button.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class WalletPage extends StatefulWidget {
   const WalletPage({super.key});
@@ -64,27 +64,31 @@ class _WalletPageState extends State<WalletPage> {
                 return Center(child: CupertinoActivityIndicator(color: colors.error500));
               }
 
-              if (state.errorFetchingPatientInfo) {
+              if (state.errorFetchingPatientInfo || state.myWallet == null) {
                 return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('failed_to_load_wallet'.tr()),
-                      16.h.verticalSpace,
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: CustomButton(
-                          onPressed: () => context.read<AuthBloc>().add(const AuthEvent.fetchMyWallet()),
-                          title: 'retry'.tr(),
+                  child: EmptyState(
+                    title: "",
+                    body: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'failed_to_load_wallet'.tr(),
+                          style: fonts.regularMain,
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                          child: CButton(
+                            height: 40.h,
+                            onTap: () => context.read<AuthBloc>().add(const AuthEvent.fetchMyWallet()),
+                            title: 'retry'.tr(),
+                          ),
+                        ),
+                        16.h.verticalSpace,
+                      ],
+                    ),
                   ),
                 );
-              }
-
-              if (state.myWallet == null) {
-                return Center(child: Text('no_wallet_data'.tr()));
               }
 
               final wallet = state.myWallet!;

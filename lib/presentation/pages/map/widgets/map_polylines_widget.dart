@@ -55,7 +55,7 @@ class _MapPolylinesWidgetState extends State<MapPolylinesWidget> {
                         width: 80.w,
                         height: 60.h,
                         imageUrl: widget.image,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                       ),
                     } else ...{
                       Container(
@@ -66,7 +66,7 @@ class _MapPolylinesWidgetState extends State<MapPolylinesWidget> {
                         ),
                         child: Image.asset(
                           "assets/images/medion_only.png",
-                          fit: BoxFit.fill,
+                          fit: BoxFit.contain,
                         ),
                       ),
                     },

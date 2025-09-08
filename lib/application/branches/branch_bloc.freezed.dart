@@ -19,12 +19,19 @@ mixin _$BranchEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBranches,
+    required TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)
+        getReviews,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
-    required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
     required TResult Function(int rank, int id, String branch, String comment)
@@ -34,12 +41,19 @@ mixin _$BranchEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBranches,
+    TResult? Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
-    TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
     TResult? Function(int rank, int id, String branch, String comment)?
@@ -49,12 +63,19 @@ mixin _$BranchEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBranches,
+    TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
-    TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
     TResult Function(int rank, int id, String branch, String comment)?
@@ -65,12 +86,12 @@ mixin _$BranchEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
-    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_PostReviews value) postReviews,
     required TResult Function(_GetBranchDetail value) getBranchDetail,
     required TResult Function(_FillingReviewData value) fillingReviewData,
@@ -79,12 +100,12 @@ mixin _$BranchEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
-    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_PostReviews value)? postReviews,
     TResult? Function(_GetBranchDetail value)? getBranchDetail,
     TResult? Function(_FillingReviewData value)? fillingReviewData,
@@ -93,12 +114,12 @@ mixin _$BranchEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
-    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_PostReviews value)? postReviews,
     TResult Function(_GetBranchDetail value)? getBranchDetail,
     TResult Function(_FillingReviewData value)? fillingReviewData,
@@ -170,12 +191,19 @@ class _$FetchBranchesImpl implements _FetchBranches {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBranches,
+    required TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)
+        getReviews,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
-    required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
     required TResult Function(int rank, int id, String branch, String comment)
@@ -188,12 +216,19 @@ class _$FetchBranchesImpl implements _FetchBranches {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBranches,
+    TResult? Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
-    TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
     TResult? Function(int rank, int id, String branch, String comment)?
@@ -206,12 +241,19 @@ class _$FetchBranchesImpl implements _FetchBranches {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBranches,
+    TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
-    TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
     TResult Function(int rank, int id, String branch, String comment)?
@@ -228,12 +270,12 @@ class _$FetchBranchesImpl implements _FetchBranches {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
-    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_PostReviews value) postReviews,
     required TResult Function(_GetBranchDetail value) getBranchDetail,
     required TResult Function(_FillingReviewData value) fillingReviewData,
@@ -245,12 +287,12 @@ class _$FetchBranchesImpl implements _FetchBranches {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
-    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_PostReviews value)? postReviews,
     TResult? Function(_GetBranchDetail value)? getBranchDetail,
     TResult? Function(_FillingReviewData value)? fillingReviewData,
@@ -262,12 +304,12 @@ class _$FetchBranchesImpl implements _FetchBranches {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
-    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_PostReviews value)? postReviews,
     TResult Function(_GetBranchDetail value)? getBranchDetail,
     TResult Function(_FillingReviewData value)? fillingReviewData,
@@ -282,6 +324,308 @@ class _$FetchBranchesImpl implements _FetchBranches {
 
 abstract class _FetchBranches implements BranchEvent {
   const factory _FetchBranches() = _$FetchBranchesImpl;
+}
+
+/// @nodoc
+abstract class _$$GetReviewsImplCopyWith<$Res> {
+  factory _$$GetReviewsImplCopyWith(
+          _$GetReviewsImpl value, $Res Function(_$GetReviewsImpl) then) =
+      __$$GetReviewsImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call(
+      {List<ReviewInfoModel> directions,
+      List<ReviewInfoModel> branches,
+      dynamic intervals,
+      int rank,
+      String? startDate,
+      String? endDate});
+}
+
+/// @nodoc
+class __$$GetReviewsImplCopyWithImpl<$Res>
+    extends _$BranchEventCopyWithImpl<$Res, _$GetReviewsImpl>
+    implements _$$GetReviewsImplCopyWith<$Res> {
+  __$$GetReviewsImplCopyWithImpl(
+      _$GetReviewsImpl _value, $Res Function(_$GetReviewsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BranchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? directions = null,
+    Object? branches = null,
+    Object? intervals = freezed,
+    Object? rank = null,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
+  }) {
+    return _then(_$GetReviewsImpl(
+      directions: null == directions
+          ? _value._directions
+          : directions // ignore: cast_nullable_to_non_nullable
+              as List<ReviewInfoModel>,
+      branches: null == branches
+          ? _value._branches
+          : branches // ignore: cast_nullable_to_non_nullable
+              as List<ReviewInfoModel>,
+      intervals: freezed == intervals ? _value.intervals! : intervals,
+      rank: null == rank
+          ? _value.rank
+          : rank // ignore: cast_nullable_to_non_nullable
+              as int,
+      startDate: freezed == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      endDate: freezed == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetReviewsImpl implements _GetReviews {
+  const _$GetReviewsImpl(
+      {final List<ReviewInfoModel> directions = const <ReviewInfoModel>[],
+      final List<ReviewInfoModel> branches = const <ReviewInfoModel>[],
+      this.intervals = const [],
+      this.rank = -1,
+      this.startDate,
+      this.endDate})
+      : _directions = directions,
+        _branches = branches;
+
+  final List<ReviewInfoModel> _directions;
+  @override
+  @JsonKey()
+  List<ReviewInfoModel> get directions {
+    if (_directions is EqualUnmodifiableListView) return _directions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_directions);
+  }
+
+  final List<ReviewInfoModel> _branches;
+  @override
+  @JsonKey()
+  List<ReviewInfoModel> get branches {
+    if (_branches is EqualUnmodifiableListView) return _branches;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_branches);
+  }
+
+  @override
+  @JsonKey()
+  final dynamic intervals;
+  @override
+  @JsonKey()
+  final int rank;
+  @override
+  final String? startDate;
+  @override
+  final String? endDate;
+
+  @override
+  String toString() {
+    return 'BranchEvent.getReviews(directions: $directions, branches: $branches, intervals: $intervals, rank: $rank, startDate: $startDate, endDate: $endDate)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetReviewsImpl &&
+            const DeepCollectionEquality()
+                .equals(other._directions, _directions) &&
+            const DeepCollectionEquality().equals(other._branches, _branches) &&
+            const DeepCollectionEquality().equals(other.intervals, intervals) &&
+            (identical(other.rank, rank) || other.rank == rank) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_directions),
+      const DeepCollectionEquality().hash(_branches),
+      const DeepCollectionEquality().hash(intervals),
+      rank,
+      startDate,
+      endDate);
+
+  /// Create a copy of BranchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetReviewsImplCopyWith<_$GetReviewsImpl> get copyWith =>
+      __$$GetReviewsImplCopyWithImpl<_$GetReviewsImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchBranches,
+    required TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)
+        getReviews,
+    required TResult Function() fetchAwards,
+    required TResult Function() fetchStudy,
+    required TResult Function(StudyLead report) studyLead,
+    required TResult Function() fetchOfferta,
+    required TResult Function() fetchActivity,
+    required TResult Function(PostReviewModel review) postReviews,
+    required TResult Function(int id) getBranchDetail,
+    required TResult Function(int rank, int id, String branch, String comment)
+        fillingReviewData,
+  }) {
+    return getReviews(
+        directions, branches, intervals, rank, startDate, endDate);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchBranches,
+    TResult? Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
+    TResult? Function()? fetchAwards,
+    TResult? Function()? fetchStudy,
+    TResult? Function(StudyLead report)? studyLead,
+    TResult? Function()? fetchOfferta,
+    TResult? Function()? fetchActivity,
+    TResult? Function(PostReviewModel review)? postReviews,
+    TResult? Function(int id)? getBranchDetail,
+    TResult? Function(int rank, int id, String branch, String comment)?
+        fillingReviewData,
+  }) {
+    return getReviews?.call(
+        directions, branches, intervals, rank, startDate, endDate);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchBranches,
+    TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
+    TResult Function()? fetchAwards,
+    TResult Function()? fetchStudy,
+    TResult Function(StudyLead report)? studyLead,
+    TResult Function()? fetchOfferta,
+    TResult Function()? fetchActivity,
+    TResult Function(PostReviewModel review)? postReviews,
+    TResult Function(int id)? getBranchDetail,
+    TResult Function(int rank, int id, String branch, String comment)?
+        fillingReviewData,
+    required TResult orElse(),
+  }) {
+    if (getReviews != null) {
+      return getReviews(
+          directions, branches, intervals, rank, startDate, endDate);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_GetReviews value) getReviews,
+    required TResult Function(_FetchAwards value) fetchAwards,
+    required TResult Function(_FetchStudy value) fetchStudy,
+    required TResult Function(_StudyLead value) studyLead,
+    required TResult Function(_FetchOfferta value) fetchOfferta,
+    required TResult Function(_FetchActivity value) fetchActivity,
+    required TResult Function(_PostReviews value) postReviews,
+    required TResult Function(_GetBranchDetail value) getBranchDetail,
+    required TResult Function(_FillingReviewData value) fillingReviewData,
+  }) {
+    return getReviews(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_GetReviews value)? getReviews,
+    TResult? Function(_FetchAwards value)? fetchAwards,
+    TResult? Function(_FetchStudy value)? fetchStudy,
+    TResult? Function(_StudyLead value)? studyLead,
+    TResult? Function(_FetchOfferta value)? fetchOfferta,
+    TResult? Function(_FetchActivity value)? fetchActivity,
+    TResult? Function(_PostReviews value)? postReviews,
+    TResult? Function(_GetBranchDetail value)? getBranchDetail,
+    TResult? Function(_FillingReviewData value)? fillingReviewData,
+  }) {
+    return getReviews?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_GetReviews value)? getReviews,
+    TResult Function(_FetchAwards value)? fetchAwards,
+    TResult Function(_FetchStudy value)? fetchStudy,
+    TResult Function(_StudyLead value)? studyLead,
+    TResult Function(_FetchOfferta value)? fetchOfferta,
+    TResult Function(_FetchActivity value)? fetchActivity,
+    TResult Function(_PostReviews value)? postReviews,
+    TResult Function(_GetBranchDetail value)? getBranchDetail,
+    TResult Function(_FillingReviewData value)? fillingReviewData,
+    required TResult orElse(),
+  }) {
+    if (getReviews != null) {
+      return getReviews(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetReviews implements BranchEvent {
+  const factory _GetReviews(
+      {final List<ReviewInfoModel> directions,
+      final List<ReviewInfoModel> branches,
+      final dynamic intervals,
+      final int rank,
+      final String? startDate,
+      final String? endDate}) = _$GetReviewsImpl;
+
+  List<ReviewInfoModel> get directions;
+  List<ReviewInfoModel> get branches;
+  dynamic get intervals;
+  int get rank;
+  String? get startDate;
+  String? get endDate;
+
+  /// Create a copy of BranchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GetReviewsImplCopyWith<_$GetReviewsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -326,12 +670,19 @@ class _$FetchAwardsImpl implements _FetchAwards {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBranches,
+    required TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)
+        getReviews,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
-    required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
     required TResult Function(int rank, int id, String branch, String comment)
@@ -344,12 +695,19 @@ class _$FetchAwardsImpl implements _FetchAwards {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBranches,
+    TResult? Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
-    TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
     TResult? Function(int rank, int id, String branch, String comment)?
@@ -362,12 +720,19 @@ class _$FetchAwardsImpl implements _FetchAwards {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBranches,
+    TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
-    TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
     TResult Function(int rank, int id, String branch, String comment)?
@@ -384,12 +749,12 @@ class _$FetchAwardsImpl implements _FetchAwards {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
-    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_PostReviews value) postReviews,
     required TResult Function(_GetBranchDetail value) getBranchDetail,
     required TResult Function(_FillingReviewData value) fillingReviewData,
@@ -401,12 +766,12 @@ class _$FetchAwardsImpl implements _FetchAwards {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
-    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_PostReviews value)? postReviews,
     TResult? Function(_GetBranchDetail value)? getBranchDetail,
     TResult? Function(_FillingReviewData value)? fillingReviewData,
@@ -418,12 +783,12 @@ class _$FetchAwardsImpl implements _FetchAwards {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
-    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_PostReviews value)? postReviews,
     TResult Function(_GetBranchDetail value)? getBranchDetail,
     TResult Function(_FillingReviewData value)? fillingReviewData,
@@ -482,12 +847,19 @@ class _$FetchStudyImpl implements _FetchStudy {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBranches,
+    required TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)
+        getReviews,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
-    required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
     required TResult Function(int rank, int id, String branch, String comment)
@@ -500,12 +872,19 @@ class _$FetchStudyImpl implements _FetchStudy {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBranches,
+    TResult? Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
-    TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
     TResult? Function(int rank, int id, String branch, String comment)?
@@ -518,12 +897,19 @@ class _$FetchStudyImpl implements _FetchStudy {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBranches,
+    TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
-    TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
     TResult Function(int rank, int id, String branch, String comment)?
@@ -540,12 +926,12 @@ class _$FetchStudyImpl implements _FetchStudy {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
-    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_PostReviews value) postReviews,
     required TResult Function(_GetBranchDetail value) getBranchDetail,
     required TResult Function(_FillingReviewData value) fillingReviewData,
@@ -557,12 +943,12 @@ class _$FetchStudyImpl implements _FetchStudy {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
-    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_PostReviews value)? postReviews,
     TResult? Function(_GetBranchDetail value)? getBranchDetail,
     TResult? Function(_FillingReviewData value)? fillingReviewData,
@@ -574,12 +960,12 @@ class _$FetchStudyImpl implements _FetchStudy {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
-    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_PostReviews value)? postReviews,
     TResult Function(_GetBranchDetail value)? getBranchDetail,
     TResult Function(_FillingReviewData value)? fillingReviewData,
@@ -665,12 +1051,19 @@ class _$StudyLeadImpl implements _StudyLead {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBranches,
+    required TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)
+        getReviews,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
-    required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
     required TResult Function(int rank, int id, String branch, String comment)
@@ -683,12 +1076,19 @@ class _$StudyLeadImpl implements _StudyLead {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBranches,
+    TResult? Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
-    TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
     TResult? Function(int rank, int id, String branch, String comment)?
@@ -701,12 +1101,19 @@ class _$StudyLeadImpl implements _StudyLead {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBranches,
+    TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
-    TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
     TResult Function(int rank, int id, String branch, String comment)?
@@ -723,12 +1130,12 @@ class _$StudyLeadImpl implements _StudyLead {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
-    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_PostReviews value) postReviews,
     required TResult Function(_GetBranchDetail value) getBranchDetail,
     required TResult Function(_FillingReviewData value) fillingReviewData,
@@ -740,12 +1147,12 @@ class _$StudyLeadImpl implements _StudyLead {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
-    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_PostReviews value)? postReviews,
     TResult? Function(_GetBranchDetail value)? getBranchDetail,
     TResult? Function(_FillingReviewData value)? fillingReviewData,
@@ -757,12 +1164,12 @@ class _$StudyLeadImpl implements _StudyLead {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
-    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_PostReviews value)? postReviews,
     TResult Function(_GetBranchDetail value)? getBranchDetail,
     TResult Function(_FillingReviewData value)? fillingReviewData,
@@ -829,12 +1236,19 @@ class _$FetchOffertaImpl implements _FetchOfferta {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBranches,
+    required TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)
+        getReviews,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
-    required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
     required TResult Function(int rank, int id, String branch, String comment)
@@ -847,12 +1261,19 @@ class _$FetchOffertaImpl implements _FetchOfferta {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBranches,
+    TResult? Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
-    TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
     TResult? Function(int rank, int id, String branch, String comment)?
@@ -865,12 +1286,19 @@ class _$FetchOffertaImpl implements _FetchOfferta {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBranches,
+    TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
-    TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
     TResult Function(int rank, int id, String branch, String comment)?
@@ -887,12 +1315,12 @@ class _$FetchOffertaImpl implements _FetchOfferta {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
-    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_PostReviews value) postReviews,
     required TResult Function(_GetBranchDetail value) getBranchDetail,
     required TResult Function(_FillingReviewData value) fillingReviewData,
@@ -904,12 +1332,12 @@ class _$FetchOffertaImpl implements _FetchOfferta {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
-    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_PostReviews value)? postReviews,
     TResult? Function(_GetBranchDetail value)? getBranchDetail,
     TResult? Function(_FillingReviewData value)? fillingReviewData,
@@ -921,12 +1349,12 @@ class _$FetchOffertaImpl implements _FetchOfferta {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
-    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_PostReviews value)? postReviews,
     TResult Function(_GetBranchDetail value)? getBranchDetail,
     TResult Function(_FillingReviewData value)? fillingReviewData,
@@ -985,12 +1413,19 @@ class _$FetchActivityImpl implements _FetchActivity {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBranches,
+    required TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)
+        getReviews,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
-    required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
     required TResult Function(int rank, int id, String branch, String comment)
@@ -1003,12 +1438,19 @@ class _$FetchActivityImpl implements _FetchActivity {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBranches,
+    TResult? Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
-    TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
     TResult? Function(int rank, int id, String branch, String comment)?
@@ -1021,12 +1463,19 @@ class _$FetchActivityImpl implements _FetchActivity {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBranches,
+    TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
-    TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
     TResult Function(int rank, int id, String branch, String comment)?
@@ -1043,12 +1492,12 @@ class _$FetchActivityImpl implements _FetchActivity {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
-    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_PostReviews value) postReviews,
     required TResult Function(_GetBranchDetail value) getBranchDetail,
     required TResult Function(_FillingReviewData value) fillingReviewData,
@@ -1060,12 +1509,12 @@ class _$FetchActivityImpl implements _FetchActivity {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
-    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_PostReviews value)? postReviews,
     TResult? Function(_GetBranchDetail value)? getBranchDetail,
     TResult? Function(_FillingReviewData value)? fillingReviewData,
@@ -1077,12 +1526,12 @@ class _$FetchActivityImpl implements _FetchActivity {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
-    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_PostReviews value)? postReviews,
     TResult Function(_GetBranchDetail value)? getBranchDetail,
     TResult Function(_FillingReviewData value)? fillingReviewData,
@@ -1097,162 +1546,6 @@ class _$FetchActivityImpl implements _FetchActivity {
 
 abstract class _FetchActivity implements BranchEvent {
   const factory _FetchActivity() = _$FetchActivityImpl;
-}
-
-/// @nodoc
-abstract class _$$GetReviewsImplCopyWith<$Res> {
-  factory _$$GetReviewsImplCopyWith(
-          _$GetReviewsImpl value, $Res Function(_$GetReviewsImpl) then) =
-      __$$GetReviewsImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$GetReviewsImplCopyWithImpl<$Res>
-    extends _$BranchEventCopyWithImpl<$Res, _$GetReviewsImpl>
-    implements _$$GetReviewsImplCopyWith<$Res> {
-  __$$GetReviewsImplCopyWithImpl(
-      _$GetReviewsImpl _value, $Res Function(_$GetReviewsImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of BranchEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$GetReviewsImpl implements _GetReviews {
-  const _$GetReviewsImpl();
-
-  @override
-  String toString() {
-    return 'BranchEvent.getReviews()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$GetReviewsImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() fetchBranches,
-    required TResult Function() fetchAwards,
-    required TResult Function() fetchStudy,
-    required TResult Function(StudyLead report) studyLead,
-    required TResult Function() fetchOfferta,
-    required TResult Function() fetchActivity,
-    required TResult Function() getReviews,
-    required TResult Function(PostReviewModel review) postReviews,
-    required TResult Function(int id) getBranchDetail,
-    required TResult Function(int rank, int id, String branch, String comment)
-        fillingReviewData,
-  }) {
-    return getReviews();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fetchBranches,
-    TResult? Function()? fetchAwards,
-    TResult? Function()? fetchStudy,
-    TResult? Function(StudyLead report)? studyLead,
-    TResult? Function()? fetchOfferta,
-    TResult? Function()? fetchActivity,
-    TResult? Function()? getReviews,
-    TResult? Function(PostReviewModel review)? postReviews,
-    TResult? Function(int id)? getBranchDetail,
-    TResult? Function(int rank, int id, String branch, String comment)?
-        fillingReviewData,
-  }) {
-    return getReviews?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetchBranches,
-    TResult Function()? fetchAwards,
-    TResult Function()? fetchStudy,
-    TResult Function(StudyLead report)? studyLead,
-    TResult Function()? fetchOfferta,
-    TResult Function()? fetchActivity,
-    TResult Function()? getReviews,
-    TResult Function(PostReviewModel review)? postReviews,
-    TResult Function(int id)? getBranchDetail,
-    TResult Function(int rank, int id, String branch, String comment)?
-        fillingReviewData,
-    required TResult orElse(),
-  }) {
-    if (getReviews != null) {
-      return getReviews();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_FetchBranches value) fetchBranches,
-    required TResult Function(_FetchAwards value) fetchAwards,
-    required TResult Function(_FetchStudy value) fetchStudy,
-    required TResult Function(_StudyLead value) studyLead,
-    required TResult Function(_FetchOfferta value) fetchOfferta,
-    required TResult Function(_FetchActivity value) fetchActivity,
-    required TResult Function(_GetReviews value) getReviews,
-    required TResult Function(_PostReviews value) postReviews,
-    required TResult Function(_GetBranchDetail value) getBranchDetail,
-    required TResult Function(_FillingReviewData value) fillingReviewData,
-  }) {
-    return getReviews(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_FetchBranches value)? fetchBranches,
-    TResult? Function(_FetchAwards value)? fetchAwards,
-    TResult? Function(_FetchStudy value)? fetchStudy,
-    TResult? Function(_StudyLead value)? studyLead,
-    TResult? Function(_FetchOfferta value)? fetchOfferta,
-    TResult? Function(_FetchActivity value)? fetchActivity,
-    TResult? Function(_GetReviews value)? getReviews,
-    TResult? Function(_PostReviews value)? postReviews,
-    TResult? Function(_GetBranchDetail value)? getBranchDetail,
-    TResult? Function(_FillingReviewData value)? fillingReviewData,
-  }) {
-    return getReviews?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_FetchBranches value)? fetchBranches,
-    TResult Function(_FetchAwards value)? fetchAwards,
-    TResult Function(_FetchStudy value)? fetchStudy,
-    TResult Function(_StudyLead value)? studyLead,
-    TResult Function(_FetchOfferta value)? fetchOfferta,
-    TResult Function(_FetchActivity value)? fetchActivity,
-    TResult Function(_GetReviews value)? getReviews,
-    TResult Function(_PostReviews value)? postReviews,
-    TResult Function(_GetBranchDetail value)? getBranchDetail,
-    TResult Function(_FillingReviewData value)? fillingReviewData,
-    required TResult orElse(),
-  }) {
-    if (getReviews != null) {
-      return getReviews(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _GetReviews implements BranchEvent {
-  const factory _GetReviews() = _$GetReviewsImpl;
 }
 
 /// @nodoc
@@ -1324,12 +1617,19 @@ class _$PostReviewsImpl implements _PostReviews {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBranches,
+    required TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)
+        getReviews,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
-    required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
     required TResult Function(int rank, int id, String branch, String comment)
@@ -1342,12 +1642,19 @@ class _$PostReviewsImpl implements _PostReviews {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBranches,
+    TResult? Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
-    TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
     TResult? Function(int rank, int id, String branch, String comment)?
@@ -1360,12 +1667,19 @@ class _$PostReviewsImpl implements _PostReviews {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBranches,
+    TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
-    TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
     TResult Function(int rank, int id, String branch, String comment)?
@@ -1382,12 +1696,12 @@ class _$PostReviewsImpl implements _PostReviews {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
-    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_PostReviews value) postReviews,
     required TResult Function(_GetBranchDetail value) getBranchDetail,
     required TResult Function(_FillingReviewData value) fillingReviewData,
@@ -1399,12 +1713,12 @@ class _$PostReviewsImpl implements _PostReviews {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
-    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_PostReviews value)? postReviews,
     TResult? Function(_GetBranchDetail value)? getBranchDetail,
     TResult? Function(_FillingReviewData value)? fillingReviewData,
@@ -1416,12 +1730,12 @@ class _$PostReviewsImpl implements _PostReviews {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
-    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_PostReviews value)? postReviews,
     TResult Function(_GetBranchDetail value)? getBranchDetail,
     TResult Function(_FillingReviewData value)? fillingReviewData,
@@ -1517,12 +1831,19 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBranches,
+    required TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)
+        getReviews,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
-    required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
     required TResult Function(int rank, int id, String branch, String comment)
@@ -1535,12 +1856,19 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBranches,
+    TResult? Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
-    TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
     TResult? Function(int rank, int id, String branch, String comment)?
@@ -1553,12 +1881,19 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBranches,
+    TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
-    TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
     TResult Function(int rank, int id, String branch, String comment)?
@@ -1575,12 +1910,12 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
-    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_PostReviews value) postReviews,
     required TResult Function(_GetBranchDetail value) getBranchDetail,
     required TResult Function(_FillingReviewData value) fillingReviewData,
@@ -1592,12 +1927,12 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
-    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_PostReviews value)? postReviews,
     TResult? Function(_GetBranchDetail value)? getBranchDetail,
     TResult? Function(_FillingReviewData value)? fillingReviewData,
@@ -1609,12 +1944,12 @@ class _$GetBranchDetailImpl implements _GetBranchDetail {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
-    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_PostReviews value)? postReviews,
     TResult Function(_GetBranchDetail value)? getBranchDetail,
     TResult Function(_FillingReviewData value)? fillingReviewData,
@@ -1739,12 +2074,19 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchBranches,
+    required TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)
+        getReviews,
     required TResult Function() fetchAwards,
     required TResult Function() fetchStudy,
     required TResult Function(StudyLead report) studyLead,
     required TResult Function() fetchOfferta,
     required TResult Function() fetchActivity,
-    required TResult Function() getReviews,
     required TResult Function(PostReviewModel review) postReviews,
     required TResult Function(int id) getBranchDetail,
     required TResult Function(int rank, int id, String branch, String comment)
@@ -1757,12 +2099,19 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchBranches,
+    TResult? Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult? Function()? fetchAwards,
     TResult? Function()? fetchStudy,
     TResult? Function(StudyLead report)? studyLead,
     TResult? Function()? fetchOfferta,
     TResult? Function()? fetchActivity,
-    TResult? Function()? getReviews,
     TResult? Function(PostReviewModel review)? postReviews,
     TResult? Function(int id)? getBranchDetail,
     TResult? Function(int rank, int id, String branch, String comment)?
@@ -1775,12 +2124,19 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchBranches,
+    TResult Function(
+            List<ReviewInfoModel> directions,
+            List<ReviewInfoModel> branches,
+            dynamic intervals,
+            int rank,
+            String? startDate,
+            String? endDate)?
+        getReviews,
     TResult Function()? fetchAwards,
     TResult Function()? fetchStudy,
     TResult Function(StudyLead report)? studyLead,
     TResult Function()? fetchOfferta,
     TResult Function()? fetchActivity,
-    TResult Function()? getReviews,
     TResult Function(PostReviewModel review)? postReviews,
     TResult Function(int id)? getBranchDetail,
     TResult Function(int rank, int id, String branch, String comment)?
@@ -1797,12 +2153,12 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchBranches value) fetchBranches,
+    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_FetchAwards value) fetchAwards,
     required TResult Function(_FetchStudy value) fetchStudy,
     required TResult Function(_StudyLead value) studyLead,
     required TResult Function(_FetchOfferta value) fetchOfferta,
     required TResult Function(_FetchActivity value) fetchActivity,
-    required TResult Function(_GetReviews value) getReviews,
     required TResult Function(_PostReviews value) postReviews,
     required TResult Function(_GetBranchDetail value) getBranchDetail,
     required TResult Function(_FillingReviewData value) fillingReviewData,
@@ -1814,12 +2170,12 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchBranches value)? fetchBranches,
+    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_FetchAwards value)? fetchAwards,
     TResult? Function(_FetchStudy value)? fetchStudy,
     TResult? Function(_StudyLead value)? studyLead,
     TResult? Function(_FetchOfferta value)? fetchOfferta,
     TResult? Function(_FetchActivity value)? fetchActivity,
-    TResult? Function(_GetReviews value)? getReviews,
     TResult? Function(_PostReviews value)? postReviews,
     TResult? Function(_GetBranchDetail value)? getBranchDetail,
     TResult? Function(_FillingReviewData value)? fillingReviewData,
@@ -1831,12 +2187,12 @@ class _$FillingReviewDataImpl implements _FillingReviewData {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchBranches value)? fetchBranches,
+    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_FetchAwards value)? fetchAwards,
     TResult Function(_FetchStudy value)? fetchStudy,
     TResult Function(_StudyLead value)? studyLead,
     TResult Function(_FetchOfferta value)? fetchOfferta,
     TResult Function(_FetchActivity value)? fetchActivity,
-    TResult Function(_GetReviews value)? getReviews,
     TResult Function(_PostReviews value)? postReviews,
     TResult Function(_GetBranchDetail value)? getBranchDetail,
     TResult Function(_FillingReviewData value)? fillingReviewData,
@@ -1894,7 +2250,7 @@ mixin _$BranchState {
       throw _privateConstructorUsedError;
   FormzSubmissionStatus get awardStatus => throw _privateConstructorUsedError;
   FormzSubmissionStatus get offertaStatus => throw _privateConstructorUsedError;
-  List<GetReviewModel> get reviews => throw _privateConstructorUsedError;
+  ReviewModel? get reviews => throw _privateConstructorUsedError;
   List<BranchModel> get branches => throw _privateConstructorUsedError;
   List<AwardsModel> get awards => throw _privateConstructorUsedError;
   EducationModel? get study => throw _privateConstructorUsedError;
@@ -1930,7 +2286,7 @@ abstract class $BranchStateCopyWith<$Res> {
       FormzSubmissionStatus educationStatus,
       FormzSubmissionStatus awardStatus,
       FormzSubmissionStatus offertaStatus,
-      List<GetReviewModel> reviews,
+      ReviewModel? reviews,
       List<BranchModel> branches,
       List<AwardsModel> awards,
       EducationModel? study,
@@ -1968,7 +2324,7 @@ class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
     Object? educationStatus = null,
     Object? awardStatus = null,
     Object? offertaStatus = null,
-    Object? reviews = null,
+    Object? reviews = freezed,
     Object? branches = null,
     Object? awards = null,
     Object? study = freezed,
@@ -2033,10 +2389,10 @@ class _$BranchStateCopyWithImpl<$Res, $Val extends BranchState>
           ? _value.offertaStatus
           : offertaStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
-      reviews: null == reviews
+      reviews: freezed == reviews
           ? _value.reviews
           : reviews // ignore: cast_nullable_to_non_nullable
-              as List<GetReviewModel>,
+              as ReviewModel?,
       branches: null == branches
           ? _value.branches
           : branches // ignore: cast_nullable_to_non_nullable
@@ -2088,7 +2444,7 @@ abstract class _$$BranchStateImplCopyWith<$Res>
       FormzSubmissionStatus educationStatus,
       FormzSubmissionStatus awardStatus,
       FormzSubmissionStatus offertaStatus,
-      List<GetReviewModel> reviews,
+      ReviewModel? reviews,
       List<BranchModel> branches,
       List<AwardsModel> awards,
       EducationModel? study,
@@ -2124,7 +2480,7 @@ class __$$BranchStateImplCopyWithImpl<$Res>
     Object? educationStatus = null,
     Object? awardStatus = null,
     Object? offertaStatus = null,
-    Object? reviews = null,
+    Object? reviews = freezed,
     Object? branches = null,
     Object? awards = null,
     Object? study = freezed,
@@ -2189,10 +2545,10 @@ class __$$BranchStateImplCopyWithImpl<$Res>
           ? _value.offertaStatus
           : offertaStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
-      reviews: null == reviews
-          ? _value._reviews
+      reviews: freezed == reviews
+          ? _value.reviews
           : reviews // ignore: cast_nullable_to_non_nullable
-              as List<GetReviewModel>,
+              as ReviewModel?,
       branches: null == branches
           ? _value._branches
           : branches // ignore: cast_nullable_to_non_nullable
@@ -2239,15 +2595,14 @@ class _$BranchStateImpl extends _BranchState {
       this.educationStatus = FormzSubmissionStatus.initial,
       this.awardStatus = FormzSubmissionStatus.initial,
       this.offertaStatus = FormzSubmissionStatus.initial,
-      final List<GetReviewModel> reviews = const [],
+      this.reviews = null,
       final List<BranchModel> branches = const [],
       final List<AwardsModel> awards = const [],
       this.study = null,
       this.branchDetail = null,
       this.offerta = null,
       this.medionActivity = null})
-      : _reviews = reviews,
-        _branches = branches,
+      : _branches = branches,
         _awards = awards,
         super._();
 
@@ -2296,15 +2651,9 @@ class _$BranchStateImpl extends _BranchState {
   @override
   @JsonKey()
   final FormzSubmissionStatus offertaStatus;
-  final List<GetReviewModel> _reviews;
   @override
   @JsonKey()
-  List<GetReviewModel> get reviews {
-    if (_reviews is EqualUnmodifiableListView) return _reviews;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_reviews);
-  }
-
+  final ReviewModel? reviews;
   final List<BranchModel> _branches;
   @override
   @JsonKey()
@@ -2374,7 +2723,7 @@ class _$BranchStateImpl extends _BranchState {
                 other.awardStatus == awardStatus) &&
             (identical(other.offertaStatus, offertaStatus) ||
                 other.offertaStatus == offertaStatus) &&
-            const DeepCollectionEquality().equals(other._reviews, _reviews) &&
+            (identical(other.reviews, reviews) || other.reviews == reviews) &&
             const DeepCollectionEquality().equals(other._branches, _branches) &&
             const DeepCollectionEquality().equals(other._awards, _awards) &&
             (identical(other.study, study) || other.study == study) &&
@@ -2402,7 +2751,7 @@ class _$BranchStateImpl extends _BranchState {
         educationStatus,
         awardStatus,
         offertaStatus,
-        const DeepCollectionEquality().hash(_reviews),
+        reviews,
         const DeepCollectionEquality().hash(_branches),
         const DeepCollectionEquality().hash(_awards),
         study,
@@ -2436,7 +2785,7 @@ abstract class _BranchState extends BranchState {
       final FormzSubmissionStatus educationStatus,
       final FormzSubmissionStatus awardStatus,
       final FormzSubmissionStatus offertaStatus,
-      final List<GetReviewModel> reviews,
+      final ReviewModel? reviews,
       final List<BranchModel> branches,
       final List<AwardsModel> awards,
       final EducationModel? study,
@@ -2477,7 +2826,7 @@ abstract class _BranchState extends BranchState {
   @override
   FormzSubmissionStatus get offertaStatus;
   @override
-  List<GetReviewModel> get reviews;
+  ReviewModel? get reviews;
   @override
   List<BranchModel> get branches;
   @override

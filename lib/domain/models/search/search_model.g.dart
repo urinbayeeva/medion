@@ -7,13 +7,13 @@ part of 'search_model.dart';
 // **************************************************************************
 
 Serializer<SearchReqModel> _$searchReqModelSerializer =
-    new _$SearchReqModelSerializer();
+    _$SearchReqModelSerializer();
 Serializer<DoctorSearchText> _$doctorSearchTextSerializer =
-    new _$DoctorSearchTextSerializer();
+    _$DoctorSearchTextSerializer();
 Serializer<CategorySearchText> _$categorySearchTextSerializer =
-    new _$CategorySearchTextSerializer();
+    _$CategorySearchTextSerializer();
 Serializer<MedionResponseSearchText> _$medionResponseSearchTextSerializer =
-    new _$MedionResponseSearchTextSerializer();
+    _$MedionResponseSearchTextSerializer();
 
 class _$SearchReqModelSerializer
     implements StructuredSerializer<SearchReqModel> {
@@ -41,7 +41,7 @@ class _$SearchReqModelSerializer
   SearchReqModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new SearchReqModelBuilder();
+    final result = SearchReqModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -99,6 +99,12 @@ class _$DoctorSearchTextSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.workExperience;
+    if (value != null) {
+      result
+        ..add('work_experience')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -106,7 +112,7 @@ class _$DoctorSearchTextSerializer
   DoctorSearchText deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new DoctorSearchTextBuilder();
+    final result = DoctorSearchTextBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -129,6 +135,10 @@ class _$DoctorSearchTextSerializer
         case 'image':
           result.image = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'work_experience':
+          result.workExperience = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -177,6 +187,27 @@ class _$CategorySearchTextSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.phone;
+    if (value != null) {
+      result
+        ..add('phone')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.address;
+    if (value != null) {
+      result
+        ..add('address')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.image;
+    if (value != null) {
+      result
+        ..add('image')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -184,7 +215,7 @@ class _$CategorySearchTextSerializer
   CategorySearchText deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new CategorySearchTextBuilder();
+    final result = CategorySearchTextBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -206,6 +237,18 @@ class _$CategorySearchTextSerializer
           break;
         case 'description':
           result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'phone':
+          result.phone = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'address':
+          result.address = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'image':
+          result.image = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -267,7 +310,7 @@ class _$MedionResponseSearchTextSerializer
   MedionResponseSearchText deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new MedionResponseSearchTextBuilder();
+    final result = MedionResponseSearchTextBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -329,17 +372,15 @@ class _$SearchReqModel extends SearchReqModel {
   final String? text;
 
   factory _$SearchReqModel([void Function(SearchReqModelBuilder)? updates]) =>
-      (new SearchReqModelBuilder()..update(updates))._build();
+      (SearchReqModelBuilder()..update(updates))._build();
 
   _$SearchReqModel._({this.text}) : super._();
-
   @override
   SearchReqModel rebuild(void Function(SearchReqModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  SearchReqModelBuilder toBuilder() =>
-      new SearchReqModelBuilder()..replace(this);
+  SearchReqModelBuilder toBuilder() => SearchReqModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -383,7 +424,6 @@ class SearchReqModelBuilder
 
   @override
   void replace(SearchReqModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$SearchReqModel;
   }
 
@@ -397,7 +437,7 @@ class SearchReqModelBuilder
 
   _$SearchReqModel _build() {
     final _$result = _$v ??
-        new _$SearchReqModel._(
+        _$SearchReqModel._(
           text: text,
         );
     replace(_$result);
@@ -414,20 +454,23 @@ class _$DoctorSearchText extends DoctorSearchText {
   final String? job;
   @override
   final String? image;
+  @override
+  final int? workExperience;
 
   factory _$DoctorSearchText(
           [void Function(DoctorSearchTextBuilder)? updates]) =>
-      (new DoctorSearchTextBuilder()..update(updates))._build();
+      (DoctorSearchTextBuilder()..update(updates))._build();
 
-  _$DoctorSearchText._({this.id, this.name, this.job, this.image}) : super._();
-
+  _$DoctorSearchText._(
+      {this.id, this.name, this.job, this.image, this.workExperience})
+      : super._();
   @override
   DoctorSearchText rebuild(void Function(DoctorSearchTextBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   DoctorSearchTextBuilder toBuilder() =>
-      new DoctorSearchTextBuilder()..replace(this);
+      DoctorSearchTextBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -436,7 +479,8 @@ class _$DoctorSearchText extends DoctorSearchText {
         id == other.id &&
         name == other.name &&
         job == other.job &&
-        image == other.image;
+        image == other.image &&
+        workExperience == other.workExperience;
   }
 
   @override
@@ -446,6 +490,7 @@ class _$DoctorSearchText extends DoctorSearchText {
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, job.hashCode);
     _$hash = $jc(_$hash, image.hashCode);
+    _$hash = $jc(_$hash, workExperience.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -456,7 +501,8 @@ class _$DoctorSearchText extends DoctorSearchText {
           ..add('id', id)
           ..add('name', name)
           ..add('job', job)
-          ..add('image', image))
+          ..add('image', image)
+          ..add('workExperience', workExperience))
         .toString();
   }
 }
@@ -481,6 +527,11 @@ class DoctorSearchTextBuilder
   String? get image => _$this._image;
   set image(String? image) => _$this._image = image;
 
+  int? _workExperience;
+  int? get workExperience => _$this._workExperience;
+  set workExperience(int? workExperience) =>
+      _$this._workExperience = workExperience;
+
   DoctorSearchTextBuilder();
 
   DoctorSearchTextBuilder get _$this {
@@ -490,6 +541,7 @@ class DoctorSearchTextBuilder
       _name = $v.name;
       _job = $v.job;
       _image = $v.image;
+      _workExperience = $v.workExperience;
       _$v = null;
     }
     return this;
@@ -497,7 +549,6 @@ class DoctorSearchTextBuilder
 
   @override
   void replace(DoctorSearchText other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DoctorSearchText;
   }
 
@@ -511,11 +562,12 @@ class DoctorSearchTextBuilder
 
   _$DoctorSearchText _build() {
     final _$result = _$v ??
-        new _$DoctorSearchText._(
+        _$DoctorSearchText._(
           id: id,
           name: name,
           job: job,
           image: image,
+          workExperience: workExperience,
         );
     replace(_$result);
     return _$result;
@@ -531,14 +583,26 @@ class _$CategorySearchText extends CategorySearchText {
   final String? icon;
   @override
   final String? description;
+  @override
+  final String? phone;
+  @override
+  final String? address;
+  @override
+  final String? image;
 
   factory _$CategorySearchText(
           [void Function(CategorySearchTextBuilder)? updates]) =>
-      (new CategorySearchTextBuilder()..update(updates))._build();
+      (CategorySearchTextBuilder()..update(updates))._build();
 
-  _$CategorySearchText._({this.id, this.name, this.icon, this.description})
+  _$CategorySearchText._(
+      {this.id,
+      this.name,
+      this.icon,
+      this.description,
+      this.phone,
+      this.address,
+      this.image})
       : super._();
-
   @override
   CategorySearchText rebuild(
           void Function(CategorySearchTextBuilder) updates) =>
@@ -546,7 +610,7 @@ class _$CategorySearchText extends CategorySearchText {
 
   @override
   CategorySearchTextBuilder toBuilder() =>
-      new CategorySearchTextBuilder()..replace(this);
+      CategorySearchTextBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -555,7 +619,10 @@ class _$CategorySearchText extends CategorySearchText {
         id == other.id &&
         name == other.name &&
         icon == other.icon &&
-        description == other.description;
+        description == other.description &&
+        phone == other.phone &&
+        address == other.address &&
+        image == other.image;
   }
 
   @override
@@ -565,6 +632,9 @@ class _$CategorySearchText extends CategorySearchText {
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jc(_$hash, phone.hashCode);
+    _$hash = $jc(_$hash, address.hashCode);
+    _$hash = $jc(_$hash, image.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -575,7 +645,10 @@ class _$CategorySearchText extends CategorySearchText {
           ..add('id', id)
           ..add('name', name)
           ..add('icon', icon)
-          ..add('description', description))
+          ..add('description', description)
+          ..add('phone', phone)
+          ..add('address', address)
+          ..add('image', image))
         .toString();
   }
 }
@@ -600,6 +673,18 @@ class CategorySearchTextBuilder
   String? get description => _$this._description;
   set description(String? description) => _$this._description = description;
 
+  String? _phone;
+  String? get phone => _$this._phone;
+  set phone(String? phone) => _$this._phone = phone;
+
+  String? _address;
+  String? get address => _$this._address;
+  set address(String? address) => _$this._address = address;
+
+  String? _image;
+  String? get image => _$this._image;
+  set image(String? image) => _$this._image = image;
+
   CategorySearchTextBuilder();
 
   CategorySearchTextBuilder get _$this {
@@ -609,6 +694,9 @@ class CategorySearchTextBuilder
       _name = $v.name;
       _icon = $v.icon;
       _description = $v.description;
+      _phone = $v.phone;
+      _address = $v.address;
+      _image = $v.image;
       _$v = null;
     }
     return this;
@@ -616,7 +704,6 @@ class CategorySearchTextBuilder
 
   @override
   void replace(CategorySearchText other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$CategorySearchText;
   }
 
@@ -630,11 +717,14 @@ class CategorySearchTextBuilder
 
   _$CategorySearchText _build() {
     final _$result = _$v ??
-        new _$CategorySearchText._(
+        _$CategorySearchText._(
           id: id,
           name: name,
           icon: icon,
           description: description,
+          phone: phone,
+          address: address,
+          image: image,
         );
     replace(_$result);
     return _$result;
@@ -659,7 +749,7 @@ class _$MedionResponseSearchText extends MedionResponseSearchText {
 
   factory _$MedionResponseSearchText(
           [void Function(MedionResponseSearchTextBuilder)? updates]) =>
-      (new MedionResponseSearchTextBuilder()..update(updates))._build();
+      (MedionResponseSearchTextBuilder()..update(updates))._build();
 
   _$MedionResponseSearchText._(
       {required this.doctors,
@@ -669,23 +759,7 @@ class _$MedionResponseSearchText extends MedionResponseSearchText {
       required this.discounts,
       required this.services,
       required this.branches})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        doctors, r'MedionResponseSearchText', 'doctors');
-    BuiltValueNullFieldError.checkNotNull(
-        categories, r'MedionResponseSearchText', 'categories');
-    BuiltValueNullFieldError.checkNotNull(
-        news, r'MedionResponseSearchText', 'news');
-    BuiltValueNullFieldError.checkNotNull(
-        articles, r'MedionResponseSearchText', 'articles');
-    BuiltValueNullFieldError.checkNotNull(
-        discounts, r'MedionResponseSearchText', 'discounts');
-    BuiltValueNullFieldError.checkNotNull(
-        services, r'MedionResponseSearchText', 'services');
-    BuiltValueNullFieldError.checkNotNull(
-        branches, r'MedionResponseSearchText', 'branches');
-  }
-
+      : super._();
   @override
   MedionResponseSearchText rebuild(
           void Function(MedionResponseSearchTextBuilder) updates) =>
@@ -693,7 +767,7 @@ class _$MedionResponseSearchText extends MedionResponseSearchText {
 
   @override
   MedionResponseSearchTextBuilder toBuilder() =>
-      new MedionResponseSearchTextBuilder()..replace(this);
+      MedionResponseSearchTextBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -743,42 +817,42 @@ class MedionResponseSearchTextBuilder
 
   ListBuilder<DoctorSearchText>? _doctors;
   ListBuilder<DoctorSearchText> get doctors =>
-      _$this._doctors ??= new ListBuilder<DoctorSearchText>();
+      _$this._doctors ??= ListBuilder<DoctorSearchText>();
   set doctors(ListBuilder<DoctorSearchText>? doctors) =>
       _$this._doctors = doctors;
 
   ListBuilder<CategorySearchText>? _categories;
   ListBuilder<CategorySearchText> get categories =>
-      _$this._categories ??= new ListBuilder<CategorySearchText>();
+      _$this._categories ??= ListBuilder<CategorySearchText>();
   set categories(ListBuilder<CategorySearchText>? categories) =>
       _$this._categories = categories;
 
   ListBuilder<CategorySearchText>? _news;
   ListBuilder<CategorySearchText> get news =>
-      _$this._news ??= new ListBuilder<CategorySearchText>();
+      _$this._news ??= ListBuilder<CategorySearchText>();
   set news(ListBuilder<CategorySearchText>? news) => _$this._news = news;
 
   ListBuilder<CategorySearchText>? _articles;
   ListBuilder<CategorySearchText> get articles =>
-      _$this._articles ??= new ListBuilder<CategorySearchText>();
+      _$this._articles ??= ListBuilder<CategorySearchText>();
   set articles(ListBuilder<CategorySearchText>? articles) =>
       _$this._articles = articles;
 
   ListBuilder<CategorySearchText>? _discounts;
   ListBuilder<CategorySearchText> get discounts =>
-      _$this._discounts ??= new ListBuilder<CategorySearchText>();
+      _$this._discounts ??= ListBuilder<CategorySearchText>();
   set discounts(ListBuilder<CategorySearchText>? discounts) =>
       _$this._discounts = discounts;
 
   ListBuilder<CategorySearchText>? _services;
   ListBuilder<CategorySearchText> get services =>
-      _$this._services ??= new ListBuilder<CategorySearchText>();
+      _$this._services ??= ListBuilder<CategorySearchText>();
   set services(ListBuilder<CategorySearchText>? services) =>
       _$this._services = services;
 
   ListBuilder<CategorySearchText>? _branches;
   ListBuilder<CategorySearchText> get branches =>
-      _$this._branches ??= new ListBuilder<CategorySearchText>();
+      _$this._branches ??= ListBuilder<CategorySearchText>();
   set branches(ListBuilder<CategorySearchText>? branches) =>
       _$this._branches = branches;
 
@@ -801,7 +875,6 @@ class MedionResponseSearchTextBuilder
 
   @override
   void replace(MedionResponseSearchText other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$MedionResponseSearchText;
   }
 
@@ -817,7 +890,7 @@ class MedionResponseSearchTextBuilder
     _$MedionResponseSearchText _$result;
     try {
       _$result = _$v ??
-          new _$MedionResponseSearchText._(
+          _$MedionResponseSearchText._(
             doctors: doctors.build(),
             categories: categories.build(),
             news: news.build(),
@@ -844,7 +917,7 @@ class MedionResponseSearchTextBuilder
         _$failedField = 'branches';
         branches.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'MedionResponseSearchText', _$failedField, e.toString());
       }
       rethrow;

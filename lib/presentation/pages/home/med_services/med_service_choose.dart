@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,6 @@ class MedServiceChoose extends StatefulWidget {
 }
 
 class _MedServiceChooseState extends State<MedServiceChoose> {
-  // late final SelectedServiceIdsProvider _serviceIdsProvider;
-  // late final SelectedServicesProvider _servicesProvider;
   int chose = 0;
   int? selectedIndex;
   List<dynamic> _categories = [];
@@ -122,6 +121,10 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
       }
 
       final response = await http.get(uri);
+
+      log("Doctor id: ${widget.doctorId}\n\n");
+      log("response status code: ${response.statusCode}\n\n");
+      log("response body: ${response.body}");
 
       if (response.statusCode == 200) {
         final responseBody = utf8.decode(response.bodyBytes);
@@ -411,7 +414,7 @@ class _MedServiceChooseState extends State<MedServiceChoose> {
                 ],
                 CButton(
                   onTap: () {
-                    if (chose > 1) {
+                    if (chose >= 1) {
                       final allId = selectedServices.map((e) => e['id'] as int).toList();
                       final List<SelectedServices> selectedServicesList =
                           allId.map((id) => SelectedServices(serviceId: id)).toList();

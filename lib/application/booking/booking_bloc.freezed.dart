@@ -4606,8 +4606,6 @@ mixin _$BookingState {
   List<BookingTypeModel> get bookingTypes => throw _privateConstructorUsedError;
   List<Category> get categoryServices => throw _privateConstructorUsedError;
   List<int> get selectedInnerServiceIds => throw _privateConstructorUsedError;
-  List<ThirdBookingService> get thirdBookingServices =>
-      throw _privateConstructorUsedError;
   List<HomepageBookingCategory> get homePageBookingCategory =>
       throw _privateConstructorUsedError;
   List<MedicalServiceCategory> get doctorServices =>
@@ -4622,6 +4620,8 @@ mixin _$BookingState {
   String get errorMessage => throw _privateConstructorUsedError;
   bool get hasFetchedThirdServices => throw _privateConstructorUsedError;
   MedicalModel? get medicalModel => throw _privateConstructorUsedError;
+  ThirdBookingServiceModel? get thirdBookingServices =>
+      throw _privateConstructorUsedError;
   int? get selectedDoctorId => throw _privateConstructorUsedError;
   int? get selectedServiceId => throw _privateConstructorUsedError;
 
@@ -4650,7 +4650,6 @@ abstract class $BookingStateCopyWith<$Res> {
       List<BookingTypeModel> bookingTypes,
       List<Category> categoryServices,
       List<int> selectedInnerServiceIds,
-      List<ThirdBookingService> thirdBookingServices,
       List<HomepageBookingCategory> homePageBookingCategory,
       List<MedicalServiceCategory> doctorServices,
       List<DirectionScrollingItem> items,
@@ -4661,6 +4660,7 @@ abstract class $BookingStateCopyWith<$Res> {
       String errorMessage,
       bool hasFetchedThirdServices,
       MedicalModel? medicalModel,
+      ThirdBookingServiceModel? thirdBookingServices,
       int? selectedDoctorId,
       int? selectedServiceId});
 }
@@ -4691,7 +4691,6 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
     Object? bookingTypes = null,
     Object? categoryServices = null,
     Object? selectedInnerServiceIds = null,
-    Object? thirdBookingServices = null,
     Object? homePageBookingCategory = null,
     Object? doctorServices = null,
     Object? items = null,
@@ -4702,6 +4701,7 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
     Object? errorMessage = null,
     Object? hasFetchedThirdServices = null,
     Object? medicalModel = freezed,
+    Object? thirdBookingServices = freezed,
     Object? selectedDoctorId = freezed,
     Object? selectedServiceId = freezed,
   }) {
@@ -4752,10 +4752,6 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
           ? _value.selectedInnerServiceIds
           : selectedInnerServiceIds // ignore: cast_nullable_to_non_nullable
               as List<int>,
-      thirdBookingServices: null == thirdBookingServices
-          ? _value.thirdBookingServices
-          : thirdBookingServices // ignore: cast_nullable_to_non_nullable
-              as List<ThirdBookingService>,
       homePageBookingCategory: null == homePageBookingCategory
           ? _value.homePageBookingCategory
           : homePageBookingCategory // ignore: cast_nullable_to_non_nullable
@@ -4796,6 +4792,10 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
           ? _value.medicalModel
           : medicalModel // ignore: cast_nullable_to_non_nullable
               as MedicalModel?,
+      thirdBookingServices: freezed == thirdBookingServices
+          ? _value.thirdBookingServices
+          : thirdBookingServices // ignore: cast_nullable_to_non_nullable
+              as ThirdBookingServiceModel?,
       selectedDoctorId: freezed == selectedDoctorId
           ? _value.selectedDoctorId
           : selectedDoctorId // ignore: cast_nullable_to_non_nullable
@@ -4828,7 +4828,6 @@ abstract class _$$BookingStateImplCopyWith<$Res>
       List<BookingTypeModel> bookingTypes,
       List<Category> categoryServices,
       List<int> selectedInnerServiceIds,
-      List<ThirdBookingService> thirdBookingServices,
       List<HomepageBookingCategory> homePageBookingCategory,
       List<MedicalServiceCategory> doctorServices,
       List<DirectionScrollingItem> items,
@@ -4839,6 +4838,7 @@ abstract class _$$BookingStateImplCopyWith<$Res>
       String errorMessage,
       bool hasFetchedThirdServices,
       MedicalModel? medicalModel,
+      ThirdBookingServiceModel? thirdBookingServices,
       int? selectedDoctorId,
       int? selectedServiceId});
 }
@@ -4867,7 +4867,6 @@ class __$$BookingStateImplCopyWithImpl<$Res>
     Object? bookingTypes = null,
     Object? categoryServices = null,
     Object? selectedInnerServiceIds = null,
-    Object? thirdBookingServices = null,
     Object? homePageBookingCategory = null,
     Object? doctorServices = null,
     Object? items = null,
@@ -4878,6 +4877,7 @@ class __$$BookingStateImplCopyWithImpl<$Res>
     Object? errorMessage = null,
     Object? hasFetchedThirdServices = null,
     Object? medicalModel = freezed,
+    Object? thirdBookingServices = freezed,
     Object? selectedDoctorId = freezed,
     Object? selectedServiceId = freezed,
   }) {
@@ -4928,10 +4928,6 @@ class __$$BookingStateImplCopyWithImpl<$Res>
           ? _value._selectedInnerServiceIds
           : selectedInnerServiceIds // ignore: cast_nullable_to_non_nullable
               as List<int>,
-      thirdBookingServices: null == thirdBookingServices
-          ? _value._thirdBookingServices
-          : thirdBookingServices // ignore: cast_nullable_to_non_nullable
-              as List<ThirdBookingService>,
       homePageBookingCategory: null == homePageBookingCategory
           ? _value._homePageBookingCategory
           : homePageBookingCategory // ignore: cast_nullable_to_non_nullable
@@ -4972,6 +4968,10 @@ class __$$BookingStateImplCopyWithImpl<$Res>
           ? _value.medicalModel
           : medicalModel // ignore: cast_nullable_to_non_nullable
               as MedicalModel?,
+      thirdBookingServices: freezed == thirdBookingServices
+          ? _value.thirdBookingServices
+          : thirdBookingServices // ignore: cast_nullable_to_non_nullable
+              as ThirdBookingServiceModel?,
       selectedDoctorId: freezed == selectedDoctorId
           ? _value.selectedDoctorId
           : selectedDoctorId // ignore: cast_nullable_to_non_nullable
@@ -4999,7 +4999,6 @@ class _$BookingStateImpl extends _BookingState {
       final List<BookingTypeModel> bookingTypes = const [],
       final List<Category> categoryServices = const [],
       final List<int> selectedInnerServiceIds = const [],
-      final List<ThirdBookingService> thirdBookingServices = const [],
       final List<HomepageBookingCategory> homePageBookingCategory = const [],
       final List<MedicalServiceCategory> doctorServices = const [],
       final List<DirectionScrollingItem> items = const [],
@@ -5011,12 +5010,12 @@ class _$BookingStateImpl extends _BookingState {
       this.errorMessage = '',
       this.hasFetchedThirdServices = false,
       this.medicalModel,
+      this.thirdBookingServices,
       this.selectedDoctorId,
       this.selectedServiceId})
       : _bookingTypes = bookingTypes,
         _categoryServices = categoryServices,
         _selectedInnerServiceIds = selectedInnerServiceIds,
-        _thirdBookingServices = thirdBookingServices,
         _homePageBookingCategory = homePageBookingCategory,
         _doctorServices = doctorServices,
         _items = items,
@@ -5076,16 +5075,6 @@ class _$BookingStateImpl extends _BookingState {
       return _selectedInnerServiceIds;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_selectedInnerServiceIds);
-  }
-
-  final List<ThirdBookingService> _thirdBookingServices;
-  @override
-  @JsonKey()
-  List<ThirdBookingService> get thirdBookingServices {
-    if (_thirdBookingServices is EqualUnmodifiableListView)
-      return _thirdBookingServices;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_thirdBookingServices);
   }
 
   final List<HomepageBookingCategory> _homePageBookingCategory;
@@ -5156,13 +5145,15 @@ class _$BookingStateImpl extends _BookingState {
   @override
   final MedicalModel? medicalModel;
   @override
+  final ThirdBookingServiceModel? thirdBookingServices;
+  @override
   final int? selectedDoctorId;
   @override
   final int? selectedServiceId;
 
   @override
   String toString() {
-    return 'BookingState(serviceStatus: $serviceStatus, refreshServiceStatus: $refreshServiceStatus, fetchBookingTypesStatus: $fetchBookingTypesStatus, fetchHomePageBookingCategoriesStatus: $fetchHomePageBookingCategoriesStatus, fetchCategoryServicesStatus: $fetchCategoryServicesStatus, fetchHomePageBookingDoctorsStatus: $fetchHomePageBookingDoctorsStatus, getDoctorsStatus: $getDoctorsStatus, getServicesByDoctorIdStatus: $getServicesByDoctorIdStatus, bookingTypes: $bookingTypes, categoryServices: $categoryServices, selectedInnerServiceIds: $selectedInnerServiceIds, thirdBookingServices: $thirdBookingServices, homePageBookingCategory: $homePageBookingCategory, doctorServices: $doctorServices, items: $items, services: $services, selectedAppointments: $selectedAppointments, selectedServices: $selectedServices, selectedSpecialty: $selectedSpecialty, errorMessage: $errorMessage, hasFetchedThirdServices: $hasFetchedThirdServices, medicalModel: $medicalModel, selectedDoctorId: $selectedDoctorId, selectedServiceId: $selectedServiceId)';
+    return 'BookingState(serviceStatus: $serviceStatus, refreshServiceStatus: $refreshServiceStatus, fetchBookingTypesStatus: $fetchBookingTypesStatus, fetchHomePageBookingCategoriesStatus: $fetchHomePageBookingCategoriesStatus, fetchCategoryServicesStatus: $fetchCategoryServicesStatus, fetchHomePageBookingDoctorsStatus: $fetchHomePageBookingDoctorsStatus, getDoctorsStatus: $getDoctorsStatus, getServicesByDoctorIdStatus: $getServicesByDoctorIdStatus, bookingTypes: $bookingTypes, categoryServices: $categoryServices, selectedInnerServiceIds: $selectedInnerServiceIds, homePageBookingCategory: $homePageBookingCategory, doctorServices: $doctorServices, items: $items, services: $services, selectedAppointments: $selectedAppointments, selectedServices: $selectedServices, selectedSpecialty: $selectedSpecialty, errorMessage: $errorMessage, hasFetchedThirdServices: $hasFetchedThirdServices, medicalModel: $medicalModel, thirdBookingServices: $thirdBookingServices, selectedDoctorId: $selectedDoctorId, selectedServiceId: $selectedServiceId)';
   }
 
   @override
@@ -5196,8 +5187,6 @@ class _$BookingStateImpl extends _BookingState {
                 .equals(other._categoryServices, _categoryServices) &&
             const DeepCollectionEquality().equals(
                 other._selectedInnerServiceIds, _selectedInnerServiceIds) &&
-            const DeepCollectionEquality()
-                .equals(other._thirdBookingServices, _thirdBookingServices) &&
             const DeepCollectionEquality().equals(
                 other._homePageBookingCategory, _homePageBookingCategory) &&
             const DeepCollectionEquality()
@@ -5210,9 +5199,11 @@ class _$BookingStateImpl extends _BookingState {
                 .equals(other._selectedServices, _selectedServices) &&
             (identical(other.selectedSpecialty, selectedSpecialty) ||
                 other.selectedSpecialty == selectedSpecialty) &&
-            (identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage) &&
             (identical(other.hasFetchedThirdServices, hasFetchedThirdServices) || other.hasFetchedThirdServices == hasFetchedThirdServices) &&
             (identical(other.medicalModel, medicalModel) || other.medicalModel == medicalModel) &&
+            (identical(other.thirdBookingServices, thirdBookingServices) || other.thirdBookingServices == thirdBookingServices) &&
             (identical(other.selectedDoctorId, selectedDoctorId) || other.selectedDoctorId == selectedDoctorId) &&
             (identical(other.selectedServiceId, selectedServiceId) || other.selectedServiceId == selectedServiceId));
   }
@@ -5231,7 +5222,6 @@ class _$BookingStateImpl extends _BookingState {
         const DeepCollectionEquality().hash(_bookingTypes),
         const DeepCollectionEquality().hash(_categoryServices),
         const DeepCollectionEquality().hash(_selectedInnerServiceIds),
-        const DeepCollectionEquality().hash(_thirdBookingServices),
         const DeepCollectionEquality().hash(_homePageBookingCategory),
         const DeepCollectionEquality().hash(_doctorServices),
         const DeepCollectionEquality().hash(_items),
@@ -5242,6 +5232,7 @@ class _$BookingStateImpl extends _BookingState {
         errorMessage,
         hasFetchedThirdServices,
         medicalModel,
+        thirdBookingServices,
         selectedDoctorId,
         selectedServiceId
       ]);
@@ -5268,7 +5259,6 @@ abstract class _BookingState extends BookingState {
       final List<BookingTypeModel> bookingTypes,
       final List<Category> categoryServices,
       final List<int> selectedInnerServiceIds,
-      final List<ThirdBookingService> thirdBookingServices,
       final List<HomepageBookingCategory> homePageBookingCategory,
       final List<MedicalServiceCategory> doctorServices,
       final List<DirectionScrollingItem> items,
@@ -5279,6 +5269,7 @@ abstract class _BookingState extends BookingState {
       final String errorMessage,
       final bool hasFetchedThirdServices,
       final MedicalModel? medicalModel,
+      final ThirdBookingServiceModel? thirdBookingServices,
       final int? selectedDoctorId,
       final int? selectedServiceId}) = _$BookingStateImpl;
   const _BookingState._() : super._();
@@ -5306,8 +5297,6 @@ abstract class _BookingState extends BookingState {
   @override
   List<int> get selectedInnerServiceIds;
   @override
-  List<ThirdBookingService> get thirdBookingServices;
-  @override
   List<HomepageBookingCategory> get homePageBookingCategory;
   @override
   List<MedicalServiceCategory> get doctorServices;
@@ -5327,6 +5316,8 @@ abstract class _BookingState extends BookingState {
   bool get hasFetchedThirdServices;
   @override
   MedicalModel? get medicalModel;
+  @override
+  ThirdBookingServiceModel? get thirdBookingServices;
   @override
   int? get selectedDoctorId;
   @override

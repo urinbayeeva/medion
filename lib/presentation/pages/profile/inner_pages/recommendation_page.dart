@@ -17,6 +17,7 @@ import 'package:medion/presentation/component/c_expension_listtile.dart';
 import 'package:medion/presentation/pages/appointment/component/service_selection_model.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/pop_up_status_enum.dart';
@@ -63,37 +64,19 @@ class _RecommendationPageState extends State<RecommendationPage> {
           ),
           body: BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
+              final recommendation = state.recommendation;
+
               if (state.fetchRecommendationStatus.isInitial || state.fetchRecommendationStatus.isInProgress) {
                 return const Center(child: CupertinoActivityIndicator());
               }
-              if (state.fetchRecommendationStatus.isFailure) {
+              if (state.fetchRecommendationStatus.isFailure || recommendation.isEmpty) {
                 return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Lottie.asset("assets/anim/404.json"),
-                      Text("something_went_wrong".tr(), style: fonts.regularMain),
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 130.h),
+                    child: EmptyState(title: "no_results_found".tr()),
                   ),
                 );
               }
-              final recommendation = state.recommendation;
-
-              if (recommendation.isEmpty) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Lottie.asset("assets/anim/sad.json"),
-                      Text("no_result_found".tr(), style: fonts.regularMain),
-                      const SizedBox(height: 75),
-                    ],
-                  ),
-                );
-              }
-
               return Column(
                 children: [
                   Expanded(

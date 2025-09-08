@@ -68,9 +68,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<DBService>(create: (_) => dbService),
-        // ChangeNotifierProvider(create: (_) => SelectedServicesProvider()),
-        // ChangeNotifierProvider(create: (_) => SelectedServiceIdsProvider()),
-        // ChangeNotifierProvider(create: (_) => PaymentProvider()),
         ChangeNotifierProvider(create: (_) => TimeSelectionProvider()),
         ChangeNotifierProvider(create: (_) => CurrencyChangeProvider()),
         ChangeNotifierProvider(create: (_) => ServicesPageProvider()),
@@ -139,8 +136,6 @@ class MyApp extends StatelessWidget {
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             onGenerateRoute: (_) {
-              log("Languageee: ${dbService.getLang}");
-
               if (onGetContext != null) {
                 onGetContext!(context);
               }

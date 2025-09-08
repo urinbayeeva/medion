@@ -5,6 +5,7 @@ import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
+import 'package:medion/utils/enums/filter_interval_enum.dart';
 
 class BranchRepository implements IBranchRepository {
   final BranchService apiService;
@@ -137,12 +138,23 @@ class BranchRepository implements IBranchRepository {
   }
 
   @override
-  Future<Either<ResponseFailure, List<GetReviewModel>>> getReview() async {
+  Future<Either<ResponseFailure, ReviewModel>> getReview({
+    required List<int> directions,
+    required List<int> branches,
+    required int rank,
+    String? startDate,
+    String? endDate,
+  }) async {
     try {
-      final res = await studyService.getReviews();
+      final res = await studyService.getReviews(
+        branches: branches,
+        directions: directions,
+        rating: (rank <= 5 && rank > 0) ? rank : null,
+        startDate: startDate,
+        endDate: endDate,
+      );
       if (res.isSuccessful && res.body != null) {
-        List<GetReviewModel> model = (res.body?.toList()) ?? <GetReviewModel>[];
-        return right(model);
+        return right(res.body!);
       } else {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }

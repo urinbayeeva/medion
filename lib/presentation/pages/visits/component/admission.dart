@@ -135,7 +135,7 @@ class AboutAdmission extends StatelessWidget {
                       },
                       iconPath: "assets/icons/geolocation.svg",
                     ),
-                    SizedBox(height: 10.h),
+                    SizedBox(height: 26.h),
                   ],
                 );
               }
@@ -167,7 +167,7 @@ class AboutAdmission extends StatelessWidget {
                     },
                     iconPath: "assets/icons/geolocation.svg",
                   ),
-                  SizedBox(height: 10.h),
+                  SizedBox(height: 26.h),
                 ],
               );
             },

@@ -40,7 +40,7 @@ class HomeLocationCard extends StatelessWidget {
                 width: 60.w,
                 height: 64.h,
                 imageUrl: location.icon,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
               ),
             ),
             Container(
@@ -49,7 +49,7 @@ class HomeLocationCard extends StatelessWidget {
               color: colors.neutral400,
             ),
             3.horizontalSpace,
-            Expanded(child: Text(location.address, style: fonts.smallLink))
+            Flexible(child: Text(location.address, style: fonts.smallLink))
           ],
         ),
       ),

@@ -6,18 +6,17 @@ part of 'recruitment_model.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<VacancyModel> _$vacancyModelSerializer =
-    new _$VacancyModelSerializer();
+Serializer<VacancyModel> _$vacancyModelSerializer = _$VacancyModelSerializer();
 Serializer<VacancyDetailModel> _$vacancyDetailModelSerializer =
-    new _$VacancyDetailModelSerializer();
+    _$VacancyDetailModelSerializer();
 Serializer<RequirementsModel> _$requirementsModelSerializer =
-    new _$RequirementsModelSerializer();
+    _$RequirementsModelSerializer();
 Serializer<JobApplicationModel> _$jobApplicationModelSerializer =
-    new _$JobApplicationModelSerializer();
+    _$JobApplicationModelSerializer();
 Serializer<UploadVacancyModel> _$uploadVacancyModelSerializer =
-    new _$UploadVacancyModelSerializer();
+    _$UploadVacancyModelSerializer();
 Serializer<ResultVacancyModel> _$resultVacancyModelSerializer =
-    new _$ResultVacancyModelSerializer();
+    _$ResultVacancyModelSerializer();
 
 class _$VacancyModelSerializer implements StructuredSerializer<VacancyModel> {
   @override
@@ -53,7 +52,7 @@ class _$VacancyModelSerializer implements StructuredSerializer<VacancyModel> {
   VacancyModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new VacancyModelBuilder();
+    final result = VacancyModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -121,7 +120,7 @@ class _$VacancyDetailModelSerializer
   VacancyDetailModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new VacancyDetailModelBuilder();
+    final result = VacancyDetailModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -177,7 +176,7 @@ class _$RequirementsModelSerializer
   RequirementsModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new RequirementsModelBuilder();
+    final result = RequirementsModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -268,7 +267,7 @@ class _$JobApplicationModelSerializer
   JobApplicationModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new JobApplicationModelBuilder();
+    final result = JobApplicationModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -382,7 +381,7 @@ class _$UploadVacancyModelSerializer
   UploadVacancyModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new UploadVacancyModelBuilder();
+    final result = UploadVacancyModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -455,7 +454,7 @@ class _$ResultVacancyModelSerializer
   ResultVacancyModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ResultVacancyModelBuilder();
+    final result = ResultVacancyModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -489,30 +488,20 @@ class _$VacancyModel extends VacancyModel {
   final BuiltList<RequirementsModel> requirements;
 
   factory _$VacancyModel([void Function(VacancyModelBuilder)? updates]) =>
-      (new VacancyModelBuilder()..update(updates))._build();
+      (VacancyModelBuilder()..update(updates))._build();
 
   _$VacancyModel._(
       {required this.companyName,
       required this.officeVacancies,
       required this.medicineVacancies,
       required this.requirements})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        companyName, r'VacancyModel', 'companyName');
-    BuiltValueNullFieldError.checkNotNull(
-        officeVacancies, r'VacancyModel', 'officeVacancies');
-    BuiltValueNullFieldError.checkNotNull(
-        medicineVacancies, r'VacancyModel', 'medicineVacancies');
-    BuiltValueNullFieldError.checkNotNull(
-        requirements, r'VacancyModel', 'requirements');
-  }
-
+      : super._();
   @override
   VacancyModel rebuild(void Function(VacancyModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  VacancyModelBuilder toBuilder() => new VacancyModelBuilder()..replace(this);
+  VacancyModelBuilder toBuilder() => VacancyModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -556,19 +545,19 @@ class VacancyModelBuilder
 
   ListBuilder<VacancyDetailModel>? _officeVacancies;
   ListBuilder<VacancyDetailModel> get officeVacancies =>
-      _$this._officeVacancies ??= new ListBuilder<VacancyDetailModel>();
+      _$this._officeVacancies ??= ListBuilder<VacancyDetailModel>();
   set officeVacancies(ListBuilder<VacancyDetailModel>? officeVacancies) =>
       _$this._officeVacancies = officeVacancies;
 
   ListBuilder<VacancyDetailModel>? _medicineVacancies;
   ListBuilder<VacancyDetailModel> get medicineVacancies =>
-      _$this._medicineVacancies ??= new ListBuilder<VacancyDetailModel>();
+      _$this._medicineVacancies ??= ListBuilder<VacancyDetailModel>();
   set medicineVacancies(ListBuilder<VacancyDetailModel>? medicineVacancies) =>
       _$this._medicineVacancies = medicineVacancies;
 
   ListBuilder<RequirementsModel>? _requirements;
   ListBuilder<RequirementsModel> get requirements =>
-      _$this._requirements ??= new ListBuilder<RequirementsModel>();
+      _$this._requirements ??= ListBuilder<RequirementsModel>();
   set requirements(ListBuilder<RequirementsModel>? requirements) =>
       _$this._requirements = requirements;
 
@@ -588,7 +577,6 @@ class VacancyModelBuilder
 
   @override
   void replace(VacancyModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$VacancyModel;
   }
 
@@ -604,7 +592,7 @@ class VacancyModelBuilder
     _$VacancyModel _$result;
     try {
       _$result = _$v ??
-          new _$VacancyModel._(
+          _$VacancyModel._(
             companyName: BuiltValueNullFieldError.checkNotNull(
                 companyName, r'VacancyModel', 'companyName'),
             officeVacancies: officeVacancies.build(),
@@ -621,7 +609,7 @@ class VacancyModelBuilder
         _$failedField = 'requirements';
         requirements.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'VacancyModel', _$failedField, e.toString());
       }
       rethrow;
@@ -643,22 +631,14 @@ class _$VacancyDetailModel extends VacancyDetailModel {
 
   factory _$VacancyDetailModel(
           [void Function(VacancyDetailModelBuilder)? updates]) =>
-      (new VacancyDetailModelBuilder()..update(updates))._build();
+      (VacancyDetailModelBuilder()..update(updates))._build();
 
   _$VacancyDetailModel._(
       {required this.id,
       required this.companyId,
       required this.name,
       required this.description})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'VacancyDetailModel', 'id');
-    BuiltValueNullFieldError.checkNotNull(
-        companyId, r'VacancyDetailModel', 'companyId');
-    BuiltValueNullFieldError.checkNotNull(name, r'VacancyDetailModel', 'name');
-    BuiltValueNullFieldError.checkNotNull(
-        description, r'VacancyDetailModel', 'description');
-  }
-
+      : super._();
   @override
   VacancyDetailModel rebuild(
           void Function(VacancyDetailModelBuilder) updates) =>
@@ -666,7 +646,7 @@ class _$VacancyDetailModel extends VacancyDetailModel {
 
   @override
   VacancyDetailModelBuilder toBuilder() =>
-      new VacancyDetailModelBuilder()..replace(this);
+      VacancyDetailModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -736,7 +716,6 @@ class VacancyDetailModelBuilder
 
   @override
   void replace(VacancyDetailModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$VacancyDetailModel;
   }
 
@@ -750,7 +729,7 @@ class VacancyDetailModelBuilder
 
   _$VacancyDetailModel _build() {
     final _$result = _$v ??
-        new _$VacancyDetailModel._(
+        _$VacancyDetailModel._(
           id: BuiltValueNullFieldError.checkNotNull(
               id, r'VacancyDetailModel', 'id'),
           companyId: BuiltValueNullFieldError.checkNotNull(
@@ -773,20 +752,16 @@ class _$RequirementsModel extends RequirementsModel {
 
   factory _$RequirementsModel(
           [void Function(RequirementsModelBuilder)? updates]) =>
-      (new RequirementsModelBuilder()..update(updates))._build();
+      (RequirementsModelBuilder()..update(updates))._build();
 
-  _$RequirementsModel._({required this.title, required this.icon}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(title, r'RequirementsModel', 'title');
-    BuiltValueNullFieldError.checkNotNull(icon, r'RequirementsModel', 'icon');
-  }
-
+  _$RequirementsModel._({required this.title, required this.icon}) : super._();
   @override
   RequirementsModel rebuild(void Function(RequirementsModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   RequirementsModelBuilder toBuilder() =>
-      new RequirementsModelBuilder()..replace(this);
+      RequirementsModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -840,7 +815,6 @@ class RequirementsModelBuilder
 
   @override
   void replace(RequirementsModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$RequirementsModel;
   }
 
@@ -854,7 +828,7 @@ class RequirementsModelBuilder
 
   _$RequirementsModel _build() {
     final _$result = _$v ??
-        new _$RequirementsModel._(
+        _$RequirementsModel._(
           title: BuiltValueNullFieldError.checkNotNull(
               title, r'RequirementsModel', 'title'),
           icon: BuiltValueNullFieldError.checkNotNull(
@@ -899,7 +873,7 @@ class _$JobApplicationModel extends JobApplicationModel {
 
   factory _$JobApplicationModel(
           [void Function(JobApplicationModelBuilder)? updates]) =>
-      (new JobApplicationModelBuilder()..update(updates))._build();
+      (JobApplicationModelBuilder()..update(updates))._build();
 
   _$JobApplicationModel._(
       {required this.companyId,
@@ -917,37 +891,7 @@ class _$JobApplicationModel extends JobApplicationModel {
       required this.phone,
       required this.email,
       required this.skills})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        companyId, r'JobApplicationModel', 'companyId');
-    BuiltValueNullFieldError.checkNotNull(id, r'JobApplicationModel', 'id');
-    BuiltValueNullFieldError.checkNotNull(requiredExperienceYear,
-        r'JobApplicationModel', 'requiredExperienceYear');
-    BuiltValueNullFieldError.checkNotNull(
-        latitude, r'JobApplicationModel', 'latitude');
-    BuiltValueNullFieldError.checkNotNull(
-        longitude, r'JobApplicationModel', 'longitude');
-    BuiltValueNullFieldError.checkNotNull(
-        salary, r'JobApplicationModel', 'salary');
-    BuiltValueNullFieldError.checkNotNull(
-        requirements, r'JobApplicationModel', 'requirements');
-    BuiltValueNullFieldError.checkNotNull(
-        ourOffer, r'JobApplicationModel', 'ourOffer');
-    BuiltValueNullFieldError.checkNotNull(
-        currency, r'JobApplicationModel', 'currency');
-    BuiltValueNullFieldError.checkNotNull(
-        responsibilities, r'JobApplicationModel', 'responsibilities');
-    BuiltValueNullFieldError.checkNotNull(
-        workType, r'JobApplicationModel', 'workType');
-    BuiltValueNullFieldError.checkNotNull(name, r'JobApplicationModel', 'name');
-    BuiltValueNullFieldError.checkNotNull(
-        phone, r'JobApplicationModel', 'phone');
-    BuiltValueNullFieldError.checkNotNull(
-        email, r'JobApplicationModel', 'email');
-    BuiltValueNullFieldError.checkNotNull(
-        skills, r'JobApplicationModel', 'skills');
-  }
-
+      : super._();
   @override
   JobApplicationModel rebuild(
           void Function(JobApplicationModelBuilder) updates) =>
@@ -955,7 +899,7 @@ class _$JobApplicationModel extends JobApplicationModel {
 
   @override
   JobApplicationModelBuilder toBuilder() =>
-      new JobApplicationModelBuilder()..replace(this);
+      JobApplicationModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1085,8 +1029,7 @@ class JobApplicationModelBuilder
   set email(String? email) => _$this._email = email;
 
   ListBuilder<String>? _skills;
-  ListBuilder<String> get skills =>
-      _$this._skills ??= new ListBuilder<String>();
+  ListBuilder<String> get skills => _$this._skills ??= ListBuilder<String>();
   set skills(ListBuilder<String>? skills) => _$this._skills = skills;
 
   JobApplicationModelBuilder();
@@ -1116,7 +1059,6 @@ class JobApplicationModelBuilder
 
   @override
   void replace(JobApplicationModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$JobApplicationModel;
   }
 
@@ -1132,7 +1074,7 @@ class JobApplicationModelBuilder
     _$JobApplicationModel _$result;
     try {
       _$result = _$v ??
-          new _$JobApplicationModel._(
+          _$JobApplicationModel._(
             companyId: BuiltValueNullFieldError.checkNotNull(
                 companyId, r'JobApplicationModel', 'companyId'),
             id: BuiltValueNullFieldError.checkNotNull(
@@ -1171,7 +1113,7 @@ class JobApplicationModelBuilder
         _$failedField = 'skills';
         skills.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'JobApplicationModel', _$failedField, e.toString());
       }
       rethrow;
@@ -1197,7 +1139,7 @@ class _$UploadVacancyModel extends UploadVacancyModel {
 
   factory _$UploadVacancyModel(
           [void Function(UploadVacancyModelBuilder)? updates]) =>
-      (new UploadVacancyModelBuilder()..update(updates))._build();
+      (UploadVacancyModelBuilder()..update(updates))._build();
 
   _$UploadVacancyModel._(
       {required this.id,
@@ -1206,19 +1148,7 @@ class _$UploadVacancyModel extends UploadVacancyModel {
       required this.lastName,
       required this.resume,
       required this.phone})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'UploadVacancyModel', 'id');
-    BuiltValueNullFieldError.checkNotNull(
-        companyId, r'UploadVacancyModel', 'companyId');
-    BuiltValueNullFieldError.checkNotNull(name, r'UploadVacancyModel', 'name');
-    BuiltValueNullFieldError.checkNotNull(
-        lastName, r'UploadVacancyModel', 'lastName');
-    BuiltValueNullFieldError.checkNotNull(
-        resume, r'UploadVacancyModel', 'resume');
-    BuiltValueNullFieldError.checkNotNull(
-        phone, r'UploadVacancyModel', 'phone');
-  }
-
+      : super._();
   @override
   UploadVacancyModel rebuild(
           void Function(UploadVacancyModelBuilder) updates) =>
@@ -1226,7 +1156,7 @@ class _$UploadVacancyModel extends UploadVacancyModel {
 
   @override
   UploadVacancyModelBuilder toBuilder() =>
-      new UploadVacancyModelBuilder()..replace(this);
+      UploadVacancyModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1312,7 +1242,6 @@ class UploadVacancyModelBuilder
 
   @override
   void replace(UploadVacancyModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$UploadVacancyModel;
   }
 
@@ -1326,7 +1255,7 @@ class UploadVacancyModelBuilder
 
   _$UploadVacancyModel _build() {
     final _$result = _$v ??
-        new _$UploadVacancyModel._(
+        _$UploadVacancyModel._(
           id: BuiltValueNullFieldError.checkNotNull(
               id, r'UploadVacancyModel', 'id'),
           companyId: BuiltValueNullFieldError.checkNotNull(
@@ -1353,10 +1282,9 @@ class _$ResultVacancyModel extends ResultVacancyModel {
 
   factory _$ResultVacancyModel(
           [void Function(ResultVacancyModelBuilder)? updates]) =>
-      (new ResultVacancyModelBuilder()..update(updates))._build();
+      (ResultVacancyModelBuilder()..update(updates))._build();
 
   _$ResultVacancyModel._({this.status, this.message}) : super._();
-
   @override
   ResultVacancyModel rebuild(
           void Function(ResultVacancyModelBuilder) updates) =>
@@ -1364,7 +1292,7 @@ class _$ResultVacancyModel extends ResultVacancyModel {
 
   @override
   ResultVacancyModelBuilder toBuilder() =>
-      new ResultVacancyModelBuilder()..replace(this);
+      ResultVacancyModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1418,7 +1346,6 @@ class ResultVacancyModelBuilder
 
   @override
   void replace(ResultVacancyModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ResultVacancyModel;
   }
 
@@ -1432,7 +1359,7 @@ class ResultVacancyModelBuilder
 
   _$ResultVacancyModel _build() {
     final _$result = _$v ??
-        new _$ResultVacancyModel._(
+        _$ResultVacancyModel._(
           status: status,
           message: message,
         );

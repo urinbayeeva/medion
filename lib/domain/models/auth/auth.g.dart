@@ -7,19 +7,19 @@ part of 'auth.dart';
 // **************************************************************************
 
 Serializer<PhoneNumberSendReq> _$phoneNumberSendReqSerializer =
-    new _$PhoneNumberSendReqSerializer();
-Serializer<RegisterReq> _$registerReqSerializer = new _$RegisterReqSerializer();
-Serializer<User> _$userSerializer = new _$UserSerializer();
+    _$PhoneNumberSendReqSerializer();
+Serializer<RegisterReq> _$registerReqSerializer = _$RegisterReqSerializer();
+Serializer<User> _$userSerializer = _$UserSerializer();
 Serializer<RegistrationResponse> _$registrationResponseSerializer =
-    new _$RegistrationResponseSerializer();
+    _$RegistrationResponseSerializer();
 Serializer<CreateInfoReq> _$createInfoReqSerializer =
-    new _$CreateInfoReqSerializer();
+    _$CreateInfoReqSerializer();
 Serializer<CreatePatientInfoResponse> _$createPatientInfoResponseSerializer =
-    new _$CreatePatientInfoResponseSerializer();
+    _$CreatePatientInfoResponseSerializer();
 Serializer<RefreshTokenModel> _$refreshTokenModelSerializer =
-    new _$RefreshTokenModelSerializer();
+    _$RefreshTokenModelSerializer();
 Serializer<RefreshTokenResponseModel> _$refreshTokenResponseModelSerializer =
-    new _$RefreshTokenResponseModelSerializer();
+    _$RefreshTokenResponseModelSerializer();
 
 class _$PhoneNumberSendReqSerializer
     implements StructuredSerializer<PhoneNumberSendReq> {
@@ -48,7 +48,7 @@ class _$PhoneNumberSendReqSerializer
   PhoneNumberSendReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new PhoneNumberSendReqBuilder();
+    final result = PhoneNumberSendReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -98,7 +98,7 @@ class _$RegisterReqSerializer implements StructuredSerializer<RegisterReq> {
   @override
   RegisterReq deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new RegisterReqBuilder();
+    final result = RegisterReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -167,7 +167,7 @@ class _$UserSerializer implements StructuredSerializer<User> {
   @override
   User deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new UserBuilder();
+    final result = UserBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -278,7 +278,7 @@ class _$RegistrationResponseSerializer
   RegistrationResponse deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new RegistrationResponseBuilder();
+    final result = RegistrationResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -433,7 +433,7 @@ class _$CreateInfoReqSerializer implements StructuredSerializer<CreateInfoReq> {
   CreateInfoReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new CreateInfoReqBuilder();
+    final result = CreateInfoReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -540,7 +540,7 @@ class _$CreatePatientInfoResponseSerializer
   CreatePatientInfoResponse deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new CreatePatientInfoResponseBuilder();
+    final result = CreatePatientInfoResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -593,7 +593,7 @@ class _$RefreshTokenModelSerializer
   RefreshTokenModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new RefreshTokenModelBuilder();
+    final result = RefreshTokenModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -656,7 +656,7 @@ class _$RefreshTokenResponseModelSerializer
   RefreshTokenResponseModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new RefreshTokenResponseModelBuilder();
+    final result = RefreshTokenResponseModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -689,10 +689,9 @@ class _$PhoneNumberSendReq extends PhoneNumberSendReq {
 
   factory _$PhoneNumberSendReq(
           [void Function(PhoneNumberSendReqBuilder)? updates]) =>
-      (new PhoneNumberSendReqBuilder()..update(updates))._build();
+      (PhoneNumberSendReqBuilder()..update(updates))._build();
 
   _$PhoneNumberSendReq._({this.phoneNumber}) : super._();
-
   @override
   PhoneNumberSendReq rebuild(
           void Function(PhoneNumberSendReqBuilder) updates) =>
@@ -700,7 +699,7 @@ class _$PhoneNumberSendReq extends PhoneNumberSendReq {
 
   @override
   PhoneNumberSendReqBuilder toBuilder() =>
-      new PhoneNumberSendReqBuilder()..replace(this);
+      PhoneNumberSendReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -745,7 +744,6 @@ class PhoneNumberSendReqBuilder
 
   @override
   void replace(PhoneNumberSendReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$PhoneNumberSendReq;
   }
 
@@ -759,7 +757,7 @@ class PhoneNumberSendReqBuilder
 
   _$PhoneNumberSendReq _build() {
     final _$result = _$v ??
-        new _$PhoneNumberSendReq._(
+        _$PhoneNumberSendReq._(
           phoneNumber: phoneNumber,
         );
     replace(_$result);
@@ -774,16 +772,15 @@ class _$RegisterReq extends RegisterReq {
   final String? code;
 
   factory _$RegisterReq([void Function(RegisterReqBuilder)? updates]) =>
-      (new RegisterReqBuilder()..update(updates))._build();
+      (RegisterReqBuilder()..update(updates))._build();
 
   _$RegisterReq._({this.phoneNumber, this.code}) : super._();
-
   @override
   RegisterReq rebuild(void Function(RegisterReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  RegisterReqBuilder toBuilder() => new RegisterReqBuilder()..replace(this);
+  RegisterReqBuilder toBuilder() => RegisterReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -836,7 +833,6 @@ class RegisterReqBuilder implements Builder<RegisterReq, RegisterReqBuilder> {
 
   @override
   void replace(RegisterReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$RegisterReq;
   }
 
@@ -850,7 +846,7 @@ class RegisterReqBuilder implements Builder<RegisterReq, RegisterReqBuilder> {
 
   _$RegisterReq _build() {
     final _$result = _$v ??
-        new _$RegisterReq._(
+        _$RegisterReq._(
           phoneNumber: phoneNumber,
           code: code,
         );
@@ -876,7 +872,7 @@ class _$User extends User {
   final bool offerta;
 
   factory _$User([void Function(UserBuilder)? updates]) =>
-      (new UserBuilder()..update(updates))._build();
+      (UserBuilder()..update(updates))._build();
 
   _$User._(
       {required this.name,
@@ -886,21 +882,13 @@ class _$User extends User {
       required this.refreshToken,
       required this.tokenType,
       required this.offerta})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(name, r'User', 'name');
-    BuiltValueNullFieldError.checkNotNull(accessToken, r'User', 'accessToken');
-    BuiltValueNullFieldError.checkNotNull(
-        refreshToken, r'User', 'refreshToken');
-    BuiltValueNullFieldError.checkNotNull(tokenType, r'User', 'tokenType');
-    BuiltValueNullFieldError.checkNotNull(offerta, r'User', 'offerta');
-  }
-
+      : super._();
   @override
   User rebuild(void Function(UserBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  UserBuilder toBuilder() => new UserBuilder()..replace(this);
+  UserBuilder toBuilder() => UserBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -993,7 +981,6 @@ class UserBuilder implements Builder<User, UserBuilder> {
 
   @override
   void replace(User other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$User;
   }
 
@@ -1007,7 +994,7 @@ class UserBuilder implements Builder<User, UserBuilder> {
 
   _$User _build() {
     final _$result = _$v ??
-        new _$User._(
+        _$User._(
           name: BuiltValueNullFieldError.checkNotNull(name, r'User', 'name'),
           accessToken: BuiltValueNullFieldError.checkNotNull(
               accessToken, r'User', 'accessToken'),
@@ -1047,7 +1034,7 @@ class _$RegistrationResponse extends RegistrationResponse {
 
   factory _$RegistrationResponse(
           [void Function(RegistrationResponseBuilder)? updates]) =>
-      (new RegistrationResponseBuilder()..update(updates))._build();
+      (RegistrationResponseBuilder()..update(updates))._build();
 
   _$RegistrationResponse._(
       {required this.status,
@@ -1059,19 +1046,7 @@ class _$RegistrationResponse extends RegistrationResponse {
       this.refreshToken,
       this.tokenType,
       this.offerta})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        status, r'RegistrationResponse', 'status');
-    BuiltValueNullFieldError.checkNotNull(
-        message, r'RegistrationResponse', 'message');
-    BuiltValueNullFieldError.checkNotNull(
-        isNewPatient, r'RegistrationResponse', 'isNewPatient');
-    BuiltValueNullFieldError.checkNotNull(
-        multiUser, r'RegistrationResponse', 'multiUser');
-    BuiltValueNullFieldError.checkNotNull(
-        users, r'RegistrationResponse', 'users');
-  }
-
+      : super._();
   @override
   RegistrationResponse rebuild(
           void Function(RegistrationResponseBuilder) updates) =>
@@ -1079,7 +1054,7 @@ class _$RegistrationResponse extends RegistrationResponse {
 
   @override
   RegistrationResponseBuilder toBuilder() =>
-      new RegistrationResponseBuilder()..replace(this);
+      RegistrationResponseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1149,7 +1124,7 @@ class RegistrationResponseBuilder
   set multiUser(bool? multiUser) => _$this._multiUser = multiUser;
 
   ListBuilder<User>? _users;
-  ListBuilder<User> get users => _$this._users ??= new ListBuilder<User>();
+  ListBuilder<User> get users => _$this._users ??= ListBuilder<User>();
   set users(ListBuilder<User>? users) => _$this._users = users;
 
   String? _accessToken;
@@ -1189,7 +1164,6 @@ class RegistrationResponseBuilder
 
   @override
   void replace(RegistrationResponse other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$RegistrationResponse;
   }
 
@@ -1205,7 +1179,7 @@ class RegistrationResponseBuilder
     _$RegistrationResponse _$result;
     try {
       _$result = _$v ??
-          new _$RegistrationResponse._(
+          _$RegistrationResponse._(
             status: BuiltValueNullFieldError.checkNotNull(
                 status, r'RegistrationResponse', 'status'),
             message: BuiltValueNullFieldError.checkNotNull(
@@ -1226,7 +1200,7 @@ class RegistrationResponseBuilder
         _$failedField = 'users';
         users.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'RegistrationResponse', _$failedField, e.toString());
       }
       rethrow;
@@ -1263,7 +1237,7 @@ class _$CreateInfoReq extends CreateInfoReq {
   final bool? offerta;
 
   factory _$CreateInfoReq([void Function(CreateInfoReqBuilder)? updates]) =>
-      (new CreateInfoReqBuilder()..update(updates))._build();
+      (CreateInfoReqBuilder()..update(updates))._build();
 
   _$CreateInfoReq._(
       {this.deviceId,
@@ -1279,13 +1253,12 @@ class _$CreateInfoReq extends CreateInfoReq {
       this.passportSerial,
       this.offerta})
       : super._();
-
   @override
   CreateInfoReq rebuild(void Function(CreateInfoReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  CreateInfoReqBuilder toBuilder() => new CreateInfoReqBuilder()..replace(this);
+  CreateInfoReqBuilder toBuilder() => CreateInfoReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1420,7 +1393,6 @@ class CreateInfoReqBuilder
 
   @override
   void replace(CreateInfoReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$CreateInfoReq;
   }
 
@@ -1434,7 +1406,7 @@ class CreateInfoReqBuilder
 
   _$CreateInfoReq _build() {
     final _$result = _$v ??
-        new _$CreateInfoReq._(
+        _$CreateInfoReq._(
           deviceId: deviceId,
           deviceName: deviceName,
           os: os,
@@ -1463,12 +1435,11 @@ class _$CreatePatientInfoResponse extends CreatePatientInfoResponse {
 
   factory _$CreatePatientInfoResponse(
           [void Function(CreatePatientInfoResponseBuilder)? updates]) =>
-      (new CreatePatientInfoResponseBuilder()..update(updates))._build();
+      (CreatePatientInfoResponseBuilder()..update(updates))._build();
 
   _$CreatePatientInfoResponse._(
       {this.accesstoken, this.refreshtoken, this.tokenType})
       : super._();
-
   @override
   CreatePatientInfoResponse rebuild(
           void Function(CreatePatientInfoResponseBuilder) updates) =>
@@ -1476,7 +1447,7 @@ class _$CreatePatientInfoResponse extends CreatePatientInfoResponse {
 
   @override
   CreatePatientInfoResponseBuilder toBuilder() =>
-      new CreatePatientInfoResponseBuilder()..replace(this);
+      CreatePatientInfoResponseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1539,7 +1510,6 @@ class CreatePatientInfoResponseBuilder
 
   @override
   void replace(CreatePatientInfoResponse other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$CreatePatientInfoResponse;
   }
 
@@ -1553,7 +1523,7 @@ class CreatePatientInfoResponseBuilder
 
   _$CreatePatientInfoResponse _build() {
     final _$result = _$v ??
-        new _$CreatePatientInfoResponse._(
+        _$CreatePatientInfoResponse._(
           accesstoken: accesstoken,
           refreshtoken: refreshtoken,
           tokenType: tokenType,
@@ -1569,17 +1539,16 @@ class _$RefreshTokenModel extends RefreshTokenModel {
 
   factory _$RefreshTokenModel(
           [void Function(RefreshTokenModelBuilder)? updates]) =>
-      (new RefreshTokenModelBuilder()..update(updates))._build();
+      (RefreshTokenModelBuilder()..update(updates))._build();
 
   _$RefreshTokenModel._({this.token}) : super._();
-
   @override
   RefreshTokenModel rebuild(void Function(RefreshTokenModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   RefreshTokenModelBuilder toBuilder() =>
-      new RefreshTokenModelBuilder()..replace(this);
+      RefreshTokenModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1624,7 +1593,6 @@ class RefreshTokenModelBuilder
 
   @override
   void replace(RefreshTokenModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$RefreshTokenModel;
   }
 
@@ -1638,7 +1606,7 @@ class RefreshTokenModelBuilder
 
   _$RefreshTokenModel _build() {
     final _$result = _$v ??
-        new _$RefreshTokenModel._(
+        _$RefreshTokenModel._(
           token: token,
         );
     replace(_$result);
@@ -1656,12 +1624,11 @@ class _$RefreshTokenResponseModel extends RefreshTokenResponseModel {
 
   factory _$RefreshTokenResponseModel(
           [void Function(RefreshTokenResponseModelBuilder)? updates]) =>
-      (new RefreshTokenResponseModelBuilder()..update(updates))._build();
+      (RefreshTokenResponseModelBuilder()..update(updates))._build();
 
   _$RefreshTokenResponseModel._(
       {this.accessToken, this.refreshToken, this.tokenType})
       : super._();
-
   @override
   RefreshTokenResponseModel rebuild(
           void Function(RefreshTokenResponseModelBuilder) updates) =>
@@ -1669,7 +1636,7 @@ class _$RefreshTokenResponseModel extends RefreshTokenResponseModel {
 
   @override
   RefreshTokenResponseModelBuilder toBuilder() =>
-      new RefreshTokenResponseModelBuilder()..replace(this);
+      RefreshTokenResponseModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1732,7 +1699,6 @@ class RefreshTokenResponseModelBuilder
 
   @override
   void replace(RefreshTokenResponseModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$RefreshTokenResponseModel;
   }
 
@@ -1746,7 +1712,7 @@ class RefreshTokenResponseModelBuilder
 
   _$RefreshTokenResponseModel _build() {
     final _$result = _$v ??
-        new _$RefreshTokenResponseModel._(
+        _$RefreshTokenResponseModel._(
           accessToken: accessToken,
           refreshToken: refreshToken,
           tokenType: tokenType,

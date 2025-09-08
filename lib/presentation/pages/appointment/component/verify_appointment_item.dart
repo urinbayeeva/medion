@@ -16,6 +16,7 @@ class VerifyAppointmentItem extends StatelessWidget {
   final String imagePath;
   final VoidCallback onCancel;
   final bool? hasImage;
+  final bool hasCancelButton;
 
   const VerifyAppointmentItem({
     super.key,
@@ -28,6 +29,7 @@ class VerifyAppointmentItem extends StatelessWidget {
     required this.imagePath,
     required this.onCancel,
     this.hasImage = true,
+    required this.hasCancelButton,
   });
 
   String _formatNumber(String numberString) {
@@ -93,17 +95,21 @@ class VerifyAppointmentItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: onCancel,
-                    child: Container(
-                      padding: EdgeInsets.all(4.w),
-                      child: icons.cancel.svg(
-                        width: 20.w,
-                        height: 20.h,
-                        color: colors.neutral600,
+                  if (hasCancelButton) ...{
+                    GestureDetector(
+                      onTap: onCancel,
+                      child: Container(
+                        padding: EdgeInsets.all(4.w),
+                        child: icons.cancel.svg(
+                          width: 20.w,
+                          height: 20.h,
+                          color: colors.neutral600,
+                        ),
                       ),
                     ),
-                  ),
+                  } else ...{
+                    const SizedBox(),
+                  }
                 ],
               ),
               4.h.verticalSpace,

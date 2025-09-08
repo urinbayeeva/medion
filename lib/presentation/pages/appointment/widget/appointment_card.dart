@@ -19,6 +19,7 @@ class AppointmentCard extends StatelessWidget {
     required this.imagePath,
     required this.onCancel,
     this.hasImage = true,
+    this.noCancel = false,
   });
 
   final String diagnosis;
@@ -30,6 +31,7 @@ class AppointmentCard extends StatelessWidget {
   final String imagePath;
   final VoidCallback onCancel;
   final bool? hasImage;
+  final bool noCancel;
 
   String _formatNumber(String numberString) {
     final number = (double.tryParse(numberString) ?? 0).toStringAsFixed(0);
@@ -103,17 +105,21 @@ class AppointmentCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: onCancel,
-                          child: Container(
-                            padding: EdgeInsets.all(4.w),
-                            child: icons.cancel.svg(
-                              width: 20.w,
-                              height: 20.h,
-                              color: colors.neutral600,
+                        if (noCancel) ...{
+                          const SizedBox.shrink()
+                        } else ...{
+                          GestureDetector(
+                            onTap: onCancel,
+                            child: Container(
+                              padding: EdgeInsets.all(4.w),
+                              child: icons.cancel.svg(
+                                width: 20.w,
+                                height: 20.h,
+                                color: colors.neutral600,
+                              ),
                             ),
                           ),
-                        ),
+                        }
                       ],
                     ),
                     4.h.verticalSpace,

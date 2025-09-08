@@ -12,12 +12,14 @@ class BuildSchedule extends StatelessWidget {
     required this.colors,
     required this.fonts,
     required this.doctor,
+    required this.title,
   });
 
   final WorkSchedule schedule;
   final CustomColorSet colors;
   final FontSet fonts;
   final ModelDoctor doctor;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -28,65 +30,92 @@ class BuildSchedule extends StatelessWidget {
       {'day': 'thursday'.tr(), 'schedules': schedule.thursday},
       {'day': 'friday'.tr(), 'schedules': schedule.friday},
       {'day': 'saturday'.tr(), 'schedules': schedule.saturday},
+      {'day': 'sunday'.tr(), 'schedules': schedule.sunday},
     ];
+    final available = doctor.workSchedule.monday.isNotEmpty ||
+        doctor.workSchedule.tuesday.isNotEmpty ||
+        doctor.workSchedule.wednesday.isNotEmpty ||
+        doctor.workSchedule.thursday.isNotEmpty ||
+        doctor.workSchedule.friday.isNotEmpty ||
+        doctor.workSchedule.sunday.isNotEmpty ||
+        doctor.workSchedule.saturday.isNotEmpty;
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: Column(
         children: [
-          if ((doctor.workSchedule.monday.isNotEmpty ||
-              doctor.workSchedule.tuesday.isNotEmpty ||
-              doctor.workSchedule.wednesday.isNotEmpty ||
-              doctor.workSchedule.thursday.isNotEmpty ||
-              doctor.workSchedule.friday.isNotEmpty ||
-              doctor.workSchedule.saturday.isNotEmpty)) ...[
+          if (available) ...[
             Container(
-              padding: EdgeInsets.all(16.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                color: colors.shade0,
-              ),
+              width: 1.sw,
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              decoration: BoxDecoration(color: colors.shade0),
               child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: days.map((day) {
-                    final dayName = day['day'] as String;
-                    final schedules = day['schedules'] as BuiltList<ScheduleItem>;
-
-                    if (schedules.isEmpty) return const SizedBox.shrink();
-
-                    return Container(
-                      margin: EdgeInsets.only(right: 10.w),
-                      padding: EdgeInsets.all(8.w),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: const Color(0xFFF9F9F9),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 16.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(title.tr(), style: fonts.regularMain),
+                          if (doctor.isThereFreeTime != null && doctor.isThereFreeTime!) ...{
                             Text(
-                              dayName,
-                              style: fonts.mediumMain.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.sp,
-                                color: colors.primary900,
-                              ),
+                              "• ${"can_accept".tr()}",
+                              style: fonts.regularMain.copyWith(color: colors.success500, fontSize: 14.sp),
                             ),
-                            ...schedules.map(
-                              (item) {
-                                return Text(
-                                  item.time.toString(),
-                                  style: fonts.regularMain.copyWith(color: colors.neutral600, fontSize: 13.sp),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+                          },
+                        ],
                       ),
-                    );
-                  }).toList(),
+                    ),
+                    ...days.map(
+                      (day) {
+                        final dayName = day['day'] as String;
+                        final schedules = day['schedules'] as BuiltList<ScheduleItem>;
+
+                        if (schedules.isEmpty) return const SizedBox.shrink();
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 16.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                dayName,
+                                style: fonts.xSmallMain.copyWith(
+                                  fontSize: 14.sp,
+                                  color: const Color(0xff66686C),
+                                ),
+                              ),
+                              if (schedules.isEmpty) ...{
+                                Text(
+                                  "do_not_work".tr(),
+                                  style: fonts.xSmallLink.copyWith(fontSize: 14.sp, color: colors.error500),
+                                )
+                              } else ...{
+                                Text(
+                                  schedules.first.time.toString(),
+                                  style: fonts.xSmallLink.copyWith(fontSize: 14.sp),
+                                )
+                                // ...schedules.map(
+                                //   (item) {
+                                //     if (schedules.isEmpty || true) {
+                                //       return Text(
+                                //         "do_not_work".tr(),
+                                //         style: fonts.xSmallLink.copyWith(fontSize: 14.sp, color: colors.error500),
+                                //       );
+                                //     }
+                                //     return Text(
+                                //       item.time.toString(),
+                                //       style: fonts.xSmallLink.copyWith(fontSize: 14.sp),
+                                //     );
+                                //   },
+                                // ),
+                              }
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),

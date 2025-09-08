@@ -14,9 +14,9 @@ import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/infrastructure/services/push_notification.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
+import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
-import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/home/ads.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/medical_direction_item.dart';
 import 'package:medion/presentation/pages/home/news/widgets/news_item.dart';
@@ -33,6 +33,7 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/content_type_enum.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,6 +47,10 @@ class _HomePageState extends State<HomePage> {
   late final ScrollController _servicesScrollController;
   late final ScrollController _newsScrollController;
   late final ScrollController _doctorsScrollController;
+  late final ScrollController _problemSlidebarController;
+  late final TextEditingController _searchController;
+  late final FocusNode _searchFocus;
+
   final RefreshController _refreshController = RefreshController();
   bool isChildren = false;
   bool _isSingleNotificationScreenOpen = false;
@@ -53,9 +58,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
     _servicesScrollController = ScrollController();
     _newsScrollController = ScrollController();
     _doctorsScrollController = ScrollController();
+    _problemSlidebarController = ScrollController();
     context.read<DoctorBloc>().add(const DoctorEvent.fetchDoctors());
     context.read<BookingBloc>().add(const BookingEvent.fetchHomePageServicesBooking());
     context.read<HomeBloc>().add(const HomeEvent.fetchMedicalServices());
@@ -65,6 +72,19 @@ class _HomePageState extends State<HomePage> {
     context.read<HomeBloc>().add(const HomeEvent.fetchDiseases());
     context.read<NotificationBloc>().add(const NotificationEvent.setFCMToken());
     initializeNotification(context);
+    _searchFocus = FocusNode();
+    _searchController = TextEditingController();
+
+    _searchFocus.addListener(() {
+      if (_searchFocus.hasFocus) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.of(context, rootNavigator: true).push(AppRoutes.getSearchPage()).then(
+                (v) => _searchFocus.unfocus(),
+              );
+        });
+      }
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       subscribeToNotifications(context);
     });
@@ -160,15 +180,6 @@ class _HomePageState extends State<HomePage> {
                   title: Text("main".tr(), style: fonts.regularMain),
                   actions: [
                     Padding(
-                      padding: EdgeInsets.only(right: 12.w),
-                      child: WScaleAnimation(
-                        onTap: () {
-                          Navigator.of(context, rootNavigator: true).push(AppRoutes.getSearchPage());
-                        },
-                        child: icons.search.svg(height: 19.h),
-                      ),
-                    ),
-                    Padding(
                       padding: EdgeInsets.only(right: 16.w),
                       child: NotificationBadge(
                         icons: icons,
@@ -207,6 +218,17 @@ class _HomePageState extends State<HomePage> {
                         12.h.verticalSpace,
                         const Ads(),
                         16.h.verticalSpace,
+                        CustomTextField(
+                          controller: _searchController,
+                          focusNode: _searchFocus,
+                          keyboardType: TextInputType.none,
+                          cursorColor: Colors.transparent,
+                          enableBorderColor: colors.neutral400,
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          hintText: "${"search".tr()}...",
+                          prefixIcon: icons.search.svg(height: 16.h, width: 16.w, color: const Color(0xff9AA0A6)),
+                        ),
+                        20.h.verticalSpace,
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: _buildSectionHeader("what_distrubes_you", fonts),
@@ -223,7 +245,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         12.h.verticalSpace,
-                        ProblemSlidebaleCard(isChildren: isChildren),
+                        ProblemSlidebaleCard(isChildren: isChildren, controller: _problemSlidebarController),
                         12.h.verticalSpace,
                         Padding(
                           padding: EdgeInsets.only(left: 12.w),
@@ -245,8 +267,8 @@ class _HomePageState extends State<HomePage> {
                             return service;
                           },
                           builder: (context, state) {
-                            if (state.loading) return _buildMedicalServicesShimmer();
-                            if (state.medicalServices.isEmpty) return const SizedBox.shrink();
+                            if (state.loading || state.medicalServices.isEmpty) return _buildMedicalServicesShimmer();
+                            // if () return const SizedBox.shrink();
                             return SizedBox(
                               height: 140.h,
                               child: ListView.builder(
@@ -402,7 +424,7 @@ class _HomePageState extends State<HomePage> {
                             return nws || status;
                           },
                           builder: (context, state) {
-                            if (state.fetchContentStatus.isInProgress) {
+                            if (state.fetchContentStatus.isInProgress || state.fetchContentStatus.isFailure) {
                               return _buildNewsShimmer();
                             }
                             if (state.fetchContentStatus.isFailure) {
@@ -413,7 +435,7 @@ class _HomePageState extends State<HomePage> {
 
                             final newsContent = state.contentByType["news"] ?? [];
                             return SizedBox(
-                              height: 260.h,
+                              height: 275.h,
                               child: ListView.builder(
                                 controller: _newsScrollController,
                                 padding: EdgeInsets.zero,
@@ -426,24 +448,12 @@ class _HomePageState extends State<HomePage> {
                                   return Padding(
                                     padding: EdgeInsets.only(right: 4.0.w, left: (index == 0) ? 12.w : 0),
                                     child: NewsItem(
-                                      inner: true,
-                                      onTap: () {
-                                        Navigator.of(context, rootNavigator: true)
-                                            .push(
-                                          AppRoutes.getInfoViewAboutHealth(
-                                            id: news.id,
-                                            type: ContentTypeEnum.news,
-                                            // discountCondition: "",
-                                            // imagePath: news.images.toList(),
-                                            // title: news.decodedTitle,
-                                            // desc: news.decodedDescription,
-                                            // date: news.createDate,
-                                          ),
-                                        )
-                                            .then((_) {
-                                          context.read<BottomNavBarController>().changeNavBar(false);
-                                        });
-                                      },
+                                      onTap: () => Navigator.of(context, rootNavigator: true)
+                                          .push(
+                                              AppRoutes.getInfoViewAboutHealth(id: news.id, type: ContentTypeEnum.news))
+                                          .then((_) {
+                                        context.read<BottomNavBarController>().changeNavBar(false);
+                                      }),
                                       crop: true,
                                       imagePath: news.primaryImage,
                                       title: news.decodedTitle,

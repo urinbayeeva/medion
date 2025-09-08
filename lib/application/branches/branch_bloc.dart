@@ -50,7 +50,16 @@ class BranchBloc extends Bloc<BranchEvent, BranchState> {
 
   FutureOr<void> _getReview(_GetReviews event, Emitter<BranchState> emit) async {
     emit(state.copyWith(getReviewStatus: FormzSubmissionStatus.inProgress));
-    final res = await _repository.getReview();
+    final List<int> directions = event.directions.where((i) => i.id != null).map((i) => i.id!).toList();
+    final List<int> branches = event.branches.where((i) => i.id != null).map((i) => i.id!).toList();
+
+    final res = await _repository.getReview(
+      directions: directions,
+      branches: branches,
+      startDate: event.startDate,
+      endDate: event.endDate,
+      rank: event.rank,
+    );
 
     res.fold(
       (failure) {

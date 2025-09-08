@@ -1,7 +1,8 @@
-import 'dart:developer';
 import 'dart:io';
 import 'dart:math';
+
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_udid/flutter_udid.dart';
@@ -13,13 +14,14 @@ import 'package:medion/utils/enums/ads_enums.dart';
 import 'package:medion/utils/enums/content_enum.dart';
 import 'package:medion/utils/enums/feedback_status_enum.dart';
 import 'package:medion/utils/enums/notification_type_enum.dart';
+import 'package:medion/utils/enums/payment_type_enum.dart';
 import 'package:medion/utils/enums/visits_enum.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import 'hermony_os_checker.dart';
-import 'package:dio/dio.dart';
 
 class Times {
   final String time;
@@ -29,6 +31,45 @@ class Times {
 }
 
 sealed class MyFunctions {
+  static String format({required String date, required BuildContext context}) {
+    final locale = context.locale.languageCode;
+
+    try {
+      final parsed = DateTime.parse(date);
+      final time = DateFormat.Hm().format(parsed);
+      final dayMonthYear = DateFormat("d MMMM, y", locale).format(parsed);
+      return "$time; $dayMonthYear";
+    } catch (e) {
+      return date;
+    }
+  }
+
+  static String formatTime({
+    required String date,
+    String style = 'd MMMM, y',
+    required BuildContext context,
+  }) {
+    try {
+      final locale = context.locale.languageCode;
+      final parsed = DateTime.parse(date);
+      final time = DateFormat.Hm().format(parsed);
+      final dayMonthYear = DateFormat(style, locale).format(parsed);
+      return "$time; $dayMonthYear";
+    } catch (e) {
+      return date;
+    }
+  }
+
+  static String checkFormatDate(String date) {
+    try {
+      final time = DateFormat.Hm().format(DateTime.parse(date));
+      final dayMonthYear = DateFormat("dd.MM.yyyy").format(DateTime.parse(date));
+      return "$time; $dayMonthYear";
+    } catch (e) {
+      return date;
+    }
+  }
+
   static String decodedText(String text) {
     final document = html_parser.parse(text);
     final String parsedText = document.body?.text ?? '';
@@ -203,6 +244,13 @@ sealed class MyFunctions {
     return NotificationTypeEnum.values.firstWhere(
       (e) => e.keyWord == status,
       orElse: () => NotificationTypeEnum.all,
+    );
+  }
+
+  static OrderPaymentTypeEnum paymentType(String status) {
+    return OrderPaymentTypeEnum.values.firstWhere(
+      (e) => e.apiKey == status,
+      orElse: () => OrderPaymentTypeEnum.cash,
     );
   }
 

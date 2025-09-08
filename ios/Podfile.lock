@@ -1198,13 +1198,12 @@ PODS:
   - BoringSSL-GRPC/Interface (0.0.37)
   - camera_avfoundation (0.0.1):
     - Flutter
-  - cloud_firestore (5.6.9):
-    - Firebase/Firestore (= 11.13.0)
+  - cloud_firestore (5.6.12):
+    - Firebase/Firestore (= 11.15.0)
     - firebase_core
     - Flutter
   - connectivity_plus (0.0.1):
     - Flutter
-    - FlutterMacOS
   - device_info_plus (0.0.1):
     - Flutter
   - DKImagePickerController/Core (4.3.9):
@@ -1241,75 +1240,75 @@ PODS:
   - file_picker (0.0.1):
     - DKImagePickerController/PhotoGallery
     - Flutter
-  - Firebase/Analytics (11.13.0):
+  - Firebase/Analytics (11.15.0):
     - Firebase/Core
-  - Firebase/Core (11.13.0):
+  - Firebase/Core (11.15.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (~> 11.13.0)
-  - Firebase/CoreOnly (11.13.0):
-    - FirebaseCore (~> 11.13.0)
-  - Firebase/Crashlytics (11.13.0):
+    - FirebaseAnalytics (~> 11.15.0)
+  - Firebase/CoreOnly (11.15.0):
+    - FirebaseCore (~> 11.15.0)
+  - Firebase/Crashlytics (11.15.0):
     - Firebase/CoreOnly
-    - FirebaseCrashlytics (~> 11.13.0)
-  - Firebase/Firestore (11.13.0):
+    - FirebaseCrashlytics (~> 11.15.0)
+  - Firebase/Firestore (11.15.0):
     - Firebase/CoreOnly
-    - FirebaseFirestore (~> 11.13.0)
-  - Firebase/Messaging (11.13.0):
+    - FirebaseFirestore (~> 11.15.0)
+  - Firebase/Messaging (11.15.0):
     - Firebase/CoreOnly
-    - FirebaseMessaging (~> 11.13.0)
-  - Firebase/RemoteConfig (11.13.0):
+    - FirebaseMessaging (~> 11.15.0)
+  - Firebase/RemoteConfig (11.15.0):
     - Firebase/CoreOnly
-    - FirebaseRemoteConfig (~> 11.13.0)
-  - firebase_analytics (11.5.0):
-    - Firebase/Analytics (= 11.13.0)
+    - FirebaseRemoteConfig (~> 11.15.0)
+  - firebase_analytics (11.6.0):
+    - Firebase/Analytics (= 11.15.0)
     - firebase_core
     - Flutter
-  - firebase_core (3.14.0):
-    - Firebase/CoreOnly (= 11.13.0)
+  - firebase_core (3.15.2):
+    - Firebase/CoreOnly (= 11.15.0)
     - Flutter
-  - firebase_crashlytics (4.3.7):
-    - Firebase/Crashlytics (= 11.13.0)
+  - firebase_crashlytics (4.3.10):
+    - Firebase/Crashlytics (= 11.15.0)
     - firebase_core
     - Flutter
-  - firebase_messaging (15.2.7):
-    - Firebase/Messaging (= 11.13.0)
+  - firebase_messaging (15.2.10):
+    - Firebase/Messaging (= 11.15.0)
     - firebase_core
     - Flutter
-  - firebase_remote_config (5.4.5):
-    - Firebase/RemoteConfig (= 11.13.0)
+  - firebase_remote_config (5.5.0):
+    - Firebase/RemoteConfig (= 11.15.0)
     - firebase_core
     - Flutter
-  - FirebaseABTesting (11.13.0):
-    - FirebaseCore (~> 11.13.0)
-  - FirebaseAnalytics (11.13.0):
-    - FirebaseAnalytics/AdIdSupport (= 11.13.0)
-    - FirebaseCore (~> 11.13.0)
+  - FirebaseABTesting (11.15.0):
+    - FirebaseCore (~> 11.15.0)
+  - FirebaseAnalytics (11.15.0):
+    - FirebaseAnalytics/Default (= 11.15.0)
+    - FirebaseCore (~> 11.15.0)
     - FirebaseInstallations (~> 11.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
     - GoogleUtilities/MethodSwizzler (~> 8.1)
     - GoogleUtilities/Network (~> 8.1)
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
     - nanopb (~> 3.30910.0)
-  - FirebaseAnalytics/AdIdSupport (11.13.0):
-    - FirebaseCore (~> 11.13.0)
+  - FirebaseAnalytics/Default (11.15.0):
+    - FirebaseCore (~> 11.15.0)
     - FirebaseInstallations (~> 11.0)
-    - GoogleAppMeasurement (= 11.13.0)
+    - GoogleAppMeasurement/Default (= 11.15.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
     - GoogleUtilities/MethodSwizzler (~> 8.1)
     - GoogleUtilities/Network (~> 8.1)
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
     - nanopb (~> 3.30910.0)
   - FirebaseAppCheckInterop (11.15.0)
-  - FirebaseCore (11.13.0):
-    - FirebaseCoreInternal (~> 11.13.0)
+  - FirebaseCore (11.15.0):
+    - FirebaseCoreInternal (~> 11.15.0)
     - GoogleUtilities/Environment (~> 8.1)
     - GoogleUtilities/Logger (~> 8.1)
-  - FirebaseCoreExtension (11.13.0):
-    - FirebaseCore (~> 11.13.0)
-  - FirebaseCoreInternal (11.13.0):
+  - FirebaseCoreExtension (11.15.0):
+    - FirebaseCore (~> 11.15.0)
+  - FirebaseCoreInternal (11.15.0):
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
-  - FirebaseCrashlytics (11.13.0):
-    - FirebaseCore (~> 11.13.0)
+  - FirebaseCrashlytics (11.15.0):
+    - FirebaseCore (~> 11.15.0)
     - FirebaseInstallations (~> 11.0)
     - FirebaseRemoteConfigInterop (~> 11.0)
     - FirebaseSessions (~> 11.0)
@@ -1317,12 +1316,12 @@ PODS:
     - GoogleUtilities/Environment (~> 8.1)
     - nanopb (~> 3.30910.0)
     - PromisesObjC (~> 2.4)
-  - FirebaseFirestore (11.13.0):
-    - FirebaseCore (~> 11.13.0)
-    - FirebaseCoreExtension (~> 11.13.0)
-    - FirebaseFirestoreInternal (= 11.13.0)
+  - FirebaseFirestore (11.15.0):
+    - FirebaseCore (~> 11.15.0)
+    - FirebaseCoreExtension (~> 11.15.0)
+    - FirebaseFirestoreInternal (= 11.15.0)
     - FirebaseSharedSwift (~> 11.0)
-  - FirebaseFirestoreInternal (11.13.0):
+  - FirebaseFirestoreInternal (11.15.0):
     - abseil/algorithm (~> 1.20240722.0)
     - abseil/base (~> 1.20240722.0)
     - abseil/container/flat_hash_map (~> 1.20240722.0)
@@ -1332,18 +1331,18 @@ PODS:
     - abseil/time (~> 1.20240722.0)
     - abseil/types (~> 1.20240722.0)
     - FirebaseAppCheckInterop (~> 11.0)
-    - FirebaseCore (~> 11.13.0)
+    - FirebaseCore (~> 11.15.0)
     - "gRPC-C++ (~> 1.69.0)"
     - gRPC-Core (~> 1.69.0)
     - leveldb-library (~> 1.22)
     - nanopb (~> 3.30910.0)
-  - FirebaseInstallations (11.13.0):
-    - FirebaseCore (~> 11.13.0)
+  - FirebaseInstallations (11.15.0):
+    - FirebaseCore (~> 11.15.0)
     - GoogleUtilities/Environment (~> 8.1)
     - GoogleUtilities/UserDefaults (~> 8.1)
     - PromisesObjC (~> 2.4)
-  - FirebaseMessaging (11.13.0):
-    - FirebaseCore (~> 11.13.0)
+  - FirebaseMessaging (11.15.0):
+    - FirebaseCore (~> 11.15.0)
     - FirebaseInstallations (~> 11.0)
     - GoogleDataTransport (~> 10.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
@@ -1351,18 +1350,18 @@ PODS:
     - GoogleUtilities/Reachability (~> 8.1)
     - GoogleUtilities/UserDefaults (~> 8.1)
     - nanopb (~> 3.30910.0)
-  - FirebaseRemoteConfig (11.13.0):
+  - FirebaseRemoteConfig (11.15.0):
     - FirebaseABTesting (~> 11.0)
-    - FirebaseCore (~> 11.13.0)
+    - FirebaseCore (~> 11.15.0)
     - FirebaseInstallations (~> 11.0)
     - FirebaseRemoteConfigInterop (~> 11.0)
     - FirebaseSharedSwift (~> 11.0)
     - GoogleUtilities/Environment (~> 8.1)
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
   - FirebaseRemoteConfigInterop (11.15.0)
-  - FirebaseSessions (11.13.0):
-    - FirebaseCore (~> 11.13.0)
-    - FirebaseCoreExtension (~> 11.13.0)
+  - FirebaseSessions (11.15.0):
+    - FirebaseCore (~> 11.15.0)
+    - FirebaseCoreExtension (~> 11.15.0)
     - FirebaseInstallations (~> 11.0)
     - GoogleDataTransport (~> 10.0)
     - GoogleUtilities/Environment (~> 8.1)
@@ -1391,27 +1390,34 @@ PODS:
     - Flutter
   - geolocator_apple (1.2.0):
     - Flutter
+    - FlutterMacOS
   - Google-Maps-iOS-Utils (5.0.0):
     - GoogleMaps (~> 8.0)
   - google_maps_flutter_ios (0.0.1):
     - Flutter
     - Google-Maps-iOS-Utils (< 7.0, >= 5.0)
     - GoogleMaps (< 10.0, >= 8.4)
-  - GoogleAppMeasurement (11.13.0):
-    - GoogleAppMeasurement/AdIdSupport (= 11.13.0)
+  - GoogleAdsOnDeviceConversion (2.1.0):
+    - GoogleUtilities/Logger (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - nanopb (~> 3.30910.0)
+  - GoogleAppMeasurement/Core (11.15.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
     - GoogleUtilities/MethodSwizzler (~> 8.1)
     - GoogleUtilities/Network (~> 8.1)
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
     - nanopb (~> 3.30910.0)
-  - GoogleAppMeasurement/AdIdSupport (11.13.0):
-    - GoogleAppMeasurement/WithoutAdIdSupport (= 11.13.0)
+  - GoogleAppMeasurement/Default (11.15.0):
+    - GoogleAdsOnDeviceConversion (= 2.1.0)
+    - GoogleAppMeasurement/Core (= 11.15.0)
+    - GoogleAppMeasurement/IdentitySupport (= 11.15.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
     - GoogleUtilities/MethodSwizzler (~> 8.1)
     - GoogleUtilities/Network (~> 8.1)
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
     - nanopb (~> 3.30910.0)
-  - GoogleAppMeasurement/WithoutAdIdSupport (11.13.0):
+  - GoogleAppMeasurement/IdentitySupport (11.15.0):
+    - GoogleAppMeasurement/Core (= 11.15.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
     - GoogleUtilities/MethodSwizzler (~> 8.1)
     - GoogleUtilities/Network (~> 8.1)
@@ -1574,11 +1580,11 @@ PODS:
   - SDWebImage/Core (5.21.1)
   - sensors_plus (0.0.1):
     - Flutter
-  - Sentry/HybridSDK (8.42.0)
-  - sentry_flutter (8.12.0):
+  - Sentry/HybridSDK (8.46.0)
+  - sentry_flutter (8.14.2):
     - Flutter
     - FlutterMacOS
-    - Sentry/HybridSDK (= 8.42.0)
+    - Sentry/HybridSDK (= 8.46.0)
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -1590,16 +1596,12 @@ PODS:
     - Flutter
     - FlutterMacOS
   - SwiftyGif (5.4.5)
-  - syncfusion_flutter_pdfviewer (0.0.1):
-    - Flutter
   - TOCropViewController (2.7.4)
   - url_launcher_ios (0.0.1):
     - Flutter
   - video_player_avfoundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - wakelock_plus (0.0.1):
-    - Flutter
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -1612,7 +1614,7 @@ DEPENDENCIES:
   - app_links (from `.symlinks/plugins/app_links/ios`)
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
-  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -1627,7 +1629,7 @@ DEPENDENCIES:
   - flutter_pdfview (from `.symlinks/plugins/flutter_pdfview/ios`)
   - flutter_udid (from `.symlinks/plugins/flutter_udid/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/darwin`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -1641,10 +1643,8 @@ DEPENDENCIES:
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sms_autofill (from `.symlinks/plugins/sms_autofill/ios`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
-  - syncfusion_flutter_pdfviewer (from `.symlinks/plugins/syncfusion_flutter_pdfviewer/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/darwin`)
-  - wakelock_plus (from `.symlinks/plugins/wakelock_plus/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
   - yandex_mapkit (from `.symlinks/plugins/yandex_mapkit/ios`)
 
@@ -1671,6 +1671,7 @@ SPEC REPOS:
     - FirebaseSessions
     - FirebaseSharedSwift
     - Google-Maps-iOS-Utils
+    - GoogleAdsOnDeviceConversion
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleMaps
@@ -1697,7 +1698,7 @@ EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   connectivity_plus:
-    :path: ".symlinks/plugins/connectivity_plus/darwin"
+    :path: ".symlinks/plugins/connectivity_plus/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   file_picker:
@@ -1727,7 +1728,7 @@ EXTERNAL SOURCES:
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
   geolocator_apple:
-    :path: ".symlinks/plugins/geolocator_apple/ios"
+    :path: ".symlinks/plugins/geolocator_apple/darwin"
   google_maps_flutter_ios:
     :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   image_cropper:
@@ -1754,14 +1755,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sms_autofill/ios"
   sqflite_darwin:
     :path: ".symlinks/plugins/sqflite_darwin/darwin"
-  syncfusion_flutter_pdfviewer:
-    :path: ".symlinks/plugins/syncfusion_flutter_pdfviewer/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   video_player_avfoundation:
     :path: ".symlinks/plugins/video_player_avfoundation/darwin"
-  wakelock_plus:
-    :path: ".symlinks/plugins/wakelock_plus/ios"
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
   yandex_mapkit:
@@ -1769,47 +1766,48 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   abseil: a05cc83bf02079535e17169a73c5be5ba47f714b
-  app_links: 3da4c36b46cac3bf24eb897f1a6ce80bda109874
+  app_links: 76b66b60cc809390ca1ad69bfd66b998d2387ac7
   BoringSSL-GRPC: dded2a44897e45f28f08ae87a55ee4bcd19bc508
-  camera_avfoundation: 04b44aeb14070126c6529e5ab82cc7c9fca107cf
-  cloud_firestore: 2fdc3301bcc486957ff7fa705430a185468c1987
-  connectivity_plus: 2256d3e20624a7749ed21653aafe291a46446fee
+  camera_avfoundation: be3be85408cd4126f250386828e9b1dfa40ab436
+  cloud_firestore: fdcc87898326e396d6ef6df543acf9b5c2034b95
+  connectivity_plus: cb623214f4e1f6ef8fe7403d580fdad517d2f7dd
   device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   file_picker: a0560bc09d61de87f12d246fc47d2119e6ef37be
-  Firebase: 3435bc66b4d494c2f22c79fd3aae4c1db6662327
-  firebase_analytics: 4af7b20cf0c2da4e0473117e01a69507db8d7c16
-  firebase_core: 700bac7ed92bb754fd70fbf01d72b36ecdd6d450
-  firebase_crashlytics: d101fbdc2dba187f483f13ae3ce9281779d664db
-  firebase_messaging: 860c017fcfbb5e27c163062d1d3135388f3ef954
-  firebase_remote_config: 1c2a0ba5b23d5386142eebf5ffd2a646608d1b22
-  FirebaseABTesting: 4048f61cc10d2fad064d3089ace6bd5fb910169b
-  FirebaseAnalytics: 630349facf4a114a0977e5d7570e104261973287
+  Firebase: d99ac19b909cd2c548339c2241ecd0d1599ab02e
+  firebase_analytics: 0e25ca1d4001ccedd40b4e5b74c0ec34e18f6425
+  firebase_core: 995454a784ff288be5689b796deb9e9fa3601818
+  firebase_crashlytics: 30dcd6dfd2fe895c0848af46722a4227346c19aa
+  firebase_messaging: f4a41dd102ac18b840eba3f39d67e77922d3f707
+  firebase_remote_config: 4dd0f9d900105e8d81a31a26ac1ed949c6d3c74a
+  FirebaseABTesting: 5e9d432834aebf27ab72100d37af44dfbe8d82f7
+  FirebaseAnalytics: 6433dfd311ba78084fc93bdfc145e8cb75740eae
   FirebaseAppCheckInterop: 06fe5a3799278ae4667e6c432edd86b1030fa3df
-  FirebaseCore: c692c7f1c75305ab6aff2b367f25e11d73aa8bd0
-  FirebaseCoreExtension: c048485c347616dba6165358dbef765c5197597b
-  FirebaseCoreInternal: 29d7b3af4aaf0b8f3ed20b568c13df399b06f68c
-  FirebaseCrashlytics: 8281e577b6f85a08ea7aeb8b66f95e1ae430c943
-  FirebaseFirestore: 3ae3aeaad5b5ef5ec0dba86882a7156f509ff480
-  FirebaseFirestoreInternal: 6c8aa676751593471f66d857db5b8674ea66116b
-  FirebaseInstallations: 0ee9074f2c1e86561ace168ee1470dc67aabaf02
-  FirebaseMessaging: 195bbdb73e6ca1dbc76cd46e73f3552c084ef6e4
-  FirebaseRemoteConfig: 518ca257cdb2ccbc2b781ef2f2104f1104c7488f
+  FirebaseCore: efb3893e5b94f32b86e331e3bd6dadf18b66568e
+  FirebaseCoreExtension: edbd30474b5ccf04e5f001470bdf6ea616af2435
+  FirebaseCoreInternal: 9afa45b1159304c963da48addb78275ef701c6b4
+  FirebaseCrashlytics: e09d0bc19aa54a51e45b8039c836ef73f32c039a
+  FirebaseFirestore: 1e5fafdac2b2ef1ffc24034460b7b4821a15be96
+  FirebaseFirestoreInternal: df9ab608a59a4e8eefd0796ed7652f3c1a88473a
+  FirebaseInstallations: 317270fec08a5d418fdbc8429282238cab3ac843
+  FirebaseMessaging: 3b26e2cee503815e01c3701236b020aa9b576f09
+  FirebaseRemoteConfig: b496646b82855e174a7f1e354c65e0e913085168
   FirebaseRemoteConfigInterop: 1c6135e8a094cc6368949f5faeeca7ee8948b8aa
-  FirebaseSessions: eaa8ec037e7793769defe4201c20bd4d976f9677
+  FirebaseSessions: b9a92c1c51bbb81e78fc3142cda6d925d700f8e7
   FirebaseSharedSwift: e17c654ef1f1a616b0b33054e663ad1035c8fd40
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
   flutter_local_notifications: a5a732f069baa862e728d839dd2ebb904737effb
-  flutter_native_splash: 6cad9122ea0fad137d23137dd14b937f3e90b145
+  flutter_native_splash: c32d145d68aeda5502d5f543ee38c192065986cf
   flutter_pdfview: 32bf27bda6fd85b9dd2c09628a824df5081246cf
   flutter_udid: f7c3884e6ec2951efe4f9de082257fc77c4d15e9
   fluttertoast: 2c67e14dce98bbdb200df9e1acf610d7a6264ea1
-  geolocator_apple: 1560c3c875af2a412242c7a923e15d0d401966ff
+  geolocator_apple: ab36aa0e8b7d7a2d7639b3b4e48308394e8cef5e
   Google-Maps-iOS-Utils: 66d6de12be1ce6d3742a54661e7a79cb317a9321
   google_maps_flutter_ios: 0291eb2aa252298a769b04d075e4a9d747ff7264
-  GoogleAppMeasurement: 0dfca1a4b534d123de3945e28f77869d10d0d600
+  GoogleAdsOnDeviceConversion: 2be6297a4f048459e0ae17fad9bfd2844e10cf64
+  GoogleAppMeasurement: 700dce7541804bec33db590a5c496b663fbe2539
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleMaps: 8939898920281c649150e0af74aa291c60f2e77d
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
@@ -1829,18 +1827,16 @@ SPEC CHECKSUMS:
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
   SDWebImage: f29024626962457f3470184232766516dee8dfea
   sensors_plus: 6a11ed0c2e1d0bd0b20b4029d3bad27d96e0c65b
-  Sentry: 38ed8bf38eab5812787274bf591e528074c19e02
-  sentry_flutter: a72ca0eb6e78335db7c4ddcddd1b9f6c8ed5b764
+  Sentry: da60d980b197a46db0b35ea12cb8f39af48d8854
+  sentry_flutter: 27892878729f42701297c628eb90e7c6529f3684
   share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
   sms_autofill: b36b2147535657fea83d7f3898d7831de70bd8e4
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
-  syncfusion_flutter_pdfviewer: 90dc48305d2e33d4aa20681d1e98ddeda891bc14
   TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
   video_player_avfoundation: 2cef49524dd1f16c5300b9cd6efd9611ce03639b
-  wakelock_plus: e29112ab3ef0b318e58cfa5c32326458be66b556
   webview_flutter_wkwebview: 1821ceac936eba6f7984d89a9f3bcb4dea99ebb2
   yandex_mapkit: dda136f4fe32dd7cde622891fb9293286f4441b2
   YandexMapsMobile: a76ddceccf2d78f9f1034d07a354810cd21ef21a

@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -51,19 +52,9 @@ class _RecipesPageState extends State<RecipesPage> {
 
               if (state.fetchRecipeStatus.isFailure) {
                 return Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 220.h,
-                        width: double.infinity,
-                        child: Lottie.asset("assets/anim/404.json"),
-                      ),
-                      Text('something_went_wrong'.tr(), style: fonts.regularMain),
-                      20.verticalSpace,
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 130.h),
+                    child: EmptyState(title: "no_results_found".tr()),
                   ),
                 );
               }
@@ -77,21 +68,23 @@ class _RecipesPageState extends State<RecipesPage> {
 
               if (filteredRecipes.isEmpty && state.fetchRecipeStatus.isSuccess) {
                 return Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 220.h,
-                        width: double.infinity,
-                        child: Lottie.asset("assets/anim/sad.json"),
-                      ),
-                      Text('recommendations_empty'.tr(), style: fonts.regularMain),
-                      20.verticalSpace,
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 130.h),
+                    child: EmptyState(title: "no_results_found".tr()),
                   ),
                 );
+                // return Center(
+                //   child: Column(
+                //     mainAxisSize: MainAxisSize.min,
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       icons.newEmpty.svg(),
+                //       Text('recommendations_empty'.tr(), style: fonts.regularMain),
+                //       20.verticalSpace,
+                //     ],
+                //   ),
+                // );
               }
 
               return ListView.builder(
@@ -140,6 +133,28 @@ class RecipeCard extends StatefulWidget {
 class _RecipeCardState extends State<RecipeCard> {
   ValueNotifier<bool> isOpen = ValueNotifier(false);
 
+  String formatDate(String date, BuildContext context) {
+    if (date.isEmpty || date.length < 6) return date;
+    try {
+      final inputFormat = DateFormat("dd.MM.yyyy HH:mm");
+      final parsed = inputFormat.parse(date);
+
+      final locale = context.locale.languageCode;
+
+      final outputFormat = DateFormat("EEEE, d MMMM, HH:mm", locale);
+      final formatted = outputFormat.format(parsed);
+
+      return capitalize(formatted);
+    } catch (e) {
+      return date;
+    }
+  }
+
+  String capitalize(String s) {
+    if (s.isEmpty) return s;
+    return s[0].toUpperCase() + s.substring(1);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
@@ -178,7 +193,7 @@ class _RecipeCardState extends State<RecipeCard> {
                           children: [
                             Text(
                               widget.recipe.service ?? '',
-                              style: widget.fonts.regularMain,
+                              style: widget.fonts.smallText.copyWith(fontWeight: FontWeight.w600),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -189,8 +204,8 @@ class _RecipeCardState extends State<RecipeCard> {
                               children: [
                                 widget.icons.clock.svg(width: 18, height: 18, color: widget.colors.error500),
                                 Text(
-                                  widget.recipe.datetime ?? '',
-                                  style: widget.fonts.xSmallLink,
+                                  formatDate(widget.recipe.datetime ?? "", context),
+                                  style: widget.fonts.xSmallText,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -198,10 +213,11 @@ class _RecipeCardState extends State<RecipeCard> {
                             ),
                             Text(
                               widget.recipe.patientName ?? '',
-                              style: widget.fonts.xSmallLink.copyWith(color: widget.colors.neutral300),
+                              style: widget.fonts.xSmallText.copyWith(color: const Color(0xff505050)),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
+                            6.h.verticalSpace,
                           ],
                         ),
                       ),

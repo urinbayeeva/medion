@@ -8,6 +8,7 @@ import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/application/payment_provider.dart';
 import 'package:medion/application/visit/visit_bloc.dart';
+import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_radio_tile.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
@@ -199,22 +200,27 @@ class _PaymentPageState extends State<PaymentPage> {
                           12.h.verticalSpace,
                           Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12.r),
                               color: colors.shade0,
                             ),
                             padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 12.h),
                             child: Builder(
                               builder: (context) {
+                                // if (state.visits == null) {
+                                //   return const SizedBox.shrink();
+                                // }
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text("your_techniques".tr(), style: fonts.regularMain),
                                     10.verticalSpace,
-                                    ...widget.appointments.map((appointment) => _buildAppointmentItem(
-                                          appointment: appointment,
-                                          context: context,
-                                          bloc: widget.bloc,
-                                        )),
+                                    ...widget.appointments.map(
+                                      (appointment) => _buildAppointmentItem(
+                                        appointment: appointment,
+                                        context: context,
+                                        bloc: widget.bloc,
+                                      ),
+                                    ),
                                   ],
                                 );
                               },
@@ -247,56 +253,62 @@ class _PaymentPageState extends State<PaymentPage> {
                             ],
                           ),
                           12.h.verticalSpace,
-                          ValueListenableBuilder(
-                            valueListenable: _paymentMethod,
-                            builder: (context, value, child) {
-                              return Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: colors.shade0,
-                                ),
-                                padding: EdgeInsets.all(12.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  spacing: 10.h,
-                                  children: [
-                                    Text("Способ оплаты", style: fonts.regularMain),
-                                    if (state.visits != null) ...{
-                                      ...List.generate(
-                                        state.visits!.paymentUrls.length,
-                                        (i) {
-                                          final item = state.visits!.paymentUrls[i];
-                                          final type = state.visits!.paymentUrls[i].type;
-                                          final isPayme = type.toLowerCase().contains("payme");
-                                          final isClick = type.toLowerCase().contains("click");
-                                          final isMultiCard = type.toLowerCase().contains("card");
 
-                                          return PaymentButton(
-                                            image: (isPayme)
-                                                ? Image.asset("assets/images/payme_img.png")
-                                                : (isClick)
-                                                    ? icons.click.svg()
-                                                    : SizedBox(),
-                                            title: state.visits!.paymentUrls[i].type,
-                                            colors: colors,
-                                            fonts: fonts,
-                                            onTap: () {
-                                              _url.value = item.url;
-                                              _paymentMethod.value = type.toLowerCase();
-                                            },
-                                            icons: icons,
-                                            isSelected: _paymentMethod.value == type.toLowerCase(),
-                                          );
-                                        },
-                                      ),
-                                    },
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
+                          if (state.visits == null) ...{
+                            const SizedBox.shrink()
+                          } else ...{
+                            ValueListenableBuilder(
+                              valueListenable: _paymentMethod,
+                              builder: (context, value, child) {
+                                return Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: colors.shade0,
+                                  ),
+                                  padding: EdgeInsets.all(12.w),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    spacing: 10.h,
+                                    children: [
+                                      Text("Способ оплаты", style: fonts.regularMain),
+                                      if (state.visits != null) ...{
+                                        ...List.generate(
+                                          state.visits!.paymentUrls.length,
+                                          (i) {
+                                            final item = state.visits!.paymentUrls[i];
+                                            final type = state.visits!.paymentUrls[i].type;
+                                            final isPayme = type.toLowerCase().contains("payme");
+                                            final isClick = type.toLowerCase().contains("click");
+                                            final isMultiCard = type.toLowerCase().contains("card");
+
+                                            return PaymentButton(
+                                              image: (isPayme)
+                                                  ? Image.asset("assets/images/payme_img.png")
+                                                  : (isClick)
+                                                      ? icons.click.svg()
+                                                      : SizedBox(),
+                                              title: state.visits!.paymentUrls[i].type,
+                                              colors: colors,
+                                              fonts: fonts,
+                                              onTap: () {
+                                                log("Url: ${item.url}");
+                                                _url.value = item.url;
+                                                _paymentMethod.value = type.toLowerCase();
+                                              },
+                                              icons: icons,
+                                              isSelected: _paymentMethod.value == type.toLowerCase(),
+                                            );
+                                          },
+                                        ),
+                                      },
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          },
 
                           12.h.verticalSpace,
                           ClipPath(
@@ -304,9 +316,10 @@ class _PaymentPageState extends State<PaymentPage> {
                             child: Container(
                               width: double.infinity,
                               color: Colors.white,
-                              padding: const EdgeInsets.all(20),
+                              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 22.h),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "your_check".tr(),
@@ -322,103 +335,130 @@ class _PaymentPageState extends State<PaymentPage> {
                                       return Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          ...widget.appointments.map(
-                                            (appointment) {
-                                              final price = double.tryParse(appointment.price ?? '0') ?? 0;
-                                              subtotal += price;
-
-                                              return Padding(
-                                                padding: EdgeInsets.symmetric(vertical: 8.h),
-                                                child: Row(
-                                                  children: [
-                                                    ConstrainedBox(
-                                                      constraints: BoxConstraints(maxWidth: 0.5.sw),
-                                                      child: Text(
-                                                        appointment.serviceName ?? 'Service',
-                                                        maxLines: 2,
-                                                        style: TextStyle(
-                                                          fontSize: 16.sp,
-                                                          color: Style.neutral600,
-                                                          fontWeight: FontWeight.bold,
+                                          // ...widget.appointments.map(
+                                          //   (appointment) {
+                                          //     final price = double.tryParse(appointment.price ?? '0') ?? 0;
+                                          //     subtotal += price;
+                                          //
+                                          //     // return Padding(
+                                          //     //   padding: EdgeInsets.symmetric(vertical: 8.h),
+                                          //     //   child: Row(
+                                          //     //     children: [
+                                          //     //       ConstrainedBox(
+                                          //     //         constraints: BoxConstraints(maxWidth: 0.5.sw),
+                                          //     //         child: Text(
+                                          //     //           appointment.serviceName ?? 'Service',
+                                          //     //           maxLines: 2,
+                                          //     //           style: TextStyle(
+                                          //     //             fontSize: 16.sp,
+                                          //     //             color: Style.neutral600,
+                                          //     //             fontWeight: FontWeight.bold,
+                                          //     //           ),
+                                          //     //         ),
+                                          //     //       ),
+                                          //     //       const SizedBox(width: 8),
+                                          //     //       Expanded(
+                                          //     //         child: LayoutBuilder(
+                                          //     //           builder: (context, constraints) {
+                                          //     //             return Text(
+                                          //     //               '_' * (constraints.maxWidth ~/ 8.6),
+                                          //     //               style: TextStyle(
+                                          //     //                 color: Colors.grey,
+                                          //     //                 fontSize: 12.sp,
+                                          //     //                 letterSpacing: 2,
+                                          //     //               ),
+                                          //     //               overflow: TextOverflow.clip,
+                                          //     //             );
+                                          //     //           },
+                                          //     //         ),
+                                          //     //       ),
+                                          //     //       Text(
+                                          //     //         "sum".tr(namedArgs: {"amount": _formatNumber(subtotal)}),
+                                          //     //         style: TextStyle(
+                                          //     //           fontSize: 16.sp,
+                                          //     //           color: Style.neutral600,
+                                          //     //           fontWeight: FontWeight.bold,
+                                          //     //         ),
+                                          //     //       ),
+                                          //     //     ],
+                                          //     //   ),
+                                          //     // );
+                                          //
+                                          //     return _PaymentRow(
+                                          //       label: appointment.serviceName ?? 'Service',
+                                          //       value: "sum".tr(namedArgs: {"amount": _formatNumber(subtotal)}),
+                                          //     );
+                                          //   },
+                                          // ),
+                                          Builder(
+                                            builder: (context) {
+                                              final services = <VisitResponseService>[...?state.visits?.services];
+                                              return ListView.separated(
+                                                itemCount: services.length,
+                                                shrinkWrap: true,
+                                                physics: const NeverScrollableScrollPhysics(),
+                                                separatorBuilder: (context, index) => 10.h.verticalSpace,
+                                                itemBuilder: (context, index) {
+                                                  final service = services[index];
+                                                  return Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    spacing: 6.h,
+                                                    children: [
+                                                      1.h.verticalSpace,
+                                                      Text(
+                                                        "${index + 1}. ${service.serviceType ?? ""}",
+                                                        style: fonts.regularMain,
+                                                      ),
+                                                      _PaymentRow(
+                                                        label: service.serviceName ?? '',
+                                                        value: "sum".tr(
+                                                          namedArgs: {
+                                                            "amount": _formatNumber(service.priceSubtotal ?? 0),
+                                                          },
                                                         ),
                                                       ),
-                                                    ),
-                                                    const SizedBox(width: 8),
-                                                    Expanded(
-                                                      child: LayoutBuilder(
-                                                        builder: (context, constraints) {
-                                                          return Text(
-                                                            '_' * (constraints.maxWidth ~/ 8.6),
-                                                            style: TextStyle(
-                                                              color: Colors.grey,
-                                                              fontSize: 12.sp,
-                                                              letterSpacing: 2,
-                                                            ),
-                                                            overflow: TextOverflow.clip,
-                                                          );
-                                                        },
+                                                      _PaymentRow(
+                                                        label: '${"nds".tr()} ${service.taxPercentage}% ',
+                                                        value: "sum".tr(
+                                                          namedArgs: {
+                                                            "amount": _formatNumber(service.taxAmount ?? 0),
+                                                          },
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Text(
-                                                      "sum".tr(namedArgs: {"amount": _formatNumber(subtotal)}),
-                                                      style: TextStyle(
-                                                        fontSize: 16.sp,
-                                                        color: Style.neutral600,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                    ],
+                                                  );
+                                                },
                                               );
                                             },
                                           ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(vertical: 8.h),
-                                            child: Row(
-                                              children: [
-                                                ConstrainedBox(
-                                                  constraints: BoxConstraints(maxWidth: 0.5.sw),
-                                                  child: Text(
-                                                    "total".tr(),
-                                                    maxLines: 2,
-                                                    style: TextStyle(
-                                                      fontSize: 16.sp,
-                                                      color: Style.neutral600,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 8),
-                                                Expanded(
-                                                  child: LayoutBuilder(
-                                                    builder: (context, constraints) {
-                                                      return Text(
-                                                        '_' * (constraints.maxWidth ~/ 8.6),
-                                                        style: TextStyle(
-                                                          color: Colors.grey,
-                                                          fontSize: 12.sp,
-                                                          letterSpacing: 2,
-                                                        ),
-                                                        overflow: TextOverflow.clip,
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "sum".tr(namedArgs: {"amount": _formatNumber(subtotal)}),
-                                                  style: TextStyle(
-                                                    fontSize: 16.sp,
-                                                    color: Style.neutral600,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
                                         ],
                                       );
                                     },
                                   ),
+                                  if (state.visits?.total != null) ...{
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                                      child: _PaymentRow(
+                                        label: "total".tr(),
+                                        labelStyle: fonts.regularMain,
+                                        value: "sum".tr(
+                                          namedArgs: {"amount": _formatNumber(state.visits!.total!.totalAmount ?? 0)},
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                                      child: _PaymentRow(
+                                        label: "${"total".tr()} ${"nds".tr()}",
+                                        labelStyle: fonts.regularMain,
+                                        value: "sum".tr(
+                                          namedArgs: {"amount": _formatNumber(state.visits!.total!.totalTax ?? 0)},
+                                        ),
+                                      ),
+                                    ),
+                                  },
                                 ],
                               ),
                             ),
@@ -437,6 +477,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          4.h.verticalSpace,
                           CButton(
                             backgroundColor: Style.neutral200,
                             textColor: Style.primary900,
@@ -474,6 +515,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               }
                             },
                           ),
+                          16.h.verticalSpace,
                         ],
                       ),
                     ),
@@ -502,6 +544,7 @@ class _PaymentPageState extends State<PaymentPage> {
         : "Not available";
 
     return VerifyAppointmentItem(
+      hasCancelButton: false,
       hasImage: false,
       diagnosis: appointment.serviceName ?? 'Unknown',
       procedure: appointment.specialty ?? 'Unknown',
@@ -632,4 +675,69 @@ class PaymentButton extends StatelessWidget {
       ),
     );
   }
+}
+
+class _PaymentRow extends StatelessWidget {
+  final String label;
+  final String value;
+  final TextStyle? labelStyle;
+
+  const _PaymentRow({required this.label, required this.value, this.labelStyle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      spacing: 10.w,
+      children: [
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 0.35.sw),
+          child: Text(
+            label,
+            maxLines: 2,
+            style: labelStyle ?? Theme.of(context).textTheme.bodyMedium,
+          ),
+        ),
+        Expanded(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return CustomPaint(
+                size: Size(constraints.maxWidth, 1),
+                painter: DottedLinePainter(),
+              );
+            },
+          ),
+        ),
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 0.3.sw),
+          child: Text(
+            value,
+            maxLines: 2,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class DottedLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    const dashWidth = 4.0;
+    const dashSpace = 4.0;
+    double startX = 0;
+    final paint = Paint()
+      ..color = Colors.grey
+      ..strokeWidth = 1;
+
+    while (startX < size.width) {
+      canvas.drawLine(Offset(startX, 0), Offset(startX + dashWidth, 0), paint);
+      startX += dashWidth + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

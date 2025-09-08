@@ -237,6 +237,7 @@ mixin _$SearchState {
   bool get success => throw _privateConstructorUsedError;
   List<MedionResponseSearchText> get results =>
       throw _privateConstructorUsedError;
+  List<SearchButtonFields> get buttons => throw _privateConstructorUsedError;
 
   /// Create a copy of SearchState
   /// with the given fields replaced by the non-null parameter values.
@@ -255,7 +256,8 @@ abstract class $SearchStateCopyWith<$Res> {
       {bool loading,
       bool error,
       bool success,
-      List<MedionResponseSearchText> results});
+      List<MedionResponseSearchText> results,
+      List<SearchButtonFields> buttons});
 }
 
 /// @nodoc
@@ -277,6 +279,7 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
     Object? error = null,
     Object? success = null,
     Object? results = null,
+    Object? buttons = null,
   }) {
     return _then(_value.copyWith(
       loading: null == loading
@@ -295,6 +298,10 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
           ? _value.results
           : results // ignore: cast_nullable_to_non_nullable
               as List<MedionResponseSearchText>,
+      buttons: null == buttons
+          ? _value.buttons
+          : buttons // ignore: cast_nullable_to_non_nullable
+              as List<SearchButtonFields>,
     ) as $Val);
   }
 }
@@ -311,7 +318,8 @@ abstract class _$$SearchStateImplCopyWith<$Res>
       {bool loading,
       bool error,
       bool success,
-      List<MedionResponseSearchText> results});
+      List<MedionResponseSearchText> results,
+      List<SearchButtonFields> buttons});
 }
 
 /// @nodoc
@@ -331,6 +339,7 @@ class __$$SearchStateImplCopyWithImpl<$Res>
     Object? error = null,
     Object? success = null,
     Object? results = null,
+    Object? buttons = null,
   }) {
     return _then(_$SearchStateImpl(
       loading: null == loading
@@ -349,6 +358,10 @@ class __$$SearchStateImplCopyWithImpl<$Res>
           ? _value._results
           : results // ignore: cast_nullable_to_non_nullable
               as List<MedionResponseSearchText>,
+      buttons: null == buttons
+          ? _value._buttons
+          : buttons // ignore: cast_nullable_to_non_nullable
+              as List<SearchButtonFields>,
     ));
   }
 }
@@ -360,8 +373,10 @@ class _$SearchStateImpl extends _SearchState {
       {this.loading = false,
       this.error = false,
       this.success = false,
-      final List<MedionResponseSearchText> results = const []})
+      final List<MedionResponseSearchText> results = const [],
+      final List<SearchButtonFields> buttons = const []})
       : _results = results,
+        _buttons = buttons,
         super._();
 
   @override
@@ -382,9 +397,18 @@ class _$SearchStateImpl extends _SearchState {
     return EqualUnmodifiableListView(_results);
   }
 
+  final List<SearchButtonFields> _buttons;
+  @override
+  @JsonKey()
+  List<SearchButtonFields> get buttons {
+    if (_buttons is EqualUnmodifiableListView) return _buttons;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_buttons);
+  }
+
   @override
   String toString() {
-    return 'SearchState(loading: $loading, error: $error, success: $success, results: $results)';
+    return 'SearchState(loading: $loading, error: $error, success: $success, results: $results, buttons: $buttons)';
   }
 
   @override
@@ -395,12 +419,18 @@ class _$SearchStateImpl extends _SearchState {
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.success, success) || other.success == success) &&
-            const DeepCollectionEquality().equals(other._results, _results));
+            const DeepCollectionEquality().equals(other._results, _results) &&
+            const DeepCollectionEquality().equals(other._buttons, _buttons));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, loading, error, success,
-      const DeepCollectionEquality().hash(_results));
+  int get hashCode => Object.hash(
+      runtimeType,
+      loading,
+      error,
+      success,
+      const DeepCollectionEquality().hash(_results),
+      const DeepCollectionEquality().hash(_buttons));
 
   /// Create a copy of SearchState
   /// with the given fields replaced by the non-null parameter values.
@@ -416,7 +446,8 @@ abstract class _SearchState extends SearchState {
       {final bool loading,
       final bool error,
       final bool success,
-      final List<MedionResponseSearchText> results}) = _$SearchStateImpl;
+      final List<MedionResponseSearchText> results,
+      final List<SearchButtonFields> buttons}) = _$SearchStateImpl;
   const _SearchState._() : super._();
 
   @override
@@ -427,6 +458,8 @@ abstract class _SearchState extends SearchState {
   bool get success;
   @override
   List<MedionResponseSearchText> get results;
+  @override
+  List<SearchButtonFields> get buttons;
 
   /// Create a copy of SearchState
   /// with the given fields replaced by the non-null parameter values.

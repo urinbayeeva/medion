@@ -7,10 +7,9 @@ part of 'medical_services.dart';
 // **************************************************************************
 
 Serializer<DiagnosticsModel> _$diagnosticsModelSerializer =
-    new _$DiagnosticsModelSerializer();
-Serializer<DiseaseModle> _$diseaseModleSerializer =
-    new _$DiseaseModleSerializer();
-Serializer<AdModel> _$adModelSerializer = new _$AdModelSerializer();
+    _$DiagnosticsModelSerializer();
+Serializer<DiseaseModle> _$diseaseModleSerializer = _$DiseaseModleSerializer();
+Serializer<AdModel> _$adModelSerializer = _$AdModelSerializer();
 
 class _$DiagnosticsModelSerializer
     implements StructuredSerializer<DiagnosticsModel> {
@@ -55,7 +54,7 @@ class _$DiagnosticsModelSerializer
   DiagnosticsModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new DiagnosticsModelBuilder();
+    final result = DiagnosticsModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -150,7 +149,7 @@ class _$DiseaseModleSerializer implements StructuredSerializer<DiseaseModle> {
   DiseaseModle deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new DiseaseModleBuilder();
+    final result = DiseaseModleBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -271,7 +270,7 @@ class _$AdModelSerializer implements StructuredSerializer<AdModel> {
   @override
   AdModel deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new AdModelBuilder();
+    final result = AdModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -344,7 +343,7 @@ class _$DiagnosticsModel extends DiagnosticsModel {
 
   factory _$DiagnosticsModel(
           [void Function(DiagnosticsModelBuilder)? updates]) =>
-      (new DiagnosticsModelBuilder()..update(updates))._build();
+      (DiagnosticsModelBuilder()..update(updates))._build();
 
   _$DiagnosticsModel._(
       {required this.title,
@@ -354,24 +353,14 @@ class _$DiagnosticsModel extends DiagnosticsModel {
       required this.backgroundColor,
       required this.image,
       this.categoryId})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(title, r'DiagnosticsModel', 'title');
-    BuiltValueNullFieldError.checkNotNull(info, r'DiagnosticsModel', 'info');
-    BuiltValueNullFieldError.checkNotNull(
-        forChildren, r'DiagnosticsModel', 'forChildren');
-    BuiltValueNullFieldError.checkNotNull(link, r'DiagnosticsModel', 'link');
-    BuiltValueNullFieldError.checkNotNull(
-        backgroundColor, r'DiagnosticsModel', 'backgroundColor');
-    BuiltValueNullFieldError.checkNotNull(image, r'DiagnosticsModel', 'image');
-  }
-
+      : super._();
   @override
   DiagnosticsModel rebuild(void Function(DiagnosticsModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   DiagnosticsModelBuilder toBuilder() =>
-      new DiagnosticsModelBuilder()..replace(this);
+      DiagnosticsModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -466,7 +455,6 @@ class DiagnosticsModelBuilder
 
   @override
   void replace(DiagnosticsModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DiagnosticsModel;
   }
 
@@ -480,7 +468,7 @@ class DiagnosticsModelBuilder
 
   _$DiagnosticsModel _build() {
     final _$result = _$v ??
-        new _$DiagnosticsModel._(
+        _$DiagnosticsModel._(
           title: BuiltValueNullFieldError.checkNotNull(
               title, r'DiagnosticsModel', 'title'),
           info: BuiltValueNullFieldError.checkNotNull(
@@ -513,18 +501,17 @@ class _$DiseaseModle extends DiseaseModle {
   final int? categoryId;
 
   factory _$DiseaseModle([void Function(DiseaseModleBuilder)? updates]) =>
-      (new DiseaseModleBuilder()..update(updates))._build();
+      (DiseaseModleBuilder()..update(updates))._build();
 
   _$DiseaseModle._(
       {this.title, this.icon, this.forChildren, this.link, this.categoryId})
       : super._();
-
   @override
   DiseaseModle rebuild(void Function(DiseaseModleBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  DiseaseModleBuilder toBuilder() => new DiseaseModleBuilder()..replace(this);
+  DiseaseModleBuilder toBuilder() => DiseaseModleBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -602,7 +589,6 @@ class DiseaseModleBuilder
 
   @override
   void replace(DiseaseModle other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DiseaseModle;
   }
 
@@ -616,7 +602,7 @@ class DiseaseModleBuilder
 
   _$DiseaseModle _build() {
     final _$result = _$v ??
-        new _$DiseaseModle._(
+        _$DiseaseModle._(
           title: title,
           icon: icon,
           forChildren: forChildren,
@@ -651,7 +637,7 @@ class _$AdModel extends AdModel {
   final int? contentId;
 
   factory _$AdModel([void Function(AdModelBuilder)? updates]) =>
-      (new AdModelBuilder()..update(updates))._build();
+      (AdModelBuilder()..update(updates))._build();
 
   _$AdModel._(
       {this.title,
@@ -665,13 +651,12 @@ class _$AdModel extends AdModel {
       this.imageForMobileRu,
       this.contentId})
       : super._();
-
   @override
   AdModel rebuild(void Function(AdModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  AdModelBuilder toBuilder() => new AdModelBuilder()..replace(this);
+  AdModelBuilder toBuilder() => AdModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -791,7 +776,6 @@ class AdModelBuilder implements Builder<AdModel, AdModelBuilder> {
 
   @override
   void replace(AdModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$AdModel;
   }
 
@@ -805,7 +789,7 @@ class AdModelBuilder implements Builder<AdModel, AdModelBuilder> {
 
   _$AdModel _build() {
     final _$result = _$v ??
-        new _$AdModel._(
+        _$AdModel._(
           title: title,
           info: info,
           type: type,

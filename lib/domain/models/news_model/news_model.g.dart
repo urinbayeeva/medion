@@ -6,7 +6,7 @@ part of 'news_model.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<News> _$newsSerializer = new _$NewsSerializer();
+Serializer<News> _$newsSerializer = _$NewsSerializer();
 
 class _$NewsSerializer implements StructuredSerializer<News> {
   @override
@@ -53,7 +53,7 @@ class _$NewsSerializer implements StructuredSerializer<News> {
   @override
   News deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new NewsBuilder();
+    final result = NewsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -95,16 +95,15 @@ class _$News extends News {
   final String? image;
 
   factory _$News([void Function(NewsBuilder)? updates]) =>
-      (new NewsBuilder()..update(updates))._build();
+      (NewsBuilder()..update(updates))._build();
 
   _$News._({this.title, this.info, this.link, this.image}) : super._();
-
   @override
   News rebuild(void Function(NewsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  NewsBuilder toBuilder() => new NewsBuilder()..replace(this);
+  NewsBuilder toBuilder() => NewsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -173,7 +172,6 @@ class NewsBuilder implements Builder<News, NewsBuilder> {
 
   @override
   void replace(News other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$News;
   }
 
@@ -187,7 +185,7 @@ class NewsBuilder implements Builder<News, NewsBuilder> {
 
   _$News _build() {
     final _$result = _$v ??
-        new _$News._(
+        _$News._(
           title: title,
           info: info,
           link: link,

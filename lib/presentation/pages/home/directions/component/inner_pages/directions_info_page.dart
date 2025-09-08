@@ -8,20 +8,19 @@ import 'package:formz/formz.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
-import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_container.dart';
 import 'package:medion/presentation/component/c_divider.dart';
-import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/component/custom_tabbar.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/booking/phone_callback_dialog.dart';
 import 'package:medion/presentation/pages/home/directions/widgets/service_widget.dart';
+import 'package:medion/presentation/pages/home/doctors/inner_page/home_doctor_item.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
-import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
-import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
+import 'package:medion/presentation/pages/others/dicsount/widgets/discount_card.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -155,7 +154,10 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                 ),
                 backgroundColor: colors.backgroundColor,
                 body: Center(
-                  child: Text("no_result_found".tr(), style: fonts.regularMain),
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 130.h),
+                    child: EmptyState(title: "no_results_found".tr()),
+                  ),
                 ),
               );
             }
@@ -293,7 +295,10 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                                               style: fonts.regularMain,
                                             ),
                                           ),
-                                          _buildServicesList(state),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                            child: _buildServicesList(state),
+                                          ),
                                         ],
                                       )
                                     },
@@ -613,33 +618,31 @@ class DirectionDoctorsGrid extends StatelessWidget {
               maxCrossAxisExtent: 0.9.sw,
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
-              mainAxisExtent: 355.h,
+              mainAxisExtent: 310.h,
             ),
             itemCount: state.medicalModel!.doctors.length,
             itemBuilder: (_, index) {
               final doctor = state.medicalModel!.doctors[index];
-              return DoctorsItem(
+              return HomeDoctorItem(
+                onTap: () => Navigator.of(context, rootNavigator: true).push(
+                  AppRoutes.getAboutDoctorPage(
+                    name: doctor.name!,
+                    profession: doctor.jobName!,
+                    status: "",
+                    image: doctor.image!,
+                    id: doctor.id!,
+                  ),
+                ),
+                hasDiscount: false,
+                infoDescription: "",
                 academicRank: doctor.academicRank ?? '',
                 gender: "male",
-                isInnerPageUsed: true,
                 imagePath: doctor.image,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    AppRoutes.getAboutDoctorPage(
-                      name: doctor.name!,
-                      profession: doctor.jobName!,
-                      status: "",
-                      image: doctor.image!,
-                      id: doctor.id!,
-                    ),
-                  ).then((_) {});
-                },
                 name: doctor.name ?? '',
                 profession: doctor.jobName ?? "No profession",
                 experience: "experience".tr(namedArgs: {"count": doctor.experienceYears.toString()}),
                 doctorID: doctor.id!,
-                home: false,
+                // home: false,
               );
             },
           ),
@@ -669,7 +672,7 @@ class DirectionDiscountGrid extends StatelessWidget {
           crossAxisCount: 2,
           crossAxisSpacing: 8,
           mainAxisSpacing: 8,
-          childAspectRatio: 0.67.h,
+          childAspectRatio: 0.6.h,
         ),
         itemBuilder: (context, index) {
           final discount = state.medicalModel!.discount[index];

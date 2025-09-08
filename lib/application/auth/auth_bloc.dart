@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:math';
 
-import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -17,7 +15,6 @@ import 'package:medion/infrastructure/services/log_service.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/utils/enums/user_status_enum.dart';
-import 'package:medion/utils/enums/visits_enum.dart';
 
 part 'auth_bloc.freezed.dart';
 
@@ -324,13 +321,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     res.fold(
       (error) {
         LogService.e(" ----> error fetching patient info: $error");
-        emit(state.copyWith(fetchPatientAnalyseStatus: FormzSubmissionStatus.inProgress));
+        emit(state.copyWith(fetchPatientAnalyseStatus: FormzSubmissionStatus.failure));
       },
       (patientAnalyze) {
         emit(state.copyWith(
           fetchPatientAnalyseStatus: FormzSubmissionStatus.success,
-          isFetchingPatientInfo: false,
-          errorFetchingPatientInfo: false,
           patientAnalyze: patientAnalyze,
         ));
       },

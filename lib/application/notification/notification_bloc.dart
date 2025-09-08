@@ -9,7 +9,6 @@ import 'package:medion/domain/abstract_repo/notification/notification_repository
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/notification/notification_model.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
-import 'package:medion/presentation/pages/home/notifications/notification_page.dart';
 import 'package:medion/utils/enums/notification_type_enum.dart';
 
 part 'notification_bloc.freezed.dart';
@@ -53,19 +52,23 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   }
 
   FutureOr<void> _onFilterNotification(_FilterNotification event, Emitter<NotificationState> emit) async {
+    log("Filter 1");
     emit(state.copyWith(
       filterType: event.type,
       query: event.query,
       filterNotificationStatus: FormzSubmissionStatus.inProgress,
     ));
 
+    log("Filter 2");
     final res = await repository.filterNotification(type: event.query);
 
     res.fold(
       (failure) {
+        log("Filter failure");
         emit(state.copyWith(filterNotificationStatus: FormzSubmissionStatus.failure));
       },
       (filteredNotifications) {
+        log("Filter success");
         emit(state.copyWith(
           notifications: filteredNotifications,
           filterNotificationStatus: FormzSubmissionStatus.success,
@@ -110,6 +113,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
   FutureOr<void> _onGetNotifications(_GetNotification event, Emitter<NotificationState> emit) async {
     emit(state.copyWith(filterType: "all", query: '', notificationStatus: FormzSubmissionStatus.inProgress));
+
     final res = await repository.getNotifications();
     res.fold(
       (failure) {
@@ -140,9 +144,16 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           NotificationTabs(
             subTitle: "Перейти к приёму",
             title: "reminder",
+            itemKey: "reminder",
+            canSee: notifications.any((n) => n.type == "reminder"),
+            checker: NotificationTypeEnum.reminders,
+          ),
+          NotificationTabs(
+            subTitle: "Перейти к приёму",
+            title: "information",
             itemKey: "info",
             canSee: notifications.any((n) => n.type == "info"),
-            checker: NotificationTypeEnum.reminders,
+            checker: NotificationTypeEnum.info,
           ),
           NotificationTabs(
             subTitle: "",

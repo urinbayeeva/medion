@@ -36,7 +36,7 @@ class ReviewCard extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
-            child: Text("${(review.name != null) ? review.name : ""}", style: fonts.regularMain),
+            child: Text("${(review.patientName != null) ? review.patientName : ""}", style: fonts.regularMain),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w).copyWith(bottom: 4.h),

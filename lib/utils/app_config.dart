@@ -7,12 +7,12 @@ class AppConfig {
   String appName = "";
   String baseUrl = "";
   MaterialColor primaryColor = Colors.blue;
-  Flavor flavor = Flavor.dev;
+  Flavor flavor = Flavor.prod;
 
   static AppConfig shared = AppConfig.create();
 
   factory AppConfig.create({
-    String appName = Constants.appNameDev,
+    String appName = Constants.appName,
     String baseUrl = Constants.baseUrlP,
     MaterialColor primaryColor = Colors.blue,
     Flavor flavor = Flavor.dev,

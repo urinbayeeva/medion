@@ -52,13 +52,13 @@ class _GalleryItemWidgetState extends State<GalleryItemWidget> {
                     return WScaleAnimation(
                       onTap: () {
                         final List<ContentBase> contentBaseList = [
-                          ...widget.gallery.where((item) => item.fileUrl.isNotEmpty).map((item) => ContentBase(
-                                isVideo: item.type.toLowerCase() == 'video',
-                                fileLink: item.type.toLowerCase() == 'video'
-                                    ? "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4"
-                                    : item.fileUrl,
-                                coverImage: item.videoImage,
-                              ))
+                          ...widget.gallery.where((item) => item.fileUrl.isNotEmpty).map(
+                                (item) => ContentBase(
+                                  isVideo: item.type.toLowerCase() == 'video',
+                                  fileLink: item.type.toLowerCase() == 'video' ? item.fileUrl : item.fileUrl,
+                                  coverImage: item.videoImage,
+                                ),
+                              )
                         ];
 
                         final List<ContentBase> images = [...contentBaseList];

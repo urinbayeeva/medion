@@ -7,8 +7,8 @@ part of 'map_model.dart';
 // **************************************************************************
 
 Serializer<LocationModel> _$locationModelSerializer =
-    new _$LocationModelSerializer();
-Serializer<Position> _$positionSerializer = new _$PositionSerializer();
+    _$LocationModelSerializer();
+Serializer<Position> _$positionSerializer = _$PositionSerializer();
 
 class _$LocationModelSerializer implements StructuredSerializer<LocationModel> {
   @override
@@ -60,7 +60,7 @@ class _$LocationModelSerializer implements StructuredSerializer<LocationModel> {
   LocationModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new LocationModelBuilder();
+    final result = LocationModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -137,7 +137,7 @@ class _$PositionSerializer implements StructuredSerializer<Position> {
   @override
   Position deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new PositionBuilder();
+    final result = PositionBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -181,7 +181,7 @@ class _$LocationModel extends LocationModel {
   final String wordDay;
 
   factory _$LocationModel([void Function(LocationModelBuilder)? updates]) =>
-      (new LocationModelBuilder()..update(updates))._build();
+      (LocationModelBuilder()..update(updates))._build();
 
   _$LocationModel._(
       {required this.position,
@@ -193,26 +193,13 @@ class _$LocationModel extends LocationModel {
       required this.images,
       required this.workHours,
       required this.wordDay})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        position, r'LocationModel', 'position');
-    BuiltValueNullFieldError.checkNotNull(icon, r'LocationModel', 'icon');
-    BuiltValueNullFieldError.checkNotNull(address, r'LocationModel', 'address');
-    BuiltValueNullFieldError.checkNotNull(status, r'LocationModel', 'status');
-    BuiltValueNullFieldError.checkNotNull(
-        closingTime, r'LocationModel', 'closingTime');
-    BuiltValueNullFieldError.checkNotNull(images, r'LocationModel', 'images');
-    BuiltValueNullFieldError.checkNotNull(
-        workHours, r'LocationModel', 'workHours');
-    BuiltValueNullFieldError.checkNotNull(wordDay, r'LocationModel', 'wordDay');
-  }
-
+      : super._();
   @override
   LocationModel rebuild(void Function(LocationModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  LocationModelBuilder toBuilder() => new LocationModelBuilder()..replace(this);
+  LocationModelBuilder toBuilder() => LocationModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -266,7 +253,7 @@ class LocationModelBuilder
   _$LocationModel? _$v;
 
   PositionBuilder? _position;
-  PositionBuilder get position => _$this._position ??= new PositionBuilder();
+  PositionBuilder get position => _$this._position ??= PositionBuilder();
   set position(PositionBuilder? position) => _$this._position = position;
 
   String? _icon;
@@ -290,8 +277,7 @@ class LocationModelBuilder
   set closingTime(String? closingTime) => _$this._closingTime = closingTime;
 
   ListBuilder<String>? _images;
-  ListBuilder<String> get images =>
-      _$this._images ??= new ListBuilder<String>();
+  ListBuilder<String> get images => _$this._images ??= ListBuilder<String>();
   set images(ListBuilder<String>? images) => _$this._images = images;
 
   String? _workHours;
@@ -323,7 +309,6 @@ class LocationModelBuilder
 
   @override
   void replace(LocationModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$LocationModel;
   }
 
@@ -339,7 +324,7 @@ class LocationModelBuilder
     _$LocationModel _$result;
     try {
       _$result = _$v ??
-          new _$LocationModel._(
+          _$LocationModel._(
             position: position.build(),
             icon: BuiltValueNullFieldError.checkNotNull(
                 icon, r'LocationModel', 'icon'),
@@ -365,7 +350,7 @@ class LocationModelBuilder
         _$failedField = 'images';
         images.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'LocationModel', _$failedField, e.toString());
       }
       rethrow;
@@ -382,19 +367,15 @@ class _$Position extends Position {
   final double longitude;
 
   factory _$Position([void Function(PositionBuilder)? updates]) =>
-      (new PositionBuilder()..update(updates))._build();
+      (PositionBuilder()..update(updates))._build();
 
-  _$Position._({required this.latitude, required this.longitude}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(latitude, r'Position', 'latitude');
-    BuiltValueNullFieldError.checkNotNull(longitude, r'Position', 'longitude');
-  }
-
+  _$Position._({required this.latitude, required this.longitude}) : super._();
   @override
   Position rebuild(void Function(PositionBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  PositionBuilder toBuilder() => new PositionBuilder()..replace(this);
+  PositionBuilder toBuilder() => PositionBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -447,7 +428,6 @@ class PositionBuilder implements Builder<Position, PositionBuilder> {
 
   @override
   void replace(Position other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Position;
   }
 
@@ -461,7 +441,7 @@ class PositionBuilder implements Builder<Position, PositionBuilder> {
 
   _$Position _build() {
     final _$result = _$v ??
-        new _$Position._(
+        _$Position._(
           latitude: BuiltValueNullFieldError.checkNotNull(
               latitude, r'Position', 'latitude'),
           longitude: BuiltValueNullFieldError.checkNotNull(

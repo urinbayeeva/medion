@@ -4,10 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:medion/application/content/content_bloc.dart';
-import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/presentation/component/custom_list_view/custom_list_view.dart';
 import 'package:medion/presentation/pages/others/about_health/component/item_about_health.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -75,30 +74,14 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
                 );
               }
 
-              if (state.fetchContentStatus.isFailure) {
-                return Center(
-                  child: Text(
-                    'something_went_wrong'.tr(),
-                    style: fonts.regularSemLink,
-                  ),
-                );
-              }
-
               // Use contentByType["blog_health"] instead of state.content
               final blogHealthContent = state.contentByType["blog_health"] ?? [];
 
-              if (blogHealthContent.isEmpty) {
+              if (blogHealthContent.isEmpty || state.fetchContentStatus.isFailure) {
                 return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      icons.emojiSad.svg(width: 80.w, height: 80.h),
-                      4.h.verticalSpace,
-                      Text(
-                        'no_result_found'.tr(),
-                        style: fonts.regularSemLink,
-                      ),
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 130.h),
+                    child: EmptyState(title: "no_results_found".tr()),
                   ),
                 );
               }
@@ -118,13 +101,7 @@ class _AboutHealthPageState extends State<AboutHealthPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          AppRoutes.getInfoViewAboutHealth(id: data.id, type: ContentTypeEnum.blogHealth
-                              // discountCondition: "",
-                              // date: data.createDate,
-                              // imagePath: [...data.images, data.primaryImage],
-                              // title: data.title,
-                              // desc: data.description,
-                              ),
+                          AppRoutes.getInfoViewAboutHealth(id: data.id, type: ContentTypeEnum.blogHealth),
                         );
                       },
                       descMaxLine: 4,

@@ -7,17 +7,17 @@ part of 'upload_image.dart';
 // **************************************************************************
 
 Serializer<PreSignedUrlReq> _$preSignedUrlReqSerializer =
-    new _$PreSignedUrlReqSerializer();
+    _$PreSignedUrlReqSerializer();
 Serializer<PreSignedUrlRes> _$preSignedUrlResSerializer =
-    new _$PreSignedUrlResSerializer();
-Serializer<Fields> _$fieldsSerializer = new _$FieldsSerializer();
+    _$PreSignedUrlResSerializer();
+Serializer<Fields> _$fieldsSerializer = _$FieldsSerializer();
 Serializer<ImageUploadResponseModel> _$imageUploadResponseModelSerializer =
-    new _$ImageUploadResponseModelSerializer();
-Serializer<Urls> _$urlsSerializer = new _$UrlsSerializer();
-Serializer<ImageModel> _$imageModelSerializer = new _$ImageModelSerializer();
+    _$ImageUploadResponseModelSerializer();
+Serializer<Urls> _$urlsSerializer = _$UrlsSerializer();
+Serializer<ImageModel> _$imageModelSerializer = _$ImageModelSerializer();
 Serializer<ErrorResponse> _$errorResponseSerializer =
-    new _$ErrorResponseSerializer();
-Serializer<ErrorDetail> _$errorDetailSerializer = new _$ErrorDetailSerializer();
+    _$ErrorResponseSerializer();
+Serializer<ErrorDetail> _$errorDetailSerializer = _$ErrorDetailSerializer();
 
 class _$PreSignedUrlReqSerializer
     implements StructuredSerializer<PreSignedUrlReq> {
@@ -52,7 +52,7 @@ class _$PreSignedUrlReqSerializer
   PreSignedUrlReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new PreSignedUrlReqBuilder();
+    final result = PreSignedUrlReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -115,7 +115,7 @@ class _$PreSignedUrlResSerializer
   PreSignedUrlRes deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new PreSignedUrlResBuilder();
+    final result = PreSignedUrlResBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -208,7 +208,7 @@ class _$FieldsSerializer implements StructuredSerializer<Fields> {
   @override
   Fields deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new FieldsBuilder();
+    final result = FieldsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -281,7 +281,7 @@ class _$ImageUploadResponseModelSerializer
   ImageUploadResponseModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ImageUploadResponseModelBuilder();
+    final result = ImageUploadResponseModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -337,7 +337,7 @@ class _$UrlsSerializer implements StructuredSerializer<Urls> {
   @override
   Urls deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new UrlsBuilder();
+    final result = UrlsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -385,7 +385,7 @@ class _$ImageModelSerializer implements StructuredSerializer<ImageModel> {
   @override
   ImageModel deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ImageModelBuilder();
+    final result = ImageModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -426,7 +426,7 @@ class _$ErrorResponseSerializer implements StructuredSerializer<ErrorResponse> {
   ErrorResponse deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ErrorResponseBuilder();
+    final result = ErrorResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -466,7 +466,7 @@ class _$ErrorDetailSerializer implements StructuredSerializer<ErrorDetail> {
   @override
   ErrorDetail deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ErrorDetailBuilder();
+    final result = ErrorDetailBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -492,17 +492,15 @@ class _$PreSignedUrlReq extends PreSignedUrlReq {
   final String? contentType;
 
   factory _$PreSignedUrlReq([void Function(PreSignedUrlReqBuilder)? updates]) =>
-      (new PreSignedUrlReqBuilder()..update(updates))._build();
+      (PreSignedUrlReqBuilder()..update(updates))._build();
 
   _$PreSignedUrlReq._({this.fileName, this.contentType}) : super._();
-
   @override
   PreSignedUrlReq rebuild(void Function(PreSignedUrlReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  PreSignedUrlReqBuilder toBuilder() =>
-      new PreSignedUrlReqBuilder()..replace(this);
+  PreSignedUrlReqBuilder toBuilder() => PreSignedUrlReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -556,7 +554,6 @@ class PreSignedUrlReqBuilder
 
   @override
   void replace(PreSignedUrlReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$PreSignedUrlReq;
   }
 
@@ -570,7 +567,7 @@ class PreSignedUrlReqBuilder
 
   _$PreSignedUrlReq _build() {
     final _$result = _$v ??
-        new _$PreSignedUrlReq._(
+        _$PreSignedUrlReq._(
           fileName: fileName,
           contentType: contentType,
         );
@@ -588,17 +585,15 @@ class _$PreSignedUrlRes extends PreSignedUrlRes {
   final String? fileName;
 
   factory _$PreSignedUrlRes([void Function(PreSignedUrlResBuilder)? updates]) =>
-      (new PreSignedUrlResBuilder()..update(updates))._build();
+      (PreSignedUrlResBuilder()..update(updates))._build();
 
   _$PreSignedUrlRes._({this.url, this.fields, this.fileName}) : super._();
-
   @override
   PreSignedUrlRes rebuild(void Function(PreSignedUrlResBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  PreSignedUrlResBuilder toBuilder() =>
-      new PreSignedUrlResBuilder()..replace(this);
+  PreSignedUrlResBuilder toBuilder() => PreSignedUrlResBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -638,7 +633,7 @@ class PreSignedUrlResBuilder
   set url(String? url) => _$this._url = url;
 
   FieldsBuilder? _fields;
-  FieldsBuilder get fields => _$this._fields ??= new FieldsBuilder();
+  FieldsBuilder get fields => _$this._fields ??= FieldsBuilder();
   set fields(FieldsBuilder? fields) => _$this._fields = fields;
 
   String? _fileName;
@@ -660,7 +655,6 @@ class PreSignedUrlResBuilder
 
   @override
   void replace(PreSignedUrlRes other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$PreSignedUrlRes;
   }
 
@@ -676,7 +670,7 @@ class PreSignedUrlResBuilder
     _$PreSignedUrlRes _$result;
     try {
       _$result = _$v ??
-          new _$PreSignedUrlRes._(
+          _$PreSignedUrlRes._(
             url: url,
             fields: _fields?.build(),
             fileName: fileName,
@@ -687,7 +681,7 @@ class PreSignedUrlResBuilder
         _$failedField = 'fields';
         _fields?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'PreSignedUrlRes', _$failedField, e.toString());
       }
       rethrow;
@@ -714,7 +708,7 @@ class _$Fields extends Fields {
   final String? signature;
 
   factory _$Fields([void Function(FieldsBuilder)? updates]) =>
-      (new FieldsBuilder()..update(updates))._build();
+      (FieldsBuilder()..update(updates))._build();
 
   _$Fields._(
       {this.contentType,
@@ -725,13 +719,12 @@ class _$Fields extends Fields {
       this.policy,
       this.signature})
       : super._();
-
   @override
   Fields rebuild(void Function(FieldsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  FieldsBuilder toBuilder() => new FieldsBuilder()..replace(this);
+  FieldsBuilder toBuilder() => FieldsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -826,7 +819,6 @@ class FieldsBuilder implements Builder<Fields, FieldsBuilder> {
 
   @override
   void replace(Fields other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Fields;
   }
 
@@ -840,7 +832,7 @@ class FieldsBuilder implements Builder<Fields, FieldsBuilder> {
 
   _$Fields _build() {
     final _$result = _$v ??
-        new _$Fields._(
+        _$Fields._(
           contentType: contentType,
           key: key,
           aWSAccessKeyId: aWSAccessKeyId,
@@ -860,10 +852,9 @@ class _$ImageUploadResponseModel extends ImageUploadResponseModel {
 
   factory _$ImageUploadResponseModel(
           [void Function(ImageUploadResponseModelBuilder)? updates]) =>
-      (new ImageUploadResponseModelBuilder()..update(updates))._build();
+      (ImageUploadResponseModelBuilder()..update(updates))._build();
 
   _$ImageUploadResponseModel._({this.imageBase64}) : super._();
-
   @override
   ImageUploadResponseModel rebuild(
           void Function(ImageUploadResponseModelBuilder) updates) =>
@@ -871,7 +862,7 @@ class _$ImageUploadResponseModel extends ImageUploadResponseModel {
 
   @override
   ImageUploadResponseModelBuilder toBuilder() =>
-      new ImageUploadResponseModelBuilder()..replace(this);
+      ImageUploadResponseModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -918,7 +909,6 @@ class ImageUploadResponseModelBuilder
 
   @override
   void replace(ImageUploadResponseModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ImageUploadResponseModel;
   }
 
@@ -932,7 +922,7 @@ class ImageUploadResponseModelBuilder
 
   _$ImageUploadResponseModel _build() {
     final _$result = _$v ??
-        new _$ImageUploadResponseModel._(
+        _$ImageUploadResponseModel._(
           imageBase64: imageBase64,
         );
     replace(_$result);
@@ -949,16 +939,15 @@ class _$Urls extends Urls {
   final String? thumbnail;
 
   factory _$Urls([void Function(UrlsBuilder)? updates]) =>
-      (new UrlsBuilder()..update(updates))._build();
+      (UrlsBuilder()..update(updates))._build();
 
   _$Urls._({this.id, this.original, this.thumbnail}) : super._();
-
   @override
   Urls rebuild(void Function(UrlsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  UrlsBuilder toBuilder() => new UrlsBuilder()..replace(this);
+  UrlsBuilder toBuilder() => UrlsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1019,7 +1008,6 @@ class UrlsBuilder implements Builder<Urls, UrlsBuilder> {
 
   @override
   void replace(Urls other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Urls;
   }
 
@@ -1033,7 +1021,7 @@ class UrlsBuilder implements Builder<Urls, UrlsBuilder> {
 
   _$Urls _build() {
     final _$result = _$v ??
-        new _$Urls._(
+        _$Urls._(
           id: id,
           original: original,
           thumbnail: thumbnail,
@@ -1048,19 +1036,15 @@ class _$ImageModel extends ImageModel {
   final String imageBase64;
 
   factory _$ImageModel([void Function(ImageModelBuilder)? updates]) =>
-      (new ImageModelBuilder()..update(updates))._build();
+      (ImageModelBuilder()..update(updates))._build();
 
-  _$ImageModel._({required this.imageBase64}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        imageBase64, r'ImageModel', 'imageBase64');
-  }
-
+  _$ImageModel._({required this.imageBase64}) : super._();
   @override
   ImageModel rebuild(void Function(ImageModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ImageModelBuilder toBuilder() => new ImageModelBuilder()..replace(this);
+  ImageModelBuilder toBuilder() => ImageModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1104,7 +1088,6 @@ class ImageModelBuilder implements Builder<ImageModel, ImageModelBuilder> {
 
   @override
   void replace(ImageModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ImageModel;
   }
 
@@ -1118,7 +1101,7 @@ class ImageModelBuilder implements Builder<ImageModel, ImageModelBuilder> {
 
   _$ImageModel _build() {
     final _$result = _$v ??
-        new _$ImageModel._(
+        _$ImageModel._(
           imageBase64: BuiltValueNullFieldError.checkNotNull(
               imageBase64, r'ImageModel', 'imageBase64'),
         );
@@ -1132,18 +1115,15 @@ class _$ErrorResponse extends ErrorResponse {
   final ErrorDetail detail;
 
   factory _$ErrorResponse([void Function(ErrorResponseBuilder)? updates]) =>
-      (new ErrorResponseBuilder()..update(updates))._build();
+      (ErrorResponseBuilder()..update(updates))._build();
 
-  _$ErrorResponse._({required this.detail}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(detail, r'ErrorResponse', 'detail');
-  }
-
+  _$ErrorResponse._({required this.detail}) : super._();
   @override
   ErrorResponse rebuild(void Function(ErrorResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ErrorResponseBuilder toBuilder() => new ErrorResponseBuilder()..replace(this);
+  ErrorResponseBuilder toBuilder() => ErrorResponseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1172,7 +1152,7 @@ class ErrorResponseBuilder
   _$ErrorResponse? _$v;
 
   ErrorDetailBuilder? _detail;
-  ErrorDetailBuilder get detail => _$this._detail ??= new ErrorDetailBuilder();
+  ErrorDetailBuilder get detail => _$this._detail ??= ErrorDetailBuilder();
   set detail(ErrorDetailBuilder? detail) => _$this._detail = detail;
 
   ErrorResponseBuilder();
@@ -1188,7 +1168,6 @@ class ErrorResponseBuilder
 
   @override
   void replace(ErrorResponse other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ErrorResponse;
   }
 
@@ -1204,7 +1183,7 @@ class ErrorResponseBuilder
     _$ErrorResponse _$result;
     try {
       _$result = _$v ??
-          new _$ErrorResponse._(
+          _$ErrorResponse._(
             detail: detail.build(),
           );
     } catch (_) {
@@ -1213,7 +1192,7 @@ class ErrorResponseBuilder
         _$failedField = 'detail';
         detail.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'ErrorResponse', _$failedField, e.toString());
       }
       rethrow;
@@ -1228,18 +1207,15 @@ class _$ErrorDetail extends ErrorDetail {
   final String error;
 
   factory _$ErrorDetail([void Function(ErrorDetailBuilder)? updates]) =>
-      (new ErrorDetailBuilder()..update(updates))._build();
+      (ErrorDetailBuilder()..update(updates))._build();
 
-  _$ErrorDetail._({required this.error}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(error, r'ErrorDetail', 'error');
-  }
-
+  _$ErrorDetail._({required this.error}) : super._();
   @override
   ErrorDetail rebuild(void Function(ErrorDetailBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ErrorDetailBuilder toBuilder() => new ErrorDetailBuilder()..replace(this);
+  ErrorDetailBuilder toBuilder() => ErrorDetailBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1282,7 +1258,6 @@ class ErrorDetailBuilder implements Builder<ErrorDetail, ErrorDetailBuilder> {
 
   @override
   void replace(ErrorDetail other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ErrorDetail;
   }
 
@@ -1296,7 +1271,7 @@ class ErrorDetailBuilder implements Builder<ErrorDetail, ErrorDetailBuilder> {
 
   _$ErrorDetail _build() {
     final _$result = _$v ??
-        new _$ErrorDetail._(
+        _$ErrorDetail._(
           error: BuiltValueNullFieldError.checkNotNull(
               error, r'ErrorDetail', 'error'),
         );

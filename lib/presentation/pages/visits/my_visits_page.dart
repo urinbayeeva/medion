@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
-import 'package:medion/presentation/component/table_calendar/src/shared/utils.dart';
 import 'package:medion/presentation/component/table_calendar/src/table_calendar.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/visits/widgets/build_order_list.dart';
@@ -103,8 +102,6 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                                                 _today.value = null;
                                               },
                                               onDaySelected: (start, end) {
-                                                log("Start: ${start.day}");
-                                                log("End: ${end.day}");
                                                 _today.value = start;
                                               },
                                               currentDay: _today.value,

@@ -8,6 +8,7 @@ import 'package:medion/presentation/pages/visits/component/visit_detail_page.dar
 import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/pages/visits/widgets/visits_new_design_card.dart';
 import 'package:medion/presentation/styles/style.dart';
+import 'package:medion/presentation/styles/theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class BuildVisitList extends StatelessWidget {
@@ -27,7 +28,35 @@ class BuildVisitList extends StatelessWidget {
     if (state.fetchPatientVisitStatus.isInitial || state.fetchPatientVisitStatus.isInProgress) {
       return const Center(child: CircularProgressIndicator(color: Style.error500));
     }
-    if (state.visits.isEmpty) return EmptyState(title: 'you_have_no_visits'.tr());
+    if (state.visits.isEmpty) {
+      return EmptyState(
+        title: '',
+        body: Center(
+          child: Column(
+            children: [
+              Text(
+                'you_have_no_visits'.tr(),
+                style: TextStyle(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xff00040A),
+                ),
+              ),
+              Text(
+                "make_an_appoinment_doctor_online".tr(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff66686C),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return SmartRefresher(
       onRefresh: onRefresh,
       controller: refreshController,

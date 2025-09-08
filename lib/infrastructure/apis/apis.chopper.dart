@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'apis.dart';
@@ -174,12 +175,12 @@ final class _$BookingService extends BookingService {
   }
 
   @override
-  Future<Response<BuiltList<ThirdBookingService>>> fetchDoctors({
+  Future<Response<ThirdBookingServiceModel>> fetchDoctors({
     String requiresToken = 'true',
     int? days,
     required DoctorsRequest request,
   }) {
-    final Uri $url = Uri.parse('/booking/doctor-time-slots-mobile');
+    final Uri $url = Uri.parse('/booking/doctor-time-slots');
     final Map<String, dynamic> $params = <String, dynamic>{'days': days};
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
@@ -194,7 +195,7 @@ final class _$BookingService extends BookingService {
       headers: $headers,
     );
     return client
-        .send<BuiltList<ThirdBookingService>, ThirdBookingService>($request);
+        .send<ThirdBookingServiceModel, ThirdBookingServiceModel>($request);
   }
 
   @override
@@ -772,9 +773,22 @@ final class _$StudyService extends StudyService {
   }
 
   @override
-  Future<Response<BuiltList<GetReviewModel>>> getReviews(
-      {String requiresToken = "true"}) {
+  Future<Response<ReviewModel>> getReviews({
+    String requiresToken = "true",
+    required List<int> branches,
+    required List<int> directions,
+    int? rating,
+    String? startDate,
+    String? endDate,
+  }) {
     final Uri $url = Uri.parse('/company/get-reviews');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'company_ids': branches,
+      'category_ids': directions,
+      'rating': rating,
+      'start_date': startDate,
+      'end_date': endDate,
+    };
     final Map<String, String> $headers = {
       'requires-token': requiresToken,
     };
@@ -782,9 +796,10 @@ final class _$StudyService extends StudyService {
       'GET',
       $url,
       client.baseUrl,
+      parameters: $params,
       headers: $headers,
     );
-    return client.send<BuiltList<GetReviewModel>, GetReviewModel>($request);
+    return client.send<ReviewModel, ReviewModel>($request);
   }
 
   @override

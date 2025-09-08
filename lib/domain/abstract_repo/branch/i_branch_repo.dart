@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
+import 'package:medion/utils/enums/filter_interval_enum.dart';
 
 abstract class IBranchRepository {
   Future<Either<ResponseFailure, List<BranchModel>>> fetchBranches();
@@ -17,7 +18,13 @@ abstract class IBranchRepository {
 
   Future<Either<ResponseFailure, MedionModel>> getMedionActivity();
 
-  Future<Either<ResponseFailure, List<GetReviewModel>>> getReview();
+  Future<Either<ResponseFailure, ReviewModel>> getReview({
+    required List<int> directions,
+    required List<int> branches,
+    required int rank,
+    String? startDate,
+    String? endDate,
+  });
 
   Future<Either<ResponseFailure, void>> postReview({required PostReviewModel review});
 }

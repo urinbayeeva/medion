@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
+
 import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' show Client, MultipartFile;
@@ -28,9 +28,7 @@ import 'package:medion/infrastructure/apis/interceptors/log_interceptor.dart';
 import 'package:medion/infrastructure/apis/interceptors/re_try_interceptor.dart';
 import 'package:medion/infrastructure/apis/interceptors/server_crash_interceptor.dart';
 import 'package:medion/infrastructure/apis/interceptors/time_out_http_client.dart';
-import 'package:medion/infrastructure/apis/interceptors/token_interceptor.dart';
 import 'package:medion/infrastructure/core/exceptions.dart';
-import 'package:medion/infrastructure/core/interceptors.dart';
 import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
@@ -38,23 +36,23 @@ import 'package:medion/presentation/pages/core/my_app.dart';
 import 'package:medion/utils/app_config.dart';
 import 'package:medion/utils/constants.dart';
 
-import 'interceptors/network_exception_interceptor.dart';
 import 'interceptors/core_interceptor.dart';
+import 'interceptors/network_exception_interceptor.dart';
 
 part 'apis.chopper.dart';
 
 //users
 @ChopperApi(baseUrl: '/patient/')
 abstract class AuthService extends ChopperService {
-  @Post(path: 'phone-number')
+  @POST(path: 'phone-number')
   Future<Response<SuccessModel>> phoneNumberSend({
     @Body() required PhoneNumberSendReq request,
   });
 
-  @Post(path: 'registration')
+  @POST(path: 'registration')
   Future<Response<RegistrationResponse>> registerUser({@Body() required RegisterReq request});
 
-  @Post(path: "create")
+  @POST(path: "create")
   Future<Response<CreatePatientInfoResponse>> createUserInfo({@Body() required CreateInfoReq request});
 
   static AuthService create(DBService dbService) => _$AuthService(_Client(Constants.baseUrlP, true, dbService));
@@ -62,10 +60,10 @@ abstract class AuthService extends ChopperService {
 
 @ChopperApi(baseUrl: "")
 abstract class RefreshService extends ChopperService {
-  @Post(path: "refresh")
+  @POST(path: "refresh")
   Future<Response<RefreshTokenResponseModel>> refreshToken({@Body() required RefreshTokenModel request});
 
-  @Post(path: "cancel-visit")
+  @POST(path: "cancel-visit")
   Future<Response<CancelVisitResult>> cancelVisit({
     @Header('requires-token') String requiresToken = "true",
     @Body() required CancelVisitBody cancelBody,
@@ -76,7 +74,7 @@ abstract class RefreshService extends ChopperService {
 
 @ChopperApi(baseUrl: "")
 abstract class VisitCreateService extends ChopperService {
-  @Post(path: "create_visit")
+  @POST(path: "create_visit")
   Future<Response<CreateVisitResponse>> visitCreate({
     @Body() required BuiltList<VisitRequest> request,
     @Header('requires-token') String requiresToken = "true",
@@ -89,29 +87,30 @@ abstract class VisitCreateService extends ChopperService {
 //Booking
 @ChopperApi(baseUrl: "/booking/")
 abstract class BookingService extends ChopperService {
-  @Get(path: "types")
+  @GET(path: "types")
   Future<Response<BuiltList<BookingTypeModel>>> bookingTypes();
 
-  @Get(path: 'category_services/{service_type_id}')
+  @GET(path: 'category_services/{service_type_id}')
   Future<Response<BuiltList<Category>>> getServiceId(@Path('service_type_id') int id);
 
-  @Post(path: 'doctor-time-slots-mobile')
-  Future<Response<BuiltList<ThirdBookingService>>> fetchDoctors({
+  // @POST(path: 'doctor-time-slots-mobile')
+  @POST(path: 'doctor-time-slots')
+  Future<Response<ThirdBookingServiceModel>> fetchDoctors({
     @Header('requires-token') String requiresToken = 'true',
     @Query("days") int? days,
     @Body() required DoctorsRequest request,
   });
 
-  @Get(path: "categories")
+  @GET(path: "categories")
   Future<Response<BuiltList<HomepageBookingCategory>>> getHomePageBookingCategory();
 
-  @Get(path: 'category_doctors_services/{category_id}')
+  @GET(path: 'category_doctors_services/{category_id}')
   Future<Response<MedicalModel>> getHomePageBookingDoctors(@Path('category_id') int id);
 
-  @Post(path: "doctor/day")
+  @POST(path: "doctor/day")
   Future<Response<void>> getDoctorDays();
 
-  @Get(path: 'services_by_doctor/{doctor_id }')
+  @GET(path: 'services_by_doctor/{doctor_id }')
   Future<Response<MedicalServiceCategory>> getHomePageBookingDoctorsByID(@Path('doctor_id ') int id);
 
   static BookingService create(DBService dbService) => _$BookingService(_Client(Constants.baseUrlP, true, dbService));
@@ -120,19 +119,19 @@ abstract class BookingService extends ChopperService {
 //Home Page
 @ChopperApi(baseUrl: "/home/")
 abstract class HomePageService extends ChopperService {
-  @Get(path: "news")
+  @GET(path: "news")
   Future<Response<BuiltList<News>>> getNews();
 
-  @Get(path: "medical_services")
+  @GET(path: "medical_services")
   Future<Response<BuiltList<DiagnosticsModel>>> getMedicalServices();
 
-  @Get(path: "diseases")
+  @GET(path: "diseases")
   Future<Response<BuiltList<DiseaseModle>>> getDisease();
 
-  @Get(path: "advertisements")
+  @GET(path: "advertisements")
   Future<Response<BuiltList<AdModel>>> getAds();
 
-  @Get(path: "company_location")
+  @GET(path: "company_location")
   Future<Response<BuiltList<LocationModel>>> getCompanyLocatiom();
 
   static HomePageService create(DBService dbService) => _$HomePageService(_Client(Constants.baseUrlP, true, dbService));
@@ -142,13 +141,13 @@ abstract class HomePageService extends ChopperService {
 
 @ChopperApi(baseUrl: "/doctor/")
 abstract class DoctorService extends ChopperService {
-  @Get(path: 'doctors_info')
+  @GET(path: 'doctors_info')
   Future<Response<DoctorCategory>> getDoctorsInfo();
 
-  @Get(path: 'detail-info/{doctor_id}')
+  @GET(path: 'detail-info/{doctor_id}')
   Future<Response<ModelDoctor>> getDoctorDetailInfo(@Path('doctor_id') int id);
 
-  @Get(path: 'doctor-jobs')
+  @GET(path: 'doctor-jobs')
   Future<Response<BuiltList<DoctorsJob>>> getDoctorsJob();
 
   static DoctorService create(DBService dbService) => _$DoctorService(_Client(Constants.baseUrlP, true, dbService));
@@ -158,7 +157,7 @@ abstract class DoctorService extends ChopperService {
 @ChopperApi(baseUrl: '/upload/')
 @pragma('vm:entry-point')
 abstract class UploadImage extends ChopperService {
-  @Post(path: '')
+  @POST(path: '')
   @multipart
   Future<Response<ImageUploadResponseModel>> imageUpload(
     @PartFile('file') MultipartFile file, {
@@ -171,36 +170,36 @@ abstract class UploadImage extends ChopperService {
 
 @ChopperApi(baseUrl: "/profile")
 abstract class PatientService extends ChopperService {
-  @Get(path: "/patient_info")
+  @GET(path: "/patient_info")
   Future<Response<PatientInfo>> getPatientInfo({@Header('requires-token') String requiresToken = "true"});
 
-  @Post(path: "patient_image")
+  @POST(path: "patient_image")
   Future<Response<SuccessModel>> patientImageUpload({@Body() required ImageUploadResponseModel image});
 
-  @Get(path: "patient_visits_mobile")
+  @GET(path: "patient_visits_mobile")
   Future<Response<PatientAnalyse>> getPatientVisitsMobile({
     @Header('requires-token') String requiresToken = "true",
     @Query("date") String? time,
   });
 
-  @Get(path: "patient_visit_detail/{visit_id}")
+  @GET(path: "patient_visit_detail/{visit_id}")
   Future<Response<PatientVisitSingleModel>> getPatientVisitSingle({
     @Header('requires-token') String requiresToken = "true",
     @Path("visit_id") required int visitId,
   });
 
-  @Get(path: "patient_analysis_mobile")
+  @GET(path: "patient_analysis_mobile")
   Future<Response<PatientDocuments>> getPatientAnalyze({@Header('requires-token') String requiresToken = "true"});
 
-  @Get(path: "my_wallet")
+  @GET(path: "my_wallet")
   Future<Response<PaymentResponse>> getMyWallet({@Header('requires-token') String requiresToken = "true"});
 
-  @Get(path: "recommendations")
+  @GET(path: "recommendations")
   Future<Response<BuiltList<Recommendation>>> recommendation({
     @Header('requires-token') String requiresToken = "true",
   });
 
-  @Get(path: "patient_prescription")
+  @GET(path: "patient_prescription")
   Future<Response<BuiltList<RecipeModel>>> recipes({@Header('requires-token') String requiresToken = "true"});
 
   static PatientService create(DBService dbService) => _$PatientService(_Client(Constants.baseUrlP, true, dbService));
@@ -208,13 +207,13 @@ abstract class PatientService extends ChopperService {
 
 @ChopperApi(baseUrl: "/branch")
 abstract class BranchService extends ChopperService {
-  @Get(path: "/about-branches")
+  @GET(path: "/about-branches")
   Future<Response<BuiltList<BranchModel>>> getBranchInfo();
 
-  @Get(path: "/awards")
+  @GET(path: "/awards")
   Future<Response<BuiltList<AwardsModel>>> getAwards();
 
-  @Get(path: "/detail/{branch_id}")
+  @GET(path: "/detail/{branch_id}")
   Future<Response<BranchDetailModel>> getBranchDetail(@Path('branch_id') int id);
 
   static BranchService create(DBService dbService) => _$BranchService(_Client(Constants.baseUrlP, true, dbService));
@@ -222,7 +221,7 @@ abstract class BranchService extends ChopperService {
 
 @ChopperApi(baseUrl: "")
 abstract class SearchService extends ChopperService {
-  @Post(path: "/his-web-search")
+  @POST(path: "/his-web-search")
   Future<Response<MedionResponseSearchText>> getBranchInfo(@Body() SearchReqModel request);
 
   static SearchService create(DBService dbService) => _$SearchService(_Client(Constants.baseUrlP, true, dbService));
@@ -230,32 +229,32 @@ abstract class SearchService extends ChopperService {
 
 @ChopperApi(baseUrl: "")
 abstract class NotificationService extends ChopperService {
-  @Get(path: "/notifications")
+  @GET(path: "/notifications")
   Future<Response<BuiltList<NotificationModel>>> getNotifications({
     @Query('type') String? type,
     @Header('requires-token') String requiresToken = "true",
   });
 
-  @Get(path: "/notifications")
+  @GET(path: "/notifications")
   Future<Response<NotificationModel>> getNotificationSingle({
     @Query('type') String? type,
     @Query('pk') int? pk,
     @Header('requires-token') String requiresToken = "true",
   });
 
-  @Post(path: "/send-review-visit")
+  @POST(path: "/send-review-visit")
   Future<Response<NotificationSendReview>> postNotificationReview({
     @Body() required PostVisitReviewModel visitReview,
     @Header('requires-token') String requiresToken = "true",
   });
 
-  @Patch(path: "/notifications/read", optionalBody: true)
+  @PATCH(path: "/notifications/read", optionalBody: true)
   Future<Response<NotificationModel>> readNotification({
     @Query('notification_id') int? notificationId,
     @Header('requires-token') String requiresToken = "true",
   });
 
-  @Post(path: "https://his.uicgroup.tech/firebase/token")
+  @POST(path: "https://his.uicgroup.tech/firebase/token")
   Future<Response<void>> setFcmToken({
     @Body() required SetFcmTokenBody fcm,
     @Header('requires-token') String requiresToken = "true",
@@ -267,20 +266,25 @@ abstract class NotificationService extends ChopperService {
 
 @ChopperApi(baseUrl: "")
 abstract class StudyService extends ChopperService {
-  @Get(path: "/study")
+  @GET(path: "/study")
   Future<Response<EducationModel>> getStudy();
 
-  @Post(path: "/study-lead")
+  @POST(path: "/study-lead")
   Future<Response<StudyLeadResult>> studyLead({
     @Body() required StudyLead report,
   });
 
-  @Get(path: "/company/get-reviews")
-  Future<Response<BuiltList<GetReviewModel>>> getReviews({
+  @GET(path: "/company/get-reviews")
+  Future<Response<ReviewModel>> getReviews({
     @Header('requires-token') String requiresToken = "true",
+    @Query('company_ids') required List<int> branches,
+    @Query('category_ids') required List<int> directions,
+    @Query('rating') int? rating,
+    @Query('start_date') String? startDate,
+    @Query('end_date') String? endDate,
   });
 
-  @Post(path: "/company/send-review")
+  @POST(path: "/company/send-review")
   Future<Response<PostReviewResult>> postReviews({
     @Body() required PostReviewModel review,
     @Header('requires-token') String requiresToken = "true",
@@ -291,7 +295,7 @@ abstract class StudyService extends ChopperService {
 
 @ChopperApi(baseUrl: "")
 abstract class HelpCallService extends ChopperService {
-  @Post(path: "/help/call")
+  @POST(path: "/help/call")
   Future<Response<ServiceResponse>> serviceReqCall({@Body() required ServiceRequest request});
 
   static StudyService create(DBService dbService) => _$StudyService(_Client(Constants.baseUrlP, true, dbService));
@@ -299,16 +303,16 @@ abstract class HelpCallService extends ChopperService {
 
 @ChopperApi(baseUrl: "/company/")
 abstract class CompanyService extends ChopperService {
-  @Get(path: "activity")
+  @GET(path: "activity")
   Future<Response<MedionModel>> getMedionActivity();
 
-  @Get(path: "offerta")
+  @GET(path: "offerta")
   Future<Response<OfferModel>> getOfferta();
 
-  @Get(path: "privacy")
+  @GET(path: "privacy")
   Future<Response<PrivacyModel>> getPrivacy();
 
-  @Get(path: "team")
+  @GET(path: "team")
   Future<Response<BuiltList<Team>>> getTeam();
 
   static CompanyService create(DBService dbService) => _$CompanyService(_Client(Constants.baseUrlP, true, dbService));
@@ -316,10 +320,10 @@ abstract class CompanyService extends ChopperService {
 
 @ChopperApi(baseUrl: "")
 abstract class ContentService extends ChopperService {
-  @Get(path: "/content/{type}")
+  @GET(path: "/content/{type}")
   Future<Response<BuiltList<ContentModel>>> getContentType(@Path('type') String type);
 
-  @Get(path: "/content/{type}")
+  @GET(path: "/content/{type}")
   Future<Response<ContentModel>> getSingleContent({
     @Path('type') required String type,
     @Query('pk') required int pk,
@@ -330,13 +334,13 @@ abstract class ContentService extends ChopperService {
 
 @ChopperApi(baseUrl: "recruitment")
 abstract class RecruitmentService extends ChopperService {
-  @Get(path: "/vacancies")
+  @GET(path: "/vacancies")
   Future<Response<VacancyModel>> getVacancies();
 
-  @Get(path: "/vacancies")
+  @GET(path: "/vacancies")
   Future<Response<JobApplicationModel>> getVacancySingle({@Query('vacancy_id') int? id});
 
-  @Post(path: "/apply")
+  @POST(path: "/apply")
   Future<Response<ResultVacancyModel>> uploadVacancy({@Body() required UploadVacancyModel vacancy});
 
   static RecruitmentService create(DBService dbService) =>

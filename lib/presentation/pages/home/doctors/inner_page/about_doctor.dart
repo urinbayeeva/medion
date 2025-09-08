@@ -1,25 +1,28 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
-import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';
+import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/custom_tabbar.dart';
 import 'package:medion/presentation/pages/home/doctors/inner_page/error_progress_ui.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/about_doctor_widget.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/build_schedule.dart';
+import 'package:medion/presentation/pages/home/doctors/widget/doctor_info_card_with_type.dart';
 import 'package:medion/presentation/pages/home/doctors/widget/gallery_item_widget.dart';
+import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
-import 'package:medion/presentation/pages/others/customer_review/review_card.dart';
-import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
+import 'package:medion/presentation/pages/others/customer_review/generate_star.dart';
+import 'package:medion/presentation/pages/others/dicsount/widgets/discount_card.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/content_type_enum.dart';
 import 'package:medion/utils/enums/doctor_info_enum.dart';
-import 'package:medion/utils/enums/feedback_status_enum.dart';
 import 'package:medion/utils/enums/pop_up_status_enum.dart';
 import 'package:medion/utils/extension/context_extension.dart';
 
@@ -74,7 +77,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
           context,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
-          alignment: 0.1,
+          alignment: -0.2,
         );
       }
     });
@@ -119,16 +122,31 @@ class _AboutDoctorState extends State<AboutDoctor> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: AboutDoctorWidget(
-                              doctorID: widget.id,
-                              name: state.doctorDetails?.name ?? "",
-                              profession: widget.profession,
-                              specialty: widget.status,
-                              image: widget.image,
+                          if (state.doctorDetails != null) ...{
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: AboutDoctorWidget(
+                                experience: state.doctorDetails!.experienceYear,
+                                doctorID: widget.id,
+                                name: state.doctorDetails!.name,
+                                profession: state.doctorDetails!.jobName,
+                                specialty: state.doctorDetails!.decodedDescription.toString(),
+                                image: state.doctorDetails!.image,
+                              ),
                             ),
-                          ),
+                          } else ...{
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: AboutDoctorWidget(
+                                experience: state.doctorDetails?.experienceYear,
+                                doctorID: widget.id,
+                                name: state.doctorDetails?.name ?? "",
+                                profession: widget.profession,
+                                specialty: widget.status,
+                                image: widget.image,
+                              ),
+                            ),
+                          },
                           ValueListenableBuilder(
                             valueListenable: _index,
                             builder: (ctx, val, child) {
@@ -154,29 +172,42 @@ class _AboutDoctorState extends State<AboutDoctor> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ...List.generate(
-                              // state.doctorInfoItems.where((elem) => elem.canSee).toList().length + 1,
                               state.doctorInfoItems.length,
                               (index) {
                                 final item = state.doctorInfoItems[index];
                                 final doctor = state.doctorDetails!;
                                 return Column(
-                                  key: item.itemKey,
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     if (item.checker.isAbout && item.canSee) ...{
+                                      SizedBox(key: item.itemKey),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 12.w,
+                                              vertical: 10.h,
+                                            ).copyWith(top: 20.h),
                                             child: Text(
                                               item.title.tr(),
                                               textAlign: TextAlign.left,
                                               style: fonts.regularMain,
                                             ),
                                           ),
-                                          about(context: context, colors: colors, doctor: doctor)
+                                          Container(
+                                            width: 1.sw,
+                                            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                                            decoration: BoxDecoration(
+                                              color: colors.shade0,
+                                              borderRadius: BorderRadius.circular(12.r),
+                                            ),
+                                            child: Text(
+                                              doctor.decodedDescription,
+                                              style: fonts.xSmallLink,
+                                            ),
+                                          ),
                                         ],
                                       )
                                     },
@@ -184,9 +215,11 @@ class _AboutDoctorState extends State<AboutDoctor> {
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
+                                          10.h.verticalSpace,
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
                                             child: Text(
+                                              key: item.itemKey,
                                               item.title.tr(),
                                               textAlign: TextAlign.left,
                                               style: fonts.regularMain,
@@ -198,64 +231,104 @@ class _AboutDoctorState extends State<AboutDoctor> {
                                     },
                                     if (item.checker.isExperience && item.canSee) ...{
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                        child: Text(item.title.tr(), style: fonts.regularMain),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 12.w,
+                                          vertical: 10.h,
+                                        ).copyWith(top: 20.h),
+                                        child: Text(
+                                          item.title.tr(),
+                                          style: fonts.regularMain,
+                                          key: item.itemKey,
+                                        ),
                                       ),
                                       _buildExperienceTab(doctor, colors, fonts, icons),
                                     },
                                     if (item.checker.isEducation && item.canSee) ...{
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                        child: Text(item.title.tr(), style: fonts.regularMain),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 12.w,
+                                          vertical: 10.h,
+                                        ).copyWith(top: 20.h),
+                                        child: Text(
+                                          item.title.tr(),
+                                          style: fonts.regularMain,
+                                          key: item.itemKey,
+                                        ),
                                       ),
                                       _buildEducationTab(doctor, colors, fonts, icons),
                                     },
                                     if (item.checker.isWorkTime && item.canSee) ...{
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                        child: Text(item.title.tr(), style: fonts.regularMain),
-                                      ),
-                                      BuildSchedule(
-                                        schedule: doctor.workSchedule,
-                                        colors: colors,
-                                        fonts: fonts,
-                                        doctor: doctor,
+                                      12.h.verticalSpace,
+                                      SizedBox(
+                                        key: item.itemKey,
+                                        child: BuildSchedule(
+                                          title: item.title.tr(),
+                                          schedule: doctor.workSchedule,
+                                          colors: colors,
+                                          fonts: fonts,
+                                          doctor: doctor,
+                                        ),
                                       )
                                     },
                                     if (item.checker.isAchievements && item.canSee) ...{
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                        child: Text(item.title.tr(), style: fonts.regularMain),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 12.w,
+                                          vertical: 10.h,
+                                        ).copyWith(top: 20.h),
+                                        child: Text(
+                                          item.title.tr(),
+                                          style: fonts.regularMain,
+                                          key: item.itemKey,
+                                        ),
                                       ),
                                       _achievements(
                                         awards: doctor.award.toList(),
                                         colors: colors,
                                         fonts: fonts,
+                                        icons: icons,
                                       ),
                                     },
                                     if (item.checker.isGallery && item.canSee) ...{
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                        child: Text(item.title.tr(), style: fonts.regularMain),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 12.w,
+                                          vertical: 10.h,
+                                        ).copyWith(top: 20.h),
+                                        child: Text(
+                                          item.title.tr(),
+                                          style: fonts.regularMain,
+                                          key: item.itemKey,
+                                        ),
                                       ),
                                       GalleryItemWidget(gallery: doctor.galleryItems.toList())
                                     },
                                     if (item.checker.isReviews && item.canSee) ...{
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                        child: Text(item.title.tr(), style: fonts.regularMain),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 12.w,
+                                          vertical: 10.h,
+                                        ).copyWith(top: 20.h),
+                                        child: Text(
+                                          item.title.tr(),
+                                          style: fonts.regularMain,
+                                          key: item.itemKey,
+                                        ),
                                       ),
                                       _reviews(
                                         reviews: doctor.reviews.toList(),
                                         colors: colors,
                                         fonts: fonts,
                                         icons: icons,
-                                      ),
+                                      )
                                     },
                                     if (item.checker.isArticles && item.canSee) ...{
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                        child: Text(item.title.tr(), style: fonts.regularMain),
+                                        child: Text(
+                                          item.title.tr(),
+                                          style: fonts.regularMain,
+                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 10),
@@ -264,7 +337,8 @@ class _AboutDoctorState extends State<AboutDoctor> {
                                           colors: colors,
                                           fonts: fonts,
                                         ),
-                                      )
+                                      ),
+                                      SizedBox(key: item.itemKey)
                                     },
                                   ],
                                 );
@@ -294,35 +368,27 @@ class _AboutDoctorState extends State<AboutDoctor> {
     if (reviews.isEmpty) {
       return _empty(colors, fonts);
     }
-    return SizedBox(
-      height: 118,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          spacing: 8,
-          children: [
-            ...List.generate(
-              reviews.length,
-              (i) {
-                final item = reviews[i];
-                return ReviewCard(
-                  review: GetReviewModel((b) => b
-                        ..ratings = "${item.ratings.length}"
-                        ..review = item.review
-                      // name: "user name",
-                      // description: item.review,
-                      // rating: item.ratings.length,
-                      ),
-                  colors: colors,
-                  icons: icons,
-                  fonts: fonts,
-                  status: FeedBackStatus.none,
-                );
-              },
-            ),
-          ],
+    return Column(
+      children: [
+        ...List.generate(
+          reviews.length,
+          (i) {
+            final DoctorReview item = reviews[i];
+            final rating = int.tryParse(item.ratings ?? '') ?? 0;
+
+            return ReviewCardNew(
+              review: item.review ?? '',
+              name: item.patientName ?? '',
+              clinicLocation: item.location ?? "",
+              clinicName: item.companyName ?? "",
+              clinicImage: item.companyLogoUrl ?? "",
+              date: item.createDate ?? "",
+              integratorLogoUrl: item.integratorLogoUrl ?? "",
+              rating: rating,
+            );
+          },
         ),
-      ),
+      ],
     );
   }
 
@@ -408,52 +474,38 @@ class _AboutDoctorState extends State<AboutDoctor> {
   }
 
   Widget _achievements({
-    required List<Award> awards,
+    required List<DoctorInfoDetails> awards,
     required CustomColorSet colors,
     required FontSet fonts,
+    required IconSet icons,
   }) {
     if (awards.isEmpty) {
       return _empty(colors, fonts);
     }
-    return ListView(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      children: [
-        ...List.generate(
-          awards.length,
-          (index) {
-            final item = awards[index];
-            return Container(
-              margin: EdgeInsets.fromLTRB(10.w, 0, 10.w, index != awards.length - 1 ? 8.h : 0),
-              width: 1.sw,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              decoration: BoxDecoration(color: colors.shade0, borderRadius: BorderRadius.circular(12)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(item.title ?? '', style: fonts.regularMain),
-                  Text(item.date ?? "", style: fonts.xSmallMain),
-                ],
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
 
-  Widget about({required BuildContext context, required CustomColorSet colors, required ModelDoctor doctor}) {
-    return Container(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.3,
-        maxWidth: MediaQuery.of(context).size.width,
+    return DecoratedBox(
+      decoration: BoxDecoration(color: colors.shade0),
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            10.h.verticalSpace,
+            ...List.generate(awards.length, (index) {
+              final award = awards[index];
+              return DoctorInfoCardWithType(
+                type: DoctorInfoTypeEnum.achievement,
+                date: award.date ?? '',
+                title: award.title ?? "",
+                subTitle: award.description.toList(),
+                image: award.icon ?? '',
+                certificateSeries: award.certificateSeries,
+                educationDagre: award.educationDegree,
+              );
+            }),
+            10.h.verticalSpace,
+          ],
+        ),
       ),
-      width: 1.sw,
-      margin: const EdgeInsets.symmetric(horizontal: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      decoration: BoxDecoration(color: colors.shade0, borderRadius: BorderRadius.circular(12)),
-      child: Text(doctor.decodedDescription),
     );
   }
 
@@ -464,44 +516,47 @@ class _AboutDoctorState extends State<AboutDoctor> {
     required ModelDoctor doctor,
   }) {
     if (doctor.hasDiscount && doctor.discount.isNotEmpty) {
+      final list = <Discount>[...doctor.discount];
       return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           spacing: 8,
           children: [
             ...List.generate(
-              doctor.discount.length + 1,
+              list.length,
               (i) {
-                if (i == 0) return const SizedBox(width: 12);
-                final item = doctor.discount[i - 1];
-                return SizedBox(
-                  width: 163.w,
-                  height: 255.h,
-                  child: DiscountCard(
-                    title: item.title ?? "",
-                    image: item.image ?? "",
-                    date: _formatDiscountDate(item.discountEndDate),
-                    onTap: () {
-                      if (item.id != null) {
-                        Navigator.push(
-                          context,
-                          AppRoutes.getInfoViewAboutHealth(
-                            id: item.id!,
-                            type: ContentTypeEnum.discount,
-                          ),
-                        );
-                      } else {
-                        context.showPopUp(
-                          status: PopUpStatus.warning,
-                          message: "Id not found",
-                          fonts: fonts,
-                          colors: colors,
-                          context: context,
-                        );
-                      }
-                    },
-                    colors: colors,
-                    fonts: fonts,
+                final item = list[i];
+                return Padding(
+                  padding: EdgeInsets.only(left: (i == 0) ? 12.w : 4.w),
+                  child: SizedBox(
+                    width: 163.w,
+                    height: 255.h,
+                    child: DiscountCard(
+                      title: item.title ?? "",
+                      image: item.image ?? "",
+                      date: _formatDiscountDate(item.discountEndDate),
+                      onTap: () {
+                        if (item.id != null) {
+                          Navigator.push(
+                            context,
+                            AppRoutes.getInfoViewAboutHealth(
+                              id: item.id!,
+                              type: ContentTypeEnum.discount,
+                            ),
+                          );
+                        } else {
+                          context.showPopUp(
+                            status: PopUpStatus.warning,
+                            message: "no_results_found".tr(),
+                            fonts: fonts,
+                            colors: colors,
+                            context: context,
+                          );
+                        }
+                      },
+                      colors: colors,
+                      fonts: fonts,
+                    ),
                   ),
                 );
               },
@@ -514,101 +569,213 @@ class _AboutDoctorState extends State<AboutDoctor> {
     }
   }
 
-  Widget _buildExperienceTab(ModelDoctor doctor, dynamic colors, dynamic fonts, dynamic icons) {
+  Widget _buildExperienceTab(ModelDoctor doctor, CustomColorSet colors, FontSet fonts, IconSet icons) {
     if (doctor.experience.isEmpty) {
       return _empty(colors, fonts);
     }
 
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      child: Column(
-        children: doctor.experience.map((exp) {
-          final dateParts = exp.date.toString().split(" - ");
-          final startDate = DateTime.parse(dateParts[0]);
-          final formattedStartDate = DateFormat('d MMM yyyy').format(startDate);
-
-          final endDate = dateParts.length > 1 && dateParts[1] == 'current'
-              ? 'current'
-              : DateFormat('d MMM yyyy').format(DateTime.parse(dateParts[1]));
-
-          return Padding(
-            padding: EdgeInsets.only(bottom: 8.h),
-            child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(16.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                color: colors.shade0,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    exp.title.toString(),
-                    style: fonts.xSmallText.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  Text('- $formattedStartDate - $endDate', style: fonts.xSmallText),
-                  if (exp.description.toString().isNotEmpty) ...[
-                    Text(exp.description.toString(), style: fonts.xSmallText),
-                  ],
-                ],
-              ),
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10.h),
+      decoration: BoxDecoration(color: colors.shade0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            ...doctor.experience.map(
+              (exp) {
+                return DoctorInfoCardWithType(
+                  type: DoctorInfoTypeEnum.experience,
+                  date: exp.date ?? '',
+                  title: exp.title ?? "",
+                  subTitle: exp.description.toList(),
+                  image: exp.icon ?? '',
+                  certificateSeries: exp.certificateSeries,
+                  educationDagre: exp.educationDegree,
+                );
+              },
             ),
-          );
-        }).toList(),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildEducationTab(ModelDoctor doctor, dynamic colors, dynamic fonts, dynamic icons) {
+  Widget _buildEducationTab(ModelDoctor doctor, CustomColorSet colors, dynamic fonts, dynamic icons) {
     if (doctor.education.isEmpty) {
       return _empty(colors, fonts);
     }
 
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      child: Column(
-        children: doctor.education.map((edu) {
-          final dateParts = edu.date.toString().split(" - ");
-          final startDate = DateTime.parse(dateParts[0]);
-          final formattedStartDate = DateFormat('d MMM yyyy').format(startDate);
+    return DecoratedBox(
+      decoration: BoxDecoration(color: colors.shade0),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 10.h),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              ...doctor.education.map(
+                (edu) {
+                  return DoctorInfoCardWithType(
+                    type: DoctorInfoTypeEnum.education,
+                    date: edu.date ?? '',
+                    title: edu.title ?? "",
+                    subTitle: edu.description.toList(),
+                    image: edu.icon ?? '',
+                    certificateSeries: edu.certificateSeries,
+                    educationDagre: edu.educationDegree,
+                  );
+                },
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-          final endDate = dateParts.length > 1 && dateParts[1] == 'current'
-              ? 'current'
-              : DateFormat('d MMM yyyy').format(DateTime.parse(dateParts[1]));
+class ReviewCardNew extends StatelessWidget {
+  const ReviewCardNew({
+    super.key,
+    required this.name,
+    required this.clinicName,
+    required this.clinicLocation,
+    required this.rating,
+    required this.review,
+    required this.date,
+    required this.clinicImage,
+    required this.integratorLogoUrl,
+  });
 
-          return Padding(
-            padding: EdgeInsets.only(bottom: 8.h),
-            child: Container(
-              padding: EdgeInsets.all(8.w),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: colors.shade0,
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: Column(
+  final String name;
+  final String clinicName;
+  final String clinicLocation;
+  final String integratorLogoUrl;
+  final String clinicImage;
+  final int rating;
+  final String review;
+  final String date;
+
+  @override
+  Widget build(BuildContext context) {
+    final dateTime = MyFunctions.format(date: date, context: context);
+
+    return ThemeWrapper(
+      builder: (context, colors, fonts, icons, ctrl) {
+        return Container(
+          width: 1.sw,
+          margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+          decoration: BoxDecoration(
+            color: colors.shade0,
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 12.h,
+            children: [
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    edu.title.toString(),
-                    style: fonts.xSmallLink.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    '- $formattedStartDate - $endDate',
-                    style: fonts.xSmallLink,
-                  ),
-                  if (edu.description.toString().isNotEmpty) ...{
-                    Text(
-                      edu.description.toString(),
-                      style: fonts.xSmallLink,
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 0.4.sw),
+                    child: Text(
+                      name,
+                      maxLines: 2,
+                      style: fonts.smallTagSecond.copyWith(fontSize: 14.sp),
                     ),
+                  ),
+                  if (integratorLogoUrl.isNotEmpty) ...{
+                    ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 0.4.sw),
+                      child: CommonImage(
+                        height: 22.h,
+                        imageUrl: integratorLogoUrl,
+                      ),
+                    ),
+                  } else ...{
+                    const SizedBox.shrink()
                   }
                 ],
               ),
-            ),
-          );
-        }).toList(),
-      ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 0.4.sw),
+                    child: SizedBox(
+                      height: 20,
+                      child: GenerateStar(rank: rating, colors: colors, icons: icons),
+                    ),
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 0.4.sw),
+                    child: Text(
+                      dateTime,
+                      style: fonts.xSmallLink.copyWith(fontSize: 12.sp, color: const Color(0xff5F6368)),
+                    ),
+                  ),
+                ],
+              ),
+              if (clinicName.isNotEmpty || clinicLocation.isNotEmpty) ...{
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Клиника:",
+                      style: fonts.xSmallLink.copyWith(fontSize: 12),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        height: 36.h,
+                        child: Row(
+                          spacing: 12.w,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CommonImage(
+                              imageUrl: clinicImage,
+                              fit: BoxFit.contain,
+                              height: 27,
+                              width: 27,
+                            ),
+                            ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: 0.45.sw),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    clinicName,
+                                    style: fonts.xSmallLink.copyWith(fontSize: 12),
+                                    maxLines: 1,
+                                  ),
+                                  Text(
+                                    clinicLocation,
+                                    style: fonts.xSmallLink.copyWith(fontSize: 12, color: const Color(0xff5F6368)),
+                                    maxLines: 1,
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              },
+              Text("comments".tr().replaceAll(":", ""), style: fonts.regularMain),
+              Text(
+                review,
+                style: fonts.xxSmallestText.copyWith(fontSize: 12.sp),
+              ),
+              1.h.verticalSpace,
+            ],
+          ),
+        );
+      },
     );
   }
 }

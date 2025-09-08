@@ -22,10 +22,11 @@ import 'package:medion/utils/enums/pop_up_status_enum.dart';
 import 'package:medion/utils/extension/context_extension.dart';
 
 class FeedBackWithoutLocation extends StatefulWidget {
-  const FeedBackWithoutLocation({super.key, this.noBack = false, required this.id});
+  const FeedBackWithoutLocation({super.key, this.noBack = false, required this.id, this.isFromVisitScreen = false});
 
   final bool noBack;
   final int id;
+  final bool isFromVisitScreen;
 
   @override
   State<FeedBackWithoutLocation> createState() => _FeedBackWithoutLocationState();
@@ -94,7 +95,7 @@ class _FeedBackWithoutLocationState extends State<FeedBackWithoutLocation> {
                 return review || post;
               },
               builder: (context, state) {
-                if (state.review != null) {
+                if (state.review != null && widget.isFromVisitScreen == false) {
                   return ReviewCard(
                     review: GetReviewModel((b) => b
                           ..id = 0

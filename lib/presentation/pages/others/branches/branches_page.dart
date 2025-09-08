@@ -16,6 +16,7 @@ import 'package:medion/presentation/pages/map/map_with_polylines.dart';
 import 'package:medion/presentation/pages/others/branches/component/branches_info.dart';
 import 'package:medion/presentation/pages/others/branches/component/single_branch_info.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -67,6 +68,14 @@ class _BranchesPageState extends State<BranchesPage> {
             builder: (context, state) {
               if (state.getBranchesStatus.isInProgress || state.getBranchesStatus.isInitial) {
                 return const Center(child: CupertinoActivityIndicator());
+              }
+              if (state.getBranchesStatus.isFailure) {
+                return Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 130.h),
+                    child: EmptyState(title: "no_results_found".tr()),
+                  ),
+                );
               }
 
               return SmartRefresher(

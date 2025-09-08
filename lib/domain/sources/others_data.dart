@@ -19,11 +19,11 @@ List<OthersPageData> second = <OthersPageData>[
     title: "discounts",
     checker: OthersPageItemsEnum.discount,
   ),
-  OthersPageData(
-    icon: IconSet.create.document,
-    title: "documents",
-    checker: OthersPageItemsEnum.docs,
-  ),
+  // OthersPageData(
+  //   icon: IconSet.create.document,
+  //   title: "documents",
+  //   checker: OthersPageItemsEnum.docs,
+  // ),
   OthersPageData(
     icon: IconSet.create.readFeedbacks,
     title: "customers_reviews",

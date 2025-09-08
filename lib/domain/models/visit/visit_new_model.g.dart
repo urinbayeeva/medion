@@ -7,8 +7,8 @@ part of 'visit_new_model.dart';
 // **************************************************************************
 
 Serializer<VisitResponse> _$visitResponseSerializer =
-    new _$VisitResponseSerializer();
-Serializer<Visit> _$visitSerializer = new _$VisitSerializer();
+    _$VisitResponseSerializer();
+Serializer<Visit> _$visitSerializer = _$VisitSerializer();
 
 class _$VisitResponseSerializer implements StructuredSerializer<VisitResponse> {
   @override
@@ -36,7 +36,7 @@ class _$VisitResponseSerializer implements StructuredSerializer<VisitResponse> {
   VisitResponse deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new VisitResponseBuilder();
+    final result = VisitResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -106,7 +106,7 @@ class _$VisitSerializer implements StructuredSerializer<Visit> {
   @override
   Visit deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new VisitBuilder();
+    final result = VisitBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -156,19 +156,15 @@ class _$VisitResponse extends VisitResponse {
   final BuiltList<Visit> visits;
 
   factory _$VisitResponse([void Function(VisitResponseBuilder)? updates]) =>
-      (new VisitResponseBuilder()..update(updates))._build();
+      (VisitResponseBuilder()..update(updates))._build();
 
-  _$VisitResponse._({required this.status, required this.visits}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(status, r'VisitResponse', 'status');
-    BuiltValueNullFieldError.checkNotNull(visits, r'VisitResponse', 'visits');
-  }
-
+  _$VisitResponse._({required this.status, required this.visits}) : super._();
   @override
   VisitResponse rebuild(void Function(VisitResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  VisitResponseBuilder toBuilder() => new VisitResponseBuilder()..replace(this);
+  VisitResponseBuilder toBuilder() => VisitResponseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -205,7 +201,7 @@ class VisitResponseBuilder
   set status(String? status) => _$this._status = status;
 
   ListBuilder<Visit>? _visits;
-  ListBuilder<Visit> get visits => _$this._visits ??= new ListBuilder<Visit>();
+  ListBuilder<Visit> get visits => _$this._visits ??= ListBuilder<Visit>();
   set visits(ListBuilder<Visit>? visits) => _$this._visits = visits;
 
   VisitResponseBuilder();
@@ -222,7 +218,6 @@ class VisitResponseBuilder
 
   @override
   void replace(VisitResponse other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$VisitResponse;
   }
 
@@ -238,7 +233,7 @@ class VisitResponseBuilder
     _$VisitResponse _$result;
     try {
       _$result = _$v ??
-          new _$VisitResponse._(
+          _$VisitResponse._(
             status: BuiltValueNullFieldError.checkNotNull(
                 status, r'VisitResponse', 'status'),
             visits: visits.build(),
@@ -249,7 +244,7 @@ class VisitResponseBuilder
         _$failedField = 'visits';
         visits.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'VisitResponse', _$failedField, e.toString());
       }
       rethrow;
@@ -276,7 +271,7 @@ class _$Visit extends Visit {
   final String? pdfUrl;
 
   factory _$Visit([void Function(VisitBuilder)? updates]) =>
-      (new VisitBuilder()..update(updates))._build();
+      (VisitBuilder()..update(updates))._build();
 
   _$Visit._(
       {required this.visitId,
@@ -286,20 +281,13 @@ class _$Visit extends Visit {
       required this.clinicName,
       this.invoiceUrl,
       this.pdfUrl})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(visitId, r'Visit', 'visitId');
-    BuiltValueNullFieldError.checkNotNull(date, r'Visit', 'date');
-    BuiltValueNullFieldError.checkNotNull(doctorName, r'Visit', 'doctorName');
-    BuiltValueNullFieldError.checkNotNull(speciality, r'Visit', 'speciality');
-    BuiltValueNullFieldError.checkNotNull(clinicName, r'Visit', 'clinicName');
-  }
-
+      : super._();
   @override
   Visit rebuild(void Function(VisitBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  VisitBuilder toBuilder() => new VisitBuilder()..replace(this);
+  VisitBuilder toBuilder() => VisitBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -392,7 +380,6 @@ class VisitBuilder implements Builder<Visit, VisitBuilder> {
 
   @override
   void replace(Visit other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Visit;
   }
 
@@ -406,7 +393,7 @@ class VisitBuilder implements Builder<Visit, VisitBuilder> {
 
   _$Visit _build() {
     final _$result = _$v ??
-        new _$Visit._(
+        _$Visit._(
           visitId: BuiltValueNullFieldError.checkNotNull(
               visitId, r'Visit', 'visitId'),
           date: BuiltValueNullFieldError.checkNotNull(date, r'Visit', 'date'),

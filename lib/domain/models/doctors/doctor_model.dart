@@ -117,7 +117,7 @@ abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
   WorkSchedule get workSchedule;
 
   @BuiltValueField(wireName: 'experience')
-  BuiltList<Experience> get experience;
+  BuiltList<DoctorInfoDetails> get experience;
 
   @BuiltValueField(wireName: 'articles')
   BuiltList<Articles> get articles;
@@ -129,13 +129,13 @@ abstract class ModelDoctor implements Built<ModelDoctor, ModelDoctorBuilder> {
   BuiltList<String> get specializations;
 
   @BuiltValueField(wireName: 'education')
-  BuiltList<Education> get education;
+  BuiltList<DoctorInfoDetails> get education;
 
   @BuiltValueField(wireName: 'discounts')
   BuiltList<Discount> get discount;
 
   @BuiltValueField(wireName: 'award')
-  BuiltList<Award> get award;
+  BuiltList<DoctorInfoDetails> get award;
 
   @BuiltValueField(wireName: 'gender')
   JsonObject? get gender;
@@ -184,6 +184,9 @@ abstract class WorkSchedule implements Built<WorkSchedule, WorkScheduleBuilder> 
   @BuiltValueField(wireName: 'Saturday')
   BuiltList<ScheduleItem> get saturday;
 
+  @BuiltValueField(wireName: 'Sunday')
+  BuiltList<ScheduleItem> get sunday;
+
   WorkSchedule._();
 
   factory WorkSchedule([void Function(WorkScheduleBuilder) updates]) = _$WorkSchedule;
@@ -207,19 +210,40 @@ abstract class DoctorReview implements Built<DoctorReview, DoctorReviewBuilder> 
   static Serializer<DoctorReview> get serializer => _$doctorReviewSerializer;
 
   @BuiltValueField(wireName: 'id')
-  int get id;
+  int? get id;
 
   @BuiltValueField(wireName: 'ratings')
-  BuiltList<String> get ratings;
+  String? get ratings;
 
   @BuiltValueField(wireName: 'review')
-  String get review;
+  String? get review;
 
   @BuiltValueField(wireName: 'company_id')
-  int get companyId;
+  int? get companyId;
+
+  @BuiltValueField(wireName: 'company_name')
+  String? get companyName;
+
+  @BuiltValueField(wireName: 'company_logo_url')
+  String? get companyLogoUrl;
+
+  @BuiltValueField(wireName: 'state')
+  String? get state;
+
+  @BuiltValueField(wireName: 'integrator_logo_url')
+  String? get integratorLogoUrl;
 
   @BuiltValueField(wireName: 'doctor_id')
-  int get doctorId;
+  int? get doctorId;
+
+  @BuiltValueField(wireName: 'create_date')
+  String? get createDate;
+
+  @BuiltValueField(wireName: 'location')
+  String? get location;
+
+  @BuiltValueField(wireName: 'patient_name')
+  String? get patientName;
 
   DoctorReview._();
 
@@ -275,55 +299,33 @@ abstract class Articles implements Built<Articles, ArticlesBuilder> {
   factory Articles([void Function(ArticlesBuilder) updates]) = _$Articles;
 }
 
-abstract class Experience implements Built<Experience, ExperienceBuilder> {
-  static Serializer<Experience> get serializer => _$experienceSerializer;
+abstract class DoctorInfoDetails implements Built<DoctorInfoDetails, DoctorInfoDetailsBuilder> {
+  static Serializer<DoctorInfoDetails> get serializer => _$doctorInfoDetailsSerializer;
 
-  @BuiltValueField(wireName: 'title')
-  JsonObject get title;
-
-  @BuiltValueField(wireName: 'date')
-  JsonObject get date;
-
-  @BuiltValueField(wireName: 'description')
-  JsonObject get description;
-
-  Experience._();
-
-  factory Experience([void Function(ExperienceBuilder) updates]) = _$Experience;
-}
-
-abstract class Education implements Built<Education, EducationBuilder> {
-  static Serializer<Education> get serializer => _$educationSerializer;
-
-  @BuiltValueField(wireName: 'title')
-  JsonObject get title;
-
-  @BuiltValueField(wireName: 'date')
-  JsonObject get date;
-
-  @BuiltValueField(wireName: 'description')
-  BuiltList<String> get description;
-
-  Education._();
-
-  factory Education([void Function(EducationBuilder) updates]) = _$Education;
-}
-
-abstract class Award implements Built<Award, AwardBuilder> {
   @BuiltValueField(wireName: 'title')
   String? get title;
 
   @BuiltValueField(wireName: 'date')
   String? get date;
 
+  @BuiltValueField(wireName: 'icon')
+  String? get icon;
+
+  @BuiltValueField(wireName: 'education_degree')
+  String? get educationDegree;
+
+  @BuiltValueField(wireName: 'certificate_series')
+  String? get certificateSeries;
+
+  @BuiltValueField(wireName: 'certificate_file_url')
+  String? get certificateFileUrl;
+
   @BuiltValueField(wireName: 'description')
-  BuiltList<String>? get description;
+  BuiltList<String> get description;
 
-  static Serializer<Award> get serializer => _$awardSerializer;
+  DoctorInfoDetails._();
 
-  Award._();
-
-  factory Award([void Function(AwardBuilder) updates]) = _$Award;
+  factory DoctorInfoDetails([void Function(DoctorInfoDetailsBuilder) updates]) = _$DoctorInfoDetails;
 }
 
 abstract class PriceItem implements Built<PriceItem, PriceItemBuilder> {

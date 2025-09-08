@@ -7,6 +7,7 @@ import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/presentation/pages/others/about_health/component/item_about_health.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/equipment/equipment_detail_page.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -72,9 +73,9 @@ class _EquipmentPageState extends State<EquipmentPage> {
 
               if (state.fetchContentStatus.isFailure) {
                 return Center(
-                  child: Text(
-                    'something_went_wrong'.tr(),
-                    style: fonts.regularSemLink,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 130.h),
+                    child: EmptyState(title: "no_results_found".tr()),
                   ),
                 );
               }

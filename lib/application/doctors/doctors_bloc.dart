@@ -1,15 +1,13 @@
 import 'dart:async';
-import 'dart:developer';
-import 'package:built_collection/built_collection.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/doctors/doctor_model.dart';
 import 'package:medion/infrastructure/repository/doctor_repository.dart';
-import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
-import 'package:medion/presentation/pages/home/doctors/inner_page/about_doctor.dart';
+import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/utils/enums/doctor_info_enum.dart';
 
 part 'doctors_bloc.freezed.dart';
@@ -28,19 +26,28 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
   }
 
   FutureOr<void> _fetchDoctors(_FetchDoctors event, Emitter<DoctorState> emit) async {
-    emit(state.copyWith(loading: true, error: false, success: false, doctorDetailsLoading: false));
+    emit(state.copyWith(fetchDoctors: FormzSubmissionStatus.initial));
 
     final res = await _repository.fetchDoctors();
     res.fold(
       (error) {
         LogService.e("Error in fetching doctors: $error");
         EasyLoading.showError(error.message);
-        emit(state.copyWith(loading: false, error: true));
+        emit(state.copyWith(fetchDoctors: FormzSubmissionStatus.failure));
       },
       (data) {
-        // LogService.i("Fetched doctors: ${data.doctorData}");
+        final filterList = <String>{};
+        final doctorList = <DoctorData>[...?data.doctorData];
+        for (var o in doctorList) {
+          filterList.add(o.specialty.toString());
+        }
+
         EasyLoading.dismiss();
-        emit(state.copyWith(loading: false, success: true, doctors: data));
+        emit(state.copyWith(
+          doctorsFilterList: filterList.toList(),
+          fetchDoctors: FormzSubmissionStatus.success,
+          doctors: data,
+        ));
       },
     );
   }
@@ -48,9 +55,6 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
   FutureOr<void> _fetchDoctorDetails(_FetchDoctorDetails event, Emitter<DoctorState> emit) async {
     emit(state.copyWith(
       doctorInfoItems: [],
-      doctorDetailsLoading: true,
-      doctorDetailsError: false,
-      doctorDetailsSuccess: false,
       doctorDetails: null,
       doctorSingleStatus: FormzSubmissionStatus.inProgress,
     ));
@@ -60,8 +64,6 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     res.fold(
       (error) {
         emit(state.copyWith(
-          doctorDetailsLoading: false,
-          doctorDetailsError: true,
           doctorSingleStatus: FormzSubmissionStatus.failure,
         ));
       },
@@ -127,20 +129,9 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
             checker: DoctorInfoEnum.articles,
           ),
         ];
-
-        final schedule = doctor.workSchedule;
-        final available = schedule.monday.isNotEmpty ||
-            schedule.thursday.isNotEmpty ||
-            schedule.tuesday.isNotEmpty ||
-            schedule.wednesday.isNotEmpty ||
-            schedule.saturday.isNotEmpty ||
-            schedule.friday.isNotEmpty;
-
         emit(state.copyWith(
           doctorSingleStatus: FormzSubmissionStatus.success,
           doctorInfoItems: doctorInfo,
-          doctorDetailsLoading: false,
-          doctorDetailsSuccess: true,
           doctorDetails: doctor,
         ));
       },
@@ -148,11 +139,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
   }
 
   FutureOr<void> _fetchDoctorsJob(_FetchDoctorsJob event, Emitter<DoctorState> emit) async {
-    emit(state.copyWith(
-      loading: true,
-      error: false,
-      success: false,
-    ));
+    emit(state.copyWith(fetchDoctorsJobs: FormzSubmissionStatus.initial));
     // EasyLoading.show();
 
     final res = await _repository.getDoctorsJob();
@@ -160,13 +147,12 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
       (error) {
         LogService.e("Error in fetching doctors: $error");
         EasyLoading.showError(error.message);
-        emit(state.copyWith(loading: false, error: true));
+        emit(state.copyWith(fetchDoctorsJobs: FormzSubmissionStatus.failure));
       },
       (data) {
         EasyLoading.dismiss();
         emit(state.copyWith(
-          loading: false,
-          success: true,
+          fetchDoctorsJobs: FormzSubmissionStatus.success,
           doctorsJob: data.toList(),
         ));
       },

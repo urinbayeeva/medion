@@ -6,7 +6,7 @@ part of 'team_model.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<Team> _$teamSerializer = new _$TeamSerializer();
+Serializer<Team> _$teamSerializer = _$TeamSerializer();
 
 class _$TeamSerializer implements StructuredSerializer<Team> {
   @override
@@ -35,7 +35,7 @@ class _$TeamSerializer implements StructuredSerializer<Team> {
   @override
   Team deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new TeamBuilder();
+    final result = TeamBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -77,26 +77,20 @@ class _$Team extends Team {
   final String image;
 
   factory _$Team([void Function(TeamBuilder)? updates]) =>
-      (new TeamBuilder()..update(updates))._build();
+      (TeamBuilder()..update(updates))._build();
 
   _$Team._(
       {required this.name,
       required this.type,
       required this.job,
       required this.image})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(name, r'Team', 'name');
-    BuiltValueNullFieldError.checkNotNull(type, r'Team', 'type');
-    BuiltValueNullFieldError.checkNotNull(job, r'Team', 'job');
-    BuiltValueNullFieldError.checkNotNull(image, r'Team', 'image');
-  }
-
+      : super._();
   @override
   Team rebuild(void Function(TeamBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  TeamBuilder toBuilder() => new TeamBuilder()..replace(this);
+  TeamBuilder toBuilder() => TeamBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -165,7 +159,6 @@ class TeamBuilder implements Builder<Team, TeamBuilder> {
 
   @override
   void replace(Team other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Team;
   }
 
@@ -179,7 +172,7 @@ class TeamBuilder implements Builder<Team, TeamBuilder> {
 
   _$Team _build() {
     final _$result = _$v ??
-        new _$Team._(
+        _$Team._(
           name: BuiltValueNullFieldError.checkNotNull(name, r'Team', 'name'),
           type: BuiltValueNullFieldError.checkNotNull(type, r'Team', 'type'),
           job: BuiltValueNullFieldError.checkNotNull(job, r'Team', 'job'),

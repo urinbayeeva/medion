@@ -257,21 +257,7 @@ class AppRoutes {
 
   static MaterialPageRoute getWalletPage() {
     return MaterialPageRoute(
-      builder: (_) => BlocProvider(
-        create: (context) {
-          DBService dbService = context.read<DBService>();
-          return AuthBloc(
-            AuthRepository(
-              dbService,
-              AuthService.create(dbService),
-              PatientService.create(dbService),
-              RefreshService.create(dbService),
-            ),
-            dbService,
-          );
-        },
-        child: const WalletPage(),
-      ),
+      builder: (_) => const WalletPage(),
     );
   }
 
@@ -293,13 +279,7 @@ class AppRoutes {
     required int id,
   }) {
     return MaterialPageRoute(
-      builder: (_) => AboutDoctor(
-        id: id,
-        name: name,
-        profession: profession,
-        status: status,
-        image: image,
-      ),
+      builder: (_) => AboutDoctor(id: id, name: name, profession: profession, status: status, image: image),
     );
   }
 
@@ -585,15 +565,7 @@ class AppRoutes {
   }
 
   static MaterialPageRoute getDiscountPage() {
-    return MaterialPageRoute(
-        builder: (context) => BlocProvider(
-              create: (context) {
-                DBService dbService = context.read<DBService>();
-                return BranchBloc(BranchRepository(
-                    BranchService.create(dbService), StudyService.create(dbService), CompanyService.create(dbService)));
-              },
-              child: const DiscountPage(),
-            ));
+    return MaterialPageRoute(builder: (context) => const DiscountPage());
   }
 
   static MaterialPageRoute getVisitDetailCard({
@@ -635,20 +607,6 @@ class AppRoutes {
   // }
 
   static MaterialPageRoute getOffertaPage() {
-    return MaterialPageRoute(
-      builder: (context) => BlocProvider(
-        create: (context) {
-          final dbService = context.read<DBService>();
-          return BranchBloc(
-            BranchRepository(
-              BranchService.create(dbService),
-              StudyService.create(dbService),
-              CompanyService.create(dbService),
-            ),
-          );
-        },
-        child: const OffertaPage(),
-      ),
-    );
+    return MaterialPageRoute(builder: (context) => const OffertaPage());
   }
 }

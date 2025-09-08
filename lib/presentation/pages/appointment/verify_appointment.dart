@@ -24,11 +24,11 @@ class AppointmentItem {
   final String date;
   final String startTime;
   final String endTime;
-  final String serviceName;
-  final String doctorName;
   final String price;
   final String location;
   final String imagePath;
+  final String doctorName;
+  final String serviceName;
   final String specialty;
   final int serviceId;
   final int doctorID;
@@ -157,6 +157,13 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                           child: CButton(
                             title: '',
                             onTap: () {
+                              // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                              //   return PaymentPage(
+                              //     bloc: widget.bloc,
+                              //     appointments: bookingState.selectedAppointments,
+                              //     isHome: true,
+                              //   );
+                              // }));
                               if (bookingState.selectedAppointments.isNotEmpty) {
                                 final appointments = bookingState.selectedAppointments;
                                 final l = EasyLocalization.of(context)?.locale ?? const Locale('ru', 'RU');
@@ -188,7 +195,7 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                           ),
                         ),
                       ),
-                      10.h.verticalSpace
+                      20.h.verticalSpace
                     ],
                   ),
                 );
@@ -225,169 +232,3 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
     );
   }
 }
-// final success = await sendVisitRequest(appointment, context);
-
-// if (success) {
-//   if (widget.isHome) {
-//     Navigator.push(
-//       context,
-//       MaterialPageRoute(
-//         builder: (context) =>
-//             PaymentPage(
-//               bloc: widget.bloc,
-//               appointments: widget.appointments,
-//               isHome: true,
-//             ),
-//       ),
-//     );
-//   } else {
-//     widget.onTap();
-//   }
-// }
-///
-// Future<bool> sendVisitRequest(AppointmentItem appointment, BuildContext context) async {
-//   final dbService = await DBService.create;
-//   final token = dbService.token.accessToken;
-//
-//   if (token == null || token.isEmpty) {
-//     print("Error: No token found.");
-//     EasyLoading.showError("Token not found");
-//     return false;
-//   }
-//
-//   final url = Uri.parse('${Constants.baseUrlP}/create_visit');
-//   log("service id: ${appointment.serviceId}");
-//   log("company id: ${appointment.companyID}");
-//   log("doctor id: ${appointment.doctorID}");
-//   log("Start time: ${appointment.startTime}");
-//   log("End time: ${appointment.endTime}");
-//   log("date: ${appointment.date}");
-//
-//   final requestBody = [
-//     {
-//       "service_id": appointment.serviceId,
-//       "company_id": appointment.companyID,
-//       "doctor_id": appointment.doctorID,
-//       "start_time": appointment.startTime,
-//       "end_time": appointment.endTime,
-//       "date": appointment.date,
-//     }
-//   ];
-//
-//   print("REQUEST BODY: ${requestBody}");
-//   try {
-//     EasyLoading.show(status: "Loading...");
-//
-//     final response = await http.post(
-//       url,
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'Accept': 'application/json',
-//         'Authorization': 'Bearer $token',
-//       },
-//       body: jsonEncode(requestBody),
-//     );
-//
-//     if (response.statusCode == 200) {
-//       final List<dynamic> responseBody = jsonDecode(response.body);
-//
-//       String paymeUrl = "";
-//       String clickUrl = "";
-//       String multicardUrl = "";
-//
-//       for (var item in responseBody) {
-//         if (item is Map<String, dynamic>) {
-//           if (item.containsKey("payme_url")) {
-//             paymeUrl = item["payme_url"];
-//           }
-//           if (item.containsKey("click_url")) {
-//             clickUrl = item["click_url"];
-//           }
-//           if (item.containsKey("multicard_url")) {
-//             multicardUrl = item["multicard_url"];
-//           }
-//         }
-//       }
-//
-//       // Store payment URLs in the provider
-//       Provider.of<PaymentProvider>(context, listen: false).setPaymentUrls(paymeUrl, clickUrl, multicardUrl);
-//
-//       Future.delayed(Duration.zero, () {
-//         showAppointmentConfirmedDialog(context);
-//       });
-//
-//       print("Visit created successfully: $responseBody");
-//       return true; // Success
-//     } else {
-//       print("Error: ${response.statusCode}, ${response.body}");
-//       try {
-//         final errorResponse = jsonDecode(response.body);
-//
-//         const specificMessage =
-//             "This Patient already has a visit for the selected doctor on this date. You can't create another visit.";
-//
-//         if (response.statusCode == 400 &&
-//             errorResponse is Map<String, dynamic> &&
-//             errorResponse["detail"] == specificMessage) {
-//           EasyLoading.showError('visit_already_exists'.tr());
-//         } else if (errorResponse is Map<String, dynamic> && errorResponse.containsKey("detail")) {
-//           EasyLoading.showError(errorResponse["detail"].toString());
-//         } else {
-//           EasyLoading.showError("Failed to create visit");
-//         }
-//       } catch (_) {
-//         EasyLoading.showError("Failed to create visit");
-//       }
-//       return false; // Failure
-//     }
-//   } catch (e) {
-//     print("Exception: $e");
-//     EasyLoading.showError("Something went wrong");
-//     return false; // Failure
-//   } finally {
-//     EasyLoading.dismiss();
-//   }
-// }
-
-// void showAppointmentConfirmedDialog(BuildContext context) {
-//   showDialog(
-//     context: context,
-//     barrierDismissible: false,
-//     builder: (BuildContext dialogContext) {
-//       Future.delayed(const Duration(seconds: 2), () {
-//         if (Navigator.canPop(dialogContext)) {
-//           Navigator.of(dialogContext).pop();
-//         }
-//       });
-//
-//       return AlertDialog(
-//         backgroundColor: Colors.white,
-//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-//         contentPadding: const EdgeInsets.all(24),
-//         content: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             CircleAvatar(
-//               backgroundColor: Colors.red.shade400,
-//               radius: 28,
-//               child: SvgPicture.asset("assets/icons/done.svg"),
-//             ),
-//             const SizedBox(height: 20),
-//             Text(
-//               'your_appointment_has_been_confirmed'.tr(),
-//               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//               textAlign: TextAlign.center,
-//             ),
-//             const SizedBox(height: 12),
-//             Text(
-//               'you_can_keep_track_your_appoinment'.tr(),
-//               style: TextStyle(fontSize: 14, color: Colors.black54),
-//               textAlign: TextAlign.center,
-//             ),
-//             const SizedBox(height: 24),
-//           ],
-//         ),
-//       );
-//     },de
-//   );
-// }

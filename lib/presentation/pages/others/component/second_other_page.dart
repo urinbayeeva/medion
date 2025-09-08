@@ -95,56 +95,6 @@ class SecondOthersPage extends StatelessWidget {
                             break;
                           }
                       }
-
-                      // switch (item.checker) {
-                      //   case OthersPageItemsEnum.article:
-                      //     {}
-                      //   case OthersPageItemsEnum.branch:
-                      //     {}
-                      //   case OthersPageItemsEnum.discount:
-                      //     {}
-                      //   case OthersPageItemsEnum.article:
-                      //     {}
-                      //   case OthersPageItemsEnum.article:
-                      //     {}
-                      //   case OthersPageItemsEnum.article:
-                      //     {}
-
-                      // case 0:
-                      //   navigateTo(AppRoutes.getDiscountPage());
-                      //   break;
-                      // case 1:
-                      //   navigateTo(MaterialPageRoute(builder: (context) => const CustomerReview()));
-                      //   break;
-                      // case 2:
-                      //   {
-                      //     showDialog(
-                      //       context: context,
-                      //       builder: (BuildContext context) {
-                      //         return Dialog(
-                      //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      //           insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                      //           // dialog margin
-                      //           child: ConstrainedBox(
-                      //             constraints: BoxConstraints(
-                      //               maxHeight: MediaQuery.of(context).size.height * 0.52,
-                      //             ),
-                      //             child: const FeedbackView(),
-                      //           ),
-                      //         );
-                      //       },
-                      //     ).then((v) {
-                      //       bottomNavBarController.changeNavBar(false);
-                      //     });
-                      //   }
-                      // case 3:
-                      //   navigateTo(MaterialPageRoute(builder: (context) => const DocsPage()));
-                      //   break;
-                      //
-                      // default:
-                      //   navigateTo(AppRoutes.getUnderDevPage(appBarTitle: title));
-                      //   break;
-                      // }
                     },
                     child: ListTile(
                       leading: SvgPicture.asset(item.icon),

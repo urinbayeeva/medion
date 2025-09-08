@@ -28,6 +28,9 @@ abstract class DoctorSearchText implements Built<DoctorSearchText, DoctorSearchT
   @BuiltValueField(wireName: 'image')
   String? get image;
 
+  @BuiltValueField(wireName: 'work_experience')
+  int? get workExperience;
+
   DoctorSearchText._();
 
   factory DoctorSearchText([void Function(DoctorSearchTextBuilder) updates]) = _$DoctorSearchText;
@@ -47,6 +50,15 @@ abstract class CategorySearchText implements Built<CategorySearchText, CategoryS
 
   @BuiltValueField(wireName: 'description')
   String? get description;
+
+  @BuiltValueField(wireName: 'phone')
+  String? get phone;
+
+  @BuiltValueField(wireName: 'address')
+  String? get address;
+
+  @BuiltValueField(wireName: 'image')
+  String? get image;
 
   CategorySearchText._();
 

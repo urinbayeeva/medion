@@ -6,12 +6,12 @@ part of 'profile_model.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<PatientInfo> _$patientInfoSerializer = new _$PatientInfoSerializer();
-Serializer<VisitModel> _$visitModelSerializer = new _$VisitModelSerializer();
+Serializer<PatientInfo> _$patientInfoSerializer = _$PatientInfoSerializer();
+Serializer<VisitModel> _$visitModelSerializer = _$VisitModelSerializer();
 Serializer<PatientDocuments> _$patientDocumentsSerializer =
-    new _$PatientDocumentsSerializer();
+    _$PatientDocumentsSerializer();
 Serializer<PatientAnalysis> _$patientAnalysisSerializer =
-    new _$PatientAnalysisSerializer();
+    _$PatientAnalysisSerializer();
 
 class _$PatientInfoSerializer implements StructuredSerializer<PatientInfo> {
   @override
@@ -106,7 +106,7 @@ class _$PatientInfoSerializer implements StructuredSerializer<PatientInfo> {
   @override
   PatientInfo deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new PatientInfoBuilder();
+    final result = PatientInfoBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -279,7 +279,7 @@ class _$VisitModelSerializer implements StructuredSerializer<VisitModel> {
   @override
   VisitModel deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new VisitModelBuilder();
+    final result = VisitModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -386,7 +386,7 @@ class _$PatientDocumentsSerializer
   PatientDocuments deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new PatientDocumentsBuilder();
+    final result = PatientDocumentsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -458,6 +458,34 @@ class _$PatientAnalysisSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.doctorName;
+    if (value != null) {
+      result
+        ..add('doctor_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.doctorImage;
+    if (value != null) {
+      result
+        ..add('doctor_image')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.clinicName;
+    if (value != null) {
+      result
+        ..add('clinic_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.clinicImage;
+    if (value != null) {
+      result
+        ..add('clinic_image')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -465,7 +493,7 @@ class _$PatientAnalysisSerializer
   PatientAnalysis deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new PatientAnalysisBuilder();
+    final result = PatientAnalysisBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -483,6 +511,22 @@ class _$PatientAnalysisSerializer
           break;
         case 'document_url':
           result.documentUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'doctor_name':
+          result.doctorName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'doctor_image':
+          result.doctorImage = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'clinic_name':
+          result.clinicName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'clinic_image':
+          result.clinicImage = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -517,7 +561,7 @@ class _$PatientInfo extends PatientInfo {
   final double? patientDeposit;
 
   factory _$PatientInfo([void Function(PatientInfoBuilder)? updates]) =>
-      (new PatientInfoBuilder()..update(updates))._build();
+      (PatientInfoBuilder()..update(updates))._build();
 
   _$PatientInfo._(
       {this.image,
@@ -532,13 +576,12 @@ class _$PatientInfo extends PatientInfo {
       this.patientDebit,
       this.patientDeposit})
       : super._();
-
   @override
   PatientInfo rebuild(void Function(PatientInfoBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  PatientInfoBuilder toBuilder() => new PatientInfoBuilder()..replace(this);
+  PatientInfoBuilder toBuilder() => PatientInfoBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -665,7 +708,6 @@ class PatientInfoBuilder implements Builder<PatientInfo, PatientInfoBuilder> {
 
   @override
   void replace(PatientInfo other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$PatientInfo;
   }
 
@@ -679,7 +721,7 @@ class PatientInfoBuilder implements Builder<PatientInfo, PatientInfoBuilder> {
 
   _$PatientInfo _build() {
     final _$result = _$v ??
-        new _$PatientInfo._(
+        _$PatientInfo._(
           image: image,
           lastName: lastName,
           firstName: firstName,
@@ -728,7 +770,7 @@ class _$VisitModel extends VisitModel {
   final double? latitude;
 
   factory _$VisitModel([void Function(VisitModelBuilder)? updates]) =>
-      (new VisitModelBuilder()..update(updates))._build();
+      (VisitModelBuilder()..update(updates))._build();
 
   _$VisitModel._(
       {this.image,
@@ -746,13 +788,12 @@ class _$VisitModel extends VisitModel {
       this.longitude,
       this.latitude})
       : super._();
-
   @override
   VisitModel rebuild(void Function(VisitModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  VisitModelBuilder toBuilder() => new VisitModelBuilder()..replace(this);
+  VisitModelBuilder toBuilder() => VisitModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -905,7 +946,6 @@ class VisitModelBuilder implements Builder<VisitModel, VisitModelBuilder> {
 
   @override
   void replace(VisitModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$VisitModel;
   }
 
@@ -919,7 +959,7 @@ class VisitModelBuilder implements Builder<VisitModel, VisitModelBuilder> {
 
   _$VisitModel _build() {
     final _$result = _$v ??
-        new _$VisitModel._(
+        _$VisitModel._(
           image: image,
           doctorFullName: doctorFullName,
           doctorJobName: doctorJobName,
@@ -952,31 +992,21 @@ class _$PatientDocuments extends PatientDocuments {
 
   factory _$PatientDocuments(
           [void Function(PatientDocumentsBuilder)? updates]) =>
-      (new PatientDocumentsBuilder()..update(updates))._build();
+      (PatientDocumentsBuilder()..update(updates))._build();
 
   _$PatientDocuments._(
       {required this.lisDocuments,
       required this.fisDocuments,
       required this.risDocuments,
       required this.consultationDocuments})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        lisDocuments, r'PatientDocuments', 'lisDocuments');
-    BuiltValueNullFieldError.checkNotNull(
-        fisDocuments, r'PatientDocuments', 'fisDocuments');
-    BuiltValueNullFieldError.checkNotNull(
-        risDocuments, r'PatientDocuments', 'risDocuments');
-    BuiltValueNullFieldError.checkNotNull(
-        consultationDocuments, r'PatientDocuments', 'consultationDocuments');
-  }
-
+      : super._();
   @override
   PatientDocuments rebuild(void Function(PatientDocumentsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   PatientDocumentsBuilder toBuilder() =>
-      new PatientDocumentsBuilder()..replace(this);
+      PatientDocumentsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1016,25 +1046,25 @@ class PatientDocumentsBuilder
 
   ListBuilder<PatientAnalysis>? _lisDocuments;
   ListBuilder<PatientAnalysis> get lisDocuments =>
-      _$this._lisDocuments ??= new ListBuilder<PatientAnalysis>();
+      _$this._lisDocuments ??= ListBuilder<PatientAnalysis>();
   set lisDocuments(ListBuilder<PatientAnalysis>? lisDocuments) =>
       _$this._lisDocuments = lisDocuments;
 
   ListBuilder<PatientAnalysis>? _fisDocuments;
   ListBuilder<PatientAnalysis> get fisDocuments =>
-      _$this._fisDocuments ??= new ListBuilder<PatientAnalysis>();
+      _$this._fisDocuments ??= ListBuilder<PatientAnalysis>();
   set fisDocuments(ListBuilder<PatientAnalysis>? fisDocuments) =>
       _$this._fisDocuments = fisDocuments;
 
   ListBuilder<PatientAnalysis>? _risDocuments;
   ListBuilder<PatientAnalysis> get risDocuments =>
-      _$this._risDocuments ??= new ListBuilder<PatientAnalysis>();
+      _$this._risDocuments ??= ListBuilder<PatientAnalysis>();
   set risDocuments(ListBuilder<PatientAnalysis>? risDocuments) =>
       _$this._risDocuments = risDocuments;
 
   ListBuilder<PatientAnalysis>? _consultationDocuments;
   ListBuilder<PatientAnalysis> get consultationDocuments =>
-      _$this._consultationDocuments ??= new ListBuilder<PatientAnalysis>();
+      _$this._consultationDocuments ??= ListBuilder<PatientAnalysis>();
   set consultationDocuments(
           ListBuilder<PatientAnalysis>? consultationDocuments) =>
       _$this._consultationDocuments = consultationDocuments;
@@ -1055,7 +1085,6 @@ class PatientDocumentsBuilder
 
   @override
   void replace(PatientDocuments other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$PatientDocuments;
   }
 
@@ -1071,7 +1100,7 @@ class PatientDocumentsBuilder
     _$PatientDocuments _$result;
     try {
       _$result = _$v ??
-          new _$PatientDocuments._(
+          _$PatientDocuments._(
             lisDocuments: lisDocuments.build(),
             fisDocuments: fisDocuments.build(),
             risDocuments: risDocuments.build(),
@@ -1089,7 +1118,7 @@ class PatientDocumentsBuilder
         _$failedField = 'consultationDocuments';
         consultationDocuments.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'PatientDocuments', _$failedField, e.toString());
       }
       rethrow;
@@ -1106,20 +1135,33 @@ class _$PatientAnalysis extends PatientAnalysis {
   final String? date;
   @override
   final String? documentUrl;
+  @override
+  final String? doctorName;
+  @override
+  final String? doctorImage;
+  @override
+  final String? clinicName;
+  @override
+  final String? clinicImage;
 
   factory _$PatientAnalysis([void Function(PatientAnalysisBuilder)? updates]) =>
-      (new PatientAnalysisBuilder()..update(updates))._build();
+      (PatientAnalysisBuilder()..update(updates))._build();
 
-  _$PatientAnalysis._({this.documentName, this.date, this.documentUrl})
+  _$PatientAnalysis._(
+      {this.documentName,
+      this.date,
+      this.documentUrl,
+      this.doctorName,
+      this.doctorImage,
+      this.clinicName,
+      this.clinicImage})
       : super._();
-
   @override
   PatientAnalysis rebuild(void Function(PatientAnalysisBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  PatientAnalysisBuilder toBuilder() =>
-      new PatientAnalysisBuilder()..replace(this);
+  PatientAnalysisBuilder toBuilder() => PatientAnalysisBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1127,7 +1169,11 @@ class _$PatientAnalysis extends PatientAnalysis {
     return other is PatientAnalysis &&
         documentName == other.documentName &&
         date == other.date &&
-        documentUrl == other.documentUrl;
+        documentUrl == other.documentUrl &&
+        doctorName == other.doctorName &&
+        doctorImage == other.doctorImage &&
+        clinicName == other.clinicName &&
+        clinicImage == other.clinicImage;
   }
 
   @override
@@ -1136,6 +1182,10 @@ class _$PatientAnalysis extends PatientAnalysis {
     _$hash = $jc(_$hash, documentName.hashCode);
     _$hash = $jc(_$hash, date.hashCode);
     _$hash = $jc(_$hash, documentUrl.hashCode);
+    _$hash = $jc(_$hash, doctorName.hashCode);
+    _$hash = $jc(_$hash, doctorImage.hashCode);
+    _$hash = $jc(_$hash, clinicName.hashCode);
+    _$hash = $jc(_$hash, clinicImage.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -1145,7 +1195,11 @@ class _$PatientAnalysis extends PatientAnalysis {
     return (newBuiltValueToStringHelper(r'PatientAnalysis')
           ..add('documentName', documentName)
           ..add('date', date)
-          ..add('documentUrl', documentUrl))
+          ..add('documentUrl', documentUrl)
+          ..add('doctorName', doctorName)
+          ..add('doctorImage', doctorImage)
+          ..add('clinicName', clinicName)
+          ..add('clinicImage', clinicImage))
         .toString();
   }
 }
@@ -1166,6 +1220,22 @@ class PatientAnalysisBuilder
   String? get documentUrl => _$this._documentUrl;
   set documentUrl(String? documentUrl) => _$this._documentUrl = documentUrl;
 
+  String? _doctorName;
+  String? get doctorName => _$this._doctorName;
+  set doctorName(String? doctorName) => _$this._doctorName = doctorName;
+
+  String? _doctorImage;
+  String? get doctorImage => _$this._doctorImage;
+  set doctorImage(String? doctorImage) => _$this._doctorImage = doctorImage;
+
+  String? _clinicName;
+  String? get clinicName => _$this._clinicName;
+  set clinicName(String? clinicName) => _$this._clinicName = clinicName;
+
+  String? _clinicImage;
+  String? get clinicImage => _$this._clinicImage;
+  set clinicImage(String? clinicImage) => _$this._clinicImage = clinicImage;
+
   PatientAnalysisBuilder();
 
   PatientAnalysisBuilder get _$this {
@@ -1174,6 +1244,10 @@ class PatientAnalysisBuilder
       _documentName = $v.documentName;
       _date = $v.date;
       _documentUrl = $v.documentUrl;
+      _doctorName = $v.doctorName;
+      _doctorImage = $v.doctorImage;
+      _clinicName = $v.clinicName;
+      _clinicImage = $v.clinicImage;
       _$v = null;
     }
     return this;
@@ -1181,7 +1255,6 @@ class PatientAnalysisBuilder
 
   @override
   void replace(PatientAnalysis other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$PatientAnalysis;
   }
 
@@ -1195,10 +1268,14 @@ class PatientAnalysisBuilder
 
   _$PatientAnalysis _build() {
     final _$result = _$v ??
-        new _$PatientAnalysis._(
+        _$PatientAnalysis._(
           documentName: documentName,
           date: date,
           documentUrl: documentUrl,
+          doctorName: doctorName,
+          doctorImage: doctorImage,
+          clinicName: clinicName,
+          clinicImage: clinicImage,
         );
     replace(_$result);
     return _$result;

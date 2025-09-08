@@ -7,7 +7,7 @@ part of 'response_model.dart';
 // **************************************************************************
 
 Serializer<ResponseModel> _$responseModelSerializer =
-    new _$ResponseModelSerializer();
+    _$ResponseModelSerializer();
 
 class _$ResponseModelSerializer implements StructuredSerializer<ResponseModel> {
   @override
@@ -58,7 +58,7 @@ class _$ResponseModelSerializer implements StructuredSerializer<ResponseModel> {
   ResponseModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ResponseModelBuilder();
+    final result = ResponseModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -112,7 +112,7 @@ class _$ResponseModel extends ResponseModel {
   final String? tokenType;
 
   factory _$ResponseModel([void Function(ResponseModelBuilder)? updates]) =>
-      (new ResponseModelBuilder()..update(updates))._build();
+      (ResponseModelBuilder()..update(updates))._build();
 
   _$ResponseModel._(
       {required this.status,
@@ -121,19 +121,13 @@ class _$ResponseModel extends ResponseModel {
       this.accessToken,
       this.refreshToken,
       this.tokenType})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(status, r'ResponseModel', 'status');
-    BuiltValueNullFieldError.checkNotNull(message, r'ResponseModel', 'message');
-    BuiltValueNullFieldError.checkNotNull(
-        isNewPatient, r'ResponseModel', 'isNewPatient');
-  }
-
+      : super._();
   @override
   ResponseModel rebuild(void Function(ResponseModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ResponseModelBuilder toBuilder() => new ResponseModelBuilder()..replace(this);
+  ResponseModelBuilder toBuilder() => ResponseModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -219,7 +213,6 @@ class ResponseModelBuilder
 
   @override
   void replace(ResponseModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ResponseModel;
   }
 
@@ -233,7 +226,7 @@ class ResponseModelBuilder
 
   _$ResponseModel _build() {
     final _$result = _$v ??
-        new _$ResponseModel._(
+        _$ResponseModel._(
           status: BuiltValueNullFieldError.checkNotNull(
               status, r'ResponseModel', 'status'),
           message: BuiltValueNullFieldError.checkNotNull(
@@ -256,22 +249,16 @@ class _$ServiceResponse extends ServiceResponse {
   final String message;
 
   factory _$ServiceResponse([void Function(ServiceResponseBuilder)? updates]) =>
-      (new ServiceResponseBuilder()..update(updates))._build();
+      (ServiceResponseBuilder()..update(updates))._build();
 
   _$ServiceResponse._({required this.status, required this.message})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(status, r'ServiceResponse', 'status');
-    BuiltValueNullFieldError.checkNotNull(
-        message, r'ServiceResponse', 'message');
-  }
-
+      : super._();
   @override
   ServiceResponse rebuild(void Function(ServiceResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ServiceResponseBuilder toBuilder() =>
-      new ServiceResponseBuilder()..replace(this);
+  ServiceResponseBuilder toBuilder() => ServiceResponseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -325,7 +312,6 @@ class ServiceResponseBuilder
 
   @override
   void replace(ServiceResponse other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ServiceResponse;
   }
 
@@ -339,7 +325,7 @@ class ServiceResponseBuilder
 
   _$ServiceResponse _build() {
     final _$result = _$v ??
-        new _$ServiceResponse._(
+        _$ServiceResponse._(
           status: BuiltValueNullFieldError.checkNotNull(
               status, r'ServiceResponse', 'status'),
           message: BuiltValueNullFieldError.checkNotNull(

@@ -2,7 +2,6 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
-import 'package:chopper/chopper.dart';
 import 'package:medion/utils/helpers/decode_html.dart';
 
 part 'branch_model.g.dart';
@@ -112,23 +111,6 @@ abstract class BranchDetailModel implements Built<BranchDetailModel, BranchDetai
 
   static Serializer<BranchDetailModel> get serializer => _$branchDetailModelSerializer;
 }
-
-// abstract class OffersModel implements Built<OffersModel, OffersModelBuilder> {
-//   static Serializer<OffersModel> get serializer => _$offersModelSerializer;
-//
-//   @BuiltValueField(wireName: 'name')
-//   String? get name;
-//
-//   @BuiltValueField(wireName: 'description')
-//   String? get description;
-//
-//   @BuiltValueField(wireName: 'icon')
-//   String? get icon;
-//
-//   OffersModel._();
-//
-//   factory OffersModel([void Function(OffersModelBuilder) updates]) = _$OffersModel;
-// }
 
 abstract class AwardsModel implements Built<AwardsModel, AwardsModelBuilder> {
   static Serializer<AwardsModel> get serializer => _$awardsModelSerializer;
@@ -469,21 +451,43 @@ abstract class PrivacyModel implements Built<PrivacyModel, PrivacyModelBuilder> 
   factory PrivacyModel([void Function(PrivacyModelBuilder) updates]) = _$PrivacyModel;
 }
 
-abstract class GetReviewModel implements Built<GetReviewModel, GetReviewModelBuilder> {
+abstract class ReviewModel implements Built<ReviewModel, ReviewModelBuilder> {
+  @BuiltValueField(wireName: "categories")
+  BuiltList<ReviewInfoModel> get categories;
+
+  @BuiltValueField(wireName: "branches")
+  BuiltList<ReviewInfoModel> get branches;
+
+  @BuiltValueField(wireName: "source")
+  BuiltList<String> get source;
+
+  @BuiltValueField(wireName: "reviews")
+  BuiltList<GetReviewModel> get reviews;
+
+  ReviewModel._();
+
+  factory ReviewModel([void Function(ReviewModelBuilder) updates]) = _$ReviewModel;
+
+  static Serializer<ReviewModel> get serializer => _$reviewModelSerializer;
+}
+
+abstract class ReviewInfoModel implements Built<ReviewInfoModel, ReviewInfoModelBuilder> {
   @BuiltValueField(wireName: "id")
   int? get id;
 
-  @BuiltValueField(wireName: "title")
-  String? get title;
-
-  @BuiltValueField(wireName: "create_date")
-  String? get dateTime;
-
-  @BuiltValueField(wireName: "address")
-  String? get location;
-
   @BuiltValueField(wireName: "name")
   String? get name;
+
+  ReviewInfoModel._();
+
+  factory ReviewInfoModel([void Function(ReviewInfoModelBuilder) updates]) = _$ReviewInfoModel;
+
+  static Serializer<ReviewInfoModel> get serializer => _$reviewInfoModelSerializer;
+}
+
+abstract class GetReviewModel implements Built<GetReviewModel, GetReviewModelBuilder> {
+  @BuiltValueField(wireName: "id")
+  int? get id;
 
   @BuiltValueField(wireName: "ratings")
   String? get ratings;
@@ -494,26 +498,38 @@ abstract class GetReviewModel implements Built<GetReviewModel, GetReviewModelBui
   @BuiltValueField(wireName: "company_id")
   int? get companyId;
 
+  @BuiltValueField(wireName: "company_name")
+  String? get companyName;
+
+  @BuiltValueField(wireName: "company_logo_url")
+  String? get companyLogoUrl;
+
+  @BuiltValueField(wireName: "state")
+  String? get state;
+
+  @BuiltValueField(wireName: "location")
+  String? get location;
+
   @BuiltValueField(wireName: "doctor_id")
   int? get doctorId;
 
-  @BuiltValueField(wireName: "service_id")
-  int? get serviceId;
+  @BuiltValueField(wireName: "doctor_name")
+  String? get doctorName;
 
-  @BuiltValueField(wireName: "partner_id")
-  int? get partnerId;
+  @BuiltValueField(wireName: "doctor_job_name")
+  String? get doctorJobName;
 
-  @BuiltValueField(wireName: "is_anonym")
-  bool? get isAnonym;
-
-  @BuiltValueField(wireName: "address")
-  String? get address;
+  @BuiltValueField(wireName: "doctor_image")
+  String? get doctorImage;
 
   @BuiltValueField(wireName: "create_date")
-  String? get createDate;
+  String? get dateTime;
 
-  @BuiltValueField(wireName: "status")
-  String? get status;
+  @BuiltValueField(wireName: "patient_name")
+  String? get patientName;
+
+  @BuiltValueField(wireName: "integrator_logo_url")
+  String? get integratorLogoUrl;
 
   GetReviewModel._();
 

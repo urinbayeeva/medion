@@ -456,16 +456,14 @@ abstract class _FetchDoctorsJob implements DoctorEvent {
 
 /// @nodoc
 mixin _$DoctorState {
-  bool get loading => throw _privateConstructorUsedError;
-  bool get error => throw _privateConstructorUsedError;
-  bool get success => throw _privateConstructorUsedError;
   DoctorCategory? get doctors => throw _privateConstructorUsedError;
   FormzSubmissionStatus get doctorSingleStatus =>
+      throw _privateConstructorUsedError;
+  FormzSubmissionStatus get fetchDoctors => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get fetchDoctorsJobs =>
       throw _privateConstructorUsedError; // Doctor details specific state
-  bool get doctorDetailsLoading => throw _privateConstructorUsedError;
-  bool get doctorDetailsError => throw _privateConstructorUsedError;
-  bool get doctorDetailsSuccess => throw _privateConstructorUsedError;
   ModelDoctor? get doctorDetails => throw _privateConstructorUsedError;
+  List<String> get doctorsFilterList => throw _privateConstructorUsedError;
   List<DoctorsJob> get doctorsJob => throw _privateConstructorUsedError;
   List<DoctorsInfo> get doctorInfoItems => throw _privateConstructorUsedError;
 
@@ -483,15 +481,12 @@ abstract class $DoctorStateCopyWith<$Res> {
       _$DoctorStateCopyWithImpl<$Res, DoctorState>;
   @useResult
   $Res call(
-      {bool loading,
-      bool error,
-      bool success,
-      DoctorCategory? doctors,
+      {DoctorCategory? doctors,
       FormzSubmissionStatus doctorSingleStatus,
-      bool doctorDetailsLoading,
-      bool doctorDetailsError,
-      bool doctorDetailsSuccess,
+      FormzSubmissionStatus fetchDoctors,
+      FormzSubmissionStatus fetchDoctorsJobs,
       ModelDoctor? doctorDetails,
+      List<String> doctorsFilterList,
       List<DoctorsJob> doctorsJob,
       List<DoctorsInfo> doctorInfoItems});
 }
@@ -511,31 +506,16 @@ class _$DoctorStateCopyWithImpl<$Res, $Val extends DoctorState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? loading = null,
-    Object? error = null,
-    Object? success = null,
     Object? doctors = freezed,
     Object? doctorSingleStatus = null,
-    Object? doctorDetailsLoading = null,
-    Object? doctorDetailsError = null,
-    Object? doctorDetailsSuccess = null,
+    Object? fetchDoctors = null,
+    Object? fetchDoctorsJobs = null,
     Object? doctorDetails = freezed,
+    Object? doctorsFilterList = null,
     Object? doctorsJob = null,
     Object? doctorInfoItems = null,
   }) {
     return _then(_value.copyWith(
-      loading: null == loading
-          ? _value.loading
-          : loading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as bool,
-      success: null == success
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
-              as bool,
       doctors: freezed == doctors
           ? _value.doctors
           : doctors // ignore: cast_nullable_to_non_nullable
@@ -544,22 +524,22 @@ class _$DoctorStateCopyWithImpl<$Res, $Val extends DoctorState>
           ? _value.doctorSingleStatus
           : doctorSingleStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
-      doctorDetailsLoading: null == doctorDetailsLoading
-          ? _value.doctorDetailsLoading
-          : doctorDetailsLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      doctorDetailsError: null == doctorDetailsError
-          ? _value.doctorDetailsError
-          : doctorDetailsError // ignore: cast_nullable_to_non_nullable
-              as bool,
-      doctorDetailsSuccess: null == doctorDetailsSuccess
-          ? _value.doctorDetailsSuccess
-          : doctorDetailsSuccess // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchDoctors: null == fetchDoctors
+          ? _value.fetchDoctors
+          : fetchDoctors // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      fetchDoctorsJobs: null == fetchDoctorsJobs
+          ? _value.fetchDoctorsJobs
+          : fetchDoctorsJobs // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       doctorDetails: freezed == doctorDetails
           ? _value.doctorDetails
           : doctorDetails // ignore: cast_nullable_to_non_nullable
               as ModelDoctor?,
+      doctorsFilterList: null == doctorsFilterList
+          ? _value.doctorsFilterList
+          : doctorsFilterList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       doctorsJob: null == doctorsJob
           ? _value.doctorsJob
           : doctorsJob // ignore: cast_nullable_to_non_nullable
@@ -581,15 +561,12 @@ abstract class _$$DoctorStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool loading,
-      bool error,
-      bool success,
-      DoctorCategory? doctors,
+      {DoctorCategory? doctors,
       FormzSubmissionStatus doctorSingleStatus,
-      bool doctorDetailsLoading,
-      bool doctorDetailsError,
-      bool doctorDetailsSuccess,
+      FormzSubmissionStatus fetchDoctors,
+      FormzSubmissionStatus fetchDoctorsJobs,
       ModelDoctor? doctorDetails,
+      List<String> doctorsFilterList,
       List<DoctorsJob> doctorsJob,
       List<DoctorsInfo> doctorInfoItems});
 }
@@ -607,31 +584,16 @@ class __$$DoctorStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? loading = null,
-    Object? error = null,
-    Object? success = null,
     Object? doctors = freezed,
     Object? doctorSingleStatus = null,
-    Object? doctorDetailsLoading = null,
-    Object? doctorDetailsError = null,
-    Object? doctorDetailsSuccess = null,
+    Object? fetchDoctors = null,
+    Object? fetchDoctorsJobs = null,
     Object? doctorDetails = freezed,
+    Object? doctorsFilterList = null,
     Object? doctorsJob = null,
     Object? doctorInfoItems = null,
   }) {
     return _then(_$DoctorStateImpl(
-      loading: null == loading
-          ? _value.loading
-          : loading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as bool,
-      success: null == success
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
-              as bool,
       doctors: freezed == doctors
           ? _value.doctors
           : doctors // ignore: cast_nullable_to_non_nullable
@@ -640,22 +602,22 @@ class __$$DoctorStateImplCopyWithImpl<$Res>
           ? _value.doctorSingleStatus
           : doctorSingleStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
-      doctorDetailsLoading: null == doctorDetailsLoading
-          ? _value.doctorDetailsLoading
-          : doctorDetailsLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      doctorDetailsError: null == doctorDetailsError
-          ? _value.doctorDetailsError
-          : doctorDetailsError // ignore: cast_nullable_to_non_nullable
-              as bool,
-      doctorDetailsSuccess: null == doctorDetailsSuccess
-          ? _value.doctorDetailsSuccess
-          : doctorDetailsSuccess // ignore: cast_nullable_to_non_nullable
-              as bool,
+      fetchDoctors: null == fetchDoctors
+          ? _value.fetchDoctors
+          : fetchDoctors // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
+      fetchDoctorsJobs: null == fetchDoctorsJobs
+          ? _value.fetchDoctorsJobs
+          : fetchDoctorsJobs // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
       doctorDetails: freezed == doctorDetails
           ? _value.doctorDetails
           : doctorDetails // ignore: cast_nullable_to_non_nullable
               as ModelDoctor?,
+      doctorsFilterList: null == doctorsFilterList
+          ? _value._doctorsFilterList
+          : doctorsFilterList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       doctorsJob: null == doctorsJob
           ? _value._doctorsJob
           : doctorsJob // ignore: cast_nullable_to_non_nullable
@@ -672,49 +634,45 @@ class __$$DoctorStateImplCopyWithImpl<$Res>
 
 class _$DoctorStateImpl extends _DoctorState {
   const _$DoctorStateImpl(
-      {this.loading = false,
-      this.error = false,
-      this.success = false,
-      this.doctors = null,
+      {this.doctors = null,
       this.doctorSingleStatus = FormzSubmissionStatus.initial,
-      this.doctorDetailsLoading = false,
-      this.doctorDetailsError = false,
-      this.doctorDetailsSuccess = false,
+      this.fetchDoctors = FormzSubmissionStatus.initial,
+      this.fetchDoctorsJobs = FormzSubmissionStatus.initial,
       this.doctorDetails = null,
+      final List<String> doctorsFilterList = const [],
       final List<DoctorsJob> doctorsJob = const [],
       final List<DoctorsInfo> doctorInfoItems = const []})
-      : _doctorsJob = doctorsJob,
+      : _doctorsFilterList = doctorsFilterList,
+        _doctorsJob = doctorsJob,
         _doctorInfoItems = doctorInfoItems,
         super._();
 
-  @override
-  @JsonKey()
-  final bool loading;
-  @override
-  @JsonKey()
-  final bool error;
-  @override
-  @JsonKey()
-  final bool success;
   @override
   @JsonKey()
   final DoctorCategory? doctors;
   @override
   @JsonKey()
   final FormzSubmissionStatus doctorSingleStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus fetchDoctors;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus fetchDoctorsJobs;
 // Doctor details specific state
   @override
   @JsonKey()
-  final bool doctorDetailsLoading;
-  @override
-  @JsonKey()
-  final bool doctorDetailsError;
-  @override
-  @JsonKey()
-  final bool doctorDetailsSuccess;
-  @override
-  @JsonKey()
   final ModelDoctor? doctorDetails;
+  final List<String> _doctorsFilterList;
+  @override
+  @JsonKey()
+  List<String> get doctorsFilterList {
+    if (_doctorsFilterList is EqualUnmodifiableListView)
+      return _doctorsFilterList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_doctorsFilterList);
+  }
+
   final List<DoctorsJob> _doctorsJob;
   @override
   @JsonKey()
@@ -735,7 +693,7 @@ class _$DoctorStateImpl extends _DoctorState {
 
   @override
   String toString() {
-    return 'DoctorState(loading: $loading, error: $error, success: $success, doctors: $doctors, doctorSingleStatus: $doctorSingleStatus, doctorDetailsLoading: $doctorDetailsLoading, doctorDetailsError: $doctorDetailsError, doctorDetailsSuccess: $doctorDetailsSuccess, doctorDetails: $doctorDetails, doctorsJob: $doctorsJob, doctorInfoItems: $doctorInfoItems)';
+    return 'DoctorState(doctors: $doctors, doctorSingleStatus: $doctorSingleStatus, fetchDoctors: $fetchDoctors, fetchDoctorsJobs: $fetchDoctorsJobs, doctorDetails: $doctorDetails, doctorsFilterList: $doctorsFilterList, doctorsJob: $doctorsJob, doctorInfoItems: $doctorInfoItems)';
   }
 
   @override
@@ -743,20 +701,17 @@ class _$DoctorStateImpl extends _DoctorState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DoctorStateImpl &&
-            (identical(other.loading, loading) || other.loading == loading) &&
-            (identical(other.error, error) || other.error == error) &&
-            (identical(other.success, success) || other.success == success) &&
             (identical(other.doctors, doctors) || other.doctors == doctors) &&
             (identical(other.doctorSingleStatus, doctorSingleStatus) ||
                 other.doctorSingleStatus == doctorSingleStatus) &&
-            (identical(other.doctorDetailsLoading, doctorDetailsLoading) ||
-                other.doctorDetailsLoading == doctorDetailsLoading) &&
-            (identical(other.doctorDetailsError, doctorDetailsError) ||
-                other.doctorDetailsError == doctorDetailsError) &&
-            (identical(other.doctorDetailsSuccess, doctorDetailsSuccess) ||
-                other.doctorDetailsSuccess == doctorDetailsSuccess) &&
+            (identical(other.fetchDoctors, fetchDoctors) ||
+                other.fetchDoctors == fetchDoctors) &&
+            (identical(other.fetchDoctorsJobs, fetchDoctorsJobs) ||
+                other.fetchDoctorsJobs == fetchDoctorsJobs) &&
             (identical(other.doctorDetails, doctorDetails) ||
                 other.doctorDetails == doctorDetails) &&
+            const DeepCollectionEquality()
+                .equals(other._doctorsFilterList, _doctorsFilterList) &&
             const DeepCollectionEquality()
                 .equals(other._doctorsJob, _doctorsJob) &&
             const DeepCollectionEquality()
@@ -766,15 +721,12 @@ class _$DoctorStateImpl extends _DoctorState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      loading,
-      error,
-      success,
       doctors,
       doctorSingleStatus,
-      doctorDetailsLoading,
-      doctorDetailsError,
-      doctorDetailsSuccess,
+      fetchDoctors,
+      fetchDoctorsJobs,
       doctorDetails,
+      const DeepCollectionEquality().hash(_doctorsFilterList),
       const DeepCollectionEquality().hash(_doctorsJob),
       const DeepCollectionEquality().hash(_doctorInfoItems));
 
@@ -789,37 +741,28 @@ class _$DoctorStateImpl extends _DoctorState {
 
 abstract class _DoctorState extends DoctorState {
   const factory _DoctorState(
-      {final bool loading,
-      final bool error,
-      final bool success,
-      final DoctorCategory? doctors,
+      {final DoctorCategory? doctors,
       final FormzSubmissionStatus doctorSingleStatus,
-      final bool doctorDetailsLoading,
-      final bool doctorDetailsError,
-      final bool doctorDetailsSuccess,
+      final FormzSubmissionStatus fetchDoctors,
+      final FormzSubmissionStatus fetchDoctorsJobs,
       final ModelDoctor? doctorDetails,
+      final List<String> doctorsFilterList,
       final List<DoctorsJob> doctorsJob,
       final List<DoctorsInfo> doctorInfoItems}) = _$DoctorStateImpl;
   const _DoctorState._() : super._();
 
   @override
-  bool get loading;
-  @override
-  bool get error;
-  @override
-  bool get success;
-  @override
   DoctorCategory? get doctors;
   @override
-  FormzSubmissionStatus get doctorSingleStatus; // Doctor details specific state
+  FormzSubmissionStatus get doctorSingleStatus;
   @override
-  bool get doctorDetailsLoading;
+  FormzSubmissionStatus get fetchDoctors;
   @override
-  bool get doctorDetailsError;
-  @override
-  bool get doctorDetailsSuccess;
+  FormzSubmissionStatus get fetchDoctorsJobs; // Doctor details specific state
   @override
   ModelDoctor? get doctorDetails;
+  @override
+  List<String> get doctorsFilterList;
   @override
   List<DoctorsJob> get doctorsJob;
   @override

@@ -89,10 +89,15 @@ class _NotificationPageState extends State<NotificationPage> {
               final rOStatus = o.readOnlyStatus != n.readOnlyStatus;
               final rAllStatus = o.markAllNotificationStatus != n.markAllNotificationStatus;
               final type = o.filterType != n.filterType;
-              return notifications || nStatus || rOStatus || rAllStatus || type;
+              final filter = o.filterNotificationStatus != n.filterNotificationStatus;
+
+              return notifications || nStatus || rOStatus || rAllStatus || type || filter;
             },
             builder: (context, state) {
-              if (state.notificationStatus.isInitial || state.notificationStatus.isInProgress) {
+              log("Filter status: ${state.filterNotificationStatus.name}");
+
+              final status = state.notificationStatus.isInitial || state.notificationStatus.isInProgress;
+              if (status) {
                 return const Center(child: CupertinoActivityIndicator());
               }
 
@@ -108,6 +113,8 @@ class _NotificationPageState extends State<NotificationPage> {
                           (i) {
                             final last = state.types.length - 1;
                             final type = state.types[i];
+                            log("Type: ${type.title} ---- Key: ${type.itemKey}-----CanSee: ${type.canSee} ==> ${state.filterType}==${type.title}");
+                            //filterType == type.title
                             if (type.canSee) {
                               return FilterCard(
                                 i: i,
@@ -117,9 +124,11 @@ class _NotificationPageState extends State<NotificationPage> {
                                 colors: colors,
                                 filterType: state.filterType,
                                 onTap: () {
-                                  context.read<NotificationBloc>().add(
-                                        NotificationEvent.filterNotification(type: type.title, query: type.itemKey),
-                                      );
+                                  if (state.filterType != type.title) {
+                                    context.read<NotificationBloc>().add(
+                                          NotificationEvent.filterNotification(type: type.title, query: type.itemKey),
+                                        );
+                                  }
                                 },
                               );
                             } else {
@@ -155,8 +164,8 @@ class _NotificationPageState extends State<NotificationPage> {
                       child: ListView.builder(
                         itemCount: state.notifications.length,
                         itemBuilder: (context, index) {
-                          final list = state.notifications;
-                          final notification = list[index];
+                          final notification = state.notifications[index];
+                          log("Notification type:${MyFunctions.getNotificationType(notification.type)}");
                           return NotificationCard(
                             icons: icons,
                             colors: colors,

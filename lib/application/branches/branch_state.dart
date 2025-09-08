@@ -22,7 +22,7 @@ class BranchState with _$BranchState {
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus educationStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus awardStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus offertaStatus,
-    @Default([]) List<GetReviewModel> reviews,
+    @Default(null) ReviewModel? reviews,
     @Default([]) List<BranchModel> branches,
     @Default([]) List<AwardsModel> awards,
     @Default(null) EducationModel? study,

@@ -1,13 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:formz/formz.dart';
 import 'package:hive/hive.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/domain/models/team/team_model.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
@@ -44,7 +47,24 @@ class _TeamPageState extends State<TeamPage> {
             title: Text("team".tr(), style: fonts.regularMain),
           ),
           body: BlocBuilder<ContentBloc, ContentState>(
+            buildWhen: (o, n) {
+              final status = o.teamStatus != n.teamStatus;
+              return status;
+            },
             builder: (context, state) {
+              if (state.teamStatus.isInProgress || state.teamStatus.isInitial) {
+                return const Center(child: CupertinoActivityIndicator());
+              }
+
+              if (state.teamStatus.isFailure || state.team.isEmpty) {
+                return Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 130.h),
+                    child: EmptyState(title: "no_results_found".tr()),
+                  ),
+                );
+              }
+
               return ListView.builder(
                 itemCount: state.jobTypes.length,
                 itemBuilder: (context, index) {

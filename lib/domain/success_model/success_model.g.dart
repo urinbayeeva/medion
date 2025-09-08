@@ -6,8 +6,7 @@ part of 'success_model.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<SuccessModel> _$successModelSerializer =
-    new _$SuccessModelSerializer();
+Serializer<SuccessModel> _$successModelSerializer = _$SuccessModelSerializer();
 
 class _$SuccessModelSerializer implements StructuredSerializer<SuccessModel> {
   @override
@@ -41,7 +40,7 @@ class _$SuccessModelSerializer implements StructuredSerializer<SuccessModel> {
   SuccessModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new SuccessModelBuilder();
+    final result = SuccessModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -71,16 +70,15 @@ class _$SuccessModel extends SuccessModel {
   final String? message;
 
   factory _$SuccessModel([void Function(SuccessModelBuilder)? updates]) =>
-      (new SuccessModelBuilder()..update(updates))._build();
+      (SuccessModelBuilder()..update(updates))._build();
 
   _$SuccessModel._({this.status, this.message}) : super._();
-
   @override
   SuccessModel rebuild(void Function(SuccessModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  SuccessModelBuilder toBuilder() => new SuccessModelBuilder()..replace(this);
+  SuccessModelBuilder toBuilder() => SuccessModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -134,7 +132,6 @@ class SuccessModelBuilder
 
   @override
   void replace(SuccessModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$SuccessModel;
   }
 
@@ -148,7 +145,7 @@ class SuccessModelBuilder
 
   _$SuccessModel _build() {
     final _$result = _$v ??
-        new _$SuccessModel._(
+        _$SuccessModel._(
           status: status,
           message: message,
         );

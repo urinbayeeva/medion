@@ -7,6 +7,7 @@ import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/partners/component/partners_card.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -64,26 +65,13 @@ class _PartnersPageState extends State<PartnersPage> {
                   return Center(child: CircularProgressIndicator(color: colors.error500));
                 }
 
-                if (state.fetchContentStatus.isFailure) {
-                  return Center(
-                    child: Text('something_went_wrong'.tr(), style: fonts.regularSemLink),
-                  );
-                }
-
                 final partnerContent = state.contentByType["partner"] ?? [];
 
-                if (partnerContent.isEmpty) {
+                if (partnerContent.isEmpty || state.fetchContentStatus.isFailure) {
                   return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        icons.emojiSad.svg(width: 80.w, height: 80.h),
-                        4.h.verticalSpace,
-                        Text(
-                          'no_result_found'.tr(),
-                          style: fonts.regularSemLink,
-                        ),
-                      ],
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 130.h),
+                      child: EmptyState(title: "no_results_found".tr()),
                     ),
                   );
                 }
@@ -135,9 +123,11 @@ class _PartnersPageState extends State<PartnersPage> {
                   ),
                 );
               } catch (e) {
-                debugPrint('Error in PartnersPage: $e');
                 return Center(
-                  child: Text('An error occurred: ${e.toString()}'),
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 130.h),
+                    child: EmptyState(title: "no_results_found".tr()),
+                  ),
                 );
               }
             },

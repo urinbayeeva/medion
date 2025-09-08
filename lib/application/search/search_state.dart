@@ -9,5 +9,6 @@ class SearchState with _$SearchState {
     @Default(false) bool error,
     @Default(false) bool success,
     @Default([]) List<MedionResponseSearchText> results,
+    @Default([]) List<SearchButtonFields> buttons,
   }) = _SearchState;
 }

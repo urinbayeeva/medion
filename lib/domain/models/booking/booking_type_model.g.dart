@@ -7,38 +7,36 @@ part of 'booking_type_model.dart';
 // **************************************************************************
 
 Serializer<BookingTypeModel> _$bookingTypeModelSerializer =
-    new _$BookingTypeModelSerializer();
-Serializer<Service> _$serviceSerializer = new _$ServiceSerializer();
-Serializer<Category> _$categorySerializer = new _$CategorySerializer();
+    _$BookingTypeModelSerializer();
+Serializer<Service> _$serviceSerializer = _$ServiceSerializer();
+Serializer<Category> _$categorySerializer = _$CategorySerializer();
 Serializer<GiveSelectedId> _$giveSelectedIdSerializer =
-    new _$GiveSelectedIdSerializer();
+    _$GiveSelectedIdSerializer();
 Serializer<BookingThirdService> _$bookingThirdServiceSerializer =
-    new _$BookingThirdServiceSerializer();
+    _$BookingThirdServiceSerializer();
 Serializer<CompanyDoctor> _$companyDoctorSerializer =
-    new _$CompanyDoctorSerializer();
-Serializer<Doctor> _$doctorSerializer = new _$DoctorSerializer();
-Serializer<Schedule> _$scheduleSerializer = new _$ScheduleSerializer();
-Serializer<ScheduleTime> _$scheduleTimeSerializer =
-    new _$ScheduleTimeSerializer();
+    _$CompanyDoctorSerializer();
+Serializer<Doctor> _$doctorSerializer = _$DoctorSerializer();
+Serializer<Schedule> _$scheduleSerializer = _$ScheduleSerializer();
+Serializer<ScheduleTime> _$scheduleTimeSerializer = _$ScheduleTimeSerializer();
 Serializer<HomepageBookingCategory> _$homepageBookingCategorySerializer =
-    new _$HomepageBookingCategorySerializer();
-Serializer<MedicalModel> _$medicalModelSerializer =
-    new _$MedicalModelSerializer();
+    _$HomepageBookingCategorySerializer();
+Serializer<MedicalModel> _$medicalModelSerializer = _$MedicalModelSerializer();
 Serializer<DiscountModel> _$discountModelSerializer =
-    new _$DiscountModelSerializer();
+    _$DiscountModelSerializer();
 Serializer<HomeMedicalDoctor> _$homeMedicalDoctorSerializer =
-    new _$HomeMedicalDoctorSerializer();
+    _$HomeMedicalDoctorSerializer();
 Serializer<HomeServiceBooking> _$homeServiceBookingSerializer =
-    new _$HomeServiceBookingSerializer();
+    _$HomeServiceBookingSerializer();
 Serializer<CreatePatientBookingReq> _$createPatientBookingReqSerializer =
-    new _$CreatePatientBookingReqSerializer();
+    _$CreatePatientBookingReqSerializer();
 Serializer<CreatePatientResponse> _$createPatientResponseSerializer =
-    new _$CreatePatientResponseSerializer();
+    _$CreatePatientResponseSerializer();
 Serializer<CreatePatientServiceResponse>
     _$createPatientServiceResponseSerializer =
-    new _$CreatePatientServiceResponseSerializer();
+    _$CreatePatientServiceResponseSerializer();
 Serializer<CreatePatientRequest> _$createPatientRequestSerializer =
-    new _$CreatePatientRequestSerializer();
+    _$CreatePatientRequestSerializer();
 
 class _$BookingTypeModelSerializer
     implements StructuredSerializer<BookingTypeModel> {
@@ -75,7 +73,7 @@ class _$BookingTypeModelSerializer
   BookingTypeModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new BookingTypeModelBuilder();
+    final result = BookingTypeModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -173,7 +171,7 @@ class _$ServiceSerializer implements StructuredSerializer<Service> {
   @override
   Service deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ServiceBuilder();
+    final result = ServiceBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -241,7 +239,7 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
   @override
   Category deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new CategoryBuilder();
+    final result = CategoryBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -290,7 +288,7 @@ class _$GiveSelectedIdSerializer
   GiveSelectedId deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GiveSelectedIdBuilder();
+    final result = GiveSelectedIdBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -352,7 +350,7 @@ class _$BookingThirdServiceSerializer
   BookingThirdService deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new BookingThirdServiceBuilder();
+    final result = BookingThirdServiceBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -417,7 +415,7 @@ class _$CompanyDoctorSerializer implements StructuredSerializer<CompanyDoctor> {
   CompanyDoctor deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new CompanyDoctorBuilder();
+    final result = CompanyDoctorBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -528,7 +526,7 @@ class _$DoctorSerializer implements StructuredSerializer<Doctor> {
   @override
   Doctor deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new DoctorBuilder();
+    final result = DoctorBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -614,7 +612,7 @@ class _$ScheduleSerializer implements StructuredSerializer<Schedule> {
   @override
   Schedule deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ScheduleBuilder();
+    final result = ScheduleBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -677,7 +675,7 @@ class _$ScheduleTimeSerializer implements StructuredSerializer<ScheduleTime> {
   ScheduleTime deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ScheduleTimeBuilder();
+    final result = ScheduleTimeBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -761,7 +759,7 @@ class _$HomepageBookingCategorySerializer
   HomepageBookingCategory deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new HomepageBookingCategoryBuilder();
+    final result = HomepageBookingCategoryBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -861,7 +859,7 @@ class _$MedicalModelSerializer implements StructuredSerializer<MedicalModel> {
   MedicalModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new MedicalModelBuilder();
+    final result = MedicalModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -943,7 +941,7 @@ class _$DiscountModelSerializer implements StructuredSerializer<DiscountModel> {
   DiscountModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new DiscountModelBuilder();
+    final result = DiscountModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1033,7 +1031,7 @@ class _$HomeMedicalDoctorSerializer
   HomeMedicalDoctor deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new HomeMedicalDoctorBuilder();
+    final result = HomeMedicalDoctorBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1126,7 +1124,7 @@ class _$HomeServiceBookingSerializer
   HomeServiceBooking deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new HomeServiceBookingBuilder();
+    final result = HomeServiceBookingBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1202,7 +1200,7 @@ class _$CreatePatientBookingReqSerializer
   CreatePatientBookingReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new CreatePatientBookingReqBuilder();
+    final result = CreatePatientBookingReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1293,7 +1291,7 @@ class _$CreatePatientResponseSerializer
   CreatePatientResponse deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new CreatePatientResponseBuilder();
+    final result = CreatePatientResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1428,7 +1426,7 @@ class _$CreatePatientServiceResponseSerializer
   CreatePatientServiceResponse deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new CreatePatientServiceResponseBuilder();
+    final result = CreatePatientServiceResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1532,7 +1530,7 @@ class _$CreatePatientRequestSerializer
   CreatePatientRequest deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new CreatePatientRequestBuilder();
+    final result = CreatePatientRequestBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1583,27 +1581,21 @@ class _$BookingTypeModel extends BookingTypeModel {
 
   factory _$BookingTypeModel(
           [void Function(BookingTypeModelBuilder)? updates]) =>
-      (new BookingTypeModelBuilder()..update(updates))._build();
+      (BookingTypeModelBuilder()..update(updates))._build();
 
   _$BookingTypeModel._(
       {required this.id,
       required this.name,
       this.icon,
       required this.categories})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'BookingTypeModel', 'id');
-    BuiltValueNullFieldError.checkNotNull(name, r'BookingTypeModel', 'name');
-    BuiltValueNullFieldError.checkNotNull(
-        categories, r'BookingTypeModel', 'categories');
-  }
-
+      : super._();
   @override
   BookingTypeModel rebuild(void Function(BookingTypeModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   BookingTypeModelBuilder toBuilder() =>
-      new BookingTypeModelBuilder()..replace(this);
+      BookingTypeModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1655,7 +1647,7 @@ class BookingTypeModelBuilder
 
   ListBuilder<String>? _categories;
   ListBuilder<String> get categories =>
-      _$this._categories ??= new ListBuilder<String>();
+      _$this._categories ??= ListBuilder<String>();
   set categories(ListBuilder<String>? categories) =>
       _$this._categories = categories;
 
@@ -1675,7 +1667,6 @@ class BookingTypeModelBuilder
 
   @override
   void replace(BookingTypeModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$BookingTypeModel;
   }
 
@@ -1691,7 +1682,7 @@ class BookingTypeModelBuilder
     _$BookingTypeModel _$result;
     try {
       _$result = _$v ??
-          new _$BookingTypeModel._(
+          _$BookingTypeModel._(
             id: BuiltValueNullFieldError.checkNotNull(
                 id, r'BookingTypeModel', 'id'),
             name: BuiltValueNullFieldError.checkNotNull(
@@ -1705,7 +1696,7 @@ class BookingTypeModelBuilder
         _$failedField = 'categories';
         categories.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'BookingTypeModel', _$failedField, e.toString());
       }
       rethrow;
@@ -1732,7 +1723,7 @@ class _$Service extends Service {
   final bool? canReceiveCallBack;
 
   factory _$Service([void Function(ServiceBuilder)? updates]) =>
-      (new ServiceBuilder()..update(updates))._build();
+      (ServiceBuilder()..update(updates))._build();
 
   _$Service._(
       {this.id,
@@ -1743,13 +1734,12 @@ class _$Service extends Service {
       this.age,
       this.canReceiveCallBack})
       : super._();
-
   @override
   Service rebuild(void Function(ServiceBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ServiceBuilder toBuilder() => new ServiceBuilder()..replace(this);
+  ServiceBuilder toBuilder() => ServiceBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1843,7 +1833,6 @@ class ServiceBuilder implements Builder<Service, ServiceBuilder> {
 
   @override
   void replace(Service other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Service;
   }
 
@@ -1857,7 +1846,7 @@ class ServiceBuilder implements Builder<Service, ServiceBuilder> {
 
   _$Service _build() {
     final _$result = _$v ??
-        new _$Service._(
+        _$Service._(
           id: id,
           name: name,
           description: description,
@@ -1878,19 +1867,15 @@ class _$Category extends Category {
   final BuiltList<Service> services;
 
   factory _$Category([void Function(CategoryBuilder)? updates]) =>
-      (new CategoryBuilder()..update(updates))._build();
+      (CategoryBuilder()..update(updates))._build();
 
-  _$Category._({required this.name, required this.services}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(name, r'Category', 'name');
-    BuiltValueNullFieldError.checkNotNull(services, r'Category', 'services');
-  }
-
+  _$Category._({required this.name, required this.services}) : super._();
   @override
   Category rebuild(void Function(CategoryBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  CategoryBuilder toBuilder() => new CategoryBuilder()..replace(this);
+  CategoryBuilder toBuilder() => CategoryBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1927,7 +1912,7 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
 
   ListBuilder<Service>? _services;
   ListBuilder<Service> get services =>
-      _$this._services ??= new ListBuilder<Service>();
+      _$this._services ??= ListBuilder<Service>();
   set services(ListBuilder<Service>? services) => _$this._services = services;
 
   CategoryBuilder();
@@ -1944,7 +1929,6 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
 
   @override
   void replace(Category other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Category;
   }
 
@@ -1960,7 +1944,7 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
     _$Category _$result;
     try {
       _$result = _$v ??
-          new _$Category._(
+          _$Category._(
             name: BuiltValueNullFieldError.checkNotNull(
                 name, r'Category', 'name'),
             services: services.build(),
@@ -1971,7 +1955,7 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
         _$failedField = 'services';
         services.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'Category', _$failedField, e.toString());
       }
       rethrow;
@@ -1986,20 +1970,15 @@ class _$GiveSelectedId extends GiveSelectedId {
   final BuiltList<int> serviceIds;
 
   factory _$GiveSelectedId([void Function(GiveSelectedIdBuilder)? updates]) =>
-      (new GiveSelectedIdBuilder()..update(updates))._build();
+      (GiveSelectedIdBuilder()..update(updates))._build();
 
-  _$GiveSelectedId._({required this.serviceIds}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        serviceIds, r'GiveSelectedId', 'serviceIds');
-  }
-
+  _$GiveSelectedId._({required this.serviceIds}) : super._();
   @override
   GiveSelectedId rebuild(void Function(GiveSelectedIdBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GiveSelectedIdBuilder toBuilder() =>
-      new GiveSelectedIdBuilder()..replace(this);
+  GiveSelectedIdBuilder toBuilder() => GiveSelectedIdBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2028,8 +2007,7 @@ class GiveSelectedIdBuilder
   _$GiveSelectedId? _$v;
 
   ListBuilder<int>? _serviceIds;
-  ListBuilder<int> get serviceIds =>
-      _$this._serviceIds ??= new ListBuilder<int>();
+  ListBuilder<int> get serviceIds => _$this._serviceIds ??= ListBuilder<int>();
   set serviceIds(ListBuilder<int>? serviceIds) =>
       _$this._serviceIds = serviceIds;
 
@@ -2046,7 +2024,6 @@ class GiveSelectedIdBuilder
 
   @override
   void replace(GiveSelectedId other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GiveSelectedId;
   }
 
@@ -2062,7 +2039,7 @@ class GiveSelectedIdBuilder
     _$GiveSelectedId _$result;
     try {
       _$result = _$v ??
-          new _$GiveSelectedId._(
+          _$GiveSelectedId._(
             serviceIds: serviceIds.build(),
           );
     } catch (_) {
@@ -2071,7 +2048,7 @@ class GiveSelectedIdBuilder
         _$failedField = 'serviceIds';
         serviceIds.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GiveSelectedId', _$failedField, e.toString());
       }
       rethrow;
@@ -2091,15 +2068,11 @@ class _$BookingThirdService extends BookingThirdService {
 
   factory _$BookingThirdService(
           [void Function(BookingThirdServiceBuilder)? updates]) =>
-      (new BookingThirdServiceBuilder()..update(updates))._build();
+      (BookingThirdServiceBuilder()..update(updates))._build();
 
   _$BookingThirdService._(
       {this.serviceId, this.serviceName, required this.companiesDoctors})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        companiesDoctors, r'BookingThirdService', 'companiesDoctors');
-  }
-
+      : super._();
   @override
   BookingThirdService rebuild(
           void Function(BookingThirdServiceBuilder) updates) =>
@@ -2107,7 +2080,7 @@ class _$BookingThirdService extends BookingThirdService {
 
   @override
   BookingThirdServiceBuilder toBuilder() =>
-      new BookingThirdServiceBuilder()..replace(this);
+      BookingThirdServiceBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2152,7 +2125,7 @@ class BookingThirdServiceBuilder
 
   ListBuilder<CompanyDoctor>? _companiesDoctors;
   ListBuilder<CompanyDoctor> get companiesDoctors =>
-      _$this._companiesDoctors ??= new ListBuilder<CompanyDoctor>();
+      _$this._companiesDoctors ??= ListBuilder<CompanyDoctor>();
   set companiesDoctors(ListBuilder<CompanyDoctor>? companiesDoctors) =>
       _$this._companiesDoctors = companiesDoctors;
 
@@ -2171,7 +2144,6 @@ class BookingThirdServiceBuilder
 
   @override
   void replace(BookingThirdService other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$BookingThirdService;
   }
 
@@ -2187,7 +2159,7 @@ class BookingThirdServiceBuilder
     _$BookingThirdService _$result;
     try {
       _$result = _$v ??
-          new _$BookingThirdService._(
+          _$BookingThirdService._(
             serviceId: serviceId,
             serviceName: serviceName,
             companiesDoctors: companiesDoctors.build(),
@@ -2198,7 +2170,7 @@ class BookingThirdServiceBuilder
         _$failedField = 'companiesDoctors';
         companiesDoctors.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'BookingThirdService', _$failedField, e.toString());
       }
       rethrow;
@@ -2217,19 +2189,16 @@ class _$CompanyDoctor extends CompanyDoctor {
   final BuiltList<Doctor> doctor;
 
   factory _$CompanyDoctor([void Function(CompanyDoctorBuilder)? updates]) =>
-      (new CompanyDoctorBuilder()..update(updates))._build();
+      (CompanyDoctorBuilder()..update(updates))._build();
 
   _$CompanyDoctor._({this.companyId, this.companyName, required this.doctor})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(doctor, r'CompanyDoctor', 'doctor');
-  }
-
+      : super._();
   @override
   CompanyDoctor rebuild(void Function(CompanyDoctorBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  CompanyDoctorBuilder toBuilder() => new CompanyDoctorBuilder()..replace(this);
+  CompanyDoctorBuilder toBuilder() => CompanyDoctorBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2273,8 +2242,7 @@ class CompanyDoctorBuilder
   set companyName(String? companyName) => _$this._companyName = companyName;
 
   ListBuilder<Doctor>? _doctor;
-  ListBuilder<Doctor> get doctor =>
-      _$this._doctor ??= new ListBuilder<Doctor>();
+  ListBuilder<Doctor> get doctor => _$this._doctor ??= ListBuilder<Doctor>();
   set doctor(ListBuilder<Doctor>? doctor) => _$this._doctor = doctor;
 
   CompanyDoctorBuilder();
@@ -2292,7 +2260,6 @@ class CompanyDoctorBuilder
 
   @override
   void replace(CompanyDoctor other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$CompanyDoctor;
   }
 
@@ -2308,7 +2275,7 @@ class CompanyDoctorBuilder
     _$CompanyDoctor _$result;
     try {
       _$result = _$v ??
-          new _$CompanyDoctor._(
+          _$CompanyDoctor._(
             companyId: companyId,
             companyName: companyName,
             doctor: doctor.build(),
@@ -2319,7 +2286,7 @@ class CompanyDoctorBuilder
         _$failedField = 'doctor';
         doctor.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'CompanyDoctor', _$failedField, e.toString());
       }
       rethrow;
@@ -2352,7 +2319,7 @@ class _$Doctor extends Doctor {
   final int? workExperience;
 
   factory _$Doctor([void Function(DoctorBuilder)? updates]) =>
-      (new DoctorBuilder()..update(updates))._build();
+      (DoctorBuilder()..update(updates))._build();
 
   _$Doctor._(
       {this.id,
@@ -2365,16 +2332,13 @@ class _$Doctor extends Doctor {
       this.price,
       this.location,
       this.workExperience})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(schedules, r'Doctor', 'schedules');
-  }
-
+      : super._();
   @override
   Doctor rebuild(void Function(DoctorBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  DoctorBuilder toBuilder() => new DoctorBuilder()..replace(this);
+  DoctorBuilder toBuilder() => DoctorBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2455,7 +2419,7 @@ class DoctorBuilder implements Builder<Doctor, DoctorBuilder> {
 
   ListBuilder<Schedule>? _schedules;
   ListBuilder<Schedule> get schedules =>
-      _$this._schedules ??= new ListBuilder<Schedule>();
+      _$this._schedules ??= ListBuilder<Schedule>();
   set schedules(ListBuilder<Schedule>? schedules) =>
       _$this._schedules = schedules;
 
@@ -2494,7 +2458,6 @@ class DoctorBuilder implements Builder<Doctor, DoctorBuilder> {
 
   @override
   void replace(Doctor other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Doctor;
   }
 
@@ -2510,7 +2473,7 @@ class DoctorBuilder implements Builder<Doctor, DoctorBuilder> {
     _$Doctor _$result;
     try {
       _$result = _$v ??
-          new _$Doctor._(
+          _$Doctor._(
             id: id,
             name: name,
             gender: gender,
@@ -2528,7 +2491,7 @@ class DoctorBuilder implements Builder<Doctor, DoctorBuilder> {
         _$failedField = 'schedules';
         schedules.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'Doctor', _$failedField, e.toString());
       }
       rethrow;
@@ -2545,18 +2508,15 @@ class _$Schedule extends Schedule {
   final BuiltList<ScheduleTime> times;
 
   factory _$Schedule([void Function(ScheduleBuilder)? updates]) =>
-      (new ScheduleBuilder()..update(updates))._build();
+      (ScheduleBuilder()..update(updates))._build();
 
-  _$Schedule._({this.date, required this.times}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(times, r'Schedule', 'times');
-  }
-
+  _$Schedule._({this.date, required this.times}) : super._();
   @override
   Schedule rebuild(void Function(ScheduleBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ScheduleBuilder toBuilder() => new ScheduleBuilder()..replace(this);
+  ScheduleBuilder toBuilder() => ScheduleBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2591,7 +2551,7 @@ class ScheduleBuilder implements Builder<Schedule, ScheduleBuilder> {
 
   ListBuilder<ScheduleTime>? _times;
   ListBuilder<ScheduleTime> get times =>
-      _$this._times ??= new ListBuilder<ScheduleTime>();
+      _$this._times ??= ListBuilder<ScheduleTime>();
   set times(ListBuilder<ScheduleTime>? times) => _$this._times = times;
 
   ScheduleBuilder();
@@ -2608,7 +2568,6 @@ class ScheduleBuilder implements Builder<Schedule, ScheduleBuilder> {
 
   @override
   void replace(Schedule other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Schedule;
   }
 
@@ -2624,7 +2583,7 @@ class ScheduleBuilder implements Builder<Schedule, ScheduleBuilder> {
     _$Schedule _$result;
     try {
       _$result = _$v ??
-          new _$Schedule._(
+          _$Schedule._(
             date: date,
             times: times.build(),
           );
@@ -2634,7 +2593,7 @@ class ScheduleBuilder implements Builder<Schedule, ScheduleBuilder> {
         _$failedField = 'times';
         times.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'Schedule', _$failedField, e.toString());
       }
       rethrow;
@@ -2653,16 +2612,15 @@ class _$ScheduleTime extends ScheduleTime {
   final int? duration;
 
   factory _$ScheduleTime([void Function(ScheduleTimeBuilder)? updates]) =>
-      (new ScheduleTimeBuilder()..update(updates))._build();
+      (ScheduleTimeBuilder()..update(updates))._build();
 
   _$ScheduleTime._({this.time, this.active, this.duration}) : super._();
-
   @override
   ScheduleTime rebuild(void Function(ScheduleTimeBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ScheduleTimeBuilder toBuilder() => new ScheduleTimeBuilder()..replace(this);
+  ScheduleTimeBuilder toBuilder() => ScheduleTimeBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2724,7 +2682,6 @@ class ScheduleTimeBuilder
 
   @override
   void replace(ScheduleTime other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ScheduleTime;
   }
 
@@ -2738,7 +2695,7 @@ class ScheduleTimeBuilder
 
   _$ScheduleTime _build() {
     final _$result = _$v ??
-        new _$ScheduleTime._(
+        _$ScheduleTime._(
           time: time,
           active: active,
           duration: duration,
@@ -2762,12 +2719,11 @@ class _$HomepageBookingCategory extends HomepageBookingCategory {
 
   factory _$HomepageBookingCategory(
           [void Function(HomepageBookingCategoryBuilder)? updates]) =>
-      (new HomepageBookingCategoryBuilder()..update(updates))._build();
+      (HomepageBookingCategoryBuilder()..update(updates))._build();
 
   _$HomepageBookingCategory._(
       {this.id, this.name, this.icon, this.isChild, this.hasDiscount})
       : super._();
-
   @override
   HomepageBookingCategory rebuild(
           void Function(HomepageBookingCategoryBuilder) updates) =>
@@ -2775,7 +2731,7 @@ class _$HomepageBookingCategory extends HomepageBookingCategory {
 
   @override
   HomepageBookingCategoryBuilder toBuilder() =>
-      new HomepageBookingCategoryBuilder()..replace(this);
+      HomepageBookingCategoryBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2854,7 +2810,6 @@ class HomepageBookingCategoryBuilder
 
   @override
   void replace(HomepageBookingCategory other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$HomepageBookingCategory;
   }
 
@@ -2868,7 +2823,7 @@ class HomepageBookingCategoryBuilder
 
   _$HomepageBookingCategory _build() {
     final _$result = _$v ??
-        new _$HomepageBookingCategory._(
+        _$HomepageBookingCategory._(
           id: id,
           name: name,
           icon: icon,
@@ -2899,7 +2854,7 @@ class _$MedicalModel extends MedicalModel {
   final BuiltList<DiscountModel> discount;
 
   factory _$MedicalModel([void Function(MedicalModelBuilder)? updates]) =>
-      (new MedicalModelBuilder()..update(updates))._build();
+      (MedicalModelBuilder()..update(updates))._build();
 
   _$MedicalModel._(
       {this.id,
@@ -2910,20 +2865,13 @@ class _$MedicalModel extends MedicalModel {
       required this.doctors,
       required this.services,
       required this.discount})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(doctors, r'MedicalModel', 'doctors');
-    BuiltValueNullFieldError.checkNotNull(
-        services, r'MedicalModel', 'services');
-    BuiltValueNullFieldError.checkNotNull(
-        discount, r'MedicalModel', 'discount');
-  }
-
+      : super._();
   @override
   MedicalModel rebuild(void Function(MedicalModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  MedicalModelBuilder toBuilder() => new MedicalModelBuilder()..replace(this);
+  MedicalModelBuilder toBuilder() => MedicalModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2996,19 +2944,19 @@ class MedicalModelBuilder
 
   ListBuilder<HomeMedicalDoctor>? _doctors;
   ListBuilder<HomeMedicalDoctor> get doctors =>
-      _$this._doctors ??= new ListBuilder<HomeMedicalDoctor>();
+      _$this._doctors ??= ListBuilder<HomeMedicalDoctor>();
   set doctors(ListBuilder<HomeMedicalDoctor>? doctors) =>
       _$this._doctors = doctors;
 
   ListBuilder<HomeServiceBooking>? _services;
   ListBuilder<HomeServiceBooking> get services =>
-      _$this._services ??= new ListBuilder<HomeServiceBooking>();
+      _$this._services ??= ListBuilder<HomeServiceBooking>();
   set services(ListBuilder<HomeServiceBooking>? services) =>
       _$this._services = services;
 
   ListBuilder<DiscountModel>? _discount;
   ListBuilder<DiscountModel> get discount =>
-      _$this._discount ??= new ListBuilder<DiscountModel>();
+      _$this._discount ??= ListBuilder<DiscountModel>();
   set discount(ListBuilder<DiscountModel>? discount) =>
       _$this._discount = discount;
 
@@ -3032,7 +2980,6 @@ class MedicalModelBuilder
 
   @override
   void replace(MedicalModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$MedicalModel;
   }
 
@@ -3048,7 +2995,7 @@ class MedicalModelBuilder
     _$MedicalModel _$result;
     try {
       _$result = _$v ??
-          new _$MedicalModel._(
+          _$MedicalModel._(
             id: id,
             description: description,
             categoryName: categoryName,
@@ -3068,7 +3015,7 @@ class MedicalModelBuilder
         _$failedField = 'discount';
         discount.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'MedicalModel', _$failedField, e.toString());
       }
       rethrow;
@@ -3089,27 +3036,20 @@ class _$DiscountModel extends DiscountModel {
   final String discountEndDate;
 
   factory _$DiscountModel([void Function(DiscountModelBuilder)? updates]) =>
-      (new DiscountModelBuilder()..update(updates))._build();
+      (DiscountModelBuilder()..update(updates))._build();
 
   _$DiscountModel._(
       {required this.id,
       required this.name,
       required this.image,
       required this.discountEndDate})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'DiscountModel', 'id');
-    BuiltValueNullFieldError.checkNotNull(name, r'DiscountModel', 'name');
-    BuiltValueNullFieldError.checkNotNull(image, r'DiscountModel', 'image');
-    BuiltValueNullFieldError.checkNotNull(
-        discountEndDate, r'DiscountModel', 'discountEndDate');
-  }
-
+      : super._();
   @override
   DiscountModel rebuild(void Function(DiscountModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  DiscountModelBuilder toBuilder() => new DiscountModelBuilder()..replace(this);
+  DiscountModelBuilder toBuilder() => DiscountModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -3180,7 +3120,6 @@ class DiscountModelBuilder
 
   @override
   void replace(DiscountModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DiscountModel;
   }
 
@@ -3194,7 +3133,7 @@ class DiscountModelBuilder
 
   _$DiscountModel _build() {
     final _$result = _$v ??
-        new _$DiscountModel._(
+        _$DiscountModel._(
           id: BuiltValueNullFieldError.checkNotNull(id, r'DiscountModel', 'id'),
           name: BuiltValueNullFieldError.checkNotNull(
               name, r'DiscountModel', 'name'),
@@ -3224,7 +3163,7 @@ class _$HomeMedicalDoctor extends HomeMedicalDoctor {
 
   factory _$HomeMedicalDoctor(
           [void Function(HomeMedicalDoctorBuilder)? updates]) =>
-      (new HomeMedicalDoctorBuilder()..update(updates))._build();
+      (HomeMedicalDoctorBuilder()..update(updates))._build();
 
   _$HomeMedicalDoctor._(
       {this.id,
@@ -3234,14 +3173,13 @@ class _$HomeMedicalDoctor extends HomeMedicalDoctor {
       this.academicRank,
       this.experienceYears})
       : super._();
-
   @override
   HomeMedicalDoctor rebuild(void Function(HomeMedicalDoctorBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   HomeMedicalDoctorBuilder toBuilder() =>
-      new HomeMedicalDoctorBuilder()..replace(this);
+      HomeMedicalDoctorBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -3328,7 +3266,6 @@ class HomeMedicalDoctorBuilder
 
   @override
   void replace(HomeMedicalDoctor other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$HomeMedicalDoctor;
   }
 
@@ -3342,7 +3279,7 @@ class HomeMedicalDoctorBuilder
 
   _$HomeMedicalDoctor _build() {
     final _$result = _$v ??
-        new _$HomeMedicalDoctor._(
+        _$HomeMedicalDoctor._(
           id: id,
           image: image,
           name: name,
@@ -3369,7 +3306,7 @@ class _$HomeServiceBooking extends HomeServiceBooking {
 
   factory _$HomeServiceBooking(
           [void Function(HomeServiceBookingBuilder)? updates]) =>
-      (new HomeServiceBookingBuilder()..update(updates))._build();
+      (HomeServiceBookingBuilder()..update(updates))._build();
 
   _$HomeServiceBooking._(
       {this.id,
@@ -3378,7 +3315,6 @@ class _$HomeServiceBooking extends HomeServiceBooking {
       this.priceUzd,
       this.canReceiveCallBack})
       : super._();
-
   @override
   HomeServiceBooking rebuild(
           void Function(HomeServiceBookingBuilder) updates) =>
@@ -3386,7 +3322,7 @@ class _$HomeServiceBooking extends HomeServiceBooking {
 
   @override
   HomeServiceBookingBuilder toBuilder() =>
-      new HomeServiceBookingBuilder()..replace(this);
+      HomeServiceBookingBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -3465,7 +3401,6 @@ class HomeServiceBookingBuilder
 
   @override
   void replace(HomeServiceBooking other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$HomeServiceBooking;
   }
 
@@ -3479,7 +3414,7 @@ class HomeServiceBookingBuilder
 
   _$HomeServiceBooking _build() {
     final _$result = _$v ??
-        new _$HomeServiceBooking._(
+        _$HomeServiceBooking._(
           id: id,
           name: name,
           priceUzs: priceUzs,
@@ -3507,7 +3442,7 @@ class _$CreatePatientBookingReq extends CreatePatientBookingReq {
 
   factory _$CreatePatientBookingReq(
           [void Function(CreatePatientBookingReqBuilder)? updates]) =>
-      (new CreatePatientBookingReqBuilder()..update(updates))._build();
+      (CreatePatientBookingReqBuilder()..update(updates))._build();
 
   _$CreatePatientBookingReq._(
       {required this.serviceId,
@@ -3516,21 +3451,7 @@ class _$CreatePatientBookingReq extends CreatePatientBookingReq {
       required this.startTime,
       required this.endTime,
       required this.date})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        serviceId, r'CreatePatientBookingReq', 'serviceId');
-    BuiltValueNullFieldError.checkNotNull(
-        companyId, r'CreatePatientBookingReq', 'companyId');
-    BuiltValueNullFieldError.checkNotNull(
-        doctorId, r'CreatePatientBookingReq', 'doctorId');
-    BuiltValueNullFieldError.checkNotNull(
-        startTime, r'CreatePatientBookingReq', 'startTime');
-    BuiltValueNullFieldError.checkNotNull(
-        endTime, r'CreatePatientBookingReq', 'endTime');
-    BuiltValueNullFieldError.checkNotNull(
-        date, r'CreatePatientBookingReq', 'date');
-  }
-
+      : super._();
   @override
   CreatePatientBookingReq rebuild(
           void Function(CreatePatientBookingReqBuilder) updates) =>
@@ -3538,7 +3459,7 @@ class _$CreatePatientBookingReq extends CreatePatientBookingReq {
 
   @override
   CreatePatientBookingReqBuilder toBuilder() =>
-      new CreatePatientBookingReqBuilder()..replace(this);
+      CreatePatientBookingReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -3625,7 +3546,6 @@ class CreatePatientBookingReqBuilder
 
   @override
   void replace(CreatePatientBookingReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$CreatePatientBookingReq;
   }
 
@@ -3639,7 +3559,7 @@ class CreatePatientBookingReqBuilder
 
   _$CreatePatientBookingReq _build() {
     final _$result = _$v ??
-        new _$CreatePatientBookingReq._(
+        _$CreatePatientBookingReq._(
           serviceId: BuiltValueNullFieldError.checkNotNull(
               serviceId, r'CreatePatientBookingReq', 'serviceId'),
           companyId: BuiltValueNullFieldError.checkNotNull(
@@ -3670,12 +3590,11 @@ class _$CreatePatientResponse extends CreatePatientResponse {
 
   factory _$CreatePatientResponse(
           [void Function(CreatePatientResponseBuilder)? updates]) =>
-      (new CreatePatientResponseBuilder()..update(updates))._build();
+      (CreatePatientResponseBuilder()..update(updates))._build();
 
   _$CreatePatientResponse._(
       {this.services, this.paymeUrl, this.clickUrl, this.multicardUrl})
       : super._();
-
   @override
   CreatePatientResponse rebuild(
           void Function(CreatePatientResponseBuilder) updates) =>
@@ -3683,7 +3602,7 @@ class _$CreatePatientResponse extends CreatePatientResponse {
 
   @override
   CreatePatientResponseBuilder toBuilder() =>
-      new CreatePatientResponseBuilder()..replace(this);
+      CreatePatientResponseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -3723,7 +3642,7 @@ class CreatePatientResponseBuilder
 
   ListBuilder<Service>? _services;
   ListBuilder<Service> get services =>
-      _$this._services ??= new ListBuilder<Service>();
+      _$this._services ??= ListBuilder<Service>();
   set services(ListBuilder<Service>? services) => _$this._services = services;
 
   String? _paymeUrl;
@@ -3754,7 +3673,6 @@ class CreatePatientResponseBuilder
 
   @override
   void replace(CreatePatientResponse other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$CreatePatientResponse;
   }
 
@@ -3770,7 +3688,7 @@ class CreatePatientResponseBuilder
     _$CreatePatientResponse _$result;
     try {
       _$result = _$v ??
-          new _$CreatePatientResponse._(
+          _$CreatePatientResponse._(
             services: _services?.build(),
             paymeUrl: paymeUrl,
             clickUrl: clickUrl,
@@ -3782,7 +3700,7 @@ class CreatePatientResponseBuilder
         _$failedField = 'services';
         _services?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'CreatePatientResponse', _$failedField, e.toString());
       }
       rethrow;
@@ -3820,7 +3738,7 @@ class _$CreatePatientServiceResponse extends CreatePatientServiceResponse {
 
   factory _$CreatePatientServiceResponse(
           [void Function(CreatePatientServiceResponseBuilder)? updates]) =>
-      (new CreatePatientServiceResponseBuilder()..update(updates))._build();
+      (CreatePatientServiceResponseBuilder()..update(updates))._build();
 
   _$CreatePatientServiceResponse._(
       {this.id,
@@ -3836,7 +3754,6 @@ class _$CreatePatientServiceResponse extends CreatePatientServiceResponse {
       this.date,
       this.startTime})
       : super._();
-
   @override
   CreatePatientServiceResponse rebuild(
           void Function(CreatePatientServiceResponseBuilder) updates) =>
@@ -3844,7 +3761,7 @@ class _$CreatePatientServiceResponse extends CreatePatientServiceResponse {
 
   @override
   CreatePatientServiceResponseBuilder toBuilder() =>
-      new CreatePatientServiceResponseBuilder()..replace(this);
+      CreatePatientServiceResponseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -3985,7 +3902,6 @@ class CreatePatientServiceResponseBuilder
 
   @override
   void replace(CreatePatientServiceResponse other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$CreatePatientServiceResponse;
   }
 
@@ -3999,7 +3915,7 @@ class CreatePatientServiceResponseBuilder
 
   _$CreatePatientServiceResponse _build() {
     final _$result = _$v ??
-        new _$CreatePatientServiceResponse._(
+        _$CreatePatientServiceResponse._(
           id: id,
           doctorId: doctorId,
           image: image,
@@ -4034,7 +3950,7 @@ class _$CreatePatientRequest extends CreatePatientRequest {
 
   factory _$CreatePatientRequest(
           [void Function(CreatePatientRequestBuilder)? updates]) =>
-      (new CreatePatientRequestBuilder()..update(updates))._build();
+      (CreatePatientRequestBuilder()..update(updates))._build();
 
   _$CreatePatientRequest._(
       {required this.serviceId,
@@ -4043,21 +3959,7 @@ class _$CreatePatientRequest extends CreatePatientRequest {
       required this.startTime,
       required this.endTime,
       required this.date})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        serviceId, r'CreatePatientRequest', 'serviceId');
-    BuiltValueNullFieldError.checkNotNull(
-        companyId, r'CreatePatientRequest', 'companyId');
-    BuiltValueNullFieldError.checkNotNull(
-        doctorId, r'CreatePatientRequest', 'doctorId');
-    BuiltValueNullFieldError.checkNotNull(
-        startTime, r'CreatePatientRequest', 'startTime');
-    BuiltValueNullFieldError.checkNotNull(
-        endTime, r'CreatePatientRequest', 'endTime');
-    BuiltValueNullFieldError.checkNotNull(
-        date, r'CreatePatientRequest', 'date');
-  }
-
+      : super._();
   @override
   CreatePatientRequest rebuild(
           void Function(CreatePatientRequestBuilder) updates) =>
@@ -4065,7 +3967,7 @@ class _$CreatePatientRequest extends CreatePatientRequest {
 
   @override
   CreatePatientRequestBuilder toBuilder() =>
-      new CreatePatientRequestBuilder()..replace(this);
+      CreatePatientRequestBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -4151,7 +4053,6 @@ class CreatePatientRequestBuilder
 
   @override
   void replace(CreatePatientRequest other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$CreatePatientRequest;
   }
 
@@ -4165,7 +4066,7 @@ class CreatePatientRequestBuilder
 
   _$CreatePatientRequest _build() {
     final _$result = _$v ??
-        new _$CreatePatientRequest._(
+        _$CreatePatientRequest._(
           serviceId: BuiltValueNullFieldError.checkNotNull(
               serviceId, r'CreatePatientRequest', 'serviceId'),
           companyId: BuiltValueNullFieldError.checkNotNull(
@@ -4192,17 +4093,11 @@ class _$MedicalServiceCategory extends MedicalServiceCategory {
 
   factory _$MedicalServiceCategory(
           [void Function(MedicalServiceCategoryBuilder)? updates]) =>
-      (new MedicalServiceCategoryBuilder()..update(updates))._build();
+      (MedicalServiceCategoryBuilder()..update(updates))._build();
 
   _$MedicalServiceCategory._(
       {required this.categoryName, required this.services})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        categoryName, r'MedicalServiceCategory', 'categoryName');
-    BuiltValueNullFieldError.checkNotNull(
-        services, r'MedicalServiceCategory', 'services');
-  }
-
+      : super._();
   @override
   MedicalServiceCategory rebuild(
           void Function(MedicalServiceCategoryBuilder) updates) =>
@@ -4210,7 +4105,7 @@ class _$MedicalServiceCategory extends MedicalServiceCategory {
 
   @override
   MedicalServiceCategoryBuilder toBuilder() =>
-      new MedicalServiceCategoryBuilder()..replace(this);
+      MedicalServiceCategoryBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -4248,7 +4143,7 @@ class MedicalServiceCategoryBuilder
 
   ListBuilder<MedicalService>? _services;
   ListBuilder<MedicalService> get services =>
-      _$this._services ??= new ListBuilder<MedicalService>();
+      _$this._services ??= ListBuilder<MedicalService>();
   set services(ListBuilder<MedicalService>? services) =>
       _$this._services = services;
 
@@ -4266,7 +4161,6 @@ class MedicalServiceCategoryBuilder
 
   @override
   void replace(MedicalServiceCategory other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$MedicalServiceCategory;
   }
 
@@ -4282,7 +4176,7 @@ class MedicalServiceCategoryBuilder
     _$MedicalServiceCategory _$result;
     try {
       _$result = _$v ??
-          new _$MedicalServiceCategory._(
+          _$MedicalServiceCategory._(
             categoryName: BuiltValueNullFieldError.checkNotNull(
                 categoryName, r'MedicalServiceCategory', 'categoryName'),
             services: services.build(),
@@ -4293,7 +4187,7 @@ class MedicalServiceCategoryBuilder
         _$failedField = 'services';
         services.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'MedicalServiceCategory', _$failedField, e.toString());
       }
       rethrow;
@@ -4318,7 +4212,7 @@ class _$MedicalService extends MedicalService {
   final bool isChild;
 
   factory _$MedicalService([void Function(MedicalServiceBuilder)? updates]) =>
-      (new MedicalServiceBuilder()..update(updates))._build();
+      (MedicalServiceBuilder()..update(updates))._build();
 
   _$MedicalService._(
       {required this.id,
@@ -4327,26 +4221,13 @@ class _$MedicalService extends MedicalService {
       required this.doctorPriceStartUzs,
       required this.doctorPriceStartUsd,
       required this.isChild})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'MedicalService', 'id');
-    BuiltValueNullFieldError.checkNotNull(name, r'MedicalService', 'name');
-    BuiltValueNullFieldError.checkNotNull(
-        description, r'MedicalService', 'description');
-    BuiltValueNullFieldError.checkNotNull(
-        doctorPriceStartUzs, r'MedicalService', 'doctorPriceStartUzs');
-    BuiltValueNullFieldError.checkNotNull(
-        doctorPriceStartUsd, r'MedicalService', 'doctorPriceStartUsd');
-    BuiltValueNullFieldError.checkNotNull(
-        isChild, r'MedicalService', 'isChild');
-  }
-
+      : super._();
   @override
   MedicalService rebuild(void Function(MedicalServiceBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  MedicalServiceBuilder toBuilder() =>
-      new MedicalServiceBuilder()..replace(this);
+  MedicalServiceBuilder toBuilder() => MedicalServiceBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -4434,7 +4315,6 @@ class MedicalServiceBuilder
 
   @override
   void replace(MedicalService other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$MedicalService;
   }
 
@@ -4448,7 +4328,7 @@ class MedicalServiceBuilder
 
   _$MedicalService _build() {
     final _$result = _$v ??
-        new _$MedicalService._(
+        _$MedicalService._(
           id: BuiltValueNullFieldError.checkNotNull(
               id, r'MedicalService', 'id'),
           name: BuiltValueNullFieldError.checkNotNull(
@@ -4474,22 +4354,16 @@ class _$ServiceRequest extends ServiceRequest {
   final BuiltList<String> serviceIds;
 
   factory _$ServiceRequest([void Function(ServiceRequestBuilder)? updates]) =>
-      (new ServiceRequestBuilder()..update(updates))._build();
+      (ServiceRequestBuilder()..update(updates))._build();
 
   _$ServiceRequest._({required this.phone, required this.serviceIds})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(phone, r'ServiceRequest', 'phone');
-    BuiltValueNullFieldError.checkNotNull(
-        serviceIds, r'ServiceRequest', 'serviceIds');
-  }
-
+      : super._();
   @override
   ServiceRequest rebuild(void Function(ServiceRequestBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ServiceRequestBuilder toBuilder() =>
-      new ServiceRequestBuilder()..replace(this);
+  ServiceRequestBuilder toBuilder() => ServiceRequestBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -4527,7 +4401,7 @@ class ServiceRequestBuilder
 
   ListBuilder<String>? _serviceIds;
   ListBuilder<String> get serviceIds =>
-      _$this._serviceIds ??= new ListBuilder<String>();
+      _$this._serviceIds ??= ListBuilder<String>();
   set serviceIds(ListBuilder<String>? serviceIds) =>
       _$this._serviceIds = serviceIds;
 
@@ -4545,7 +4419,6 @@ class ServiceRequestBuilder
 
   @override
   void replace(ServiceRequest other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ServiceRequest;
   }
 
@@ -4561,7 +4434,7 @@ class ServiceRequestBuilder
     _$ServiceRequest _$result;
     try {
       _$result = _$v ??
-          new _$ServiceRequest._(
+          _$ServiceRequest._(
             phone: BuiltValueNullFieldError.checkNotNull(
                 phone, r'ServiceRequest', 'phone'),
             serviceIds: serviceIds.build(),
@@ -4572,7 +4445,7 @@ class ServiceRequestBuilder
         _$failedField = 'serviceIds';
         serviceIds.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'ServiceRequest', _$failedField, e.toString());
       }
       rethrow;

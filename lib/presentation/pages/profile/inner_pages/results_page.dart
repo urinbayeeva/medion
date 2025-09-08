@@ -1,9 +1,15 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:medion/presentation/component/c_appbar.dart';
+import 'package:formz/formz.dart';
+import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/profile/widget/results_data_widget.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class ResultsPage extends StatefulWidget {
@@ -16,10 +22,13 @@ class ResultsPage extends StatefulWidget {
 class _ResultsPageState extends State<ResultsPage> with SingleTickerProviderStateMixin {
   bool isAnalyse = true;
   late TabController _tabController;
+  late final AuthBloc _bloc;
 
   @override
   void initState() {
     super.initState();
+    _bloc = context.read<AuthBloc>();
+    _bloc.add(const AuthEvent.fetchPatientAnalyze());
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -57,12 +66,45 @@ class _ResultsPageState extends State<ResultsPage> with SingleTickerProviderStat
               ],
             ),
           ),
-          body: TabBarView(
-            controller: _tabController,
-            children: const [
-              ResultsDataWidget(type: 'lis'),
-              ResultsDataWidget(type: 'consultation'),
-            ],
+          body: BlocBuilder<AuthBloc, AuthState>(
+            bloc: _bloc,
+            buildWhen: (o, n) {
+              final analyze = o.patientAnalyze != n.patientAnalyze;
+              final status = o.fetchPatientAnalyseStatus != n.fetchPatientAnalyseStatus;
+              return analyze || status;
+            },
+            builder: (context, state) {
+              if (state.fetchPatientAnalyseStatus.isInProgress || state.fetchPatientAnalyseStatus.isInitial) {
+                return const Center(child: CupertinoActivityIndicator());
+              }
+
+              if (state.fetchPatientAnalyseStatus.isFailure) {
+                return Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 130.h),
+                    child: EmptyState(title: "no_results_found".tr()),
+                  ),
+                );
+              }
+
+              return TabBarView(
+                controller: _tabController,
+                children: [
+                  ResultsDataWidget(
+                    items: [
+                      ...?state.patientAnalyze?.fisDocuments,
+                      ...?state.patientAnalyze?.lisDocuments,
+                      ...?state.patientAnalyze?.risDocuments,
+                    ],
+                    type: 'lis',
+                  ),
+                  ResultsDataWidget(
+                    items: [...?state.patientAnalyze?.consultationDocuments],
+                    type: 'consultation',
+                  ),
+                ],
+              );
+            },
           ),
         );
       },

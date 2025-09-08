@@ -7,24 +7,19 @@ part of 'doctor_model.dart';
 // **************************************************************************
 
 Serializer<DoctorCategory> _$doctorCategorySerializer =
-    new _$DoctorCategorySerializer();
-Serializer<DoctorData> _$doctorDataSerializer = new _$DoctorDataSerializer();
-Serializer<Discount> _$discountSerializer = new _$DiscountSerializer();
-Serializer<ModelDoctor> _$modelDoctorSerializer = new _$ModelDoctorSerializer();
-Serializer<WorkSchedule> _$workScheduleSerializer =
-    new _$WorkScheduleSerializer();
-Serializer<ScheduleItem> _$scheduleItemSerializer =
-    new _$ScheduleItemSerializer();
-Serializer<DoctorReview> _$doctorReviewSerializer =
-    new _$DoctorReviewSerializer();
-Serializer<GalleryItems> _$galleryItemsSerializer =
-    new _$GalleryItemsSerializer();
-Serializer<Articles> _$articlesSerializer = new _$ArticlesSerializer();
-Serializer<Experience> _$experienceSerializer = new _$ExperienceSerializer();
-Serializer<Education> _$educationSerializer = new _$EducationSerializer();
-Serializer<Award> _$awardSerializer = new _$AwardSerializer();
-Serializer<PriceItem> _$priceItemSerializer = new _$PriceItemSerializer();
-Serializer<DoctorsJob> _$doctorsJobSerializer = new _$DoctorsJobSerializer();
+    _$DoctorCategorySerializer();
+Serializer<DoctorData> _$doctorDataSerializer = _$DoctorDataSerializer();
+Serializer<Discount> _$discountSerializer = _$DiscountSerializer();
+Serializer<ModelDoctor> _$modelDoctorSerializer = _$ModelDoctorSerializer();
+Serializer<WorkSchedule> _$workScheduleSerializer = _$WorkScheduleSerializer();
+Serializer<ScheduleItem> _$scheduleItemSerializer = _$ScheduleItemSerializer();
+Serializer<DoctorReview> _$doctorReviewSerializer = _$DoctorReviewSerializer();
+Serializer<GalleryItems> _$galleryItemsSerializer = _$GalleryItemsSerializer();
+Serializer<Articles> _$articlesSerializer = _$ArticlesSerializer();
+Serializer<DoctorInfoDetails> _$doctorInfoDetailsSerializer =
+    _$DoctorInfoDetailsSerializer();
+Serializer<PriceItem> _$priceItemSerializer = _$PriceItemSerializer();
+Serializer<DoctorsJob> _$doctorsJobSerializer = _$DoctorsJobSerializer();
 
 class _$DoctorCategorySerializer
     implements StructuredSerializer<DoctorCategory> {
@@ -53,7 +48,7 @@ class _$DoctorCategorySerializer
   DoctorCategory deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new DoctorCategoryBuilder();
+    final result = DoctorCategoryBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -172,7 +167,7 @@ class _$DoctorDataSerializer implements StructuredSerializer<DoctorData> {
   @override
   DoctorData deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new DoctorDataBuilder();
+    final result = DoctorDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -281,7 +276,7 @@ class _$DiscountSerializer implements StructuredSerializer<Discount> {
   @override
   Discount deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new DiscountBuilder();
+    final result = DiscountBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -340,8 +335,8 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
           specifiedType: const FullType(WorkSchedule)),
       'experience',
       serializers.serialize(object.experience,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(Experience)])),
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(DoctorInfoDetails)])),
       'articles',
       serializers.serialize(object.articles,
           specifiedType:
@@ -356,16 +351,16 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
               const FullType(BuiltList, const [const FullType(String)])),
       'education',
       serializers.serialize(object.education,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(Education)])),
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(DoctorInfoDetails)])),
       'discounts',
       serializers.serialize(object.discount,
           specifiedType:
               const FullType(BuiltList, const [const FullType(Discount)])),
       'award',
       serializers.serialize(object.award,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(Award)])),
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(DoctorInfoDetails)])),
       'price_list',
       serializers.serialize(object.priceList,
           specifiedType:
@@ -436,7 +431,7 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
   @override
   ModelDoctor deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ModelDoctorBuilder();
+    final result = ModelDoctorBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -487,7 +482,7 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
         case 'experience':
           result.experience.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(Experience)]))!
+                      BuiltList, const [const FullType(DoctorInfoDetails)]))!
               as BuiltList<Object?>);
           break;
         case 'articles':
@@ -511,7 +506,7 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
         case 'education':
           result.education.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(Education)]))!
+                      BuiltList, const [const FullType(DoctorInfoDetails)]))!
               as BuiltList<Object?>);
           break;
         case 'discounts':
@@ -522,8 +517,8 @@ class _$ModelDoctorSerializer implements StructuredSerializer<ModelDoctor> {
           break;
         case 'award':
           result.award.replace(serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(BuiltList, const [const FullType(Award)]))!
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(DoctorInfoDetails)]))!
               as BuiltList<Object?>);
           break;
         case 'gender':
@@ -599,6 +594,10 @@ class _$WorkScheduleSerializer implements StructuredSerializer<WorkSchedule> {
       serializers.serialize(object.saturday,
           specifiedType:
               const FullType(BuiltList, const [const FullType(ScheduleItem)])),
+      'Sunday',
+      serializers.serialize(object.sunday,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(ScheduleItem)])),
     ];
 
     return result;
@@ -608,7 +607,7 @@ class _$WorkScheduleSerializer implements StructuredSerializer<WorkSchedule> {
   WorkSchedule deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new WorkScheduleBuilder();
+    final result = WorkScheduleBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -652,6 +651,12 @@ class _$WorkScheduleSerializer implements StructuredSerializer<WorkSchedule> {
                       BuiltList, const [const FullType(ScheduleItem)]))!
               as BuiltList<Object?>);
           break;
+        case 'Sunday':
+          result.sunday.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(ScheduleItem)]))!
+              as BuiltList<Object?>);
+          break;
       }
     }
 
@@ -684,7 +689,7 @@ class _$ScheduleItemSerializer implements StructuredSerializer<ScheduleItem> {
   ScheduleItem deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ScheduleItemBuilder();
+    final result = ScheduleItemBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -716,24 +721,89 @@ class _$DoctorReviewSerializer implements StructuredSerializer<DoctorReview> {
   @override
   Iterable<Object?> serialize(Serializers serializers, DoctorReview object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'ratings',
-      serializers.serialize(object.ratings,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(String)])),
-      'review',
-      serializers.serialize(object.review,
-          specifiedType: const FullType(String)),
-      'company_id',
-      serializers.serialize(object.companyId,
-          specifiedType: const FullType(int)),
-      'doctor_id',
-      serializers.serialize(object.doctorId,
-          specifiedType: const FullType(int)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.ratings;
+    if (value != null) {
+      result
+        ..add('ratings')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.review;
+    if (value != null) {
+      result
+        ..add('review')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.companyId;
+    if (value != null) {
+      result
+        ..add('company_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.companyName;
+    if (value != null) {
+      result
+        ..add('company_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.companyLogoUrl;
+    if (value != null) {
+      result
+        ..add('company_logo_url')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.state;
+    if (value != null) {
+      result
+        ..add('state')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.integratorLogoUrl;
+    if (value != null) {
+      result
+        ..add('integrator_logo_url')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.doctorId;
+    if (value != null) {
+      result
+        ..add('doctor_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.createDate;
+    if (value != null) {
+      result
+        ..add('create_date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.location;
+    if (value != null) {
+      result
+        ..add('location')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.patientName;
+    if (value != null) {
+      result
+        ..add('patient_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -741,7 +811,7 @@ class _$DoctorReviewSerializer implements StructuredSerializer<DoctorReview> {
   DoctorReview deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new DoctorReviewBuilder();
+    final result = DoctorReviewBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -751,25 +821,51 @@ class _$DoctorReviewSerializer implements StructuredSerializer<DoctorReview> {
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'ratings':
-          result.ratings.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
-              as BuiltList<Object?>);
+          result.ratings = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'review':
           result.review = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'company_id':
           result.companyId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'company_name':
+          result.companyName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'company_logo_url':
+          result.companyLogoUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'state':
+          result.state = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'integrator_logo_url':
+          result.integratorLogoUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'doctor_id':
           result.doctorId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'create_date':
+          result.createDate = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'location':
+          result.location = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'patient_name':
+          result.patientName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -810,7 +906,7 @@ class _$GalleryItemsSerializer implements StructuredSerializer<GalleryItems> {
   GalleryItems deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GalleryItemsBuilder();
+    final result = GalleryItemsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -880,7 +976,7 @@ class _$ArticlesSerializer implements StructuredSerializer<Articles> {
   @override
   Articles deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ArticlesBuilder();
+    final result = ArticlesBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -921,127 +1017,22 @@ class _$ArticlesSerializer implements StructuredSerializer<Articles> {
   }
 }
 
-class _$ExperienceSerializer implements StructuredSerializer<Experience> {
+class _$DoctorInfoDetailsSerializer
+    implements StructuredSerializer<DoctorInfoDetails> {
   @override
-  final Iterable<Type> types = const [Experience, _$Experience];
+  final Iterable<Type> types = const [DoctorInfoDetails, _$DoctorInfoDetails];
   @override
-  final String wireName = 'Experience';
+  final String wireName = 'DoctorInfoDetails';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, Experience object,
+  Iterable<Object?> serialize(Serializers serializers, DoctorInfoDetails object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
-      'title',
-      serializers.serialize(object.title,
-          specifiedType: const FullType(JsonObject)),
-      'date',
-      serializers.serialize(object.date,
-          specifiedType: const FullType(JsonObject)),
-      'description',
-      serializers.serialize(object.description,
-          specifiedType: const FullType(JsonObject)),
-    ];
-
-    return result;
-  }
-
-  @override
-  Experience deserialize(Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new ExperienceBuilder();
-
-    final iterator = serialized.iterator;
-    while (iterator.moveNext()) {
-      final key = iterator.current! as String;
-      iterator.moveNext();
-      final Object? value = iterator.current;
-      switch (key) {
-        case 'title':
-          result.title = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject))! as JsonObject;
-          break;
-        case 'date':
-          result.date = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject))! as JsonObject;
-          break;
-        case 'description':
-          result.description = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject))! as JsonObject;
-          break;
-      }
-    }
-
-    return result.build();
-  }
-}
-
-class _$EducationSerializer implements StructuredSerializer<Education> {
-  @override
-  final Iterable<Type> types = const [Education, _$Education];
-  @override
-  final String wireName = 'Education';
-
-  @override
-  Iterable<Object?> serialize(Serializers serializers, Education object,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'title',
-      serializers.serialize(object.title,
-          specifiedType: const FullType(JsonObject)),
-      'date',
-      serializers.serialize(object.date,
-          specifiedType: const FullType(JsonObject)),
       'description',
       serializers.serialize(object.description,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
     ];
-
-    return result;
-  }
-
-  @override
-  Education deserialize(Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new EducationBuilder();
-
-    final iterator = serialized.iterator;
-    while (iterator.moveNext()) {
-      final key = iterator.current! as String;
-      iterator.moveNext();
-      final Object? value = iterator.current;
-      switch (key) {
-        case 'title':
-          result.title = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject))! as JsonObject;
-          break;
-        case 'date':
-          result.date = serializers.deserialize(value,
-              specifiedType: const FullType(JsonObject))! as JsonObject;
-          break;
-        case 'description':
-          result.description.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
-              as BuiltList<Object?>);
-          break;
-      }
-    }
-
-    return result.build();
-  }
-}
-
-class _$AwardSerializer implements StructuredSerializer<Award> {
-  @override
-  final Iterable<Type> types = const [Award, _$Award];
-  @override
-  final String wireName = 'Award';
-
-  @override
-  Iterable<Object?> serialize(Serializers serializers, Award object,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[];
     Object? value;
     value = object.title;
     if (value != null) {
@@ -1057,21 +1048,42 @@ class _$AwardSerializer implements StructuredSerializer<Award> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.description;
+    value = object.icon;
     if (value != null) {
       result
-        ..add('description')
+        ..add('icon')
         ..add(serializers.serialize(value,
-            specifiedType:
-                const FullType(BuiltList, const [const FullType(String)])));
+            specifiedType: const FullType(String)));
+    }
+    value = object.educationDegree;
+    if (value != null) {
+      result
+        ..add('education_degree')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.certificateSeries;
+    if (value != null) {
+      result
+        ..add('certificate_series')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.certificateFileUrl;
+    if (value != null) {
+      result
+        ..add('certificate_file_url')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  Award deserialize(Serializers serializers, Iterable<Object?> serialized,
+  DoctorInfoDetails deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new AwardBuilder();
+    final result = DoctorInfoDetailsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1085,6 +1097,22 @@ class _$AwardSerializer implements StructuredSerializer<Award> {
           break;
         case 'date':
           result.date = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'icon':
+          result.icon = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'education_degree':
+          result.educationDegree = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'certificate_series':
+          result.certificateSeries = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'certificate_file_url':
+          result.certificateFileUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'description':
@@ -1145,7 +1173,7 @@ class _$PriceItemSerializer implements StructuredSerializer<PriceItem> {
   @override
   PriceItem deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new PriceItemBuilder();
+    final result = PriceItemBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1218,7 +1246,7 @@ class _$DoctorsJobSerializer implements StructuredSerializer<DoctorsJob> {
   @override
   DoctorsJob deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new DoctorsJobBuilder();
+    final result = DoctorsJobBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1246,17 +1274,15 @@ class _$DoctorCategory extends DoctorCategory {
   final BuiltList<DoctorData>? doctorData;
 
   factory _$DoctorCategory([void Function(DoctorCategoryBuilder)? updates]) =>
-      (new DoctorCategoryBuilder()..update(updates))._build();
+      (DoctorCategoryBuilder()..update(updates))._build();
 
   _$DoctorCategory._({this.doctorData}) : super._();
-
   @override
   DoctorCategory rebuild(void Function(DoctorCategoryBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  DoctorCategoryBuilder toBuilder() =>
-      new DoctorCategoryBuilder()..replace(this);
+  DoctorCategoryBuilder toBuilder() => DoctorCategoryBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1286,7 +1312,7 @@ class DoctorCategoryBuilder
 
   ListBuilder<DoctorData>? _doctorData;
   ListBuilder<DoctorData> get doctorData =>
-      _$this._doctorData ??= new ListBuilder<DoctorData>();
+      _$this._doctorData ??= ListBuilder<DoctorData>();
   set doctorData(ListBuilder<DoctorData>? doctorData) =>
       _$this._doctorData = doctorData;
 
@@ -1303,7 +1329,6 @@ class DoctorCategoryBuilder
 
   @override
   void replace(DoctorCategory other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DoctorCategory;
   }
 
@@ -1319,7 +1344,7 @@ class DoctorCategoryBuilder
     _$DoctorCategory _$result;
     try {
       _$result = _$v ??
-          new _$DoctorCategory._(
+          _$DoctorCategory._(
             doctorData: _doctorData?.build(),
           );
     } catch (_) {
@@ -1328,7 +1353,7 @@ class DoctorCategoryBuilder
         _$failedField = 'doctorData';
         _doctorData?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'DoctorCategory', _$failedField, e.toString());
       }
       rethrow;
@@ -1365,7 +1390,7 @@ class _$DoctorData extends DoctorData {
   final bool? hasDiscount;
 
   factory _$DoctorData([void Function(DoctorDataBuilder)? updates]) =>
-      (new DoctorDataBuilder()..update(updates))._build();
+      (DoctorDataBuilder()..update(updates))._build();
 
   _$DoctorData._(
       {this.id,
@@ -1380,17 +1405,13 @@ class _$DoctorData extends DoctorData {
       this.academicRank,
       this.workExperience,
       this.hasDiscount})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        categoryIds, r'DoctorData', 'categoryIds');
-  }
-
+      : super._();
   @override
   DoctorData rebuild(void Function(DoctorDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  DoctorDataBuilder toBuilder() => new DoctorDataBuilder()..replace(this);
+  DoctorDataBuilder toBuilder() => DoctorDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1478,7 +1499,7 @@ class DoctorDataBuilder implements Builder<DoctorData, DoctorDataBuilder> {
 
   ListBuilder<int>? _categoryIds;
   ListBuilder<int> get categoryIds =>
-      _$this._categoryIds ??= new ListBuilder<int>();
+      _$this._categoryIds ??= ListBuilder<int>();
   set categoryIds(ListBuilder<int>? categoryIds) =>
       _$this._categoryIds = categoryIds;
 
@@ -1528,7 +1549,6 @@ class DoctorDataBuilder implements Builder<DoctorData, DoctorDataBuilder> {
 
   @override
   void replace(DoctorData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DoctorData;
   }
 
@@ -1544,7 +1564,7 @@ class DoctorDataBuilder implements Builder<DoctorData, DoctorDataBuilder> {
     _$DoctorData _$result;
     try {
       _$result = _$v ??
-          new _$DoctorData._(
+          _$DoctorData._(
             id: id,
             name: name,
             infoDescription: infoDescription,
@@ -1564,7 +1584,7 @@ class DoctorDataBuilder implements Builder<DoctorData, DoctorDataBuilder> {
         _$failedField = 'categoryIds';
         categoryIds.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'DoctorData', _$failedField, e.toString());
       }
       rethrow;
@@ -1585,17 +1605,16 @@ class _$Discount extends Discount {
   final String? discountEndDate;
 
   factory _$Discount([void Function(DiscountBuilder)? updates]) =>
-      (new DiscountBuilder()..update(updates))._build();
+      (DiscountBuilder()..update(updates))._build();
 
   _$Discount._({this.id, this.title, this.image, this.discountEndDate})
       : super._();
-
   @override
   Discount rebuild(void Function(DiscountBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  DiscountBuilder toBuilder() => new DiscountBuilder()..replace(this);
+  DiscountBuilder toBuilder() => DiscountBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1665,7 +1684,6 @@ class DiscountBuilder implements Builder<Discount, DiscountBuilder> {
 
   @override
   void replace(Discount other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Discount;
   }
 
@@ -1679,7 +1697,7 @@ class DiscountBuilder implements Builder<Discount, DiscountBuilder> {
 
   _$Discount _build() {
     final _$result = _$v ??
-        new _$Discount._(
+        _$Discount._(
           id: id,
           title: title,
           image: image,
@@ -1712,7 +1730,7 @@ class _$ModelDoctor extends ModelDoctor {
   @override
   final WorkSchedule workSchedule;
   @override
-  final BuiltList<Experience> experience;
+  final BuiltList<DoctorInfoDetails> experience;
   @override
   final BuiltList<Articles> articles;
   @override
@@ -1720,11 +1738,11 @@ class _$ModelDoctor extends ModelDoctor {
   @override
   final BuiltList<String> specializations;
   @override
-  final BuiltList<Education> education;
+  final BuiltList<DoctorInfoDetails> education;
   @override
   final BuiltList<Discount> discount;
   @override
-  final BuiltList<Award> award;
+  final BuiltList<DoctorInfoDetails> award;
   @override
   final JsonObject? gender;
   @override
@@ -1741,7 +1759,7 @@ class _$ModelDoctor extends ModelDoctor {
   final BuiltList<DoctorReview> reviews;
 
   factory _$ModelDoctor([void Function(ModelDoctorBuilder)? updates]) =>
-      (new ModelDoctorBuilder()..update(updates))._build();
+      (ModelDoctorBuilder()..update(updates))._build();
 
   _$ModelDoctor._(
       {required this.id,
@@ -1768,42 +1786,13 @@ class _$ModelDoctor extends ModelDoctor {
       required this.servicePriceList,
       required this.academicRank,
       required this.reviews})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'ModelDoctor', 'id');
-    BuiltValueNullFieldError.checkNotNull(
-        hasDiscount, r'ModelDoctor', 'hasDiscount');
-    BuiltValueNullFieldError.checkNotNull(name, r'ModelDoctor', 'name');
-    BuiltValueNullFieldError.checkNotNull(
-        backgroundImageUrl, r'ModelDoctor', 'backgroundImageUrl');
-    BuiltValueNullFieldError.checkNotNull(image, r'ModelDoctor', 'image');
-    BuiltValueNullFieldError.checkNotNull(
-        workSchedule, r'ModelDoctor', 'workSchedule');
-    BuiltValueNullFieldError.checkNotNull(
-        experience, r'ModelDoctor', 'experience');
-    BuiltValueNullFieldError.checkNotNull(articles, r'ModelDoctor', 'articles');
-    BuiltValueNullFieldError.checkNotNull(
-        galleryItems, r'ModelDoctor', 'galleryItems');
-    BuiltValueNullFieldError.checkNotNull(
-        specializations, r'ModelDoctor', 'specializations');
-    BuiltValueNullFieldError.checkNotNull(
-        education, r'ModelDoctor', 'education');
-    BuiltValueNullFieldError.checkNotNull(discount, r'ModelDoctor', 'discount');
-    BuiltValueNullFieldError.checkNotNull(award, r'ModelDoctor', 'award');
-    BuiltValueNullFieldError.checkNotNull(
-        priceList, r'ModelDoctor', 'priceList');
-    BuiltValueNullFieldError.checkNotNull(
-        servicePriceList, r'ModelDoctor', 'servicePriceList');
-    BuiltValueNullFieldError.checkNotNull(
-        academicRank, r'ModelDoctor', 'academicRank');
-    BuiltValueNullFieldError.checkNotNull(reviews, r'ModelDoctor', 'reviews');
-  }
-
+      : super._();
   @override
   ModelDoctor rebuild(void Function(ModelDoctorBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ModelDoctorBuilder toBuilder() => new ModelDoctorBuilder()..replace(this);
+  ModelDoctorBuilder toBuilder() => ModelDoctorBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1942,47 +1931,48 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
 
   WorkScheduleBuilder? _workSchedule;
   WorkScheduleBuilder get workSchedule =>
-      _$this._workSchedule ??= new WorkScheduleBuilder();
+      _$this._workSchedule ??= WorkScheduleBuilder();
   set workSchedule(WorkScheduleBuilder? workSchedule) =>
       _$this._workSchedule = workSchedule;
 
-  ListBuilder<Experience>? _experience;
-  ListBuilder<Experience> get experience =>
-      _$this._experience ??= new ListBuilder<Experience>();
-  set experience(ListBuilder<Experience>? experience) =>
+  ListBuilder<DoctorInfoDetails>? _experience;
+  ListBuilder<DoctorInfoDetails> get experience =>
+      _$this._experience ??= ListBuilder<DoctorInfoDetails>();
+  set experience(ListBuilder<DoctorInfoDetails>? experience) =>
       _$this._experience = experience;
 
   ListBuilder<Articles>? _articles;
   ListBuilder<Articles> get articles =>
-      _$this._articles ??= new ListBuilder<Articles>();
+      _$this._articles ??= ListBuilder<Articles>();
   set articles(ListBuilder<Articles>? articles) => _$this._articles = articles;
 
   ListBuilder<GalleryItems>? _galleryItems;
   ListBuilder<GalleryItems> get galleryItems =>
-      _$this._galleryItems ??= new ListBuilder<GalleryItems>();
+      _$this._galleryItems ??= ListBuilder<GalleryItems>();
   set galleryItems(ListBuilder<GalleryItems>? galleryItems) =>
       _$this._galleryItems = galleryItems;
 
   ListBuilder<String>? _specializations;
   ListBuilder<String> get specializations =>
-      _$this._specializations ??= new ListBuilder<String>();
+      _$this._specializations ??= ListBuilder<String>();
   set specializations(ListBuilder<String>? specializations) =>
       _$this._specializations = specializations;
 
-  ListBuilder<Education>? _education;
-  ListBuilder<Education> get education =>
-      _$this._education ??= new ListBuilder<Education>();
-  set education(ListBuilder<Education>? education) =>
+  ListBuilder<DoctorInfoDetails>? _education;
+  ListBuilder<DoctorInfoDetails> get education =>
+      _$this._education ??= ListBuilder<DoctorInfoDetails>();
+  set education(ListBuilder<DoctorInfoDetails>? education) =>
       _$this._education = education;
 
   ListBuilder<Discount>? _discount;
   ListBuilder<Discount> get discount =>
-      _$this._discount ??= new ListBuilder<Discount>();
+      _$this._discount ??= ListBuilder<Discount>();
   set discount(ListBuilder<Discount>? discount) => _$this._discount = discount;
 
-  ListBuilder<Award>? _award;
-  ListBuilder<Award> get award => _$this._award ??= new ListBuilder<Award>();
-  set award(ListBuilder<Award>? award) => _$this._award = award;
+  ListBuilder<DoctorInfoDetails>? _award;
+  ListBuilder<DoctorInfoDetails> get award =>
+      _$this._award ??= ListBuilder<DoctorInfoDetails>();
+  set award(ListBuilder<DoctorInfoDetails>? award) => _$this._award = award;
 
   JsonObject? _gender;
   JsonObject? get gender => _$this._gender;
@@ -1998,7 +1988,7 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
 
   ListBuilder<PriceItem>? _priceList;
   ListBuilder<PriceItem> get priceList =>
-      _$this._priceList ??= new ListBuilder<PriceItem>();
+      _$this._priceList ??= ListBuilder<PriceItem>();
   set priceList(ListBuilder<PriceItem>? priceList) =>
       _$this._priceList = priceList;
 
@@ -2014,7 +2004,7 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
 
   ListBuilder<DoctorReview>? _reviews;
   ListBuilder<DoctorReview> get reviews =>
-      _$this._reviews ??= new ListBuilder<DoctorReview>();
+      _$this._reviews ??= ListBuilder<DoctorReview>();
   set reviews(ListBuilder<DoctorReview>? reviews) => _$this._reviews = reviews;
 
   ModelDoctorBuilder();
@@ -2053,7 +2043,6 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
 
   @override
   void replace(ModelDoctor other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ModelDoctor;
   }
 
@@ -2069,7 +2058,7 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
     _$ModelDoctor _$result;
     try {
       _$result = _$v ??
-          new _$ModelDoctor._(
+          _$ModelDoctor._(
             id: BuiltValueNullFieldError.checkNotNull(id, r'ModelDoctor', 'id'),
             experienceYear: experienceYear,
             isThereFreeTime: isThereFreeTime,
@@ -2127,7 +2116,7 @@ class ModelDoctorBuilder implements Builder<ModelDoctor, ModelDoctorBuilder> {
         _$failedField = 'reviews';
         reviews.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'ModelDoctor', _$failedField, e.toString());
       }
       rethrow;
@@ -2150,9 +2139,11 @@ class _$WorkSchedule extends WorkSchedule {
   final BuiltList<ScheduleItem> friday;
   @override
   final BuiltList<ScheduleItem> saturday;
+  @override
+  final BuiltList<ScheduleItem> sunday;
 
   factory _$WorkSchedule([void Function(WorkScheduleBuilder)? updates]) =>
-      (new WorkScheduleBuilder()..update(updates))._build();
+      (WorkScheduleBuilder()..update(updates))._build();
 
   _$WorkSchedule._(
       {required this.monday,
@@ -2160,25 +2151,15 @@ class _$WorkSchedule extends WorkSchedule {
       required this.wednesday,
       required this.thursday,
       required this.friday,
-      required this.saturday})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(monday, r'WorkSchedule', 'monday');
-    BuiltValueNullFieldError.checkNotNull(tuesday, r'WorkSchedule', 'tuesday');
-    BuiltValueNullFieldError.checkNotNull(
-        wednesday, r'WorkSchedule', 'wednesday');
-    BuiltValueNullFieldError.checkNotNull(
-        thursday, r'WorkSchedule', 'thursday');
-    BuiltValueNullFieldError.checkNotNull(friday, r'WorkSchedule', 'friday');
-    BuiltValueNullFieldError.checkNotNull(
-        saturday, r'WorkSchedule', 'saturday');
-  }
-
+      required this.saturday,
+      required this.sunday})
+      : super._();
   @override
   WorkSchedule rebuild(void Function(WorkScheduleBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  WorkScheduleBuilder toBuilder() => new WorkScheduleBuilder()..replace(this);
+  WorkScheduleBuilder toBuilder() => WorkScheduleBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2189,7 +2170,8 @@ class _$WorkSchedule extends WorkSchedule {
         wednesday == other.wednesday &&
         thursday == other.thursday &&
         friday == other.friday &&
-        saturday == other.saturday;
+        saturday == other.saturday &&
+        sunday == other.sunday;
   }
 
   @override
@@ -2201,6 +2183,7 @@ class _$WorkSchedule extends WorkSchedule {
     _$hash = $jc(_$hash, thursday.hashCode);
     _$hash = $jc(_$hash, friday.hashCode);
     _$hash = $jc(_$hash, saturday.hashCode);
+    _$hash = $jc(_$hash, sunday.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -2213,7 +2196,8 @@ class _$WorkSchedule extends WorkSchedule {
           ..add('wednesday', wednesday)
           ..add('thursday', thursday)
           ..add('friday', friday)
-          ..add('saturday', saturday))
+          ..add('saturday', saturday)
+          ..add('sunday', sunday))
         .toString();
   }
 }
@@ -2224,36 +2208,41 @@ class WorkScheduleBuilder
 
   ListBuilder<ScheduleItem>? _monday;
   ListBuilder<ScheduleItem> get monday =>
-      _$this._monday ??= new ListBuilder<ScheduleItem>();
+      _$this._monday ??= ListBuilder<ScheduleItem>();
   set monday(ListBuilder<ScheduleItem>? monday) => _$this._monday = monday;
 
   ListBuilder<ScheduleItem>? _tuesday;
   ListBuilder<ScheduleItem> get tuesday =>
-      _$this._tuesday ??= new ListBuilder<ScheduleItem>();
+      _$this._tuesday ??= ListBuilder<ScheduleItem>();
   set tuesday(ListBuilder<ScheduleItem>? tuesday) => _$this._tuesday = tuesday;
 
   ListBuilder<ScheduleItem>? _wednesday;
   ListBuilder<ScheduleItem> get wednesday =>
-      _$this._wednesday ??= new ListBuilder<ScheduleItem>();
+      _$this._wednesday ??= ListBuilder<ScheduleItem>();
   set wednesday(ListBuilder<ScheduleItem>? wednesday) =>
       _$this._wednesday = wednesday;
 
   ListBuilder<ScheduleItem>? _thursday;
   ListBuilder<ScheduleItem> get thursday =>
-      _$this._thursday ??= new ListBuilder<ScheduleItem>();
+      _$this._thursday ??= ListBuilder<ScheduleItem>();
   set thursday(ListBuilder<ScheduleItem>? thursday) =>
       _$this._thursday = thursday;
 
   ListBuilder<ScheduleItem>? _friday;
   ListBuilder<ScheduleItem> get friday =>
-      _$this._friday ??= new ListBuilder<ScheduleItem>();
+      _$this._friday ??= ListBuilder<ScheduleItem>();
   set friday(ListBuilder<ScheduleItem>? friday) => _$this._friday = friday;
 
   ListBuilder<ScheduleItem>? _saturday;
   ListBuilder<ScheduleItem> get saturday =>
-      _$this._saturday ??= new ListBuilder<ScheduleItem>();
+      _$this._saturday ??= ListBuilder<ScheduleItem>();
   set saturday(ListBuilder<ScheduleItem>? saturday) =>
       _$this._saturday = saturday;
+
+  ListBuilder<ScheduleItem>? _sunday;
+  ListBuilder<ScheduleItem> get sunday =>
+      _$this._sunday ??= ListBuilder<ScheduleItem>();
+  set sunday(ListBuilder<ScheduleItem>? sunday) => _$this._sunday = sunday;
 
   WorkScheduleBuilder();
 
@@ -2266,6 +2255,7 @@ class WorkScheduleBuilder
       _thursday = $v.thursday.toBuilder();
       _friday = $v.friday.toBuilder();
       _saturday = $v.saturday.toBuilder();
+      _sunday = $v.sunday.toBuilder();
       _$v = null;
     }
     return this;
@@ -2273,7 +2263,6 @@ class WorkScheduleBuilder
 
   @override
   void replace(WorkSchedule other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$WorkSchedule;
   }
 
@@ -2289,13 +2278,14 @@ class WorkScheduleBuilder
     _$WorkSchedule _$result;
     try {
       _$result = _$v ??
-          new _$WorkSchedule._(
+          _$WorkSchedule._(
             monday: monday.build(),
             tuesday: tuesday.build(),
             wednesday: wednesday.build(),
             thursday: thursday.build(),
             friday: friday.build(),
             saturday: saturday.build(),
+            sunday: sunday.build(),
           );
     } catch (_) {
       late String _$failedField;
@@ -2312,8 +2302,10 @@ class WorkScheduleBuilder
         friday.build();
         _$failedField = 'saturday';
         saturday.build();
+        _$failedField = 'sunday';
+        sunday.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'WorkSchedule', _$failedField, e.toString());
       }
       rethrow;
@@ -2330,19 +2322,15 @@ class _$ScheduleItem extends ScheduleItem {
   final JsonObject time;
 
   factory _$ScheduleItem([void Function(ScheduleItemBuilder)? updates]) =>
-      (new ScheduleItemBuilder()..update(updates))._build();
+      (ScheduleItemBuilder()..update(updates))._build();
 
-  _$ScheduleItem._({required this.company, required this.time}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(company, r'ScheduleItem', 'company');
-    BuiltValueNullFieldError.checkNotNull(time, r'ScheduleItem', 'time');
-  }
-
+  _$ScheduleItem._({required this.company, required this.time}) : super._();
   @override
   ScheduleItem rebuild(void Function(ScheduleItemBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ScheduleItemBuilder toBuilder() => new ScheduleItemBuilder()..replace(this);
+  ScheduleItemBuilder toBuilder() => ScheduleItemBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2396,7 +2384,6 @@ class ScheduleItemBuilder
 
   @override
   void replace(ScheduleItem other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ScheduleItem;
   }
 
@@ -2410,7 +2397,7 @@ class ScheduleItemBuilder
 
   _$ScheduleItem _build() {
     final _$result = _$v ??
-        new _$ScheduleItem._(
+        _$ScheduleItem._(
           company: BuiltValueNullFieldError.checkNotNull(
               company, r'ScheduleItem', 'company'),
           time: BuiltValueNullFieldError.checkNotNull(
@@ -2423,41 +2410,53 @@ class ScheduleItemBuilder
 
 class _$DoctorReview extends DoctorReview {
   @override
-  final int id;
+  final int? id;
   @override
-  final BuiltList<String> ratings;
+  final String? ratings;
   @override
-  final String review;
+  final String? review;
   @override
-  final int companyId;
+  final int? companyId;
   @override
-  final int doctorId;
+  final String? companyName;
+  @override
+  final String? companyLogoUrl;
+  @override
+  final String? state;
+  @override
+  final String? integratorLogoUrl;
+  @override
+  final int? doctorId;
+  @override
+  final String? createDate;
+  @override
+  final String? location;
+  @override
+  final String? patientName;
 
   factory _$DoctorReview([void Function(DoctorReviewBuilder)? updates]) =>
-      (new DoctorReviewBuilder()..update(updates))._build();
+      (DoctorReviewBuilder()..update(updates))._build();
 
   _$DoctorReview._(
-      {required this.id,
-      required this.ratings,
-      required this.review,
-      required this.companyId,
-      required this.doctorId})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'DoctorReview', 'id');
-    BuiltValueNullFieldError.checkNotNull(ratings, r'DoctorReview', 'ratings');
-    BuiltValueNullFieldError.checkNotNull(review, r'DoctorReview', 'review');
-    BuiltValueNullFieldError.checkNotNull(
-        companyId, r'DoctorReview', 'companyId');
-    BuiltValueNullFieldError.checkNotNull(
-        doctorId, r'DoctorReview', 'doctorId');
-  }
-
+      {this.id,
+      this.ratings,
+      this.review,
+      this.companyId,
+      this.companyName,
+      this.companyLogoUrl,
+      this.state,
+      this.integratorLogoUrl,
+      this.doctorId,
+      this.createDate,
+      this.location,
+      this.patientName})
+      : super._();
   @override
   DoctorReview rebuild(void Function(DoctorReviewBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  DoctorReviewBuilder toBuilder() => new DoctorReviewBuilder()..replace(this);
+  DoctorReviewBuilder toBuilder() => DoctorReviewBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2467,7 +2466,14 @@ class _$DoctorReview extends DoctorReview {
         ratings == other.ratings &&
         review == other.review &&
         companyId == other.companyId &&
-        doctorId == other.doctorId;
+        companyName == other.companyName &&
+        companyLogoUrl == other.companyLogoUrl &&
+        state == other.state &&
+        integratorLogoUrl == other.integratorLogoUrl &&
+        doctorId == other.doctorId &&
+        createDate == other.createDate &&
+        location == other.location &&
+        patientName == other.patientName;
   }
 
   @override
@@ -2477,7 +2483,14 @@ class _$DoctorReview extends DoctorReview {
     _$hash = $jc(_$hash, ratings.hashCode);
     _$hash = $jc(_$hash, review.hashCode);
     _$hash = $jc(_$hash, companyId.hashCode);
+    _$hash = $jc(_$hash, companyName.hashCode);
+    _$hash = $jc(_$hash, companyLogoUrl.hashCode);
+    _$hash = $jc(_$hash, state.hashCode);
+    _$hash = $jc(_$hash, integratorLogoUrl.hashCode);
     _$hash = $jc(_$hash, doctorId.hashCode);
+    _$hash = $jc(_$hash, createDate.hashCode);
+    _$hash = $jc(_$hash, location.hashCode);
+    _$hash = $jc(_$hash, patientName.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -2489,7 +2502,14 @@ class _$DoctorReview extends DoctorReview {
           ..add('ratings', ratings)
           ..add('review', review)
           ..add('companyId', companyId)
-          ..add('doctorId', doctorId))
+          ..add('companyName', companyName)
+          ..add('companyLogoUrl', companyLogoUrl)
+          ..add('state', state)
+          ..add('integratorLogoUrl', integratorLogoUrl)
+          ..add('doctorId', doctorId)
+          ..add('createDate', createDate)
+          ..add('location', location)
+          ..add('patientName', patientName))
         .toString();
   }
 }
@@ -2502,10 +2522,9 @@ class DoctorReviewBuilder
   int? get id => _$this._id;
   set id(int? id) => _$this._id = id;
 
-  ListBuilder<String>? _ratings;
-  ListBuilder<String> get ratings =>
-      _$this._ratings ??= new ListBuilder<String>();
-  set ratings(ListBuilder<String>? ratings) => _$this._ratings = ratings;
+  String? _ratings;
+  String? get ratings => _$this._ratings;
+  set ratings(String? ratings) => _$this._ratings = ratings;
 
   String? _review;
   String? get review => _$this._review;
@@ -2515,9 +2534,39 @@ class DoctorReviewBuilder
   int? get companyId => _$this._companyId;
   set companyId(int? companyId) => _$this._companyId = companyId;
 
+  String? _companyName;
+  String? get companyName => _$this._companyName;
+  set companyName(String? companyName) => _$this._companyName = companyName;
+
+  String? _companyLogoUrl;
+  String? get companyLogoUrl => _$this._companyLogoUrl;
+  set companyLogoUrl(String? companyLogoUrl) =>
+      _$this._companyLogoUrl = companyLogoUrl;
+
+  String? _state;
+  String? get state => _$this._state;
+  set state(String? state) => _$this._state = state;
+
+  String? _integratorLogoUrl;
+  String? get integratorLogoUrl => _$this._integratorLogoUrl;
+  set integratorLogoUrl(String? integratorLogoUrl) =>
+      _$this._integratorLogoUrl = integratorLogoUrl;
+
   int? _doctorId;
   int? get doctorId => _$this._doctorId;
   set doctorId(int? doctorId) => _$this._doctorId = doctorId;
+
+  String? _createDate;
+  String? get createDate => _$this._createDate;
+  set createDate(String? createDate) => _$this._createDate = createDate;
+
+  String? _location;
+  String? get location => _$this._location;
+  set location(String? location) => _$this._location = location;
+
+  String? _patientName;
+  String? get patientName => _$this._patientName;
+  set patientName(String? patientName) => _$this._patientName = patientName;
 
   DoctorReviewBuilder();
 
@@ -2525,10 +2574,17 @@ class DoctorReviewBuilder
     final $v = _$v;
     if ($v != null) {
       _id = $v.id;
-      _ratings = $v.ratings.toBuilder();
+      _ratings = $v.ratings;
       _review = $v.review;
       _companyId = $v.companyId;
+      _companyName = $v.companyName;
+      _companyLogoUrl = $v.companyLogoUrl;
+      _state = $v.state;
+      _integratorLogoUrl = $v.integratorLogoUrl;
       _doctorId = $v.doctorId;
+      _createDate = $v.createDate;
+      _location = $v.location;
+      _patientName = $v.patientName;
       _$v = null;
     }
     return this;
@@ -2536,7 +2592,6 @@ class DoctorReviewBuilder
 
   @override
   void replace(DoctorReview other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DoctorReview;
   }
 
@@ -2549,31 +2604,21 @@ class DoctorReviewBuilder
   DoctorReview build() => _build();
 
   _$DoctorReview _build() {
-    _$DoctorReview _$result;
-    try {
-      _$result = _$v ??
-          new _$DoctorReview._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'DoctorReview', 'id'),
-            ratings: ratings.build(),
-            review: BuiltValueNullFieldError.checkNotNull(
-                review, r'DoctorReview', 'review'),
-            companyId: BuiltValueNullFieldError.checkNotNull(
-                companyId, r'DoctorReview', 'companyId'),
-            doctorId: BuiltValueNullFieldError.checkNotNull(
-                doctorId, r'DoctorReview', 'doctorId'),
-          );
-    } catch (_) {
-      late String _$failedField;
-      try {
-        _$failedField = 'ratings';
-        ratings.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'DoctorReview', _$failedField, e.toString());
-      }
-      rethrow;
-    }
+    final _$result = _$v ??
+        _$DoctorReview._(
+          id: id,
+          ratings: ratings,
+          review: review,
+          companyId: companyId,
+          companyName: companyName,
+          companyLogoUrl: companyLogoUrl,
+          state: state,
+          integratorLogoUrl: integratorLogoUrl,
+          doctorId: doctorId,
+          createDate: createDate,
+          location: location,
+          patientName: patientName,
+        );
     replace(_$result);
     return _$result;
   }
@@ -2592,7 +2637,7 @@ class _$GalleryItems extends GalleryItems {
   final String fileUrl;
 
   factory _$GalleryItems([void Function(GalleryItemsBuilder)? updates]) =>
-      (new GalleryItemsBuilder()..update(updates))._build();
+      (GalleryItemsBuilder()..update(updates))._build();
 
   _$GalleryItems._(
       {required this.id,
@@ -2600,22 +2645,13 @@ class _$GalleryItems extends GalleryItems {
       required this.fileName,
       required this.videoImage,
       required this.fileUrl})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'GalleryItems', 'id');
-    BuiltValueNullFieldError.checkNotNull(type, r'GalleryItems', 'type');
-    BuiltValueNullFieldError.checkNotNull(
-        fileName, r'GalleryItems', 'fileName');
-    BuiltValueNullFieldError.checkNotNull(
-        videoImage, r'GalleryItems', 'videoImage');
-    BuiltValueNullFieldError.checkNotNull(fileUrl, r'GalleryItems', 'fileUrl');
-  }
-
+      : super._();
   @override
   GalleryItems rebuild(void Function(GalleryItemsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GalleryItemsBuilder toBuilder() => new GalleryItemsBuilder()..replace(this);
+  GalleryItemsBuilder toBuilder() => GalleryItemsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2693,7 +2729,6 @@ class GalleryItemsBuilder
 
   @override
   void replace(GalleryItems other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GalleryItems;
   }
 
@@ -2707,7 +2742,7 @@ class GalleryItemsBuilder
 
   _$GalleryItems _build() {
     final _$result = _$v ??
-        new _$GalleryItems._(
+        _$GalleryItems._(
           id: BuiltValueNullFieldError.checkNotNull(id, r'GalleryItems', 'id'),
           type: BuiltValueNullFieldError.checkNotNull(
               type, r'GalleryItems', 'type'),
@@ -2738,7 +2773,7 @@ class _$Articles extends Articles {
   final BuiltList<String> images;
 
   factory _$Articles([void Function(ArticlesBuilder)? updates]) =>
-      (new ArticlesBuilder()..update(updates))._build();
+      (ArticlesBuilder()..update(updates))._build();
 
   _$Articles._(
       {required this.id,
@@ -2747,23 +2782,13 @@ class _$Articles extends Articles {
       required this.description,
       required this.primaryImage,
       required this.images})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'Articles', 'id');
-    BuiltValueNullFieldError.checkNotNull(type, r'Articles', 'type');
-    BuiltValueNullFieldError.checkNotNull(title, r'Articles', 'title');
-    BuiltValueNullFieldError.checkNotNull(
-        description, r'Articles', 'description');
-    BuiltValueNullFieldError.checkNotNull(
-        primaryImage, r'Articles', 'primaryImage');
-    BuiltValueNullFieldError.checkNotNull(images, r'Articles', 'images');
-  }
-
+      : super._();
   @override
   Articles rebuild(void Function(ArticlesBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ArticlesBuilder toBuilder() => new ArticlesBuilder()..replace(this);
+  ArticlesBuilder toBuilder() => ArticlesBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2827,8 +2852,7 @@ class ArticlesBuilder implements Builder<Articles, ArticlesBuilder> {
   set primaryImage(String? primaryImage) => _$this._primaryImage = primaryImage;
 
   ListBuilder<String>? _images;
-  ListBuilder<String> get images =>
-      _$this._images ??= new ListBuilder<String>();
+  ListBuilder<String> get images => _$this._images ??= ListBuilder<String>();
   set images(ListBuilder<String>? images) => _$this._images = images;
 
   ArticlesBuilder();
@@ -2849,7 +2873,6 @@ class ArticlesBuilder implements Builder<Articles, ArticlesBuilder> {
 
   @override
   void replace(Articles other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Articles;
   }
 
@@ -2865,7 +2888,7 @@ class ArticlesBuilder implements Builder<Articles, ArticlesBuilder> {
     _$Articles _$result;
     try {
       _$result = _$v ??
-          new _$Articles._(
+          _$Articles._(
             id: BuiltValueNullFieldError.checkNotNull(id, r'Articles', 'id'),
             type: BuiltValueNullFieldError.checkNotNull(
                 type, r'Articles', 'type'),
@@ -2883,7 +2906,7 @@ class ArticlesBuilder implements Builder<Articles, ArticlesBuilder> {
         _$failedField = 'images';
         images.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'Articles', _$failedField, e.toString());
       }
       rethrow;
@@ -2893,272 +2916,53 @@ class ArticlesBuilder implements Builder<Articles, ArticlesBuilder> {
   }
 }
 
-class _$Experience extends Experience {
-  @override
-  final JsonObject title;
-  @override
-  final JsonObject date;
-  @override
-  final JsonObject description;
-
-  factory _$Experience([void Function(ExperienceBuilder)? updates]) =>
-      (new ExperienceBuilder()..update(updates))._build();
-
-  _$Experience._(
-      {required this.title, required this.date, required this.description})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(title, r'Experience', 'title');
-    BuiltValueNullFieldError.checkNotNull(date, r'Experience', 'date');
-    BuiltValueNullFieldError.checkNotNull(
-        description, r'Experience', 'description');
-  }
-
-  @override
-  Experience rebuild(void Function(ExperienceBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
-
-  @override
-  ExperienceBuilder toBuilder() => new ExperienceBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Experience &&
-        title == other.title &&
-        date == other.date &&
-        description == other.description;
-  }
-
-  @override
-  int get hashCode {
-    var _$hash = 0;
-    _$hash = $jc(_$hash, title.hashCode);
-    _$hash = $jc(_$hash, date.hashCode);
-    _$hash = $jc(_$hash, description.hashCode);
-    _$hash = $jf(_$hash);
-    return _$hash;
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper(r'Experience')
-          ..add('title', title)
-          ..add('date', date)
-          ..add('description', description))
-        .toString();
-  }
-}
-
-class ExperienceBuilder implements Builder<Experience, ExperienceBuilder> {
-  _$Experience? _$v;
-
-  JsonObject? _title;
-  JsonObject? get title => _$this._title;
-  set title(JsonObject? title) => _$this._title = title;
-
-  JsonObject? _date;
-  JsonObject? get date => _$this._date;
-  set date(JsonObject? date) => _$this._date = date;
-
-  JsonObject? _description;
-  JsonObject? get description => _$this._description;
-  set description(JsonObject? description) => _$this._description = description;
-
-  ExperienceBuilder();
-
-  ExperienceBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _title = $v.title;
-      _date = $v.date;
-      _description = $v.description;
-      _$v = null;
-    }
-    return this;
-  }
-
-  @override
-  void replace(Experience other) {
-    ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$Experience;
-  }
-
-  @override
-  void update(void Function(ExperienceBuilder)? updates) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  Experience build() => _build();
-
-  _$Experience _build() {
-    final _$result = _$v ??
-        new _$Experience._(
-          title: BuiltValueNullFieldError.checkNotNull(
-              title, r'Experience', 'title'),
-          date: BuiltValueNullFieldError.checkNotNull(
-              date, r'Experience', 'date'),
-          description: BuiltValueNullFieldError.checkNotNull(
-              description, r'Experience', 'description'),
-        );
-    replace(_$result);
-    return _$result;
-  }
-}
-
-class _$Education extends Education {
-  @override
-  final JsonObject title;
-  @override
-  final JsonObject date;
-  @override
-  final BuiltList<String> description;
-
-  factory _$Education([void Function(EducationBuilder)? updates]) =>
-      (new EducationBuilder()..update(updates))._build();
-
-  _$Education._(
-      {required this.title, required this.date, required this.description})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(title, r'Education', 'title');
-    BuiltValueNullFieldError.checkNotNull(date, r'Education', 'date');
-    BuiltValueNullFieldError.checkNotNull(
-        description, r'Education', 'description');
-  }
-
-  @override
-  Education rebuild(void Function(EducationBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
-
-  @override
-  EducationBuilder toBuilder() => new EducationBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Education &&
-        title == other.title &&
-        date == other.date &&
-        description == other.description;
-  }
-
-  @override
-  int get hashCode {
-    var _$hash = 0;
-    _$hash = $jc(_$hash, title.hashCode);
-    _$hash = $jc(_$hash, date.hashCode);
-    _$hash = $jc(_$hash, description.hashCode);
-    _$hash = $jf(_$hash);
-    return _$hash;
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper(r'Education')
-          ..add('title', title)
-          ..add('date', date)
-          ..add('description', description))
-        .toString();
-  }
-}
-
-class EducationBuilder implements Builder<Education, EducationBuilder> {
-  _$Education? _$v;
-
-  JsonObject? _title;
-  JsonObject? get title => _$this._title;
-  set title(JsonObject? title) => _$this._title = title;
-
-  JsonObject? _date;
-  JsonObject? get date => _$this._date;
-  set date(JsonObject? date) => _$this._date = date;
-
-  ListBuilder<String>? _description;
-  ListBuilder<String> get description =>
-      _$this._description ??= new ListBuilder<String>();
-  set description(ListBuilder<String>? description) =>
-      _$this._description = description;
-
-  EducationBuilder();
-
-  EducationBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _title = $v.title;
-      _date = $v.date;
-      _description = $v.description.toBuilder();
-      _$v = null;
-    }
-    return this;
-  }
-
-  @override
-  void replace(Education other) {
-    ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$Education;
-  }
-
-  @override
-  void update(void Function(EducationBuilder)? updates) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  Education build() => _build();
-
-  _$Education _build() {
-    _$Education _$result;
-    try {
-      _$result = _$v ??
-          new _$Education._(
-            title: BuiltValueNullFieldError.checkNotNull(
-                title, r'Education', 'title'),
-            date: BuiltValueNullFieldError.checkNotNull(
-                date, r'Education', 'date'),
-            description: description.build(),
-          );
-    } catch (_) {
-      late String _$failedField;
-      try {
-        _$failedField = 'description';
-        description.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'Education', _$failedField, e.toString());
-      }
-      rethrow;
-    }
-    replace(_$result);
-    return _$result;
-  }
-}
-
-class _$Award extends Award {
+class _$DoctorInfoDetails extends DoctorInfoDetails {
   @override
   final String? title;
   @override
   final String? date;
   @override
-  final BuiltList<String>? description;
-
-  factory _$Award([void Function(AwardBuilder)? updates]) =>
-      (new AwardBuilder()..update(updates))._build();
-
-  _$Award._({this.title, this.date, this.description}) : super._();
-
+  final String? icon;
   @override
-  Award rebuild(void Function(AwardBuilder) updates) =>
+  final String? educationDegree;
+  @override
+  final String? certificateSeries;
+  @override
+  final String? certificateFileUrl;
+  @override
+  final BuiltList<String> description;
+
+  factory _$DoctorInfoDetails(
+          [void Function(DoctorInfoDetailsBuilder)? updates]) =>
+      (DoctorInfoDetailsBuilder()..update(updates))._build();
+
+  _$DoctorInfoDetails._(
+      {this.title,
+      this.date,
+      this.icon,
+      this.educationDegree,
+      this.certificateSeries,
+      this.certificateFileUrl,
+      required this.description})
+      : super._();
+  @override
+  DoctorInfoDetails rebuild(void Function(DoctorInfoDetailsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  AwardBuilder toBuilder() => new AwardBuilder()..replace(this);
+  DoctorInfoDetailsBuilder toBuilder() =>
+      DoctorInfoDetailsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Award &&
+    return other is DoctorInfoDetails &&
         title == other.title &&
         date == other.date &&
+        icon == other.icon &&
+        educationDegree == other.educationDegree &&
+        certificateSeries == other.certificateSeries &&
+        certificateFileUrl == other.certificateFileUrl &&
         description == other.description;
   }
 
@@ -3167,6 +2971,10 @@ class _$Award extends Award {
     var _$hash = 0;
     _$hash = $jc(_$hash, title.hashCode);
     _$hash = $jc(_$hash, date.hashCode);
+    _$hash = $jc(_$hash, icon.hashCode);
+    _$hash = $jc(_$hash, educationDegree.hashCode);
+    _$hash = $jc(_$hash, certificateSeries.hashCode);
+    _$hash = $jc(_$hash, certificateFileUrl.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -3174,16 +2982,21 @@ class _$Award extends Award {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'Award')
+    return (newBuiltValueToStringHelper(r'DoctorInfoDetails')
           ..add('title', title)
           ..add('date', date)
+          ..add('icon', icon)
+          ..add('educationDegree', educationDegree)
+          ..add('certificateSeries', certificateSeries)
+          ..add('certificateFileUrl', certificateFileUrl)
           ..add('description', description))
         .toString();
   }
 }
 
-class AwardBuilder implements Builder<Award, AwardBuilder> {
-  _$Award? _$v;
+class DoctorInfoDetailsBuilder
+    implements Builder<DoctorInfoDetails, DoctorInfoDetailsBuilder> {
+  _$DoctorInfoDetails? _$v;
 
   String? _title;
   String? get title => _$this._title;
@@ -3193,56 +3006,82 @@ class AwardBuilder implements Builder<Award, AwardBuilder> {
   String? get date => _$this._date;
   set date(String? date) => _$this._date = date;
 
+  String? _icon;
+  String? get icon => _$this._icon;
+  set icon(String? icon) => _$this._icon = icon;
+
+  String? _educationDegree;
+  String? get educationDegree => _$this._educationDegree;
+  set educationDegree(String? educationDegree) =>
+      _$this._educationDegree = educationDegree;
+
+  String? _certificateSeries;
+  String? get certificateSeries => _$this._certificateSeries;
+  set certificateSeries(String? certificateSeries) =>
+      _$this._certificateSeries = certificateSeries;
+
+  String? _certificateFileUrl;
+  String? get certificateFileUrl => _$this._certificateFileUrl;
+  set certificateFileUrl(String? certificateFileUrl) =>
+      _$this._certificateFileUrl = certificateFileUrl;
+
   ListBuilder<String>? _description;
   ListBuilder<String> get description =>
-      _$this._description ??= new ListBuilder<String>();
+      _$this._description ??= ListBuilder<String>();
   set description(ListBuilder<String>? description) =>
       _$this._description = description;
 
-  AwardBuilder();
+  DoctorInfoDetailsBuilder();
 
-  AwardBuilder get _$this {
+  DoctorInfoDetailsBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _title = $v.title;
       _date = $v.date;
-      _description = $v.description?.toBuilder();
+      _icon = $v.icon;
+      _educationDegree = $v.educationDegree;
+      _certificateSeries = $v.certificateSeries;
+      _certificateFileUrl = $v.certificateFileUrl;
+      _description = $v.description.toBuilder();
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(Award other) {
-    ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$Award;
+  void replace(DoctorInfoDetails other) {
+    _$v = other as _$DoctorInfoDetails;
   }
 
   @override
-  void update(void Function(AwardBuilder)? updates) {
+  void update(void Function(DoctorInfoDetailsBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  Award build() => _build();
+  DoctorInfoDetails build() => _build();
 
-  _$Award _build() {
-    _$Award _$result;
+  _$DoctorInfoDetails _build() {
+    _$DoctorInfoDetails _$result;
     try {
       _$result = _$v ??
-          new _$Award._(
+          _$DoctorInfoDetails._(
             title: title,
             date: date,
-            description: _description?.build(),
+            icon: icon,
+            educationDegree: educationDegree,
+            certificateSeries: certificateSeries,
+            certificateFileUrl: certificateFileUrl,
+            description: description.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'description';
-        _description?.build();
+        description.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'Award', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+            r'DoctorInfoDetails', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -3272,7 +3111,7 @@ class _$PriceItem extends PriceItem {
   final JsonObject age;
 
   factory _$PriceItem([void Function(PriceItemBuilder)? updates]) =>
-      (new PriceItemBuilder()..update(updates))._build();
+      (PriceItemBuilder()..update(updates))._build();
 
   _$PriceItem._(
       {required this.productType,
@@ -3284,30 +3123,13 @@ class _$PriceItem extends PriceItem {
       required this.perDividendRefer,
       required this.serviceDuration,
       required this.age})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        productType, r'PriceItem', 'productType');
-    BuiltValueNullFieldError.checkNotNull(categId, r'PriceItem', 'categId');
-    BuiltValueNullFieldError.checkNotNull(serviceId, r'PriceItem', 'serviceId');
-    BuiltValueNullFieldError.checkNotNull(
-        firstVisitPrice, r'PriceItem', 'firstVisitPrice');
-    BuiltValueNullFieldError.checkNotNull(
-        revisitPrice, r'PriceItem', 'revisitPrice');
-    BuiltValueNullFieldError.checkNotNull(
-        performancePercentage, r'PriceItem', 'performancePercentage');
-    BuiltValueNullFieldError.checkNotNull(
-        perDividendRefer, r'PriceItem', 'perDividendRefer');
-    BuiltValueNullFieldError.checkNotNull(
-        serviceDuration, r'PriceItem', 'serviceDuration');
-    BuiltValueNullFieldError.checkNotNull(age, r'PriceItem', 'age');
-  }
-
+      : super._();
   @override
   PriceItem rebuild(void Function(PriceItemBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  PriceItemBuilder toBuilder() => new PriceItemBuilder()..replace(this);
+  PriceItemBuilder toBuilder() => PriceItemBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -3420,7 +3242,6 @@ class PriceItemBuilder implements Builder<PriceItem, PriceItemBuilder> {
 
   @override
   void replace(PriceItem other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$PriceItem;
   }
 
@@ -3434,7 +3255,7 @@ class PriceItemBuilder implements Builder<PriceItem, PriceItemBuilder> {
 
   _$PriceItem _build() {
     final _$result = _$v ??
-        new _$PriceItem._(
+        _$PriceItem._(
           productType: BuiltValueNullFieldError.checkNotNull(
               productType, r'PriceItem', 'productType'),
           categId: BuiltValueNullFieldError.checkNotNull(
@@ -3465,19 +3286,15 @@ class _$DoctorsJob extends DoctorsJob {
   final int id;
 
   factory _$DoctorsJob([void Function(DoctorsJobBuilder)? updates]) =>
-      (new DoctorsJobBuilder()..update(updates))._build();
+      (DoctorsJobBuilder()..update(updates))._build();
 
-  _$DoctorsJob._({required this.name, required this.id}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(name, r'DoctorsJob', 'name');
-    BuiltValueNullFieldError.checkNotNull(id, r'DoctorsJob', 'id');
-  }
-
+  _$DoctorsJob._({required this.name, required this.id}) : super._();
   @override
   DoctorsJob rebuild(void Function(DoctorsJobBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  DoctorsJobBuilder toBuilder() => new DoctorsJobBuilder()..replace(this);
+  DoctorsJobBuilder toBuilder() => DoctorsJobBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -3528,7 +3345,6 @@ class DoctorsJobBuilder implements Builder<DoctorsJob, DoctorsJobBuilder> {
 
   @override
   void replace(DoctorsJob other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DoctorsJob;
   }
 
@@ -3542,7 +3358,7 @@ class DoctorsJobBuilder implements Builder<DoctorsJob, DoctorsJobBuilder> {
 
   _$DoctorsJob _build() {
     final _$result = _$v ??
-        new _$DoctorsJob._(
+        _$DoctorsJob._(
           name: BuiltValueNullFieldError.checkNotNull(
               name, r'DoctorsJob', 'name'),
           id: BuiltValueNullFieldError.checkNotNull(id, r'DoctorsJob', 'id'),

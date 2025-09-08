@@ -1,15 +1,11 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:built_collection/built_collection.dart';
-import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/abstract_repo/i_recruitment_facade.dart';
-import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/models/recruitment/recruitment_model.dart';
-
 import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/presentation/pages/others/career/data.dart';
 

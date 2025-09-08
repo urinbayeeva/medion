@@ -6,10 +6,9 @@ part of 'serializer.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializers _$serializers = (new Serializers().toBuilder()
+Serializers _$serializers = (Serializers().toBuilder()
       ..add(AdModel.serializer)
       ..add(Articles.serializer)
-      ..add(Award.serializer)
       ..add(AwardsModel.serializer)
       ..add(BannerModel.serializer)
       ..add(BookingTypeModel.serializer)
@@ -30,6 +29,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(CreatePatientResponse.serializer)
       ..add(CreatePatientServiceResponse.serializer)
       ..add(CreateVisitResponse.serializer)
+      ..add(CreateVisitTotal.serializer)
       ..add(DailyTransactions.serializer)
       ..add(DiagnosticsModel.serializer)
       ..add(Discount.serializer)
@@ -38,15 +38,14 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Doctor.serializer)
       ..add(DoctorCategory.serializer)
       ..add(DoctorData.serializer)
+      ..add(DoctorInfoDetails.serializer)
       ..add(DoctorReview.serializer)
       ..add(DoctorSearchText.serializer)
       ..add(DoctorsJob.serializer)
       ..add(DoctorsRequest.serializer)
-      ..add(Education.serializer)
       ..add(EducationModel.serializer)
       ..add(ErrorDetail.serializer)
       ..add(ErrorResponse.serializer)
-      ..add(Experience.serializer)
       ..add(GalleryItems.serializer)
       ..add(GetReviewModel.serializer)
       ..add(GiveSelectedId.serializer)
@@ -69,6 +68,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(NotificationReview.serializer)
       ..add(NotificationSendReview.serializer)
       ..add(OfferModel.serializer)
+      ..add(OrderPayment.serializer)
       ..add(OrderVisit.serializer)
       ..add(PatientAnalyse.serializer)
       ..add(PatientAnalysis.serializer)
@@ -100,6 +100,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(RequirementsModel.serializer)
       ..add(ResponseModel.serializer)
       ..add(ResultVacancyModel.serializer)
+      ..add(ReviewInfoModel.serializer)
+      ..add(ReviewModel.serializer)
       ..add(SaleOrderLine.serializer)
       ..add(Schedule.serializer)
       ..add(ScheduleDetail.serializer)
@@ -107,15 +109,17 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ScheduleTime.serializer)
       ..add(SearchReqModel.serializer)
       ..add(Service.serializer)
+      ..add(ServiceNameDetail.serializer)
       ..add(SetFcmTokenBody.serializer)
       ..add(StudyLead.serializer)
       ..add(StudyLeadResult.serializer)
       ..add(SuccessModel.serializer)
       ..add(Team.serializer)
-      ..add(ThirdBookingCompanyDoctor.serializer)
+      ..add(ThirdBookingCompany.serializer)
       ..add(ThirdBookingDoctor.serializer)
       ..add(ThirdBookingDoctorSchedule.serializer)
       ..add(ThirdBookingService.serializer)
+      ..add(ThirdBookingServiceModel.serializer)
       ..add(Transactions.serializer)
       ..add(UploadVacancyModel.serializer)
       ..add(User.serializer)
@@ -132,269 +136,288 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(WorkSchedule.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Course)]),
-          () => new ListBuilder<Course>())
+          () => ListBuilder<Course>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DailyTransactions)]),
-          () => new ListBuilder<DailyTransactions>())
+          () => ListBuilder<DailyTransactions>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Doctor)]),
-          () => new ListBuilder<Doctor>())
+          () => ListBuilder<Doctor>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DoctorData)]),
-          () => new ListBuilder<DoctorData>())
+          () => ListBuilder<DoctorData>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(DoctorSearchText)]),
-          () => new ListBuilder<DoctorSearchText>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
-          () => new ListBuilder<CategorySearchText>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
-          () => new ListBuilder<CategorySearchText>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
-          () => new ListBuilder<CategorySearchText>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
-          () => new ListBuilder<CategorySearchText>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
-          () => new ListBuilder<CategorySearchText>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
-          () => new ListBuilder<CategorySearchText>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(Experience)]),
-          () => new ListBuilder<Experience>())
+          const FullType(BuiltList, const [const FullType(DoctorInfoDetails)]),
+          () => ListBuilder<DoctorInfoDetails>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Articles)]),
-          () => new ListBuilder<Articles>())
+          () => ListBuilder<Articles>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(GalleryItems)]),
-          () => new ListBuilder<GalleryItems>())
+          () => ListBuilder<GalleryItems>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(Education)]),
-          () => new ListBuilder<Education>())
+          const FullType(BuiltList, const [const FullType(DoctorInfoDetails)]),
+          () => ListBuilder<DoctorInfoDetails>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Discount)]),
-          () => new ListBuilder<Discount>())
+          () => ListBuilder<Discount>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(Award)]),
-          () => new ListBuilder<Award>())
+          const FullType(BuiltList, const [const FullType(DoctorInfoDetails)]),
+          () => ListBuilder<DoctorInfoDetails>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PriceItem)]),
-          () => new ListBuilder<PriceItem>())
+          () => ListBuilder<PriceItem>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DoctorReview)]),
-          () => new ListBuilder<DoctorReview>())
+          () => ListBuilder<DoctorReview>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(DoctorSearchText)]),
+          () => ListBuilder<DoctorSearchText>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
+          () => ListBuilder<CategorySearchText>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
+          () => ListBuilder<CategorySearchText>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
+          () => ListBuilder<CategorySearchText>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
+          () => ListBuilder<CategorySearchText>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
+          () => ListBuilder<CategorySearchText>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CategorySearchText)]),
+          () => ListBuilder<CategorySearchText>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(HomeMedicalDoctor)]),
-          () => new ListBuilder<HomeMedicalDoctor>())
+          () => ListBuilder<HomeMedicalDoctor>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(HomeServiceBooking)]),
-          () => new ListBuilder<HomeServiceBooking>())
+          () => ListBuilder<HomeServiceBooking>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DiscountModel)]),
-          () => new ListBuilder<DiscountModel>())
+          () => ListBuilder<DiscountModel>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(NotificationLabResult)]),
-          () => new ListBuilder<NotificationLabResult>())
+          () => ListBuilder<NotificationLabResult>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(OrderVisit)]),
-          () => new ListBuilder<OrderVisit>())
+          () => ListBuilder<OrderVisit>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
-          () => new ListBuilder<PatientAnalysis>())
+          () => ListBuilder<PatientAnalysis>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
-          () => new ListBuilder<PatientAnalysis>())
+          () => ListBuilder<PatientAnalysis>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
-          () => new ListBuilder<PatientAnalysis>())
+          () => ListBuilder<PatientAnalysis>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
-          () => new ListBuilder<PatientAnalysis>())
+          () => ListBuilder<PatientAnalysis>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
-          () => new ListBuilder<PatientAnalysis>())
+          () => ListBuilder<PatientAnalysis>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
-          () => new ListBuilder<PatientAnalysis>())
+          () => ListBuilder<PatientAnalysis>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
-          () => new ListBuilder<PatientAnalysis>())
+          () => ListBuilder<PatientAnalysis>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PatientAnalysis)]),
-          () => new ListBuilder<PatientAnalysis>())
+          () => ListBuilder<PatientAnalysis>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PatientOrder)]),
-          () => new ListBuilder<PatientOrder>())
+          () => ListBuilder<PatientOrder>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PatientVisit)]),
-          () => new ListBuilder<PatientVisit>())
+          () => ListBuilder<PatientVisit>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ReceptionTime)]),
-          () => new ListBuilder<ReceptionTime>())
+          () => ListBuilder<ReceptionTime>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Medicine)]),
-          () => new ListBuilder<Medicine>())
+          () => ListBuilder<Medicine>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(RecipeDetailModel)]),
-          () => new ListBuilder<RecipeDetailModel>())
+          () => ListBuilder<RecipeDetailModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(RecommendationInfo)]),
-          () => new ListBuilder<RecommendationInfo>())
+          () => ListBuilder<RecommendationInfo>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ReviewInfoModel)]),
+          () => ListBuilder<ReviewInfoModel>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ReviewInfoModel)]),
+          () => ListBuilder<ReviewInfoModel>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(GetReviewModel)]),
+          () => ListBuilder<GetReviewModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(SaleOrderLine)]),
-          () => new ListBuilder<SaleOrderLine>())
+          () => ListBuilder<SaleOrderLine>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PaymentUrlModels)]),
-          () => new ListBuilder<PaymentUrlModels>())
+          () => ListBuilder<PaymentUrlModels>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(OrderPayment)]),
+          () => ListBuilder<OrderPayment>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Schedule)]),
-          () => new ListBuilder<Schedule>())
+          () => ListBuilder<Schedule>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ScheduleDetail)]),
-          () => new ListBuilder<ScheduleDetail>())
+          () => ListBuilder<ScheduleDetail>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ScheduleItem)]),
-          () => new ListBuilder<ScheduleItem>())
+          () => ListBuilder<ScheduleItem>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ScheduleItem)]),
-          () => new ListBuilder<ScheduleItem>())
+          () => ListBuilder<ScheduleItem>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ScheduleItem)]),
-          () => new ListBuilder<ScheduleItem>())
+          () => ListBuilder<ScheduleItem>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ScheduleItem)]),
-          () => new ListBuilder<ScheduleItem>())
+          () => ListBuilder<ScheduleItem>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ScheduleItem)]),
-          () => new ListBuilder<ScheduleItem>())
+          () => ListBuilder<ScheduleItem>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ScheduleItem)]),
-          () => new ListBuilder<ScheduleItem>())
+          () => ListBuilder<ScheduleItem>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ScheduleItem)]),
+          () => ListBuilder<ScheduleItem>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ScheduleTime)]),
-          () => new ListBuilder<ScheduleTime>())
+          () => ListBuilder<ScheduleTime>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Service)]),
-          () => new ListBuilder<Service>())
+          () => ListBuilder<Service>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Service)]),
-          () => new ListBuilder<Service>())
+          () => ListBuilder<Service>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ChildContentModel)]),
-          () => new ListBuilder<ChildContentModel>())
+          () => ListBuilder<ChildContentModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(BannerModel)]),
-          () => new ListBuilder<BannerModel>())
+          () => ListBuilder<BannerModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(OfferModel)]),
-          () => new ListBuilder<OfferModel>())
+          () => ListBuilder<OfferModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(dynamic)]),
-          () => new ListBuilder<dynamic>())
+          () => ListBuilder<dynamic>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(OfferModel)]),
-          () => new ListBuilder<OfferModel>())
+          () => ListBuilder<OfferModel>())
       ..addBuilderFactory(
           const FullType(
-              BuiltList, const [const FullType(ThirdBookingCompanyDoctor)]),
-          () => new ListBuilder<ThirdBookingCompanyDoctor>())
+              BuiltList, const [const FullType(ThirdBookingCompany)]),
+          () => ListBuilder<ThirdBookingCompany>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ServiceNameDetail)]),
+          () => ListBuilder<ServiceNameDetail>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ThirdBookingDoctor)]),
-          () => new ListBuilder<ThirdBookingDoctor>())
+          () => ListBuilder<ThirdBookingDoctor>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(ThirdBookingDoctorSchedule)]),
-          () => new ListBuilder<ThirdBookingDoctorSchedule>())
+          () => ListBuilder<ThirdBookingDoctorSchedule>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ThirdBookingService)]),
+          () => ListBuilder<ThirdBookingService>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Transactions)]),
-          () => new ListBuilder<Transactions>())
+          () => ListBuilder<Transactions>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(User)]),
-          () => new ListBuilder<User>())
+          () => ListBuilder<User>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(VacancyDetailModel)]),
-          () => new ListBuilder<VacancyDetailModel>())
+          () => ListBuilder<VacancyDetailModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(VacancyDetailModel)]),
-          () => new ListBuilder<VacancyDetailModel>())
+          () => ListBuilder<VacancyDetailModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(RequirementsModel)]),
-          () => new ListBuilder<RequirementsModel>())
+          () => ListBuilder<RequirementsModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(VisitRecipe)]),
-          () => new ListBuilder<VisitRecipe>())
+          () => ListBuilder<VisitRecipe>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(VisitResponseService)]),
-          () => new ListBuilder<VisitResponseService>())
+          () => ListBuilder<VisitResponseService>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(VisitResponseUrls)]),
-          () => new ListBuilder<VisitResponseUrls>())
+          () => ListBuilder<VisitResponseUrls>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(int)]),
-          () => new ListBuilder<int>())
+          () => ListBuilder<int>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(int)]),
-          () => new ListBuilder<int>())
+          () => ListBuilder<int>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(int)]),
-          () => new ListBuilder<int>()))
+          () => ListBuilder<int>()))
     .build();
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

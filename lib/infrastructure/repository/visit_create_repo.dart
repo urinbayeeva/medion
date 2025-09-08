@@ -23,7 +23,7 @@ class VisitRepository implements IVisitFacade {
         return left(const InvalidCredentials(message: 'Invalid Credentials'));
       }
     } catch (e, stackTrace) {
-      log("Error Message catch $e");
+      log("Error Message catch $e \n\nPath: $stackTrace");
       return left(handleError(e));
     }
   }

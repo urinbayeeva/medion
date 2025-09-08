@@ -7,9 +7,9 @@ import 'package:formz/formz.dart';
 import 'package:medion/application/content/content_bloc.dart';
 import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/style.dart';
-import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/content_type_enum.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -55,21 +55,13 @@ class _ArticlePageState extends State<ArticlePage> {
                 return const Center(child: CupertinoActivityIndicator());
               }
 
-              if (state.fetchContentStatus.isFailure) {
-                return Center(child: Text('something_went_wrong'.tr(), style: fonts.regularSemLink));
-              }
-
               final articles = state.contentByType["article"] ?? [];
 
-              if (articles.isEmpty) {
+              if (articles.isEmpty || state.fetchContentStatus.isFailure) {
                 return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      icons.emojiSad.svg(width: 80.w, height: 80.h),
-                      4.h.verticalSpace,
-                      Text('no_result_found'.tr(), style: fonts.regularSemLink),
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 130.h),
+                    child: EmptyState(title: "no_results_found".tr()),
                   ),
                 );
               }
@@ -100,20 +92,12 @@ class _ArticlePageState extends State<ArticlePage> {
                       itemBuilder: (context, index) {
                         final article = articles[index];
                         return ArticleCardWidget(
-                          onTap: () => Navigator.push(
-                            context,
-                            AppRoutes.getInfoViewAboutHealth(
-                              id: article.id,
-                              type: ContentTypeEnum.article,
-                              // discountCondition: "",
-                              // date: article.createDate,
-                              // imagePath: [...article.images, article.primaryImage],
-                              // title: article.title,
-                              // desc: article.decodedDescription,
-                            ),
-                          ),
                           title: article.title,
                           image: article.primaryImage,
+                          onTap: () => Navigator.push(
+                            context,
+                            AppRoutes.getInfoViewAboutHealth(id: article.id, type: ContentTypeEnum.article),
+                          ),
                         );
                       },
                     ),

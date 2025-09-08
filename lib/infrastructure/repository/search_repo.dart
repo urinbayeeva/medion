@@ -17,10 +17,10 @@ class SearchRepository implements ISearchRepository {
     try {
       final response = await searchService.getBranchInfo(request);
 
-      if (response == null) {
-        //LogService.e('Search response is null');
-        return left(InvalidCredentials(message: 'empty_response'.tr()));
-      }
+      // if (response == null) {
+      //   //LogService.e('Search response is null');
+      //   return left(InvalidCredentials(message: 'empty_response'.tr()));
+      // }
 
       //LogService.d('Search Response Status: ${response.statusCode}');
       //LogService.d('Search Response Body: ${response.body}');

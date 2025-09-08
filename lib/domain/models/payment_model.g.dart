@@ -7,23 +7,22 @@ part of 'payment_model.dart';
 // **************************************************************************
 
 Serializer<PaymentResponse> _$paymentResponseSerializer =
-    new _$PaymentResponseSerializer();
+    _$PaymentResponseSerializer();
 Serializer<DailyTransactions> _$dailyTransactionsSerializer =
-    new _$DailyTransactionsSerializer();
-Serializer<Transactions> _$transactionsSerializer =
-    new _$TransactionsSerializer();
-Serializer<Payment> _$paymentSerializer = new _$PaymentSerializer();
+    _$DailyTransactionsSerializer();
+Serializer<Transactions> _$transactionsSerializer = _$TransactionsSerializer();
+Serializer<Payment> _$paymentSerializer = _$PaymentSerializer();
 Serializer<Recommendation> _$recommendationSerializer =
-    new _$RecommendationSerializer();
+    _$RecommendationSerializer();
 Serializer<RecommendationInfo> _$recommendationInfoSerializer =
-    new _$RecommendationInfoSerializer();
-Serializer<RecipeModel> _$recipeModelSerializer = new _$RecipeModelSerializer();
-Serializer<VisitRecipe> _$visitRecipeSerializer = new _$VisitRecipeSerializer();
+    _$RecommendationInfoSerializer();
+Serializer<RecipeModel> _$recipeModelSerializer = _$RecipeModelSerializer();
+Serializer<VisitRecipe> _$visitRecipeSerializer = _$VisitRecipeSerializer();
 Serializer<RecipeDetailModel> _$recipeDetailModelSerializer =
-    new _$RecipeDetailModelSerializer();
+    _$RecipeDetailModelSerializer();
 Serializer<ReceptionTime> _$receptionTimeSerializer =
-    new _$ReceptionTimeSerializer();
-Serializer<Medicine> _$medicineSerializer = new _$MedicineSerializer();
+    _$ReceptionTimeSerializer();
+Serializer<Medicine> _$medicineSerializer = _$MedicineSerializer();
 
 class _$PaymentResponseSerializer
     implements StructuredSerializer<PaymentResponse> {
@@ -70,7 +69,7 @@ class _$PaymentResponseSerializer
   PaymentResponse deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new PaymentResponseBuilder();
+    final result = PaymentResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -141,7 +140,7 @@ class _$DailyTransactionsSerializer
   DailyTransactions deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new DailyTransactionsBuilder();
+    final result = DailyTransactionsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -272,7 +271,7 @@ class _$TransactionsSerializer implements StructuredSerializer<Transactions> {
   Transactions deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new TransactionsBuilder();
+    final result = TransactionsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -455,7 +454,7 @@ class _$PaymentSerializer implements StructuredSerializer<Payment> {
   @override
   Payment deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new PaymentBuilder();
+    final result = PaymentBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -585,7 +584,7 @@ class _$RecommendationSerializer
   Recommendation deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new RecommendationBuilder();
+    final result = RecommendationBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -674,7 +673,7 @@ class _$RecommendationInfoSerializer
   RecommendationInfo deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new RecommendationInfoBuilder();
+    final result = RecommendationInfoBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -762,7 +761,7 @@ class _$RecipeModelSerializer implements StructuredSerializer<RecipeModel> {
   @override
   RecipeModel deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new RecipeModelBuilder();
+    final result = RecipeModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -824,7 +823,7 @@ class _$VisitRecipeSerializer implements StructuredSerializer<VisitRecipe> {
   @override
   VisitRecipe deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new VisitRecipeBuilder();
+    final result = VisitRecipeBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -950,7 +949,7 @@ class _$RecipeDetailModelSerializer
   RecipeDetailModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new RecipeDetailModelBuilder();
+    final result = RecipeDetailModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1042,7 +1041,7 @@ class _$ReceptionTimeSerializer implements StructuredSerializer<ReceptionTime> {
   ReceptionTime deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ReceptionTimeBuilder();
+    final result = ReceptionTimeBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1099,7 +1098,7 @@ class _$MedicineSerializer implements StructuredSerializer<Medicine> {
   @override
   Medicine deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new MedicineBuilder();
+    final result = MedicineBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1137,25 +1136,20 @@ class _$PaymentResponse extends PaymentResponse {
   final BuiltList<DailyTransactions> payments;
 
   factory _$PaymentResponse([void Function(PaymentResponseBuilder)? updates]) =>
-      (new PaymentResponseBuilder()..update(updates))._build();
+      (PaymentResponseBuilder()..update(updates))._build();
 
   _$PaymentResponse._(
       {this.patientBalance,
       this.patientDeposit,
       this.patientDebit,
       required this.payments})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        payments, r'PaymentResponse', 'payments');
-  }
-
+      : super._();
   @override
   PaymentResponse rebuild(void Function(PaymentResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  PaymentResponseBuilder toBuilder() =>
-      new PaymentResponseBuilder()..replace(this);
+  PaymentResponseBuilder toBuilder() => PaymentResponseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1209,7 +1203,7 @@ class PaymentResponseBuilder
 
   ListBuilder<DailyTransactions>? _payments;
   ListBuilder<DailyTransactions> get payments =>
-      _$this._payments ??= new ListBuilder<DailyTransactions>();
+      _$this._payments ??= ListBuilder<DailyTransactions>();
   set payments(ListBuilder<DailyTransactions>? payments) =>
       _$this._payments = payments;
 
@@ -1229,7 +1223,6 @@ class PaymentResponseBuilder
 
   @override
   void replace(PaymentResponse other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$PaymentResponse;
   }
 
@@ -1245,7 +1238,7 @@ class PaymentResponseBuilder
     _$PaymentResponse _$result;
     try {
       _$result = _$v ??
-          new _$PaymentResponse._(
+          _$PaymentResponse._(
             patientBalance: patientBalance,
             patientDeposit: patientDeposit,
             patientDebit: patientDebit,
@@ -1257,7 +1250,7 @@ class PaymentResponseBuilder
         _$failedField = 'payments';
         payments.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'PaymentResponse', _$failedField, e.toString());
       }
       rethrow;
@@ -1277,22 +1270,18 @@ class _$DailyTransactions extends DailyTransactions {
 
   factory _$DailyTransactions(
           [void Function(DailyTransactionsBuilder)? updates]) =>
-      (new DailyTransactionsBuilder()..update(updates))._build();
+      (DailyTransactionsBuilder()..update(updates))._build();
 
   _$DailyTransactions._(
       {this.date, this.totalAmount, required this.transactions})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        transactions, r'DailyTransactions', 'transactions');
-  }
-
+      : super._();
   @override
   DailyTransactions rebuild(void Function(DailyTransactionsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   DailyTransactionsBuilder toBuilder() =>
-      new DailyTransactionsBuilder()..replace(this);
+      DailyTransactionsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1337,7 +1326,7 @@ class DailyTransactionsBuilder
 
   ListBuilder<Transactions>? _transactions;
   ListBuilder<Transactions> get transactions =>
-      _$this._transactions ??= new ListBuilder<Transactions>();
+      _$this._transactions ??= ListBuilder<Transactions>();
   set transactions(ListBuilder<Transactions>? transactions) =>
       _$this._transactions = transactions;
 
@@ -1356,7 +1345,6 @@ class DailyTransactionsBuilder
 
   @override
   void replace(DailyTransactions other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DailyTransactions;
   }
 
@@ -1372,7 +1360,7 @@ class DailyTransactionsBuilder
     _$DailyTransactions _$result;
     try {
       _$result = _$v ??
-          new _$DailyTransactions._(
+          _$DailyTransactions._(
             date: date,
             totalAmount: totalAmount,
             transactions: transactions.build(),
@@ -1383,7 +1371,7 @@ class DailyTransactionsBuilder
         _$failedField = 'transactions';
         transactions.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'DailyTransactions', _$failedField, e.toString());
       }
       rethrow;
@@ -1420,7 +1408,7 @@ class _$Transactions extends Transactions {
   final String? accountNumber;
 
   factory _$Transactions([void Function(TransactionsBuilder)? updates]) =>
-      (new TransactionsBuilder()..update(updates))._build();
+      (TransactionsBuilder()..update(updates))._build();
 
   _$Transactions._(
       {this.dateTime,
@@ -1436,13 +1424,12 @@ class _$Transactions extends Transactions {
       this.amount,
       this.accountNumber})
       : super._();
-
   @override
   Transactions rebuild(void Function(TransactionsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  TransactionsBuilder toBuilder() => new TransactionsBuilder()..replace(this);
+  TransactionsBuilder toBuilder() => TransactionsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1578,7 +1565,6 @@ class TransactionsBuilder
 
   @override
   void replace(Transactions other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Transactions;
   }
 
@@ -1592,7 +1578,7 @@ class TransactionsBuilder
 
   _$Transactions _build() {
     final _$result = _$v ??
-        new _$Transactions._(
+        _$Transactions._(
           dateTime: dateTime,
           name: name,
           currency: currency,
@@ -1644,7 +1630,7 @@ class _$Payment extends Payment {
   final String? createUser;
 
   factory _$Payment([void Function(PaymentBuilder)? updates]) =>
-      (new PaymentBuilder()..update(updates))._build();
+      (PaymentBuilder()..update(updates))._build();
 
   _$Payment._(
       {this.moveId,
@@ -1663,13 +1649,12 @@ class _$Payment extends Payment {
       this.displayAmount,
       this.createUser})
       : super._();
-
   @override
   Payment rebuild(void Function(PaymentBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  PaymentBuilder toBuilder() => new PaymentBuilder()..replace(this);
+  PaymentBuilder toBuilder() => PaymentBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1827,7 +1812,6 @@ class PaymentBuilder implements Builder<Payment, PaymentBuilder> {
 
   @override
   void replace(Payment other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Payment;
   }
 
@@ -1841,7 +1825,7 @@ class PaymentBuilder implements Builder<Payment, PaymentBuilder> {
 
   _$Payment _build() {
     final _$result = _$v ??
-        new _$Payment._(
+        _$Payment._(
           moveId: moveId,
           partnerId: partnerId,
           date: date,
@@ -1876,7 +1860,7 @@ class _$Recommendation extends Recommendation {
   final BuiltList<RecommendationInfo>? recommendations;
 
   factory _$Recommendation([void Function(RecommendationBuilder)? updates]) =>
-      (new RecommendationBuilder()..update(updates))._build();
+      (RecommendationBuilder()..update(updates))._build();
 
   _$Recommendation._(
       {this.datetime,
@@ -1885,14 +1869,12 @@ class _$Recommendation extends Recommendation {
       this.address,
       this.recommendations})
       : super._();
-
   @override
   Recommendation rebuild(void Function(RecommendationBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  RecommendationBuilder toBuilder() =>
-      new RecommendationBuilder()..replace(this);
+  RecommendationBuilder toBuilder() => RecommendationBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1951,7 +1933,7 @@ class RecommendationBuilder
 
   ListBuilder<RecommendationInfo>? _recommendations;
   ListBuilder<RecommendationInfo> get recommendations =>
-      _$this._recommendations ??= new ListBuilder<RecommendationInfo>();
+      _$this._recommendations ??= ListBuilder<RecommendationInfo>();
   set recommendations(ListBuilder<RecommendationInfo>? recommendations) =>
       _$this._recommendations = recommendations;
 
@@ -1972,7 +1954,6 @@ class RecommendationBuilder
 
   @override
   void replace(Recommendation other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Recommendation;
   }
 
@@ -1988,7 +1969,7 @@ class RecommendationBuilder
     _$Recommendation _$result;
     try {
       _$result = _$v ??
-          new _$Recommendation._(
+          _$Recommendation._(
             datetime: datetime,
             serviceName: serviceName,
             doctorName: doctorName,
@@ -2001,7 +1982,7 @@ class RecommendationBuilder
         _$failedField = 'recommendations';
         _recommendations?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'Recommendation', _$failedField, e.toString());
       }
       rethrow;
@@ -2025,7 +2006,7 @@ class _$RecommendationInfo extends RecommendationInfo {
 
   factory _$RecommendationInfo(
           [void Function(RecommendationInfoBuilder)? updates]) =>
-      (new RecommendationInfoBuilder()..update(updates))._build();
+      (RecommendationInfoBuilder()..update(updates))._build();
 
   _$RecommendationInfo._(
       {this.serviceId,
@@ -2034,7 +2015,6 @@ class _$RecommendationInfo extends RecommendationInfo {
       this.price,
       this.orderDetailId})
       : super._();
-
   @override
   RecommendationInfo rebuild(
           void Function(RecommendationInfoBuilder) updates) =>
@@ -2042,7 +2022,7 @@ class _$RecommendationInfo extends RecommendationInfo {
 
   @override
   RecommendationInfoBuilder toBuilder() =>
-      new RecommendationInfoBuilder()..replace(this);
+      RecommendationInfoBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2121,7 +2101,6 @@ class RecommendationInfoBuilder
 
   @override
   void replace(RecommendationInfo other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$RecommendationInfo;
   }
 
@@ -2135,7 +2114,7 @@ class RecommendationInfoBuilder
 
   _$RecommendationInfo _build() {
     final _$result = _$v ??
-        new _$RecommendationInfo._(
+        _$RecommendationInfo._(
           serviceId: serviceId,
           serviceName: serviceName,
           doctorId: doctorId,
@@ -2160,7 +2139,7 @@ class _$RecipeModel extends RecipeModel {
   final BuiltList<VisitRecipe>? prescriptions;
 
   factory _$RecipeModel([void Function(RecipeModelBuilder)? updates]) =>
-      (new RecipeModelBuilder()..update(updates))._build();
+      (RecipeModelBuilder()..update(updates))._build();
 
   _$RecipeModel._(
       {this.service,
@@ -2169,13 +2148,12 @@ class _$RecipeModel extends RecipeModel {
       this.address,
       this.prescriptions})
       : super._();
-
   @override
   RecipeModel rebuild(void Function(RecipeModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  RecipeModelBuilder toBuilder() => new RecipeModelBuilder()..replace(this);
+  RecipeModelBuilder toBuilder() => RecipeModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2233,7 +2211,7 @@ class RecipeModelBuilder implements Builder<RecipeModel, RecipeModelBuilder> {
 
   ListBuilder<VisitRecipe>? _prescriptions;
   ListBuilder<VisitRecipe> get prescriptions =>
-      _$this._prescriptions ??= new ListBuilder<VisitRecipe>();
+      _$this._prescriptions ??= ListBuilder<VisitRecipe>();
   set prescriptions(ListBuilder<VisitRecipe>? prescriptions) =>
       _$this._prescriptions = prescriptions;
 
@@ -2254,7 +2232,6 @@ class RecipeModelBuilder implements Builder<RecipeModel, RecipeModelBuilder> {
 
   @override
   void replace(RecipeModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$RecipeModel;
   }
 
@@ -2270,7 +2247,7 @@ class RecipeModelBuilder implements Builder<RecipeModel, RecipeModelBuilder> {
     _$RecipeModel _$result;
     try {
       _$result = _$v ??
-          new _$RecipeModel._(
+          _$RecipeModel._(
             service: service,
             patientName: patientName,
             datetime: datetime,
@@ -2283,7 +2260,7 @@ class RecipeModelBuilder implements Builder<RecipeModel, RecipeModelBuilder> {
         _$failedField = 'prescriptions';
         _prescriptions?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'RecipeModel', _$failedField, e.toString());
       }
       rethrow;
@@ -2298,16 +2275,15 @@ class _$VisitRecipe extends VisitRecipe {
   final BuiltList<RecipeDetailModel>? visitPrescriptions;
 
   factory _$VisitRecipe([void Function(VisitRecipeBuilder)? updates]) =>
-      (new VisitRecipeBuilder()..update(updates))._build();
+      (VisitRecipeBuilder()..update(updates))._build();
 
   _$VisitRecipe._({this.visitPrescriptions}) : super._();
-
   @override
   VisitRecipe rebuild(void Function(VisitRecipeBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  VisitRecipeBuilder toBuilder() => new VisitRecipeBuilder()..replace(this);
+  VisitRecipeBuilder toBuilder() => VisitRecipeBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2337,7 +2313,7 @@ class VisitRecipeBuilder implements Builder<VisitRecipe, VisitRecipeBuilder> {
 
   ListBuilder<RecipeDetailModel>? _visitPrescriptions;
   ListBuilder<RecipeDetailModel> get visitPrescriptions =>
-      _$this._visitPrescriptions ??= new ListBuilder<RecipeDetailModel>();
+      _$this._visitPrescriptions ??= ListBuilder<RecipeDetailModel>();
   set visitPrescriptions(ListBuilder<RecipeDetailModel>? visitPrescriptions) =>
       _$this._visitPrescriptions = visitPrescriptions;
 
@@ -2354,7 +2330,6 @@ class VisitRecipeBuilder implements Builder<VisitRecipe, VisitRecipeBuilder> {
 
   @override
   void replace(VisitRecipe other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$VisitRecipe;
   }
 
@@ -2370,7 +2345,7 @@ class VisitRecipeBuilder implements Builder<VisitRecipe, VisitRecipeBuilder> {
     _$VisitRecipe _$result;
     try {
       _$result = _$v ??
-          new _$VisitRecipe._(
+          _$VisitRecipe._(
             visitPrescriptions: _visitPrescriptions?.build(),
           );
     } catch (_) {
@@ -2379,7 +2354,7 @@ class VisitRecipeBuilder implements Builder<VisitRecipe, VisitRecipeBuilder> {
         _$failedField = 'visitPrescriptions';
         _visitPrescriptions?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'VisitRecipe', _$failedField, e.toString());
       }
       rethrow;
@@ -2417,7 +2392,7 @@ class _$RecipeDetailModel extends RecipeDetailModel {
 
   factory _$RecipeDetailModel(
           [void Function(RecipeDetailModelBuilder)? updates]) =>
-      (new RecipeDetailModelBuilder()..update(updates))._build();
+      (RecipeDetailModelBuilder()..update(updates))._build();
 
   _$RecipeDetailModel._(
       {this.name,
@@ -2433,14 +2408,13 @@ class _$RecipeDetailModel extends RecipeDetailModel {
       this.duration,
       this.receptionPerDay})
       : super._();
-
   @override
   RecipeDetailModel rebuild(void Function(RecipeDetailModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   RecipeDetailModelBuilder toBuilder() =>
-      new RecipeDetailModelBuilder()..replace(this);
+      RecipeDetailModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2539,13 +2513,13 @@ class RecipeDetailModelBuilder
 
   ListBuilder<ReceptionTime>? _receptionTime;
   ListBuilder<ReceptionTime> get receptionTime =>
-      _$this._receptionTime ??= new ListBuilder<ReceptionTime>();
+      _$this._receptionTime ??= ListBuilder<ReceptionTime>();
   set receptionTime(ListBuilder<ReceptionTime>? receptionTime) =>
       _$this._receptionTime = receptionTime;
 
   ListBuilder<Medicine>? _medicines;
   ListBuilder<Medicine> get medicines =>
-      _$this._medicines ??= new ListBuilder<Medicine>();
+      _$this._medicines ??= ListBuilder<Medicine>();
   set medicines(ListBuilder<Medicine>? medicines) =>
       _$this._medicines = medicines;
 
@@ -2582,7 +2556,6 @@ class RecipeDetailModelBuilder
 
   @override
   void replace(RecipeDetailModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$RecipeDetailModel;
   }
 
@@ -2598,7 +2571,7 @@ class RecipeDetailModelBuilder
     _$RecipeDetailModel _$result;
     try {
       _$result = _$v ??
-          new _$RecipeDetailModel._(
+          _$RecipeDetailModel._(
             name: name,
             administrationMethods: administrationMethods,
             sleepRegarding: sleepRegarding,
@@ -2620,7 +2593,7 @@ class RecipeDetailModelBuilder
         _$failedField = 'medicines';
         _medicines?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'RecipeDetailModel', _$failedField, e.toString());
       }
       rethrow;
@@ -2635,16 +2608,15 @@ class _$ReceptionTime extends ReceptionTime {
   final String? time;
 
   factory _$ReceptionTime([void Function(ReceptionTimeBuilder)? updates]) =>
-      (new ReceptionTimeBuilder()..update(updates))._build();
+      (ReceptionTimeBuilder()..update(updates))._build();
 
   _$ReceptionTime._({this.time}) : super._();
-
   @override
   ReceptionTime rebuild(void Function(ReceptionTimeBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ReceptionTimeBuilder toBuilder() => new ReceptionTimeBuilder()..replace(this);
+  ReceptionTimeBuilder toBuilder() => ReceptionTimeBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2688,7 +2660,6 @@ class ReceptionTimeBuilder
 
   @override
   void replace(ReceptionTime other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ReceptionTime;
   }
 
@@ -2702,7 +2673,7 @@ class ReceptionTimeBuilder
 
   _$ReceptionTime _build() {
     final _$result = _$v ??
-        new _$ReceptionTime._(
+        _$ReceptionTime._(
           time: time,
         );
     replace(_$result);
@@ -2719,16 +2690,15 @@ class _$Medicine extends Medicine {
   final String? type;
 
   factory _$Medicine([void Function(MedicineBuilder)? updates]) =>
-      (new MedicineBuilder()..update(updates))._build();
+      (MedicineBuilder()..update(updates))._build();
 
   _$Medicine._({this.medicine, this.dosage, this.type}) : super._();
-
   @override
   Medicine rebuild(void Function(MedicineBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  MedicineBuilder toBuilder() => new MedicineBuilder()..replace(this);
+  MedicineBuilder toBuilder() => MedicineBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2789,7 +2759,6 @@ class MedicineBuilder implements Builder<Medicine, MedicineBuilder> {
 
   @override
   void replace(Medicine other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Medicine;
   }
 
@@ -2803,7 +2772,7 @@ class MedicineBuilder implements Builder<Medicine, MedicineBuilder> {
 
   _$Medicine _build() {
     final _$result = _$v ??
-        new _$Medicine._(
+        _$Medicine._(
           medicine: medicine,
           dosage: dosage,
           type: type,

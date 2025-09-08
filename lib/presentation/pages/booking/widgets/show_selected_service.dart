@@ -89,11 +89,15 @@ class ShowSelectedService extends StatelessWidget {
                             info.service.name ?? '',
                             style: fonts.xSmallMain,
                           ),
-                          trailing: WScaleAnimation(
+                          trailing: GestureDetector(
                             onTap: () {
                               bloc.add(BookingEvent.removeService(id: info.serviceId, service: info.service));
                             },
-                            child: Icon(Icons.delete_forever_outlined, color: colors.error500),
+                            child: Image.asset(
+                              "assets/images/trash.png",
+                              width: 35,
+                              height: 35,
+                            ),
                           ),
                         ),
                       );

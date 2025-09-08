@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -25,8 +25,8 @@ Future<void> main() async {
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+      SentryWidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
       PlatformDispatcher.instance.onError = (error, stack) {

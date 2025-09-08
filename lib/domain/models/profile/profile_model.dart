@@ -125,6 +125,18 @@ abstract class PatientAnalysis implements Built<PatientAnalysis, PatientAnalysis
   @BuiltValueField(wireName: 'document_url')
   String? get documentUrl;
 
+  @BuiltValueField(wireName: 'doctor_name')
+  String? get doctorName;
+
+  @BuiltValueField(wireName: 'doctor_image')
+  String? get doctorImage;
+
+  @BuiltValueField(wireName: 'clinic_name')
+  String? get clinicName;
+
+  @BuiltValueField(wireName: 'clinic_image')
+  String? get clinicImage;
+
   PatientAnalysis._();
 
   factory PatientAnalysis([void Function(PatientAnalysisBuilder) updates]) = _$PatientAnalysis;

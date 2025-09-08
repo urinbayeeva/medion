@@ -5,6 +5,7 @@ import 'package:medion/domain/models/profile/profile_model.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/download_button.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/pages/visits/widgets/order_card_w.dart';
 import 'package:medion/presentation/styles/theme.dart';
 
@@ -20,13 +21,25 @@ class Result extends StatelessWidget {
   Widget build(BuildContext context) {
     if (docUrls.isEmpty) {
       return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 5,
-          children: [
-            icons.emojiSad.svg(width: 66, height: 66),
-            Text("no_result_found".tr(), style: fonts.regularMain),
-          ],
+        child: EmptyState(
+          title: "no_result_found".tr(),
+          icons: icons.visitEmpty.svg(),
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("empty_now".tr(), style: fonts.regularMain),
+                Text(
+                  "there_is_nothing_waiting_data".tr(),
+                  style: fonts.xSmallText.copyWith(color: const Color(0xff66686C)),
+                  textAlign: TextAlign.center,
+                ),
+                20.h.verticalSpace,
+              ],
+            ),
+          ),
         ),
       );
     }

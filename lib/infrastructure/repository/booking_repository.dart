@@ -103,11 +103,19 @@ class BookingRepository implements IBookingFacade {
   }
 
   @override
-  Future<Either<ResponseFailure, BuiltList<ThirdBookingService>>> getDoctors({required List<int> serviceIds}) async {
+  Future<Either<ResponseFailure, ThirdBookingServiceModel>> getDoctors({required List<int> serviceIds}) async {
     try {
-      final request = DoctorsRequest((b) => b..serviceIds = ListBuilder<int>(serviceIds));
+      final request = DoctorsRequest(
+        (b) => b
+          ..serviceIds = ListBuilder<int>(serviceIds)
+          ..isMobile = true,
+      );
 
-      final response = await _bookingService.fetchDoctors(requiresToken: "true", request: request, days: 10);
+      final response = await _bookingService.fetchDoctors(
+        requiresToken: "true",
+        request: request,
+        days: 10,
+      );
 
       // Logging
       //LogService.d('Response Status: ${response.statusCode}');

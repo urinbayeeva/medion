@@ -4,6 +4,15 @@ part of 'branch_bloc.dart';
 abstract class BranchEvent with _$BranchEvent {
   const factory BranchEvent.fetchBranches() = _FetchBranches;
 
+  const factory BranchEvent.getReviews({
+    @Default(<ReviewInfoModel>[]) List<ReviewInfoModel> directions,
+    @Default(<ReviewInfoModel>[]) List<ReviewInfoModel> branches,
+    @Default([]) intervals,
+    @Default(-1) int rank,
+    String? startDate,
+    String? endDate,
+  }) = _GetReviews;
+
   const factory BranchEvent.fetchAwards() = _FetchAwards;
 
   const factory BranchEvent.fetchStudy() = _FetchStudy;
@@ -13,8 +22,6 @@ abstract class BranchEvent with _$BranchEvent {
   const factory BranchEvent.fetchOfferta() = _FetchOfferta;
 
   const factory BranchEvent.fetchActivity() = _FetchActivity;
-
-  const factory BranchEvent.getReviews() = _GetReviews;
 
   const factory BranchEvent.postReviews({required PostReviewModel review}) = _PostReviews;
 

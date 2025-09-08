@@ -17,7 +17,8 @@ class NotificationTabs {
 enum NotificationTypeEnum {
   all(title: "all", keyWord: "", subTitle: ""),
   discount(title: "discounts", keyWord: "discount", subTitle: "Перейти к акции"),
-  reminders(title: "reminder", keyWord: "info", subTitle: "Перейти к приёму"),
+  reminders(title: "reminder", keyWord: "reminder", subTitle: "Перейти к приёму"),
+  info(title: "information", keyWord: "info", subTitle: "Перейти к приёму"),
   reviews(title: "reviews", keyWord: "review", subTitle: ""),
   results(title: "result", keyWord: "lab_result", subTitle: ""),
   links(title: "link", keyWord: "link", subTitle: "Перейти");

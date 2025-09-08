@@ -38,13 +38,13 @@
 		<key>NSMotionUsageDescription</key>
         <string>This app requires access to motion sensors to enhance user experience and track movement accurately.</string>
 		<key>NSDocumentsFolderUsageDescription</key>
-		<string>Need to access downloaded files</string>
+       <string>We need access to your Documents folder so you can open and view medical reports you have downloaded from Medion Clinic.</string>
 		<key>NSDownloadsFolderUsageDescription</key>
-		<string>Need to download PDF files</string>
+		<string>We need access to your Downloads folder so you can save and open PDF health documents provided by Medion Clinic.</string>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>This app needs to access your location for navigation and map features.</string>
+		<string>We use your location to show the nearest Medion Clinic branches and provide step-by-step navigation, even if the app is not active.</string>
 		<key>NSLocationAlwaysUsageDescription</key>
-		<string>This app requires access to your location even when in the background.</string>
+		<string>We use your background location to update your route to Medion Clinic and notify you of nearby services while you travel.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>This app requires access to your location to show your position on the map.</string>
 		<key>NSMicrophoneUsageDescription</key>

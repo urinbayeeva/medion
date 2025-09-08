@@ -6,21 +6,18 @@ import 'package:medion/domain/models/third_service_model/third_service_model.dar
 
 abstract class IBookingFacade {
   Future<Either<ResponseFailure, List<BookingTypeModel>>> fetchBookingTypes();
-  Future<Either<ResponseFailure, BuiltList<Category>>> fetchCategoryServices(
-      int serviceTypeId);
 
-  Future<Either<ResponseFailure, List<HomepageBookingCategory>>>
-      fetchHomePageBookingCategories();
+  Future<Either<ResponseFailure, BuiltList<Category>>> fetchCategoryServices(int serviceTypeId);
 
-  Future<Either<ResponseFailure, MedicalModel>> fetchHomePageBookingDoctors(
-      int id);
+  Future<Either<ResponseFailure, List<HomepageBookingCategory>>> fetchHomePageBookingCategories();
 
-  Future<Either<ResponseFailure, BuiltList<ThirdBookingService>>> getDoctors({
+  Future<Either<ResponseFailure, MedicalModel>> fetchHomePageBookingDoctors(int id);
+
+  Future<Either<ResponseFailure, ThirdBookingServiceModel>> getDoctors({
     required List<int> serviceIds,
   });
 
-  Future<Either<ResponseFailure, BuiltList<MedicalServiceCategory>>>
-      getServicesByDoctorId(
+  Future<Either<ResponseFailure, BuiltList<MedicalServiceCategory>>> getServicesByDoctorId(
     int doctorId,
   );
 }

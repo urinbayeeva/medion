@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -6,56 +8,68 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/home/home_bloc.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
+import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class ProblemSlidebaleCard extends StatefulWidget {
-  const ProblemSlidebaleCard({super.key, required this.isChildren});
+  const ProblemSlidebaleCard({super.key, required this.isChildren, required this.controller});
 
+  final ScrollController controller;
   final bool isChildren;
 
   @override
   State<ProblemSlidebaleCard> createState() => _ProblemSlidebaleCardState();
 }
 
-class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
-  late final ScrollController _controller;
-
-  @override
-  void initState() {
-    _controller = ScrollController();
-    super.initState();
-  }
-
+class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
+        log("🔄 ProblemSlidebaleCard build() called");
         return BlocBuilder<HomeBloc, HomeState>(
           buildWhen: (o, n) {
-            final disease = o.diseases.length != n.diseases.length;
-            return disease;
+            final length = o.diseases.length != n.diseases.length;
+            final disease = o.diseases != n.diseases;
+
+            log("length $length");
+            log("disease $disease");
+            return disease || length;
           },
           builder: (context, state) {
-            if (state.loading) return const SizedBox.shrink();
+            log("Bloc builder working on");
+
             final filteredDiseases =
                 state.diseases.where((disease) => disease.forChildren == widget.isChildren).toList();
 
-            if (filteredDiseases.isEmpty) {
-              return Center(
-                child: Text(
-                  "no_result_found".tr(),
-                  style: fonts.xSmallLink.copyWith(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w500,
+            if (filteredDiseases.isEmpty || state.loading) {
+              return SizedBox(
+                height: 80.h,
+                child: ShimmerView(
+                  child: ListView.separated(
+                    itemCount: 12,
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (context, index) => 10.w.horizontalSpace,
+                    itemBuilder: (context, index) {
+                      return ShimmerContainer(
+                        margin: EdgeInsets.fromLTRB(
+                          (index == 0) ? 12.w : 0,
+                          0,
+                          0,
+                          (index == 12) ? 12.w : 0,
+                        ),
+                        height: double.infinity,
+                        width: 80.w,
+                      );
+                    },
                   ),
                 ),
               );
             }
 
             return SingleChildScrollView(
-              controller: _controller,
               scrollDirection: Axis.horizontal,
               child: Row(
                 key: const PageStorageKey<String>('problem_cards'),
@@ -118,4 +132,7 @@ class _ProblemSlidebaleCardState extends State<ProblemSlidebaleCard> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

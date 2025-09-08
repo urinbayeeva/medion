@@ -1,6 +1,14 @@
 part of "theme.dart";
 
 class IconSet {
+  final String edu;
+  final String menu;
+  final String newEmpty;
+  final String warningExclamation;
+  final String visitEmpty;
+  final String listViewCircle;
+  final String doctorMan;
+  final String doctorWoman;
   final String flagRu;
   final String flagUz;
   final String medicalHistoryFirst;
@@ -123,8 +131,21 @@ class IconSet {
   final String paymentCheck;
   final String linkIcon;
   final String donePay;
+  final String doneCircle;
+  final String cancelCircle;
+  final String branch;
 
   const IconSet._({
+    required this.edu,
+    required this.branch,
+    required this.menu,
+    required this.doneCircle,
+    required this.cancelCircle,
+    required this.warningExclamation,
+    required this.newEmpty,
+    required this.listViewCircle,
+    required this.doctorMan,
+    required this.doctorWoman,
     required this.qr,
     required this.donePay,
     required this.linkIcon,
@@ -251,10 +272,22 @@ class IconSet {
     required this.recipeFour,
     required this.recipeFive,
     required this.recipeSix,
+    required this.visitEmpty,
   });
 
   static IconSet get create {
     return const IconSet._(
+      branch: "assets/icons/branch.svg",
+      menu: "assets/icons/menu.svg",
+      doneCircle: "assets/icons/done_circle.svg",
+      cancelCircle: "assets/icons/remove-circle.svg",
+      warningExclamation: "assets/icons/warning_exclamation.svg",
+      visitEmpty: "assets/icons/visit_empty.svg",
+      newEmpty: "assets/icons/new_empty.svg",
+      listViewCircle: 'assets/icons/listView_circle.svg',
+      edu: "assets/icons/edu.svg",
+      doctorMan: "assets/icons/doctor_man.svg",
+      doctorWoman: "assets/icons/doctor_woman.svg",
       donePay: "assets/icons/done_payment.svg",
       linkIcon: "assets/icons/link_icon.svg",
       paymentCheck: "assets/icons/payment_check.svg",

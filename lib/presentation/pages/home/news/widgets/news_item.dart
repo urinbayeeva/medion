@@ -12,7 +12,6 @@ class NewsItem extends StatelessWidget {
   final String subtitle;
   final bool crop;
   final VoidCallback onTap;
-  final bool inner;
 
   final String imagePath;
 
@@ -23,7 +22,6 @@ class NewsItem extends StatelessWidget {
     required this.subtitle,
     required this.crop,
     required this.onTap,
-    this.inner = false,
   });
 
   @override
@@ -48,7 +46,7 @@ class NewsItem extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: imagePath,
                     fit: BoxFit.cover,
-                    height: 100.h,
+                    height: 166.h,
                     width: double.infinity,
                   ),
                 ),
@@ -81,20 +79,6 @@ class NewsItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (inner || true) ...[
-                  10.h.verticalSpace,
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4.w),
-                    child: CButton(
-                      backgroundColor: colors.neutral200,
-                      textColor: colors.primary900,
-                      width: double.infinity,
-                      title: "read_in_detail".tr(),
-                      onTap: onTap,
-                      height: 34.h,
-                    ),
-                  )
-                ],
                 8.h.verticalSpace,
               ],
             ),

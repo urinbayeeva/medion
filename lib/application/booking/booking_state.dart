@@ -16,7 +16,6 @@ class BookingState with _$BookingState {
     @Default([]) List<BookingTypeModel> bookingTypes,
     @Default([]) List<Category> categoryServices,
     @Default([]) List<int> selectedInnerServiceIds,
-    @Default([]) List<ThirdBookingService> thirdBookingServices,
     @Default([]) List<HomepageBookingCategory> homePageBookingCategory,
     @Default([]) List<MedicalServiceCategory> doctorServices,
     @Default([]) List<DirectionScrollingItem> items,
@@ -27,6 +26,7 @@ class BookingState with _$BookingState {
     @Default('') String errorMessage,
     @Default(false) bool hasFetchedThirdServices,
     MedicalModel? medicalModel,
+    ThirdBookingServiceModel? thirdBookingServices,
     int? selectedDoctorId,
     int? selectedServiceId,
   }) = _BookingState;

@@ -121,6 +121,9 @@ abstract class CreateVisitResponse implements Built<CreateVisitResponse, CreateV
   @BuiltValueField(wireName: 'payment_urls')
   BuiltList<VisitResponseUrls> get paymentUrls;
 
+  @BuiltValueField(wireName: 'total')
+  CreateVisitTotal? get total;
+
   CreateVisitResponse._();
 
   factory CreateVisitResponse([void Function(CreateVisitResponseBuilder) updates]) = _$CreateVisitResponse;
@@ -128,36 +131,86 @@ abstract class CreateVisitResponse implements Built<CreateVisitResponse, CreateV
   static Serializer<CreateVisitResponse> get serializer => _$createVisitResponseSerializer;
 }
 
+abstract class CreateVisitTotal implements Built<CreateVisitTotal, CreateVisitTotalBuilder> {
+  @BuiltValueField(wireName: 'total_amount')
+  double? get totalAmount;
+
+  @BuiltValueField(wireName: 'total_discount')
+  double? get totalDiscount;
+
+  @BuiltValueField(wireName: 'total_tax')
+  double? get totalTax;
+
+  CreateVisitTotal._();
+
+  factory CreateVisitTotal([void Function(CreateVisitTotalBuilder) updates]) = _$CreateVisitTotal;
+
+  static Serializer<CreateVisitTotal> get serializer => _$createVisitTotalSerializer;
+}
+
 abstract class VisitResponseService implements Built<VisitResponseService, VisitResponseServiceBuilder> {
   @BuiltValueField(wireName: 'id')
   int get id;
 
+  @BuiltValueField(wireName: 'service_id')
+  int get serviceId;
+
+  @BuiltValueField(wireName: 'service_name')
+  String? get serviceName;
+
+  @BuiltValueField(wireName: 'service_type')
+  String? get serviceType;
+
+  @BuiltValueField(wireName: 'doctor_name')
+  String? get doctorName;
+
+  @BuiltValueField(wireName: 'doctor_image')
+  String? get doctorImage;
+
+  @BuiltValueField(wireName: 'company_name')
+  String? get companyName;
+
+  @BuiltValueField(wireName: 'company_address')
+  String? get companyAddress;
+
+  @BuiltValueField(wireName: 'service_price')
+  double? get servicePrice;
+
+  @BuiltValueField(wireName: 'quantity')
+  double? get quantity;
+
+  @BuiltValueField(wireName: 'total_discount')
+  double? get totalDiscount;
+
+  @BuiltValueField(wireName: 'discount_percentage')
+  double? get discountPercentage;
+
+  @BuiltValueField(wireName: 'tax_percentage')
+  double? get taxPercentage;
+
+  @BuiltValueField(wireName: 'tax_amount')
+  double? get taxAmount;
+
+  @BuiltValueField(wireName: 'price_subtotal')
+  double? get priceSubtotal;
+
+  @BuiltValueField(wireName: 'price_total')
+  double? get priceTotal;
+
   @BuiltValueField(wireName: 'doctor_id')
-  String get doctorId;
+  String? get doctorId;
 
   @BuiltValueField(wireName: 'image')
-  String get image;
+  String? get image;
 
   @BuiltValueField(wireName: 'company_id')
-  String get companyId;
+  String? get companyId;
 
   @BuiltValueField(wireName: 'main_service_id')
   String? get mainServiceId;
 
   @BuiltValueField(wireName: 'product_type')
   String? get productType;
-
-  @BuiltValueField(wireName: 'doctor_first_visit_price_uzs')
-  double? get doctorFirstVisitPriceUzs;
-
-  @BuiltValueField(wireName: 'doctor_first_visit_price_uzd')
-  double? get doctorFirstVisitPriceUzd;
-
-  @BuiltValueField(wireName: 'doctor_revisit_price_uzs')
-  double? get doctorRevisitPriceUzs;
-
-  @BuiltValueField(wireName: 'doctor_revisit_price_uzd')
-  double? get doctorRevisitPriceUzd;
 
   @BuiltValueField(wireName: 'date')
   String? get date;
@@ -232,11 +285,29 @@ abstract class PatientOrder implements Built<PatientOrder, PatientOrderBuilder> 
   @BuiltValueField(wireName: 'sale_order_name')
   String? get saleOrderName;
 
+  @BuiltValueField(wireName: 'company_name')
+  String? get companyName;
+
+  @BuiltValueField(wireName: 'company_address')
+  String? get companyAddress;
+
+  @BuiltValueField(wireName: 'company_logo')
+  String? get companyLogo;
+
+  @BuiltValueField(wireName: 'fiscal_url_check')
+  String? get fiscalUrlCheck;
+
+  @BuiltValueField(wireName: 'fiscal_id')
+  String? get fiscalId;
+
   @BuiltValueField(wireName: 'sale_order_check_pdf_url')
   String? get saleOrderCheckPdfUrl;
 
   @BuiltValueField(wireName: 'sale_order_payment_status')
   String? get saleOrderPaymentStatus;
+
+  @BuiltValueField(wireName: 'sale_order_price')
+  double? get saleOrderPrice;
 
   @BuiltValueField(wireName: 'sale_order_lines')
   BuiltList<SaleOrderLine> get saleOrderLines;
@@ -244,14 +315,40 @@ abstract class PatientOrder implements Built<PatientOrder, PatientOrderBuilder> 
   @BuiltValueField(wireName: 'sale_order_payment_urls')
   BuiltList<PaymentUrlModels>? get saleOrderPaymentUrls;
 
-  @BuiltValueField(wireName: 'sale_order_price')
-  double? get saleOrderPrice;
+  @BuiltValueField(wireName: 'payments')
+  BuiltList<OrderPayment>? get payments;
 
   PatientOrder._();
 
   factory PatientOrder([void Function(PatientOrderBuilder) updates]) = _$PatientOrder;
 
   static Serializer<PatientOrder> get serializer => _$patientOrderSerializer;
+}
+
+abstract class OrderPayment implements Built<OrderPayment, OrderPaymentBuilder> {
+  @BuiltValueField(wireName: 'payment_method')
+  String? get paymentMethod;
+
+  @BuiltValueField(wireName: 'payment_date')
+  String? get paymentDate;
+
+  @BuiltValueField(wireName: 'currency')
+  String? get currency;
+
+  @BuiltValueField(wireName: 'journal_name')
+  String? get journalName;
+
+  @BuiltValueField(wireName: 'amount')
+  double? get amount;
+
+  @BuiltValueField(wireName: 'is_done')
+  bool? get isDone;
+
+  OrderPayment._();
+
+  factory OrderPayment([void Function(OrderPaymentBuilder) updates]) = _$OrderPayment;
+
+  static Serializer<OrderPayment> get serializer => _$orderPaymentSerializer;
 }
 
 abstract class PaymentUrlModels implements Built<PaymentUrlModels, PaymentUrlModelsBuilder> {
@@ -342,6 +439,24 @@ abstract class PatientVisit implements Built<PatientVisit, PatientVisitBuilder> 
 abstract class SaleOrderLine implements Built<SaleOrderLine, SaleOrderLineBuilder> {
   @BuiltValueField(wireName: 'service')
   String? get service;
+
+  @BuiltValueField(wireName: 'date')
+  String? get date;
+
+  @BuiltValueField(wireName: 'service_id')
+  int? get serviceId;
+
+  @BuiltValueField(wireName: 'service_period_time')
+  String? get servicePeriodTime;
+
+  @BuiltValueField(wireName: 'doctor')
+  String? get doctor;
+
+  @BuiltValueField(wireName: 'doctor_image')
+  String? get doctorImage;
+
+  @BuiltValueField(wireName: 'doctor_job')
+  String? get doctorJob;
 
   @BuiltValueField(wireName: 'service_type')
   String? get serviceType;
@@ -459,6 +574,9 @@ abstract class PatientVisitSingleModel implements Built<PatientVisitSingleModel,
 
   @BuiltValueField(wireName: 'payment_status')
   String? get paymentStatus;
+
+  @BuiltValueField(wireName: 'is_done')
+  bool? get isDone;
 
   @BuiltValueField(wireName: 'longitude')
   double? get longitude;

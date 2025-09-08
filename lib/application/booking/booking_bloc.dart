@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -323,14 +322,14 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           emit(state.copyWith(
             getDoctorsStatus: FormzSubmissionStatus.failure,
             errorMessage: failure.message,
-            thirdBookingServices: [],
+            thirdBookingServices: null,
           ));
         },
-        (services) {
+        (service) {
           emit(state.copyWith(
             getDoctorsStatus: FormzSubmissionStatus.success,
             errorMessage: '',
-            thirdBookingServices: services.toList(),
+            thirdBookingServices: service,
             hasFetchedThirdServices: true,
           ));
         },
@@ -340,7 +339,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         emit(state.copyWith(
           getDoctorsStatus: FormzSubmissionStatus.failure,
           errorMessage: e.toString(),
-          thirdBookingServices: [],
+          thirdBookingServices: null,
         ));
       }
     }

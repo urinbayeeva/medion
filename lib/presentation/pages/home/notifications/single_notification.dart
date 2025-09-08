@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +14,7 @@ import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/customer_review/review_card.dart';
-import 'package:medion/presentation/pages/others/dicsount/discount_page.dart';
+import 'package:medion/presentation/pages/others/dicsount/widgets/discount_card.dart';
 import 'package:medion/presentation/pages/others/feedbacks/feedback_view_vithout_location.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -349,9 +347,8 @@ class _SingleNotificationState extends State<SingleNotification> {
                             review: GetReviewModel((b) => b
                               ..review = notification!.review!.review ?? ""
                               ..ratings = "${notification.review!.ratings?.length}"
-                              ..name = "${notification.review!.name}"
-                              ..location = "${notification.review!.location}"
-                              ..title = '${notification.review!.name}'),
+                              ..patientName = "${notification.review!.name}"
+                              ..location = "${notification.review!.location}"),
                             colors: colors,
                             icons: icons,
                             fonts: fonts,

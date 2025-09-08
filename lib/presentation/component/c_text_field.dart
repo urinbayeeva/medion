@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -144,10 +145,21 @@ class _CustomTextFieldState extends State<CustomTextField> {
               decoration: InputDecoration(
                 counterText: widget.maxLength == 500 ? null : '',
                 suffixIcon: widget.suffixIcon != null
-                    ? IconButton(icon: widget.suffixIcon!, onPressed: widget.onsuffixIconPressed ?? () {})
+                    ? WScaleAnimation(
+                        onTap: widget.onsuffixIconPressed ?? () {},
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12.0.h),
+                          child: widget.suffixIcon!,
+                        ))
                     : null,
                 prefixIcon: widget.prefixIcon != null
-                    ? IconButton(icon: widget.prefixIcon!, onPressed: widget.onprefixIconPressed ?? () {})
+                    ? WScaleAnimation(
+                        onTap: widget.onprefixIconPressed ?? () {},
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12.0.h),
+                          child: widget.prefixIcon!,
+                        ),
+                      )
                     : null,
                 focusColor: colors.primary500,
                 fillColor: widget.fillColor ?? colors.transparent,

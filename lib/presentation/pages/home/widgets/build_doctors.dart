@@ -1,16 +1,13 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
+import 'package:formz/formz.dart';
 import 'package:medion/application/doctors/doctors_bloc.dart';
+import 'package:medion/domain/models/doctors/doctor_model.dart';
 import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/home/doctors/inner_page/home_doctor_item.dart';
-import 'package:medion/presentation/pages/home/doctors/widget/doctors_item.dart';
 import 'package:medion/presentation/routes/routes.dart';
-import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:medion/utils/helpers/decode_html.dart';
 
 class BuildDoctorsCategory extends StatelessWidget {
   const BuildDoctorsCategory({super.key, required this.titleAndAction, required this.controller});
@@ -21,33 +18,19 @@ class BuildDoctorsCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
-      builder: (context, colors, fonts, icons, controller) {
+      builder: (context, colors, fonts, icons, ctrl) {
         return BlocBuilder<DoctorBloc, DoctorState>(
           buildWhen: (o, n) => o.doctors != n.doctors,
           builder: (context, state) {
-            final doctors = (state.doctors?.doctorData != null)
-                ? state.doctors!.doctorData!
-                    .map(
-                      (category) => {
-                        'name': category.name,
-                        'profession': category.specialty.toString(),
-                        'image': category.image,
-                        'id': category.id,
-                        'work_experience': category.workExperience.toString(),
-                        'info_description': decodeHtml(category.infoDescription.toString()),
-                        'gender': category.gender.toString(),
-                        'has_discount': category.hasDiscount,
-                        'academic_rank': category.academicRank,
-                      },
-                    )
-                    .toList()
-                : [];
+            final doctors = (state.doctors?.doctorData == null) ? [] : <DoctorData>[...state.doctors!.doctorData!];
 
-            final limitedDoctors = doctors.take(10).toList();
-            if (state.error || state.doctors?.doctorData == null || state.doctors!.doctorData!.isEmpty) {
+            final limitedDoctors = <DoctorData>[...doctors.take(10)];
+            if (state.fetchDoctors.isFailure ||
+                state.doctors?.doctorData == null ||
+                state.doctors!.doctorData!.isEmpty) {
               return const SizedBox.shrink();
             }
-            if (!state.success) {
+            if (state.fetchDoctors.isFailure) {
               return _buildDoctorsShimmer(fonts);
             }
             if (limitedDoctors.isEmpty) return const SizedBox.shrink();
@@ -59,8 +42,9 @@ class BuildDoctorsCategory extends StatelessWidget {
                   child: titleAndAction,
                 ),
                 SizedBox(
-                  height: 340.h,
+                  height: 310.h,
                   child: ListView.builder(
+                    controller: controller,
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.zero,
                     itemCount: limitedDoctors.length,
@@ -71,26 +55,25 @@ class BuildDoctorsCategory extends StatelessWidget {
                         padding: EdgeInsets.only(left: (index == 0) ? 12.w : 0),
                         child: HomeDoctorItem(
                           onTap: () {
-                            Navigator.of(context, rootNavigator: true)
-                                .push(AppRoutes.getAboutDoctorPage(
-                                    name: doctor['name'].toString(),
-                                    profession: doctor['profession'].toString(),
-                                    status: doctor['name'].toString(),
-                                    image: doctor['image'].toString(),
-                                    id: doctor['id']))
-                                .then((v) {
-                              context.read<BottomNavBarController>().changeNavBar(false);
-                            });
+                            Navigator.of(context, rootNavigator: true).push(
+                              AppRoutes.getAboutDoctorPage(
+                                name: doctor.name.toString(),
+                                profession: doctor.specialty.toString(),
+                                status: doctor.infoDescription.toString(),
+                                image: doctor.image.toString(),
+                                id: doctor.id!,
+                              ),
+                            );
                           },
-                          hasDiscount: doctor['has_discount'] ?? false,
-                          imagePath: doctor['image'].toString(),
-                          name: doctor['name'].toString(),
-                          profession: doctor['profession'].toString(),
-                          infoDescription: doctor['info_description'].toString(),
-                          gender: doctor['gender'].toString(),
-                          doctorID: doctor['id'],
-                          experience: "experience".tr(namedArgs: {"count": doctor['work_experience'].toString()}),
-                          academicRank: doctor['academic_rank']?.toString() ?? "",
+                          hasDiscount: doctor.hasDiscount ?? false,
+                          imagePath: doctor.image.toString(),
+                          name: doctor.name.toString(),
+                          profession: doctor.specialty.toString(),
+                          infoDescription: doctor.infoDescription.toString(),
+                          gender: doctor.gender.toString(),
+                          doctorID: doctor.id!,
+                          experience: "${doctor.workExperience}",
+                          academicRank: doctor.academicRank?.toString() ?? "",
                         ),
                       );
                     },

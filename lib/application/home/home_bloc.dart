@@ -4,11 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:medion/domain/models/map/map_model.dart';
 import 'package:medion/domain/models/medical_services/medical_services.dart';
-import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/infrastructure/repository/home_repo.dart';
-
-import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
+import 'package:medion/presentation/component/easy_loading.dart';
 
 part 'home_bloc.freezed.dart';
 

@@ -75,23 +75,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 enablePullDown: true,
                 header: const WaterDropMaterialHeader(color: Style.shade0, backgroundColor: Style.error500),
                 child: ListView(
-                  // physics: ,
-                  // addAutomaticKeepAlives: ,
-                  // scrollDirection: ,
-                  // shrinkWrap: ,
-                  // clipBehavior: ,
-                  // controller: ,
-                  // addRepaintBoundaries: ,
-                  // addSemanticIndexes: ,
-                  // dragStartBehavior: ,
-                  // hitTestBehavior: ,
-                  // itemExtentBuilder: ,
-                  // keyboardDismissBehavior: ,
-                  // restorationId: ,
-                  // prototypeItem: ,
-                  // primary: ,
-                  // itemExtent: ,
-                  // cacheExtent: ,
                   children: [
                     if (state.userInfoStatus.isInitial || state.userInfoStatus.isInProgress) ...{
                       SafeArea(
@@ -134,7 +117,14 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Expanded(child: Lottie.asset("assets/anim/sad.json")),
+                              Container(
+                                height: 80.h,
+                                width: 80.w,
+                                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                                decoration: BoxDecoration(shape: BoxShape.circle, color: colors.neutral400),
+                                child: icons.user.svg(),
+                              ),
+                              10.h.verticalSpace,
                               Text('something_went_wrong'.tr(), style: fonts.regularText),
                             ],
                           ),

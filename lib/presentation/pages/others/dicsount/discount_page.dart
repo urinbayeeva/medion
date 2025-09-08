@@ -1,21 +1,16 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
-import 'package:http/http.dart' as http;
 import 'package:medion/application/content/content_bloc.dart';
-import 'package:medion/presentation/component/c_appbar.dart';
-import 'package:medion/presentation/pages/others/article/widgets/article_card_widget.dart';
-import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
+import 'package:medion/presentation/pages/others/dicsount/widgets/discount_card.dart';
+import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:medion/utils/constants.dart';
 import 'package:medion/utils/enums/content_type_enum.dart';
 import 'package:medion/utils/extensions.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -79,36 +74,23 @@ class _DiscountPageState extends State<DiscountPage> {
           ),
           backgroundColor: colors.backgroundColor,
           body: BlocBuilder<ContentBloc, ContentState>(
+            buildWhen: (o, n) {
+              final status = o.fetchContentStatus != n.fetchContentStatus;
+              final content = o.contentByType != n.contentByType;
+              return status || content;
+            },
             builder: (context, state) {
               if (state.fetchContentStatus.isInitial || state.fetchContentStatus.isInProgress) {
-                return Center(
-                  child: CircularProgressIndicator(color: colors.error500),
-                );
-              }
-
-              if (state.fetchContentStatus.isFailure) {
-                return Center(
-                  child: Text(
-                    'something_went_wrong'.tr(),
-                    style: fonts.regularSemLink,
-                  ),
-                );
+                return Center(child: CupertinoActivityIndicator(color: colors.error500));
               }
 
               final discountContent = state.contentByType["discount"] ?? [];
 
-              if (discountContent.isEmpty) {
+              if (discountContent.isEmpty || state.fetchContentStatus.isFailure) {
                 return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      icons.emojiSad.svg(width: 80, height: 80),
-                      4.h.verticalSpace,
-                      Text(
-                        'no_result_found'.tr(),
-                        style: fonts.regularSemLink,
-                      ),
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 130.h),
+                    child: EmptyState(title: "no_results_found".tr()),
                   ),
                 );
               }
@@ -164,136 +146,4 @@ class _DiscountPageState extends State<DiscountPage> {
       },
     );
   }
-}
-
-class DiscountCard extends StatelessWidget {
-  const DiscountCard({
-    super.key,
-    required this.image,
-    required this.colors,
-    required this.title,
-    required this.date,
-    required this.fonts,
-    required this.onTap,
-  });
-
-  final String image;
-  final String title;
-  final String date;
-  final CustomColorSet colors;
-  final FontSet fonts;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return WScaleAnimation(
-      onTap: onTap,
-      child: Container(
-        width: 92.w,
-        height: 160.h,
-        decoration: BoxDecoration(
-          color: colors.shade0,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 8.h,
-          children: [
-            CommonImage(
-              radius: const BorderRadius.vertical(top: Radius.circular(12)),
-              height: 163.h,
-              width: double.infinity,
-              imageUrl: image,
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  title,
-                  style: fonts.xSmallLink.copyWith(fontWeight: FontWeight.w500, color: colors.darkMode900),
-                  maxLines: 3,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0).copyWith(bottom: 6.h),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  date,
-                  style: fonts.xxSmallestText.copyWith(color: const Color(0xff66686C)),
-                  maxLines: 1,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Data model for the discount response
-class Discount {
-  final String type;
-  final int id;
-  final String createDate;
-  final String title;
-  final String description;
-  final String link;
-  final String primaryImage;
-  final List<String> images;
-  final String discountCondition;
-  final String? discountLocation;
-  final String? discountStartDate;
-  final String? discountEndDate;
-  final String? phoneNumber;
-  final String? phoneNumberShort;
-  final int categoryId;
-  final List<dynamic> banners;
-
-  Discount({
-    required this.type,
-    required this.id,
-    required this.createDate,
-    required this.title,
-    required this.description,
-    required this.link,
-    required this.primaryImage,
-    required this.images,
-    required this.discountCondition,
-    this.discountLocation,
-    this.discountStartDate,
-    this.discountEndDate,
-    this.phoneNumber,
-    this.phoneNumberShort,
-    required this.categoryId,
-    required this.banners,
-  });
-
-  factory Discount.fromJson(Map<String, dynamic> json) {
-    return Discount(
-      type: json['type'] ?? '',
-      id: json['id'] ?? 0,
-      createDate: json['create_date'] ?? '',
-      title: json['title'] ?? '',
-      description: json['description'] ?? '',
-      link: json['link'] ?? '',
-      primaryImage: json['primary_image'] ?? '',
-      images: List<String>.from(json['images'] ?? []),
-      discountCondition: json['discount_condition'] ?? '',
-      discountLocation: json['discount_location'],
-      discountStartDate: json['discount_start_date'],
-      discountEndDate: json['discount_end_date'],
-      phoneNumber: json['phone_number'],
-      phoneNumberShort: json['phone_number_short'],
-      categoryId: json['category_id'] ?? 0,
-      banners: json['banners'] ?? [],
-    );
-  }
-
-  // Helper getters for decoded title and description
-  String get decodedTitle => title; // Add decoding logic if needed
-  String get decodedDescription => description; // Add decoding logic if needed
 }

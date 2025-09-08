@@ -7,19 +7,19 @@ part of 'notification_model.dart';
 // **************************************************************************
 
 Serializer<SetFcmTokenBody> _$setFcmTokenBodySerializer =
-    new _$SetFcmTokenBodySerializer();
+    _$SetFcmTokenBodySerializer();
 Serializer<NotificationModel> _$notificationModelSerializer =
-    new _$NotificationModelSerializer();
+    _$NotificationModelSerializer();
 Serializer<NotificationLabResult> _$notificationLabResultSerializer =
-    new _$NotificationLabResultSerializer();
+    _$NotificationLabResultSerializer();
 Serializer<NotificationReview> _$notificationReviewSerializer =
-    new _$NotificationReviewSerializer();
+    _$NotificationReviewSerializer();
 Serializer<NotificationReminder> _$notificationReminderSerializer =
-    new _$NotificationReminderSerializer();
+    _$NotificationReminderSerializer();
 Serializer<NotificationDiscount> _$notificationDiscountSerializer =
-    new _$NotificationDiscountSerializer();
+    _$NotificationDiscountSerializer();
 Serializer<NotificationSendReview> _$notificationSendReviewSerializer =
-    new _$NotificationSendReviewSerializer();
+    _$NotificationSendReviewSerializer();
 
 class _$SetFcmTokenBodySerializer
     implements StructuredSerializer<SetFcmTokenBody> {
@@ -47,7 +47,7 @@ class _$SetFcmTokenBodySerializer
   SetFcmTokenBody deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new SetFcmTokenBodyBuilder();
+    final result = SetFcmTokenBodyBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -186,7 +186,7 @@ class _$NotificationModelSerializer
   NotificationModel deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new NotificationModelBuilder();
+    final result = NotificationModelBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -307,7 +307,7 @@ class _$NotificationLabResultSerializer
   NotificationLabResult deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new NotificationLabResultBuilder();
+    final result = NotificationLabResultBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -399,7 +399,7 @@ class _$NotificationReviewSerializer
   NotificationReview deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new NotificationReviewBuilder();
+    final result = NotificationReviewBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -497,7 +497,7 @@ class _$NotificationReminderSerializer
   NotificationReminder deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new NotificationReminderBuilder();
+    final result = NotificationReminderBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -582,7 +582,7 @@ class _$NotificationDiscountSerializer
   NotificationDiscount deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new NotificationDiscountBuilder();
+    final result = NotificationDiscountBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -678,7 +678,7 @@ class _$NotificationSendReviewSerializer
   NotificationSendReview deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new NotificationSendReviewBuilder();
+    final result = NotificationSendReviewBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -724,22 +724,16 @@ class _$SetFcmTokenBody extends SetFcmTokenBody {
   final String token;
 
   factory _$SetFcmTokenBody([void Function(SetFcmTokenBodyBuilder)? updates]) =>
-      (new SetFcmTokenBodyBuilder()..update(updates))._build();
+      (SetFcmTokenBodyBuilder()..update(updates))._build();
 
   _$SetFcmTokenBody._({required this.deviceId, required this.token})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        deviceId, r'SetFcmTokenBody', 'deviceId');
-    BuiltValueNullFieldError.checkNotNull(token, r'SetFcmTokenBody', 'token');
-  }
-
+      : super._();
   @override
   SetFcmTokenBody rebuild(void Function(SetFcmTokenBodyBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  SetFcmTokenBodyBuilder toBuilder() =>
-      new SetFcmTokenBodyBuilder()..replace(this);
+  SetFcmTokenBodyBuilder toBuilder() => SetFcmTokenBodyBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -793,7 +787,6 @@ class SetFcmTokenBodyBuilder
 
   @override
   void replace(SetFcmTokenBody other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$SetFcmTokenBody;
   }
 
@@ -807,7 +800,7 @@ class SetFcmTokenBodyBuilder
 
   _$SetFcmTokenBody _build() {
     final _$result = _$v ??
-        new _$SetFcmTokenBody._(
+        _$SetFcmTokenBody._(
           deviceId: BuiltValueNullFieldError.checkNotNull(
               deviceId, r'SetFcmTokenBody', 'deviceId'),
           token: BuiltValueNullFieldError.checkNotNull(
@@ -850,7 +843,7 @@ class _$NotificationModel extends NotificationModel {
 
   factory _$NotificationModel(
           [void Function(NotificationModelBuilder)? updates]) =>
-      (new NotificationModelBuilder()..update(updates))._build();
+      (NotificationModelBuilder()..update(updates))._build();
 
   _$NotificationModel._(
       {this.id,
@@ -868,14 +861,13 @@ class _$NotificationModel extends NotificationModel {
       this.createdAt,
       this.link})
       : super._();
-
   @override
   NotificationModel rebuild(void Function(NotificationModelBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   NotificationModelBuilder toBuilder() =>
-      new NotificationModelBuilder()..replace(this);
+      NotificationModelBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -973,24 +965,24 @@ class NotificationModelBuilder
 
   NotificationDiscountBuilder? _discount;
   NotificationDiscountBuilder get discount =>
-      _$this._discount ??= new NotificationDiscountBuilder();
+      _$this._discount ??= NotificationDiscountBuilder();
   set discount(NotificationDiscountBuilder? discount) =>
       _$this._discount = discount;
 
   NotificationReminderBuilder? _reminder;
   NotificationReminderBuilder get reminder =>
-      _$this._reminder ??= new NotificationReminderBuilder();
+      _$this._reminder ??= NotificationReminderBuilder();
   set reminder(NotificationReminderBuilder? reminder) =>
       _$this._reminder = reminder;
 
   NotificationReviewBuilder? _review;
   NotificationReviewBuilder get review =>
-      _$this._review ??= new NotificationReviewBuilder();
+      _$this._review ??= NotificationReviewBuilder();
   set review(NotificationReviewBuilder? review) => _$this._review = review;
 
   ListBuilder<NotificationLabResult>? _labResult;
   ListBuilder<NotificationLabResult> get labResult =>
-      _$this._labResult ??= new ListBuilder<NotificationLabResult>();
+      _$this._labResult ??= ListBuilder<NotificationLabResult>();
   set labResult(ListBuilder<NotificationLabResult>? labResult) =>
       _$this._labResult = labResult;
 
@@ -1032,7 +1024,6 @@ class NotificationModelBuilder
 
   @override
   void replace(NotificationModel other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$NotificationModel;
   }
 
@@ -1048,7 +1039,7 @@ class NotificationModelBuilder
     _$NotificationModel _$result;
     try {
       _$result = _$v ??
-          new _$NotificationModel._(
+          _$NotificationModel._(
             id: id,
             visitId: visitId,
             type: type,
@@ -1076,7 +1067,7 @@ class NotificationModelBuilder
         _$failedField = 'labResult';
         _labResult?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'NotificationModel', _$failedField, e.toString());
       }
       rethrow;
@@ -1096,11 +1087,10 @@ class _$NotificationLabResult extends NotificationLabResult {
 
   factory _$NotificationLabResult(
           [void Function(NotificationLabResultBuilder)? updates]) =>
-      (new NotificationLabResultBuilder()..update(updates))._build();
+      (NotificationLabResultBuilder()..update(updates))._build();
 
   _$NotificationLabResult._({this.documentName, this.date, this.documentUrl})
       : super._();
-
   @override
   NotificationLabResult rebuild(
           void Function(NotificationLabResultBuilder) updates) =>
@@ -1108,7 +1098,7 @@ class _$NotificationLabResult extends NotificationLabResult {
 
   @override
   NotificationLabResultBuilder toBuilder() =>
-      new NotificationLabResultBuilder()..replace(this);
+      NotificationLabResultBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1148,7 +1138,7 @@ class NotificationLabResultBuilder
   set documentName(String? documentName) => _$this._documentName = documentName;
 
   ListBuilder<String>? _date;
-  ListBuilder<String> get date => _$this._date ??= new ListBuilder<String>();
+  ListBuilder<String> get date => _$this._date ??= ListBuilder<String>();
   set date(ListBuilder<String>? date) => _$this._date = date;
 
   String? _documentUrl;
@@ -1170,7 +1160,6 @@ class NotificationLabResultBuilder
 
   @override
   void replace(NotificationLabResult other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$NotificationLabResult;
   }
 
@@ -1186,7 +1175,7 @@ class NotificationLabResultBuilder
     _$NotificationLabResult _$result;
     try {
       _$result = _$v ??
-          new _$NotificationLabResult._(
+          _$NotificationLabResult._(
             documentName: documentName,
             date: _date?.build(),
             documentUrl: documentUrl,
@@ -1197,7 +1186,7 @@ class NotificationLabResultBuilder
         _$failedField = 'date';
         _date?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'NotificationLabResult', _$failedField, e.toString());
       }
       rethrow;
@@ -1223,7 +1212,7 @@ class _$NotificationReview extends NotificationReview {
 
   factory _$NotificationReview(
           [void Function(NotificationReviewBuilder)? updates]) =>
-      (new NotificationReviewBuilder()..update(updates))._build();
+      (NotificationReviewBuilder()..update(updates))._build();
 
   _$NotificationReview._(
       {this.name,
@@ -1233,7 +1222,6 @@ class _$NotificationReview extends NotificationReview {
       this.location,
       this.createDate})
       : super._();
-
   @override
   NotificationReview rebuild(
           void Function(NotificationReviewBuilder) updates) =>
@@ -1241,7 +1229,7 @@ class _$NotificationReview extends NotificationReview {
 
   @override
   NotificationReviewBuilder toBuilder() =>
-      new NotificationReviewBuilder()..replace(this);
+      NotificationReviewBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1290,8 +1278,7 @@ class NotificationReviewBuilder
   set name(String? name) => _$this._name = name;
 
   ListBuilder<String>? _ratings;
-  ListBuilder<String> get ratings =>
-      _$this._ratings ??= new ListBuilder<String>();
+  ListBuilder<String> get ratings => _$this._ratings ??= ListBuilder<String>();
   set ratings(ListBuilder<String>? ratings) => _$this._ratings = ratings;
 
   String? _review;
@@ -1328,7 +1315,6 @@ class NotificationReviewBuilder
 
   @override
   void replace(NotificationReview other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$NotificationReview;
   }
 
@@ -1344,7 +1330,7 @@ class NotificationReviewBuilder
     _$NotificationReview _$result;
     try {
       _$result = _$v ??
-          new _$NotificationReview._(
+          _$NotificationReview._(
             name: name,
             ratings: _ratings?.build(),
             review: review,
@@ -1358,7 +1344,7 @@ class NotificationReviewBuilder
         _$failedField = 'ratings';
         _ratings?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'NotificationReview', _$failedField, e.toString());
       }
       rethrow;
@@ -1382,12 +1368,11 @@ class _$NotificationReminder extends NotificationReminder {
 
   factory _$NotificationReminder(
           [void Function(NotificationReminderBuilder)? updates]) =>
-      (new NotificationReminderBuilder()..update(updates))._build();
+      (NotificationReminderBuilder()..update(updates))._build();
 
   _$NotificationReminder._(
       {this.id, this.doctorName, this.image, this.startDate, this.location})
       : super._();
-
   @override
   NotificationReminder rebuild(
           void Function(NotificationReminderBuilder) updates) =>
@@ -1395,7 +1380,7 @@ class _$NotificationReminder extends NotificationReminder {
 
   @override
   NotificationReminderBuilder toBuilder() =>
-      new NotificationReminderBuilder()..replace(this);
+      NotificationReminderBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1473,7 +1458,6 @@ class NotificationReminderBuilder
 
   @override
   void replace(NotificationReminder other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$NotificationReminder;
   }
 
@@ -1487,7 +1471,7 @@ class NotificationReminderBuilder
 
   _$NotificationReminder _build() {
     final _$result = _$v ??
-        new _$NotificationReminder._(
+        _$NotificationReminder._(
           id: id,
           doctorName: doctorName,
           image: image,
@@ -1511,11 +1495,10 @@ class _$NotificationDiscount extends NotificationDiscount {
 
   factory _$NotificationDiscount(
           [void Function(NotificationDiscountBuilder)? updates]) =>
-      (new NotificationDiscountBuilder()..update(updates))._build();
+      (NotificationDiscountBuilder()..update(updates))._build();
 
   _$NotificationDiscount._({this.id, this.title, this.image, this.endDate})
       : super._();
-
   @override
   NotificationDiscount rebuild(
           void Function(NotificationDiscountBuilder) updates) =>
@@ -1523,7 +1506,7 @@ class _$NotificationDiscount extends NotificationDiscount {
 
   @override
   NotificationDiscountBuilder toBuilder() =>
-      new NotificationDiscountBuilder()..replace(this);
+      NotificationDiscountBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1593,7 +1576,6 @@ class NotificationDiscountBuilder
 
   @override
   void replace(NotificationDiscount other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$NotificationDiscount;
   }
 
@@ -1607,7 +1589,7 @@ class NotificationDiscountBuilder
 
   _$NotificationDiscount _build() {
     final _$result = _$v ??
-        new _$NotificationDiscount._(
+        _$NotificationDiscount._(
           id: id,
           title: title,
           image: image,
@@ -1634,7 +1616,7 @@ class _$NotificationSendReview extends NotificationSendReview {
 
   factory _$NotificationSendReview(
           [void Function(NotificationSendReviewBuilder)? updates]) =>
-      (new NotificationSendReviewBuilder()..update(updates))._build();
+      (NotificationSendReviewBuilder()..update(updates))._build();
 
   _$NotificationSendReview._(
       {this.name,
@@ -1644,7 +1626,6 @@ class _$NotificationSendReview extends NotificationSendReview {
       this.location,
       this.createDate})
       : super._();
-
   @override
   NotificationSendReview rebuild(
           void Function(NotificationSendReviewBuilder) updates) =>
@@ -1652,7 +1633,7 @@ class _$NotificationSendReview extends NotificationSendReview {
 
   @override
   NotificationSendReviewBuilder toBuilder() =>
-      new NotificationSendReviewBuilder()..replace(this);
+      NotificationSendReviewBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1738,7 +1719,6 @@ class NotificationSendReviewBuilder
 
   @override
   void replace(NotificationSendReview other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$NotificationSendReview;
   }
 
@@ -1752,7 +1732,7 @@ class NotificationSendReviewBuilder
 
   _$NotificationSendReview _build() {
     final _$result = _$v ??
-        new _$NotificationSendReview._(
+        _$NotificationSendReview._(
           name: name,
           ratings: ratings,
           review: review,
