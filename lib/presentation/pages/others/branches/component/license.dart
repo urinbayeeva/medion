@@ -102,6 +102,7 @@ class Licenses extends StatelessWidget {
     required List<ContentBase> images,
   }) {
     MyFunctions.showImages(
+      isLicence: true,
       isVideo: false,
       context: context,
       mainImage: mainImage,

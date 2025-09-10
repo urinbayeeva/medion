@@ -63,6 +63,7 @@ class _GalleryItemWidgetState extends State<GalleryItemWidget> {
 
                         final List<ContentBase> images = [...contentBaseList];
                         MyFunctions.showImages(
+                          isLicence: false,
                           isVideo: hasVideo,
                           context: context,
                           mainImage: item.fileUrl,

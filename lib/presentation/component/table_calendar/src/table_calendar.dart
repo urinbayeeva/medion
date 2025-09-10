@@ -558,6 +558,8 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
                 behavior: widget.dayHitTestBehavior,
                 onTap: () => _onDayTapped(day),
                 onLongPress: () => _onDayLongPressed(day),
+
+                /// list of has service days
                 child: _buildCell(day, focusedMonth),
               );
             },
@@ -672,8 +674,8 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
 
         return Stack(
           alignment: widget.calendarStyle.markersAlignment,
-          children: children,
           clipBehavior: widget.calendarStyle.canMarkersOverflow ? Clip.none : Clip.hardEdge,
+          children: children,
         );
       },
     );

@@ -72,12 +72,18 @@ class BuildOrderList extends StatelessWidget {
             padding: EdgeInsets.zero,
             itemBuilder: (_, index) {
               final PatientOrder order = state.moves[index];
-              return OrderCardItem(
-                paymentAvailable: (order.saleOrderPaymentStatus ?? '').contains("not"),
-                order: order,
-                invoice: order.saleOrderName ?? '',
-                paymentsTab: () => paymentsTab(order: order, context: context, colors: colors, fonts: fonts),
-                servicesTab: () => serviceTab(order: order, context: context, colors: colors, fonts: fonts),
+              bool available = "not_paid" != order.saleOrderPaymentStatus;
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  OrderCardItem(
+                    paymentAvailable: available,
+                    order: order,
+                    invoice: order.saleOrderName ?? '',
+                    paymentsTab: () => paymentsTab(order: order, context: context, colors: colors, fonts: fonts),
+                    servicesTab: () => serviceTab(order: order, context: context, colors: colors, fonts: fonts),
+                  ),
+                ],
               );
 
               // return OrderCard(
@@ -361,7 +367,7 @@ class BuildOrderList extends StatelessWidget {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            type.title.tr() ?? ' - ',
+                                            type.title.tr(),
                                             style: fonts.regularMain.copyWith(fontSize: 16.sp),
                                           ),
                                           Row(
@@ -407,7 +413,7 @@ class BuildOrderList extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
-                                      spacing: 4.h,
+                                      spacing: 8.h,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
@@ -428,7 +434,7 @@ class BuildOrderList extends StatelessWidget {
                                       ],
                                     ),
                                     Column(
-                                      spacing: 4.h,
+                                      spacing: 8.h,
                                       crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         Text(

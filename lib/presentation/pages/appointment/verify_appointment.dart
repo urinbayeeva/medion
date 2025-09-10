@@ -157,18 +157,15 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                           child: CButton(
                             title: '',
                             onTap: () {
-                              // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                              //   return PaymentPage(
-                              //     bloc: widget.bloc,
-                              //     appointments: bookingState.selectedAppointments,
-                              //     isHome: true,
-                              //   );
-                              // }));
                               if (bookingState.selectedAppointments.isNotEmpty) {
                                 final appointments = bookingState.selectedAppointments;
                                 final l = EasyLocalization.of(context)?.locale ?? const Locale('ru', 'RU');
 
-                                final list = appointments.map((a) {
+                                final list = appointments.where((item) {
+                                  final doctorID = item.doctorID > 0;
+                                  final serviceID = item.serviceId > 0;
+                                  return doctorID && serviceID || true;
+                                }).map((a) {
                                   return VisitRequest(
                                     (e) => e
                                       ..orderDetailId = (a.orderDetailId == -1) ? null : a.orderDetailId
@@ -180,7 +177,8 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                                       ..langCode = l.toString()
                                       ..startTime = a.startTime,
                                   );
-                                }).toList();
+                                });
+
                                 _bloc.add(VisitEvent.createVisit(request: <VisitRequest>[...list]));
                               }
                             },

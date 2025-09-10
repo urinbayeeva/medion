@@ -39,7 +39,7 @@ class DoctorAppointmentWidget extends StatefulWidget {
 }
 
 class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
-  int selectedDateIndex = 0;
+  final ValueNotifier<int> selectedDateIndex = ValueNotifier(0);
   late final ValueNotifier<List<ThirdBookingDoctor>> doctors = ValueNotifier([]);
   late final ValueNotifier<List<ThirdBookingCompany>> branches = ValueNotifier<List<ThirdBookingCompany>>([]);
   late final ValueNotifier<ThirdBookingCompany?> selectedBranch = ValueNotifier(null);
@@ -51,7 +51,9 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
     branches.value = <ThirdBookingCompany>[
       ...List.generate(companies.length, (i) => companies[i]),
     ];
-
+    if (branches.value.isNotEmpty) {
+      selectedBranch.value = branches.value.first;
+    }
     doctors.value = [
       for (final company in companies) ...?company.doctors,
     ];
@@ -204,7 +206,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
                         itemBuilder: (context, index) {
                           final doctor = doctors.value[index];
                           final schedule = doctor.schedules;
-                          String currentDate = [...?doctor.schedules][selectedDateIndex].date ?? '';
+                          String currentDate = [...?doctor.schedules][selectedDateIndex.value].date ?? '';
 
                           final currentAppointment = state.selectedAppointments.firstWhere(
                             (appointment) {
@@ -242,6 +244,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
                               ),
                               10.h.verticalSpace,
                               _buildDateSelector(
+                                selectedDateIndex: selectedDateIndex,
                                 context: context,
                                 colors: colors,
                                 fonts: fonts,
@@ -249,6 +252,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
                               ),
                               16.h.verticalSpace,
                               _buildTimeSlots(
+                                selectedIndex: selectedDateIndex,
                                 context: context,
                                 colors: colors,
                                 fonts: fonts,
@@ -382,6 +386,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
     required CustomColorSet colors,
     required FontSet fonts,
     required ThirdBookingDoctor doctor,
+    required ValueNotifier<int> selectedDateIndex,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -389,44 +394,44 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
         Text('select_date'.tr(), style: fonts.xSmallMain),
         8.h.verticalSpace,
         if (doctor.schedules != null && doctor.schedules!.isNotEmpty) ...{
-          SizedBox(
-            height: 40,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: doctor.schedules!.length,
-              itemBuilder: (context, index) {
-                String dateKey = doctor.schedules![index].date ?? "";
-                DateTime? parsedDate = DateTime.tryParse(dateKey);
+          ValueListenableBuilder(
+            valueListenable: selectedDateIndex,
+            builder: (context, i, state) {
+              return SizedBox(
+                height: 40,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: doctor.schedules!.length,
+                  itemBuilder: (context, index) {
+                    String dateKey = doctor.schedules![index].date ?? "";
+                    DateTime? parsedDate = DateTime.tryParse(dateKey);
 
-                String formattedDate =
-                    parsedDate != null ? DateFormat('EEE, dd MMMM', context.locale.toString()).format(parsedDate) : "";
-                bool isSelected = index == selectedDateIndex;
+                    String formattedDate = parsedDate != null
+                        ? DateFormat('EEE, dd MMMM', context.locale.toString()).format(parsedDate)
+                        : "";
+                    bool isSelected = index == i;
 
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedDateIndex = index;
-                    });
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 4.w),
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    decoration: BoxDecoration(
-                      color: isSelected ? colors.primary500 : colors.shade0,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: isSelected ? colors.primary500 : colors.neutral400,
+                    return GestureDetector(
+                      onTap: () => selectedDateIndex.value = index,
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 4.w),
+                        padding: EdgeInsets.symmetric(horizontal: 12.w),
+                        decoration: BoxDecoration(
+                          color: isSelected ? colors.primary500 : colors.shade0,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: isSelected ? colors.primary500 : colors.neutral400),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          formattedDate,
+                          style: fonts.xSmallLink.copyWith(color: isSelected ? colors.shade0 : colors.primary900),
+                        ),
                       ),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      formattedDate,
-                      style: fonts.xSmallLink.copyWith(color: isSelected ? colors.shade0 : colors.primary900),
-                    ),
-                  ),
-                );
-              },
-            ),
+                    );
+                  },
+                ),
+              );
+            },
           )
         }
       ],
@@ -444,166 +449,100 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
     });
   }
 
-  Widget _buildTimeSlots({
-    required BuildContext context,
-    required CustomColorSet colors,
-    required FontSet fonts,
-    required String currentDate,
-    required AppointmentItem currentAppointment,
-    required ThirdBookingDoctor doctor,
-    ThirdBookingCompany? company,
-    required List<AppointmentItem> items,
-    required List<ThirdBookingDoctorSchedule> schedules,
-  }) {
+  Widget _buildTimeSlots(
+      {required BuildContext context,
+      required CustomColorSet colors,
+      required FontSet fonts,
+      required String currentDate,
+      required AppointmentItem currentAppointment,
+      required ThirdBookingDoctor doctor,
+      ThirdBookingCompany? company,
+      required List<AppointmentItem> items,
+      required List<ThirdBookingDoctorSchedule> schedules,
+      required ValueNotifier<int> selectedIndex}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('select_recording_time'.tr(), style: fonts.xSmallMain),
         8.h.verticalSpace,
-
-        /// new
-        GridView.builder(
-          padding: EdgeInsets.zero,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            childAspectRatio: 2.2,
-            crossAxisSpacing: 8.w,
-            mainAxisSpacing: 8.h,
-          ),
-          itemCount: [...?schedules[selectedDateIndex].scheduleList].length,
-          itemBuilder: (context, index) {
-            var timeSlot = schedules[selectedDateIndex].scheduleList![index];
-            String time = timeSlot.time ?? '';
-            bool isActive = timeSlot.active ?? true;
-
-            // Check if this time slot is selected for THIS doctor
-            bool isSelected = currentAppointment.date == currentDate &&
-                currentAppointment.time == time &&
-                currentAppointment.doctorID == doctor.doctorId;
-
-            // Check if the time slot is taken by ANOTHER doctor
-            bool isDisabledForOtherDoctors = isTimeSlotTaken(
-              date: currentDate,
-              time: time,
-              currentServiceId: widget.serviceId ?? 0,
-              appointment: items, // selected appointment
-            );
-
-            bool isDisabled = !isActive || isDisabledForOtherDoctors;
-
-            return GestureDetector(
-              onTap: () {
-                if (!isDisabled) {
-                  _handleAppointmentSelection(
-                    time: time,
-                    currentDate: currentDate,
-                    isSelected: isSelected,
-                    doctor: doctor,
-                    company: company,
-                  );
-                }
-              },
-              child: Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: isDisabled
-                      ? colors.error500.withValues(alpha: 0.2)
-                      : isSelected
-                          ? colors.primary500
-                          : colors.neutral200,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: isSelected ? colors.error500 : colors.neutral200, width: 2),
-                ),
-                child: Text(
-                  time,
-                  style: TextStyle(
-                    color: isDisabled
-                        ? colors.neutral600.withValues(alpha: 0.7)
-                        : isSelected
-                            ? colors.shade0
-                            : colors.primary900,
-                    fontSize: 13.sp,
+        ValueListenableBuilder(
+            valueListenable: selectedIndex,
+            builder: (context, i, child) {
+              return AnimatedSize(
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeInOut,
+                child: GridView.builder(
+                  key: ValueKey('${currentDate}_$i'),
+                  padding: EdgeInsets.zero,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    childAspectRatio: 2.2,
+                    crossAxisSpacing: 8.w,
+                    mainAxisSpacing: 8.h,
                   ),
-                ),
-              ),
-            );
-          },
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-        ),
+                  itemCount: [...?schedules[i].scheduleList].length,
+                  itemBuilder: (context, index) {
+                    var timeSlot = schedules[i].scheduleList![index];
+                    String time = timeSlot.time ?? '';
+                    bool isActive = timeSlot.active ?? true;
 
-        ///old
-        ///       GridView.builder(
-        //           padding: EdgeInsets.zero,
-        //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //             crossAxisCount: 4,
-        //             childAspectRatio: 2.2,
-        //             crossAxisSpacing: 8.w,
-        //             mainAxisSpacing: 8.h,
-        //           ),
-        //           itemCount: widget.schedules[selectedDateIndex][currentDate].length,
-        //           itemBuilder: (context, index) {
-        //             var timeSlot = widget.schedules[selectedDateIndex][currentDate][index];
-        //             String time = timeSlot['time'];
-        //             bool isActive = timeSlot['active'] ?? true;
-        //
-        //             // Check if this time slot is selected for THIS doctor
-        //             bool isSelected = currentAppointment['date'] == currentDate &&
-        //                 currentAppointment['time'] == time &&
-        //                 currentAppointment['doctorID'] == widget.doctor.id.toString();
-        //
-        //             // Check if the time slot is taken by ANOTHER doctor
-        //             // bool isDisabledForOtherDoctors = AppointmentState.isTimeSlotTaken(
-        //             //   currentDate,
-        //             //   time,
-        //             //   widget.doctor.id.toString(),
-        //             // );
-        //             //
-        //             // bool isDisabled = !isActive || isDisabledForOtherDoctors;
-        //
-        //             return GestureDetector(
-        //               // onTap: isDisabled
-        //               //     ? null // Disable tap if not active or taken
-        //               //     : () {
-        //               //         _handleAppointmentSelection(time, currentDate, isSelected);
-        //               //       },
-        //               onTap: () {},
-        //               child: Container(
-        //                 alignment: Alignment.center,
-        //                 decoration: BoxDecoration(
-        //                   color:
-        //                       // isDisabled
-        //                       3 > 9
-        //                           ? colors.error500.withOpacity(0.2) // Use theme color
-        //                           : isSelected
-        //                               ? colors.primary500
-        //                               : colors.neutral200,
-        //                   borderRadius: BorderRadius.circular(8),
-        //                   border: Border.all(
-        //                     color: isSelected ? colors.error500 : colors.neutral200,
-        //                     width: 2,
-        //                   ),
-        //                 ),
-        //                 child: Text(
-        //                   time,
-        //                   style: TextStyle(
-        //                     color:
-        //                         // isDisabled
-        //
-        //                         3 > 9
-        //                             ? colors.neutral600.withOpacity(0.7)
-        //                             : isSelected
-        //                                 ? colors.shade0
-        //                                 : colors.primary900,
-        //                     fontSize: 13.sp,
-        //                   ),
-        //                 ),
-        //               ),
-        //             );
-        //           },
-        //           shrinkWrap: true,
-        //           physics: const NeverScrollableScrollPhysics(),
-        //         ),
+                    // Check if this time slot is selected for THIS doctor
+                    bool isSelected = currentAppointment.date == currentDate &&
+                        currentAppointment.time == time &&
+                        currentAppointment.doctorID == doctor.doctorId;
+
+                    // Check if the time slot is taken by ANOTHER doctor
+                    bool isDisabledForOtherDoctors = isTimeSlotTaken(
+                      date: currentDate,
+                      time: time,
+                      currentServiceId: widget.serviceId ?? 0,
+                      appointment: items, // selected appointment
+                    );
+
+                    bool isDisabled = !isActive || isDisabledForOtherDoctors;
+
+                    return GestureDetector(
+                      onTap: () {
+                        if (!isDisabled) {
+                          _handleAppointmentSelection(
+                            time: time,
+                            currentDate: currentDate,
+                            isSelected: isSelected,
+                            doctor: doctor,
+                            company: company,
+                          );
+                        }
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: isDisabled
+                              ? colors.error500.withValues(alpha: 0.2)
+                              : isSelected
+                                  ? colors.primary500
+                                  : colors.neutral200,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: isSelected ? colors.error500 : colors.neutral200, width: 2),
+                        ),
+                        child: Text(
+                          time,
+                          style: TextStyle(
+                            color: isDisabled
+                                ? colors.neutral600.withValues(alpha: 0.7)
+                                : isSelected
+                                    ? colors.shade0
+                                    : colors.primary900,
+                            fontSize: 13.sp,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                ),
+              );
+            }),
       ],
     );
   }

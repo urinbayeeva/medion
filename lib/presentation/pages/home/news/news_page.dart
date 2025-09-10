@@ -95,7 +95,7 @@ class _NewsPageState extends State<NewsPage> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 4,
                     mainAxisSpacing: 8,
-                    childAspectRatio: 2.3 / 3,
+                    childAspectRatio: 1.9 / 3,
                   ),
                   itemBuilder: (context, index) {
                     final item = newsContent[index];

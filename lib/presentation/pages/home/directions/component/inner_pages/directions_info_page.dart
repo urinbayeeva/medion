@@ -83,8 +83,9 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
 
   final ScrollController _controller = ScrollController();
 
-  void tabForScrollSection(int index, List<DirectionScrollingItem> tabs) {
-    final GlobalKey key = tabs[index].itemKey;
+  void tabForScrollSection(GlobalKey key, List<DirectionScrollingItem> tabs) {
+    // final GlobalKey key = tabs[index].itemKey;
+    log("key  name: ${key.currentWidget}");
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         final context = key.currentContext;
@@ -92,7 +93,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
           Scrollable.ensureVisible(
             context,
             duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
+            curve: Curves.linear,
             alignment: 0,
           );
         }
@@ -203,8 +204,9 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                         return CustomTabbarBlack(
                           tabs: state.items.where((e) => e.canSee).map((e) => e.title.tr()).toList(),
                           onTap: (val) {
+                            final item = state.items.where((e) => e.canSee).map((i) => i.itemKey).toList();
                             _index.value = val;
-                            tabForScrollSection(val, state.items);
+                            tabForScrollSection(item[val], state.items);
                           },
                           selectedIndex: _index.value,
                           padding: EdgeInsets.only(right: 12.w),
@@ -229,7 +231,6 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                               (index) {
                                 final item = state.items[index];
                                 return Column(
-                                  key: item.itemKey,
                                   children: [
                                     if (item.checker.isDiscount && item.canSee) ...{
                                       Column(
@@ -238,6 +239,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                                           Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                             child: Text(
+                                              key: item.itemKey,
                                               item.title.tr(),
                                               textAlign: TextAlign.left,
                                               style: fonts.regularMain,
@@ -254,6 +256,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                                           Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                             child: Text(
+                                              key: item.itemKey,
                                               item.title.tr(),
                                               textAlign: TextAlign.left,
                                               style: fonts.regularMain,
@@ -268,12 +271,14 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                                       )
                                     },
                                     if (item.checker.isDoctors && item.canSee) ...{
+                                      10.h.verticalSpace,
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                             child: Text(
+                                              key: item.itemKey,
                                               item.title.tr(),
                                               textAlign: TextAlign.left,
                                               style: fonts.regularMain,
@@ -284,6 +289,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                                       )
                                     },
                                     if (item.checker.isService && item.canSee) ...{
+                                      10.h.verticalSpace,
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
@@ -297,6 +303,7 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                                           ),
                                           Padding(
                                             padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                            key: item.itemKey,
                                             child: _buildServicesList(state),
                                           ),
                                         ],
@@ -305,7 +312,8 @@ class _DirectionInfoPageState extends State<DirectionInfoPage> {
                                   ],
                                 );
                               },
-                            )
+                            ),
+                            25.h.verticalSpace,
                           ],
                         ),
                       ),

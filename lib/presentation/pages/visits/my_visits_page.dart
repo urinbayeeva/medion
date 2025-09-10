@@ -91,21 +91,23 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                                         child: ValueListenableBuilder(
                                           valueListenable: _today,
                                           builder: (ctx, val, child) {
+                                            final now = DateTime.now();
                                             return TableCalendar(
-                                              todayTap: () {
-                                                _today.value = DateTime.now();
+                                              onHeaderTapped: (DateTime time) {
+                                                log("Time: $time");
                                               },
-                                              lastTap: () {
-                                                _today.value = DateTime.now().copyWith(day: DateTime.now().day - 1);
+                                              onPageChanged: (DateTime time) {
+                                                log("Time: $time");
                                               },
-                                              allTap: () {
-                                                _today.value = null;
-                                              },
+                                              selectedDayPredicate: (time) => time == _today.value,
+                                              todayTap: () => _today.value = now,
+                                              lastTap: () => _today.value = DateTime.now().copyWith(day: now.day - 1),
+                                              allTap: () => _today.value = null,
                                               onDaySelected: (start, end) {
                                                 _today.value = start;
                                               },
                                               currentDay: _today.value,
-                                              focusedDay: DateTime(2025, 07, 30),
+                                              focusedDay: _today.value ?? DateTime.now(),
                                               firstDay: DateTime(2020, 06, 25),
                                               lastDay: DateTime(2027, 09, 30),
                                             );

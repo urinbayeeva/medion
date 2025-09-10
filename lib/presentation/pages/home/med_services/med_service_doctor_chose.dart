@@ -176,6 +176,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                   10.h.verticalSpace,
                   Expanded(
                     child: ListView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w),
                       itemCount: services.length,
                       itemBuilder: (context, builderIndex) {
                         final ThirdBookingService service = services[builderIndex];
@@ -187,33 +188,30 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                             .toList();
 
                         if (availableDoctors.isEmpty) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 40.h),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (companies.isNotEmpty && companies.first.companyName != null) ...{
-                                  Text(companies.first.companyName!, style: fonts.regularMain),
-                                },
-                                8.h.verticalSpace,
-                                CustomExpansionListTile(
-                                  key: UniqueKey(),
-                                  title: service.serviceName ?? '',
-                                  description: "${service.serviceId}",
-                                  children: [
-                                    Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 16.h),
-                                        child: Text(
-                                          "no_result_found".tr(),
-                                          style: fonts.regularMain.copyWith(fontSize: 16.sp),
-                                        ),
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (companies.isNotEmpty && companies.first.companyName != null) ...{
+                                Text(companies.first.companyName!, style: fonts.regularMain),
+                              },
+                              8.h.verticalSpace,
+                              CustomExpansionListTile(
+                                key: UniqueKey(),
+                                title: service.serviceName ?? '',
+                                description: "${service.serviceId}",
+                                children: [
+                                  Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 16.h),
+                                      child: Text(
+                                        "no_result_found".tr(),
+                                        style: fonts.regularMain.copyWith(fontSize: 16.sp),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           );
                         }
                         return CustomExpansionListTile(
@@ -242,198 +240,9 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
                               },
                             ),
                           ],
-                          // children: companies.expand<Widget>((company) {
-                          //   return <ThirdBookingDoctor>[...(company.doctors ?? [])].map<Widget>(
-                          //     (doctor) {
-                          //       return DoctorAppointmentWidget(
-                          //         service: service,
-                          //         bloc: _bloc,
-                          //         isDoctorAppointment: false,
-                          //         serviceName: service.serviceName,
-                          //         doctor: doctor,
-                          //         schedules: <ThirdBookingDoctorSchedule>[...?doctor.schedules],
-                          //         serviceId: service.serviceId,
-                          //         companyID: company.companyId,
-                          //         orderDetailId: widget.servicesIDes,
-                          //         onAppointmentSelected: (appointment) {
-                          //           if (appointment != null) {
-                          //             _bloc.add(BookingEvent.addAppointment(appointment: appointment));
-                          //           } else {
-                          //             _bloc.add(
-                          //               BookingEvent.removeAppointment(serviceId: company.companyId ?? -1),
-                          //             );
-                          //           }
-                          //         },
-                          //       );
-                          //     },
-                          //   ).toList();
-                          // }).toList(),
                         );
-
-                        // return Padding(
-                        //   padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        //   child: Column(
-                        //     crossAxisAlignment: CrossAxisAlignment.start,
-                        //     children: [
-                        //       if (companies.isNotEmpty && companies.first.companyName != null) ...{
-                        //         Text(companies.first.companyName!, style: fonts.regularMain),
-                        //       },
-                        //       8.h.verticalSpace,
-                        //       CustomExpansionListTile(
-                        //         title: service.serviceName ?? '',
-                        //         description: "${service.serviceId}",
-                        //         children: companies.expand<Widget>((company) {
-                        //           return <ThirdBookingDoctor>[...(company.doctors ?? [])].map<Widget>(
-                        //             (doctor) {
-                        //               return DoctorAppointmentWidget(
-                        //                 bloc: _bloc,
-                        //                 isDoctorAppointment: false,
-                        //                 serviceName: service.serviceName,
-                        //                 doctor: doctor,
-                        //                 schedules: <ThirdBookingDoctorSchedule>[...?doctor.schedules],
-                        //                 serviceId: service.serviceId,
-                        //                 companyID: company.companyId,
-                        //                 orderDetailId: widget.servicesIDes,
-                        //                 onAppointmentSelected: (appointment) {
-                        //                   if (appointment != null) {
-                        //                     _bloc.add(BookingEvent.addAppointment(appointment: appointment));
-                        //                   } else {
-                        //                     _bloc.add(
-                        //                       BookingEvent.removeAppointment(serviceId: company.companyId ?? -1),
-                        //                     );
-                        //                   }
-                        //                 },
-                        //               );
-                        //             },
-                        //           ).toList();
-                        //         }).toList(),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // );
                       },
                     ),
-                    // child: CustomListView(
-                    //   enablePullDown: false,
-                    //   enablePullUp: false,
-                    //   padding: EdgeInsets.zero,
-                    //   data: services,
-                    //   itemBuilder: (index, _) {
-                    //     final ThirdBookingService service = services[index];
-                    //     log("Service type ---- ${services.length} ----- ${_.serviceType}");
-                    //     log("Service type ---- ${service.serviceType}");
-                    //     final List<ThirdBookingCompany> companies = <ThirdBookingCompany>[...?service.companies];
-                    //
-                    //     final availableDoctors = service.companies!
-                    //         .expand((company) => company.doctors ?? <ThirdBookingDoctor>[])
-                    //         .where((doctor) => doctor.schedules != null && doctor.schedules!.isNotEmpty)
-                    //         .toList();
-                    //
-                    //     if (availableDoctors.isEmpty) {
-                    //       return Padding(
-                    //         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 40.h),
-                    //         child: Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: [
-                    //             if (companies.isNotEmpty && companies.first.companyName != null) ...{
-                    //               Text(companies.first.companyName!, style: fonts.regularMain),
-                    //             },
-                    //             8.h.verticalSpace,
-                    //             CustomExpansionListTile(
-                    //               title: service.serviceName ?? '',
-                    //               description: "${service.serviceId}",
-                    //               children: [
-                    //                 Center(
-                    //                   child: Padding(
-                    //                     padding: EdgeInsets.symmetric(vertical: 16.h),
-                    //                     child: Text(
-                    //                       "no_result_found".tr(),
-                    //                       style: fonts.regularMain.copyWith(fontSize: 16.sp),
-                    //                     ),
-                    //                   ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       );
-                    //     }
-                    //     return CustomExpansionListTile(
-                    //       title: service.serviceName ?? '',
-                    //       description: "${service.serviceId}",
-                    //       children: companies.expand<Widget>((company) {
-                    //         return <ThirdBookingDoctor>[...(company.doctors ?? [])].map<Widget>(
-                    //           (doctor) {
-                    //             return DoctorAppointmentWidget(
-                    //               service: service,
-                    //               bloc: _bloc,
-                    //               isDoctorAppointment: false,
-                    //               serviceName: service.serviceName,
-                    //               doctor: doctor,
-                    //               schedules: <ThirdBookingDoctorSchedule>[...?doctor.schedules],
-                    //               serviceId: service.serviceId,
-                    //               companyID: company.companyId,
-                    //               orderDetailId: widget.servicesIDes,
-                    //               onAppointmentSelected: (appointment) {
-                    //                 if (appointment != null) {
-                    //                   _bloc.add(BookingEvent.addAppointment(appointment: appointment));
-                    //                 } else {
-                    //                   _bloc.add(
-                    //                     BookingEvent.removeAppointment(serviceId: company.companyId ?? -1),
-                    //                   );
-                    //                 }
-                    //               },
-                    //             );
-                    //           },
-                    //         ).toList();
-                    //       }).toList(),
-                    //     );
-                    //
-                    //     // return Padding(
-                    //     //   padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    //     //   child: Column(
-                    //     //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     //     children: [
-                    //     //       if (companies.isNotEmpty && companies.first.companyName != null) ...{
-                    //     //         Text(companies.first.companyName!, style: fonts.regularMain),
-                    //     //       },
-                    //     //       8.h.verticalSpace,
-                    //     //       CustomExpansionListTile(
-                    //     //         title: service.serviceName ?? '',
-                    //     //         description: "${service.serviceId}",
-                    //     //         children: companies.expand<Widget>((company) {
-                    //     //           return <ThirdBookingDoctor>[...(company.doctors ?? [])].map<Widget>(
-                    //     //             (doctor) {
-                    //     //               return DoctorAppointmentWidget(
-                    //     //                 bloc: _bloc,
-                    //     //                 isDoctorAppointment: false,
-                    //     //                 serviceName: service.serviceName,
-                    //     //                 doctor: doctor,
-                    //     //                 schedules: <ThirdBookingDoctorSchedule>[...?doctor.schedules],
-                    //     //                 serviceId: service.serviceId,
-                    //     //                 companyID: company.companyId,
-                    //     //                 orderDetailId: widget.servicesIDes,
-                    //     //                 onAppointmentSelected: (appointment) {
-                    //     //                   if (appointment != null) {
-                    //     //                     _bloc.add(BookingEvent.addAppointment(appointment: appointment));
-                    //     //                   } else {
-                    //     //                     _bloc.add(
-                    //     //                       BookingEvent.removeAppointment(serviceId: company.companyId ?? -1),
-                    //     //                     );
-                    //     //                   }
-                    //     //                 },
-                    //     //               );
-                    //     //             },
-                    //     //           ).toList();
-                    //     //         }).toList(),
-                    //     //       ),
-                    //     //     ],
-                    //     //   ),
-                    //     // );
-                    //   },
-                    //   emptyWidgetModel: null,
-                    //   status: FormzSubmissionStatus.success,
-                    // ),
                   ),
                   Builder(
                     builder: (context) {
@@ -542,10 +351,7 @@ class _MedServiceDoctorChoseState extends State<MedServiceDoctorChose> {
       constraints: BoxConstraints(minHeight: 0.3.sh),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16.r))),
       builder: (context) {
-        // Get all service IDs from selected appointments
         final selectedServiceIds = selectedList.map((e) => e.serviceId).toSet();
-
-        // Get all services that don't have any selected appointments
         final unselectedServices =
             services.where((service) => !selectedServiceIds.contains(service.serviceId)).toList();
 

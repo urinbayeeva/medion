@@ -29,6 +29,7 @@ class ImageDialog extends StatefulWidget {
   final double width;
   final String mainImage;
   final bool isVideo;
+  final bool isLicence;
 
   const ImageDialog({
     super.key,
@@ -37,6 +38,7 @@ class ImageDialog extends StatefulWidget {
     required this.images,
     required this.mainImage,
     required this.isVideo,
+    required this.isLicence,
   });
 
   @override
@@ -102,55 +104,71 @@ class _ImageDialogState extends State<ImageDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12.r),
-                    child: selected.isVideo
-                        ? _videoController != null && _videoController!.value.isInitialized
-                            ? SizedBox(
-                                width: widget.width.w,
-                                height: widget.height.h,
-                                child: AspectRatio(
-                                  aspectRatio: _videoController!.value.aspectRatio,
-                                  child: VideoPlayer(_videoController!),
-                                ),
-                              )
-                            : Container(
-                                width: widget.width.w,
-                                height: widget.height.h,
-                                color: Colors.black12,
-                                alignment: Alignment.center,
-                                child: const CircularProgressIndicator(),
-                              )
-                        : Image.network(
-                            selected.fileLink,
-                            width: widget.width.w,
-                            height: widget.height.h,
-                            fit: BoxFit.cover,
+              ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: widget.isLicence ? 500.h : 200.h),
+                child: PageView(
+                  onPageChanged: (index) {
+                    final img = widget.images[index];
+                    _onItemSelected(img);
+                  },
+                  children: [
+                    ...List.generate(
+                      widget.images.length,
+                      (i) => Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12.r),
+                            child: selected.isVideo
+                                ? _videoController != null && _videoController!.value.isInitialized
+                                    ? SizedBox(
+                                        width: widget.width.w,
+                                        height: widget.height.h,
+                                        child: AspectRatio(
+                                          aspectRatio: _videoController!.value.aspectRatio,
+                                          child: VideoPlayer(_videoController!),
+                                        ),
+                                      )
+                                    : Container(
+                                        width: widget.width.w,
+                                        height: widget.height.h,
+                                        color: Colors.black12,
+                                        alignment: Alignment.center,
+                                        child: const CircularProgressIndicator(),
+                                      )
+                                : Image.network(
+                                    selected.fileLink,
+                                    width: widget.width.w,
+                                    height: widget.height.h,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
-                  ),
 
-                  // Play/Pause button for video
-                  if (selected.isVideo && _videoController != null && _videoController!.value.isInitialized)
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _videoController!.value.isPlaying ? _videoController!.pause() : _videoController!.play();
-                        });
-                      },
-                      child: CircleAvatar(
-                        radius: 24.r,
-                        backgroundColor: Colors.black54,
-                        child: Icon(
-                          _videoController!.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                          color: Colors.white,
-                          size: 28.r,
-                        ),
+                          // Play/Pause button for video
+                          if (selected.isVideo && _videoController != null && _videoController!.value.isInitialized)
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _videoController!.value.isPlaying
+                                      ? _videoController!.pause()
+                                      : _videoController!.play();
+                                });
+                              },
+                              child: CircleAvatar(
+                                radius: 24.r,
+                                backgroundColor: Colors.black54,
+                                child: Icon(
+                                  _videoController!.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                                  color: Colors.white,
+                                  size: 28.r,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
-                    ),
-                ],
+                    )
+                  ],
+                ),
               ),
 
               SizedBox(height: 16.h),

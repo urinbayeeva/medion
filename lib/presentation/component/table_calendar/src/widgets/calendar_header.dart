@@ -73,17 +73,19 @@ class CalendarHeader extends StatelessWidget {
                       ),
                     ),
               ),
-              CustomIconButton(
-                icon: headerStyle.leftChevronIcon,
-                onTap: onLeftChevronTap,
-                margin: headerStyle.leftChevronMargin,
-                padding: headerStyle.leftChevronPadding,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: WScaleAnimation(
+                  onTap: onLeftChevronTap,
+                  child: headerStyle.leftChevronIcon,
+                ),
               ),
-              CustomIconButton(
-                icon: headerStyle.rightChevronIcon,
-                onTap: onRightChevronTap,
-                margin: headerStyle.rightChevronMargin,
-                padding: headerStyle.rightChevronMargin,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: WScaleAnimation(
+                  onTap: onRightChevronTap,
+                  child: headerStyle.rightChevronIcon,
+                ),
               ),
             ],
           ),

@@ -22,7 +22,8 @@ class CAppBar extends StatefulWidget {
   final bool blur;
   final bool? hasSearch;
   final VoidCallback? onTap;
-  final bool? hasCalendar;
+
+  // final bool? hasCalendar;
 
   final Function(String)? onSearchChanged;
   final bool showBottomBar;
@@ -41,7 +42,7 @@ class CAppBar extends StatefulWidget {
     this.titleWidget,
     this.hasSearch,
     this.onTap,
-    this.hasCalendar,
+    // this.hasCalendar,
     this.showBottomBar = false,
     this.onSearchChanged,
   });
@@ -132,12 +133,12 @@ class _CAppBarState extends State<CAppBar> {
                     ),
                     8.h.verticalSpace
                   ],
-                  if (widget.hasCalendar == true) ...[
-                    10.h.verticalSpace,
-                    CalendarDayWidget(),
-                    10.h.verticalSpace,
-                    // 10.h.verticalSpace,
-                  ],
+                  // if (widget.hasCalendar == true) ...[
+                  //   10.h.verticalSpace,
+                  //   CalendarDayWidget(),
+                  //   10.h.verticalSpace,
+                  //   // 10.h.verticalSpace,
+                  // ],
                 ],
               ),
             ),

@@ -8,6 +8,7 @@ class CustomTextField extends StatefulWidget {
   final String title;
   final String subTitle;
   final String hintText;
+  final TextStyle? hintTextStyle;
   final String titleHintText;
   final bool isEmail;
   final bool isPassword;
@@ -55,6 +56,7 @@ class CustomTextField extends StatefulWidget {
     this.fillColor,
     this.controller,
     this.hintText = '',
+    this.hintTextStyle,
     this.title = '',
     this.subTitle = '',
     this.isPassword = false,
@@ -183,7 +185,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     ),
                 hintText: widget.hintText,
                 semanticCounterText: widget.hintText,
-                hintStyle: fonts.regularText.copyWith(color: const Color(0xFFAFAFAF), fontSize: 17.sp),
+                hintStyle: widget.hintTextStyle ??
+                    fonts.regularText.copyWith(
+                      color: const Color(0xFFAFAFAF),
+                      fontSize: 17.sp,
+                    ),
                 errorText: widget.error,
                 errorStyle: fonts.headlineMain.copyWith(color: colors.error500),
                 contentPadding: EdgeInsets.only(left: 16.w, top: 12.h, right: 12.w, bottom: 12.h),

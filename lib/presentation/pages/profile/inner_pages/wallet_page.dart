@@ -9,7 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/infrastructure/services/download_service.dart';
 import 'package:medion/presentation/component/c_button.dart';
-import 'package:medion/presentation/component/c_outlined_button.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -143,10 +142,17 @@ class _WalletPageState extends State<WalletPage> {
 
                     /// Payment History
                     if (wallet.payments.isEmpty) ...{
-                      const SizedBox.shrink()
+                      Padding(
+                        padding: EdgeInsets.only(top: 100.h),
+                        child: EmptyState(
+                          title: "no_result_found".tr(),
+                        ),
+                      )
                     } else ...{
+                      10.h.verticalSpace,
+                      Text("История платежей", style: fonts.regularMain),
+                      10.h.verticalSpace,
                       ListView.separated(
-                        padding: EdgeInsets.only(top: 24.h),
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: state.myWallet?.payments.length ?? 0,
@@ -452,102 +458,55 @@ class PaymentSingle extends StatelessWidget {
                 ),
               ),
               1.verticalSpace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                spacing: 8,
-                children: [
-                  Expanded(
-                    child: IgnorePointer(
-                      ignoring: paymentCheck.isEmpty,
-                      child: WScaleAnimation(
-                        onTap: () async {
-                          // debugPrint("Payment check : $paymentCheck");
-                          // MyFunctions.openLink(paymentCheck);
-                          final service = FileDownloadService();
+              IgnorePointer(
+                ignoring: paymentCheck.isEmpty,
+                child: WScaleAnimation(
+                  onTap: () async {
+                    // debugPrint("Payment check : $paymentCheck");
+                    // MyFunctions.openLink(paymentCheck);
+                    final service = FileDownloadService();
 
-                          await service.downloadPDFWithProgress(
-                            context: context,
-                            url: paymentCheck,
-                            fileName: name,
-                            colors: colors,
-                          );
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          height: 80,
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            color: colors.shade0,
-                            border: Border.all(color: (paymentCheck.isEmpty) ? colors.neutral300 : colors.error100),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: (paymentCheck.isEmpty) ? colors.neutral300 : colors.error500,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: icons.paymentCheck.svg(width: 20, height: 20, color: colors.shade0),
-                                    ),
-                                  ),
-                                ),
-                                Text("Платежный чек", style: fonts.xSmallMain)
-                              ],
+                    await service.downloadPDFWithProgress(
+                      context: context,
+                      url: paymentCheck,
+                      fileName: name,
+                      colors: colors,
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 80,
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    decoration: BoxDecoration(
+                      color: colors.shade0,
+                      border: Border.all(color: (paymentCheck.isEmpty) ? colors.neutral300 : colors.error100),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: (paymentCheck.isEmpty) ? colors.neutral300 : colors.error500,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: icons.paymentCheck.svg(width: 20, height: 20, color: colors.shade0),
+                              ),
                             ),
                           ),
-                        ),
+                          Text("Платежный чек", style: fonts.xSmallMain)
+                        ],
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: IgnorePointer(
-                      ignoring: fiscalCheck.isEmpty,
-                      child: WScaleAnimation(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          width: double.infinity,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            color: colors.shade0,
-                            border: Border.all(color: (fiscalCheck.isEmpty) ? colors.neutral300 : colors.error100),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: (fiscalCheck.isEmpty) ? colors.neutral300 : colors.error500,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: icons.qr.svg(width: 20, height: 20, color: colors.shade0),
-                                    ),
-                                  ),
-                                ),
-                                Text("Фискальный чек", style: fonts.xSmallMain)
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-              10.verticalSpace
+              50.verticalSpace
             ],
           ),
         );

@@ -88,7 +88,7 @@ class DoctorInfoCardWithType extends StatelessWidget {
                           title,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: fonts.xSmallText.copyWith(fontWeight: FontWeight.bold),
+                          style: fonts.smallSemLink,
                         ),
                         if (subTitle.isNotEmpty) ...[
                           Text(
@@ -105,49 +105,53 @@ class DoctorInfoCardWithType extends StatelessWidget {
               ),
               10.h.verticalSpace,
               if (type.isAchieve) ...{
-                10.h.verticalSpace,
                 Row(
                   spacing: 6.w,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    icons.calendar.svg(height: 17.h, width: 17.w),
-                    Text(awardDate(date), style: fonts.smallMain),
+                    icons.calendar.svg(color: const Color(0xff66686C), height: 17.h, width: 17.w),
+                    Text(
+                      awardDate(date),
+                      style: fonts.xSmallMain.copyWith(fontSize: 14.sp),
+                    ),
                   ],
                 ),
                 if (certificateSeries != null && certificateSeries!.isNotEmpty) ...{
-                  10.h.verticalSpace,
+                  4.h.verticalSpace,
                   Row(
                     spacing: 6.w,
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      icons.listViewCircle.svg(height: 17.h, width: 17.w),
-                      Text(certificateSeries ?? "", style: fonts.smallMain),
+                      icons.listViewCircle.svg(color: const Color(0xff66686C), height: 17.h, width: 17.w),
+                      Text(
+                        certificateSeries ?? "",
+                        style: fonts.xSmallMain.copyWith(fontSize: 14.sp),
+                      ),
                     ],
                   ),
                 }
               },
               if (type.isEdu) ...{
                 if (educationDagre != null && educationDagre!.isNotEmpty && type.isEdu) ...{
-                  Text(educationDagre!, style: fonts.smallMain.copyWith(color: colors.error500)),
+                  Text(
+                    educationDagre!,
+                    style: fonts.smallTagSecond.copyWith(color: colors.error500, fontSize: 14.sp),
+                  ),
                   10.h.verticalSpace,
                 },
                 Text(
                   formDate(date),
-                  style: fonts.smallMain.copyWith(color: colors.error500),
+                  style: fonts.smallTagSecond.copyWith(color: colors.error500, fontSize: 14.sp),
                 ),
               },
               if (type.isExperience) ...{
-                if (educationDagre != null && educationDagre!.isNotEmpty && type.isEdu) ...{
-                  Text(educationDagre!, style: fonts.smallMain.copyWith(color: colors.error500)),
-                  10.h.verticalSpace,
-                },
                 Text(
                   formDate(date),
-                  style: fonts.smallMain.copyWith(color: colors.error500),
+                  style: fonts.smallTagSecond.copyWith(color: colors.error500, fontSize: 14.sp),
                 ),
               },
             ],

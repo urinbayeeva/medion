@@ -239,6 +239,7 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                                       .toList();
 
                                   MyFunctions.showImages(
+                                    isLicence: true,
                                     context: context,
                                     mainImage: image,
                                     isVideo: false,
@@ -294,7 +295,7 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                                   List<OfferModel> offers = state.branchDetail?.offers.toList() ?? [];
                                   OfferModel model = offers[i];
                                   return Container(
-                                    width: 200.w,
+                                    width: 190.w,
                                     height: 250.h,
                                     decoration: BoxDecoration(
                                       color: colors.shade0,

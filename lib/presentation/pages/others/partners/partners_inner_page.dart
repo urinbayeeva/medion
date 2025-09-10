@@ -1,13 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:chopper/chopper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:medion/domain/common/failure.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
-import 'package:medion/presentation/component/animation_effect.dart';
-import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/cached_image_component.dart';
 import 'package:medion/presentation/pages/others/branches/widget/image_dialog.dart';
@@ -15,7 +11,6 @@ import 'package:medion/presentation/pages/others/component/w_scala_animation.dar
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/phone_utils.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class PartnersInnerPage extends StatelessWidget {
   final String partnerName;
@@ -38,7 +33,7 @@ class PartnersInnerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
-      builder: (context, colors, fonts, icons, contoller) {
+      builder: (context, colors, fonts, icons, ctrl) {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -173,6 +168,7 @@ class PartnersInnerPage extends StatelessWidget {
                                           ))
                                       .toList();
                                   MyFunctions.showImages(
+                                    isLicence: false,
                                     isVideo: false,
                                     context: context,
                                     mainImage: imageUrl,

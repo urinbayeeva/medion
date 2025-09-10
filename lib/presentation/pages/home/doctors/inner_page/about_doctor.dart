@@ -181,7 +181,7 @@ class _AboutDoctorState extends State<AboutDoctor> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     if (item.checker.isAbout && item.canSee) ...{
-                                      SizedBox(key: item.itemKey),
+                                      SizedBox(key: item.itemKey, width: 1.sw),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
@@ -198,11 +198,8 @@ class _AboutDoctorState extends State<AboutDoctor> {
                                           ),
                                           Container(
                                             width: 1.sw,
-                                            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                                            decoration: BoxDecoration(
-                                              color: colors.shade0,
-                                              borderRadius: BorderRadius.circular(12.r),
-                                            ),
+                                            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                                            decoration: BoxDecoration(color: colors.shade0),
                                             child: Text(
                                               doctor.decodedDescription,
                                               style: fonts.xSmallLink,

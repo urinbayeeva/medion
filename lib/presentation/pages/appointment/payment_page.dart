@@ -129,10 +129,8 @@ class _PaymentPageState extends State<PaymentPage> {
             backgroundColor: colors.shade0,
             foregroundColor: colors.darkMode900,
             scrolledUnderElevation: 0,
-            leading: WScaleAnimation(
-              child: Icon(Icons.keyboard_arrow_left, size: 32.h),
-              onTap: () => Navigator.of(context).pop(),
-            ),
+            automaticallyImplyLeading: false,
+            leadingWidth: 0,
             title: Text("payment".tr(), style: fonts.regularMain),
           ),
           backgroundColor: colors.backgroundColor,
@@ -167,28 +165,33 @@ class _PaymentPageState extends State<PaymentPage> {
 
                               final patientInfo = state.patientInfo;
                               return UserInfoWidget(
+                                fonts: fonts,
                                 title: "your_info".tr(),
                                 children: [
                                   CustomTextField(
                                     readOnly: true,
+                                    hintTextStyle: fonts.smallText.copyWith(fontSize: 14.sp),
                                     padding: const EdgeInsets.only(bottom: 12),
                                     hintText: patientInfo?.firstName ?? "Not available",
                                     title: "name".tr(),
                                   ),
                                   CustomTextField(
                                     readOnly: true,
+                                    hintTextStyle: fonts.smallText.copyWith(fontSize: 14.sp),
                                     padding: const EdgeInsets.only(bottom: 12),
                                     hintText: patientInfo?.lastName ?? "Not available",
                                     title: "second_name".tr(),
                                   ),
                                   CustomTextField(
                                     readOnly: true,
+                                    hintTextStyle: fonts.smallText.copyWith(fontSize: 14.sp),
                                     padding: const EdgeInsets.only(bottom: 12),
                                     hintText: patientInfo?.patientId?.toString() ?? "Not available",
                                     title: "ID",
                                   ),
                                   CustomTextField(
                                     readOnly: true,
+                                    hintTextStyle: fonts.smallText.copyWith(fontSize: 14.sp),
                                     padding: const EdgeInsets.only(bottom: 12),
                                     hintText: patientInfo?.phoneNumber ?? "Not available",
                                     title: "contact_phone_number".tr(),
@@ -228,6 +231,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           ),
                           12.h.verticalSpace,
                           UserInfoWidget(
+                            fonts: fonts,
                             title: "who_pays".tr(),
                             children: [
                               CustomRadioTile<String>(
@@ -329,113 +333,49 @@ class _PaymentPageState extends State<PaymentPage> {
                                     ),
                                   ),
                                   12.h.verticalSpace,
-                                  Builder(
-                                    builder: (context) {
-                                      double subtotal = 0;
-                                      return Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          // ...widget.appointments.map(
-                                          //   (appointment) {
-                                          //     final price = double.tryParse(appointment.price ?? '0') ?? 0;
-                                          //     subtotal += price;
-                                          //
-                                          //     // return Padding(
-                                          //     //   padding: EdgeInsets.symmetric(vertical: 8.h),
-                                          //     //   child: Row(
-                                          //     //     children: [
-                                          //     //       ConstrainedBox(
-                                          //     //         constraints: BoxConstraints(maxWidth: 0.5.sw),
-                                          //     //         child: Text(
-                                          //     //           appointment.serviceName ?? 'Service',
-                                          //     //           maxLines: 2,
-                                          //     //           style: TextStyle(
-                                          //     //             fontSize: 16.sp,
-                                          //     //             color: Style.neutral600,
-                                          //     //             fontWeight: FontWeight.bold,
-                                          //     //           ),
-                                          //     //         ),
-                                          //     //       ),
-                                          //     //       const SizedBox(width: 8),
-                                          //     //       Expanded(
-                                          //     //         child: LayoutBuilder(
-                                          //     //           builder: (context, constraints) {
-                                          //     //             return Text(
-                                          //     //               '_' * (constraints.maxWidth ~/ 8.6),
-                                          //     //               style: TextStyle(
-                                          //     //                 color: Colors.grey,
-                                          //     //                 fontSize: 12.sp,
-                                          //     //                 letterSpacing: 2,
-                                          //     //               ),
-                                          //     //               overflow: TextOverflow.clip,
-                                          //     //             );
-                                          //     //           },
-                                          //     //         ),
-                                          //     //       ),
-                                          //     //       Text(
-                                          //     //         "sum".tr(namedArgs: {"amount": _formatNumber(subtotal)}),
-                                          //     //         style: TextStyle(
-                                          //     //           fontSize: 16.sp,
-                                          //     //           color: Style.neutral600,
-                                          //     //           fontWeight: FontWeight.bold,
-                                          //     //         ),
-                                          //     //       ),
-                                          //     //     ],
-                                          //     //   ),
-                                          //     // );
-                                          //
-                                          //     return _PaymentRow(
-                                          //       label: appointment.serviceName ?? 'Service',
-                                          //       value: "sum".tr(namedArgs: {"amount": _formatNumber(subtotal)}),
-                                          //     );
-                                          //   },
-                                          // ),
-                                          Builder(
-                                            builder: (context) {
-                                              final services = <VisitResponseService>[...?state.visits?.services];
-                                              return ListView.separated(
-                                                itemCount: services.length,
-                                                shrinkWrap: true,
-                                                physics: const NeverScrollableScrollPhysics(),
-                                                separatorBuilder: (context, index) => 10.h.verticalSpace,
-                                                itemBuilder: (context, index) {
-                                                  final service = services[index];
-                                                  return Column(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    spacing: 6.h,
-                                                    children: [
-                                                      1.h.verticalSpace,
-                                                      Text(
-                                                        "${index + 1}. ${service.serviceType ?? ""}",
-                                                        style: fonts.regularMain,
-                                                      ),
-                                                      _PaymentRow(
-                                                        label: service.serviceName ?? '',
-                                                        value: "sum".tr(
-                                                          namedArgs: {
-                                                            "amount": _formatNumber(service.priceSubtotal ?? 0),
-                                                          },
-                                                        ),
-                                                      ),
-                                                      _PaymentRow(
-                                                        label: '${"nds".tr()} ${service.taxPercentage}% ',
-                                                        value: "sum".tr(
-                                                          namedArgs: {
-                                                            "amount": _formatNumber(service.taxAmount ?? 0),
-                                                          },
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Builder(
+                                        builder: (context) {
+                                          final services = <VisitResponseService>[...?state.visits?.services];
+                                          return ListView.separated(
+                                            itemCount: services.length,
+                                            shrinkWrap: true,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            separatorBuilder: (context, index) => 10.h.verticalSpace,
+                                            itemBuilder: (context, index) {
+                                              final service = services[index];
+                                              return Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                spacing: 6.h,
+                                                children: [
+                                                  1.h.verticalSpace,
+                                                  _PaymentRow(
+                                                    label: "${index + 1}. ${service.serviceName ?? ''}",
+                                                    value: "sum".tr(
+                                                      namedArgs: {
+                                                        "amount": _formatNumber(service.priceSubtotal ?? 0),
+                                                      },
+                                                    ),
+                                                  ),
+                                                  _PaymentRow(
+                                                    label: '${"nds".tr()} ${service.taxPercentage}% ',
+                                                    value: "sum".tr(
+                                                      namedArgs: {
+                                                        "amount": _formatNumber(service.taxAmount ?? 0),
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
                                               );
                                             },
-                                          ),
-                                        ],
-                                      );
-                                    },
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   ),
                                   if (state.visits?.total != null) ...{
                                     Padding(
@@ -448,16 +388,17 @@ class _PaymentPageState extends State<PaymentPage> {
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(vertical: 8.h),
-                                      child: _PaymentRow(
-                                        label: "${"total".tr()} ${"nds".tr()}",
-                                        labelStyle: fonts.regularMain,
-                                        value: "sum".tr(
-                                          namedArgs: {"amount": _formatNumber(state.visits!.total!.totalTax ?? 0)},
-                                        ),
-                                      ),
-                                    ),
+                                    10.h.verticalSpace,
+                                    // Padding(
+                                    //   padding: EdgeInsets.symmetric(vertical: 8.h),
+                                    //   child: _PaymentRow(
+                                    //     label: "${"total".tr()} ${"nds".tr()}",
+                                    //     labelStyle: fonts.regularMain,
+                                    //     value: "sum".tr(
+                                    //       namedArgs: {"amount": _formatNumber(state.visits!.total!.totalTax ?? 0)},
+                                    //     ),
+                                    //   ),
+                                    // ),
                                   },
                                 ],
                               ),

@@ -182,59 +182,77 @@ class CalendarStyle {
     this.rangeHighlightColor = const Color(0xFFBBDDFF),
     this.markerDecoration = const BoxDecoration(
       color: Color(0xFF263238),
-      shape: BoxShape.circle,
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
     ),
     this.todayTextStyle = const TextStyle(
       color: Color(0xFFFAFAFA),
       fontSize: 16.0,
     ), //
     this.todayDecoration = const BoxDecoration(
-      color: Color(0xFF9FA8DA),
-      shape: BoxShape.circle,
+      color: Color(0xFFE14243),
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
     ),
     this.selectedTextStyle = const TextStyle(
       color: Color(0xFFFAFAFA),
       fontSize: 16.0,
     ),
     this.selectedDecoration = const BoxDecoration(
-      color: Color(0xFF5C6BC0),
-      shape: BoxShape.circle,
+      color: Color(0xFFD90506),
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
     ),
     this.rangeStartTextStyle = const TextStyle(
       color: Color(0xFFFAFAFA),
       fontSize: 16.0,
     ),
     this.rangeStartDecoration = const BoxDecoration(
-      color: Color(0xFF6699FF),
-      shape: BoxShape.circle,
+      color: Color(0xFFD90506),
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
     ),
     this.rangeEndTextStyle = const TextStyle(
       color: Color(0xFFFAFAFA),
       fontSize: 16.0,
     ),
     this.rangeEndDecoration = const BoxDecoration(
-      color: Color(0xFF6699FF),
-      shape: BoxShape.circle,
+      color: Color(0xFFD90506),
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
     ),
     this.withinRangeTextStyle = const TextStyle(),
-    this.withinRangeDecoration = const BoxDecoration(shape: BoxShape.circle),
+    this.withinRangeDecoration = const BoxDecoration(
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+    ),
     this.outsideTextStyle = const TextStyle(color: Color(0xFFAEAEAE)),
-    this.outsideDecoration = const BoxDecoration(shape: BoxShape.circle),
+    this.outsideDecoration = const BoxDecoration(
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+    ),
     this.disabledTextStyle = const TextStyle(color: Color(0xFFBFBFBF)),
-    this.disabledDecoration = const BoxDecoration(shape: BoxShape.circle),
-    this.holidayTextStyle = const TextStyle(color: Color(0xFF5C6BC0)),
+    this.disabledDecoration = const BoxDecoration(
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+    ),
+    this.holidayTextStyle = const TextStyle(color: Color(0xFFD90506)),
     this.holidayDecoration = const BoxDecoration(
-      border: Border.fromBorderSide(
-        BorderSide(color: Color(0xFF9FA8DA), width: 1.4),
-      ),
-      shape: BoxShape.circle,
+      border: Border.fromBorderSide(BorderSide(color: Color(0xFFE14243), width: 1.8)),
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
     ),
     this.weekendTextStyle = const TextStyle(color: Color(0xFF5A5A5A)),
-    this.weekendDecoration = const BoxDecoration(shape: BoxShape.circle),
-    this.weekNumberTextStyle =
-        const TextStyle(fontSize: 12, color: Color(0xFFBFBFBF)),
+    this.weekendDecoration = const BoxDecoration(
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+    ),
+    this.weekNumberTextStyle = const TextStyle(fontSize: 12, color: Color(0xFFBFBFBF)),
     this.defaultTextStyle = const TextStyle(),
-    this.defaultDecoration = const BoxDecoration(shape: BoxShape.circle),
+    this.defaultDecoration = const BoxDecoration(
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+    ),
     this.rowDecoration = const BoxDecoration(),
     this.tableBorder = const TableBorder(),
     this.tablePadding = const EdgeInsets.all(0),

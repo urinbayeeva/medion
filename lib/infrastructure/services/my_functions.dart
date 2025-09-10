@@ -204,6 +204,7 @@ sealed class MyFunctions {
     required BuildContext context,
     required String mainImage,
     required bool isVideo,
+    required bool isLicence,
     double height = 218,
     double width = 343,
     required List<ContentBase> images,
@@ -212,6 +213,7 @@ sealed class MyFunctions {
       context: context,
       builder: (_) {
         return ImageDialog(
+          isLicence: isLicence,
           mainImage: mainImage,
           images: images,
           height: height,
