@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
+import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/others/customer_review/filter/filter_review_branches.dart';
 import 'package:medion/presentation/pages/others/customer_review/filter/filter_review_directions.dart';
@@ -85,6 +86,9 @@ class _CustomerReviewState extends State<CustomerReview> {
                     selectedRank.value = -9;
                     selectedDirections.value = [];
                     selectedBranches.value = [];
+
+                    /// get default values
+                    _bloc.add(const BranchEvent.getReviews());
                   },
                   selectedInterval: selectedInterval,
                   selectedRank: selectedRank,
@@ -242,7 +246,21 @@ class _CustomerReviewState extends State<CustomerReview> {
               }
 
               if (state.getReviewStatus.isInProgress || state.getReviewStatus.isInitial) {
-                return const Center(child: CupertinoActivityIndicator());
+                return ShimmerView(
+                  child: ListView.separated(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      if (index == 0) return 0.h.verticalSpace;
+                      return ShimmerContainer(
+                        height: 200.h,
+                        width: 1.sw,
+                        borderRadius: 12.r,
+                      );
+                    },
+                    separatorBuilder: (context, index) => 10.h.verticalSpace,
+                  ),
+                );
               }
               return SmartRefresher(
                 onRefresh: () async {
