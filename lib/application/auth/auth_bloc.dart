@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -270,8 +271,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(state.copyWith(fetchPatientVisitStatus: FormzSubmissionStatus.failure));
       },
       (res) {
+        final visitedDates = [...?res.visits]
+            .where((e) => e.visitDate != null && DateTime.tryParse(e.visitDate!) != null)
+            .map((e) => DateTime.parse(e.visitDate!))
+            .toList();
+
         emit(state.copyWith(
           fetchPatientVisitStatus: FormzSubmissionStatus.success,
+          visitedTimes: state.visitedTimes.isEmpty ? visitedDates : state.visitedTimes,
           moves: res.orders?.toList() ?? [],
           visits: res.visits?.toList() ?? [],
         ));

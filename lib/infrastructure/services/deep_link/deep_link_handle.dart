@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_links/app_links.dart';
 import 'package:medion/infrastructure/services/log_service.dart';
 
@@ -10,8 +8,6 @@ final class DynamicLinkService {
   static final instance = DynamicLinkService._();
 
   final _appLinks = AppLinks();
-
-
 
   /// Handle navigation if initial link is found on app start.
   Future<void> _checkInitialLink() async {
@@ -25,7 +21,6 @@ final class DynamicLinkService {
   void _handleLinkData(Uri data) {
     final queryParams = data.pathSegments;
     LogService.i("_handleLinkData: $queryParams");
-    if (queryParams.isNotEmpty) {
-    }
+    if (queryParams.isNotEmpty) {}
   }
 }

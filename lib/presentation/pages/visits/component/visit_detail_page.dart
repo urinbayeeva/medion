@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -103,10 +102,6 @@ class _VisitDetailPageState extends State<VisitDetailPage> with AutomaticKeepAli
             final single = o.patientVisitSingle != n.patientVisitSingle;
             final status = o.fetchPatientVisitSingleStatus != n.fetchPatientVisitSingleStatus;
             final review = o.patientVisitSingle?.review != n.patientVisitSingle?.review;
-
-            log("review ozgardi: ${o.patientVisitSingle?.review} != ${n.patientVisitSingle?.review}");
-            log("Patient single = $single ${o.patientVisitSingle} != ${n.patientVisitSingle} ");
-            log("Status: ${o.fetchPatientVisitSingleStatus} != ${n.fetchPatientVisitSingleStatus}");
             return single || status || review;
           },
           builder: (context, state) {
@@ -259,15 +254,9 @@ class VisitSingleShimmer extends StatelessWidget {
           shrinkWrap: true,
           children: [
             10.h.verticalSpace,
-            ShimmerContainer(
-              height: 120.h,
-              borderRadius: 12.r,
-            ),
+            ShimmerContainer(height: 120.h, borderRadius: 12.r),
             10.h.verticalSpace,
-            ShimmerContainer(
-              height: 40.h,
-              borderRadius: 12.r,
-            ),
+            ShimmerContainer(height: 40.h, borderRadius: 12.r),
             10.h.verticalSpace,
             ShimmerContainer(
               height: 120.h,

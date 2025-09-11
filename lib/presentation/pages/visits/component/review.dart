@@ -6,12 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
-import 'package:medion/presentation/pages/others/customer_review/customer_review.dart';
 import 'package:medion/presentation/pages/others/customer_review/review_card.dart';
-import 'package:medion/presentation/pages/others/feedbacks/feedback_view.dart';
 import 'package:medion/presentation/pages/others/feedbacks/feedback_view_vithout_location.dart';
 import 'package:medion/presentation/styles/theme.dart';
-import 'package:medion/utils/enums/visits_enum.dart';
 
 class Reviews extends StatelessWidget {
   const Reviews({

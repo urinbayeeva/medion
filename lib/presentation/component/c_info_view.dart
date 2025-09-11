@@ -223,7 +223,7 @@ class _CInfoViewState extends State<CInfoView> {
                             4.h.verticalSpace,
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: WHtml(data: state.singleContent!.decodedDescription ?? ''),
+                              child: WHtml(data: state.singleContent!.decodedDescription),
                             ),
                             if (state.singleContent!.discountCondition != null &&
                                 widget.type == ContentTypeEnum.discount) ...[
@@ -254,8 +254,8 @@ class _CInfoViewState extends State<CInfoView> {
                                     child: DiscountDurationWidget(
                                       discountAddress: state.singleContent?.discountLocation.toString() ?? "",
                                       discountDuration: date,
-                                      phoneNumber: state.singleContent!.phoneNumber.toString() ?? "",
-                                      phoneShortNumber: state.singleContent!.phoneNumberShort.toString() ?? "",
+                                      phoneNumber: state.singleContent!.phoneNumber.toString(),
+                                      phoneShortNumber: state.singleContent!.phoneNumberShort.toString(),
                                     ),
                                   );
                                 },

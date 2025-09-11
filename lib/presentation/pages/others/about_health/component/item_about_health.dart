@@ -64,10 +64,10 @@ class ItemAboutHealth extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(8.r), topRight: Radius.circular(8.r)),
-                      child: imagePath == null
+                      child: imagePath.isEmpty
                           ? SvgPicture.asset("assets/icons/picture.svg")
                           : CachedImageComponent(
-                              imageUrl: imagePath!,
+                              imageUrl: imagePath,
                               width: double.infinity,
                               fit: BoxFit.cover,
                               height: imageSize ?? 172.h,

@@ -13,6 +13,7 @@ import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/presentation/pages/appointment/verify_appointment.dart';
 import 'package:medion/presentation/pages/booking/booking_second_page.dart';
 import 'package:medion/presentation/pages/home/directions/component/inner_pages/directions_info_page.dart';
+import 'package:medion/presentation/pages/home/med_services/data/appointment_item.dart';
 
 part 'booking_bloc.freezed.dart';
 

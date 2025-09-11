@@ -6,7 +6,6 @@ import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/download_button.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
-import 'package:medion/presentation/pages/visits/widgets/order_card_w.dart';
 import 'package:medion/presentation/styles/theme.dart';
 
 class Result extends StatelessWidget {

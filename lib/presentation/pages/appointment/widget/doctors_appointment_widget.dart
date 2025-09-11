@@ -1,12 +1,13 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
 import 'package:medion/domain/models/third_service_model/third_service_model.dart';
-import 'package:medion/presentation/pages/appointment/verify_appointment.dart';
+import 'package:medion/presentation/pages/home/med_services/data/appointment_item.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
 import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:medion/presentation/styles/theme.dart';
@@ -215,6 +216,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
                               return serviceID && doctorID;
                             },
                             orElse: () => const AppointmentItem(
+                              service: '',
                               doctorName: '',
                               price: '',
                               location: '',
@@ -305,10 +307,15 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
     );
 
     final int orderId = matchedService.orderDetailId ?? -1;
+    log("widget.serviceType: ${widget.serviceType}");
+    log("widget.serviceName: ${widget.serviceName}");
+    log("widget.service.serviceName: ${widget.service.serviceName}");
+    log("widget.serviceName.serviceType: ${widget.service.serviceType}");
 
     AppointmentItem? newAppointment = isSelected
         ? null
         : AppointmentItem(
+            service: widget.service.serviceName ?? '',
             doctorName: doctor.doctorName ?? '',
             price: doctor.doctorPrice.toString(),
             location: doctor.doctorLocation ?? "",
@@ -317,7 +324,7 @@ class _DoctorAppointmentWidgetState extends State<DoctorAppointmentWidget> {
             date: currentDate,
             startTime: time,
             endTime: calculateEndTime(time),
-            serviceName: widget.serviceName.toString(),
+            serviceName: widget.serviceType.toString(),
             specialty: doctor.doctorSpecialty ?? '',
             doctorID: doctor.doctorId ?? -1,
             serviceId: widget.serviceId ?? -1,

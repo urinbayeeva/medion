@@ -6,17 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/application/booking/booking_bloc.dart';
-import 'package:medion/application/payment_provider.dart';
 import 'package:medion/application/visit/visit_bloc.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_radio_tile.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
-import 'package:medion/presentation/pages/appointment/appoinment_state.dart';
 import 'package:medion/presentation/pages/appointment/component/user_info_widget.dart';
 import 'package:medion/presentation/pages/appointment/component/verify_appointment_item.dart';
 import 'package:medion/presentation/pages/appointment/payment_web_view.dart';
 import 'package:medion/presentation/pages/appointment/verify_appointment.dart';
+import 'package:medion/presentation/pages/home/med_services/data/appointment_item.dart';
 import 'package:medion/presentation/pages/main/main_page.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/style.dart';
@@ -24,7 +23,6 @@ import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/pop_up_status_enum.dart';
 import 'package:medion/utils/extension/context_extension.dart';
-import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 String _formatNumber(double number) {
@@ -475,8 +473,8 @@ class _PaymentPageState extends State<PaymentPage> {
     required BuildContext context,
     required BookingBloc bloc,
   }) {
-    String appointmentDate = appointment.date ?? '';
-    String appointmentTime = appointment.time ?? '';
+    String appointmentDate = appointment.date;
+    String appointmentTime = appointment.time;
 
     String formattedDate = appointmentDate.isNotEmpty
         ? DateFormat('EEE, dd MMMM', context.locale.toString()).format(
@@ -487,13 +485,13 @@ class _PaymentPageState extends State<PaymentPage> {
     return VerifyAppointmentItem(
       hasCancelButton: false,
       hasImage: false,
-      diagnosis: appointment.serviceName ?? 'Unknown',
-      procedure: appointment.specialty ?? 'Unknown',
-      doctorName: 'Dr. ${appointment.doctorName ?? "Unknown"}',
+      diagnosis: appointment.serviceName,
+      procedure: appointment.specialty,
+      doctorName: 'Dr. ${appointment.doctorName}',
       price: appointment.price,
       appointmentTime: "$formattedDate ${appointmentTime.isNotEmpty ? appointmentTime : "Not available"}",
-      location: appointment.location ?? 'Unknown',
-      imagePath: appointment.imagePath ?? "",
+      location: appointment.location,
+      imagePath: appointment.imagePath,
       onCancel: () {
         bloc.add(BookingEvent.removeAppointment(serviceId: appointment.serviceId));
         // final serviceId = appointment['serviceId'];

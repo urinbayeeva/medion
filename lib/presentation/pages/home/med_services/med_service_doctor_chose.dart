@@ -15,6 +15,7 @@ import 'package:medion/presentation/component/custom_list_view/custom_list_view.
 import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/appointment/verify_appointment.dart';
 import 'package:medion/presentation/pages/appointment/widget/doctors_appointment_widget.dart';
+import 'package:medion/presentation/pages/home/med_services/data/appointment_item.dart';
 import 'package:medion/presentation/pages/home/med_services/widgets/custom_app_bar.dart';
 import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/styles/style.dart';

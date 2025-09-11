@@ -3556,6 +3556,7 @@ mixin _$AuthState {
   List<Recommendation> get recommendation => throw _privateConstructorUsedError;
   List<PatientOrder> get moves => throw _privateConstructorUsedError;
   List<PatientVisit> get visits => throw _privateConstructorUsedError;
+  List<DateTime> get visitedTimes => throw _privateConstructorUsedError;
   bool get proceedToLogin => throw _privateConstructorUsedError;
   bool get successSendCode => throw _privateConstructorUsedError;
   bool get successVerifyCode => throw _privateConstructorUsedError;
@@ -3612,6 +3613,7 @@ abstract class $AuthStateCopyWith<$Res> {
       List<Recommendation> recommendation,
       List<PatientOrder> moves,
       List<PatientVisit> visits,
+      List<DateTime> visitedTimes,
       bool proceedToLogin,
       bool successSendCode,
       bool successVerifyCode,
@@ -3668,6 +3670,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? recommendation = null,
     Object? moves = null,
     Object? visits = null,
+    Object? visitedTimes = null,
     Object? proceedToLogin = null,
     Object? successSendCode = null,
     Object? successVerifyCode = null,
@@ -3754,6 +3757,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.visits
           : visits // ignore: cast_nullable_to_non_nullable
               as List<PatientVisit>,
+      visitedTimes: null == visitedTimes
+          ? _value.visitedTimes
+          : visitedTimes // ignore: cast_nullable_to_non_nullable
+              as List<DateTime>,
       proceedToLogin: null == proceedToLogin
           ? _value.proceedToLogin
           : proceedToLogin // ignore: cast_nullable_to_non_nullable
@@ -3878,6 +3885,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       List<Recommendation> recommendation,
       List<PatientOrder> moves,
       List<PatientVisit> visits,
+      List<DateTime> visitedTimes,
       bool proceedToLogin,
       bool successSendCode,
       bool successVerifyCode,
@@ -3932,6 +3940,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? recommendation = null,
     Object? moves = null,
     Object? visits = null,
+    Object? visitedTimes = null,
     Object? proceedToLogin = null,
     Object? successSendCode = null,
     Object? successVerifyCode = null,
@@ -4018,6 +4027,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value._visits
           : visits // ignore: cast_nullable_to_non_nullable
               as List<PatientVisit>,
+      visitedTimes: null == visitedTimes
+          ? _value._visitedTimes
+          : visitedTimes // ignore: cast_nullable_to_non_nullable
+              as List<DateTime>,
       proceedToLogin: null == proceedToLogin
           ? _value.proceedToLogin
           : proceedToLogin // ignore: cast_nullable_to_non_nullable
@@ -4137,6 +4150,7 @@ class _$AuthStateImpl extends _AuthState {
       final List<Recommendation> recommendation = const [],
       final List<PatientOrder> moves = const [],
       final List<PatientVisit> visits = const [],
+      final List<DateTime> visitedTimes = const [],
       this.proceedToLogin = false,
       this.successSendCode = false,
       this.successVerifyCode = false,
@@ -4165,6 +4179,7 @@ class _$AuthStateImpl extends _AuthState {
         _recommendation = recommendation,
         _moves = moves,
         _visits = visits,
+        _visitedTimes = visitedTimes,
         _patientVisits = patientVisits,
         super._();
 
@@ -4235,6 +4250,15 @@ class _$AuthStateImpl extends _AuthState {
     if (_visits is EqualUnmodifiableListView) return _visits;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_visits);
+  }
+
+  final List<DateTime> _visitedTimes;
+  @override
+  @JsonKey()
+  List<DateTime> get visitedTimes {
+    if (_visitedTimes is EqualUnmodifiableListView) return _visitedTimes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_visitedTimes);
   }
 
   @override
@@ -4318,7 +4342,7 @@ class _$AuthStateImpl extends _AuthState {
 
   @override
   String toString() {
-    return 'AuthState(proceedToHome: $proceedToHome, haveToken: $haveToken, userStatus: $userStatus, verifyStatus: $verifyStatus, fetchPatientAnalyseStatus: $fetchPatientAnalyseStatus, fetchPatientVisitStatus: $fetchPatientVisitStatus, fetchPatientVisitSingleStatus: $fetchPatientVisitSingleStatus, fetchRecommendationStatus: $fetchRecommendationStatus, fetchRecipeStatus: $fetchRecipeStatus, cancelVisitStatus: $cancelVisitStatus, userInfoStatus: $userInfoStatus, recipes: $recipes, recommendation: $recommendation, moves: $moves, visits: $visits, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, patientVisitSingle: $patientVisitSingle, cancelVisitResult: $cancelVisitResult, registrationResponse: $registrationResponse)';
+    return 'AuthState(proceedToHome: $proceedToHome, haveToken: $haveToken, userStatus: $userStatus, verifyStatus: $verifyStatus, fetchPatientAnalyseStatus: $fetchPatientAnalyseStatus, fetchPatientVisitStatus: $fetchPatientVisitStatus, fetchPatientVisitSingleStatus: $fetchPatientVisitSingleStatus, fetchRecommendationStatus: $fetchRecommendationStatus, fetchRecipeStatus: $fetchRecipeStatus, cancelVisitStatus: $cancelVisitStatus, userInfoStatus: $userInfoStatus, recipes: $recipes, recommendation: $recommendation, moves: $moves, visits: $visits, visitedTimes: $visitedTimes, proceedToLogin: $proceedToLogin, successSendCode: $successSendCode, successVerifyCode: $successVerifyCode, successUpdatePhone: $successUpdatePhone, successSendUserInfo: $successSendUserInfo, errorSendCode: $errorSendCode, phoneNumber: $phoneNumber, patientInfo: $patientInfo, isFetchingPatientInfo: $isFetchingPatientInfo, errorFetchingPatientInfo: $errorFetchingPatientInfo, pickedImagePath: $pickedImagePath, isLoadingVisits: $isLoadingVisits, errorFetchingVisits: $errorFetchingVisits, patientVisits: $patientVisits, patientAnalyze: $patientAnalyze, isNewPatient: $isNewPatient, paymeUrl: $paymeUrl, clickUrl: $clickUrl, isFetchingPaymentUrls: $isFetchingPaymentUrls, errorFetchingPaymentUrls: $errorFetchingPaymentUrls, myWallet: $myWallet, patientVisitSingle: $patientVisitSingle, cancelVisitResult: $cancelVisitResult, registrationResponse: $registrationResponse)';
   }
 
   @override
@@ -4354,6 +4378,8 @@ class _$AuthStateImpl extends _AuthState {
                 .equals(other._recommendation, _recommendation) &&
             const DeepCollectionEquality().equals(other._moves, _moves) &&
             const DeepCollectionEquality().equals(other._visits, _visits) &&
+            const DeepCollectionEquality()
+                .equals(other._visitedTimes, _visitedTimes) &&
             (identical(other.proceedToLogin, proceedToLogin) ||
                 other.proceedToLogin == proceedToLogin) &&
             (identical(other.successSendCode, successSendCode) ||
@@ -4372,8 +4398,7 @@ class _$AuthStateImpl extends _AuthState {
                 other.patientInfo == patientInfo) &&
             (identical(other.isFetchingPatientInfo, isFetchingPatientInfo) ||
                 other.isFetchingPatientInfo == isFetchingPatientInfo) &&
-            (identical(other.errorFetchingPatientInfo, errorFetchingPatientInfo) ||
-                other.errorFetchingPatientInfo == errorFetchingPatientInfo) &&
+            (identical(other.errorFetchingPatientInfo, errorFetchingPatientInfo) || other.errorFetchingPatientInfo == errorFetchingPatientInfo) &&
             (identical(other.pickedImagePath, pickedImagePath) || other.pickedImagePath == pickedImagePath) &&
             (identical(other.isLoadingVisits, isLoadingVisits) || other.isLoadingVisits == isLoadingVisits) &&
             (identical(other.errorFetchingVisits, errorFetchingVisits) || other.errorFetchingVisits == errorFetchingVisits) &&
@@ -4408,6 +4433,7 @@ class _$AuthStateImpl extends _AuthState {
         const DeepCollectionEquality().hash(_recommendation),
         const DeepCollectionEquality().hash(_moves),
         const DeepCollectionEquality().hash(_visits),
+        const DeepCollectionEquality().hash(_visitedTimes),
         proceedToLogin,
         successSendCode,
         successVerifyCode,
@@ -4460,6 +4486,7 @@ abstract class _AuthState extends AuthState {
       final List<Recommendation> recommendation,
       final List<PatientOrder> moves,
       final List<PatientVisit> visits,
+      final List<DateTime> visitedTimes,
       final bool proceedToLogin,
       final bool successSendCode,
       final bool successVerifyCode,
@@ -4516,6 +4543,8 @@ abstract class _AuthState extends AuthState {
   List<PatientOrder> get moves;
   @override
   List<PatientVisit> get visits;
+  @override
+  List<DateTime> get visitedTimes;
   @override
   bool get proceedToLogin;
   @override

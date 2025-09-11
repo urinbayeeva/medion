@@ -7,10 +7,6 @@ import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/pages/others/component/common_image.dart';
 import 'package:video_player/video_player.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:video_player/video_player.dart';
-
 class ContentBase {
   final bool isVideo;
   final String fileLink;

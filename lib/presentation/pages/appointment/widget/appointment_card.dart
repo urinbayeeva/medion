@@ -10,7 +10,7 @@ import 'package:medion/utils/extensions.dart';
 class AppointmentCard extends StatelessWidget {
   const AppointmentCard({
     super.key,
-    required this.diagnosis,
+    required this.serviceName,
     required this.procedure,
     required this.doctorName,
     required this.price,
@@ -22,7 +22,7 @@ class AppointmentCard extends StatelessWidget {
     this.noCancel = false,
   });
 
-  final String diagnosis;
+  final String serviceName;
   final String procedure;
   final String doctorName;
   final String price;
@@ -96,7 +96,7 @@ class AppointmentCard extends StatelessWidget {
                         SizedBox(
                           width: 1.sw - 200.w,
                           child: Text(
-                            diagnosis,
+                            serviceName,
                             maxLines: 2,
                             style: fonts.smallMain.copyWith(
                               fontSize: 15.sp,

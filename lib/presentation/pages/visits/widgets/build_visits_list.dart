@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
+import 'package:medion/presentation/component/shimmer_view.dart';
 import 'package:medion/presentation/pages/visits/component/visit_detail_page.dart';
 import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
 import 'package:medion/presentation/pages/visits/widgets/visits_new_design_card.dart';
 import 'package:medion/presentation/styles/style.dart';
-import 'package:medion/presentation/styles/theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class BuildVisitList extends StatelessWidget {
@@ -26,7 +26,17 @@ class BuildVisitList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (state.fetchPatientVisitStatus.isInitial || state.fetchPatientVisitStatus.isInProgress) {
-      return const Center(child: CircularProgressIndicator(color: Style.error500));
+      return ShimmerView(
+        child: ListView.separated(
+          itemCount: 10,
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          separatorBuilder: (context, index) => 10.h.verticalSpace,
+          itemBuilder: (context, index) => Padding(
+            padding: EdgeInsets.only(top: index == 0 ? 10.h : 0),
+            child: ShimmerContainer(width: 1.sw, height: 100.h),
+          ),
+        ),
+      );
     }
     if (state.visits.isEmpty) {
       return EmptyState(
@@ -48,7 +58,7 @@ class BuildVisitList extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w400,
-                  color: Color(0xff66686C),
+                  color: const Color(0xff66686C),
                 ),
               ),
             ],

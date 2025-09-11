@@ -1,11 +1,7 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
@@ -14,44 +10,10 @@ import 'package:medion/application/visit/visit_bloc.dart';
 import 'package:medion/domain/models/visit/visit_model.dart';
 import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_button.dart';
-import 'package:medion/presentation/pages/appointment/payment_page.dart';
+import 'package:medion/presentation/pages/appointment/payment_page.dart' show PaymentPage;
 import 'package:medion/presentation/pages/appointment/widget/appointment_card.dart';
-import 'package:medion/presentation/styles/theme.dart';
+import 'package:medion/presentation/pages/home/med_services/data/appointment_item.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-
-class AppointmentItem {
-  final String time;
-  final String date;
-  final String startTime;
-  final String endTime;
-  final String price;
-  final String location;
-  final String imagePath;
-  final String doctorName;
-  final String serviceName;
-  final String specialty;
-  final int serviceId;
-  final int doctorID;
-  final int companyID;
-  final int? orderDetailId;
-
-  const AppointmentItem({
-    required this.doctorName,
-    required this.price,
-    required this.location,
-    required this.imagePath,
-    required this.time,
-    required this.date,
-    required this.startTime,
-    required this.endTime,
-    required this.serviceId,
-    required this.serviceName,
-    required this.specialty,
-    required this.doctorID,
-    required this.companyID,
-    this.orderDetailId,
-  });
-}
 
 class VerifyAppointment extends StatefulWidget {
   final bool isHome;
@@ -139,9 +101,6 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
                               children: bookingState.selectedAppointments
                                   .map((appointment) => _buildAppointmentItem(
                                         appointment: appointment,
-                                        colors: colors,
-                                        fonts: fonts,
-                                        icons: icons,
                                         context: context,
                                         bloc: widget.bloc,
                                       ))
@@ -207,17 +166,14 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
 
   Widget _buildAppointmentItem({
     required AppointmentItem appointment,
-    required CustomColorSet colors,
-    required FontSet fonts,
-    required IconSet icons,
     required BuildContext context,
     required BookingBloc bloc,
   }) {
     final date = DateFormat('EEE, dd MMMM', context.locale.toString()).format(DateTime.parse(appointment.date));
     return AppointmentCard(
       hasImage: true,
-      diagnosis: appointment.serviceName,
-      procedure: appointment.specialty,
+      serviceName: appointment.serviceName,
+      procedure: appointment.service,
       doctorName: 'Dr. ${appointment.doctorName}',
       price: appointment.price,
       appointmentTime: '$date ${appointment.time}',
@@ -225,7 +181,6 @@ class _VerifyAppointmentState extends State<VerifyAppointment> {
       imagePath: appointment.imagePath,
       onCancel: () {
         bloc.add(BookingEvent.removeAppointment(serviceId: appointment.serviceId));
-        // AppointmentState.removeAppointment(appointment['serviceId']!);
       },
     );
   }

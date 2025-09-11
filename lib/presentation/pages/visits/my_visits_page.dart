@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,6 +55,12 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
     return ThemeWrapper(
       builder: (context, colors, fonts, icons, controller) {
         return BlocBuilder<AuthBloc, AuthState>(
+          buildWhen: (o, n) {
+            final status = o.fetchPatientVisitStatus != n.fetchPatientVisitStatus;
+            final moves = o.moves != n.moves;
+            final visits = o.visits != n.visits;
+            return status || visits || moves;
+          },
           builder: (context, state) {
             return Scaffold(
               backgroundColor: colors.backgroundColor,
@@ -93,12 +97,7 @@ class _MyVisitsPageState extends State<MyVisitsPage> {
                                           builder: (ctx, val, child) {
                                             final now = DateTime.now();
                                             return TableCalendar(
-                                              onHeaderTapped: (DateTime time) {
-                                                log("Time: $time");
-                                              },
-                                              onPageChanged: (DateTime time) {
-                                                log("Time: $time");
-                                              },
+                                              activities: state.visitedTimes,
                                               selectedDayPredicate: (time) => time == _today.value,
                                               todayTap: () => _today.value = now,
                                               lastTap: () => _today.value = DateTime.now().copyWith(day: now.day - 1),

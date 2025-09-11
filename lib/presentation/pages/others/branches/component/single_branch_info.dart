@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -13,11 +12,9 @@ import 'package:medion/application/branches/branch_bloc.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
-import 'package:medion/presentation/component/c_appbar.dart';
 import 'package:medion/presentation/component/c_bottom_icon.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/w_html/w_html.dart';
-import 'package:medion/presentation/component/w_html/w_html_has_readmore.dart';
 import 'package:medion/presentation/pages/map/map_with_polylines.dart';
 import 'package:medion/presentation/pages/others/branches/component/license.dart';
 import 'package:medion/presentation/pages/others/branches/widget/image_dialog.dart';
@@ -277,7 +274,7 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                         ),
                       ],
                       12.h.verticalSpace,
-                      if (state.branchDetail?.offers != null && state.branchDetail!.offers!.isNotEmpty) ...[
+                      if (state.branchDetail?.offers != null && state.branchDetail!.offers.isNotEmpty) ...[
                         12.h.verticalSpace,
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),

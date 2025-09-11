@@ -1,11 +1,13 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
+import 'dart:math' as math;
 
-import '../customization/calendar_builders.dart';
-import '../customization/calendar_style.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+import 'package:medion/presentation/component/table_calendar/src/customization/calendar_builders.dart';
+import 'package:medion/presentation/component/table_calendar/src/customization/calendar_style.dart';
 
 class CellContent extends StatelessWidget {
   final DateTime day;
@@ -21,6 +23,7 @@ class CellContent extends StatelessWidget {
   final bool isDisabled;
   final bool isHoliday;
   final bool isWeekend;
+  final bool haveBottomDots;
   final CalendarStyle calendarStyle;
   final CalendarBuilders calendarBuilders;
 
@@ -40,6 +43,7 @@ class CellContent extends StatelessWidget {
     required this.isDisabled,
     required this.isHoliday,
     required this.isWeekend,
+    required this.haveBottomDots,
     this.locale,
   }) : super(key: key);
 
@@ -63,7 +67,7 @@ class CellContent extends StatelessWidget {
     final margin = calendarStyle.cellMargin;
     final padding = calendarStyle.cellPadding;
     final alignment = calendarStyle.cellAlignment;
-    final duration = const Duration(milliseconds: 250);
+    const duration = Duration(milliseconds: 250);
 
     if (isDisabled) {
       cell = calendarBuilders.disabledBuilder?.call(context, day, focusedDay) ??
@@ -75,7 +79,32 @@ class CellContent extends StatelessWidget {
             alignment: alignment,
             child: Text(text, style: calendarStyle.disabledTextStyle),
           );
-    } else if (isSelected) {
+    } else if (haveBottomDots && (isSelected == false)) {
+      cell = calendarBuilders.selectedBuilder?.call(context, day, focusedDay) ??
+          AnimatedContainer(
+            duration: duration,
+            margin: margin,
+            padding: padding,
+            decoration: calendarStyle.disabledDecoration,
+            alignment: alignment,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  text,
+                  style: (isWeekend && isOutside)
+                      ? calendarStyle.outsideTextStyle
+                      : isWeekend
+                          ? calendarStyle.weekendTextStyle
+                          : isOutside
+                              ? calendarStyle.disabledTextStyle
+                              : calendarStyle.defaultTextStyle,
+                ),
+                const Icon(Icons.circle, size: 6, color: Color(0xffD90506)),
+              ],
+            ),
+          );
+    } else if (isSelected || (isSelected && haveBottomDots)) {
       cell = calendarBuilders.selectedBuilder?.call(context, day, focusedDay) ??
           AnimatedContainer(
             duration: duration,
@@ -83,7 +112,18 @@ class CellContent extends StatelessWidget {
             padding: padding,
             decoration: calendarStyle.selectedDecoration,
             alignment: alignment,
-            child: Text(text, style: calendarStyle.selectedTextStyle),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(child: Text(text, style: calendarStyle.selectedTextStyle)),
+                if (haveBottomDots) ...{
+                  CircleOutline(
+                    size: 6.h,
+                    strokeWidth: 1.4,
+                  )
+                }
+              ],
+            ),
           );
     } else if (isRangeStart) {
       cell = calendarBuilders.rangeStartBuilder?.call(context, day, focusedDay) ??
@@ -143,7 +183,13 @@ class CellContent extends StatelessWidget {
             padding: padding,
             decoration: calendarStyle.outsideDecoration,
             alignment: alignment,
-            child: Text(text, style: calendarStyle.outsideTextStyle),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(text, style: calendarStyle.outsideTextStyle),
+                const SizedBox(height: 6),
+              ],
+            ),
           );
     } else {
       cell = calendarBuilders.defaultBuilder?.call(context, day, focusedDay) ??
@@ -153,9 +199,15 @@ class CellContent extends StatelessWidget {
             padding: padding,
             decoration: isWeekend ? calendarStyle.weekendDecoration : calendarStyle.defaultDecoration,
             alignment: alignment,
-            child: Text(
-              text,
-              style: isWeekend ? calendarStyle.weekendTextStyle : calendarStyle.defaultTextStyle,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  text,
+                  style: isWeekend ? calendarStyle.weekendTextStyle : calendarStyle.defaultTextStyle,
+                ),
+                const SizedBox(height: 6),
+              ],
             ),
           );
     }
@@ -165,5 +217,64 @@ class CellContent extends StatelessWidget {
       excludeSemantics: true,
       child: cell,
     );
+  }
+}
+
+class CircleOutline extends StatelessWidget {
+  final double size;
+  final double strokeWidth;
+  final Color color;
+
+  const CircleOutline({
+    super.key,
+    this.size = 24.0,
+    this.strokeWidth = 6.0,
+    this.color = Colors.white,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: CustomPaint(
+        painter: _CircleOutlinePainter(
+          strokeWidth: strokeWidth,
+          color: color,
+        ),
+      ),
+    );
+  }
+}
+
+class _CircleOutlinePainter extends CustomPainter {
+  final double strokeWidth;
+  final Color color;
+
+  _CircleOutlinePainter({
+    required this.strokeWidth,
+    required this.color,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth
+      ..isAntiAlias = true
+      ..strokeCap = StrokeCap.round
+      ..color = color;
+
+    final center = Offset(size.width / 2, size.height / 2);
+    // radius must account for strokeWidth so stroke stays inside the bounds
+    final radius = math.min(size.width, size.height) / 2 - strokeWidth / 2;
+    if (radius > 0) {
+      canvas.drawCircle(center, radius, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _CircleOutlinePainter old) {
+    return old.strokeWidth != strokeWidth || old.color != color;
   }
 }

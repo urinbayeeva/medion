@@ -21,6 +21,7 @@ class AuthState with _$AuthState {
     @Default([]) List<Recommendation> recommendation,
     @Default([]) List<PatientOrder> moves,
     @Default([]) List<PatientVisit> visits,
+    @Default([]) List<DateTime> visitedTimes,
     @Default(false) bool proceedToLogin,
     @Default(false) bool successSendCode,
     @Default(false) bool successVerifyCode,

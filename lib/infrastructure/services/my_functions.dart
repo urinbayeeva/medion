@@ -100,12 +100,12 @@ sealed class MyFunctions {
       );
 
       final contentType = response.headers.value('content-type');
-      print('Dio --- Content-Type: $contentType');
-      print('Dio --- Content-Status code: ${response.statusCode}');
-      print('Dio --- Content-Data: ${response.data.runtimeType}');
+      debugPrint('Dio --- Content-Type: $contentType');
+      debugPrint('Dio --- Content-Status code: ${response.statusCode}');
+      debugPrint('Dio --- Content-Data: ${response.data.runtimeType}');
       return contentType;
     } catch (e) {
-      print('Dio --- Error fetching content-type via GET: $e');
+      debugPrint('Dio --- Error fetching content-type via GET: $e');
       return null;
     }
   }
@@ -164,41 +164,6 @@ sealed class MyFunctions {
       throw UnsupportedError("Unsupported platform");
     }
   }
-
-  static String _extensionFromContentType(String contentType) {
-    switch (contentType) {
-      case 'video/mp4':
-        return 'mp4';
-      case 'video/x-matroska':
-        return 'mkv';
-      case 'video/quicktime':
-        return 'mov';
-      case 'video/avi':
-      case 'video/x-msvideo':
-        return 'avi';
-      default:
-        return 'mp4'; // fallback
-    }
-  }
-
-  // static Future<String?> videoContentType(String url) async {
-  //   try {
-  //     final dio = Dio();
-  //
-  //     final response = await dio.head(
-  //       url,
-  //       options: Options(followRedirects: true),
-  //     );
-  //
-  //     final contentType = response.headers.value('content-type');
-  //
-  //     log('Dio --- Content-Type: $contentType');
-  //     return contentType;
-  //   } catch (e) {
-  //     log('Dio --- Error fetching content-type: $e');
-  //     return null;
-  //   }
-  // }
 
   static void showImages({
     required BuildContext context,

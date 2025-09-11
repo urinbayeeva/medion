@@ -205,6 +205,7 @@ class TableCalendar<T> extends StatefulWidget {
   final VoidCallback todayTap;
   final VoidCallback lastTap;
   final VoidCallback allTap;
+  final List<DateTime> activities;
 
   /// Creates a `TableCalendar` widget.
   TableCalendar({
@@ -213,6 +214,7 @@ class TableCalendar<T> extends StatefulWidget {
     required DateTime firstDay,
     required DateTime lastDay,
     DateTime? currentDay,
+    required this.activities,
     this.locale,
     this.rangeStartDay,
     this.rangeEndDay,
@@ -450,7 +452,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (widget.headerVisible)
+        if (widget.headerVisible) ...{
           ValueListenableBuilder<DateTime>(
             valueListenable: _focusedDay,
             builder: (context, value, _) {
@@ -480,6 +482,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
               );
             },
           ),
+        },
         Flexible(
           flex: widget.shouldFillViewport ? 1 : 0,
           child: TableCalendarBase(
@@ -554,13 +557,20 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
               return dowCell;
             },
             dayBuilder: (context, day, focusedMonth) {
+              final formatter = DateFormat('yyyy:MM:dd');
+
+              final dateStrings = [
+                ...widget.activities.map((d) => formatter.format(d)),
+              ];
+
+              final dayString = formatter.format(day);
+              final haveBottomDots = dateStrings.contains(dayString);
+
               return GestureDetector(
                 behavior: widget.dayHitTestBehavior,
                 onTap: () => _onDayTapped(day),
                 onLongPress: () => _onDayLongPressed(day),
-
-                /// list of has service days
-                child: _buildCell(day, focusedMonth),
+                child: _buildCell(day, focusedMonth, haveBottomDots),
               );
             },
           ),
@@ -569,7 +579,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
     );
   }
 
-  Widget _buildCell(DateTime day, DateTime focusedDay) {
+  Widget _buildCell(DateTime day, DateTime focusedDay, bool haveBottomDots) {
     final isOutside = day.month != focusedDay.month;
 
     if (isOutside && _shouldBlockOutsideDays) {
@@ -630,6 +640,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
           isOutside: isOutside,
           isDisabled: isDisabled,
           isWeekend: isWeekend,
+          haveBottomDots: haveBottomDots,
           isHoliday: widget.holidayPredicate?.call(day) ?? false,
           locale: widget.locale,
         );
