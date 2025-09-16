@@ -553,16 +553,16 @@ class PdfViewScreen extends StatelessWidget {
         // });
       },
       onError: (error) {
-        print(error.toString());
+        debugPrint(error.toString());
       },
       onPageError: (page, error) {
-        print('$page: ${error.toString()}');
+        debugPrint('$page: ${error.toString()}');
       },
       onViewCreated: (PDFViewController pdfViewController) {
         // _controller.complete(pdfViewController);
       },
       onPageChanged: (page, total) {
-        print('page change: $page/$total');
+        debugPrint('page change: $page/$total');
       },
     );
   }

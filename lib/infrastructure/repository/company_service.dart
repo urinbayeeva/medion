@@ -7,7 +7,6 @@ import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
 import 'package:medion/domain/models/team/team_model.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
-import 'package:medion/infrastructure/services/log_service.dart';
 
 class CompanyServiceRepo implements ICompany {
   final CompanyService _companyRepository;

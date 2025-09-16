@@ -1,15 +1,12 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:built_collection/built_collection.dart';
 
 part 'response_model.g.dart';
 
-abstract class ResponseModel
-    implements Built<ResponseModel, ResponseModelBuilder> {
+abstract class ResponseModel implements Built<ResponseModel, ResponseModelBuilder> {
   ResponseModel._();
 
-  factory ResponseModel([Function(ResponseModelBuilder b) updates]) =
-      _$ResponseModel;
+  factory ResponseModel([Function(ResponseModelBuilder b) updates]) = _$ResponseModel;
 
   @BuiltValueField(wireName: 'status')
   String get status;
@@ -32,8 +29,7 @@ abstract class ResponseModel
   static Serializer<ResponseModel> get serializer => _$responseModelSerializer;
 }
 
-abstract class ServiceResponse
-    implements Built<ServiceResponse, ServiceResponseBuilder> {
+abstract class ServiceResponse implements Built<ServiceResponse, ServiceResponseBuilder> {
   @BuiltValueField(wireName: 'status')
   String get status;
 
@@ -42,6 +38,5 @@ abstract class ServiceResponse
 
   ServiceResponse._();
 
-  factory ServiceResponse([void Function(ServiceResponseBuilder) updates]) =
-      _$ServiceResponse;
+  factory ServiceResponse([void Function(ServiceResponseBuilder) updates]) = _$ServiceResponse;
 }

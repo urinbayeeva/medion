@@ -1,9 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
-import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/c_text_field.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
@@ -31,8 +30,7 @@ class _UserInfoInputState extends State<UserInfoInput> {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state.isFetchingPatientInfo && state.patientInfo == null) {
-          return const Center(
-              child: CircularProgressIndicator(color: Style.error500));
+          return const Center(child: CircularProgressIndicator(color: Style.error500));
         }
 
         if (state.errorFetchingPatientInfo && state.patientInfo == null) {

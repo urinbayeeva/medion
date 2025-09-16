@@ -1,16 +1,11 @@
 import 'package:dartz/dartz.dart';
-
 import 'package:easy_localization/easy_localization.dart';
-import 'package:geolocator_platform_interface/src/models/position.dart';
-
 import 'package:medion/domain/common/failure.dart';
-
 import 'package:medion/domain/failurs/news/i_news_facade.dart';
 import 'package:medion/domain/models/map/map_model.dart';
 import 'package:medion/domain/models/medical_services/medical_services.dart';
 import 'package:medion/domain/models/news_model/news_model.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
-
 import 'package:medion/infrastructure/services/log_service.dart';
 
 class HomeRepository implements INewsFacade {
@@ -94,8 +89,8 @@ class HomeRepository implements INewsFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e, stackTrace) {
-      //LogService.e(" ----> error on repo : ${e.toString()}");
-      //LogService.e(" ----> Stack Trace: ${stackTrace.toString()}");
+      LogService.e(" ----> error on repo : ${e.toString()}");
+      LogService.e(" ----> Stack Trace: ${stackTrace.toString()}");
       return left(handleError(e));
     }
   }
@@ -115,8 +110,8 @@ class HomeRepository implements INewsFacade {
         return left(InvalidCredentials(message: 'invalid_credential'.tr()));
       }
     } catch (e, stackTrace) {
-      //LogService.e(" ----> error on repo : ${e.toString()}");
-      //LogService.e(" ----> Stack Trace: ${stackTrace.toString()}");
+      LogService.e(" ----> error on repo : ${e.toString()}");
+      LogService.e(" ----> Stack Trace: ${stackTrace.toString()}");
       return left(handleError(e));
     }
   }

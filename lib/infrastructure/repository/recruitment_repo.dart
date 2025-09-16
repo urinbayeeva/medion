@@ -1,11 +1,9 @@
-import 'package:built_collection/built_collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/domain/abstract_repo/i_recruitment_facade.dart';
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/models/recruitment/recruitment_model.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
-import 'package:medion/infrastructure/services/log_service.dart';
 
 class RecruitmentRepository implements IRecruitmentFacade {
   final RecruitmentService _recruitmentService;

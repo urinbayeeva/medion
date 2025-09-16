@@ -1,22 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:medion/application/payment_provider.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/styles/style.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:intl/intl.dart';
 
 class PaymentWebView extends StatefulWidget {
   final String url;
   final bool isInvoice;
+
   const PaymentWebView({
     super.key,
     required this.url,
@@ -48,8 +45,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
         NavigationDelegate(
           onWebResourceError: _handleError,
           onNavigationRequest: (NavigationRequest request) {
-            if (!(request.url.startsWith('https://') ||
-                request.url.startsWith('http://'))) {
+            if (!(request.url.startsWith('https://') || request.url.startsWith('http://'))) {
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
@@ -90,8 +86,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
       }
 
       final directory = await getApplicationDocumentsDirectory();
-      final fileName =
-          'Invoice_${DateFormat('yyyyMMdd_HHmmss').format(DateTime.now())}.pdf';
+      final fileName = 'Invoice_${DateFormat('yyyyMMdd_HHmmss').format(DateTime.now())}.pdf';
       final filePath = '${directory.path}/$fileName';
 
       final dio = Dio();
@@ -293,14 +288,8 @@ class _PaymentWebViewState extends State<PaymentWebView> {
                     color: colors.primary500,
                   ),
                 ),
-              if (_showDownloadDialog)
-                Center(
-                  child: _buildDownloadDialog(),
-                ),
-              if (_isOpeningPdf)
-                Center(
-                  child: _buildOpeningDialog(),
-                ),
+              if (_showDownloadDialog) Center(child: _buildDownloadDialog()),
+              if (_isOpeningPdf) Center(child: _buildOpeningDialog()),
             ],
           ),
         ),

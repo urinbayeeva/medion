@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/infrastructure/services/download_service.dart';
-import 'package:medion/infrastructure/services/my_functions.dart';
 import 'package:medion/presentation/component/download_button.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/styles/theme.dart';

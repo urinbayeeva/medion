@@ -3,9 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:medion/domain/abstract_repo/content/i_content_service.dart';
 import 'package:medion/domain/common/failure.dart';
 import 'package:medion/domain/models/branch/branch_model.dart';
-import 'package:medion/domain/models/team/team_model.dart';
 import 'package:medion/infrastructure/apis/apis.dart';
-import 'package:medion/infrastructure/services/log_service.dart';
 
 class ContentServiceRepo implements IContentService {
   final ContentService _apiService;

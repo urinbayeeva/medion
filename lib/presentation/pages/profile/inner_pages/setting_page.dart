@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
@@ -7,14 +8,17 @@ import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_logout_bottomsheet.dart';
 import 'package:medion/presentation/component/c_toggle.dart';
 import 'package:medion/presentation/pages/home/directions/component/home_list_tile.dart';
-import 'package:medion/presentation/pages/profile/widget/settings_data.dart';
 import 'package:medion/presentation/routes/routes.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/pop_up_status_enum.dart';
 import 'package:medion/utils/extension/context_extension.dart';
 import 'package:medion/utils/phone_utils.dart';
-import 'package:provider/provider.dart';
+
+List<Map<String, dynamic>> settingsData = [
+  {"title": "call_center", "icon": IconSet.create.phone},
+  {"title": "logout", "icon": IconSet.create.logOut}
+];
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});

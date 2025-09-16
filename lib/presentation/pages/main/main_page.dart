@@ -1,17 +1,8 @@
-import 'dart:async';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
-import 'package:medion/infrastructure/apis/apis.dart';
-import 'package:medion/infrastructure/repository/auth_repo.dart';
 import 'package:medion/infrastructure/services/deep_link/deep_link_handle.dart';
-import 'package:medion/infrastructure/services/local_database/db_service.dart';
-import 'package:medion/presentation/component/easy_loading.dart';
 import 'package:medion/presentation/component/nav_bar/lib/persistent_tab_view.dart';
-import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/booking/booking_first_page.dart';
 import 'package:medion/presentation/pages/home/home_page.dart';
 import 'package:medion/presentation/pages/main/component/bottom_navigation_components.dart';
@@ -20,7 +11,6 @@ import 'package:medion/presentation/pages/profile/profile_page.dart';
 import 'package:medion/presentation/pages/visits/my_visits_page.dart';
 import 'package:medion/presentation/styles/theme.dart';
 import 'package:medion/presentation/styles/theme_wrapper.dart';
-import 'package:medion/utils/debounce.dart';
 import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
@@ -37,13 +27,15 @@ class _MainPageState extends State<MainPage> {
   late final List<Widget> pageList;
   late final PersistentTabController _controller;
   late final DynamicLinkService dynamicLinkService;
+  late final ValueNotifier<bool> _canPop;
 
   // late final StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
-  final Connectivity _connectivity = Connectivity();
+  // final Connectivity _connectivity = Connectivity();
 
   @override
   void initState() {
     super.initState();
+    _canPop = ValueNotifier(false);
     context.read<AuthBloc>().add(const AuthEvent.refreshToken());
 
     scrollController = ScrollController();
@@ -69,7 +61,22 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
+    return ValueListenableBuilder(
+      valueListenable: _canPop,
+      builder: (context, canPop, child) {
+        return PopScope(
+          canPop: canPop,
+          onPopInvokedWithResult: (bool didPop, result) {
+            if (!didPop) {
+              if (_controller.index != 0) {
+                _controller.index = 0;
+                _canPop.value = true;
+              }
+            }
+          },
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
       child: ThemeWrapper(
         builder: (ctx, colors, fonts, icons, global) {
           return Scaffold(
@@ -82,6 +89,7 @@ class _MainPageState extends State<MainPage> {
                   screens: pageList,
                   items: navBarsItems(icons),
                   onItemSelected: (int index) {
+                    _canPop.value = index == 0;
                     if (mounted) {
                       navController.setIndices(
                         navIndex: index,

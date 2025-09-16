@@ -236,7 +236,7 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                                       .toList();
 
                                   MyFunctions.showImages(
-                                    isLicence: true,
+                                    isLicence: false,
                                     context: context,
                                     mainImage: image,
                                     isVideo: false,
@@ -415,7 +415,7 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                         },
                         child: Container(
                           margin: EdgeInsets.symmetric(horizontal: 16.w),
-                          height: 200.h,
+                          height: 210.h,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.r),
                             child: kYandexPlex != null
@@ -451,6 +451,7 @@ class _SingleBranchInfoState extends State<SingleBranchInfo> {
                           ),
                         ),
                       ),
+                      20.h.verticalSpace,
                     ],
                   ),
                 ),

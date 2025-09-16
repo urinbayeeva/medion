@@ -1,20 +1,16 @@
 import 'dart:developer';
 
-import 'package:built_collection/built_collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
-import 'package:lottie/lottie.dart';
 import 'package:medion/application/auth/auth_bloc.dart';
-import 'package:medion/application/selected_provider.dart';
 import 'package:medion/domain/models/payment_model.dart';
 import 'package:medion/presentation/component/animation_effect.dart';
 import 'package:medion/presentation/component/c_button.dart';
 import 'package:medion/presentation/component/c_expension_listtile.dart';
-import 'package:medion/presentation/pages/appointment/component/service_selection_model.dart';
 import 'package:medion/presentation/pages/home/med_services/med_service_doctor_chose.dart';
 import 'package:medion/presentation/pages/others/component/w_scala_animation.dart';
 import 'package:medion/presentation/pages/visits/widgets/empty_state.dart';
@@ -23,7 +19,6 @@ import 'package:medion/presentation/styles/theme_wrapper.dart';
 import 'package:medion/utils/enums/pop_up_status_enum.dart';
 import 'package:medion/utils/extension/context_extension.dart';
 import 'package:medion/utils/format_currency.dart';
-import 'package:provider/provider.dart';
 
 class RecommendationPage extends StatefulWidget {
   const RecommendationPage({super.key});

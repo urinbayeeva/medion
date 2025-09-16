@@ -19,7 +19,6 @@ import 'package:medion/infrastructure/repository/recruitment_repo.dart';
 import 'package:medion/infrastructure/repository/search_repo.dart';
 import 'package:medion/infrastructure/services/local_database/db_service.dart';
 import 'package:medion/presentation/component/c_info_view.dart';
-import 'package:medion/presentation/pages/appointment/appointment_page.dart';
 import 'package:medion/presentation/pages/auth/sign_up/data_entry_page.dart';
 import 'package:medion/presentation/pages/auth/sign_up/privacy_page/privacy_policy_page.dart';
 import 'package:medion/presentation/pages/auth/sign_up/sign_up_page.dart';
