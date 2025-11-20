@@ -1,42 +1,38 @@
-# medion
+# Medion – клиника учун тўлиқ онлайн-запись приложение  
+**DDD + Clean Architecture + Production-ready код**  
 
+Бу мен 2024–2025 йилларда Caretech компаниясида **Flutter-разработчик** сифатида нольдан ёзган ва TestFlight гача олиб чиққан лойиҳам.  
+Ҳозир релиз тайёргарлик босқичида, App Store ва Play Market га чиқишга тайёр.
 
-build runner:
-flutter packages pub run build_runner build --delete-conflicting-outputs
-flutter packages pub run build_runner watch --delete-conflicting-outputs
+### Нима учун бу лойиҳани Middle+/Senior собесларида кўрсатиш мумкин?
 
+| Фича                                     | Қандай қилинган                                                                 |
+|------------------------------------------|----------------------------------------------------------------------------------|
+| **Тўлиқ DDD (Domain-Driven Design)**     | `entities → use_cases → repositories → data sources` – ҳар бир слой аниқ ажратилган |
+| **Clean Architecture + Feature-first**   | Ҳар бир фича (запись, врачи, профиль, расписание) – алоҳида папкада               |
+| **BLoC + Freezed + hydrated_bloc**       | 100% типобезопасные стейтлар, offline-first, автоматическое сохранение состояний   |
+| **Chopper + Chopper Generator**          | Кодогенерация REST-клиентлари, бойлерплейт ноль, всё типобезопасно                |
+| **Built Value / Freezed / Json Serializable** | Автогенерация моделей, immutable всё                                          |
+| **Hive + Hive Generator**                | Локальный кэш врачей, слотов, записей – приложение даже без сети ишлайди          |
+| **Динамические слоты записи в реальном времени** | Сложная бизнес-логика: учитывает перерывы врачей, блокировки, ограничения по времени |
+| **CI/CD (Codemagic + Fastlane)**         | Автоматическая сборка, тесты, TestFlight деплой                                  |
+| **Null-safety + строгие lint-правила**   | `!` ва `late` фақат жуда керак бўлганда                                          |
+| **Responsive + Tablet support**          | Экран ўлчамларига қараб UI мослашади                                            |
 
-build ios:
-flutter build ios --flavor prod --dart-define=FLAVOR=prod --target lib/main.dart
-flutter build ios --flavor beta --dart-define=FLAVOR=beta --target lib/main_beta.dart
-flutter build ios --flavor dev --dart-define=FLAVOR=dev --target lib/main_dev.dart
+### Технологик стек
+- Flutter 3.24+ / Dart 3.5+
+- BLoC 8.1+, flutter_bloc, hydrated_bloc
+- Freezed, Built Value, Json Serializable
+- Chopper + Chopper Generator
+- Hive + Hive Generator
+- get_it + injectable (DI)
+- flutter_screenutil, auto_route
+- Codemagic CI/CD + Fastlane
 
-build android:
-flutter build apk --flavor prod -t lib/main.dart
-flutter build apk --flavor beta -t lib/main_beta.dart
-flutter build apk --flavor dev -t lib/main_dev.dart
-
-
-build android bundle:
-flutter build appbundle --flavor prod -t lib/main.dart
-flutter build appbundle --flavor beta -t lib/main_beta.dart
-flutter build appbundle --flavor dev -t lib/main_dev.dart
-
-generate_launcher_icon:
-flutter pub run flutter_launcher_icons:main -f dev
-flutter pub run flutter_launcher_icons:main -f prod
-flutter pub run flutter_launcher_icons:main -f beta
-
-generate_splash_icon:
-dart run flutter_native_splash:create
-
-
-show bottomnavbar
-   context.read<BottomNavBarController>().changeNavBar(false);
-
-hide bottomnavbar
-   context.read<BottomNavBarController>().changeNavBar(true);
-
-
-testflight
-  flutter build ipa --build-name=1.0.1 --build-number=2 --release
+### Қандай ишлатиш мумкин
+```bash
+git clone https://github.com/urinbayeeva/medion.git
+cd medion
+flutter pub get
+flutter pub run build_runner build --delete-conflicting-outputs
+flutter run
